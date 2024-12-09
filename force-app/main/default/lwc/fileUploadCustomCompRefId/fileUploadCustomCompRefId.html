@@ -1,0 +1,49 @@
+<template>
+    <div class="slds-hide">
+        <iframe src={vfUrl}></iframe>
+    </div>
+    <!-- <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div> -->
+    <div style="background:white">
+        <lightning-input name="file uploader" label={label} variant={variant} onchange={handleFileChange} type="file"
+            accept={allowedFilFormat} disabled={disableMode} multiple={multipleFileUpload}>
+        </lightning-input>
+
+        <template if:false={hideAttachButton}>
+            <lightning-button variant="brand" label="Attach" title="Attach" onclick={handleUpload}
+                class="slds-m-left_x-small"></lightning-button>
+        </template>
+
+    </div>
+    <div style="background:white">
+
+    </div>
+    <template for:each={files} for:item="file" for:index="index">
+        <div key={file.name} class="slds-p-left_medium">
+            <div class="slds-clearfix">
+                <div class="slds-float_left" style="margin-right: 10px;">
+                    <p style="background:white; display: inline-block; margin-bottom: 0; font-size: 16px;">{file.name}
+                    </p>
+                </div>
+                <div class="slds-float_left">
+                    <!-- <lightning-icon icon-name='action:remove' alternative-text='remove' size='xx-small' title='remove'
+                        onclick={handleFileRemove}></lightning-icon> -->
+                    <lightning-icon icon-name='utility:close' alternative-text='close' size='x-small' title='remove'
+                        onclick={handleFileRemove} data-index={index}></lightning-icon>
+                </div>
+            </div>
+        </div>
+    </template>
+
+
+    <p>{fileSizeMsz}</p>
+    <!-- <lightning-card>
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item size="12">
+
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card> -->
+</template>

@@ -1,0 +1,621 @@
+<template>
+<template lwc:if={desktopBoolean}>
+    <lightning-accordion active-section-name="A" class="accordion" allow-multiple-sections-open>
+        <lightning-accordion-section name="A" label={labelVal} class="applicantClass">
+            <template if:true={isInterTopUp}>
+                <lightning-card>
+                    <div class="slds-box slds-theme_default slds-scrollable_x" style="width:200rem">
+                        <table
+                            class="slds-table slds-table_cell-buffer slds-border_right slds-border_left slds-table_bordered slds-table_col-bordered"
+                            aria-label="Example table of Opportunities with vertical borders">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th class="" scope="col">
+                                        <!-- <div  title="Existing FedFina Loan Account Numberr"> -->
+                                            <div if:false={mandatoryUw} class="slds-truncate" title="Existing FedFina Loan Account Number">Existing FedFina Loan Account Number</div>
+                                            <div if:true={mandatoryUw} class="slds-truncate"> <label id="id-7">Existing FedFina Loan Account Number</label></div>
+                                        <!-- </div> -->
+                                    </th>
+                                    <th class="" scope="col">
+                                        <!-- <div class="slds-truncate" title="Last Month Year"> -->
+                                            <div if:false={mandatoryUw} class="slds-truncate" title="Loan Amount (₹)">Loan Amount (₹)</div>
+                                            <div if:true={mandatoryUw} class="slds-truncate"> <label id="id-2">Loan Amount (₹)</label></div>
+                                        <!-- </div> -->
+                                    </th>
+                                    <th class="" scope="col">
+                                        <!-- <div class="slds-truncate" title="Establishment name"> -->
+                                            <div if:false={mandatoryUw} class="slds-truncate" title="Loan Principal Outstanding (₹) ">Loan Principal Outstanding (₹) </div>
+                                            <div if:true={mandatoryUw} class="slds-truncate"> <label id="id-33">Loan Principal Outstanding (₹) </label></div>
+                                        <!-- </div> -->
+                                    </th>
+                                    <th class="" scope="col">
+                                        <!-- <div class="slds-truncate" title="Address"> -->
+                                            <div if:false={mandatoryUw} class="slds-truncate" title="EMI (₹)">EMI (₹)</div>
+                                            <div if:true={mandatoryUw} class="slds-truncate"> <label id="id-4">EMI (₹)</label></div>
+                                        <!-- </div> -->
+                                    </th>
+                                    <th class="" scope="col">
+                                        <!-- <div class="slds-truncate" title="City"> -->
+                                            <div if:false={mandatoryUw} class="slds-truncate" title="Loan to be closed internally?">Loan to be closed internally?</div>
+                                            <div if:true={mandatoryUw} class="slds-truncate"> <label id="id-5">Loan to be closed internally?</label></div>
+                                        <!-- </div> -->
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Action">
+                                            Action
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+    
+                            <tbody>
+                                <template for:each={btLoanRec} for:item="obj" for:index="index">
+                                    <tr key={obj.Id} aria-selected="false" class="slds-hint-parent">
+                                        <td data-label="Existing FedFina Loan Account Number">
+                                            <div class="slds-truncate" title="Existing FedFina Loan Account Number">
+                                                <lightning-input type="text" class="fields"
+                                                variant="label-hidden"
+                                                label="Existing FedFina Loan Account Number"
+                                                data-name="ExistFedfinaAccNo__c"
+                                                value={obj.ExistFedfinaAccNo__c} data-index={index}
+                                                onchange={handleInputChange} pattern="[FED]+[a-zA-Z0-9]{13}"
+                                                message-when-pattern-mismatch="Please Enter Correct Account Number. Example: FEDMUMSTL1234567"
+                                                disabled={disabled} required={mandatoryUw}>
+                                            </lightning-input>
+                                            </div>
+                                        </td>
+                                        <td data-label="Loan Amount (₹)">
+                                            <div class="slds-truncate" title="Loan Amount (₹)">
+                                                <lightning-input type="number" formatter="currency" step="0.01"
+                                                        class="fields" variant="label-hidden"
+                                                        label="Loan Amount (₹)"
+                                                        data-name="BTOriginalLoanAmt__c"
+                                                        value={obj.BTOriginalLoanAmt__c} data-index={index}
+                                                        onchange={handleInputChange} disabled={disabled}
+                                                        required={mandatoryUw} min="0" message-when-range-underflow="Negative value is not allowed">
+                                                    </lightning-input>
+                                            </div>
+                                        </td>
+                                        <td data-label="Loan Outstanding Value (₹)">
+                                            <div class="slds-truncate" title="Loan Outstanding Value (₹)">
+                                                <lightning-input type="number" formatter="currency" step="0.01"
+                                                    class="fields" variant="label-hidden"
+                                                    label="Loan Outstanding Value (₹)"
+                                                    data-name="BTLoanOutstandingValue__c"
+                                                    value={obj.BTLoanOutstandingValue__c} data-index={index}
+                                                    onchange={handleInputChange} disabled={disabled}
+                                                    required={mandatoryUw} min="0" message-when-range-underflow="Negative value is not allowed">
+        
+                                                </lightning-input>
+                                            </div>
+                                        </td>
+                                        <td data-label="EMI (₹)">
+                                            <div class="slds-truncate" title="EMI (₹)">
+                                                <lightning-input type="number" formatter="currency" step="0.01"
+                                                    class="fields" variant="label-hidden"
+                                                    label="EMI (₹)"
+                                                    data-name="EMI__c"
+                                                    value={obj.EMI__c} data-index={index}
+                                                    onchange={handleInputChange} disabled={disabled}
+                                                    required={mandatoryUw} min="0" message-when-range-underflow="Negative value is not allowed">
+    
+                                                </lightning-input>
+                                            </div>
+                                        </td>
+                                        <td data-label="Loan to be closed internally?">
+                                            <div class="slds-truncate" title="Loan to be closed internally?">
+                                                <c-dedupe-display-value
+                                                    dedupe-rsults-options={loanToClosedIntOptions}
+                                                    type="picklist" required={mandatoryUw} index-value={index}
+                                                    field-value={obj.Loantobeclosedinternally__c}
+                                                    object={obj} field-name="Loantobeclosedinternally__c"
+                                                    onpicklistchange={handlePicklistValues}
+                                                    is-read-only={disabled}></c-dedupe-display-value>
+                                            </div>
+                                        </td>
+                                        <td data-label="Action">
+                                            <div class="slds-truncate" title="Action">
+                                                <lightning-button-icon icon-name="action:delete"
+                                                            alternative-text="Delete" title="Delete" data-index={index}
+                                                            data-id={obj.Id} onclick={handleDeleteAction}
+                                                            disabled={disabled}>
+                                                        </lightning-button-icon></div>
+                                        </td>
+                                    </tr>
+                                </template>
+                                <tr>
+                                    <th style=" background-color: #F3F2F2;">Total</th>
+                                    <th style=" background-color: #F3F2F2;">{totalLoanAmt}</th>
+                                    <th style=" background-color: #F3F2F2;">{totalOutstanding}</th>
+                                    <th style=" background-color: #F3F2F2;">{totalEMI}</th>
+                                    <th style=" background-color: #F3F2F2;"></th>
+                                    <th style=" background-color: #F3F2F2;"></th>
+                                </tr>
+                            </tbody>
+    
+                        </table>
+    
+                    </div>
+                </lightning-card>
+    
+            </template>
+            <template if:false={isInterTopUp}>
+                <table
+                class="slds-table slds-table_bordered slds-table_resizable-cols tableScroll" role="grid"
+                  aria-label="Example table of Opportunities with vertical borders"
+                >
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <template if:false={existingFed}>
+                                <th style="text-align: center" aria-label="Balance Transfer Financier" aria-sort="none"
+                                class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+                                <a class="slds-th__action slds-text-link_reset" role="button" tabindex="0">
+                                    <span class="slds-assistive-text">Sort by: </span>
+                                    <div class="slds-grid slds-grid_vertical-align-left" >
+                                    <span class="slds-truncate slds-align_absolute-left" title="Balance Transfer Financier">
+                                        <div if:false={mandatoryUw} title="Balance Transfer Financier">Balance Transfer Financier</div>
+                                    <div if:true={mandatoryUw}> <label id="id-1"> Balance Transfer
+                                            Financier</label></div>
+                                    </span>
+                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                        <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon " aria-hidden="true">
+                                        </svg>
+                                    </span>
+                                    </div>
+                                </a>
+                                <div class="slds-resizable">
+                                    <input type="range" aria-label="Bank Name column width"
+                                    class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-533" max="1000" min="20"
+                                    tabindex="0" />
+                                    <span class="slds-resizable__handle">
+                                    <span class="slds-resizable__divider dividerPosition"></span>
+                                    </span>
+                                </div>
+                                </th>
+        
+                              
+
+                                    <th style="text-align: center" aria-label="Specify Other Balance transfer Financier" aria-sort="none"
+                                    class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+                                    <a class="slds-th__action slds-text-link_reset" role="button" tabindex="0">
+                                        <span class="slds-assistive-text">Sort by: </span>
+                                        <div class="slds-grid slds-grid_vertical-align-left slds-has-flexi-truncate " >
+                                        <span class="slds-truncate slds-align_absolute-left" title="Specify Other Balance transfer Financier">
+                                            <div title="Specify Other Balance transfer Financier">Specify Other Balance
+                                                transfer Financier</div>
+                                        
+                                        </span>
+                                        <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                            <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon " aria-hidden="true">
+                                            </svg>
+                                        </span>
+                                        </div>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <input type="range" aria-label="Bank Name column width"
+                                        class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-534" max="1000" min="20"
+                                        tabindex="0" />
+                                        <span class="slds-resizable__handle">
+                                        <span class="slds-resizable__divider dividerPosition"></span>
+                                        </span>
+                                    </div>
+                                    </th>
+            
+                             
+
+
+                                <th style="text-align: center" aria-label="Balance Transfer Original Loan Amount (₹)" aria-sort="none"
+                                class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+                                <a class="slds-th__action slds-text-link_reset" role="button" tabindex="0">
+                                    <span class="slds-assistive-text">Sort by: </span>
+                                    <div class="slds-grid slds-grid_vertical-align-left slds-has-flexi-truncate " >
+                                    <span class="slds-truncate slds-align_absolute-left" title="Balance Transfer Original Loan Amount (₹)">
+                                        <div if:false={mandatoryUw} title="Balance Transfer Original Loan Amount (₹)">Balance Transfer
+                                        Original Loan Amount (₹)</div>
+                                    <div if:true={mandatoryUw}> <label id="id-22"> Balance Transfer Original Loan
+                                            Amount (₹)</label></div>
+                                    </span>
+                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                        <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon " aria-hidden="true">
+                                        </svg>
+                                    </span>
+                                    </div>
+                                </a>
+                                <div class="slds-resizable">
+                                    <input type="range" aria-label="Bank Name column width"
+                                    class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-535" max="1000" min="20"
+                                    tabindex="0" />
+                                    <span class="slds-resizable__handle">
+                                    <span class="slds-resizable__divider dividerPosition"></span>
+                                    </span>
+                                </div>
+                                </th>
+        
+                               
+                                <th style="text-align: center" aria-label="Balance Transfer Loan Outstanding Value (₹)" aria-sort="none"
+                                class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+                                <a class="slds-th__action slds-text-link_reset" role="button" tabindex="0">
+                                    <span class="slds-assistive-text">Sort by: </span>
+                                    <div class="slds-grid slds-grid_vertical-align-left slds-has-flexi-truncate " >
+                                    <span class="slds-truncate slds-align_absolute-left" title="Balance Transfer Loan Outstanding Value (₹)">
+                                        <div if:false={mandatoryUw} title="Balance Transfer Loan Outstanding Value (₹)">Balance Transfer
+                                        Loan Outstanding Value (₹)</div>
+                                    <div if:true={mandatoryUw}> <label id="id-3">Balance Transfer Loan
+                                            Outstanding Value (₹)</label></div>
+                                    </span>
+                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                        <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon " aria-hidden="true">
+                                        </svg>
+                                    </span>
+                                    </div>
+                                </a>
+                                <div class="slds-resizable">
+                                    <input type="range" aria-label="Bank Name column width"
+                                    class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-536" max="1000" min="20"
+                                    tabindex="0" />
+                                    <span class="slds-resizable__handle">
+                                    <span class="slds-resizable__divider dividerPosition"></span>
+                                    </span>
+                                </div>
+                                </th>
+
+                                <th style="text-align: center" aria-label="Balance Transfer Financier Status" aria-sort="none"
+                                class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+                                <a class="slds-th__action slds-text-link_reset" role="button" tabindex="0">
+                                    <span class="slds-assistive-text">Sort by: </span>
+                                    <div class="slds-grid slds-grid_vertical-align-left slds-has-flexi-truncate " >
+                                    <span class="slds-truncate slds-align_absolute-left" title="Balance Transfer Financier Status">
+                                        <div if:false={mandatoryUw} title="Balance Transfer Financier Status">Balance Transfer Financier
+                                        Status</div>
+                                    <div if:true={mandatoryUw}><label id="id-6"> Balance Transfer Financier
+                                            Status</label></div>
+                                    </span>
+                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                        <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon " aria-hidden="true">
+                                        </svg>
+                                    </span>
+                                    </div>
+                                </a>
+                                <div class="slds-resizable">
+                                    <input type="range" aria-label="Bank Name column width"
+                                    class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-537" max="1000" min="20"
+                                    tabindex="0" />
+                                    <span class="slds-resizable__handle">
+                                    <span class="slds-resizable__divider dividerPosition"></span>
+                                    </span>
+                                </div>
+                                </th>
+        
+                            </template>
+                            <template if:true={existingFed}>
+
+
+                                <th style="text-align: center" aria-label="Existing FedFina Loan Account Number" aria-sort="none"
+                                class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+                                <a class="slds-th__action slds-text-link_reset" role="button" tabindex="0">
+                                    <span class="slds-assistive-text">Sort by: </span>
+                                    <div class="slds-grid slds-grid_vertical-align-left slds-has-flexi-truncate " >
+                                    <span class="slds-truncate slds-align_absolute-left" title="Existing FedFina Loan Account Number">
+                                        <div if:false={mandatoryUw} title="Existing FedFina Loan Account Number">Existing FedFina Loan
+                                        Account Number</div>
+                                    <div if:true={mandatoryUw}> <label id="id-9"> Existing FedFina Loan Account
+                                            Number</label></div>
+                                    </span>
+                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                        <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon " aria-hidden="true">
+                                        </svg>
+                                    </span>
+                                    </div>
+                                </a>
+                                <div class="slds-resizable">
+                                    <input type="range" aria-label="Bank Name column width"
+                                    class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-540" max="1000" min="20"
+                                    tabindex="0" />
+                                    <span class="slds-resizable__handle">
+                                    <span class="slds-resizable__divider dividerPosition"></span>
+                                    </span>
+                                </div>
+                                </th>
+        
+                            </template>
+                            <th style="text-align: center" aria-label="Action" aria-sort="none"
+                            class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+                            <a class="slds-th__action slds-text-link_reset" role="button" tabindex="0">
+                                <span class="slds-assistive-text">Sort by: </span>
+                                <div class="slds-grid slds-grid_vertical-align-left slds-has-flexi-truncate " >
+                                <span class="slds-truncate slds-align_absolute-left" title="Balance Transfer Financier Status">
+                                    <div title="Action">Action</div>
+                                </span>
+                                <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                    <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon " aria-hidden="true">
+                                    </svg>
+                                </span>
+                                </div>
+                            </a>
+                            <div class="slds-resizable">
+                                <input type="range" aria-label="Bank Name column width"
+                                class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-541" max="1000" min="20"
+                                tabindex="0" />
+                                <span class="slds-resizable__handle">
+                                <span class="slds-resizable__divider dividerPosition"></span>
+                                </span>
+                            </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <template for:each={btLoanRec} for:item="obj" for:index="index">
+                                <tr class="inputRows" key={obj.Id}>
+                                    <template if:false={existingFed}>
+                                        <td data-label="Balance Transfer Financier">
+                                            <div class="slds-p-around_x-small fields">
+                                                <c-custom-lookup index={index} field-name="BTFinancier__c"
+                                                    selected-icon-name="standard:account"
+                                                    object-label={objectLabel}
+                                                    object-api-name="BalTranFinancier__c" field-api-name="Name"
+                                                    selected-record-id={obj.BTFinancier__c}
+                                                    selected-record-name={obj.BTFinancier__c}
+                                                    selected-fields="Balance_Transfer_Financier_Status__c"
+                                                     filter-condn=" " selected-field-name="Name"
+                                                    onselect={handleValueSelect} disabled={disabled}
+                                                    required={mandatoryUw}
+                                                    variant="label-hidden"
+                                                   ></c-custom-lookup>
+                                            </div>
+                                        </td>
+                                            <td data-label="Specify Other Balance transfer Financier">
+                                                <div class="slds-p-around_x-small">
+                                                    <lightning-input type="text" class="fields"
+                                                        variant="label-hidden"
+                                                        label="Specify Other Balance transfer Financier"
+                                                        data-name="SpecifyOtherBTFinancier__c"
+                                                        value={obj.SpecifyOtherBTFinancier__c} data-index={index}
+                                                        onchange={handleInputChange}
+                                                        disabled={obj.enableOtherScheme} required={mandatoryUw}>
+
+                                                    </lightning-input>
+                                                </div>
+                                            </td>
+
+                                        <th data-label="Balance Transfer Original Loan Amount (₹)" scope="row">
+                                            <div class="slds-p-around_x-small">
+                                                <lightning-input type="number" formatter="currency" step="0.01"
+                                                    class="fields" variant="label-hidden"
+                                                    label="Balance Transfer Original Loan Amount (₹)"
+                                                    data-name="BTOriginalLoanAmt__c"
+                                                    value={obj.BTOriginalLoanAmt__c} data-index={index}
+                                                    onchange={handleInputChange} disabled={disabled}
+                                                    required={mandatoryUw}>
+                                                </lightning-input>
+                                            </div>
+                                        </th>
+                                        <td data-label="Balance Transfer Loan Outstanding Value (₹)">
+                                            <div class="slds-p-around_x-small">
+                                                <lightning-input type="number" formatter="currency" step="0.01"
+                                                    class="fields" variant="label-hidden"
+                                                    label="Balance Transfer Loan Outstanding Value (₹)"
+                                                    data-name="BTLoanOutstandingValue__c"
+                                                    value={obj.BTLoanOutstandingValue__c} data-index={index}
+                                                    onchange={handleInputChange} disabled={disabled}
+                                                    required={mandatoryUw}>
+
+                                                </lightning-input>
+                                            </div>
+                                        </td>
+                                        <td data-label="Balance Transfer Financier Status">
+                                            <div class="slds-truncate"
+                                                title="Balance Transfer Financier Status">
+                                                <c-dedupe-display-value
+                                                    dedupe-rsults-options={btLnFinstatusOptions} type="picklist"
+                                                    field-value={obj.BTFinancierStatus__c} object={obj}
+                                                    field-name="BTFinancierStatus__c" index-value={index}
+                                                    onpicklistchange={handlePicklistValues}
+                                                    is-read-only=true
+                                                    required={mandatoryUw}></c-dedupe-display-value>
+                                            </div>
+                                        </td>
+                                    </template>
+                                    <template if:true={existingFed}>
+                                        <td data-label="">
+                                            <div class="slds-p-around_xx-small" style="width: 30%;">
+                                                <lightning-input type="text" class="fields"
+                                                    variant="label-hidden"
+                                                    label="Existing FedFina Loan Account Number"
+                                                    data-name="ExistFedfinaAccNo__c"
+                                                    value={obj.ExistFedfinaAccNo__c} data-index={index}
+                                                    onchange={handleInputChange} pattern="[FED]+[a-zA-Z0-9]{13}"
+                                                    message-when-pattern-mismatch="Please Enter Correct Account Number. Example: FEDMUMSTL1234567"
+                                                    disabled={disabled} required={mandatoryUw}>
+
+                                                </lightning-input>
+                                            </div>
+                                        </td>
+                                    </template>
+                                    <td>
+                                        <div class="slds-p-around_x-small slds-col slds-size_2-of-12">
+                                            <lightning-button-icon icon-name="action:delete"
+                                                alternative-text="Delete" title="Delete" data-index={index}
+                                                data-id={obj.Id} onclick={handleDeleteAction}
+                                                disabled={disabled}>
+                                            </lightning-button-icon>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                            </template>
+                            <tr>
+                                <th style=" background-color: #F3F2F2;"></th>
+                                <th style=" background-color: #F3F2F2;">Total</th>
+                                <th style=" background-color: #F3F2F2;"></th>
+                                <th style=" background-color: #F3F2F2;">{totalLoanAmt}</th>
+                                <th style=" background-color: #F3F2F2;">{totalOutstanding}</th>
+                                <th style=" background-color: #F3F2F2;">{totalEMI}</th>
+                            </tr>
+                    </tbody>
+                </table>
+            </template>
+                       
+          
+                    
+                 
+                        <lightning-button label={addButtonLabel} slot="actions" icon-name="utility:add" onclick={addRow}
+                            disabled={disabled}></lightning-button>
+
+                  
+                
+           
+        </lightning-accordion-section>
+    </lightning-accordion>
+</template>
+   
+<template lwc:if={phoneBolean}>
+    <lightning-accordion active-section-name="A" class="accordion" allow-multiple-sections-open>
+        <lightning-accordion-section name="A" label="Balance Transfer Loans" class="applicantClass">
+            <div class="slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none modalBodyy">
+           
+        <template for:each={btLoanRec} for:item="obj" for:index="index">
+            <div key={obj.Id} >
+                <ul class="slds-has-dividers_bottom-space">
+                    <li>
+                        <lightning-tile>
+                            <dl class="slds-dl_horizontal">
+                                <template if:false={existingFed}>
+                                <dt class="slds-dl_horizontal__label">
+                                    <p title="Balance Transfer Financier">
+                                        Balance Transfer Financier
+                                        <c-custom-lookup index={index} field-name="BTFinancier__c"
+                                        selected-icon-name="standard:account"
+                                        variant="label-hidden"
+                                        object-api-name="BalTranFinancier__c" field-api-name="Name"
+                                        selected-record-id={obj.BTFinancier__c}
+                                        selected-record-name={obj.BTFinancier__c}
+                                        selected-fields="Balance_Transfer_Financier_Status__c"
+                                        filter-condn=" " selected-field-name="Name"
+                                        onselect={handleValueSelect} disabled={disabled}
+                                        required={mandatoryUw}
+                                        ></c-custom-lookup>
+                                    </p>
+                                </dt>
+                                
+                                <dt class="slds-dl_horizontal__label">
+                                    <div title="Specify Other Balance transfer Financier">
+                                        <p class="marginTop">Specify Other Balance transfer Financier</p> <lightning-input type="text" 
+                                        data-name="SpecifyOtherBTFinancier__c"
+                                        value={obj.SpecifyOtherBTFinancier__c} data-index={index}
+                                        onchange={handleInputChange}
+                                        disabled={obj.enableOtherScheme} required={mandatoryUw} 
+                                        class="inputfieldwidth">
+
+                                    </lightning-input>
+                                </div>
+                                </dt>
+                              
+                                <dt class="slds-dl_horizontal__label">
+                                    <div title="Balance Transfer Original Loan Amount (₹)">
+                                       <p class="marginTop">  Balance Transfer Original Loan Amount (₹)</p>
+                                        <lightning-input type="number" formatter="currency" step="0.01"
+                                            data-name="BTOriginalLoanAmt__c"
+                                            value={obj.BTOriginalLoanAmt__c} data-index={index}
+                                            onchange={handleInputChange} disabled={disabled}
+                                            required={mandatoryUw}>
+                                        </lightning-input>
+                                    </div>
+                                </dt>
+                                
+                                <dt class="slds-dl_horizontal__label">
+                                    <div title="Balance Transfer Loan Outstanding Value (₹)">
+                                        <p class="marginTop"> Balance Transfer Loan Outstanding Value (₹)</p>
+                                        <lightning-input type="number" formatter="currency" step="0.01"
+                                        data-name="BTLoanOutstandingValue__c"
+                                        value={obj.BTLoanOutstandingValue__c} data-index={index}
+                                        onchange={handleInputChange} disabled={disabled}
+                                        required={mandatoryUw}>
+
+                                    </lightning-input>
+                                </div>
+                                </dt>
+                                <dt class="slds-dl_horizontal__label">
+                                    <div title="EMI (₹)">
+                                        <p class="marginTop"> EMI (₹)</p>
+                                        <lightning-input type="number" formatter="currency" step="0.01"
+                                        data-name="EMI__c"
+                                        value={obj.EMI__c} data-index={index}
+                                        onchange={handleInputChange} disabled={disabled}
+                                        required={mandatoryUw}>
+
+                                    </lightning-input>
+                                </div>
+                                </dt>
+                                <dt class="slds-dl_horizontal__label">
+                                    <div title="Loan to be closed internally?">
+                                        <p class="marginTop"> Loan to be closed internally?</p>
+                                        <c-hunter-displayvalue
+                                                dedupe-rsults-options={loanToClosedIntOptions}
+                                                type="picklist" required={mandatoryUw}
+                                                field-value={obj.Loantobeclosedinternally__c}
+                                                object={obj} field-name="Loantobeclosedinternally__c"
+                                                onpicklistchange={handlePicklistValuesNew}
+                                                is-read-only={disabled}></c-hunter-displayvalue>
+                                </div>
+                                </dt>
+                                    <dt class="slds-dl_horizontal__label">
+                                        <div class="marginTop" title="Balance Transfer Financier Status">
+                                            <p >Balance Transfer Financier Status</p> <c-dedupe-display-value
+                                            dedupe-rsults-options={btLnFinstatusOptions} type="picklist"
+                                            field-value={obj.BTFinancierStatus__c} object={obj}
+                                            field-name="BTFinancierStatus__c" index-value={index}
+                                            onpicklistchange={handlePicklistValues}
+                                            is-read-only=true
+                                            required={mandatoryUw}></c-dedupe-display-value>
+                                        </div>
+                                    </dt>
+                              
+                                </template>
+                                <template if:true={existingFed}>
+                                    <dt class="slds-dl_horizontal__label">
+                                        <div  title="Existing FedFina Loan Account Number">
+                                            <p class="marginTop">  Existing FedFina Loan Account Number</p><lightning-input type="text" class="fields"
+                                            data-name="ExistFedfinaAccNo__c"
+                                            value={obj.ExistFedfinaAccNo__c} data-index={index}
+                                            onchange={handleInputChange} pattern="[FED]+[a-zA-Z0-9]{13}"
+                                            message-when-pattern-mismatch="Please Enter Correct Account Number. Example: FEDMUMSTL1234567"
+                                            disabled={disabled} required={mandatoryUw}>
+
+                                        </lightning-input>
+                                    </div>
+                                    </dt>
+                                </template>
+                             
+                                <br /><br />
+                        
+                                <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                                  
+                                        <div slot="footer" class="slds-clearfix slds-float_right slds-p-around_x-small">
+                                        <lightning-button-icon  class="my-button" icon-name="action:delete"
+                                        alternative-text="Delete" title="Delete" data-index={index}
+                                        data-id={obj.Id} onclick={handleDeleteAction}
+                                        disabled={disabled}>
+                                    </lightning-button-icon>
+                                </div>
+                                   
+                                </dd>
+                                <br /><br />
+                            </dl>
+                        </lightning-tile>
+                    </li>
+                </ul>
+            </div>
+            
+        </template>
+        <div slot="footer" class="slds-clearfix slds-float_right slds-p-around_x-small">
+            <lightning-button label={addButtonLabel} slot="actions" icon-name="utility:add" onclick={addRow}
+                disabled={disabled}></lightning-button>
+
+        </div>
+              
+    </div></lightning-accordion-section></lightning-accordion>
+</template>
+
+
+
+</template>

@@ -1,0 +1,9 @@
+.datatable th {
+    background-color: hsl(0, 20%, 97%);
+    font-weight: bold;
+}
+
+.tableRow{
+	background-color: hsl(0, 20%, 97%);
+    font-weight: bold;
+}

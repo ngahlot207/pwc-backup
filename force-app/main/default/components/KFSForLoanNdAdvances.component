@@ -1,0 +1,544 @@
+<apex:component Controller="KFSForLoanNdAdvController" access="global">
+    <!--<div  class="fixed-header">
+        <img src="{!$Resource.FedBankLogo2}" alt="Federal Bank Logo" 
+                 style="width: 100px; height: auto; padding-bottom: 100px" />
+    </div>-->
+    <div style="text-align: right; font-size:12px">
+                {!CurrentDateTime1}
+            </div>
+    <apex:outputPanel id="panelHeaderFooterRight" styleClass="header_right" layout="block">
+        <img src="{!$Resource.FedBankLogo2}" alt="Federal Bank Logo" 
+                 style="width: 100px; height: auto; padding-top: 10px; padding-bottom: 30px" />
+    </apex:outputPanel>
+    
+    <!--<apex:outputPanel id="panelHeaderFooterLeft" styleClass="footer_left" layout="block">
+        {!loanApplRec.Name}
+    </apex:outputPanel>-->
+    <h3 style="text-align: right">Annex A</h3>
+    <apex:form style="padding-bottom: 100px">
+        <h1 style="text-align: center; font-size: 15px;">Key Facts Statement</h1>
+        <h2 style="text-align: center; font-size: 15px;">Part 1 (Interest rate and fees/charges)</h2>
+        <h2 style=" font-size: 15px;"><span style="font-weight: bold;font-size: 20px;">Issue date:</span> {!CurrentDate}<span style="padding-left: 300px;font-weight: bold;font-size: 20px;">Validity upto:</span>{!CurrentDateTime}</h2>
+        <table border="1"  >
+            <tr style="font-size: 15px;">
+                <th style="font-weight: bold;width: 3%;">1</th>
+                <td style="font-weight: bold;width: 26%;">Loan proposal</td>
+                <td style="width: 23%;"><apex:inputText />{!loanApplRec.Name}</td>
+                <td style="font-weight: bold;width: 24%;">Type Of Loan</td>
+                <td style="width: 24%;"><apex:inputText />{!loanApplRec.Product__c}</td>
+            </tr>
+            <tr style="font-size: 15px;">
+                <th style="font-weight: bold;">2</th>
+                <td style="font-weight: bold;" colspan="2">Sanctioned Loan amount (in Rupees)</td>
+                <td colspan="2">{!loanAmount}</td>
+            </tr>
+            <tr>
+                <th style="font-weight: bold;font-size: 15px;">3</th>
+                <td colspan="2"><span style="font-weight: bold;font-size: 20px;">Disbursal schedule</span><br/>
+                	<p>(i) Disbursement in stages or 100% upfront.</p>
+                    <p>(ii) If it is stage wise, mention the clause of loan agreement having relevant details</p>
+                </td>
+                <td colspan="2">{!disbSchedule}</td>
+            </tr>
+            <tr style="font-weight: bold;font-size: 15px;">
+                <th>4</th>
+                <td colspan="2">Loan term (Months)</td>
+                <td colspan="2"><apex:inputText />{!loanApplRec.Loan_Tenure_Months__c}</td>
+            </tr>
+            <tr style="font-weight: bold;font-size: 15px;">
+                <th>5</th>
+                <td colspan="2">Instalment details</td>
+                <td colspan="2"> <apex:inputText /> </td>
+            </tr>
+            <tr>
+                <td colspan="2">Type of instalments</td>
+                <td >Number of EPIs</td>
+                <td >EPI (<img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/>) </td>
+                <td >Commencement of repayment, post sanction</td>
+            </tr>
+            <tr>
+                <td colspan="2">{!loanApplRec.Repayment_Frequency__c}</td>
+                <td >{!loanApplRec.Loan_Tenure_Months__c}</td>
+                <td>{!loanApplRec.EMIIcludingInsurance__c} </td>
+                <td >30 days </td>
+            </tr>
+            <tr>
+                <th style="font-weight: bold;font-size: 15px;">6</th>
+                <th colspan="1">Interest rate (%)</th>
+                <td colspan="1"> {!loanApplRec.EffectiveROI__c}% p.a. </td>
+                <th colspan="1">Interest Rate Type</th>
+                <td colspan="1"> {!rateofInter} </td>
+            </tr>
+             
+            <tr style="font-weight: bold;font-size: 15px;">
+                <th>7</th>
+                <td colspan="4">Additional Information in case of Floating rate of interest</td>
+            </tr>
+            
+            	<tr style="font-weight: ;font-size: 13px;">
+                <td colspan="3" border="0"> <table border="1">
+                                <tr style="width: 100%;">
+                                    <td style="width: 25%;">Reference  <br/> Benchmark </td>
+                                    <td style="width: 25%;">Benchmark  <br/> rate (%) (B)</td>
+                                    <td style="width: 25%;">Spread (%) (S) </td>
+                                    <td style="width: 25%;">Final rate (%)  <br/>  R = (B) + (S)</td>
+                                </tr>
+                                <tr rowspan="2" style="padding-top:20px;">
+                                    <td ><apex:outputPanel rendered="{!if(rateofInter == 'Floating' , true ,false)}"> FRR</apex:outputPanel></td>
+                                    <td ><apex:outputPanel rendered="{!if(rateofInter == 'Floating' , true ,false)}"> {!loanApplRec.LoanPLRRate__c}</apex:outputPanel></td>
+                                    <td ><apex:outputPanel rendered="{!if(rateofInter == 'Floating' , true ,false)}"> {!loanApplRec.SpreadID__c}</apex:outputPanel></td>
+                                    <td ><apex:outputPanel rendered="{!if(rateofInter == 'Floating' , true ,false)}"> {!finalRate}</apex:outputPanel></td>
+                                </tr>
+                    			<tr rowspan="2" style="padding-top:20px;">
+                                    <td ><apex:outputPanel rendered="{!if(rateofInter == 'Fixed' , true ,false)}"> NA</apex:outputPanel></td>
+                                    <td ><apex:outputPanel rendered="{!if(rateofInter == 'Fixed' , true ,false)}"> NA</apex:outputPanel></td>
+                                    <td ><apex:outputPanel rendered="{!if(rateofInter == 'Fixed' , true ,false)}"> NA</apex:outputPanel></td>
+                                    <td ><apex:outputPanel rendered="{!if(rateofInter == 'Fixed' , true ,false)}"> NA</apex:outputPanel></td>
+                                </tr>
+                    
+                                
+                            </table> </td>
+               					 <td colspan="2"><table border="1" style="width: 100%;">
+                                <tr style="text-align: center;">
+                                    <td colspan="2">Reset  <br/> periodicity  <br/> (Months) </td>
+                                    <td colspan="3">Impact of change in the reference  <br/> benchmark  <br/> (for 25 bps change in ‘R’, change in)</td>
+      							</tr>
+                                <tr >
+                                    <td >B</td>
+                                    <td >S</td>
+                                    <td colspan="2">EPI (<img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/>)</td>
+                                    <td >No. of EPIs</td>
+                                </tr>
+                    			<tr style="padding-top:20px;">
+                                    <td ><apex:outputPanel rendered="{!if(rateofInter == 'Floating' , true ,false)}"> Monthly</apex:outputPanel>
+                                    <apex:outputPanel rendered="{!if(rateofInter == 'Fixed' , true ,false)}">NA</apex:outputPanel>
+                                    </td>
+                                    <td >
+                                        <apex:outputPanel rendered="{!if(rateofInter == 'Floating' , true ,false)}">  
+                                         Monthly
+                                    	</apex:outputPanel>
+                                        <apex:outputPanel rendered="{!if(rateofInter == 'Fixed' , true ,false)}">NA</apex:outputPanel>
+                                       
+                                    </td>
+                                    <td colspan="2"><apex:outputPanel rendered="{!if(rateofInter == 'Floating' , true ,false)}">{!ImpactEMI} </apex:outputPanel>
+                                    <apex:outputPanel rendered="{!if(rateofInter == 'Fixed' , true ,false)}">NA</apex:outputPanel>
+                                    </td>
+                                    <td ><apex:outputPanel rendered="{!if(rateofInter == 'Floating' , true ,false)}">{!newTenureVal} </apex:outputPanel>
+                                    <apex:outputPanel rendered="{!if(rateofInter == 'Fixed' , true ,false)}">NA</apex:outputPanel>
+                                    </td>
+                                </tr>
+                                     
+                                
+                            </table>
+                		</td>
+            		</tr>
+            <tr>
+                <th style="font-weight: bold;font-size: 15px;">8</th>
+                <th colspan="4">Fee/ Charges</th>
+             </tr>
+            <tr>
+                <td colspan="5" style="font-weight: ;font-size: 12px;">
+                	<table border="1">
+                                <tr style="text-align: center; width: 100%;">
+                                    <td colspan="2"></td>
+                                    <td colspan="2">Payable to the RE (A)</td>
+                                    <td colspan="2">Payable to a third party through RE (B) </td>
+                                 </tr>
+                        		<tr style="width: 100%; text-align: center">
+                                    <td style="width: 5%;" colspan="1"></td>
+                                    <td style="width: 18%;" colspan="1">Fee/Charges(Inclusive of GST)</td>
+                                    <td style="width: 18%;" colspan="1">One-time/ Recurring</td>
+                                    <td style="width: 19%;" colspan="1">Amount (in <img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/>) or Percentage (%) as applicable</td>
+                                    <td style="width: 20%;" >One-time/Recurring</td>
+                                    <td style="width: 20%;" >Amount (in <img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/>) or Percentage (%) as applicable </td>
+                                   
+                                </tr>
+                                <apex:repeat value="{!AppWrapperList}" var="applicantWrapper">
+                                	<tr style="width: 100%; text-align: center">
+                                        <td style="width: 5%;" colspan="1">{!applicantWrapper.Index}</td>
+                                        <td style="width: 18%;" colspan="1">{!applicantWrapper.chargeName}</td>
+                                        <td style="width: 18%;" colspan="1">{!applicantWrapper.chargetype}</td>
+                                        <td style="width: 19%;" colspan="1">{!applicantWrapper.chargeAmount}</td>
+                                        <td style="width: 20%;" >{!applicantWrapper.chargetype3Party}</td>
+                                        <td style="width: 20%;" >{!applicantWrapper.chargeAmount3Party}</td>
+                                  	</tr>
+                                </apex:repeat>
+                        		
+                              </table>
+                	</td>
+              </tr>
+            <tr>
+                <th style="font-weight: bold;font-size: 15px;">9</th>
+                <th colspan="2">Annual Percentage Rate (APR) (%)</th>
+                <th colspan="2">{!APRVAL}%</th>
+             </tr>
+            <tr>
+                <th style="font-weight: bold;font-size: 15px;">10</th>
+                <th colspan="4">Details of Contingent Charges (in <img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/> or %, as applicable)</th>
+              </tr>
+           <!-- <apex:outputText value="{!StaticContent}" escape="false" /> -->
+            <tr> 
+                <td colspan="5" style="font-size: 12px;width: 100%;"> <table border="1">
+                    	<apex:repeat value="{!ChargeWrapperList}" var="chargeWrapper">
+                                	<tr style="{!IF(chargeWrapper.isBold, 'text-align: center; width: 100%;font-weight: bold', 'text-align: center; width: 100%;')}">
+                                        <td style= "width: 10%;" colspan="1">{!chargeWrapper.Index}</td>
+                                        <td style="width: 40%;" colspan="1">{!chargeWrapper.DecsOfCharge}</td>
+                                        <td style="width: 40%;" colspan="1">{!chargeWrapper.valueOfCharge}</td>
+                                    </tr>
+                            	
+                                </apex:repeat>
+                               <!-- <tr style="text-align: center; width: 100%;">
+                                    <td style=" width: 10%;" >(i)</td>
+                                    <td style=" width: 40%;" colspan="2" >Penal charges, if any, in case of delayed payment</td>
+                                    <td style=" width: 40%;" colspan="2"> upto 3% per month</td>
+                                 </tr> 
+                        		<tr style="text-align: center; width: 100%;">
+                                    <td colspan="1">(ii)</td>
+                                    <td colspan="2">Other penal charges, if any</td>
+                                    <td colspan="2"> upto 3% per month*</td>
+                                 </tr>
+                    			<tr style="text-align: center; width: 100%;">
+                                    <td colspan="1">(iii)</td>
+                                    <td colspan="2">Foreclosure charges, if applicable</td>
+                                    <td colspan="2">upto 6% of loan outstanding (loan outstanding as on date of closure + pre payments made in last 12 months from the date of closure) + GST</td>
+                                 </tr>
+                   				 <tr style="text-align: center; width: 100%;">
+                                    <td colspan="1">(iv)</td>
+                                    <td colspan="2">Part Prepayment Charges (for fixed rate loans and floating rate loans to non -individual borrowers and Individual Borrowers)</td>
+                                    <td colspan="2"> upto 6% of the amount prepaid + GST</td>
+                                 </tr>
+                   				 <tr style="text-align: center; width: 100%;">
+                                    <td colspan="1">(v)</td>
+                                    <td colspan="2">Charges for switching of loans from floating to fixed rate and vice versa</td>
+                                    <td colspan="2">1% of the outstanding loan amount + GST </td>
+                                 </tr>
+                    <tr style="text-align: center; width: 100%;">
+                                    <td colspan="1">(vi)</td>
+                                    <td colspan="2">Cheque Bounces Charges / EMI return charges</td>
+                                    <td colspan="2"><img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/> 750</td>
+                                 </tr>
+                   				 <tr style="text-align: center; width: 100%;">
+                                    <td colspan="1">(vii)</td>
+                                    <td colspan="2">Repayment Instrument /Cheque Swap Charges</td>
+                                    <td colspan="2"><img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/> 500 + GST </td>
+                                 </tr>
+                    			<tr style="text-align: center; width: 100%;">
+                                    <td colspan="1">(viii)</td>
+                                    <td colspan="2">Loan Statement Charges</td>
+                                    <td colspan="2">Nil for 1 statement every half year. Upto <img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/> 500 + GST thereafter </td>
+                                 </tr>
+                    <tr style="text-align: center; width: 100%;">
+                                    <td colspan="1">(ix)</td>
+                                    <td colspan="2">NOC Issuance Charges</td>
+                                    <td colspan="2">Nil for first NOC, <img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/> 500 + GST thereafter</td>
+                                 </tr>
+                   				 <tr style="text-align: center; width: 100%;">
+                                    <td colspan="1">(x)</td>
+                                    <td colspan="2">Document retrieval charges (per advice)</td>
+                                    <td colspan="2"><img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/> 500 + GST </td>
+                                 </tr>
+                    
+                    <tr style="text-align: center; width: 100%;">
+                                    <td colspan="1">(xi)</td>
+                                    <td colspan="2">Loan cancellation charges</td>
+                                    <td colspan="2">upto <img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/>2000 plus applicable taxes plus interest to be serviced from the date of disbursement to the date of cancellation </td>
+                                 </tr>
+                    			<tr style="text-align: center; width: 100%;">
+                                    <td colspan="1">(xii)</td>
+                                    <td colspan="2">CERSAI Registration Charges</td>
+                                    <td colspan="2">Nil for 1 statement every half year. Upto <img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/>100 for a loan above <img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/>5 lakh and <img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/>50 for loan upto <img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/>5 lakh + GST </td>
+                                 </tr>
+                    <tr style="text-align: center; width: 100%;">
+                                    <td colspan="1">(xiii)</td>
+                                    <td colspan="2">Loan Reschedulement charges</td>
+                                    <td colspan="2">upto 0.50% of the loan outstanding plus applicable taxes</td>
+                                 </tr>
+                   				 <tr style="text-align: center; width: 100%;">
+                                    <td colspan="1">(xiv)</td>
+                                    <td colspan="2">Other charges  	</td>
+                                    <td colspan="2"><img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/> 500 + GST </td>
+                                 </tr>-->
+                              </table></td>
+               
+              </tr>
+          </table>
+        <div style="page-break-after:always;"></div>
+         <h3 style="text-align: center; padding-top:10px">Part 2 (Other qualitative information)</h3>
+            <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+                <thead>
+                    <tr>
+                        <td style="width: 10%;">1</td>
+                        <td colspan="2" style="width: 40%;">Clause of Loan agreement relating to engagement of recovery agents</td>
+                        <!--this should come by master data-->
+                        <td colspan="2" style="width: 40%;">{!Engagement}</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2</td>
+                        <td colspan="2">Clause of Loan agreement which details grievance redressal mechanism</td>
+                        <td colspan="2">{!Grievance}</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td colspan="2">Phone number and email id of the nodal grievance redressal officer</td>
+                        <td colspan="2">Customer Care Email-<br/>
+                            {!kfsEmail}<br/>
+                        	Customer Care Number-<br/>
+                            {!kfsPhone}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td colspan="2">Whether the loan is, or in future maybe, subject to transfer to other REs or securitisation (Yes/ No)</td>
+                        <td colspan="2">Yes</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td colspan="4">In case of lending under collaborative lending arrangements (e.g., co-lending/ outsourcing), following additional details may be furnished</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">Name of the originating RE, along with its funding proportion	</td>
+                        <td>Name of the partner RE along with its proportion of funding	</td>
+                        <td>Blended rate of interest</td>
+                    </tr>
+                    <apex:repeat value="{!partFun}" var="chargeWrapper">
+                    	<tr>
+                        <td colspan="3">{!chargeWrapper.Name}</td>
+                        <td>{!chargeWrapper.PartnerName}</td>
+                        <td>{!chargeWrapper.Roi}</td>
+                    </tr>
+                    </apex:repeat>
+                    <tr>
+                        <td>6</td>
+                        <td colspan="3">In case of digital loans, following specific disclosures may be furnished</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="2">(i)	Cooling off/look-up period, in terms of RE’s board approved policy, during which borrower shall not be charged any penalty on prepayment of loan</td>
+                        <td colspan="2">NA</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="2">(ii) Details of LSP acting as recovery agent and authorized to approach the borrower</td>
+                        <td colspan="2">NA</td>
+                    </tr>
+                  <!--  <tr>
+                        <td>5</td>
+                        <td colspan="2">In case of lending under collaborative lending arrangements (e.g., co-lending/ outsourcing), following additional details may be furnished:</td>
+                        
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <table border="1" style=" width: 100%;">
+                                <tr>
+                                    <th>Name of the originating RE, along with its funding proportion</th>
+                                    <th>Name of the partner RE along with its proportion of funding</th>
+                                    <th>Blended rate of interest</th>
+                                </tr>
+                                <tr>
+                                    <td>value</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>In case of digital loans, following specific disclosures may be furnished:</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">(i) Cooling off/look-up period, in terms of RE's board approved policy, during which borrower shall not be charged any penalty on prepayment of loan</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">(ii) Details of LSP acting as recovery agent and authorized to approach the borrower</td>
+                        <td></td>
+                    </tr>-->
+                </tbody>
+            </table>
+        
+			<div style="page-break-after:always;"></div>
+        	<h3 style="text-align: right">Annex B</h3>
+   <!-- <h3 style="text-align: center">Illustration for computation of APR for Retail and MSME loans</h3>-->
+        <h3 style="text-align: center">Computation of APR</h3>
+    <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+        <thead>
+            <tr>
+                <th>Sr. No.</th>
+                <th>Parameter</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody >
+            <tr >
+                <td>1</td>
+                <td>Sanctioned Loan amount (in Rupees) (Sl no. 2 of the KFS template – Part 1)</td>
+                <td>{!loanAmount}</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Loan Term (in months) (Sl No.4 of the KFS template – Part 1)</td>
+                <td>{!loanApplRec.Loan_Tenure_Months__c}</td>
+            </tr>
+            <tr>
+                <td>a)</td>
+                <td>No. of instalments for payment of principal, in case of non-equated periodic loans</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>b)</td>
+                <td>Type of EPI</td>
+                <td>{!loanApplRec.Repayment_Frequency__c}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Amount of each EPI (in Rupees)</td>
+                <td>{!loanApplRec.EMIIcludingInsurance__c}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Number of EPIs (In Months)</td>
+                <td>{!loanApplRec.Loan_Tenure_Months__c}</td>
+            </tr>
+            <tr>
+                <td>c)</td>
+                <td>No. of instalments for payment of capitalised interest, if any</td>
+                <td>Not Applicable</td>
+            </tr>
+            <tr>
+                <td>d)</td>
+                <td>Commencement of repayments, post sanction</td>
+                <td>30 days </td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Interest rate type (fixed or floating or hybrid)</td>
+                <td>{!rateofInter}</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Rate of Interest </td>
+                <td>{!loanApplRec.EffectiveROI__c}% p.a.</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Total Interest Amount to be charged during the entire tenor of the loan as per the rate prevailing on sanction date (in Rupees)</td>
+                <td>{!InteresetRate}</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Fee/ Charges payable (in Rupees)</td>
+                <td>{!TotalFeeChar}</td>
+            </tr>
+            <tr>
+                <td>A</td>
+                <td>Payable to the RE </td>
+                <td>{!TotalFeeCharForA}</td>
+            </tr>
+            <tr>
+                <td>B</td>
+                <td>Payable to third-party routed through RE (Sl No.8B of the KFS template-Part 1)</td>
+                <td>{!IF(TotalFeeCharForB == 0, 'NIL', TotalFeeCharForB)}</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>Net disbursed amount</td>
+                <td>{!totalDisAmount}</td>
+                <!--<td>{!loanApplRec.Final_Loan_Disbursal_Amount__c}</td>-->
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>Total amount to be paid by the borrower (in Rupees)</td>
+                <td>{!totalAmount}</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>Annual Percentage rate- Effective annualized interest rate (in percentage)</td>
+                <td>{!APRVAL}%</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>Schedule of disbursement as per terms and conditions</td>
+                <td>Detailed schedule to be provided</td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td>Due date of payment of instalment and interest</td>
+                <td>{!dateOfCheck}</td>
+            </tr>
+        </tbody>
+    </table>
+       <!-- <div style="  text-align: center; margin-top: 120px;">
+                <hr style=" border: 1px solid #000; margin-top: 10px;"/>
+            <p style=" text-align: left;font-size: 10px;">Where such charges cannot be determined prior to sanction, REs may indicate an upper ceiling <br/>
+ The difference in repayment amount calculated from the total of instalments given under the detailed repayment schedule i.e., <img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/>23,280 (=970*24) vis-à-vis the amount of <img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/>23,274 (<img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/>20,000 (loan amount) + <img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/>3,274 (Interest charges) mentioned under (11) is due to rounding off the instalment amount of <img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/>969.73 to <img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/>970 under the detailed repayment schedule
+<br/> Computed on net disbursed amount using IRR approach and reducing balance method</p>
+            </div>-->
+        <div style="page-break-after:always;"></div>
+        <h3 style="font-weight: bold; text-align: right; font-size: 20;">Annex C</h3>
+       <!-- <h3 style="font-weight: bold;text-align: center; font-size: 20;">Illustrative Repayment Schedule under Equated Periodic Instalment for the hypothetical loan illustrated in Annex B</h3>-->
+        <h3 style="font-weight: bold;text-align: center; font-size: 20;">Repayment Schedule</h3>
+        <table border="1" cellpadding="5" cellspacing="0" style="-Fs-table-paginate: paginate;border-collapse: collapse; width: 100%;">
+        <thead>
+            <tr>
+                <th style="width: 10%;">Instalment No.</th>
+                <th style="width: 23%;">Outstanding Principal (in Rupees)</th>
+                <th style="width: 23%;">Principal (in Rupees)</th>
+                <th style="width: 22%;">Interest (in Rupees)</th>
+                <th style="width: 22%;">Instalment (in Rupees)</th>
+            </tr>
+        </thead>
+         <tbody>
+            <!--<apex:repeat value="{!scheduleList}" var="schedule">
+                <tr>
+                    <td>{!schedule.instalmentNo}</td>
+                    <td>{!schedule.outstandingPrincipal}</td>
+                    <td>{!schedule.principal}</td>
+                    <td>{!schedule.interest}</td>
+                    <td>{!schedule.instalment}</td>
+                </tr>
+            </apex:repeat>-->
+             <apex:repeat value="{!result1}" var="schedule">
+                <tr>
+                    <td>{!schedule.instalmentNumber}</td>
+                    <td>{!schedule.outstandingPrincipal}</td>
+                    <td>{!schedule.principal}</td>
+                    <td>{!schedule.interest}</td>
+                    <td>{!schedule.instalment}</td>
+                </tr>
+            </apex:repeat>
+        </tbody>
+    </table>
+        <div style="page-break-after:always;"></div>
+        <div style=" text-align: center; margin-top: 50px;">
+                <hr style=" border: 1px solid #000; margin-top: 20px;"/>
+                <p style=" text-align: left;">Acknowledgment by borrower(s)</p>
+                <p style=" text-align: left;">Complete content of the Key Facts Sheet (KFS) has been explained to me by
+                    ________________________ in a language which is understood by me.</p>
+               <table border="1"  style="border-collapse: collapse; width: 100%; font-size: 5">
+                <tbody>
+                    <tr style="font-size: 5">
+                        <td style="width: 30%">Name</td>
+                        <td style="width: 30%">Type</td>
+                        <td style="width: 30%">Signature</td>
+                    </tr>
+                    <apex:repeat value="{!applicantList}" var="applicantWrapper">
+                    
+                        <tr style="font-size: 5; height: 100px" >
+                        <td>{!applicantWrapper.FullName__c}</td>
+                        <td>{!applicantWrapper.ApplType__c}</td>
+                            <td></td>
+                    </tr>
+                    </apex:repeat>
+                </tbody>
+            </table>
+                </div>
+                <br/>
+                Date: <br/>
+                Place: 
+    </apex:form>
+</apex:component>

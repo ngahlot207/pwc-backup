@@ -1,0 +1,86 @@
+<template>
+    <lightning-layout multiple-rows="12">
+        <div if:true={showSpinner}>
+            <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+            </lightning-spinner>
+        </div>
+       
+            <lightning-layout-item padding="around-small" size="12" margin="around-small">
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-combobox options={ApprovalPricingOption} data-id="priVal" data-objectname="LoanAppl__c" type="text" label="Pricing Approval Applicable in this Case" value={parentRecord.PricingApprovalApplicable__c} onchange={handleLoanAppliData} data-field="PricingApprovalApplicable__c"  disabled={disableMode}></lightning-combobox>
+                  </div>
+                </lightning-layout-item>
+                    <template if:true={showPricingFields}>
+                        <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                        medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                        <div class="slds-p-around_x-small">
+                            <lightning-input  type="number" step="0.01" label="RAAC ROI (%)"  value={ROIVal} onchange={handleLoanAppliData} data-field="RAAC_ROI__c" required={showPricingFields} disabled></lightning-input>
+                        </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                        medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                        <div class="slds-p-around_x-small">
+                            <lightning-input  type="number" step="0.01" label="RAAC PF (%)"  value={RAACRofVal} onchange={handleLoanAppliData} data-field="RAAC_PF__c" required={showPricingFields} disabled></lightning-input>
+                        </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                        medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                        <div class="slds-p-around_x-small">
+                            <lightning-input  type="number"  step="0.01" label="Revised ROI (%)" data-id="ROIVal" data-objectname="LoanAppl__c" value={parentRecord.RevisedROI__c} onblur={handleLoanAppliDataForBlur} data-field="RevisedROI__c" required={showPricingFields} disabled={disableMode} max="100" min="0" message-when-range-overflow="Value cannot be more then 100 percent." message-when-range-underflow="Value cannot be less then 0 percent."></lightning-input>
+                        </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                        medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                        <div class="slds-p-around_x-small">
+                            <lightning-input  type="number"  step="0.01" label="Revised PF (%)" data-id="PFVal" data-objectname="LoanAppl__c" value={parentRecord.RevisedPF__c} onblur={handleLoanAppliDataForBlur} data-field="RevisedPF__c" required={showPricingFields} disabled={disableMode} max="100" min="0" message-when-range-overflow="Value cannot be more then 100 percent." message-when-range-underflow="Value cannot be less then 0 percent."></lightning-input>
+                        </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                        medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                        <div class="slds-p-around_x-small">
+                            <lightning-input placeholder="DD-MMM-YYYY"  type="date"  label="Pricing approval date" data-objectname="LoanAppl__c" value={parentRecord.PricingApprovalDate__c} onchange={handleLoanAppliData} data-field="PricingApprovalDate__c" required={showPricingFields} disabled={disableMode}></lightning-input>
+                        </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                        medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                        <div class="slds-p-around_x-small">
+                            <c-custom-lookup               
+                                        required={showPricingFields}
+                                        field-name="ApproverName__c"
+                                        label="Approver Name"
+                                        selected-icon-name="standard:identifier"
+                                        object-api-name="User"
+                                        field-api-name="Name"
+                                        selected-record-id={parentRecord.ApproverName__c}
+                                        onselect={handleValApproName}
+                                        disabled={disableMode}
+                                        index={index}>
+                                      </c-custom-lookup>
+                        </div>
+                        </lightning-layout-item>
+                    </template>    
+                </lightning-layout>
+            </lightning-layout-item>
+            <template if:true={showPricingFields}>
+                <c-upload-docs-reusable-component loan-app-id={recordId} applicant-id={applicantId}
+                doc-name={docSubType} doc-type={docType} disable-mode={disableMode} doc-category={docCategory}
+                            onrefreshdoctable={fromUploadDocsContainer} 
+                            convert-to-single-image={convertToSingleImage} allowed-fil-format={allowedFilFormat} document-detai-id={documentDetaiIdForLegal}
+                            hide-attach-button={hideAttachButton} onchangefiles={parentFileChange} file-type-error={fileTypeError} 
+                            max-file-size={MAX_FILE_SIZE} file-size-msz={fileSizeMsz}></c-upload-docs-reusable-component>
+            </template>    
+    </lightning-layout>
+    <br />
+    <br />
+    
+        <c-uploded-document-display title="Pricing Approval Documents" type={docType} sub-type={docSubType}
+            category={docCategory} loan-app-id={recordId}
+            applicant-id={applicantId} mode="false" disable-remarks="false" is-read-only={disableMode}
+            capture-all-documents="false" disabled={disableMode}  hide-mark-for-error="true"
+            hide-availiable-in-file="true" hide-upload-button="true" onuploadeddoc={handleFileUploadList}>
+        </c-uploded-document-display>
+    
+</template>

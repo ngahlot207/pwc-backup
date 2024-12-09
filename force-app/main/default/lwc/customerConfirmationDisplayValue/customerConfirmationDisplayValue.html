@@ -1,0 +1,9 @@
+<template>
+    <select name={fieldName} data-recordid={recordId} class="slds-select" disabled={isReadOnly} onchange={handleChange}>
+        <template for:each={options} for:item="opt">
+            <option key={opt.value} value={opt.value} selected={opt.selected}>
+                {opt.label}
+            </option>
+        </template>
+    </select>
+</template>

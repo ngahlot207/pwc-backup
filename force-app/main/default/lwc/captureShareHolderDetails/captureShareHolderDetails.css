@@ -1,0 +1,19 @@
+/* .center-message {
+    display: flex;
+    justify-content: center; 
+    align-items: flex-start; 
+    height: 100vh; 
+    text-align: center;
+    margin-top: 20%; 
+    font-size: 16px; 
+    color: #333; 
+    background-color: #f5f5f5; 
+} */
+label:before {
+    content: '*';
+    color: red;
+  }
+  .accClass {
+    --slds-c-accordion-summary-color-background: rgb(243, 243, 243);
+    /* --slds-c-accordion-color-border : 0.5rem; */
+  }

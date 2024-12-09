@@ -1,0 +1,223 @@
+<apex:component Controller="SignatureVerficationController" access="global">
+    <div style="text-align: right; font-size:12px">
+                {!CurrentDateTime1}
+            </div>
+	<div class="form-container">
+             <div class="highlighted-number">
+                DISBURSAL REQUEST FORM
+            </div>
+    <table class="no-border" style="width: 100%;">
+            <tr>
+                 <td style="text-align:left;">To,<br/>
+        		The Manager,<br/>FedBank Financial Services Limited</td>
+                <td style="text-align:left; padding-left: 200px"> Place  :  <span style="text-decoration: underline;"> {!loanApplRec.City__c}</span><br/>
+           			Dated : <span style="text-decoration: underline;">{!CurrentDate}</span> <br/>
+           			Application No : <span style="text-decoration: underline;">{!loanApplRec.Name}</span></td>
+            </tr>
+        </table>
+        <div style="padding-top:20px">Name of the Applicant: <span style="text-decoration: underline;">{!appliName}</span> <span style="padding-left:100px;">Name of the Co-Applicant:</span> <span style="text-decoration: underline;">{!coappliName}</span> </div>
+         <apex:repeat value="{!nameWrapperList}" var="coName">
+        	<div >Name of the Co-Applicant: <span style="text-decoration: underline;">{!coName.name}</span>  </div>
+        </apex:repeat>
+
+       <!-- <div class="sub-header">COLLATERAL PROPERTY ADDRESS: 1 (P.I. mention the property address as given in the property document, for e.g., Sale Agreement)</div>
+        
+        <table class="table" style="width: 100%;">
+            <tr>
+                <td>Flat No/House No</td>
+                <td>Bldg./House Name</td>
+                <td>Street No/Name</td>
+            </tr>
+            <tr>
+                <td>__________</td>
+                <td>__________</td>
+                <td>__________</td>
+            </tr>
+            <tr>
+                <td>Area/Locality</td>
+                <td>City</td>
+                <td>State</td>
+            </tr>
+            <tr>
+                <td>__________</td>
+                <td>__________</td>
+                <td>__________</td>
+            </tr>
+            <tr>
+                <td>Landmark</td>
+                <td>Pin Code</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>__________</td>
+                <td>__________</td>
+                <td></td>
+            </tr>
+        </table>
+
+        <div class="sub-header">COLLATERAL PROPERTY ADDRESS: 2 (If Applicable)</div>
+        
+        <table class="table" style="width: 100%;">
+            <tr>
+                <td>Flat No/House No</td>
+                <td>Bldg./House Name</td>
+                <td>Street No/Name</td>
+            </tr>
+            <tr>
+                <td>__________</td>
+                <td>__________</td>
+                <td>__________</td>
+            </tr>
+            <tr>
+                <td>Area/Locality</td>
+                <td>City</td>
+                <td>State</td>
+            </tr>
+            <tr>
+                <td>__________</td>
+                <td>__________</td>
+                <td>__________</td>
+            </tr>
+            <tr>
+                <td>Landmark</td>
+                <td>Pin Code</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>__________</td>
+                <td>__________</td>
+                <td></td>
+            </tr>
+        </table>-->
+ 		<hr style=" border: 1px solid #000; margin-top: 20px;"/>
+        <div class="sub-header">Disbursal Details</div>
+        <p>With regard to the below I/we, the undersigned do hereby request you to issue my/our loan disbursal cheques as the details given here in below:</p>
+
+        <table class="table" style="width: 100%;">
+            <tr class="table-header">
+                <th>Sr.No</th>
+                <th>In Favour of</th>
+                <th>Bank</th>
+                <th>A/C No</th>
+                <th>Payable at</th>
+                <th>Amount</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <!-- Add additional rows if required -->
+            <tr>
+                <td>2</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="5">Total Disbursement Amount in Rs.</td>
+                <td></td>
+            </tr>
+        </table>
+		<table class="main-table">
+       
+        <tr>
+            <td colspan="3">
+                Mode of Payment: Cheque / DD / PO / NEFT / RTGS 
+            </td>
+            <td colspan="5" class="small-text">
+                Disbursal requested date: ____/____/______ &nbsp; <br/>
+                EMI Start Date: <span class="blue-text"> _________        </span> every month
+            </td>
+        </tr>
+        </table>
+            <table class="main-table">
+        <tr>
+            <td colspan="4" class="heading">Name and Signature of Applicant/s and co-applicant:</td>
+        </tr>
+        <tr>
+            <td>Name: (1) <span class="small-text"></span></td>
+            <td>(2) <span class="small-text"></span></td>
+            <td >(3) <span class="small-text"></span></td>
+            <td>(4) <span class="small-text"></span></td>
+            
+        </tr>
+        <tr>
+            <td>Sign: (1) <div class="signature-line"></div></td>
+            <td>(2) <div class="signature-line"></div></td>
+            <td>(3) <span class="small-text"></span> <div class="signature-line"></div></td>
+            <td>(4) <div class="signature-line"></div></td>
+            
+        </tr>
+                
+             
+    </table>
+        
+    </div>
+     <div style="page-break-after:always;"></div> 
+    <div class="form-container">
+            <div style="font-weight: bold;text-align: center; text-decoration: underline;margin-top: 20px;
+                font-size: 18px;">Over The Counter Documents (OTC) Declaration</div>
+       <div style="font-style: Times; padding-top:30px">
+           
+        
+               I/We have sanctioned a Loan Against Property/ Home Loan/ Business Loan/ Personal Loan of Rs.
+                <span class="underline">________________</span> -/ 
+                                <span class="underline"></span>( ______________________)
+                from Fedbank Financial Services Limited. I/We are aware that the loan is being disbursed by 
+                Fedbank Financial Services Limited based on my/our request and fulfillment of all the conditions 
+        as laid down by the company.<br/>
+            <div style="padding-top:18px">
+                I/We are fully aware that the disbursement of the loan will incur interest from the date of 
+                disbursement of the loan as per RBI guidance of terms and conditions and I/We agree and undertake 
+                to pay the interest due to Fedbank Financial Services Limited as per terms and conditions. 
+                I/We fully acknowledge that only based on my request, Fedbank Financial Services Limited has 
+                agreed to disburse the loan amount. I/We request you to kindly disburse the loan with the list 
+                of Pending Documents due as on date. I/We also agree to provide the pending documents to Fedbank 
+                Financial Services Limited at earliest as per terms and conditions.
+           </div>
+           <div style="padding-top:18px">List of Documents pending to be submitted:</div>
+           1)__________________________________________________________________________________________<br/>
+           2)__________________________________________________________________________________________<br/>
+           3)__________________________________________________________________________________________<br/>
+           4)__________________________________________________________________________________________<br/>
+           5)__________________________________________________________________________________________<br/>
+           </div>
+        <table class="main-table">
+        <tr>
+            <td colspan="4" class="heading">Name and Signature of Applicant/s and co-applicant:</td>
+        </tr>
+        <tr>
+            <td>Name: (1) <span class="small-text"></span></td>
+            <td>(2) <span class="small-text"></span></td>
+            <td >(3) <span class="small-text"></span></td>
+            <td>(4) <span class="small-text"></span></td>
+            
+        </tr>
+        <tr>
+            <td>Sign: (1) <div class="signature-line"></div></td>
+            <td>(2) <div class="signature-line"></div></td>
+            <td>(3) <span class="small-text"></span> <div class="signature-line"></div></td>
+            <td>(4) <div class="signature-line"></div></td>
+            
+        </tr>
+                
+             
+    </table>
+
+    </div>
+  
+</apex:component>

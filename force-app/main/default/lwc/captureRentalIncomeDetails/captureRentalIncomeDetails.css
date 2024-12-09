@@ -1,0 +1,13 @@
+.aligninput{
+    margin-left: auto; 
+    margin-right: auto;
+}
+.aligntext
+{
+    text-align: left !important;
+}
+/* td c-custom-lookup {
+    color: red;
+    max-width: 150px !important;
+    white-space: unset !important;
+} */

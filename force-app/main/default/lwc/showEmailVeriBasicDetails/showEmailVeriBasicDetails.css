@@ -1,0 +1,25 @@
+.customButton:hover {
+    cursor: pointer;
+}
+.accClass
+{
+    --slds-c-accordion-summary-color-background : rgb(243, 243, 243) ;
+    --slds-c-accordion-color-border : 0.5rem;
+}
+.tableScroll {
+    width: 100% !important;
+    overflow-x: auto;
+    /* height: 12rem; */
+  }
+  .fixedWidt {
+    width: 8rem;
+  }
+  .fixedWidth {
+    width: 10rem;
+  }
+  .fixedWidthh {
+    width: 13rem;
+  }
+  .fixedWidthhh {
+    width: 16rem;
+  }

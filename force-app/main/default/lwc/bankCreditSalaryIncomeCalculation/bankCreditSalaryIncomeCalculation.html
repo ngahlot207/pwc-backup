@@ -1,0 +1,198 @@
+<template>
+	<lightning-card title="Bank Credit Salary Calculation">
+		<div slot="actions" class="slds-p-horizontal_small">
+			<lightning-button variant="brand" label="Add Row" title="addRows" onclick={handleAddRows}>
+			</lightning-button>
+			<lightning-button variant="brand" label="Save Rows" title="saveRows" onclick={handleUpsert}>
+			</lightning-button>
+		</div>
+		<div aria-label="tableElements" class="slds-p-around_medium">
+			<template if:true={showBankCreditSalary}>
+				<lightning-layout vertical-align="center">
+					<lightning-layout-item size="12">
+						<div class="datatable slds-box slds-theme_default">
+							<table
+								class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered slds-border_right slds-border_left">
+								<thead>
+									<tr class=" slds-line-height_reset">
+										<template for:each={bankCreditSalaryHeaders} for:item="header">
+											<th key={header.key} scope="col">
+												<div
+													class="slds-cell-wrap  slds-m-around_medium slds-align_absolute-center">
+													{header.columnName}</div>
+											</th>
+										</template>
+										<th class="slds-border_bottom ">
+											<div class="slds-truncate slds-m-around_medium slds-align_absolute-center">
+												Action</div>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<template iterator:it={bankCreditSalaryData} for:index="index">
+										<tr key={it.value.key} class="tableRow">
+											<td class="slds-truncate slds-m-around_medium ">
+												<div class="slds-truncate slds-cell-wrap">
+													{it.value.Month__c}
+												</div>
+											</td>
+											<td class="slds-truncate slds-m-around_medium ">
+												<lightning-input type="number" formatter="currency"
+													value={it.value.Gross_Salary_Rs__c} onchange={handleInputChange}
+													data-key={it.value.key} data-field="Gross_Salary_Rs__c" placeholder="Enter here" disabled={disableMode}>
+												</lightning-input>
+											</td>
+											<td class="slds-truncate slds-m-around_medium ">
+												<lightning-input type="number" formatter="currency"
+													value={it.value.Variable_Component__c} onchange={handleInputChange}
+													data-key={it.value.key} data-field="Variable_Component__c" placeholder="Enter here" disabled={disableMode}>
+												</lightning-input>
+											</td>
+											<td class="slds-truncate slds-m-around_medium ">
+												<lightning-input type="number" formatter="currency"
+													value={it.value.LTA_Monthly__c} onchange={handleInputChange}
+													data-key={it.value.key} data-field="LTA_Monthly__c" placeholder="Enter here" disabled={disableMode}>
+												</lightning-input>
+											</td>
+											<td class="slds-truncate slds-m-around_medium ">
+												<lightning-input type="number" formatter="currency"
+													value={it.value.Performance_Bonus_Monthly__c}
+													onchange={handleInputChange} data-key={it.value.key}
+													data-field="Performance_Bonus_Monthly__c" placeholder="Enter here" disabled={disableMode}>
+												</lightning-input>
+											</td>
+											<td class="slds-truncate slds-m-around_medium ">
+												<lightning-input type="number" formatter="currency"
+													value={it.value.Taxes__c} onchange={handleInputChange}
+													data-key={it.value.key} data-field="Taxes__c" placeholder="Enter here" disabled={disableMode}>
+												</lightning-input>
+											</td>
+											<td class="slds-truncate slds-m-around_medium ">
+												<lightning-input type="number" formatter="currency"
+													value={it.value.Other_Deductions__c} onchange={handleInputChange}
+													data-key={it.value.key} data-field="Other_Deductions__c" placeholder="Enter here" disabled={disableMode}>
+												</lightning-input>
+											</td>
+											<td class="slds-truncate slds-m-around_medium ">
+												<lightning-input type="number" formatter="currency"
+													value={it.value.Net_Salary__c} onchange={handleInputChange}
+													data-key={it.value.key} data-field="Net_Salary__c" placeholder="Enter here" disabled={disableMode}>
+												</lightning-input>
+											</td>
+											<td class="slds-truncate slds-m-around_medium ">
+												<lightning-input type="date" value={it.value.Bank_Credit_Date__c}
+													onchange={handleInputChange} data-key={it.value.key}
+													data-field="Bank_Credit_Date__c" placeholder="Enter here" disabled={disableMode}>
+												</lightning-input>
+											</td>
+											<td class="slds-truncate slds-m-around_medium ">
+												<lightning-input type="text" value={it.value.Remark__c}
+													onchange={handleInputChange} data-key={it.value.key}
+													data-field="Remark__c" placeholder="Enter here" disabled={disableMode}>
+												</lightning-input>
+											</td>
+											<td class="slds-truncate slds-m-around_medium ">
+												<lightning-input type="number" formatter="currency"
+													value={it.value.Other_Salary_Component__c}
+													onchange={handleInputChange} data-key={it.value.key}
+													data-field="Other_Salary_Component__c" placeholder="Enter here" disabled={disableMode}>
+												</lightning-input>
+											</td>
+											<td class="slds-truncate slds-m-around_medium ">
+												<template if:true={showDeleteAction}>
+													<div key={it.value.key} lwc:if={it.last} class="list-last">
+														<lightning-button-icon icon-name="utility:delete"
+															alternative-text="Delete" title="Delete"
+															onclick={handleDeleteRow} data-key={it.value.key}>
+														</lightning-button-icon>
+													</div>
+												</template>
+											</td>
+										</tr>
+									</template>
+									<tr class="tableRow">
+										<td class="slds-truncate slds-m-around_medium "> Average Salary</td>
+										<td>
+											<div class="slds-align_absolute-center">
+												<lightning-input type="number" formatter="currency"
+													value={averageGrossSalary} read-only="true">
+												</lightning-input>
+											</div>
+										</td>
+										<td>
+											<div class="slds-align_absolute-center">
+												<lightning-input type="number" formatter="currency"
+													value={averageVariableCmp} read-only="true">
+												</lightning-input>
+											</div>
+										</td>
+										<td>
+											<div class="slds-align_absolute-center">
+												<lightning-input type="number" formatter="currency" value={averageLTA}
+													read-only="true">
+												</lightning-input>
+											</div>
+										</td>
+										<td>
+											<div class="slds-align_absolute-center">
+												<lightning-input type="number" formatter="currency"
+													value={averagePerformanceBonus} read-only="true">
+												</lightning-input>
+											</div>
+										</td>
+										<td>
+											<div class="slds-align_absolute-center">
+												<lightning-input type="number" formatter="currency" value={averageTaxes}
+													read-only="true">
+												</lightning-input>
+											</div>
+										</td>
+										<td>
+											<div class="slds-align_absolute-center">
+												<lightning-input type="number" formatter="currency"
+													value={averageOtherDeduction} read-only="true">
+												</lightning-input>
+											</div>
+										</td>
+										<td>
+											<div class="slds-align_absolute-center">
+												<lightning-input type="number" formatter="currency"
+													value={averageNetSalary} read-only="true">
+												</lightning-input>
+											</div>
+										</td>
+										<td>
+											<div class="slds-align_absolute-center">
+												<lightning-input type="number" formatter="currency" read-only="true">
+												</lightning-input>
+											</div>
+										</td>
+										<td>
+											<div class="slds-align_absolute-center">
+												<lightning-input type="number" formatter="currency" read-only="true">
+												</lightning-input>
+											</div>
+										</td>
+										<td>
+											<div colspan="2" class="slds-align_absolute-center">
+												<lightning-input type="number" formatter="currency"
+													value={averageOtherSalary} read-only="true">
+												</lightning-input>
+											</div>
+										</td>
+										<td>
+											<div class="slds-align_absolute-center">
+												<lightning-input type="number" formatter="currency" read-only="true">
+												</lightning-input>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</lightning-layout-item>
+				</lightning-layout>
+			</template>
+		</div>
+	</lightning-card>
+</template>

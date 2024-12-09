@@ -1,0 +1,201 @@
+<template>
+    <div lwc:dom="manual" class="download-container">
+    </div>
+    <lightning-card title={title}>
+        <div id="containerDiv" onmousemove={handlemousemove} onmouseup={handlemouseup}
+            ondblclick={handledblclickresizable}
+            class="slds-table_header-fixed_container slds-border_right slds-border_left tableScroll"
+            onscroll={tableOuterDivScrolled}>
+            <div id="tableViewInnerDiv" class="slds-scrollable_y tableViewInnerDiv slds-scrollable">
+                <table
+                    class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout slds-max-medium-table_stacked-horizontal"
+                    onscroll={tableScrolled}>
+                    <thead>
+                        <tr>
+                            <th title="Document Name"
+                                class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Document Name</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Document Type" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Document Type</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="File Type" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button"
+                                        tabindex="0">
+                                        <span class="slds-truncate">Date /Time</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Action" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button"
+                                        tabindex="0">
+                                        <span class="slds-truncate">Action</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={lstAllFiles} for:item="record">
+                            <tr key={record.cDId} aria-selected="false" class="slds-hint-parent">
+                                <th class="slds-cell_action-mode" scope="row">
+                                    <div class="slds-truncate" title={record.docDetName}>
+                                        {record.docDetName}
+                                    </div>
+                                </th>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.docDetType}>
+                                        {record.docDetType}
+                                    </div>
+                                </td>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.cDFileType}>
+                                        {record.cDcrtdDate}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+
+                                        <!-- <a href={downloadUrl} download>Download Document</a> -->
+                                        <template if:false={record.cdlId}>
+                                            <template if:true={showDeleteIcon}>
+                                                <lightning-icon class="custom-button" onclick={handleDelete}
+                                                    icon-name='utility:delete' data-documentid={record.docId}
+                                                    data-cv-id={record.cvId} data-type={record.cDFileType}
+                                                    title="Delete" data-documenname={record.docDetName}
+                                                    data-id={record.cDId} variant="error" disabled
+                                                    data-blobdata={record.blobData} size="small"></lightning-icon>
+                                            </template>
+                                            <lightning-icon class="custom-button" label="Download" variant="brand"
+                                                onclick={handleDownload} icon-name='utility:download'
+                                                data-documentid={record.docId} data-cv-id={record.cvId}
+                                                data-type={record.cDFileType} data-documenname={record.docDetName}
+                                                data-id={record.cDId} data-blobdata={record.blobData} disabled
+                                                size="small"></lightning-icon>
+                                            <lightning-icon data-documentid={record.docId} variant="brand" label="View"
+                                                title="View Details" data-name='View'
+                                                class="custom-button slds-m-left_x-small" disabled
+                                                size="small"></lightning-icon>
+
+                                        </template>
+                                        <template if:true={record.cdlId}>
+                                            <template if:true={showDeleteIcon}>
+                                                <lightning-icon class="custom-button" onclick={handleDelete}
+                                                    icon-name='utility:delete' data-documentid={record.docId}
+                                                    data-cv-id={record.cvId} data-type={record.cDFileType}
+                                                    title="Delete" data-documenname={record.docDetName}
+                                                    data-id={record.cDId} variant="error" disabled={disableMode}
+                                                    data-blobdata={record.blobData} size="small"></lightning-icon>
+                                            </template>
+
+                                            <lightning-icon class="custom-button" variant="success"
+                                                onclick={handleDownload} icon-name='utility:download'
+                                                data-documentid={record.docId} data-cv-id={record.cvId}
+                                                data-type={record.cDFileType} title="Download"
+                                                data-documenname={record.docDetName} data-id={record.cDId}
+                                                data-blobdata={record.blobData} size="small"></lightning-icon>
+                                            <lightning-icon data-documentid={record.docId} icon-name="utility:preview"
+                                                data-cv-id={record.cvId} data-type={record.cDFileType}
+                                                data-id={record.cDId} variant="success" title="View Details"
+                                                data-name='View' class="custom-button slds-m-left_x-small"
+                                                onclick={handleDocumentView} size="small"></lightning-icon>
+                                        </template>
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </lightning-card>
+    <template if:true={showModalForFilePre}>
+        <c-i-frame-preview image-type-file-url={imageTypeFileUrl} cont-doc-type={contDocType} cont-doc-id={contDocId}
+            url={url} cv-id={cvId} onclosepreview={handleCloseModalEvent}></c-i-frame-preview>
+    </template>
+    <template if:true={_Technical}>
+        <c-multi-doc-previewer document-detail-id={documentDetailId} onclosepreview={handleCloseModalEvent}
+            has-document-id={hasDocumentId}> </c-multi-doc-previewer>
+    </template>
+    <template if:true={deleteModel}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-align--absolute-center slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
+                        Delete?
+                    </h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p style="text-align: center">
+                        <b>{removeModalMessage}</b>
+                    </p>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+
+                    <button class="slds-button slds-button_brand" data-documentid={docIdToDelete}
+                        data-cdlid={cdlIdToDelete} onclick={handleRemoveRecord} title="Yes">
+                        Yes
+                    </button>
+                    <button class="slds-button slds-button_neutral" onclick={closeModal} title="No">
+                        No
+                    </button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <!-- <lightning-icon class="custom-button slds-p-right_xx-small " onclick={handleDocumentView}
+                          data-cv-id={record.cvId} data-type={record.cDFileType} data-id={record.cDId}
+                          data-documentid={record.docId} icon-name="utility:preview" alternative-text="preview"
+                          variant="success" size="small" title="preview"></lightning-icon> -->
+    <!-- <lightning-button class="slds-float_right slds-p-around_x-small" label="View" variant="success"
+                        onclick={handleView} icon-name='utility:view' data-docid={record.documentId}
+                        data-cvid={record.cvId} data-cdlid={record.cdlId} data-cdid={record.cdId}
+                        data-filetype={record.fileType}></lightning-button> -->
+    <!-- <lightning-icon class="custom-button slds-p-right_xx-small " disabled
+                          data-documentid={record.docId} icon-name="utility:preview" alternative-text="preview"
+                          size="small" title="preview"></lightning-icon> -->
+</template>

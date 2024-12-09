@@ -1,0 +1,195 @@
+<template>
+   
+    <lightning-card title="Agricultural Income">      
+        <lightning-spinner if:true={showSpinner} alternative-text="Loading" size="large" variant="brand" style="position: fixed;">
+        </lightning-spinner>
+                <div class="datatable-container slds-theme_default">
+                    <table class="datatable slds-table_bordered slds-table_col-bordered slds-border_right slds-border_left">
+                       
+                        <tr>
+                            <th class="slds-border_bottom" scope="col">
+                                <div class="slds-m-around_small slds-align_absolute-left" title="Sr No">Sr. No.</div>
+                            </th>
+                            <!-- <th class="slds-border_bottom" scope="col">
+                                <div class="slds-m-around_small slds-align_absolute-left" title="Address Type"><abbr class="slds-required" title="required">* 
+                                </abbr>Address Type</div>
+                            </th> -->
+                            <!-- <th class="slds-border_bottom" scope="col">
+                                <div class="slds-m-around_small slds-align_absolute-left" title="Property Address"><abbr class="slds-required" title="required">* 
+                                </abbr>Address</div>
+                            </th> -->
+                            <th class="slds-border_bottom" scope="col">
+                                <div class="slds-m-around_small slds-align_absolute-left" title="Year 1"><abbr class="slds-required" title="required">* 
+                                </abbr>Income Year</div>
+                            </th>
+                            <th class="slds-border_bottom" scope="col">
+                                <div class="slds-m-around_small slds-align_absolute-left" title="Yearly Income"><abbr class="slds-required" title="required">* 
+                                </abbr>Yearly Income (Rs)</div>
+                            </th>
+                            <!-- <th class="slds-border_bottom" scope="col">
+                                <div class="slds-truncate slds-m-around_medium slds-align_absolute-center" title="Average Monthly Income">Average Monthly Income</div>
+                            </th> -->
+                           
+                        </tr>
+                    
+                        <template iterator:it={properties} for:index="index">
+                            <tr key={it.value.Index__c}>
+                                <td><div value={it.value.Index__c} class="slds-m-around_small slds-align_absolute-left"
+                                    title="Sr No"  data-id={it.value.Index__c} access-key={it.value.Index__c}>{it.value.Index__c}</div></td>
+                                <!-- <td>
+                                    <template if:true={disableMode}>
+                                    <div class="slds-m-around_xx-small">
+                                        <lightning-input placeholder="Address Type" value={it.value.Address_Type__c}
+                                            onchange={inputChangeHandler} options={addressTypeOptions} access-key={it.value.Index__c} 
+                                            data-objectname="Applicant_Income__c"  data-id={it.value.Index__c}
+                                            style="width: 170px;"
+                                            data-fieldname="Address_Type__c" required
+                                            variant="label-hidden"
+                                            disabled>
+                                        </lightning-input>
+                                    </div></template>
+                                    <template if:false={disableMode}>
+                                        <div class="slds-m-around_xx-small">
+                                            <lightning-input placeholder="Address Type" value={it.value.Address_Type__c}
+                                                onchange={inputChangeHandler} options={addressTypeOptions} access-key={it.value.Index__c} 
+                                                data-objectname="Applicant_Income__c"  data-id={it.value.Index__c}
+                                                style="width: 170px;"
+                                                data-fieldname="Address_Type__c" required   
+                                                variant="label-hidden"
+                                                disabled>
+                                            </lightning-input>
+                                        </div></template>
+                                </td>   -->
+                                <!-- <td>
+                                    <template if:true={it.value.showOtherAddress}>
+                                        <template if:true={disableMode}>
+                                        <div class="slds-m-around_xx-small">
+                                            <lightning-textarea disabled 
+                                                style="width: 170px;"
+                                                variant="label-hidden" required
+                                                value={it.value.Other_Address__c}
+                                                onchange={inputChangeHandler} 
+                                                access-key={it.value.Index__c}
+                                                data-id={it.value.Index__c} placeholder="Enter Here"
+                                                data-objectname="Applicant_Income__c"
+                                                data-fieldname="Other_Address__c"
+                                            ></lightning-textarea>
+                                        </div></template>
+                                        <template if:false={disableMode}>
+                                            <div class="slds-m-around_xx-small">
+                                                <lightning-textarea disabled
+                                                    style="width: 170px;"
+                                                    variant="label-hidden" required
+                                                    value={it.value.Other_Address__c}
+                                                    onchange={inputChangeHandler} 
+                                                    access-key={it.value.Index__c}
+                                                    data-id={it.value.Index__c} placeholder="Enter Here"
+                                                    data-objectname="Applicant_Income__c"
+                                                    data-fieldname="Other_Address__c"
+                                                ></lightning-textarea>
+                                            </div></template>
+                                    </template>
+                                    <template if:false={it.value.showOtherAddress}>
+                                        <div class="slds-m-around_xx-small">
+                                            <lightning-input placeholder="Select Address" value={it.value.Address__c}
+                                                onchange={inputChangeHandler} options={addressOptions} access-key={it.value.Index__c} 
+                                                data-objectname="Applicant_Income__c"  data-id={it.value.Index__c}
+                                                style="width: 170px;"
+                                                data-fieldname="Address__c"
+                                                variant="label-hidden"
+                                                required disabled>
+                                            </lightning-input>
+                                        </div>
+                                    </template>
+                                </td>                                    -->
+                              <td>
+                                <template if:false={it.value.disableIncomeYear}>
+                                    <div class="slds-m-around_xx-small">
+                                    <lightning-input placeholder="Select Year"
+                                     value={it.value.Agricultural_Income_Year__c}
+                                    onchange={inputChangeHandler} 
+                                    access-key={it.value.Index__c}
+                                    data-objectname="Applicant_Income__c" 
+                                    data-id={it.value.Index__c}
+                                    data-fieldname="Agricultural_Income_Year__c" 
+                                    variant="label-hidden"
+                                    required
+                                    style="width: 120px;"
+                                    disabled
+                                   ></lightning-input>
+                                   </div>
+                              </template>
+
+                                <template if:true={it.value.disableIncomeYear}>
+                                    <div class="slds-m-around_xx-small">
+                                        <lightning-input type="text" value={it.value.Agricultural_Income_Year__c}
+                                        onchange={inputChangeHandler} access-key={it.value.Index__c}
+                                        data-id={it.value.Index__c} 
+                                        data-objectname="Applicant_Income__c"
+                                        data-fieldname="Agricultural_Income_Year__c"
+                                        variant="label-hidden"
+                                        style="width: 120px;"
+                                        disabled></lightning-input></div>
+                                </template>
+                                </td>
+
+                                <td><div class="slds-m-around_xx-small">
+                                    <lightning-input type="number" value={it.value.Agricultural_Yearly_Income__c}
+                                    onchange={inputChangeHandler} access-key={it.value.Index__c}
+                                    data-id={it.value.Index__c} 
+                                    data-objectname="Applicant_Income__c"
+                                    data-fieldname="Agricultural_Yearly_Income__c"
+                                    variant="label-hidden"
+                                    style="width: 145px;"
+                                    formatter="currency"
+                                    message-when-bad-input="Enter a Valid Input"
+                                    min=0
+                                    message-when-range-underflow="Enter a Valid Input"
+                                    required
+                                    disabled></lightning-input></div>
+                                </td>
+                                
+                            </tr>
+                        </template>
+
+                        <tr class="color">
+                            <td colspan="2" class="lineBreak" ><div class="slds-m-around_x-small slds-align_left"
+                               ><b>Average Monthly Income (Rs)</b></div></td>
+                               <!-- Average Monthly Income -->
+                            
+                          
+                            <!-- <td><div class="slds-truncate slds-m-around_medium slds-align_absolute-center"
+                                title="Average Monthly"></div></td>  -->
+                            <td colspan="1" class="lineBreak"><div class="slds-m-around_xx-small"
+                                title="Average Monthly">
+                                <lightning-input type="text" value={averageMonthlyIncome}
+                                variant="label-hidden" 
+                                disabled
+                                formatter="currency"
+                                style="width: 145px;">
+                            </lightning-input></div></td>     
+                            <!-- <td colspan="1" class="lineBreak"><div class="slds-m-around_x-small"
+                                    title="Average Monthly"></div></td>           -->
+                        </tr>
+
+                         <tr class="color custom-row">
+                            <td class="lineBreak" colspan="2" ><div class="slds-m-around_x-small slds-align_left"
+                               ><b>Average Yearly Income (Rs)</b></div></td>
+                               <!-- Average Yearly Income -->
+                          
+                            <td colspan="1" class="lineBreak"><div class="slds-m-around_xx-small"
+                                title="Average Monthly">
+                                <lightning-input type="text" value={averageYearlyIncome}
+                                variant="label-hidden" 
+                                disabled
+                                formatter="currency"
+                                style="width: 145px;">
+                            </lightning-input></div></td>
+                            <!-- <td colspan="1" class="lineBreak"><div class="slds-m-around_x-small"
+                              ></div></td>             -->
+                        </tr>                       
+                   </table>
+                </div>
+
+    </lightning-card>
+</template>

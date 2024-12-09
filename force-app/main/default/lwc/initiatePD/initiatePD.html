@@ -1,0 +1,186 @@
+<template>
+    <template if:true={showMainComp}>
+        <div if:true={showSpinner}>
+            <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+            </lightning-spinner>
+        </div>
+
+        <div class="slds-p-left_medium">
+            <div class="slds-clearfix">
+                <div class="slds-float_right">
+                    <template if:true={showCloneButton}>
+                        <lightning-button label="Clone PD" variant="brand" onclick={handleCloneMethod}
+                            disabled={isReadOnly}></lightning-button>
+                    </template>
+                    <lightning-button variant="natural" label="Withdraw PD" title="Withdraw PD" onclick={removePd}
+                        class="slds-m-around_x-small" disabled={isReadOnlyWithdrawPd}>
+                    </lightning-button>
+
+                    <lightning-button variant="brand" label="Initiate PD" icon-name="utility:connected_apps"
+                        class="slds-m-around_x-small" title="Open popup" onclick={showModalBox}
+                        disabled={isReadOnlyInitiatePd}>
+                    </lightning-button>
+                </div>
+            </div>
+        </div>
+
+        <!-- modal start -->
+        <template if:true={isShowModal}>
+            <!--
+                I Used SLDS for this code
+                Here is link https://www.lightningdesignsystem.com/components/modals/
+            -->
+
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- modal header start -->
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                            title="Close" onclick={hideModalBox}>
+                            <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                                size="small"></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
+                            PD Initiation
+                        </h2>
+                    </header>
+
+                    <!-- modal body start -->
+                    <div class="slds-p-around_medium" id="modal-content-id-1" style="background: white">
+                        <div if:true={showSpinner}>
+                            <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+                            </lightning-spinner>
+                        </div>
+                        <lightning-combobox label="Type of PD" id="TypeOfPD" placeholder="-Select-"
+                            options={TypeOfPDOptions} required="true"
+                            onchange={handleTypeOfPDChange}></lightning-combobox>
+                        <template if:true={isBL}>
+                            <lightning-combobox label="Select Addess For PD" id="pdAddress" placeholder="-Select-"
+                                options={applicantAddressPickList} required="true"
+                                onchange={handleAddressOfPDChange}></lightning-combobox>
+                            <lightning-combobox label="Select Agency Type" id="agencyType" placeholder="-Select-"
+                                options={agenctAssignmentType} value={assignmentType} required="true"
+                                onchange={handleAgenctAssignmentChange}></lightning-combobox>
+                        </template>
+
+                        <lightning-input type="date" label="Scheduled Date" id="ScheduledDate" required="true"
+                            onchange={handleScheduledDateChange}></lightning-input>
+                        <template if:true={isBL}>
+                            <template if:true={externalAgencyAssignment}>
+                                <!-- <lightning-combobox label="Select Agency Type" id="agencyType" placeholder="-Select-"
+                                options={agenctAssignmentType} value={assignmentType} required="true"
+                                onchange={handleAgenctAssignmentChange}></lightning-combobox> -->
+                                <lightning-combobox label="Select Agency" id="Agency" placeholder="-Select-"
+                                    options={externalAgencyList} required="true" onchange={handleAgencyChange}>
+                                </lightning-combobox>
+                                <!-- <c-custom-lookup required="true" label="Assign To"
+                                    selected-icon-name="standard:identifier" object-api-name="AgncLocMap__c"
+                                    field-api-name="Account__r.Name,Contact__c,Account__c" selected-fields="Account__c"
+                                    selected-record-id={lookupId} onselect={handleLookupFieldChange}
+                                    selected-field-name="Contact__c" filter-condn={filterConditionAgency}
+                                    key-id="Contact__c"></c-custom-lookup> -->
+
+
+                            </template>
+                            <template if:false={externalAgencyAssignment}>
+                                <c-custom-lookup required="true" label="Assign To"
+                                    selected-icon-name="standard:identifier" object-api-name="TeamHierarchy__c"
+                                    field-api-name="Employee__r.Name" selected-fields="Employee__c"
+                                    selected-record-id={lookupId} onselect={handleLookupFieldChange}
+                                    selected-field-name="Employee__c" filter-condn={filterCondition}
+                                    key-id="Employee__c"></c-custom-lookup>
+                            </template>
+
+                        </template>
+
+                        <template if:false={isBL}>
+                            <c-custom-lookup required="true" label="Assign To" selected-icon-name="standard:identifier"
+                                object-api-name="TeamHierarchy__c" field-api-name="Employee__r.Name"
+                                selected-fields="Employee__c" selected-record-id={lookupId}
+                                onselect={handleLookupFieldChange} selected-field-name="Employee__c"
+                                filter-condn={filterCondition} key-id="Employee__c"></c-custom-lookup>
+                        </template>
+
+                    </div>
+
+                    <!-- modal footer start-->
+                    <footer class="slds-modal__footer">
+                        <lightning-button type="submit" variant="brand" onclick={handleCreatePD}
+                            label="Create PD"></lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+        <!-- modal end -->
+        <!-- <template if:true={refreshTabset}> -->
+        <div class="slds-p-horizontal_medium">
+            <lightning-tabset variant="standard" data-id="multipleTabSet" active-tab-value={tabDefaultValue}
+                class="tab-active">
+                <!--  style="background-color:  #276e85;" -->
+
+                <template if:true={refreshTabset} for:each={pdTabset} for:item="tab">
+                    <lightning-tab label={tab.label} key={tab.value} value={tab.value} class="tab"
+                        onactive={handleActive}>
+                        <!-- label={tab.label} <br> key={tab.value} <br> value={tab.value}<br> active-tab-value={tabDefaultValue} -->
+
+                        <template if:true={tab.showTab}>
+                            <c-pd-component pd-type-id={tab.value} pd-type={tab.label} pd-detail={pdDetail}
+                                current-tab-value={tabDefaultValue} has-edit-access={hasEditAccessForPd}
+                                onpasstoparent={reloadPd} layout-size={layoutSize} applicant-id={applicantId}
+                                loan-app-id={loanAppId}>
+                            </c-pd-component>
+                        </template>
+                    </lightning-tab>
+                </template>
+            </lightning-tabset>
+        </div>
+
+        <template if:true={hasEditAccessForPd}>
+            <c-save-btn-component loan-app-id={loanAppId} has-edit-access={hasEditAccessForPd}
+                save-btn-label="Submit PD" current-tab-id={applicantId} assigned-user={pdAssignedTo}>
+            </c-save-btn-component>
+        </template>
+        <!-- </template> -->
+    </template>
+    <template if:true={isModalOpen}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="my-modal slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">
+                        Delete?
+                    </h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                    <p style="text-align: center">
+                        <b>{removeModalMessage}</b>
+                    </p>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_brand" disabled={isReadOnly} onclick={handleRemoveRecord}
+                        title="Yes">
+                        Yes
+                    </button>
+                    <button class="slds-button slds-button_neutral" onclick={closeModal} title="No">
+                        No
+                    </button>
+
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

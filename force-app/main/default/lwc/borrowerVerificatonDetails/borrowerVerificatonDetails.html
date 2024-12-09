@@ -1,0 +1,186 @@
+<template>
+    <lightning-card title="Borrower Verification Details">
+       
+        <div class="slds-p-around_medium">
+        <br/>
+            <div class="slds-box">
+                <div class="slds-scrollable">
+                
+                <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                    <thead>
+                        <tr class="slds-text-title_bold slds-text-color_weak">
+                            
+                            <th class="slds-text-color_inverse slds-cell-fixed" scope="col">Borrower Name</th>
+                            <th scope="col">PAN - NSDL</th>
+                            <th scope="col">Driving License</th>
+                            <th scope="col">EPIC/Voter ID</th>
+                            <th scope="col">Passport</th>
+                            <th scope="col">GSTIN Status</th>
+                            <th scope="col">Dedupe</th>
+                            <th scope="col">Watchout Investor</th>
+                            <th scope="col">Trackwizz</th>
+                            <th scope="col" >Professional Verification - CA</th>
+                            <th scope="col" >Professional Verification - Doctor</th>
+                            <th scope="col" >Professional Verification - Architect</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template iterator:it={listBorrowerVerificationDetails}>
+                      <tr key={it.value.Id}>
+                         
+                         <td scope="row" class="slds-text-title_bold slds-text-color_weak slds-cell-fixed">
+                            {it.value.lstOfApplicantDetailsWrapp.FullName__c}
+                         </td>
+                         <td>
+                            {it.value.PanStatus}
+                         </td>
+                         <td>
+                            {it.value.drivingLicence}
+                         </td>
+                         <td>
+                            {it.value.voterIdStatus}
+                         </td>
+                         <td>
+                            {it.value.passportStatus}
+                         </td>
+                         <td>
+                            {it.value.gstinStatus}
+                         </td>
+                         <td>
+                            {it.value.deDupe}
+                         </td>
+                         <td>
+                            {it.value.watchOutInvestor}
+                         </td>
+                         <td>
+                            {it.value.trackwizzRecordTypeCheck}
+                         </td>
+                         <td>
+                           {it.value.ca}
+                        </td>
+                        <td>
+                           {it.value.doctor}
+                        </td>
+                        <td>
+                           {it.value.architect}
+                        </td>
+                         
+                         
+                        
+                     </tr>
+                     
+                    </template>
+                    
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+   
+  
+  
+  </lightning-card>
+
+  <lightning-card title="Final CPV Summary">
+       
+    <div class="slds-p-around_medium">
+    <br/>
+        <div class="slds-box">
+            <div class="slds-scrollable">
+            
+            <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                <thead>
+                    <tr class="slds-text-title_bold slds-text-color_weak">
+                        
+                        <th class="slds-text-color_inverse slds-cell-fixed" scope="col">Applicant Name/Entity Name</th>
+                        <th scope="col">Residence CPV</th>
+                        <th scope="col">Resi-cum-office CPV</th>
+                        <th scope="col">Permenent Address CPV</th>
+                        <th scope="col">Office CPV</th>
+                        <th scope="col">Other Address</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <template iterator:it={listBorrowerFinalCPVSummary}>
+                  <tr key={it.value.Id}>
+                     
+                     <td scope="row" class="slds-text-title_bold slds-text-color_weak slds-cell-fixed">
+                        {it.value.lstOfCaseApplicantDetailsWrapp.FullName__c}
+                     </td>
+                     <td>
+                        {it.value.residenceCPV}
+                     </td>
+                     <td>
+                        {it.value.resiCumOfficeCPV}
+                     </td>
+                     <td>
+                        {it.value.permanentAddressCPV}
+                     </td>
+                     <td>
+                        {it.value.officeCPV}
+                     </td>
+                     <td>
+                        {it.value.otherAddressCPV}
+                     </td>
+                     
+                    
+                 </tr>
+                 
+                </template>
+                
+                </tbody>
+            </table>
+        </div>
+        </div>
+    </div>
+
+
+
+</lightning-card>
+
+<lightning-card title="Hunter and RCU">
+       
+   <div class="slds-p-around_medium">
+   <br/>
+       <div class="slds-box">
+           <div class="slds-scrollable">
+           
+           <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+               <thead>
+                   <tr class="slds-text-title_bold slds-text-color_weak">
+                       
+                       <th scope="col">Hunter</th>
+                       <th scope="col">RCU Status</th>
+                       <th scope="col">RCU Profile Status</th>
+
+                   </tr>
+               </thead>
+               <tbody>
+                    <template iterator:it={listHunterandRCUStatus}>
+                 <tr key={it.value.Id}> 
+                    
+                    <td scope="row" >
+                       {it.value.hunter}
+                    </td>
+                    <td>
+                       {it.value.RCUStatus}
+                    </td>
+                    <td>
+                       {it.value.RCUProfileStatus}
+                    </td>
+                    
+                </tr>
+                
+                </template> 
+               
+               </tbody>
+           </table>
+       </div>
+       </div>
+   </div>
+
+
+
+</lightning-card>
+</template>

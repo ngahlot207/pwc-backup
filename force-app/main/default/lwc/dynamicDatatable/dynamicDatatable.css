@@ -1,0 +1,12 @@
+.tableScroll {
+  width: 100% !important;
+  overflow-x: auto;
+  /* height: 12rem; */
+}
+.fixedWidth{
+  width: 12rem;
+}
+/* .tableViewInnerDiv{
+  max-height: 50rem;
+  min-height: 2rem;
+} */

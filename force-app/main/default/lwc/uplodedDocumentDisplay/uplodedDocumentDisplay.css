@@ -1,0 +1,30 @@
+/* .slds-modal__container {
+    width: 90% !important;
+    max-width: 90% !important;
+} */
+.custom-button:hover {
+  cursor: pointer;
+}
+.dividerPosition {
+  position: static !important;
+  z-index: -1;
+}
+/* .slds-modal__container {
+  //  width: 30% !important;
+} */
+.tableScroll {
+  width: 100% !important;
+  overflow-x: auto;
+  height: 23rem;
+}
+.fixedWidth {
+  width: 12rem;
+}
+.fixedPosition {
+  position: unset;
+}
+.checkbox-label {
+  align-items: left;
+  /* display: flex;
+    gap: 12px; */
+}

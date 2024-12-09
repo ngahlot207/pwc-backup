@@ -1,0 +1,112 @@
+<template>
+    <lightning-card title="Repayment Mode" >
+<!-- 
+        <lightning-radio-group name=""
+        label=""
+        options={options}
+        value={value}
+        type="radio"></lightning-radio-group> -->
+
+       
+        <lightning-layout multiple-rows="12"> 
+            <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <div class="slds-p-around_x-small">
+                    <lightning-radio-group name=""
+                    label="" 
+                    options={options}
+                    value={value}
+                    type="radio"
+                    checked={Selected}
+                    
+                    onchange={handleRadioChange}
+                    read-only={disableMode} 
+                    disabled={disableMode}></lightning-radio-group>
+                    <!-- <lightning-input type="radio" label="NACH" data-name = "NACH" value={NACHSelected} checked={NACHSelected} onclick={handleRadioChange}></lightning-input>
+                    <lightning-input type="radio" label="PDC" data-name = "PDC" value={PDCSelected} checked={PDCSelected} onclick={handleRadioChange}></lightning-input>
+                -->
+                </div>
+            </lightning-layout-item>
+            </lightning-layout>
+
+            <lightning-layout multiple-rows="12">
+                <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                      <lightning-input type="text" label="Penny Drop Status"    value={RVRecord.PennyDropStatus__c}
+                      data-name="PennyDropStatus__c" disabled="true" required={isRequired} read-only="true"  data-fieldname={PennyDropStatus__c}
+                      ></lightning-input>   
+                    </div>
+                </lightning-layout-item>
+        
+                <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                   
+                    <div class="center slds-clearfix">
+                        <div class="slds-p-top_x-large">
+                    <lightning-button
+                            label="Initiate/Reinitiate"       
+                            variant="brand"
+                            onclick={handleClick}                            
+                            read-only={disableMode}
+                            disabled={disableMode}
+                            ></lightning-button> 
+                        </div> 
+                        </div> 
+                       
+                       
+                  
+              </lightning-layout-item>
+              <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                   
+                <div class="center slds-clearfix">
+                    <div class="slds-p-top_x-large">
+                <lightning-button
+                        label="Generate CSF Form"       
+                        variant="brand"
+                        onclick={handleGenerateDocuments}                            
+                        read-only={disableMode}
+                        disabled={disableDoc}
+                        ></lightning-button> 
+                    </div> 
+                    </div> 
+                   
+                   
+              
+          </lightning-layout-item>
+                </lightning-layout>
+        
+                <template if:true={showDocList} >
+                    
+                    <c-uploded-document-display title="Generated CSF" type={docType} sub-type={subType} category={docCategory} loan-app-id={loanAppId}
+                        applicant-id={getApplicantID} mode="false" disable-remarks="false" is-read-only=true
+                        capture-all-documents="false" disabled="false" is-cpa="false" hide-mark-for-error="true" hide-availiable-in-file="true" hide-upload-button="true" read-only={disableMode} >
+                    </c-uploded-document-display>
+                  
+                </template>  
+        <!-- <lightning-layout multiple-rows="12"> 
+            <lightning-layout-item size="12" large-device-size="3">
+                <div class="slds-p-around_x-small">
+                    <input type="radio" id='NACH' name='NACH' value='NACH'  onchange={handleRadioChange} checked ={NACHSelected} style="margin-right: 5px;" >
+                    <label for="NACH">NACH</label>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="12"  large-device-size="3">
+                <div class="slds-p-around_x-small">
+                    <input type="radio" id='PDC' name='PDC' value='PDC' onchange={handleRadioChange} checked ={PDCSelected} style="margin-right: 5px;" >
+                    <label for="PDC">PDC</label>
+
+                </div>
+            </lightning-layout-item>
+            </lightning-layout> -->
+            
+            <template lwc:if ={PDCSelected}>
+                <c-repayment-mode loan-app-id={loanAppId} has-edit-access={hasEditAccess} ontopdcrecords={pdcrecords} ontospdcrecords={spdcrecords}></c-repayment-mode>
+
+            </template>
+
+            <template lwc:if ={NACHSelected}>
+                <c-repayment-mode-n-a-c-h loan-app-id={loanAppId} layout-size={layoutSize} has-edit-access={hasEditAccess} ontospdcrecords={spdcrecords}></c-repayment-mode-n-a-c-h>
+
+            </template>
+           
+
+    </lightning-card>
+</template>

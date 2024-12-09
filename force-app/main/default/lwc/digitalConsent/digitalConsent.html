@@ -1,0 +1,61 @@
+<template>
+    <lightning-card title="">
+        <div class="slds-card__body_inner">
+            <h1 style="text-align: center; font-weight: bold;text-decoration: underline;">TERMS & CONDITIONS</h1>
+            <br>
+            <p>I have shown my interest to avail a product and have approached Fedbank Financial Services Limited (‘Fedfina’) and my participation is voluntary and I hereby confirm that I have read and understood all the following terms and conditions and charges applicable pertaining to my application and give my consent to Fedfina by updating the One Time Password (‘OTP’) below to process my request for loan and I confirm to abide by the same.</p>
+            <br>
+            <ol class="slds-list--ordered">
+                <li>I declare that all the particulars, information and details given/ to be given for updation are true, correct, complete and up-to-date in all respects and that I have not withheld any information whatsoever.</li>
+                <li>I confirm that no Insolvency Proceeding or suits for recovery of outstanding dues of monies whatsoever and/or any criminal proceedings have been initiated and/or are impending against me / us and that I have never been adjudicated insolvent by any court or other authority. I have not taken any action and no other steps have been taken or legal proceedings started by or against me / us in any court of law / other authorities (or the appointment of a receiver, administrator, administrative receiver, trustee or similar officer or for my/our assets.</li>
+                <li>I confirm that I shall not use the Loan Facility (or any part thereof) for any improper / illegal / unlawful / speculative / capital market related activities and shall apply the Loan Facility (or any part thereof) only for the limited purposes.</li>
+                <li>I undertake to inform Fedfina regarding any changes whatsoever in my addresses (i) as provided during my discussion with the representatives; or (ii) my employment / Profession and to promptly provide such additional information that Fedfina (or its designated group companies or agents or representatives) may require. I hereby give my consent for appropriate verification of the documents through Fedfina’s authorized representatives, as well as conduct a check with the credit bureaus, internal and external databases, field verifications, tele-verifications, reference and background check etc. I authorize Fedfina and its group companies and their agents to exchange, share or part with all the information relating to my loan detail and repayment history to other Fedfina group companies or banks, financial institution, credit bureaus, agencies, statutory bodies, marketing/research etc. as may be required or as they may deem fit and shall not hold Fedfina (or any of its group companies or its / their agents) liable for use/sharing of this information.</li>
+                <li>I acknowledge and agree that the sanction/disbursal of the Facility by Fedfina shall be subject to compliance by me/my co-applicants of the terms and conditions as set out hereunder.</li>
+                <li>Sales Officer/Channel Partner of Fedfina has personally met me at my residence /office and collected the necessary documents. I hereby give my consent to the Sales Officer / Channel Partner to visit me at my residence /office address, if they require any further details to process my loan application.</li>
+                <li>I understand and acknowledge that Fedfina shall have the absolute discretion, without assigning any reasons (unless required by applicable law), to reject my request for loan and shall not sanction / disburse the Loan Facility and that Fedfina shall not be responsible/liable in any manner whatsoever to me for such rejection or any delay in notifying me/us of such rejection and any costs, losses, damages or expenses, or other consequences, caused by reason of such rejection or any delay in notifying me/us of such rejection.</li>
+                <li>I declare that I am competent and fully authorised to issue such declarations, confirmations, agreements and undertaking for the purpose of borrowing / availing of the requested Facility and to execute all other documents as required by Fedfina for such purpose.</li>
+                <li>I undertake and confirm that, I am issuing this consent in my free will, without any coercion. As and when if Fedfina acts / accepts upon my request it will constitute a legal and valid obligations on me and these terms are binding on and enforceable against me. I confirm that, I shall abide by these terms and shall not raise any dispute in this regard.</li>
+                <li>I agree that my/our loan shall be governed by the terms and conditions/ agreement of Fedfina which may be in force from time to time.</li>
+                <li>I hereby unconditionally, agree that these terms may be changed by Fedfina at any time and I will accept and / or bound by the amended terms and conditions.</li>
+                <li>I hereby give our consent that Fedfina can share my/our KYC details and/or other details to CKYC. I do not have any objection if I get any communication from CKYC through SMS/e-mail and / or otherwise.</li>
+                <li>I offer my permission to receive WhatsApp notifications on the registered mobile number and I have no objections.</li>
+                <li>I am aware that, Fedfina does not accept any payment in cash. All payments towards processing fee, statutory payments, etc., shall be issued through cheque only favouring ‘Fedbank Financial Services Limited’ and the cheque should be marked as account payee.</li>
+            </ol>
+            <br>
+            <p>I confirm that the executive who collected my details, application / documents has informed me/us and I am aware:</p>
+            <ol class="slds-list--ordered">
+                <li>That GST and any other taxes as may be applicable from time to time will be charged in connection with the loan.</li>
+                <li>That Fedfina will not by liable for loss or delay in receipt of documents.</li>
+                <li>That incomplete/defective application will not be processed and Fedfina shall not be responsible in any manner for the resulting delay or otherwise.</li>
+                <li>That the application form, documents/ photographs will not be returned under any circumstances once submitted to Fedfina.</li>
+                <li>That approval of the application is at sole discretion of Fedfina.</li>
+                <li>That the quantum of the loan will be finally decided by Fedfina and I confirm that neither Fedfina nor its representatives have made any commitments to me regarding the same.</li>
+                <li>That the loan prepayment charges which may be subject to revision are levied /calculated on the balance outstanding of the loan. I further confirm that the said executive had collected self-attested copies of the aforementioned documents from me and that I am specifically informed that in case or any prepayment request the applicant and the co applicant are required to personally visit the Fedbank’s customer service branch after which the request will be accepted for issuance of the pre-payment letter.</li>
+            </ol>
+            <br>
+            <!-- <p>I hereby confirm that I have read/been explained in detail and understood all the terms and conditions and charges applicable pertaining to the said loan application.</p> -->
+            <lightning-input type="checkbox" 
+                     label="I hereby confirm that I have read/been explained in detail and understood all the terms and conditions and charges applicable pertaining to the said loan application." 
+                     onchange={handleCheckboxChange}>
+            </lightning-input>
+            <br>
+
+            <lightning-layout vertical-align="center">
+                <lightning-layout-item padding="around-small" size="1">
+                    <label for="otp"><strong>Enter OTP</strong></label>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" size="2">
+                    <!-- <lightning-input type="text" label="Enter OTP" name="otp" value={otpValue} onchange={handleOtpChange}></lightning-input> -->
+                    <lightning-input type="text" label="" name="otp" value={otpValue} onchange={handleOtpChange} style="width:150px"></lightning-input>
+                </lightning-layout-item>
+            </lightning-layout>
+            
+            <br>
+            <p><strong>IMPORTANT NOTE:</strong> That the receipt of my documents for the loan does not imply automatic approval of loan by Fedfina. Fedfina may request for additional documents other than those collected in connection with the application.</p>
+        </div>
+        
+        <div class="slds-card__footer slds-text-align_center">
+            <lightning-button label="Accept" onclick={handleAccept} variant="brand"></lightning-button>
+        </div>
+    </lightning-card>
+</template>

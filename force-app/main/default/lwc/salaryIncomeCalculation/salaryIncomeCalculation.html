@@ -1,0 +1,87 @@
+<template>
+	<lightning-card title="Cash Salary">
+		<div slot="actions" class="slds-p-horizontal_small">
+			<lightning-button variant="brand" label="Add Row" title="addRows" onclick={handleAddRows}>
+			</lightning-button>
+			<lightning-button variant="brand" label="Save Rows" title="saveRows" onclick={handleUpsert}>
+			</lightning-button>
+		</div>
+		<div aria-label="tableElements" class="slds-p-around_medium">
+			<lightning-layout vertical-align="center">
+				<lightning-layout-item size="12">
+					<div class="datatable slds-box slds-theme_default">
+						<table
+							class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered slds-border_right slds-border_left">
+							<thead>
+								<tr class=" slds-line-height_reset">
+									<template for:each={cashSalaryHeaders} for:item="header">
+										<th class="slds-border_bottom " key={header.key} data-field={header.columnKey}
+											scope="col">
+											<div class="slds-truncate slds-m-around_medium slds-align_absolute-center">
+												{header.columnName}</div>
+										</th>
+									</template>
+									<th class="slds-border_bottom ">
+										<div class="slds-truncate slds-m-around_medium slds-align_absolute-center">
+											Action</div>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<template iterator:it={cashSalaryData} for:index="index">
+									<tr key={it.value.key} class="tableRow">
+										<td class="slds-truncate slds-m-around_medium ">
+											<div class="slds-align_absolute-center">
+												<lightning-input type="text" value={it.value.key}
+													onchange={handleInputChange} data-key={it.value.key} data-field="key"
+													read-only="true" ></lightning-input>
+											</div>
+										</td>
+										<td class="slds-truncate slds-m-around_medium ">
+											<div class="slds-truncate slds-cell-wrap slds-align_absolute-center"
+												data-key={it.value.key} data-field="Month__c">
+												{it.value.Month__c}
+											</div>
+										</td>
+										<td class="slds-truncate slds-m-around_medium ">
+											<div class="slds-align_absolute-center">
+												<lightning-input type="number" formatter="currency"
+													value={it.value.Salary__c} onchange={handleInputChange}
+													data-key={it.value.key} data-field="Salary__c" name="Salary" placeholder="Enter here">
+												</lightning-input>
+											</div>
+										</td>
+										<td class="slds-truncate slds-m-around_medium ">
+											<template if:true={showDeleteAction}>
+													<div key={it.value.key} lwc:if={it.last} class="list-last">
+														<lightning-button-icon icon-name="utility:delete"
+															alternative-text="Delete" title="Delete"
+															onclick={handleDeleteRow} data-key={it.value.key}>
+														</lightning-button-icon>
+													</div>
+												</template>
+										</td>
+									</tr>
+								</template>
+								<tr class="tableRow">
+									<td colspan="2" class="slds-truncate slds-m-around_medium">
+										<div class="slds-align_absolute-center">
+											Average Monthly Salary
+										</div>
+									</td>
+									<td colspan="2">
+										<div class="slds-align_absolute-center">
+											<lightning-input type="number" formatter="currency"
+												value={averageMonthlySalary} read-only="true">
+											</lightning-input>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</lightning-layout-item>
+			</lightning-layout>
+		</div>
+	</lightning-card>
+</template>

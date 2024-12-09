@@ -1,0 +1,51 @@
+.accClass {
+  --slds-c-accordion-summary-color-background: rgb(243, 243, 243);
+  /* --slds-c-accordion-color-border : 0.5rem; */
+}
+.customButton:hover {
+  cursor: pointer;
+}
+.tableScroll {
+  width: 100% !important;
+  overflow-x: auto;
+  /* height: 12rem; */
+}
+.fixedWidth {
+  width: 10rem;
+}
+.fixedWidthh {
+  width: 13rem;
+}
+.fixedWidthhh {
+  width: 16rem;
+}
+.required-field {
+  background-color: red; /* Example: Light red background */
+  font-weight: bold; /* Example: Bold text */
+  margin: 2px solid red;
+}
+
+/* customTableHeaderHelpIcon.css */
+.help-text {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 5px;
+  border-radius: 3px;
+  font-size: 14px;
+  white-space: nowrap;
+  z-index: 999;
+}
+
+.help-icon:hover + .help-text {
+  display: block;
+}
+
+.help-text {
+  display: none;
+}
+
+label:before {
+  content: '*';
+  color: red;
+}

@@ -1,0 +1,40 @@
+<template>
+    <div class="slds-form-element">
+        <div class="slds-form-element__control">
+            <div class="slds-combobox_container">
+                <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                    <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                        <lightning-input type="search" label={label} value={searchInput} onchange={handleKeyChange} placeholder="Search..." required={reqFlag}
+                        disabled={disabled}>                       
+                        </lightning-input>                   
+                    </div>
+                </div>
+            </div>
+
+            <div if:true={messageResult} class="slds-p-around_x-small">
+                <p class="slds-text-color_error">No Result Found!</p> 
+            </div>
+            <template if:true={searchResult}>
+                <div id="listbox-id-4" tabindex="0" class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox">
+                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                        <template for:each={resultData} for:item="rec">
+                            <li role="presentation" key={rec.Id} class="slds-listbox__item">
+                                <div onclick={handleParentSelection} data-value={rec.Id} data-label={rec.Name}
+                                    class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                    role="option">
+                                    <span class="slds-media__body">
+                                        <span class="slds-listbox__option-text slds-listbox__option-text_entity">
+                                            <span>
+                                                <mark>{rec.Name}</mark>
+                                            </span>
+                                        </span>
+                                    </span>
+                                </div>
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

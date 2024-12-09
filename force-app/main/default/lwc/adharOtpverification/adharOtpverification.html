@@ -1,0 +1,44 @@
+<template>
+
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    <lightning-card>
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item padding="around-medium" size="6" small-device-size="12" medium-device-size="8"
+                large-device-size="8">
+
+                <lightning-input label="Enter Aadhar Number" pattern="^[2-9]{1}[0-9]{3}[0-9]{8}$" maxlength="12"
+                    name="aadharno" type="text" value={aadharno} onchange={handleChange}
+                    message-when-bad-input="Enter Correct Pattern of Aadhar"></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-medium" size="6" small-device-size="12" medium-device-size="8"
+                large-device-size="4">
+
+                <lightning-input label="Enter OTP" name="otp" type="number" value={otp}
+                    onchange={handleChange}></lightning-input>
+                <template if:true={timerStart}>
+                    <div style="font-size: 20px;text-align:center;">{timeVal}</div>
+                </template>
+            </lightning-layout-item>
+        </lightning-layout>
+
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item padding="around-medium" size="6" small-device-size="12" medium-device-size="8"
+                large-device-size="4">
+
+                <lightning-button label="Send OTP" name="sendotp" variant="brand"
+                    onclick={handleButtonClick}></lightning-button>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-medium" size="6" small-device-size="12" medium-device-size="8"
+                large-device-size="4"></lightning-layout-item>
+            <lightning-layout-item padding="around-medium" size="6" small-device-size="12" medium-device-size="8"
+                large-device-size="4">
+
+                <lightning-button label="Validate OTP" name="validateotp" variant="brand"
+                    onclick={handleButtonClick}></lightning-button>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card>
+</template>

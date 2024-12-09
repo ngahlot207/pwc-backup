@@ -1,0 +1,704 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    <lightning-card>
+        <!-- OTC Starts here -->
+        <lightning-accordion active-section-name={A} allow-multiple-sections-open>
+            <lightning-accordion-section name="A" label="OTC Documents" class="accClass">
+
+                <!-- <h2> <b>Property documents</b></h2> -->
+                <!-- <template if:true={refreshUi}> -->
+                <!-- Added for LAK-7496 -->
+            <template if:false={isBlPl}>
+                
+                <template if:true={showDocDetailotc}>
+                    <c-approval-tray-data-table disable={isReadOnly} show-div-table={showFalse}
+                        show-doc-table={showTrue} show-dis-div-table={showFalse} table-title="Property Documents"
+                        approval-table-data={DocDetailotc} onselect={handleValueChange}></c-approval-tray-data-table>
+                </template>
+                <!-- Added for LAK-7496 -->
+                <!-- <br /><br />
+                    <c-custom-data-type data={DocDetailotc} columns={updatedColumns} suppress-bottom-bar=true
+                        draft-values={draftValues} disable={isReadOnly} key-field="Id" table-name="table1"
+                        errors={errors} show-row-number-column="true" hide-checkbox-column
+                        oncellchange={handleCellChange} onrowaction={handleRowAction}>
+                    </c-custom-data-type> -->
+                <!-- </template> -->
+                <!-- <template if:false={refreshUi}> -->
+                <template if:false={showDocDetailotc}>
+                    <c-approval-tray-data-table disable={isReadOnly} show-div-table={showFalse}
+                        show-doc-table={showTrue} show-dis-div-table={showFalse} table-title="Property Documents"
+                        approval-table-data={DocDetailotc} onselect={handleValueChange}></c-approval-tray-data-table>
+                    <!-- </template> -->
+                    <!-- <lightning-datatable data={DocDetailotc} columns={updatedColumns} suppress-bottom-bar=true
+                        draft-values={draftValues} disable={isReadOnly} key-field="Id" table-name="table1"
+                        errors={errors} show-row-number-column="true" hide-checkbox-column
+                        oncellchange={handleCellChange} onrowaction={handleRowAction}>
+                    </lightning-datatable> -->
+                </template>
+            </template>
+
+                </br>
+
+
+                <!-- <h2> <b>Mandatory Post Sanction Documents</b></h2> -->
+                <!-- <template if:true={refreshUi}> -->
+                <template if:true={showPostDocDetailotc}>
+                    <c-approval-tray-data-table disable={isReadOnly} show-div-table={showFalse}
+                        show-doc-table={showTrue} show-dis-div-table={showFalse}
+                        table-title="Mandatory Post Sanction Documents" approval-table-data={postDocDetailotc}
+                        onselect={handleValueChange}></c-approval-tray-data-table>
+                    <!-- </template> -->
+                    <!-- <c-custom-data-type data={postDocDetailotc} columns={updatedColumns} draft-values={draftValues}
+                        disable={isReadOnly} key-field="Id" errors={errors} table-name="table2"
+                        show-row-number-column="true" hide-checkbox-column oncellchange={handleCellChange}
+                        onrowaction={handleRowAction} suppress-bottom-bar=true>
+                    </c-custom-data-type> -->
+
+                </template>
+                <!-- <template if:false={refreshUi}> -->
+                <template if:false={showPostDocDetailotc}>
+                    <c-approval-tray-data-table disable={isReadOnly} show-div-table={showFalse}
+                        show-doc-table={showTrue} show-dis-div-table={showFalse}
+                        table-title="Mandatory Post Sanction Documents" approval-table-data={postDocDetailotc}
+                        onselect={handleValueChange}></c-approval-tray-data-table>
+                </template>
+                <!-- <lightning-datatable data={postDocDetailotc} columns={updatedColumns} draft-values={draftValues}
+                        disable={isReadOnly} key-field="Id" errors={errors} table-name="table2"
+                        show-row-number-column="true" hide-checkbox-column oncellchange={handleCellChange}
+                        onrowaction={handleRowAction} suppress-bottom-bar=true>
+                    </lightning-datatable> -->
+                <!-- </template> -->
+                </br>
+
+                <!-- <h2> <b>Additional Post Sanction Documents</b></h2> -->
+                <!-- <template if:true={refreshUi}> -->
+                <template if:true={showAddDocDetailotc}>
+                    <c-approval-tray-data-table disable={isReadOnly} show-div-table={showFalse}
+                        show-doc-table={showTrue} show-dis-div-table={showFalse}
+                        table-title="Additional Post Sanction Documents" approval-table-data={addDocDetailotc}
+                        onselect={handleValueChange}></c-approval-tray-data-table>
+                </template>
+                <!-- <c-custom-data-type data={addDocDetailotc} columns={updatedColumns} onsave={handleSave}
+                        draft-values={draftValues} disable={isReadOnly} key-field="Id" errors={errors}
+                        table-name="table3" show-row-number-column="true" hide-checkbox-column
+                        oncellchange={handleCellChange} suppress-bottom-bar=true onrowaction={handleRowAction}>
+                    </c-custom-data-type> -->
+
+                <!-- </template> -->
+                <!-- <template if:false={refreshUi}> -->
+                <template if:false={showAddDocDetailotc}>
+                    <c-approval-tray-data-table disable={isReadOnly} show-div-table={showFalse}
+                        show-doc-table={showTrue} show-dis-div-table={showFalse}
+                        table-title="Additional Post Sanction Documents" approval-table-data={addDocDetailotc}
+                        onselect={handleValueChange}></c-approval-tray-data-table>
+                </template>
+                <!-- <lightning-datatable data={addDocDetailotc} columns={updatedColumns} onsave={handleSave}
+                        draft-values={draftValues} disable={isReadOnly} key-field="Id" errors={errors}
+                        table-name="table3" show-row-number-column="true" hide-checkbox-column
+                        oncellchange={handleCellChange} suppress-bottom-bar=true onrowaction={handleRowAction}>
+                    </lightning-datatable> -->
+                <!-- </template> -->
+                </br>
+
+                <!-- <h2> <b>Manual Sanction Conditions</b></h2> -->
+                <!-- <template if:true={refreshUi}> -->
+                <template if:true={showManualDocDetailotc}>
+                    <c-approval-tray-data-table disable={isReadOnly} show-div-table={showFalse}
+                        show-doc-table={showTrue} show-dis-div-table={showFalse}
+                        table-title="Manual Sanction Conditions" approval-table-data={manualDocDetailotc}
+                        onselect={handleValueChange}></c-approval-tray-data-table>
+                </template>
+                <!-- <c-custom-data-type data={manualDocDetailotc} columns={updatedColumns} onsave={handleSave}
+                        draft-values={draftValues} disable={isReadOnly} key-field="Id" errors={errors}
+                        table-name="table4" show-row-number-column="true" hide-checkbox-column
+                        oncellchange={handleCellChange} suppress-bottom-bar=true onrowaction={handleRowAction}>
+                    </c-custom-data-type> -->
+
+                <!-- </template> -->
+                <!-- <template if:false={refreshUi}> -->
+                <template if:false={showManualDocDetailotc}>
+                    <c-approval-tray-data-table disable={isReadOnly} show-div-table={showFalse}
+                        show-doc-table={showTrue} show-dis-div-table={showFalse}
+                        table-title="Manual Sanction Conditions" approval-table-data={manualDocDetailotc}
+                        onselect={handleValueChange}></c-approval-tray-data-table>
+                </template>
+                <!-- <lightning-datatable data={manualDocDetailotc} columns={updatedColumns} onsave={handleSave}
+                        draft-values={draftValues} disable={isReadOnly} key-field="Id" errors={errors}
+                        table-name="table4" show-row-number-column="true" hide-checkbox-column
+                        oncellchange={handleCellChange} suppress-bottom-bar=true onrowaction={handleRowAction}>
+                    </lightning-datatable> -->
+
+                <!-- </template> -->
+                </br>
+            </lightning-accordion-section>
+        </lightning-accordion>
+
+        <!-- PPD starts here -->
+        <lightning-accordion active-section-name={B} allow-multiple-sections-open>
+            <lightning-accordion-section name="B" label="PDD Documents" class="accClass">
+                <!-- <h2> <b>Property documents</b></h2> -->
+                <!-- <template if:true={refreshUi}> -->
+                <template if:true={showDocDetail}>
+                    <c-approval-tray-data-table disable={isReadOnly} show-div-table={showFalse}
+                        show-doc-table={showTrue} show-dis-div-table={showFalse} table-title="Property Documents"
+                        approval-table-data={DocDetail} onselect={handleValueChange}></c-approval-tray-data-table>
+                </template>
+                <!-- <c-custom-data-type data={DocDetail} columns={updatedColumns} draft-values={draftValues}
+                        onsave={handleSave} disable={isReadOnly} key-field="Id" errors={errors} table-name="table5"
+                        show-row-number-column="true" hide-checkbox-column oncellchange={handleCellChange}
+                        suppress-bottom-bar=true onrowaction={handleRowAction}>
+                    </c-custom-data-type> -->
+                <!-- </template> -->
+                <!-- <template if:false={refreshUi}> -->
+                <template if:false={showDocDetail}>
+                    <c-approval-tray-data-table disable={isReadOnly} show-div-table={showFalse}
+                        show-doc-table={showTrue} show-dis-div-table={showFalse} table-title="Property Documents"
+                        approval-table-data={DocDetail} onselect={handleValueChange}></c-approval-tray-data-table>
+                </template>
+                <!-- <lightning-datatable data={DocDetail} columns={updatedColumns} draft-values={draftValues}
+                        onsave={handleSave} disable={isReadOnly} key-field="Id" errors={errors} table-name="table5"
+                        show-row-number-column="true" hide-checkbox-column oncellchange={handleCellChange}
+                        suppress-bottom-bar=true onrowaction={handleRowAction}>
+                    </lightning-datatable> -->
+
+                <!-- </template> -->
+                </br>
+                <!-- <h2> <b>Mandatory Post Sanction Documents</b></h2> -->
+                <!-- <template if:true={refreshUi}> -->
+                <template if:true={showPostDocDetail}>
+                    <c-approval-tray-data-table disable={isReadOnly} show-div-table={showFalse}
+                        show-doc-table={showTrue} show-dis-div-table={showFalse}
+                        table-title="Mandatory Post Sanction Documents" approval-table-data={postDocDetail}
+                        onselect={handleValueChange}></c-approval-tray-data-table>
+                </template>
+                <!-- <c-custom-data-type data={postDocDetail} columns={updatedColumns} onsave={handleSave}
+                        draft-values={draftValues} disable={isReadOnly} key-field="Id" errors={errors}
+                        table-name="table6" show-row-number-column="true" hide-checkbox-column
+                        oncellchange={handleCellChange} suppress-bottom-bar=true onrowaction={handleRowAction}>
+                    </c-custom-data-type> -->
+                <!-- </template> -->
+                <!-- <template if:false={refreshUi}> -->
+                <template if:false={showPostDocDetail}>
+                    <c-approval-tray-data-table disable={isReadOnly} show-div-table={showFalse}
+                        show-doc-table={showTrue} show-dis-div-table={showFalse}
+                        table-title="Mandatory Post Sanction Documents" approval-table-data={postDocDetail}
+                        onselect={handleValueChange}></c-approval-tray-data-table>
+                </template>
+                <!-- <lightning-datatable data={postDocDetail} columns={updatedColumns} onsave={handleSave}
+                        draft-values={draftValues} disable={isReadOnly} key-field="Id" errors={errors}
+                        table-name="table6" show-row-number-column="true" hide-checkbox-column
+                        oncellchange={handleCellChange} suppress-bottom-bar=true onrowaction={handleRowAction}>
+                    </lightning-datatable> -->
+                <!-- </template> -->
+                </br>
+
+                <!-- <h2> <b>Additional Post Sanction Documents</b></h2> -->
+                <!-- <template if:true={refreshUi}> -->
+                <!-- <template if:true={addDocDetail}> -->
+                <template if:true={showAddDocDetail}>
+                    <c-approval-tray-data-table disable={isReadOnly} show-div-table={showFalse}
+                        show-doc-table={showTrue} show-dis-div-table={showFalse}
+                        table-title="Additional Post Sanction Documents" approval-table-data={addDocDetail}
+                        onselect={handleValueChange}></c-approval-tray-data-table>
+                </template>
+                <!-- <c-custom-data-type data={addDocDetail} columns={updatedColumns} onsave={handleSave}
+                        draft-values={draftValues} disable={isReadOnly} key-field="Id" errors={errors}
+                        table-name="table7" show-row-number-column="true" hide-checkbox-column suppress-bottom-bar=true
+                        oncellchange={handleCellChange} onrowaction={handleRowAction}>
+                    </c-custom-data-type> -->
+                <!-- </template> -->
+                <!-- </template> -->
+                <!-- <template if:false={refreshUi}> -->
+                <template if:false={showAddDocDetail}>
+                    <c-approval-tray-data-table disable={isReadOnly} show-div-table={showFalse}
+                        show-doc-table={showTrue} show-dis-div-table={showFalse}
+                        table-title="Additional Post Sanction Documents" approval-table-data={addDocDetail}
+                        onselect={handleValueChange}></c-approval-tray-data-table>
+                </template>
+                <!-- <lightning-datatable data={addDocDetail} columns={updatedColumns} onsave={handleSave}
+                        draft-values={draftValues} disable={isReadOnly} key-field="Id" errors={errors}
+                        table-name="table7" show-row-number-column="true" hide-checkbox-column
+                        oncellchange={handleCellChange} suppress-bottom-bar=true onrowaction={handleRowAction}>
+                    </lightning-datatable> -->
+
+                <!-- </template> -->
+                </br>
+
+                <!-- <h2> <b>Manual Sanction Conditions</b></h2> -->
+                <!-- <template if:true={refreshUi}> -->
+                <template if:true={showManualDocDetail}>
+                    <c-approval-tray-data-table disable={isReadOnly} show-div-table={showFalse}
+                        show-doc-table={showTrue} show-dis-div-table={showFalse}
+                        table-title="Manual Sanction Conditions" approval-table-data={manualDocDetail}
+                        onselect={handleValueChange}></c-approval-tray-data-table>
+                </template>
+                <!-- <c-custom-data-type data={manualDocDetail} columns={updatedColumns} onsave={handleSave}
+                        draft-values={draftValues} disable={isReadOnly} key-field="Id" errors={errors}
+                        table-name="table8" show-row-number-column="true" hide-checkbox-column
+                        oncellchange={handleCellChange} suppress-bottom-bar=true onrowaction={handleRowAction}>
+                    </c-custom-data-type> -->
+                <!-- </template> -->
+                <!-- <template if:false={refreshUi}> -->
+                <template if:false={showManualDocDetail}>
+                    <c-approval-tray-data-table disable={isReadOnly} show-div-table={showFalse}
+                        show-doc-table={showTrue} show-dis-div-table={showFalse}
+                        table-title="Manual Sanction Conditions" approval-table-data={manualDocDetail}
+                        onselect={handleValueChange}></c-approval-tray-data-table>
+                </template>
+                <!-- <lightning-datatable data={manualDocDetail} columns={updatedColumns} onsave={handleSave}
+                        draft-values={draftValues} disable={isReadOnly} key-field="Id" errors={errors}
+                        table-name="table8" show-row-number-column="true" hide-checkbox-column
+                        oncellchange={handleCellChange} suppress-bottom-bar=true onrowaction={handleRowAction}>
+                    </lightning-datatable> -->
+                <!-- </template> -->
+                </br>
+            </lightning-accordion-section>
+        </lightning-accordion>
+
+        <!-- Waiver Starts here -->
+        <lightning-accordion active-section-name={C} allow-multiple-sections-open>
+            <lightning-accordion-section name="C" label="Waiver Documents" class="accClass">
+
+                <!-- <h2> <b>Property documents</b></h2> -->
+                <!-- <template if:true={refreshUi}> -->
+                <template if:true={showDocDetailWavier}>
+                    <c-approval-tray-data-table disable={isReadOnly} show-div-table={showFalse}
+                        show-doc-table={showTrue} show-dis-div-table={showFalse} table-title="Property Documents"
+                        approval-table-data={DocDetailWavier} onselect={handleValueChange}></c-approval-tray-data-table>
+                </template>
+                <!-- <c-custom-data-type data={DocDetailWavier} columns={updatedColumns} onsave={handleSave}
+                        draft-values={draftValues} disable={isReadOnly} key-field="Id" errors={errors}
+                        table-name="table9" show-row-number-column="true" hide-checkbox-column
+                        oncellchange={handleCellChange} suppress-bottom-bar=true onrowaction={handleRowAction}>
+                    </c-custom-data-type> -->
+                <!-- </template> -->
+                <!-- <template if:false={refreshUi}> -->
+                <template if:false={showDocDetailWavier}>
+                    <c-approval-tray-data-table disable={isReadOnly} show-div-table={showFalse}
+                        show-doc-table={showTrue} show-dis-div-table={showFalse} table-title="Property Documents"
+                        approval-table-data={DocDetailWavier} onselect={handleValueChange}></c-approval-tray-data-table>
+                </template>
+                <!-- <lightning-datatable data={DocDetailWavier} columns={updatedColumns} onsave={handleSave}
+                        draft-values={draftValues} disable={isReadOnly} key-field="Id" errors={errors}
+                        table-name="table9" show-row-number-column="true" hide-checkbox-column
+                        oncellchange={handleCellChange} suppress-bottom-bar=true onrowaction={handleRowAction}>
+                    </lightning-datatable> -->
+                <!-- </template> -->
+                </br>
+
+                <!-- <h2> <b>Mandatory Post Sanction Documents</b></h2> -->
+                <!-- <template if:true={refreshUi}> -->
+                <template if:true={showPostDocDetailWavier}>
+                    <c-approval-tray-data-table disable={isReadOnly} show-div-table={showFalse}
+                        show-doc-table={showTrue} show-dis-div-table={showFalse}
+                        table-title="Mandatory Post Sanction Documents" approval-table-data={postDocDetailWavier}
+                        onselect={handleValueChange}></c-approval-tray-data-table>
+                </template>
+                <!-- <c-custom-data-type data={postDocDetailWavier} columns={updatedColumns} onsave={handleSave}
+                        draft-values={draftValues} disable={isReadOnly} key-field="Id" errors={errors}
+                        table-name="table10" show-row-number-column="true" hide-checkbox-column
+                        oncellchange={handleCellChange} suppress-bottom-bar=true onrowaction={handleRowAction}>
+                    </c-custom-data-type> -->
+
+                <!-- </template> -->
+                <!-- <template if:false={refreshUi}> -->
+                <template if:false={showPostDocDetailWavier}>
+                    <c-approval-tray-data-table disable={isReadOnly} show-div-table={showFalse}
+                        show-doc-table={showTrue} show-dis-div-table={showFalse}
+                        table-title="Mandatory Post Sanction Documents" approval-table-data={postDocDetailWavier}
+                        onselect={handleValueChange}></c-approval-tray-data-table>
+                </template>
+                <!-- <lightning-datatable data={postDocDetailWavier} columns={updatedColumns} onsave={handleSave}
+                        draft-values={draftValues} disable={isReadOnly} key-field="Id" errors={errors}
+                        table-name="table10" show-row-number-column="true" hide-checkbox-column
+                        oncellchange={handleCellChange} suppress-bottom-bar=true onrowaction={handleRowAction}>
+                    </lightning-datatable> -->
+
+                <!-- </template> -->
+                </br>
+
+                <!-- <h2> <b>Additional Post Sanction Documents</b></h2> -->
+                <!-- <template if:true={refreshUi}> -->
+                <template if:true={showAddDocDetailWavier}>
+                    <c-approval-tray-data-table disable={isReadOnly} show-div-table={showFalse}
+                        show-doc-table={showTrue} show-dis-div-table={showFalse}
+                        table-title="Additional Post Sanction Documents" approval-table-data={addDocDetailWavier}
+                        onselect={handleValueChange}></c-approval-tray-data-table>
+                </template>
+                <!-- <c-custom-data-type data={addDocDetailWavier} columns={updatedColumns} onsave={handleSave}
+                        draft-values={draftValues} re disable={isReadOnly} key-field="Id" errors={errors}
+                        table-name="table11" show-row-number-column="true" hide-checkbox-column
+                        oncellchange={handleCellChange} suppress-bottom-bar=true onrowaction={handleRowAction}>
+                    </c-custom-data-type> -->
+
+                <!-- </template> -->
+                <!-- <template if:false={refreshUi}> -->
+                <template if:false={showAddDocDetailWavier}>
+                    <c-approval-tray-data-table disable={isReadOnly} show-div-table={showFalse}
+                        show-doc-table={showTrue} show-dis-div-table={showFalse}
+                        table-title="Additional Post Sanction Documents" approval-table-data={addDocDetailWavier}
+                        onselect={handleValueChange}></c-approval-tray-data-table>
+                </template>
+                <!-- <lightning-datatable data={addDocDetailWavier} columns={updatedColumns} onsave={handleSave}
+                        draft-values={draftValues} re disable={isReadOnly} key-field="Id" errors={errors}
+                        table-name="table11" show-row-number-column="true" hide-checkbox-column
+                        oncellchange={handleCellChange} suppress-bottom-bar=true onrowaction={handleRowAction}>
+                    </lightning-datatable> -->
+
+                <!-- </template> -->
+                </br>
+
+                <!-- <h2> <b>Manual Sanction Conditions</b></h2> -->
+
+                <!-- <template if:true={refreshUi}> -->
+                <template if:true={showManualDocDetailWavier}>
+                    <c-approval-tray-data-table disable={isReadOnly} show-div-table={showFalse}
+                        show-doc-table={showTrue} show-dis-div-table={showFalse}
+                        table-title="Manual Sanction Conditions" approval-table-data={manualDocDetailWavier}
+                        onselect={handleValueChange}></c-approval-tray-data-table>
+                </template>
+                <!-- <c-custom-data-type data={manualDocDetailWavier} columns={updatedColumns} onsave={handleSave}
+                        draft-values={draftValues} disable={isReadOnly} key-field="Id" errors={errors}
+                        table-name="table12" show-row-number-column="true" hide-checkbox-column
+                        oncellchange={handleCellChange} suppress-bottom-bar=true onrowaction={handleRowAction}>
+                    </c-custom-data-type> -->
+
+                <!-- </template> -->
+                <!-- <template if:false={refreshUi}> -->
+                <template if:false={showManualDocDetailWavier}>
+                    <c-approval-tray-data-table disable={isReadOnly} show-div-table={showFalse}
+                        show-doc-table={showTrue} show-dis-div-table={showFalse}
+                        table-title="Manual Sanction Conditions" approval-table-data={manualDocDetailWavier}
+                        onselect={handleValueChange}></c-approval-tray-data-table>
+                </template>
+                <!-- <lightning-datatable data={manualDocDetailWavier} columns={updatedColumns} onsave={handleSave}
+                        draft-values={draftValues} disable={isReadOnly} key-field="Id" errors={errors}
+                        table-name="table12" show-row-number-column="true" hide-checkbox-column
+                        oncellchange={handleCellChange} suppress-bottom-bar=true onrowaction={handleRowAction}>
+                    </lightning-datatable> -->
+
+                <!-- </template> -->
+
+
+                </br>
+
+            </lightning-accordion-section>
+        </lightning-accordion>
+
+        <!-- Deviation -->
+
+        <lightning-accordion active-section-name={D} allow-multiple-sections-open>
+            <lightning-accordion-section name="D" label="Disbursal Deviation" class="accClass">
+                <!-- <h2> <b>Deviation</b></h2> -->
+                <!-- <template if:true={refreshUi}> -->
+                <template if:true={showDeviationData}>
+                    <c-approval-tray-data-table disable={isReadOnly} show-div-table={showTrue}
+                        show-doc-table={showFalse} show-dis-div-table={showFalse} table-title="Deviation"
+                        approval-table-data={deviationData} onselect={handleValueChange}></c-approval-tray-data-table>
+                </template>
+                <!-- <c-custom-data-type data={deviationData} columns={deviationColumns} onsave={handleSave}
+                        draft-values={draftValues} disable={isReadOnly} required key-field="Id" errors={errors}
+                        table-name="table13" show-row-number-column="true" hide-checkbox-column
+                        oncellchange={handleCellChange} suppress-bottom-bar=true onrowaction={handleRowAction}>
+                    </c-custom-data-type> -->
+
+                <!-- </template> -->
+                <!-- <template if:false={refreshUi}> -->
+                <template if:false={showDeviationData}>
+                    <c-approval-tray-data-table disable={isReadOnly} show-div-table={showTrue} 
+                        show-doc-table={showFalse} show-dis-div-table={showFalse} table-title="Deviation"
+                        approval-table-data={deviationData} onselect={handleValueChange}></c-approval-tray-data-table>
+                </template>
+                <!-- <lightning-datatable data={deviationData} columns={deviationColumns} onsave={handleSave}
+                        draft-values={draftValues} disable={isReadOnly} required key-field="Id" errors={errors}
+                        table-name="table13" show-row-number-column="true" hide-checkbox-column
+                        oncellchange={handleCellChange} suppress-bottom-bar=true onrowaction={handleRowAction}>
+                    </lightning-datatable> -->
+
+                <!-- </template> -->
+                </br>
+            </lightning-accordion-section>
+        </lightning-accordion>
+
+
+        <lightning-accordion active-section-name={E} allow-multiple-sections-open>
+            <lightning-accordion-section name="E" label="Post Sanction Deviations" class="accClass">
+                <h2> <b> &nbsp;</b></h2>
+                <!-- <template if:true={refreshUi}> -->
+                <template if:true={showPostSandeviationData}>
+                    <c-approval-tray-data-table disable={isReadOnly} show-div-table={showFalse} 
+                        show-doc-table={showFalse} show-dis-div-table={showTrue} table-title="Post Sanction Deviations"
+                        approval-table-data={PostSandeviationData}
+                        onselect={handleValueChange}></c-approval-tray-data-table>
+                </template>
+                <!-- <c-custom-data-type data={PostSandeviationData} columns={PostdeviationColumns} onsave={handleSave}
+                        draft-values={draftValues} disable={isReadOnly} required key-field="Id" errors={errors}
+                        table-name="table14" show-row-number-column="true" hide-checkbox-column
+                        oncellchange={handleCellChange} suppress-bottom-bar=true onrowaction={handleRowAction}>
+                    </c-custom-data-type> -->
+
+                <!-- </template> -->
+                <!-- <template if:false={refreshUi}> -->
+                <template if:false={showPostSandeviationData}>
+                    <c-approval-tray-data-table disable={isReadOnly} show-div-table={showFalse} 
+                        show-doc-table={showFalse} show-dis-div-table={showTrue} table-title="Post Sanction Deviations"
+                        approval-table-data={PostSandeviationData}
+                        onselect={handleValueChange}></c-approval-tray-data-table>
+                </template>
+                <!-- <lightning-datatable data={PostSandeviationData} columns={PostdeviationColumns} onsave={handleSave}
+                        draft-values={draftValues} disable={isReadOnly} required key-field="Id" errors={errors}
+                        table-name="table14" show-row-number-column="true" hide-checkbox-column
+                        oncellchange={handleCellChange} suppress-bottom-bar=true onrowaction={handleRowAction}>
+                    </lightning-datatable> -->
+                <!-- </template> -->
+            </lightning-accordion-section>
+        </lightning-accordion>
+
+        <!--LAK-8001-->
+        <lightning-accordion active-section-name={F} allow-multiple-sections-open>
+            <lightning-accordion-section name="F" label="Credit Deviations" class="accClass">
+                <h2> <b> &nbsp;</b></h2>
+              
+                <template if:true={showCreditdeviationData}>
+                    <c-approval-tray-data-table disable={isReadOnly} show-div-table={showFalse} 
+                        show-doc-table={showFalse} show-dis-div-table={showTrue} table-title="Credit Deviations"
+                        approval-table-data={CreditdeviationData}
+                        onselect={handleValueChange}></c-approval-tray-data-table>
+                </template>
+               
+                <template if:false={showCreditdeviationData}>
+                    <c-approval-tray-data-table disable={isReadOnly} show-div-table={showFalse}
+                        show-doc-table={showFalse} show-dis-div-table={showTrue} table-title="Credit Deviations"
+                        approval-table-data={CreditdeviationData}
+                        onselect={handleValueChange}></c-approval-tray-data-table>
+                </template>
+               
+            </lightning-accordion-section>
+        </lightning-accordion>
+
+        <template if:true={isBlPl}>
+            <lightning-accordion active-section-name={G} allow-multiple-sections-open>
+                <lightning-accordion-section name="F" label="Split Disbursement Details" class="accClass">
+                    <h2> <b> &nbsp;</b></h2>
+                    
+                    <template if:true={showSplitDisTable}>
+                        <c-approval-tray-data-table disable={isReadOnly} show-div-table={showFalse} 
+                        show-doc-table={showFalse} show-split-dis-table={showSplitDisTable} table-title="Split Disbursement Details"
+                        approval-table-data={splitDisData}
+                        onselect={handleValueChange}></c-approval-tray-data-table>
+                    </template>
+                    
+                    
+                </lightning-accordion-section>
+            </lightning-accordion>
+        </template>
+
+        </br> </br> </br>
+        <!-- CAM Report And Disburment Memo Starts here -->
+
+        <lightning-button variant="brand" name="Generate Disbursement Memo" label="Generate Disbursement Memo"
+            onclick={handleGenerateDocuments} disabled={isReadOnly}></lightning-button>
+
+
+        <template if:true={showDocList}>
+
+
+            <c-uploded-document-display title="Disbursement Memos" type={disbursementMemoType}
+                sub-type={disbursementMemoSubType} category={disbursementMemoCategory}
+                loan-app-id={loanApplicationRecord.Id} applicant-id={loanApplicationRecord.Applicant__c} mode="false"
+                disable-remarks="false" is-read-only=true capture-all-documents="false" disabled="false" is-cpa="false"
+                hide-mark-for-error="true" hide-availiable-in-file="true" hide-upload-button="true">
+            </c-uploded-document-display>
+            <div class="slds-p-top_medium">
+                <lightning-textarea placeholder="Enter Remarks" label="Remarks" value={memoRemarks} onchange={onChange}
+                    disabled={isReadOnly} required="true">
+                </lightning-textarea>
+            </div>
+        </template>
+
+        <template if:true={showDocList}>
+            <c-uploded-document-display title="Generated CAM Report" type={docType} sub-type={subType}
+                category={docCategory} loan-app-id={loanApplicationRecord.Id}
+                applicant-id={loanApplicationRecord.Applicant__c} mode="false" disable-remarks="false" is-read-only=true
+                capture-all-documents="false" disabled="false" is-cpa="false" hide-mark-for-error="true"
+                hide-availiable-in-file="true" hide-upload-button="true">
+            </c-uploded-document-display>
+        </template>
+
+        <div class="slds-p-top_medium">
+            <lightning-textarea placeholder="Enter Remarks" label="Remarks" value={camRemarks} onchange={onChanged}
+                disabled={isReadOnly} required="true">
+            </lightning-textarea>
+        </div>
+        </br>
+        <!-- Approve All Checkbox Starts Here -->
+        <div class="slds-p-around_small">
+            <lightning-input label="Approve all deviations" type="checkbox" value={_apprAllDevi}
+                onchange={handleApprvChange} disabled={disbApprCheckbox} class="slds-float_right"
+                checked={_apprAllDevi}>
+            </lightning-input>
+        </div>
+    </lightning-card>
+    </br> </br>
+    <div class="slds-grid slds-wrap">
+        <div class="slds-col slds-size_1-of-1 slds-large-size_8-of-12">
+            <!-- Your content here -->
+        </div>
+        <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+
+        </div>
+    </div>
+
+    <div class="slds-p-left_medium">
+        <div class="slds-clearfix">
+            <div class="slds-float_right">
+                <lightning-button class="slds-p-right_medium" variant="brand" label="Send To CPA Pool"
+                    title="Open popup" onclick={showModalBox} disabled={isReadOnly}>
+                </lightning-button>
+
+                <lightning-button class="slds-p-right_medium" variant="brand" label="Forward To UW" title="Open popup"
+                    onclick={showModal} disabled={isReadOnly}>
+                </lightning-button>
+                <lightning-button class="slds-p-right_medium" variant="brand" label="Approve" title="Open popup"
+                    onclick={openModalBox} disabled={isReadOnly}>
+                </lightning-button>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal start -->
+    <template if:true={isShowModal}>
+
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- modal header start -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={hideModalBox}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Confirm?</h2>
+                </header>
+                <!-- modal body start -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <div if:true={showSpinner}>
+                        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+                        </lightning-spinner>
+                    </div>
+                    <div class="slds-text-align_center slds-text-heading_small">
+                        <p>Do you want to Send the Loan Application to CPA Pool?</p>
+                    </div></br>
+
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_brand" onclick={handleSendtoCPAS}
+                            title="Yes">Yes</button>
+                        <button class="slds-button slds-button_neutral" onclick={hideModalBox} title="No">No</button>
+                    </footer>
+                </div>
+                <!-- </lightning-record-edit-form> -->
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <!-- Forward to UW starts here -->
+    <div class="slds-is-relative">
+
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-1 slds-large-size_8-of-12">
+                <!-- Your content here -->
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+
+            </div>
+        </div>
+
+        <!-- modal start -->
+        <template if:true={isShowPopup}>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- modal header start -->
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                            title="Close" onclick={hideModal}>
+                            <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                                size="small"></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">
+                            Do you want to forward the Application?
+                        </h2>
+                    </header>
+                    <div class="slds-p-around_medium" id="modal-content-id-2" style="background: white">
+
+                        <c-custom-lookup required="true" label="Forward To" selected-icon-name="standard:identifier"
+                            object-api-name="TeamHierarchy__c" field-api-name="Employee__r.Name" selected-fields="Name"
+                            selected-record-id={lookupId} onselect={handleLookupFieldChange}
+                            filter-condn={filterConditionForLookup} key-id="Employee__c"></c-custom-lookup>
+                        <lightning-textarea placeholder="Enter Remarks" label="Remarks" value={frwdUWRemarks}
+                            onchange={FrwdChange} disabled={isReadOnly} required>
+                        </lightning-textarea>
+                    </div>
+
+                    <!-- modal footer start-->
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_brand" data-name={cpahandlename} onclick={handleSubmit}
+                            title="Yes">Yes</button>
+                        <button class="slds-button slds-button_neutral" onclick={hideModal} title="No">No</button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+    </div>
+    <!-- Approve Button starts here -->
+    <template if:true={isOpenModal}>
+
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- modal header start -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModalBox}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-03" class="slds-text-heading_medium slds-hyphenate">Confirm?</h2>
+                </header>
+                <!-- modal body start -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3">
+                    <div if:true={showSpinner}>
+                        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+                        </lightning-spinner>
+                    </div>
+                    <div class="slds-text-align_center slds-text-heading_small">
+                        <p>Do you want to Approve the Loan Application?</p>
+                    </div></br>
+
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_brand" onclick={handleYesButton} title="Yes">Yes</button>
+                        <button class="slds-button slds-button_neutral" onclick={closeModalBox} title="No">No</button>
+                    </footer>
+                </div>
+                <!-- </lightning-record-edit-form> -->
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <template if:true={showfile}>
+        <!-- <c-multiple-ifram-file-preview cont-doc-type={contDocType} cont-doc-id={contDocId} cv-id={cvId}
+            onclosepreview={handleCloseModalEvent}></c-multiple-ifram-file-preview>
+    </template> -->
+        <c-multi-doc-previewer document-detail-id={recordIdForDoc} onclosepreview={handleCloseModalEvent}
+            has-document-id={hasDocumentId}> </c-multi-doc-previewer>
+    </template>
+</template>

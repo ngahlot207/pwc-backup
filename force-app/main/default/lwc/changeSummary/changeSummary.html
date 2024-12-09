@@ -1,0 +1,303 @@
+<template>
+    <template lwc:if={desktopBoolean}>
+        <div id="containerDiv" onmousemove={handlemousemove} onmouseup={handlemouseup}
+            ondblclick={handledblclickresizable}
+            class="slds-table_header-fixed_container slds-border_right slds-border_left tableScroll"
+            onscroll={tableOuterDivScrolled}>
+            <div id="tableViewInnerDiv" class="slds-scrollable_y tableViewInnerDiv slds-scrollable">
+                <table
+                    class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout slds-max-medium-table_stacked-horizontal"
+                    onscroll={tableScrolled}>
+                    <thead>
+                        <tr>
+                            <th title="Applicant Name" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Applicant Name</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Field" class="slds-is-resizable dv-dynamic-width fixedWidthh" scope="col">
+                                <div class="slds-cell-fixed fixedWidthh">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Field</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Old Value" class="slds-is-resizable dv-dynamic-width fixedWidthh" scope="col">
+                                <div class="slds-cell-fixed fixedWidthh">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Old Value</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+
+                            <th title="New Value" class="slds-is-resizable dv-dynamic-width fixedWidthh" scope="col">
+                                <div class="slds-cell-fixed fixedWidthh">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">New Value</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Timestamp" class="slds-is-resizable dv-dynamic-width fixedWidthhh" scope="col">
+                                <div class="slds-cell-fixed fixedWidthhh">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Timestamp</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="What Needs to be Trigger" class="slds-is-resizable dv-dynamic-width fixedWidthhh"
+                                scope="col">
+                                <div class="slds-cell-fixed fixedWidthhh">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">What Needs to be Trigger</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Who Changed" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Who Changed?</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Role" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Role</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+
+                            <template if:true={blPlView}>
+                            <th title="UW Reviewed" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">UW Reviewed?</span>
+                                        <lightning-input type="checkbox" onchange={handleSelectAll} checked={isSelectAllChecked} disabled={isDisabled}></lightning-input>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            </template>
+                            
+                            
+                            
+
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={changeSummaryData} for:item="record">
+                            <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+
+                                <th class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.applicantName}>
+                                        {record.applicantName}
+                                    </div>
+                                </th>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.PennyDropDateTime__c}>
+                                        {record.fieldName}
+                                    </div>
+                                </td>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.oldValue}>
+                                        {record.oldValue}
+                                    </div>
+                                </td>
+
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.newValue}>
+                                        {record.newValue}
+                                    </div>
+                                </td>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.timeStamp}>
+                                        <!-- {record.timeStamp} -->
+                                        <p>
+                                            <!-- <lightning-formatted-date-time value={record.timeStamp} year="numeric"
+                                                month="numeric" day="numeric" hour="2-digit"
+                                                minute="2-digit"></lightning-formatted-date-time> -->
+                                            {record.timeStamp}</p>
+                                    </div>
+                                </td>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.retriggerApis}>
+                                        {record.retriggerApis}
+                                    </div>
+                                </td>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.whoChanged}>
+                                        {record.whoChanged}
+                                    </div>
+                                </td>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.Role}>
+                                        {record.Role}
+                                    </div>
+                                </td>
+                                
+                                <template if:true={blPlView}>
+                                <td class="slds-cell_action-mode" role="gridcell">                        
+                                    <lightning-input type="checkbox"
+                                                     checked={record.uwReviewed}
+                                                     onchange={handleUwReviewedChange}
+                                                     data-id={record.Id} data-audit-id={record.retriggerUpsertAuditId} disabled={isDisabled}></lightning-input>
+                                    
+                                </td>
+                                </template>
+                                
+
+                                
+                                
+                               
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </template>
+    <template lwc:if={phoneBolean}>
+        <div class="slds-m-top_medium slds-m-bottom_x-large">
+            <!-- <h2 class="slds-text-heading_medium slds-m-bottom_medium">
+            KYC Verification Files
+        </h2> -->
+            <template for:each={changeSummaryData} for:item="record">
+                <div key={record.Id} class="slds-p-around_medium lgc-bg">
+                    <ul class="slds-has-dividers_bottom-space">
+                        <li class="slds-item">
+                            <lightning-tile>
+                                <dl class="slds-dl_horizontal">
+                                    <dt class="slds-dl_horizontal__label">
+                                        <p class="slds-truncate" title="Applicant Name">
+                                            <b>Applicant Name : </b>{record.applicantName}
+                                        </p>
+                                    </dt>
+
+                                    <dt class="slds-dl_horizontal__label">
+                                        <p class="slds-truncate" title="Field">
+                                            <b>
+                                                Field :
+                                            </b>{record.fieldName}
+                                        </p>
+                                    </dt>
+
+                                    <dt class="slds-dl_horizontal__label">
+                                        <p class="slds-truncate" title="Old Value">
+                                            <b>
+                                                Old Value :
+                                            </b>{record.oldValue}
+                                        </p>
+                                    </dt>
+                                    <dt class="slds-dl_horizontal__label">
+                                        <p class="slds-truncate" title="New Value">
+                                            <b>
+                                                New Value:
+                                            </b>{record.newValue}
+                                        </p>
+                                    </dt>
+
+                                    <dt class="slds-dl_horizontal__label">
+                                        <p class="slds-truncate" title="Timestamp">
+                                            <b>
+                                                Timestamp : </b>
+                                            {record.timeStamp}
+                                        </p>
+                                    </dt>
+                                    <dt class="slds-dl_horizontal__label">
+                                        <p class="slds-truncate" title="What Needs to be Trigger">
+                                            <b>
+                                                What Needs to be Trigger : </b>
+                                            {record.retriggerApis}
+                                        </p>
+                                    </dt>
+
+                                    <dt class="slds-dl_horizontal__label">
+                                        <p class="slds-truncate" title="Who Changed">
+                                            <b>
+                                                Who Changed : </b>
+                                            {record.whoChanged}
+                                        </p>
+                                    </dt>
+                                    <dt class="slds-dl_horizontal__label">
+                                        <p class="slds-truncate" title="Role">
+                                            <b>
+                                                Who Changed : </b>
+                                            {record.Role}
+                                        </p>
+                                    </dt>
+                                    
+                                    <template if:true={blPlView}>
+                                        <dt class="slds-dl_horizontal__label">
+                                            <p class="slds-truncate" title="UW Reviewed">
+                                                <b>UW Reviewed?</b>
+                                            </p>
+                                        </dt>
+                                        <dt class="slds-dl__item">
+                                            <lightning-input type="checkbox" 
+                                                             checked={record.uwReviewed}
+                                                             onchange={handleUwReviewedChange}
+                                                             data-id={record.Id} 
+                                                             data-audit-id={record.retriggerUpsertAuditId}
+                                                             disabled={isDisabled}>
+                                            </lightning-input>
+                                        </dt>
+                                    </template>
+                                    
+
+                                </dl>
+                            </lightning-tile>
+                        </li>
+                    </ul>
+                </div>
+            </template>
+        </div>
+    </template>
+</template>

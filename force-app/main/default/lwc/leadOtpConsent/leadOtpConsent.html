@@ -1,0 +1,595 @@
+<template>
+<template if:true={product1new}>
+    
+
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    
+    <!-- Delete confirmation pop-up box-->
+    <template if:true={isModalOpen}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-align--absolute-center slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeConsentModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Delete?</h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-10">
+                    <p style="text-align:center;"><b>{deleteMsg}</b></p>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeConsentModal} title="No">No</button>
+                    <button class="slds-button slds-button_brand" onclick={handleRemoveRecord} title="Yes">Yes</button>
+                </footer>
+            </div>  
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!-- Delete confirmation pop-up box-->
+    <div class="slds-hide">
+		<iframe src={vfUrl}></iframe> 
+	</div>
+    <template if:true={isShowModal}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-label="Meaningful description of the modal content" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse">
+            <span class="slds-assistive-text">Cancel and close</span>
+            </button>
+            <div class="slds-modal__content slds-p-around_medium slds-modal__content_headless"  id="modal-content-id-1" style="
+            align-self: center;width: 70%;">
+            <div class="slds-align_absolute-center">
+                <img style="max-height:40px" alt="QuestionMark" src={image}/>
+            </div>
+            <div class="slds-align_absolute-center" style="color:grey">                                              
+                Are you sure, You want to Close this lead? 
+            </div>
+            <!-- <div class="slds-modal__content slds-p-around_large slds-align_absolute-center" id="modal-content-id-3"> -->
+                <div class="slds-modal__content slds-p-around_large" id="modal-content-id-3">
+                <lightning-record-edit-form object-api-name="Lead" record-id={leadRecordId} onsubmit={handleSubmit} style="width:100%;">
+                    <lightning-messages></lightning-messages>
+                    <lightning-layout multiple-rows="true">  
+                         <!-- multiple-rows="true" -->
+                        <lightning-layout-item size="12">
+                            <lightning-input-field field-name="Lead_Closure_Reason__c" required onchange={handlePicklistChange}></lightning-input-field>
+                        </lightning-layout-item>
+                            <template if:true={showAdditionalComments}>
+                                <lightning-layout-item size="12">
+                            <lightning-input-field field-name="Additional_Comments__c" required  data-id="addCommentsInput" onchange={onChangeAdditionalComments}></lightning-input-field>
+                        </lightning-layout-item>
+                        </template>
+                        
+                            </lightning-layout>
+                            <div  class="slds-p-around_small btn-container">
+                                <button class="slds-button slds-button_brand" style="background-color: rgb(161, 30, 30);">Close Lead</button>  
+                                <button class="slds-button slds-button_brand" onclick={closeModal}>Cancel</button>
+                            </div>
+                </lightning-record-edit-form>
+            </div>
+            </div>
+          
+            </div>
+            </div>
+            </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>  
+        </template>   
+ 
+
+    <div class="slds-align-absolute_center slds-p-around_medium" style="color:rgb(185, 44, 44)">{errorMessage}</div>
+    <div if:false={showRadiobtn} class="move-right">
+       <div class="slds-grid slds-p-top_around">
+        <lightning-input type="radio" name="select" label="Mobile OTP Consent" data-field="mobile" checked={isMobile} onclick={handleRadioClick} class="slds-p-right_xx-large" disabled={disableMobileConsent}></lightning-input>
+        <lightning-input type="radio" name="select" label="Physical Consent Upload" data-field="manual" checked={isManual} onclick={handleRadioClick} disabled={disablePhyConsent}></lightning-input>
+       </div>
+
+    <div if:true={isMobile} >
+        <div if:true={showMobileNumber}>
+            <lightning-layout multiple-rows>
+                <lightning-layout-item size="6">
+                    <lightning-input type="phone" pattern="[6,7,8,9]{1}[0-9]{9}" message-when-pattern-mismatch="Please enter a valid Phone Number" data-id="mobileInput" label="Mobile Number" maxlength="10" minlength="10" class="mobile" value={mobileNumberValue} onchange={handleMobileChange} disabled={disableSendOTP}></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="5" class="slds-p-top_small">
+                    <div class="slds-p-left_small slds-p-top_small">
+                        <lightning-button label="Send OTP" variant="brand" onclick={handleSendOTP} disabled={disableSendOTP}></lightning-button>
+                    </div> 
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+        <div if:true={showEnterOtp}>
+            <lightning-layout multiple-rows>
+                <lightning-layout-item size="6">
+                    <span onkeypress={handleEnterOtp}>
+
+                     <lightning-input type="text" label="Enter OTP" data-id="OtpInput" class="enter-otp" onchange={handleEnterOtp} disabled={disableValidateOTP}></lightning-input>
+                    </span>
+                </lightning-layout-item>
+                <lightning-layout-item size="5" class="slds-p-top_small">
+				<div class="slds-p-left_small slds-p-top_small">
+                        <lightning-button label="Validate OTP" data-id="enterOtp" variant="brand" onclick={handleValidateOTP} disabled={disableValidateOTP}></lightning-button> 
+						</div>
+                </lightning-layout-item>
+            
+			</lightning-layout>
+		</div>
+				<div if:true={showEnterOtp}>
+                    <div if:false={hidetimer} style="color:rgb(184, 44, 44)">Time Remaining: {otpTimerValue}</div>
+                    <div>{label.OTPRetryMessage}</div>
+				</div>
+                    <div if:true={isOTPValidated}>
+                        <div class="slds-p-top_small">
+                        <lightning-layout-item size="1">
+                            <lightning-icon icon-name="action:approval" size="xx-small"></lightning-icon>&nbsp;
+                            {label.MobileNumSuccess}
+                        </lightning-layout-item>
+                    </div>
+                    
+                    </div>
+                    <div if:true={isOTPNotValidated}>
+                        <lightning-layout-item size="1" class="slds-p-top_small">
+                            <p style="color:rgb(184, 44, 44)">
+                            <img src={mobFailedImage} alt="Custom Image" width="40" height="30" >&nbsp;
+                            {label.mobVerificationFailed}</p>
+                        </lightning-layout-item>
+                    </div>  
+</div>
+<div if:false={isOTPValidated}> <!--LAK-3680-->
+<div if:true={isManual}>
+    <div class="slds-p-around_medium" id="modal-content-id-2">
+        <lightning-layout>
+            <lightning-layout-item size="5" class="slds-p-right_x-small" if:true={RationalePicklistValues.data}>          
+                <lightning-combobox
+                name="progress"
+                data-id="rationaleInput" 
+                label="Rationale behind using Physical Consent"
+                value={rationaleValue}                
+                options={RationalePicklistValues.data.values}
+                class="slds-p-around_small" 
+                onchange={handleRationale}
+                required >
+           </lightning-combobox>
+           <div if:true={showComments}>
+           <lightning-input type="text" label="Comments" class="slds-p-around_small" value={commentsEntered} data-id="commentsInput" onchange={onChangeComments} required></lightning-input>
+            </div>
+            <!-- placeholder="-Select-" -->
+            <!-- <lightning-file-upload
+                name="fileUploader"
+                data-id="fileUploadSec" 
+                accept={acceptedFormats}
+                record-id={leadRecordId}
+                onuploadfinished={handleUploadFinished}
+                multiple>
+            
+            </lightning-file-upload> -->
+
+            <div class="slds-m-around_medium">
+				<lightning-input type="file" accept={acceptedFormats} label="" onchange={openfileUpload} disabled={disableMode}>
+				</lightning-input>
+			</div>
+            
+            <div if:true={isError}>
+                <p style="color:rgb(184, 39, 39)">{label.uploadOneFile}</p>
+            </div>
+            <br>
+            <br>
+            <p>Note: Maximum File Size should be 10Mb. Please upload file of pdf, jpg, jpeg and png format only</p>
+        </lightning-layout-item>
+            <div class="verticleline "></div>
+
+            <lightning-layout-item size="6" class="slds-p-left_x-small">
+                <div class="slds-p-around_x-small">
+                    <b>Uploaded Documents</b>
+                </div>
+                <!-- <template if:true={fileNames}> -->
+                  
+                    <template for:each={fileNames} for:item="file">
+                    
+                    <div key={file} class="slds-p-around_x-small">
+                        <lightning-layout size="12">
+                        <lightning-layout-item size="6">
+                            <div class="slds-media slds-media_center">
+                                  
+                                    <!-- <lightning-icon icon-name="action:preview" data-id={file.cDId} size="x-small" onclick={handleDocumentView}></lightning-icon> -->
+                                    
+                                    <div class="slds-media__body">
+                                        <div class="slds-truncate" style="padding-inline: 5px;">
+                                                {file.name}
+                                        </div>
+                                    </div>                                       
+                                    
+                                </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="3" class="slds-media slds-media_center">
+                            <div role="progressbar" class="slds-progress-bar slds-progress-bar--medium slds-progress-bar--circular">
+                                <span class=" slds-progress-bar__value"></span>
+                            </div>&nbsp;
+                        </lightning-layout-item>
+                        <lightning-layout-item size="1" class="slds-media slds-media_center">
+                            <lightning-icon class="slds-icon-utility-success slds-icon_container" icon-name="utility:success" size="x-small"></lightning-icon> 
+                        </lightning-layout-item>
+                        <lightning-layout-item size="2" class="slds-media slds-media_center">
+                            <lightning-icon icon-name="action:preview" data-id={file.cDId} data-file-extension={file.FileExtension} size="x-small" onclick={handleDocumentView}></lightning-icon>&nbsp;
+                            <lightning-icon icon-name="action:delete" data-id={file.cDId} size="x-small" alternative-text="Delete" title="Delete" onclick={handleDocumentDelete}></lightning-icon>
+                        </lightning-layout-item>
+                            
+                                    <p class="slds-page-header__name-meta"></p>
+                                    <!--/div-->
+                                </lightning-layout>
+                                </div>
+                        
+                           
+                
+                    </template>
+                <!-- </template> -->
+            </lightning-layout-item>
+            </lightning-layout>
+        </div>
+</div>
+</div><!--LAK-3680-->
+</div>
+<footer class="slds-grid slds-grid_align-end">  
+    <div class="slds-p-around_small">
+        <lightning-button label="Previous" variant="brand" onclick={handlePrevious}></lightning-button> 
+ </div>
+ <div  class="slds-p-around_small">
+    <lightning-button label="Next" variant="brand" onclick={handleNext} disabled={disableConversionBtn}></lightning-button> 
+    
+    </div>
+        <!-- <div if:true={_showConvertButton} class="slds-p-around_small">
+        <lightning-button label="Convert to Loan Application" variant="brand" onclick={handleNext} disabled={disableConversionBtn}></lightning-button> 
+        
+        </div> -->
+        <lightning-button label="Cancel" variant="destructive" onclick={handleCancel} class="slds-p-around_small"></lightning-button>
+ </footer>
+</template>
+
+
+<!-- testttttttttttttttttttttttttttttttttt -->
+
+
+<template if:true={product2new}>
+
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    
+    <!-- Delete confirmation pop-up box-->
+    <template if:true={isModalOpen}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-align--absolute-center slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeConsentModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-011" class="slds-text-heading_medium slds-hyphenate">Delete?</h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-100">
+                    <p style="text-align:center;"><b>{deleteMsg}</b></p>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeConsentModal} title="No">No</button>
+                    <button class="slds-button slds-button_brand" onclick={handleRemoveRecord} title="Yes">Yes</button>
+                </footer>
+            </div>  
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!-- Delete confirmation pop-up box-->
+    <div class="slds-hide">
+		<iframe src={vfUrl}></iframe> 
+	</div>
+    <template if:true={isShowModal}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-label="Meaningful description of the modal content" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse">
+            <span class="slds-assistive-text">Cancel and close</span>
+            </button>
+            <div class="slds-modal__content slds-p-around_medium slds-modal__content_headless"  id="modal-content-id-11" style="
+            align-self: center;width: 70%;">
+            <div class="slds-align_absolute-center">
+                <img style="max-height:40px" alt="QuestionMark" src={image}/>
+            </div>
+            <div class="slds-align_absolute-center" style="color:grey">                                              
+                Are you sure, You want to Close this lead? 
+            </div>
+            <!-- <div class="slds-modal__content slds-p-around_large slds-align_absolute-center" id="modal-content-id-3"> -->
+                <div class="slds-modal__content slds-p-around_large" id="modal-content-id-33">
+                <lightning-record-edit-form object-api-name="Lead" record-id={leadRecordId} onsubmit={handleSubmit} style="width:100%;">
+                    <lightning-messages></lightning-messages>
+                    <lightning-layout multiple-rows="true">  
+                         <!-- multiple-rows="true" -->
+                        <lightning-layout-item size="12">
+                            <lightning-input-field field-name="Lead_Closure_Reason__c" required onchange={handlePicklistChange}></lightning-input-field>
+                        </lightning-layout-item>
+                            <template if:true={showAdditionalComments}>
+                                <lightning-layout-item size="12">
+                            <lightning-input-field field-name="Additional_Comments__c" required  data-id="addCommentsInput" onchange={onChangeAdditionalComments}></lightning-input-field>
+                        </lightning-layout-item>
+                        </template>
+                        
+                            </lightning-layout>
+                            <div  class="slds-p-around_small btn-container">
+                                <button class="slds-button slds-button_brand" style="background-color: rgb(161, 30, 30);">Close Lead</button>  
+                                <button class="slds-button slds-button_brand" onclick={closeModal}>Cancel</button>
+                            </div>
+                </lightning-record-edit-form>
+            </div>
+            </div>
+          
+            </div>
+            </div>
+            </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>  
+        </template>   
+ 
+
+    <div class="slds-align-absolute_center slds-p-around_medium" style="color:rgb(185, 44, 44)">{errorMessage}</div>
+    <div if:false={showRadiobtn} class="move-right">
+       <div class="slds-grid slds-p-top_around">
+        <!-- <lightning-input type="radio" name="select" label="Digital Consent" data-field="mobile" checked={isMobile} onclick={handleRadioClick} class="slds-p-right_xx-large" disabled={disableMobileConsent}></lightning-input> -->
+        <lightning-input type="radio" name="select" label="Digital Consent" data-field="digital" checked={isDigital} onclick={handleRadioClick} class="slds-p-right_xx-large" disabled={disableDigitalConsent}></lightning-input>
+        <lightning-input type="radio" name="select" label="Physical Consent" data-field="manual" checked={isManual} onclick={handleRadioClick} disabled={disablePhyConsent}></lightning-input>
+       </div>
+
+    <!-- <div if:true={isMobile} > -->
+    <div if:true={isDigital} >
+        <div if:true={showMobileNumber}>
+            <lightning-layout horizontal-align="start">
+                <lightning-layout-item size="6" class="slds-p-right_small">
+                    
+                    <!-- <lightning-input type="phone" pattern="[6,7,8,9]{1}[0-9]{9}" message-when-pattern-mismatch="Please enter a valid Phone Number" data-id="mobileInput" label="Mobile Number" maxlength="10" minlength="10" class="mobile" value={mobileNumberValue} onchange={handleMobileChange} disabled={disableSendOTP}></lightning-input> -->
+                    <lightning-input type="phone" pattern="[6,7,8,9]{1}[0-9]{9}" message-when-pattern-mismatch="Please enter a valid Phone Number" data-id="mobileInput" label="Mobile Number" maxlength="10" minlength="10" class="mobile" value={mobileNumberValue} onchange={handleMobileChange} disabled={disableMobile}></lightning-input>
+                </lightning-layout-item>
+
+                <!-- Buttons Container -->
+                <!-- <lightning-layout-item size="6"> -->
+                    <!-- <lightning-layout horizontal-align="start" multiple-rows> -->
+                        <!-- Send SMS Button -->
+                        <!-- <lightning-layout-item size="5" class="slds-p-right_small">
+                            <lightning-button label="Send SMS" variant="brand" onclick={handleSendLink} disabled={disableSendOTP}></lightning-button>
+                        </lightning-layout-item> -->
+
+                        <!-- Refresh Button -->
+                        <!-- <lightning-layout-item size="5">
+                            <lightning-button label="Refresh" variant="brand" onclick={handleDigitalConsent} disabled={disableValidateOTP}></lightning-button> 
+                        </lightning-layout-item> -->
+                    <!-- </lightning-layout> -->
+                <!-- </lightning-layout-item> -->
+
+
+
+                <!-- <lightning-layout-item size="5" class="slds-p-top_small">
+                    <div class="slds-p-left_small slds-p-top_small">
+                        
+                        <lightning-button label="Send SMS" variant="brand" onclick={handleSendLink} disabled={disableSendOTP}></lightning-button>
+                    </div> 
+                </lightning-layout-item>
+                <lightning-layout-item size="5" class="slds-p-top_small">
+                    <div class="slds-p-left_small slds-p-top_small">
+                        <lightning-button label="Refresh" variant="brand" onclick={handleDigitalConsent} disabled={disableValidateOTP}></lightning-button> 
+                    </div> 
+                </lightning-layout-item> -->
+
+                <lightning-layout-item size="auto" class="slds-p-top_small">
+                    <div class="slds-grid slds-grid_align-spread slds-p-top_small">
+                        <lightning-button label="Send SMS" variant="brand" onclick={handleSendLink} disabled={disableSendOTP}></lightning-button>
+                        
+                        <lightning-button label="Refresh" variant="brand" onclick={handleDigitalConsent} disabled={disableValidateOTP} class="slds-p-left_small"></lightning-button>
+                    </div>
+                </lightning-layout-item>
+                
+            </lightning-layout>
+        </div>
+        <!-- <div if:true={showEnterOtp}> -->
+        <div>
+            <lightning-layout multiple-rows>
+                <!-- <lightning-layout-item size="6">
+                    <span onkeypress={handleEnterOtp}>
+
+                     <lightning-input type="text" label="Enter OTP" data-id="OtpInput" class="enter-otp" onchange={handleEnterOtp} disabled={disableValidateOTP}></lightning-input>
+                    </span>
+                </lightning-layout-item> -->
+                <!-- <lightning-layout-item size="5" class="slds-p-top_small">
+				<div class="slds-p-left_small slds-p-top_small">
+                        
+                        <lightning-button label="Refresh" variant="brand" onclick={handleDigitalConsent} disabled={disableValidateOTP}></lightning-button> 
+						</div>
+                </lightning-layout-item> -->
+                <!-- <template if:true={successMessage}>
+                    <lightning-layout-item size="5" class="slds-p-top_small">
+                        <div class="slds-p-left_small slds-p-top_small">
+                            <p>{successMessage}</p>
+                        </div>
+                        </lightning-layout-item>
+                </template> -->
+                <div if:true={isDigitalValidated}>
+                    <div class="slds-p-top_small">
+                    <lightning-layout-item size="1">
+                        <lightning-icon icon-name="action:approval" size="xx-small"></lightning-icon>&nbsp;
+                        Digital Consent taken!
+                        <!-- {label.MobileNumSuccess} -->
+                    </lightning-layout-item>
+                </div>
+                </div>
+                <div if:true={isDigitalError}>
+                    <lightning-layout-item size="1" class="slds-p-top_small">
+                        <p style="color:rgb(184, 44, 44)">
+                        <img src={mobFailedImage} alt="Custom Image" width="40" height="30" >&nbsp;
+                        Digital Consent is not taken yet!</p>
+                        <!-- {label.mobVerificationFailed}</p> -->
+                    </lightning-layout-item>
+                </div>  
+
+            
+			</lightning-layout>
+		</div>
+        
+
+				 <!-- <div if:true={showEnterOtp}> -->
+                    <div if:true={timerStart}>
+                    <div if:false={hidetimer} style="color:rgb(184, 44, 44)">Time Remaining: {otpTimerValue}</div>
+                    <div>Please wait to send SMS again.</div>
+				</div> 
+                    <div if:true={isOTPValidated}>
+                        <div class="slds-p-top_small">
+                        <lightning-layout-item size="1">
+                            <lightning-icon icon-name="action:approval" size="xx-small"></lightning-icon>&nbsp;
+                            {label.MobileNumSuccess}
+                        </lightning-layout-item>
+                    </div>
+                    
+                    </div>
+                    <div if:true={isOTPNotValidated}>
+                        <lightning-layout-item size="1" class="slds-p-top_small">
+                            <p style="color:rgb(184, 44, 44)">
+                            <img src={mobFailedImage} alt="Custom Image" width="40" height="30" >&nbsp;
+                            {label.mobVerificationFailed}</p>
+                        </lightning-layout-item>
+                    </div>  
+</div>
+<div if:false={isOTPValidated}> <!--LAK-3680-->
+<div if:true={isManual}>
+    <div class="slds-p-around_medium" id="modal-content-id-22">
+        <lightning-layout>
+            <lightning-layout-item size="5" class="slds-p-right_x-small" if:true={RationalePicklistValues.data}>          
+                <lightning-combobox
+                name="progress"
+                data-id="rationaleInput" 
+                label="Rationale behind using Physical Consent"
+                value={rationaleValue}                
+                options={RationalePicklistValues.data.values}
+                class="slds-p-around_small" 
+                onchange={handleRationale}
+                required >
+           </lightning-combobox>
+           <div if:true={showComments}>
+           <lightning-input type="text" label="Comments" class="slds-p-around_small" value={commentsEntered} data-id="commentsInput" onchange={onChangeComments} required></lightning-input>
+            </div>
+            <!-- placeholder="-Select-" -->
+            <!-- <lightning-file-upload
+                name="fileUploader"
+                data-id="fileUploadSec" 
+                accept={acceptedFormats}
+                record-id={leadRecordId}
+                onuploadfinished={handleUploadFinished}
+                multiple>
+            
+            </lightning-file-upload> -->
+
+            <div class="slds-m-around_medium">
+				<lightning-input type="file" accept={acceptedFormats1} label="" onchange={openfileUpload1} disabled={disableMode}>
+				</lightning-input>
+			</div>
+            
+            <div if:true={isError}>
+                <p style="color:rgb(184, 39, 39)">{label.uploadOneFile}</p>
+            </div>
+            <br>
+            <br>
+            <p>Note: Maximum File Size should be 25 MB. Please upload file of pdf, jpg and jpeg format only</p>
+        </lightning-layout-item>
+            <div class="verticleline "></div>
+
+            <lightning-layout-item size="6" class="slds-p-left_x-small">
+                <div class="slds-p-around_x-small">
+                    <b>Uploaded Documents</b>
+                </div>
+                <!-- <template if:true={fileNames}> -->
+                  
+                    <template for:each={fileNames} for:item="file">
+                    <div key={file} class="slds-p-around_x-small">
+                        <lightning-layout size="12">
+                        <lightning-layout-item size="6">
+                            <div class="slds-media slds-media_center">
+                                  
+                                    <!-- <lightning-icon icon-name="action:preview" data-id={file.cDId} size="x-small" onclick={handleDocumentView}></lightning-icon> -->
+                                    
+                                    <div class="slds-media__body">
+                                        <div class="slds-truncate" style="padding-inline: 5px;">
+                                                {file.name}
+                                        </div>
+                                    </div>                                       
+                                    
+                                </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="3" class="slds-media slds-media_center">
+                            <div role="progressbar" class="slds-progress-bar slds-progress-bar--medium slds-progress-bar--circular">
+                                <span class=" slds-progress-bar__value"></span>
+                            </div>&nbsp;
+                        </lightning-layout-item>
+                        <lightning-layout-item size="1" class="slds-media slds-media_center">
+                            <lightning-icon class="slds-icon-utility-success slds-icon_container" icon-name="utility:success" size="x-small"></lightning-icon> 
+                        </lightning-layout-item>
+                        <lightning-layout-item size="2" class="slds-media slds-media_center">
+                            <lightning-icon icon-name="action:preview"  data-id={file.cDId} data-file-extension={file.fileExtension} size="x-small" onclick={handleDocumentView}></lightning-icon>
+                            <lightning-icon icon-name="action:delete" data-id={file.cDId}  size="x-small" alternative-text="Delete" title="Delete" onclick={handleDocumentDelete}></lightning-icon>
+                        </lightning-layout-item>
+                            
+                                    <p class="slds-page-header__name-meta"></p>
+                                    <!--/div-->
+                                </lightning-layout>
+                                </div>
+                        
+                           
+                
+                    </template>
+                <!-- </template> -->
+            </lightning-layout-item>
+            </lightning-layout>
+        </div>
+</div>
+</div><!--LAK-3680-->
+</div>
+<footer class="slds-grid slds-grid_align-end">  
+
+        <template if:true={showModal}>
+            <c-i-frame-preview cont-doc-id={contentDocumentId} cont-doc-type={contentDocumentType} onclosepreview={handleCloseModalEvent}> </c-i-frame-preview>
+      <!--<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+              aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+       
+        <header class="slds-modal__header">
+        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+                    onclick={closeModal}>
+        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small">
+        </lightning-icon>
+        <span class="slds-assistive-text">Close</span>
+        </button>
+        </header>
+        
+        <div class="slds-modal__content slds-var-p-around_medium" id="modal-content-id-12">
+        <img src={modalUrl}/> 
+        </div>  
+        </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>-->
+        </template> 
+    <div class="slds-p-around_small">
+        <lightning-button label="Previous" variant="brand" onclick={handlePrevious}></lightning-button> 
+ </div>
+ <div  class="slds-p-around_small">
+    <lightning-button label="Next" variant="brand" onclick={handleNext} disabled={disableConversionBtn}></lightning-button> 
+    
+    </div>
+        <!-- <div if:true={_showConvertButton} class="slds-p-around_small">
+        <lightning-button label="Convert to Loan Application" variant="brand" onclick={handleNext} disabled={disableConversionBtn}></lightning-button> 
+        
+        </div> -->
+        <lightning-button label="Cancel" variant="destructive" onclick={handleCancel} class="slds-p-around_small"></lightning-button>
+ </footer>
+</template>
+
+
+</template>

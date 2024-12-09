@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Document_Type__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Document Type</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Sanction Letter</fullName>
+                <default>true</default>
+                <label>Sanction Letter</label>
+            </value>
+            <value>
+                <fullName>Term Sheet</fullName>
+                <default>false</default>
+                <label>Term Sheet</label>
+            </value>
+            <value>
+                <fullName>Aadhar Consent Letter</fullName>
+                <default>false</default>
+                <label>Aadhar Consent Letter</label>
+            </value>
+            <value>
+                <fullName>End User Letter</fullName>
+                <default>false</default>
+                <label>End User Letter</label>
+            </value>
+            <value>
+                <fullName>Loan Agreement</fullName>
+                <default>false</default>
+                <label>Loan Agreement</label>
+            </value>
+            <value>
+                <fullName>Loan Agreement for BL/PL</fullName>
+                <default>false</default>
+                <label>Loan Agreement for BL/PL</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

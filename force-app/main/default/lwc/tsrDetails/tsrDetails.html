@@ -1,0 +1,1101 @@
+<!--/**
+* ─────────────────────────────────────────────────────────────────────────────────────────────────
+* @Author         PwC India
+* @Componet       tsrDetails Component    
+* @Description    This component is used for Initiating TSR Cases.
+* @CreatedDateBy  Paresh Saindane
+* @ModifiedBy     Paresh Saindane
+* @ModifiedDate  
+* ──────────────────────────────────────────────────────────────────────────────────────────────────
+*/-->
+
+<template>
+  <div if:true={showSpinner}>
+    <lightning-spinner
+      alternative-text="Loading..."
+      variant="brand"
+      class="slds-is-fixed"
+    >
+    </lightning-spinner>
+  </div>
+
+  <lightning-card>
+    <lightning-layout multiple-rows="12">
+      <lightning-layout-item
+        size="12"
+        small-device-size="12"
+        medium-device-size="12"
+        large-device-size="12"
+      >
+      </lightning-layout-item>
+      <lightning-layout-item
+        size="12"
+        small-device-size="12"
+        medium-device-size="6"
+        large-device-size="3"
+      >
+        <div class="slds-p-around_x-small">
+          <lightning-input
+            type="text"
+            value={appId}
+            label="Application ID"
+            data-name=""
+            required="true"
+            onchange={handleInputChange}
+            disabled
+          ></lightning-input>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item
+        size="12"
+        small-device-size="12"
+        medium-device-size="6"
+        large-device-size="3"
+      >
+        <div class="slds-p-around_x-small">
+          <lightning-combobox
+            value={prodType}
+            label="Product"
+            options={prodOptions}
+            onchange={handleInputChange}
+            data-name=""
+            required="true"
+            disabled
+          >
+          </lightning-combobox>
+        </div>
+      </lightning-layout-item>
+
+      <!-- <lightning-layout-item
+        size="12"
+        small-device-size="12"
+        medium-device-size="6"
+        large-device-size="3"
+      >
+        <div class="slds-p-around_x-small">
+          <lightning-combobox
+            value={tsrType}
+            label="Is TSR fired to same legal Vendor"
+            options={tsrOptions}
+            onchange={handleInputChange}
+            data-name="IsTSRFiredToSameLegalVendor__c"
+            required="true"
+            disabled={disableMode}
+          >
+          </lightning-combobox>
+        </div>
+      </lightning-layout-item> -->
+
+      <lightning-layout-item
+        size="12"
+        small-device-size="12"
+        medium-device-size="6"
+        large-device-size="3"
+      >
+        <div class="slds-p-around_x-small">
+          <lightning-input
+            type="text"
+            value={collId}
+            data-name=""
+            label="Collateral ID"
+            required="true"
+            onchange={handleInputChange}
+            disabled
+          ></lightning-input>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item
+        size="12"
+        small-device-size="12"
+        medium-device-size="6"
+        large-device-size="3"
+      >
+        <div class="slds-p-around_x-small">
+          <lightning-input
+            type="text"
+            value={houseNo}
+            label="House/ Flat/ Shop/ Unit No./ Plot No"
+            data-name=""
+            required="true"
+            onchange={handleInputChange}
+            disabled
+          ></lightning-input>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item
+        size="12"
+        small-device-size="12"
+        medium-device-size="6"
+        large-device-size="3"
+      >
+        <div class="slds-p-around_x-small">
+          <lightning-input
+            type="text"
+            value={addLine1}
+            label="Address Line 1"
+            data-name=""
+            required="true"
+            onchange={handleInputChange}
+            disabled
+          ></lightning-input>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item
+        size="12"
+        small-device-size="12"
+        medium-device-size="6"
+        large-device-size="3"
+      >
+        <div class="slds-p-around_x-small">
+          <lightning-input
+            type="text"
+            value={addLine2}
+            label="Address Line 2"
+            data-name=""
+            required="true"
+            onchange={handleInputChange}
+            disabled
+          ></lightning-input>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item
+        size="12"
+        small-device-size="12"
+        medium-device-size="6"
+        large-device-size="3"
+      >
+        <div class="slds-p-around_x-small">
+          <lightning-input
+            type="text"
+            value={landmark}
+            label="Landmark"
+            data-name=""
+            onchange={handleInputChange}
+            disabled
+          ></lightning-input>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item
+        size="12"
+        small-device-size="12"
+        medium-device-size="6"
+        large-device-size="3"
+      >
+        <div class="slds-p-around_x-small">
+          <lightning-input
+            type="text"
+            value={area}
+            label="Area / Locality"
+            data-name=""
+            onchange={handleInputChange}
+            disabled
+          ></lightning-input>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item
+        size="12"
+        small-device-size="12"
+        medium-device-size="6"
+        large-device-size="3"
+      >
+        <div class="slds-p-around_x-small">
+          <lightning-input
+            type="text"
+            value={city}
+            label="City"
+            data-name=""
+            required="true"
+            onchange={handleInputChange}
+            disabled
+          ></lightning-input>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item
+        size="12"
+        small-device-size="12"
+        medium-device-size="6"
+        large-device-size="3"
+      >
+        <div class="slds-p-around_x-small">
+          <lightning-input
+            type="text"
+            value={state}
+            label="State"
+            data-name=""
+            required="true"
+            onchange={handleInputChange}
+            disabled
+          ></lightning-input>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item
+        size="12"
+        small-device-size="12"
+        medium-device-size="6"
+        large-device-size="3"
+      >
+        <div class="slds-p-around_x-small">
+          <lightning-input
+            type="text"
+            value="INDIA"
+            label="Country"
+            data-name=""
+            required="true"
+            onchange={handleInputChange}
+            disabled
+          ></lightning-input>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item
+        size="12"
+        small-device-size="12"
+        medium-device-size="6"
+        large-device-size="3"
+      >
+        <div class="slds-p-around_x-small">
+          <lightning-input
+            type="text"
+            value={pincode}
+            label="Pincode"
+            data-name=""
+            required="true"
+            onchange={handleInputChange}
+            disabled
+          ></lightning-input>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item
+        size="12"
+        small-device-size="12"
+        medium-device-size="6"
+        large-device-size="3"
+      >
+        <div class="slds-p-around_x-small">
+          <lightning-input
+            type="text"
+            value={loanAmount}
+            onchange={handleInputChange}
+            data-name=""
+            label="Loan Amount"
+            required="true"
+            disabled
+          ></lightning-input>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item
+        size="12"
+        small-device-size="12"
+        medium-device-size="6"
+        large-device-size="3"
+      >
+        <div class="slds-p-around_x-small">
+          <lightning-input
+            type="text"
+            value={mainApp}
+            data-name=""
+            label="Main Applicant Name"
+            required="true"
+            onchange={handleInputChange}
+            disabled
+          ></lightning-input>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item
+        size="12"
+        small-device-size="12"
+        medium-device-size="6"
+        large-device-size="3"
+      >
+        <div class="slds-p-around_x-small">
+          <lightning-input
+            type="text"
+            value={propOwners}
+            label="Property Owner(s) Name"
+            data-name=""
+            required="true"
+            disabled
+          ></lightning-input>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item
+        size="12"
+        small-device-size="12"
+        medium-device-size="6"
+        large-device-size="3"
+      >
+        <div class="slds-p-around_x-small">
+          <lightning-combobox
+            value={yrType}
+            label="TSR/EC for no of Yrs."
+            options={yrOptions}
+            onchange={handleInputChange}
+            data-name="TSRECForNoYrs__c"
+            required="true"
+            disabled={disableMode}
+          >
+          </lightning-combobox>
+        </div>
+      </lightning-layout-item>
+    </lightning-layout>
+    <div class="slds-clearfix">
+      <lightning-button
+        class="slds-float_right slds-p-around_x-small"
+        label="Initiate TSR / Waive TSR"
+        variant="brand"
+        onclick={handleInitiate}
+        icon-name="utility:connected_apps"
+        name="Initiate TSR"
+        disabled={disableInitiateTSR}
+      ></lightning-button>
+
+      <!-- <lightning-button
+      class="slds-float_right slds-p-around_x-small"
+      label="Waive TSR"
+      variant="brand"
+      onclick={handleInitiate}
+      icon-name="utility:skip_forward"
+      disabled={disableInitiateTSR}
+    ></lightning-button> -->
+    </div>
+
+    <!-- <template if:true={initiateTSR}> -->
+    <template if:true={initiateTSR}>
+      <section
+        role="dialog"
+        tabindex="-1"
+        aria-labelledby="modal-heading-02"
+        aria-modal="true"
+        aria-describedby="modal-content-id-1"
+        class="my-modal slds-modal slds-fade-in-open slds-modal_medium"
+      >
+        <div class="slds-modal__container">
+          <!-- Modal/Popup Box LWC header here -->
+          <div if:true={showSpinnerModal}>
+            <lightning-spinner
+              alternative-text="Loading..."
+              variant="brand"
+              class="slds-is-fixed"
+            >
+            </lightning-spinner>
+          </div>
+          <header class="slds-modal__header">
+            <button
+              class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+              title="Close"
+              onclick={closeTSRModal}
+            >
+              <lightning-icon
+                icon-name="utility:close"
+                alternative-text="close"
+                size="small"
+              ></lightning-icon>
+              <span class="slds-assistive-text">Close</span>
+            </button>
+            <h2
+              id="modal-heading-02"
+              class="slds-text-heading_medium slds-hyphenate"
+            >
+            {popUpHeader}
+              
+            </h2>
+          </header>
+          <!-- Modal/Popup Box LWC body starts here -->
+          <div 
+            class="slds-modal__content slds-p-around_medium"
+            id="modal-content-id-2"
+          >
+          <div if:true={tsrInit}>
+            <div  style="height: 200px; width: 1150px">
+              <lightning-datatable
+                data={docList}
+                columns={updatedColumns}
+                key-field="Id"
+                min-column-width="80"
+                onrowselection={handleRowSelected}
+              >
+              </lightning-datatable>
+            </div>
+
+            <lightning-layout multiple-rows="12">
+              <lightning-layout-item
+                size="12"
+                small-device-size="12"
+                medium-device-size="12"
+                large-device-size="12"
+              >
+                <div class="slds-p-around_x-small">
+                  <lightning-textarea
+                    type="text"
+                    value={remarks}
+                    name="Remarks for TSR Agency"
+                    placeholder="Enter Comments"
+                    label={remarkLabel}
+                    onchange={handleInputChange}
+                    required="true"
+                    disabled={disableMode}
+                  ></lightning-textarea>
+                </div>
+              </lightning-layout-item>
+
+              <lightning-layout-item if:true={tsrInit}
+                size="12"
+                small-device-size="12"
+                medium-device-size="6"
+                large-device-size="3"
+              >
+                <div class="slds-p-around_x-small">
+                  <lightning-combobox
+                    value={accId1}
+                    label="Agency 1"
+                    options={agencyOptions1}
+                    onchange={handleInputChange}
+                    data-name=""
+                    required="true"
+                    disabled={disableMode}
+                  >
+                  </lightning-combobox>
+                </div>
+              </lightning-layout-item>
+            </lightning-layout>
+          </div>
+          <div if:false={tsrInit}>
+             <lightning-combobox
+            name="Waiver Reason"
+            label='Waiver Reason'
+            data-name='WaiverReason__c'
+            placeholder="Select Reason"
+            value={waiveReasonVal}
+            onchange={handleInputChange}
+            options={waiverResOpt}
+            required
+          >
+          </lightning-combobox>
+          </div>
+          </div>
+          <!-- Modal/Popup Box LWC footer starts here -->
+          <footer class="slds-modal__footer">
+            <button
+              class="slds-button slds-button_neutral"
+              onclick={closeTSRModal}
+              title="No"
+            >
+              No
+            </button>
+            <button
+              class="slds-button slds-button_brand"
+              onclick={handleCase}
+              title="Yes"
+            >
+              Yes
+            </button>
+          </footer>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!-- </template> -->
+
+    <template if:true={caseRecordsData}>
+
+      <lightning-card title="Case Details ">
+        <!-- UPDATED TABLE  -->
+        <div
+          class="slds-box slds-theme_default slds-scrollable_x"
+          style="width: 200rem"
+        >
+          <table
+            class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered"
+            aria-label="Example table of Opportunities with vertical borders"
+          >
+            <thead>
+              <tr class="slds-line-height_reset">
+                <th class="" scope="col">
+                  <div class="slds-truncate" title="Technical Initiation Date">
+                    TSR Initiation Date
+                  </div>
+                </th>
+
+                <th class="" scope="col">
+                  <div class="slds-truncate" title="Technical Agency Name">
+                    TSR Agency Name
+                  </div>
+                </th>
+
+                <!-- <th class="" scope="col">
+                  <div class="slds-truncate" title="Technical Agency Name">
+                  Contact Name
+                  </div>
+                </th> -->
+
+                <th class="" scope="col">
+                  <div class="slds-truncate" title="Case No">Case No</div>
+                </th>
+
+                <th class="" scope="col">
+                  <div
+                    class="slds-truncate"
+                    title="Remarks for Technical Agency"
+                  >
+                    Remarks for TSR Agency
+                  </div>
+                </th>
+                <th class="" scope="col">
+                  <div class="slds-truncate" title="Actions">Actions</div>
+                </th>
+                <th class="" scope="col">
+                  <div class="slds-truncate" title="Cancel / Review Remarks">
+                    Cancel / Review Remarks
+                  </div>
+                </th>
+
+                <th class="" scope="col">
+                  <div class="slds-truncate" title="Vendor Status">
+                    Vendor Status
+                  </div>
+                </th>
+
+                <th class="" scope="col">
+                  <div class="slds-truncate" title="Hub Manager Status">
+                    Hub Manager Status
+                  </div>
+                </th>
+
+                <th class="" scope="col">
+                  <div class="slds-truncate" title="Report Date">
+                    Report Date
+                  </div>
+                </th>
+
+                <th class="" scope="col">
+                  <div class="slds-truncate" title="TAT">TAT</div>
+                </th>
+
+                <th if:true={reinitHide} class="" scope="col">
+                  <div class="slds-truncate" title="Re-Initiate TSR">
+                    Re-Initiate TSR
+                  </div>
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <template for:each={caseRecordsData} for:item="record">
+                <tr
+                  key={record.Id}
+                  aria-selected="false"
+                  class="slds-hint-parent"
+                >
+                  <!-- <td data-label="Technical Initiation Date">
+                  <div class="slds-truncate" title="Technical Initiation Date">
+                    <lightning-formatted-date-time value={record.DateTimeInitiation__c} year="numeric" month="numeric" day="numeric"
+                    hour="2-digit" minute="2-digit"></lightning-formatted-date-time>
+  
+                  </div>
+                </td> -->
+                  <td data-label="TSR Initiation Date">
+                    <div class="slds-truncate" title="TSR Initiation Date">
+                      {record.initiationDate}
+                    </div>
+                  </td>
+
+                  <template if:true={record.AccountId}>
+                    <td data-label="Agency Name">
+                      <div class="slds-truncate" title="Agency Name">
+                        {record.Account.Name}
+                      </div>
+                    </td>
+                  </template>
+                  <template if:false={record.AccountId}>
+                    <td data-label="Agency Name">
+                      <div class="slds-truncate" title="Agency Name">
+                        {record.Account.Name}
+                      </div>
+                    </td>
+                  </template>
+
+                  <!-- <template if:true={record.ContactId}>
+                  <td data-label="Contact Name">
+                    <div class="slds-truncate" title="Contact Name">
+                      {record.Contact.Name}
+                    </div>
+                  </td>
+                </template>
+                <template if:false={record.ContactId}>
+                  <td data-label="Contact Name">
+                    <div class="slds-truncate" title="Contact Name">
+                      {record.Contact.Name}
+                    </div>
+                  </td>
+                </template> -->
+
+                  <td data-label="Case No">
+                    <div class="slds-truncate" title="Case No">
+                      {record.CaseNumber}
+                    </div>
+                  </td>
+
+                  <!-- <td data-label="Status">
+                    <div class="slds-truncate" title="Status">
+                      {record.Status}
+                    </div>
+                  </td> -->
+                  <td data-label="Remarks for TSR Agency">
+                    <div class="slds-truncate" title="Remarks for TSR Agency">
+                      {record.Remarks_for_Technical_Agency__c}
+                    </div>
+                  </td>
+
+                  <td data-label="Actions">
+                    <div class="slds-truncate" title="Actions">
+                      <lightning-button
+                        data-caseid={record.Id}
+                        variant="success"
+                        label="View"
+                        title="View Details"
+                        data-name="View"
+                        onclick={handlebutton}
+                      ></lightning-button>
+                      <!-- disabled={disableMode} -->
+                      <lightning-button
+                        data-caseid={record.Id}
+                        variant="success"
+                        label="Cancel"
+                        title="Cancel"
+                        data-name="Cancel"
+                        onclick={handlebutton}
+                        disabled={record.isCanDis}
+                        class="slds-m-left_x-small"
+                      ></lightning-button>
+                      <lightning-button
+                        data-caseid={record.Id}
+                        data-cityid={record.CityId__c}
+                        variant="success"
+                        label="Review"
+                        data-name="Review"
+                        title="Review"
+                        onclick={handlebutton}
+                        disabled={record.isReviewDis}
+                        class="slds-m-left_x-small"
+                      ></lightning-button>
+                    </div>
+                  </td>
+
+                  <td data-label="Cancel / Review Status">
+                    <div class="slds-truncate" title="Cancel / Review Status">
+                      <template if:true={record.reviewReq}>
+                        {record.ReviewerComments__c}
+                      </template>
+                      <template if:false={record.reviewReq}>
+                        {record.Reason_for_cancelation__c}
+                      </template>
+                    </div>
+                  </td>
+
+                  <td data-label="Vendor Status">
+                    <div class="slds-truncate" title="Vendor Status">
+                      <template if:false={record.legalReviewReq}>
+                        {record.Status}
+                      </template>
+                      <template if:true={record.legalReviewReq}>
+                        {record.HubManagerReview__c}
+                      </template>
+                    </div>
+                  </td>
+
+                  <td data-label="Hub Manager Status">
+                    <div class="slds-truncate" title="Hub Manager Status">
+                      {record.FinalStatusTSRReportFromHLM__c}
+                    </div>
+                  </td>
+
+
+                  <td data-label="Report Date">
+                    <div class="slds-truncate" title="Report Date">
+                      {record.ClosedDate}
+                      <!-- <lightning-formatted-date-time   value={record.ClosedDate} ></lightning-formatted-date-time>-->
+                    </div>
+                  </td>
+
+                  <td data-label="TAT">
+                    <div class="slds-truncate" title="TAT">
+                      {record.TAT__c}
+                    </div>
+                  </td>
+
+                  <td if:true={reinitHide} data-label="Re-Initiate TSR">
+                    <div class="slds-truncate" title="Re-Initiate TSR">
+                      <lightning-button
+                        data-caseid={record.Id}
+                        data-cityid={record.CityId__c}
+                        variant="success"
+                        label="Re-Intiate"
+                        name="Re-Intiate"
+                        title="Re-Intiate"
+                        onclick={handleInitiate}
+                        disabled={record.isReinitDis}
+                        data-status={record.Status}
+                        class="slds-m-left_x-small"
+                      ></lightning-button>
+                    </div>
+                  </td></tr
+              ></template>
+            </tbody>
+          </table>
+        </div>
+
+        <template if:true={renderCaseDetails}>
+          <!-- <p>{caseId}</p> -->
+          <c-case-details
+            loan-app-id={loanAppId}
+            case-id={caseId}
+            tsr={showTSR}
+            onselect={handleValueSelect}
+            has-edit-access={hasEditAccess}
+          ></c-case-details>
+        </template>
+
+        <!-- OLD TABLE TO REMOVE -->
+      </lightning-card>
+
+      <lightning-card title="Waived Cases">
+  <div class="slds-box slds-theme_default slds-scrollable_x" style="width:200rem">
+    <table
+    class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered"
+    aria-label="Example table of Opportunities with vertical borders"
+  >
+    <thead>
+      <tr class="slds-line-height_reset">
+        <th class="" scope="col">
+          <div class="slds-truncate" title="Borrower Name">
+            Case Number
+          </div>
+        </th>
+
+        <th class="" scope="col">
+          <div class="slds-truncate" title="Address">
+            Address
+          </div>
+        </th>
+
+        <th class="" scope="col">
+          <div class="slds-truncate" title="Waiver Remark">
+            Waiver Remark
+          </div>
+        </th>
+       
+
+        <th class="" scope="col">
+          <div class="slds-truncate" title="Created Date">
+            Created Date
+          </div>
+        </th>  
+
+
+      </tr>
+
+     
+    </thead>
+
+    <tbody>
+      <template for:each={waivedCaseRecordsData} for:item="record">
+        <tr
+          key={record.Id}
+          aria-selected="false"
+          class="slds-hint-parent"
+        >
+        
+        <!-- <template if:true={record.Applicant__c}>
+          <td data-label="Borrower Name">
+            <div class="slds-truncate" title="Borrower Name">
+              {record.Applicant__r.TabName__c}
+            </div>
+          </td>
+        </template> -->
+        <td data-label="Case Number">
+          <div class="slds-truncate" title="CaseNumber">
+              {record.CaseNumber}
+          </div>
+        </td>
+        
+          <td data-label="Address">
+            <div class="slds-truncate" title="Address">
+                {record.ApplAssetId__r.PropAddrs__c}
+            </div>
+          </td>
+       
+          <td data-label="Waiver Remark">
+            <div
+              class="slds-truncate"
+              title="Waiver Remark"
+            >
+              {record.Remarks_for_Technical_Agency__c}
+            </div>
+          </td>
+          
+         
+          <td data-label="Created Date">
+            <div class="slds-truncate" title="Created Date">
+              <!-- <lightning-formatted-date-time value={record.CreatedDate} year="numeric" month="numeric" day="numeric"
+              hour="2-digit" minute="2-digit"></lightning-formatted-date-time> -->
+                {record.initiationDate}
+            </div>
+          </td>
+                          
+          </tr
+      ></template>
+      
+     
+    </tbody>
+  </table>
+  
+  </div>
+        </lightning-card>
+      
+
+      <template if:true={isReInitiateModalOpen}>
+        <section
+          role="dialog"
+          tabindex="-1"
+          aria-labelledby="modal-heading-01"
+          aria-modal="true"
+          aria-describedby="modal-content-id-1"
+          class="my-modal slds-modal slds-fade-in-open"
+        >
+          <div class="slds-modal__container">
+            <!-- Modal/Popup Box LWC header here -->
+            <header class="slds-modal__header">
+              <button
+                class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                title="Close"
+                onclick={closeModal}
+              >
+                <lightning-icon
+                  icon-name="utility:close"
+                  alternative-text="close"
+                  size="small"
+                ></lightning-icon>
+                <span class="slds-assistive-text">Close</span>
+              </button>
+              <h2
+                id="modal-heading-01"
+                class="slds-text-heading_medium slds-hyphenate"
+              >
+                Confirm?
+              </h2>
+            </header>
+            <!-- Modal/Popup Box LWC body starts here -->
+            <div
+              class="slds-modal__content slds-p-around_medium"
+              id="modal-content-id-1"
+            >
+              <!-- <lightning-input type="text" value={caseSingleRecordData.Applicant__r.TabName__c}
+                                      label="Applicant Name" disabled></lightning-input> -->
+              <lightning-combobox
+                name="status"
+                label={textAreaLabel}
+                data-name={dataName}
+                placeholder="Choose Status"
+                value={textAreaValue}
+                onchange={handleTextAreaChange}
+                options={statusOptions}
+                required
+              >
+              </lightning-combobox>
+            </div>
+            <!-- Modal/Popup Box LWC footer starts here -->
+            <footer class="slds-modal__footer">
+              <button
+                class="slds-button slds-button_neutral"
+                onclick={closeModal}
+                title="No"
+              >
+                {noLabel}
+              </button>
+              <button
+                class="slds-button slds-button_brand"
+                data-id={caseId}
+                data-name={dataName}
+                onclick={handleModalYesClick}
+                title="Yes"
+                label={yesLabel}
+              >
+                Yes
+              </button>
+            </footer>
+          </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+      </template>
+
+      <template if:true={reviewModalOpen}>
+        <section
+          role="dialog"
+          tabindex="-1"
+          aria-labelledby="modal-heading-01"
+          aria-modal="true"
+          aria-describedby="modal-content-id-3"
+          class="my-modal slds-modal slds-fade-in-open"
+        >
+          <div class="slds-modal__container">
+            <!-- Modal/Popup Box LWC header here -->
+            <header class="slds-modal__header">
+              <button
+                class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                title="Close"
+                onclick={closeModal}
+              >
+                <lightning-icon
+                  icon-name="utility:close"
+                  alternative-text="close"
+                 
+                  size="small"
+                ></lightning-icon>
+                <span class="slds-assistive-text">Close</span>
+              </button>
+              <h2
+                id="modal-heading-03"
+                class="slds-text-heading_medium slds-hyphenate"
+              >
+                Confirm?
+              </h2>
+            </header>
+            <!-- Modal/Popup Box LWC body starts here -->
+            <div
+              class="slds-modal__content slds-p-around_medium"
+              id="modal-content-id-3"
+            >
+            <lightning-combobox
+            name="status"
+            label={textAreaLabel}
+            data-name={dataName}
+            placeholder="Choose Status"
+            value={textAreaValue}
+            onchange={handleTextAreaChange}
+            options={statusOptions}
+            required
+          >
+          </lightning-combobox>
+              <!-- <lightning-textarea
+                type="text"
+                value={reviewRemarks}
+                name="Review"
+                placeholder="Enter Comments"
+                label="Reviewer Remarks"
+                data-name="ReviewerComments__c"
+                onchange={handleInputChange}
+                required
+              ></lightning-textarea> -->
+            </div>
+            <!-- Modal/Popup Box LWC footer starts here -->
+            <footer class="slds-modal__footer">
+              <button
+                class="slds-button slds-button_neutral"
+                onclick={closeModal}
+                title="No"
+              >
+                {noLabel}
+              </button>
+              <button
+                class="slds-button slds-button_brand"
+                data-id={caseId}
+                data-name={dataName}
+                onclick={handleModalYesClick}
+                title="Yes"
+              >
+                {reviewSubmitLabel}
+              </button>
+            </footer>
+          </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+      </template>
+
+      <template if:true={waiveModal}>
+        <section
+          role="dialog"
+          tabindex="-1"
+          aria-labelledby="modal-heading-01"
+          aria-modal="true"
+          aria-describedby="modal-content-id-4"
+          class="my-modal slds-modal slds-fade-in-open"
+        >
+          <div class="slds-modal__container">
+            <!-- Modal/Popup Box LWC header here -->
+            <header class="slds-modal__header">
+              <!-- <button
+                class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                title="Close"
+                onclick={closeModal}
+              >
+                <lightning-icon
+                  icon-name="utility:close"
+                  alternative-text="close"
+                  variant="inverse"
+                  size="small"
+                ></lightning-icon>
+                <span class="slds-assistive-text">Close</span>
+              </button> -->
+              <h2
+                id="modal-heading-05"
+                class="slds-text-heading_medium slds-hyphenate"
+              >
+                Confirm?
+              </h2>
+            </header>
+            <!-- Modal/Popup Box LWC body starts here -->
+            <div
+              class="slds-modal__content slds-p-around_medium"
+              id="modal-content-id-5"
+            >
+           <center>Do you want to initiate TSR? </center> 
+            <!-- <lightning-combobox
+            name="status"
+            label={textAreaLabel}
+            data-name={dataName}
+            placeholder="Choose Status"
+            value={textAreaValue}
+            onchange={handleTextAreaChange}
+            options={waiverResOpt}
+            required
+          >
+          </lightning-combobox> -->
+            
+            </div>
+            <!-- Modal/Popup Box LWC footer starts here -->
+            <footer class="slds-modal__footer">
+              <lightning-button class="slds-float_right slds-p-around_xx-small"
+               label="No"
+               variant="brand"
+                onclick={handleInitiate}
+                title="Waive TSR"
+              >    
+              </lightning-button>
+              <lightning-button class="slds-float_right slds-p-around_xx-small"
+              label="Yes"
+              title="Initiate TSR"
+              variant="brand"
+              onclick={handleInitiate}
+              disabled={disableInitiateTSR}
+            ></lightning-button>
+            </footer>
+          </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+      </template>
+    </template>
+  </lightning-card>
+</template>

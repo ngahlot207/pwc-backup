@@ -1,0 +1,380 @@
+<apex:page renderAs="pdf" showHeader="false" applyHtmlTag="false">
+     <head>
+        <style>
+            body {
+            	
+            	font-weight: 400;
+            }
+           
+            @page {
+            	margin-top:6px; 
+            	margin-bottom: 0px; 
+            	margin-left: 0px; 
+            	margin-right: 0px; 
+                size:A4;
+            <!-- size:8in 3.67in;-->
+            }
+            #mandate_Instruction_Form{
+            	width: 746px;
+            	margin-left:-19px;
+            	
+            }
+             .form-container {
+                    font-size: 8px;
+                    padding: 4px;
+                    border: 2px solid ;
+            
+                }
+            .placeHolderItalic {
+            color: #DCDCDC;
+            border: 1px solid black;
+            font-style: italic;
+            } 
+            .mandate-info-align {
+            margin-top: -9px;
+            }
+            .rowClass{
+            height: 5px;
+            }
+            #mandate-inrIcon {
+            height: 10px;
+            }
+            #right_checked_checkbox {
+            position: relative;
+            z-index: -1;
+            width: 2%;
+            height: 15px;
+            }
+            .mandate-ecs-sign {
+            text-align: right;
+            width: 75%;
+            margin: -55px 0 0 180px;
+            }
+            
+            .mandate-ecs-sign #mandate-sign-account-holder tr {
+            	padding-top: 5px;
+            	height: 8px; 
+            	vertical-align: center;
+            }
+            
+            #Reference2, #mandate-sign {
+            margin-top: -10px;
+            }
+            #mandateFromToDate {
+            margin-top: -12px;
+            }
+            #cross_checkbox {
+            position: absolute;
+            z-index: -1;
+            width: 4%;
+            height: 15px;
+            margin: -10px 0 0 50px;
+            }
+            
+            #right_checked_checkbox_MaxAmt {
+            position: relative;
+            z-index: -1;
+            width: 2%;
+            height: 20px;
+            }
+            #Reference1, #period_From_To {
+            margin-top: 5px;
+            
+            }
+            #umrn_Date td, #sponser_Bank_Code td, #bank_acc td,
+            #ifsc_Micr td, #amount_Of_Inr td, #debitMandateAgreement td,
+            #period_From_To td {
+            padding: 0px;
+            }
+            .authorise {
+            padding: 0px;
+            height: 5px;
+            font-size: 12px;
+            border: 0px solid;
+            margin-top: 2px;
+            }
+            
+            #sponser_Bank_Code, #mandateDeclaration {
+            margin-top: -5px;
+            } 
+            .agreementTable td {
+            border: 0px solid;
+            padding: 0px;
+            font-size: 6px;
+            cellspacing: 20px;
+            
+            }
+            .dashedLine-mandate {
+            border-width: 1px;
+           <!-- border-bottom-style: dashed;-->
+            <!--border-left-style: dashed;-->
+            }
+            
+            #name td{
+            height: 15px;
+            width:10px;
+            }
+            #frequency {
+            font-size: 10px;
+            
+            }
+            .noBorder {
+            
+            border: 0px solid;
+            margin-top: 5px;
+            }
+            
+            .smallnoBorder{
+            border: 0px solid;
+            margin-top: 5px;
+            width: 50px;
+            }
+            
+            .font-serif {
+            font-family: serif;
+            font-size: 10px;
+            }
+            
+            .placeHolder {
+            color: #DCDCDC;
+            border: 1px solid black;
+            }
+            
+            .placeHolderItalic {
+            color: #DCDCDC;
+            border: 1px solid black;
+            font-style: italic;
+            }
+            .placeHolders {
+            color: #DCDCDC;
+            }
+            .placeHolderItalics {
+            color: #DCDCDC;
+            font-style: italic;
+            }
+            #gender {
+            width:8px;
+            }
+            
+            .placeHolderSMQ {
+            font-size: 8px;
+            }
+            
+            .border {
+            border: 1px solid;
+            }
+            .Border1{
+            border:1px solid-black
+            margin-top: 1px;
+            margin-bottom: 1px;
+            margin-right: 1px;
+            margin-left:1px;
+            }
+            
+            .smqPage-align {
+            padding: 5px 0 5px 15px;
+            }
+            
+            .greyBack {
+            background-color: #696969;
+            color: #ffffff;
+            font-weight: bold;
+            }
+            
+            
+            .checkbox {
+            height:10px;
+            }
+            
+            .center {
+            text-align: center;
+            }
+            
+            .smqHeaderAlign {
+            margin-top: -35px;
+            }
+            
+            .blackBackGround {
+            font-weight: bold;
+            }
+            
+            .small{
+            width: 50px;
+            }
+            .smallColumn{
+            width: 80px;
+            }
+            .languagesColumn{
+            width: 360px;
+            }
+            .smallColumn2{
+            width: 150px;
+            }
+            
+            .fsmall{
+            width: 50px;
+            border: 0px solid;
+            }
+            
+            .smqPage-font {
+            font-size: 12px;
+            font-family: serif;
+            }
+            
+            .alignTop {
+            
+            vertical-align: top;
+            }
+            table {
+            table-layout: fixed;
+            border-collapse: collapse;
+            
+            }
+            .myTable{
+            text-align: center;
+            
+            }
+            
+            td {
+            border: 1px solid;
+            padding: 3px;
+            font-size: 11px;
+            
+            }
+            td, div, span {
+            letter-spacing: 5px;
+            
+            font-family: Arial, Helvetica, sans-serif;
+            }
+            
+            #Number {
+            border: 2px solid;
+            float: right;
+            padding: 10px;
+            width: 50%;
+            margin-top: 60px;
+            margin-right: 20px;
+            border-radius: 50px;
+            font-size: 20px;
+            font-weight: bold;
+            color:#9C1D27;
+            }        
+            #pid{
+            color:#9C1D27;
+            text-align:right;
+            }
+            #leftside{
+            float:left;
+            }
+            #textAlign{
+            text-align:center;
+            color:#000000;
+            font-size: 20px;
+            }
+            <!--.star-l-t{
+            position:absolute;
+            width:20px;
+            height:30px;
+            top:15%;
+            left:0%;
+            }
+            .star-r-t{
+            position:absolute;
+            width:20px;
+            height:30px;
+            top:15%;
+            right:0%;
+            }  
+            .dot-l-t{
+            position:absolute;
+            width:30px;
+            height:30px;
+            top:0%; -->
+            left:0%;
+            
+            }
+            .dot-r-t{
+            position:absolute;
+            width:30px;
+            height:30px;
+            top:0%;
+            right:0%;
+            z-index: -1;
+            }
+            .outer-div{
+            padding-left:33px;
+            padding-right:33px;
+            border-width:2px;
+            margin-bottom:8px;
+            position:relative;            
+            size:8in 3.67in;            
+            }
+            .dashed-line{
+            position: absolute;
+    		bottom: -5px;
+            width: 100%;
+            height: 2px;
+    		border-bottom: 2px dashed black;
+            left: 33px;    
+            padding: 0px;
+            }
+            .dot-l-t2{
+            position:absolute;
+            width:24px;
+            height:24px;
+            top:32.5%;
+            left:0%;
+            z-index: -1;
+            }
+            .dot-r-t2{
+            position:absolute;
+            width:24px;
+            height:24px;
+            top:32.5%;
+            right:0%;
+            z-index: -1;
+            }
+            .dot-l-t3{
+            position:absolute;
+            width:24px;
+            height:24px;
+            top:65.5%;
+            left:0%;
+            z-index: -1;
+            }
+            .dot-r-t3{
+            position:absolute;
+            width:24px;
+            height:24px;
+            top:65.5%;
+            right:0%;
+            z-index: -1;
+            }
+            
+           .dot-r-t4{
+            position:absolute;
+            width:768px;
+            height:352px;
+            top:97.5%;
+            right:0%;
+            z-index: -1;
+            }
+            .dot-l-t4{
+            position:absolute;
+            width:24px;
+            height:24px;
+            top:97.5%;
+            left:0%;
+            }
+        </style>
+        
+    </head>
+    <c:BTApplicationPart1 />
+    <body>
+        <!-- Your content here -->
+        <div class="footer">
+            <span class="pagenumber"></span>
+
+        </div>
+    </body>
+</apex:page>

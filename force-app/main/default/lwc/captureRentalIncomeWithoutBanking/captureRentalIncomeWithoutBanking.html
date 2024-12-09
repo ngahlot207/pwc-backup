@@ -1,0 +1,414 @@
+<template>
+    <!-- <lightning-card title="Rental Property Details"> -->
+
+
+    <!-- <lightning-layout multiple-rows="true">
+            <lightning-layout-item size="12" flexibility="auto" padding="horizontal-small" class="slds-text-align_left" small-device-size={layoutSize.small}
+            medium-device-size={layoutSize.medium} large-device-size={layoutSize.medium}> -->
+            <lightning-spinner if:true={showSpinner} alternative-text="Loading" size="medium" style="position: fixed;"></lightning-spinner>
+    <div class="slds-box slds-theme_default slds-scrollable_x" style="width:200rem">
+        <table
+            class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered slds-border_right slds-border_left">
+            <tr>
+                <th class="" scope="col" colspan="4">
+                    <div class=""
+                        title="Bank Rental Credit Month"><abbr class="slds-required">*</abbr><b>Bank Rental Credit Month</b></div>
+                    
+                </th>
+                <th class="" scope="col">
+                    <div class=""  title="Month1"  style="width: 130px;">
+                        <lightning-combobox onchange={inputChangeHandler} variant="label-hidden" options={month1Options}
+                            placeholder="Select Month" disabled={monthsSelectionDisabled} value={labelmonth1}
+                            data-fieldname="labelmonth1" required>
+                        </lightning-combobox>
+                    </div>
+                </th>
+                <th class="" scope="col">
+                    <div class=""  title="Month2"  style="width: 130px;">
+                        <lightning-input onchange={inputChangeHandler} variant="label-hidden" placeholder="Select Month"
+                            disabled value={labelmonth2} data-fieldname="labelmonth2" >
+                            <!-- options={month2Options} -->
+                        </lightning-input>
+                    </div>
+                </th>
+                <th class="" scope="col">
+                    <div class="" title="Month3"  style="width: 130px;">
+                        <lightning-input onchange={inputChangeHandler} 
+                            variant="label-hidden" placeholder="Select Month" disabled value={labelmonth3}
+                            data-fieldname="labelmonth3" >
+                            <!--options={month3Options} -->
+                        </lightning-input>
+                    </div>
+                </th>
+                <th class="" scope="col">
+                    
+                    <div class=""
+                        title="Average Monthly Rental"><abbr class="slds-required" style="margin-bottom: 20px;">*</abbr><b>Average Monthly<br/> Rental</b></div>
+                </th>
+                <td>
+                    <div class="" title="Multi Tenanted">
+                        <abbr class="slds-required">*</abbr><b>Multi Tenanted</b>
+                    </div>
+                </td>
+                <td>
+                    <div class="" title="No of Tenants">
+                        <abbr class="slds-required">*</abbr><b>No of Tenants</b>
+                    </div>
+                </td>
+                <td>
+                    <div class=""
+                        title="Annual Net Rental as per current year ITR">
+                        <abbr class="slds-required" style="margin-bottom: 20px;">*</abbr><b>Annual Net Rental <br />As per Current Year ITR</b>
+                    </div>
+                </td>
+                <td>
+                    <div class=""
+                        title="Annual Net Rental as per previous year ITR">
+                        <abbr class="slds-required" style="margin-bottom: 20px;">*</abbr><b>Annual Net Rental <br />As per Previous year ITR</b>
+                    </div>
+                </td>
+                <td>
+                    <div class=""
+                        title="Rent Agreement documented">
+                        <abbr class="slds-required" style="margin-bottom: 20px;">*</abbr><b>Rent Agreement <br /> Documented</b>
+                    </div>
+                </td>
+                <td>
+                    <div class=""
+                        title="Property Ownership Proof Documented" >
+                        <abbr class="slds-required" style="margin-bottom: 20px;">*</abbr><b>Property Ownership <br /> Proof Documented</b>
+                    </div>
+                </td>
+                <td>
+                    <div class=""
+                        title="Rental Verification Done">
+                        <abbr class="slds-required">*</abbr><b>Rental Verification Done</b>
+                    </div>
+                </td>
+                <th scope="col">
+                    <div class="" title="Action">
+                        <b>Action</b></div>
+                </th>
+            </tr>
+            <tbody>
+                <template for:each={properties} for:item="property" for:index="index">
+                    <tr key={property.Index__c}>                 
+                        <td style="width:10%;">
+                            <div class=""
+                                title="Property Name"><b>{property.Property_Name__c}</b></div>
+                        </td>
+                        <td >
+                            <div class="" >
+                                <lightning-combobox onchange={inputChangeHandler} name="Address Type"
+                                    value={property.Address_Type__c} label="Address Type" access-key={property.Index__c}
+                                    data-fieldname="Address_Type__c" required options={addressTypeOptions}
+                                    disabled={disableMode} 
+                                    style="width: 140px;">
+                                </lightning-combobox>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="" >
+                                <template if:true={property.showOtherAddress}>  
+                                    <lightning-textarea value={property.Other_Address__c} 
+                                        access-key={property.Index__c}
+                                        placeholder="Enter Here"
+                                        data-fieldname="Other_Address__c" required disabled={disableMode}
+                                        label="Address"
+                                        onchange={inputChangeHandler} 
+                                        style="width: 200px;"                                                 
+                                    ></lightning-textarea>
+                                </template>
+                                <template if:false={property.showOtherAddress}>
+                                    <lightning-combobox onchange={inputChangeHandler} name="Address"
+                                        value={property.Address__c} label="Address" access-key={property.Index__c}
+                                        data-fieldname="Address__c" required options={addressOptions} disabled={property.disableAddress}
+                                        style="width: 200px;">
+                                    </lightning-combobox>
+                                </template>
+                            </div>
+                        </td>
+
+
+                        <!-- <td>
+                            <div class="slds-m-around_medium slds-align_absolute-center" style="width: 150px;">
+                                <lightning-combobox onchange={inputChangeHandler} name="Combo"
+                                    value={property.Address__c} variant="label-hidden"
+                                    access-key={property.Index__c} data-fieldname="Address__c" required
+                                    options={addressOptions}>
+                                </lightning-combobox>
+                            </div>
+                        </td> -->
+
+                        <td class="slds-border_left">
+                            <div class="">
+                                <abbr class="slds-required">*</abbr><b>Monthly Rental <br>Amount (Rs)</b>
+                            </div>
+                        </td>
+                        <td>
+                            <div class=""
+                                title="Bank Rental Credit Montd" >
+                                 <lightning-input
+                                    type="number" step=".01" formatter="currency" variant="label-hidden"
+                                    value={property.Month1_Rental_Credited_Amount__c} access-key={property.Index__c}
+                                    data-fieldname="Month1_Rental_Credited_Amount__c" placeholder="Enter Here"
+                                    onchange={inputChangeHandler} required 
+                                    message-when-bad-input="Enter a Valid Input"
+                                    min=0
+                                    message-when-range-underflow="Enter a Valid Input"
+                                    disabled={disableMode}></lightning-input>
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class=""
+                                title="Bank Rental Credit Montd" ><lightning-input
+                                type="number" step=".01" formatter="currency" variant="label-hidden"
+                                    value={property.Month2_Rental_Credited_Amount__c} access-key={property.Index__c}
+                                    data-fieldname="Month2_Rental_Credited_Amount__c" placeholder="Enter Here"
+                                    onchange={inputChangeHandler} required
+                                    message-when-bad-input="Enter a Valid Input"
+                                    min=0
+                                    message-when-range-underflow="Enter a Valid Input"
+                                    disabled={disableMode}></lightning-input>
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class=""
+                                title="Bank Rental Credit Montd"><lightning-input
+                                type="number" step=".01" formatter="currency" variant="label-hidden"
+                                    value={property.Month3_Rental_Credited_Amount__c} access-key={property.Index__c}
+                                    data-fieldname="Month3_Rental_Credited_Amount__c" placeholder="Enter Here"
+                                    onchange={inputChangeHandler} required
+                                    message-when-bad-input="Enter a Valid Input"
+                                    min=0
+                                    message-when-range-underflow="Enter a Valid Input"
+                                    disabled={disableMode}></lightning-input>
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class="" title="Bank Rental Credit Montd"
+                                >
+                                <lightning-input  value={property.Average_Monthly_Rental__c}
+                                 type="number" step=".01" formatter="currency"
+                                 disabled variant="label-hidden"
+                                 data-fieldname="Average_Monthly_Rental__c" 
+                                 onchange={inputChangeHandler} ></lightning-input>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="">
+                                <lightning-combobox onchange={inputChangeHandler} variant="label-hidden"
+                                    value={property.Multi_Tenanted__c} access-key={property.Index__c}
+                                    data-fieldname="Multi_Tenanted__c" options={YesNoOptions} required
+                                    disabled={disableMode}></lightning-combobox>
+                            </div>
+                        </td>
+                        <td>
+                            <div class=""
+                                title="Bank Rental Credit Month" >
+                                <lightning-input type="number" placeholder="Enter Here"
+                                    onchange={inputChangeHandler} value={property.No_of_Tenants__c}
+                                    access-key={property.Index__c} variant="label-hidden"
+                                    data-fieldname="No_of_Tenants__c" required
+                                    message-when-bad-input="Enter a Valid Input"
+                                    message-when-range-underflow="Enter a Valid Input"
+                                    disabled={disableMode}></lightning-input>
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class=""
+                                title="Bank Rental Credit Montd" >
+                                <lightning-input type="number" placeholder="Enter Here"
+                                    value={property.Annual_Net_Rental_Current_Year_ITR__c}
+                                    access-key={property.Index__c} variant="label-hidden"
+                                    data-fieldname="Annual_Net_Rental_Current_Year_ITR__c"
+                                    onchange={inputChangeHandler} required
+                                    step=".01"
+                                    message-when-bad-input="Enter a Valid Input"
+                                    message-when-range-underflow="Enter a Valid Input"
+                                    formatter="currency"
+                                    disabled={disableMode}></lightning-input>
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class=""
+                                title="Bank Rental Credit Montd" >
+                                <lightning-input type="number" placeholder="Enter Here"
+                                    value={property.Annual_Net_Rental_Previous_Year_ITR__c}
+                                    access-key={property.Index__c} variant="label-hidden"
+                                    data-fieldname="Annual_Net_Rental_Previous_Year_ITR__c"
+                                    onchange={inputChangeHandler} required
+                                    message-when-bad-input="Enter a Valid Input"
+                                    message-when-range-underflow="Enter a Valid Input"
+                                    formatter="currency"
+                                    step=".01"
+                                    disabled={disableMode}></lightning-input>
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class="" >
+                                <lightning-combobox onchange={inputChangeHandler} variant="label-hidden"
+                                    options={YesNoOptions} required disabled={disableMode}
+                                    value={property.Rent_agreement_documented__c} access-key={property.Index__c}
+                                    data-fieldname="Rent_agreement_documented__c"
+                                    ></lightning-combobox>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="" 
+                            >
+                                <lightning-combobox onchange={inputChangeHandler} variant="label-hidden"
+                                    options={YesNoOptions} required
+                                    value={property.Property_ownership_proof_documented__c}
+                                    access-key={property.Index__c}
+                                    data-fieldname="Property_ownership_proof_documented__c"
+                                    disabled={disableMode}></lightning-combobox>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="" >
+                                <lightning-combobox onchange={inputChangeHandler} variant="label-hidden"
+                                    options={YesNoOptions} required value={property.Rental_Verification_done__c}
+                                    access-key={property.Index__c} data-fieldname="Rental_Verification_done__c"
+                                    disabled={disableMode}></lightning-combobox>
+                            </div>
+                        </td>
+
+
+                        <td>
+                            <div class=""
+                                title="Delete" >
+                                <lightning-button-icon icon-name="action:delete" alternative-text="Delete"
+                                    title="Delete" access-key={property.Index__c}
+                                    onclick={handleDeleteAction}></lightning-button-icon>
+                            </div>
+                        </td>
+                    </tr>                  
+                </template>
+                <tr>
+                    <th class="" scope="col" colspan="4">
+                        <div class=""
+                            title="Bank Rental Credit Month" ><b>TOTAL MONTHLY RENTAL AMT (Rs)</b></div>
+                        
+    
+                    </th>
+                    <th class="" scope="col">
+                        <div class=""  title="Month1">
+                            <lightning-input onchange={inputChangeHandler} variant="label-hidden" placeholder=""
+                                disabled value={month1AvgAmount} type="number" step=".01" formatter="currency"></lightning-input>
+                               
+                                                       </div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class=""  title="Month2">
+                            <lightning-input onchange={inputChangeHandler} variant="label-hidden" placeholder=""
+                                disabled value={month2AvgAmount} type="number" step=".01" formatter="currency"
+                                >
+                           
+                            </lightning-input>
+                        </div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="" title="Month3">
+                            <lightning-input onchange={inputChangeHandler}  
+                                variant="label-hidden" placeholder="" disabled value={month3AvgAmount}
+                                type="number" step=".01" formatter="currency"
+                               >
+                            
+                            </lightning-input>
+                        </div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="">
+                            <lightning-input type="number" step=".01" formatter="currency" 
+                            disabled value={allAvgAmount} variant="label-hidden"
+                            
+                            ></lightning-input>
+                        </div>
+                    </th>
+                    <!-- style="width: 100px; margin-bottom: 20px; margin-left: 25px;" -->
+                    <th class="" scope="col" colspan="8" >
+                        <div class="" title="Multi Tenanted">
+                            <b style="color: transparent; user-select: none;"></b>
+                        </div>
+                    </th>
+                    <!-- <td>
+                        <div class="slds-truncate slds-m-around_medium slds-align_absolute-center" title="Multi Tenanted">
+                            <b style="color: transparent; user-select: none;">Multi Tenanted</b>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="slds-truncate slds-m-around_medium slds-align_absolute-center" title="No of Tenants">
+                            <b style="color: transparent; user-select: none;">No of Tenants</b>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="slds-truncate slds-m-around_medium slds-align_absolute-center"
+                            title="Annual Net Rental as per current year ITR">
+                            <b style="color: transparent; user-select: none;">Annual Net Rental <br />As per Current Year
+                                ITR</b>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="slds-truncate slds-m-around_medium slds-align_absolute-center"
+                            title="Annual Net Rental as per previous year ITR">
+                            <b style="color: transparent; user-select: none;">Annual Net Rental <br />As per Previous year
+                                ITR</b>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="slds-truncate slds-m-around_medium slds-align_absolute-center"
+                            title="Rent Agreement documented">
+                            <b style="color: transparent; user-select: none;">Rent Agreement <br /> Documented</b>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="slds-truncate slds-m-around_medium slds-align_absolute-center"
+                            title="Property Ownership Proof Documented" style="margin-top: 32px;">
+                            <b style="color: transparent; user-select: none;">Property Ownership <br /> Proof Documented</b>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="slds-truncate slds-m-around_medium slds-align_absolute-center"
+                            title="Rental Verification Done">
+                            <b style="color: transparent; user-select: none;">Rental Verification Done</b>
+                        </div>
+                    </td>
+                    <th scope="col">
+                        <div class="slds-truncate slds-m-around_medium slds-align_absolute-center" title="Action">
+                            <b style="color: transparent; user-select: none;">Action</b>
+                        </div>
+                    </th> -->
+                </tr>
+            </tbody>
+
+
+
+        </table>
+
+        <div class="slds-m-around_medium">
+            <lightning-button label="Add Property" variant="brand-outline" onclick={addProperty}
+                icon-name="utility:connected_apps" disabled={disableMode}></lightning-button>
+        </div>
+
+        <!-- <div class="slds-m-around_medium">
+            <lightning-button label="Save" onclick={handleUpsert}></lightning-button>
+        </div> -->
+        <table class="slds-table slds-table_cell-buffer slds-border_top slds-border_bottom">
+
+           
+        </table>
+    </div>
+
+    <!-- </lightning-layout-item>
+
+        </lightning-layout> -->
+    <!-- </lightning-card> -->
+</template>

@@ -1,0 +1,10 @@
+<apex:page controller="FormReceiverController" >
+    <h2>Form Submission Received</h2>
+
+    <!-- Display the submitted data -->
+    <apex:outputText rendered="{!submittedName != null}" value="Submitted Name: {!submittedName}" /><br/>
+    <apex:outputText rendered="{!submittedEmail != null}" value="Submitted Email: {!submittedEmail}" /><br/>
+
+    <!-- If no data is present, show an error message -->
+    <apex:outputText rendered="{!submittedName == null}" value="No data received!" />
+</apex:page>

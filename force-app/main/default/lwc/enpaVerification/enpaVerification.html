@@ -1,0 +1,766 @@
+<template>
+    <template if:true={enpaData}>
+        <template lwc:if={desktopBoolean}>
+            <lightning-card>
+                <div id="containerDivv" onmousemove={handlemousemove} onmouseup={handlemouseup}
+                    ondblclick={handledblclickresizable}
+                    class="slds-table_header-fixed_container slds-border_right slds-border_left tableScroll"
+                    onscroll={tableOuterDivScrolled}>
+                    <div id="tableViewInnerDivv" class="slds-scrollable_y tableViewInnerDiv slds-scrollable">
+                        <table
+                            class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout slds-max-medium-table_stacked-horizontal"
+                            onscroll={tableScrolled}>
+                            <thead>
+                                <tr>
+                                    <th title="Customer Name" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                        scope="col">
+                                        <div class="slds-cell-fixed fixedWidth">
+                                            <a class="slds-th__action slds-text-link--reset">
+                                                <span class="slds-truncate">Customer Name</span>
+                                            </a>
+                                            <div class="slds-resizable">
+                                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                    <span class="slds-resizable__divider"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th title="UCID" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                        <div class="slds-cell-fixed fixedWidth">
+                                            <a class="slds-th__action slds-text-link--reset">
+                                                <span class="slds-truncate">UCID</span>
+                                            </a>
+                                            <div class="slds-resizable">
+                                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                    <span class="slds-resizable__divider"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th title="Fedfina LAN" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                        scope="col">
+                                        <div class="slds-cell-fixed fixedWidth">
+                                            <a class="slds-th__action slds-text-link--reset">
+                                                <span class="slds-truncate">Fedfina LAN</span>
+                                            </a>
+                                            <div class="slds-resizable">
+                                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                    <span class="slds-resizable__divider"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th title="Product" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                        scope="col">
+                                        <div class="slds-cell-fixed fixedWidth">
+                                            <a class="slds-th__action slds-text-link--reset">
+                                                <span class="slds-truncate">Product</span>
+                                            </a>
+                                            <div class="slds-resizable">
+                                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                    <span class="slds-resizable__divider"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th title="Loan Amount" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                        scope="col">
+                                        <div class="slds-cell-fixed fixedWidth">
+                                            <a class="slds-th__action slds-text-link--reset">
+                                                <span class="slds-truncate">Loan Amount </span>
+                                            </a>
+                                            <div class="slds-resizable">
+                                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                    <span class="slds-resizable__divider"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th title="POS" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                        <div class="slds-cell-fixed fixedWidth">
+                                            <a class="slds-th__action slds-text-link--reset">
+                                                <span class="slds-truncate">POS</span>
+                                            </a>
+                                            <div class="slds-resizable">
+                                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                    <span class="slds-resizable__divider"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th title="Disbursement Date" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                        scope="col">
+                                        <div class="slds-cell-fixed fixedWidth">
+                                            <a class="slds-th__action slds-text-link--reset">
+                                                <span class="slds-truncate">Disbursement Date </span>
+                                            </a>
+                                            <div class="slds-resizable">
+                                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                    <span class="slds-resizable__divider"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th title="Tenure" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                        scope="col">
+                                        <div class="slds-cell-fixed fixedWidth">
+                                            <a class="slds-th__action slds-text-link--reset">
+                                                <span class="slds-truncate">Tenure</span>
+                                            </a>
+                                            <div class="slds-resizable">
+                                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                    <span class="slds-resizable__divider"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th title="System DPD" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                        scope="col">
+                                        <div class="slds-cell-fixed fixedWidth">
+                                            <a class="slds-th__action slds-text-link--reset">
+                                                <span class="slds-truncate">System DPD</span>
+                                            </a>
+                                            <div class="slds-resizable">
+                                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                    <span class="slds-resizable__divider"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th title="UCID level DPD" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                        scope="col">
+                                        <div class="slds-cell-fixed fixedWidth">
+                                            <a class="slds-th__action slds-text-link--reset">
+                                                <span class="slds-truncate">UCID level DPD</span>
+                                            </a>
+                                            <div class="slds-resizable">
+                                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                    <span class="slds-resizable__divider"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th title="Asset Classification"
+                                        class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                        <div class="slds-cell-fixed fixedWidth">
+                                            <a class="slds-th__action slds-text-link--reset">
+                                                <span class="slds-truncate">Asset Classification</span>
+                                            </a>
+                                            <div class="slds-resizable">
+                                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                    <span class="slds-resizable__divider"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th title="NPA Date" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                        scope="col">
+                                        <div class="slds-cell-fixed fixedWidth">
+                                            <a class="slds-th__action slds-text-link--reset">
+                                                <span class="slds-truncate">NPA Date</span>
+                                            </a>
+                                            <div class="slds-resizable">
+                                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                    <span class="slds-resizable__divider"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th title="Securitisation Status"
+                                        class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                        <div class="slds-cell-fixed fixedWidth">
+                                            <a class="slds-th__action slds-text-link--reset">
+                                                <span class="slds-truncate">Securitisation Status</span>
+                                            </a>
+                                            <div class="slds-resizable">
+                                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                    <span class="slds-resizable__divider"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    
+
+                                    <th title="Fraud Flag "
+                                    class="slds-is-resizable dv-dynamic-width fixedWidthhh" scope="col">
+                                    <div class="slds-cell-fixed fixedWidthhh">
+                                        <a class="slds-th__action slds-text-link--reset">
+
+                                            Fraud Flag
+                                        </a>
+                                        <div class="slds-resizable">
+                                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                <span class="slds-resizable__divider"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </th>
+
+                                <th title="WriteOff Flag"
+                                class="slds-is-resizable dv-dynamic-width fixedWidthhh" scope="col">
+                                <div class="slds-cell-fixed fixedWidthhh">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        WriteOff Flag
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </th>
+
+                            <th title="Writeoff Date "
+                            class="slds-is-resizable dv-dynamic-width fixedWidthhh" scope="col">
+                            <div class="slds-cell-fixed fixedWidthhh">
+                                <a class="slds-th__action slds-text-link--reset">
+                                    Writeoff Date
+                                </a>
+                                <div class="slds-resizable">
+                                    <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                        <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+
+                        <th title="Settled "
+                        class="slds-is-resizable dv-dynamic-width fixedWidthhh" scope="col">
+                        <div class="slds-cell-fixed fixedWidthhh">
+                            <a class="slds-th__action slds-text-link--reset">
+                                <!-- <span class="slds-truncate">Internal Top up Original
+                                    loan?
+                                </span> -->
+                                Settled
+                            </a>
+                            <div class="slds-resizable">
+                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                    <span class="slds-resizable__divider"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </th>
+
+                    <th title="Settled Date "
+                    class="slds-is-resizable dv-dynamic-width fixedWidthhh" scope="col">
+                    <div class="slds-cell-fixed fixedWidthhh">
+                        <a class="slds-th__action slds-text-link--reset">
+                            Settled Date
+                        </a>
+                        <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                <span class="slds-resizable__divider"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </th>
+ 
+                                    <th title="Internal Top up Original loan? "
+                                        class="slds-is-resizable dv-dynamic-width fixedWidthhh" scope="col">
+                                        <div class="slds-cell-fixed fixedWidthhh">
+                                            <a class="slds-th__action slds-text-link--reset">
+                                                <!-- <span class="slds-truncate">Internal Top up Original
+                                                    loan?
+                                                </span> -->
+                                                <label id="id-01">Internal Top up Original loan?</label>
+                                            </a>
+                                            <div class="slds-resizable">
+                                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                    <span class="slds-resizable__divider"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </th>
+
+                                    <th title="Loan to be closed internally? "
+                                        class="slds-is-resizable dv-dynamic-width fixedWidthhh" scope="col">
+                                        <div class="slds-cell-fixed fixedWidthhh">
+                                            <a class="slds-th__action slds-text-link--reset">
+                                                <!-- <span class="slds-truncate">Loan to be closed internally?
+                                                </span> -->
+                                                <label id="id-02">Loan to be closed internally?</label>
+                                            </a>
+                                            <div class="slds-resizable">
+                                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                    <span class="slds-resizable__divider"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </th>
+
+                                    <th title="Is PDD pending?" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                        scope="col">
+                                        <div class="slds-cell-fixed fixedWidth">
+                                            <a class="slds-th__action slds-text-link--reset">
+                                                <!-- <span class="slds-truncate">Is PDD pending?</span> -->
+                                                <label id="id-03">Is PDD pending?</label>
+                                            </a>
+                                            <div class="slds-resizable">
+                                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                    <span class="slds-resizable__divider"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th title="Loan to be linked with proposed loan?"
+                                        class="slds-is-resizable dv-dynamic-width fixedWidthhh" scope="col">
+                                        <div class="slds-cell-fixed fixedWidthhh">
+                                            <a class="slds-th__action slds-text-link--reset">
+                                                <!-- <span class="slds-truncate">Loan to be linked with
+                                                    proposed
+                                                    loan?</span> -->
+                                                    <label id="id-04">Loan to be linked with proposed loan?</label>
+                                            </a>
+                                            <div class="slds-resizable">
+                                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                    <span class="slds-resizable__divider"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th title="Loan to be considered in LTV calculation?"
+                                        class="slds-is-resizable dv-dynamic-width fixedWidthh" scope="col">
+                                        <div class="slds-cell-fixed fixedWidthh">
+                                            <a class="slds-th__action slds-text-link--reset">
+                                                <!-- <span class="slds-truncate">Loan to be considered in LTV
+                                                    calculation?</span> -->
+                                                    <label id="id-05">Loan to be considered in LTV calculation?</label>
+                                            </a>
+                                            <div class="slds-resizable">
+                                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                    <span class="slds-resizable__divider"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </th>
+
+                                   
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={enpaData} for:item="record">
+                                    <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+                                        <th class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title={record.CustomerName__c}>
+                                                {record.CustomerName__c}
+                                            </div>
+                                        </th>
+                                        <td class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title={record.UCID__c}>
+                                                {record.UCID__c}
+                                            </div>
+                                        </td>
+
+                                        <td class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title={record.Lan__c}>
+                                                {record.Lan__c}
+                                            </div>
+                                        </td>
+                                        <td class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title={record.LoanType__c}>
+                                                {record.LoanType__c}
+                                            </div>
+                                        </td>
+                                        <td class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title={record.LoanAmount__c}>
+                                                {record.LoanAmount__c}
+                                            </div>
+                                        </td>
+                                        <td class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title={record.AUM__c}>
+                                                {record.AUM__c}
+                                            </div>
+                                        </td>
+                                        <td class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title={record.LoanDisbDate__c}>
+                                                <!-- {record.LoanDisbDate__c} -->
+                                                <!-- <c-date-display birth-date={record.LoanDisbDate__c}></c-date-display> -->
+                                                {record.LoanDisbDate__c}
+                                            </div>
+                                        </td>
+                                        <td class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title={record.Tenure__c}>
+                                                {record.Tenure__c}
+                                            </div>
+                                        </td>
+                                        <td class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title={record.SystemDPD__c}>
+                                                {record.SystemDPD__c}
+                                            </div>
+                                        </td>
+                                        <td class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title={record.DPD__c}>
+                                                {record.DPD__c}
+                                            </div>
+                                        </td>
+                                        <td class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title={record.FinalAssetClass__c}>
+                                                {record.FinalAssetClass__c}
+                                            </div>
+                                        </td>
+                                        <td class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title={record.NPADate__c}>
+                                                {record.NPADate__c}
+                                            </div>
+                                        </td>
+                                        <td class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title={record.SecuritisationStatus__c}>
+                                                {record.SecuritisationStatus__c}
+                                            </div>
+                                        </td>
+
+                                        <td class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title={record.FraudFlag__c}>
+                                                {record.FraudFlag__c}
+                                            </div>
+                                        </td>
+                                        <td class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title={record.WriteOffFlag__c}>
+                                                {record.WriteOffFlag__c}
+                                            </div>
+                                        </td>
+                                        <td class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title={record.WriteoffDate__c}>
+                                                {record.WriteoffDate__c}
+                                            </div>
+                                        </td>
+                                        <td class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title={record.Settled__c}>
+                                                {record.Settled__c}
+                                            </div>
+                                        </td>
+                                        <td class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title={record.SettledDate__c}>
+                                                {record.SettledDate__c}
+                                            </div>
+                                        </td>   
+
+
+                                        <td>
+                                            <!-- <c-dedupe-display-value dedupe-rsults-options={internalTopUpOptions}
+                                                type="picklist" field-value={record.Internal_Top_up_Original_loan__c}
+                                                object={record} field-name="Internal_Top_up_Original_loan__c"
+                                                onpicklistchange={handlePicklistValues} is-read-only={isReadOnly}
+                                                required=true></c-dedupe-display-value> -->
+
+                                            <c-hunter-displayvalue dedupe-rsults-options={internalTopUpOptions}
+                                                type="picklist" required={req}
+                                                field-value={record.Internal_Top_up_Original_loan__c} object={record}
+                                                field-name="Internal_Top_up_Original_loan__c"
+                                                onpicklistchange={handlePicklistValues}
+                                                is-read-only={isReadOnly}></c-hunter-displayvalue>
+                                            <!-- <select name="Internal_Top_up_Original_loan__c"
+                                                    value={record.Internal_Top_up_Original_loan__c}
+                                                    variant="label-hidden" data-recordid={record.Id} class="slds-select"
+                                                    onchange={handleEnpaChange}>
+                                                    <template for:each={internalTopUpOptions} for:item="opt">
+                                                        <option key={opt.value} value={opt.value}>
+                                                            {opt.label}
+                                                        </option>
+                                                    </template>
+                                                </select> -->
+                                        </td>
+                                        <td>
+                                            <!-- <c-dedupe-display-value dedupe-rsults-options={loantobeClosedInternally}
+                                                type="picklist" field-value={record.Loan_to_be_closed_internally__c}
+                                                object={record} field-name="Loan_to_be_closed_internally__c"
+                                                onpicklistchange={handlePicklistValues} is-read-only={isReadOnly}
+                                                required=true></c-dedupe-display-value> -->
+
+                                            <c-hunter-displayvalue dedupe-rsults-options={loantobeClosedInternally}
+                                                type="picklist" required={req}
+                                                field-value={record.Loan_to_be_closed_internally__c} object={record}
+                                                field-name="Loan_to_be_closed_internally__c"
+                                                onpicklistchange={handlePicklistValues}
+                                                is-read-only={isReadOnly}></c-hunter-displayvalue>
+                                            <!-- <select name="Internal_Top_up_Original_loan__c"
+                                                    value={record.Internal_Top_up_Original_loan__c}
+                                                    variant="label-hidden" data-recordid={record.Id} class="slds-select"
+                                                    onchange={handleEnpaChange}>
+                                                    <template for:each={internalTopUpOptions} for:item="opt">
+                                                        <option key={opt.value} value={opt.value}>
+                                                            {opt.label}
+                                                        </option>
+                                                    </template>
+                                                </select> -->
+                                        </td>
+                                        <td>
+                                            <!-- <c-dedupe-display-value dedupe-rsults-options={pddPendingOptions}
+                                                type="picklist" field-value={record.IsPDDpending__c} object={record}
+                                                field-name="IsPDDpending__c" onpicklistchange={handlePicklistValues}
+                                                is-read-only={isReadOnly} required=true></c-dedupe-display-value> -->
+
+                                            <c-hunter-displayvalue dedupe-rsults-options={pddPendingOptions}
+                                                type="picklist" required={req} field-value={record.IsPDDpending__c}
+                                                object={record} field-name="IsPDDpending__c"
+                                                onpicklistchange={handlePicklistValues}
+                                                is-read-only={isReadOnly}></c-hunter-displayvalue>
+                                            <!-- <select name="IsPDDpending__c" value={record.IsPDDpending__c}
+                                                    variant="label-hidden" placeholder="Choose Status"
+                                                    data-recordid={record.Id} class="slds-select"
+                                                    onchange={handleEnpaChange}>
+                                                    <template for:each={pddPendingOptions} for:item="opt">
+                                                        <option key={opt.value} value={opt.value}>
+                                                            {opt.label}
+                                                        </option>
+                                                    </template>
+                                                </select> -->
+                                        </td>
+                                        <td>
+                                            <!-- <c-dedupe-display-value dedupe-rsults-options={loanProposedLanOptions}
+                                                type="picklist" field-value={record.Loantobelinkedwithproposedloan__c}
+                                                object={record} field-name="Loantobelinkedwithproposedloan__c"
+                                                onpicklistchange={handlePicklistValues} is-read-only={isReadOnly}
+                                                required=true></c-dedupe-display-value> -->
+                                            <c-hunter-displayvalue dedupe-rsults-options={loanProposedLanOptions}
+                                                type="picklist" required={req}
+                                                field-value={record.Loantobelinkedwithproposedloan__c} object={record}
+                                                field-name="Loantobelinkedwithproposedloan__c"
+                                                onpicklistchange={handlePicklistValues}
+                                                is-read-only={isReadOnly}></c-hunter-displayvalue>
+                                            <!-- <select name="Loantobelinkedwithproposedloan__c"
+                                                    value={record.Loantobelinkedwithproposedloan__c}
+                                                    variant="label-hidden" placeholder="Choose Status"
+                                                    data-recordid={record.Id} class="slds-select"
+                                                    onchange={handleEnpaChange}>
+                                                    <template for:each={loanProposedLanOptions} for:item="opt">
+                                                        <option key={opt.value} value={opt.value}>
+                                                            {opt.label}
+                                                        </option>
+                                                    </template>
+                                                </select> -->
+
+                                        </td>
+                                        <td>
+                                            <!-- <c-dedupe-display-value dedupe-rsults-options={loanLTVOptions}
+                                                type="picklist" field-value={record.LoantobeconsideredinLTVcal__c}
+                                                object={record} field-name="LoantobeconsideredinLTVcal__c"
+                                                onpicklistchange={handlePicklistValues} is-read-only={isReadOnly}
+                                                required=true></c-dedupe-display-value> -->
+                                            <c-hunter-displayvalue dedupe-rsults-options={loanLTVOptions}
+                                                type="picklist" required={req}
+                                                field-value={record.LoantobeconsideredinLTVcal__c} object={record}
+                                                field-name="LoantobeconsideredinLTVcal__c"
+                                                onpicklistchange={handlePicklistValues}
+                                                is-read-only={isReadOnly}></c-hunter-displayvalue>
+                                            <!-- <select name="LoantobeconsideredinLTVcal__c"
+                                                    value={record.LoantobeconsideredinLTVcal__c} variant="label-hidden"
+                                                    placeholder="Choose Status" data-recordid={record.Id}
+                                                    class="slds-select" onchange={handleEnpaChange}>
+                                                    <template for:each={loanLTVOptions} for:item="opt">
+                                                        <option key={opt.value} value={opt.value}>
+                                                            {opt.label}
+                                                        </option>
+                                                    </template>
+                                                </select> -->
+                                        </td>
+
+
+                                                                             
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </lightning-card>
+        </template>
+        <template lwc:if={phoneBolean}>
+            <div class="slds-m-top_medium slds-m-bottom_x-large">
+                <!-- <h2 class="slds-text-heading_medium slds-m-bottom_medium">
+                    KYC Verification Files
+                </h2> -->
+                <template for:each={dedupeData} for:item="record">
+                    <div key={record.Id} class="slds-p-around_medium lgc-bg">
+                        <ul class="slds-has-dividers_bottom-space">
+                            <li class="slds-item">
+                                <lightning-tile>
+                                    <dl class="slds-dl_horizontal">
+                                        <dt class="slds-dl_horizontal__label">
+                                            <p class="slds-truncate" title="Customer Name">
+                                                <b>Customer Name : </b>{record.CustomerName__c}
+                                            </p>
+                                        </dt>
+                                        <dt class="slds-dl_horizontal__label">
+                                            <p class="slds-truncate" title="UCID">
+                                                <b>
+                                                    UCID : </b>{record.UCID__c}
+                                            </p>
+                                        </dt>
+
+                                        <dt class="slds-dl_horizontal__label">
+                                            <p class="slds-truncate" title="Fedfina LAN">
+                                                <b>
+                                                    Fedfina LAN : </b>{record.Lan__c}
+                                            </p>
+                                        </dt>
+                                        <dt class="slds-dl_horizontal__label">
+                                            <p class="slds-truncate" title="Product">
+                                                <b>
+                                                    Product : </b>
+                                                <!-- {record.MatchCriteria__c} -->
+                                            </p>
+                                        </dt>
+                                        <dt class="slds-dl_horizontal__label">
+                                            <p class="slds-truncate" title="Loan Amount">
+                                                <b>
+                                                    Loan Amount : </b>{record.LoanAmount__c}
+                                            </p>
+                                        </dt>
+                                        <dt class="slds-dl_horizontal__label">
+                                            <p class="slds-truncate" title="POS">
+                                                <b>
+                                                    POS : </b>
+                                                <!-- {record.} -->
+                                            </p>
+                                        </dt>
+                                        <dt class="slds-dl_horizontal__label">
+                                            <p class="slds-truncate" title="Disbursement Date">
+                                                <b>
+                                                    Disbursement Date :
+                                                </b>
+                                                {record.LoanDisbDate__c}
+                                                <!-- <c-date-display birth-date={record.LoanDisbDate__c}></c-date-display> -->
+                                            </p>
+                                        </dt>
+                                        <dt class="slds-dl_horizontal__label">
+                                            <p class="slds-truncate" title="Tenure">
+                                                <b>
+                                                    Tenure :
+                                                </b>{record.Tenure__c}
+                                            </p>
+                                        </dt>
+                                        <dt class="slds-dl_horizontal__label">
+                                            <p class="slds-truncate" title="System DPD">
+                                                <b>
+                                                    DPD :
+                                                </b>{record.SystemDPD__c}
+                                            </p>
+                                        </dt>
+                                        <dt class="slds-dl_horizontal__label">
+                                            <p class="slds-truncate" title="UCID level DPD">
+                                                <b>
+                                                    UCID level DPD :
+                                                </b>{record.DPD__c}
+                                            </p>
+                                        </dt>
+                                        <dt class="slds-dl_horizontal__label">
+                                            <p class="slds-truncate" title="Asset Classification">
+                                                <b>
+                                                    Asset Classification :
+                                                </b>{record.FinalAssetClass__c}
+                                            </p>
+                                        </dt>
+                                        <dt class="slds-dl_horizontal__label">
+                                            <p class="slds-truncate" title="NPA Date">
+                                                <b>
+                                                    NPA Date :
+                                                </b>{record.NPADate__c}
+                                            </p>
+                                        </dt>
+                                        <dt class="slds-dl_horizontal__label">
+                                            <p class="slds-truncate" title="Securitisation Status">
+                                                <b>
+                                                    Securitisation Status :
+                                                </b>{record.SecuritisationStatus__c}
+                                            </p>
+                                        </dt>
+
+                                        <dt class="slds-dl_horizontal__label"> 
+                                            <p class="slds-truncate" title="Fraud Flag?">
+                                                <b>
+                                                    Fraud Flag :
+                                                </b>{record.FraudFlag__c}
+                                            </p>
+                                        </dt>
+                                        
+                                        <dt class="slds-dl_horizontal__label">
+                                            <p class="slds-truncate" title="Writeoff Flag"></p>
+                                                <b>
+                                                    Writeoff Flag :
+                                                </b>{record.WriteOffFlag__c}
+                                            </p>
+                                        </dt>
+
+                                        <dt class="slds-dl_horizontal__label">
+                                            <p class="slds-truncate" title="Writeoff Date"></p>
+                                                <b>
+                                                    Writeoff Date :
+                                                </b>{record.WriteoffDate__c}
+                                            </p>
+                                        </dt>
+
+                                        <dt class="slds-dl_horizontal__label">
+                                            <p class="slds-truncate" title="Settled"></p>
+                                                <b>
+                                                    Settled :
+                                                </b>{record.Settled__c}
+                                            </p>
+                                        </dt>
+
+                                        <dt class="slds-dl_horizontal__label">
+                                            <p class="slds-truncate" title="Settled Date"></p>
+                                                <b>
+                                                    Settled Date:
+                                                </b>{record.SettledDate__c}
+                                            </p>
+                                        </dt> 
+
+                                        <dt class="slds-dl_horizontal__label">
+                                            <p class="slds-truncate" title="Internal Top up Original loan?">
+                                                <b>
+                                                    Internal Top up Original loan? :
+                                                </b> <c-dedupe-display-value
+                                                    dedupe-rsults-options={internalTopUpOptions} type="picklist"
+                                                    field-value={record.Internal_Top_up_Original_loan__c}
+                                                    object={record} field-name="Internal_Top_up_Original_loan__c"
+                                                    onpicklistchange={handlePicklistValues}
+                                                    is-read-only={isReadOnly}></c-dedupe-display-value>
+                                            </p>
+                                        </dt>
+                                        <dt class="slds-dl_horizontal__label">
+                                            <p class="slds-truncate" title="Is PDD pending?">
+                                                <b>
+                                                    Is PDD pending? :
+                                                </b> <c-dedupe-display-value dedupe-rsults-options={pddPendingOptions}
+                                                    type="picklist" field-value={record.IsPDDpending__c} object={record}
+                                                    field-name="IsPDDpending__c" onpicklistchange={handlePicklistValues}
+                                                    is-read-only={isReadOnly}></c-dedupe-display-value>
+                                            </p>
+                                        </dt>
+                                        <dt class="slds-dl_horizontal__label">
+                                            <p class="slds-truncate" title="Loan to be linked with proposed loan?">
+                                                <b>
+                                                    Loan to be linked with proposed loan?:
+                                                </b> <c-dedupe-display-value
+                                                    dedupe-rsults-options={loanProposedLanOptions} type="picklist"
+                                                    field-value={record.Loantobelinkedwithproposedloan__c}
+                                                    object={record} field-name="Loantobelinkedwithproposedloan__c"
+                                                    onpicklistchange={handlePicklistValues}
+                                                    is-read-only={isReadOnly}></c-dedupe-display-value>
+                                            </p>
+                                        </dt>
+                                        <dt class="slds-dl_horizontal__label">
+                                            <p class="slds-truncate" title="Loan to be considered in LTV calculation?">
+                                                <b>
+                                                    Loan to be considered in LTV calculation? :
+                                                </b> <c-dedupe-display-value dedupe-rsults-options={loanLTVOptions}
+                                                    type="picklist" field-value={record.LoantobeconsideredinLTVcal__c}
+                                                    object={record} field-name="LoantobeconsideredinLTVcal__c"
+                                                    onpicklistchange={handlePicklistValues}
+                                                    is-read-only={isReadOnly}></c-dedupe-display-value>
+                                            </p>
+                                        </dt>
+                                        
+                                        
+
+                                    </dl>
+                                </lightning-tile>
+                            </li>
+                        </ul>
+                    </div>
+                </template>
+            </div>
+        </template>
+    </template>
+</template>

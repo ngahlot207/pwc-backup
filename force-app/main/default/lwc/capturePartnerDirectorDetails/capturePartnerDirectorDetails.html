@@ -1,0 +1,602 @@
+<template>
+    
+    <br />
+    <template if:true={showSpinner}>
+      <lightning-spinner alternative-text="Loading" size="large" variant="brand"
+        style="position: fixed;"></lightning-spinner>
+    </template>
+    <template if:true={notIndvi}>
+        <div style="text-align: center;font-size: 15px;font-weight: bold;">Applicant/Co-Applicant not eligible for adding Partner/Director Details.</div>
+    </template>
+  <template if:false={notIndvi}>
+        <lightning-card>
+            <lightning-button label="Add Partner/Director" class="slds-float_right" slot="actions"
+            icon-name="utility:add" onclick={handleAddRow} disabled={disbleAddButton}></lightning-button>
+            <div class="container slds-scrollable tableMinHeight">
+                <div id="containerDiv1" onmousemove={handlemousemove} onmouseup={handlemouseup}
+                  ondblclick={handledblclickresizable} class=" slds-border_right slds-border_left tableScroll"
+                  onscroll={tableOuterDivScrolled}>
+                  <div id="tableViewInnerDiv1">
+                    <table
+                      class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout slds-scrollable_y "
+                      onscroll={tableScrolled}>
+      
+                      <thead class="table-thead">
+                        <tr class="fixed-header">
+                          <th title="Action" class="slds-is-resizable dv-dynamic-width fixedWidth " scope="col">
+                            <div class="slds-cell-fixed fixedWidth">
+                              <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                <span class="slds-truncate slds-align_absolute-center">Action</span>
+                                <!-- <th title="Action" class="slds-is-resizable dv-dynamic-width" scope="col">
+                                  <div class="slds-cell-fixed">
+                                      <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                          <span class="slds-truncate slds-align_absolute-center">
+                                              Action
+                                          </span> -->
+      
+                              </a>
+                              <div class="slds-resizable">
+                                <!-- <span class="slds-resizable__handle" onmousedown={handlemousedown}> -->
+                                  <span class="slds-resizable__divider"></span> 
+                                <!-- </span> -->
+                              </div>
+                            </div>
+                          </th>
+
+                          <th title="Part of loan proposal" class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                            <div class="slds-cell-fixed fixedWidth">
+                              <a class="slds-th__action slds-text-link--reset">
+                                <span class="slds-truncate"><abbr class="slds-required" title="required">* 
+                                </abbr>Part of loan proposal</span>
+                              </a>
+                              <div class="slds-resizable">
+                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                  <span class="slds-resizable__divider"></span>
+                                </span>
+                              </div>
+                            </div>
+                          </th>
+                          <th title="Name" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                            <div class="slds-cell-fixed fixedWidth">
+                              <a class="slds-th__action slds-text-link--reset">
+                                <span class="slds-truncate"><abbr class="slds-required" title="required">* 
+                                </abbr>Name</span>
+      
+                              </a>
+                              <div class="slds-resizable">
+                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                  <span class="slds-resizable__divider"></span>
+                                </span>
+                              </div>
+                            </div>
+                          </th>
+                          <th title="PAN" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                            <div class="slds-cell-fixed fixedWidth">
+                              <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                <span class="slds-truncate"><abbr class="slds-required" title="required">* 
+                                </abbr>PAN</span>
+      
+                              </a>
+                              <div class="slds-resizable">
+                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                  <span class="slds-resizable__divider"></span>
+                                </span>
+                              </div>
+                            </div>
+                          </th>
+                          <th title="DIN" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                            <div class="slds-cell-fixed fixedWidth">
+                              <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                <span class="slds-truncate">DIN</span>
+      
+                              </a>
+                              <div class="slds-resizable">
+                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                  <span class="slds-resizable__divider"></span>
+                                </span>
+                              </div>
+                            </div>
+                          </th>
+                          <th title="Designation" class="slds-is-resizable dv-dynamic-width fixedWidthFN"
+                            data-column="parentRecord.FinancierName" data-object="allRecOfApplObwithDetai"
+                            onclick={handleSort} scope="col">
+                            <div class="slds-cell-fixed fixedWidthFN">
+                              <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+      
+                                <span class="slds-truncate"><abbr class="slds-required" title="required">* 
+                                </abbr>Designation</span>
+                                <!-- <lightning-icon data-column="parentRecord.FinancierName"
+                                  size='x-small'></lightning-icon> -->
+                              </a>
+                              <div class="slds-resizable">
+                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                  <span class="slds-resizable__divider"></span>
+                                </span>
+                              </div>
+                            </div>
+                          </th>
+                          <th title="Date of Birth" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                            <div class="slds-cell-fixed fixedWidth">
+                              <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                <span class="slds-truncate"><abbr class="slds-required" title="required">* 
+                                </abbr>Date of Birth</span>
+                              </a>
+                              <div class="slds-resizable">
+                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                  <span class="slds-resizable__divider"></span>
+                                </span>
+                              </div>
+                            </div>
+                          </th>
+                          <th title="Gender" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                            data-column="parentRecord.CloseDate" data-object="allRecOfApplObwithDetai" onclick={handleSort}
+                            scope="col">
+                            <div class="slds-cell-fixed fixedWidth">
+                              <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                <span class="slds-truncate"><abbr class="slds-required" title="required">* 
+                                </abbr>Gender</span>
+                                <!-- <lightning-icon data-column="parentRecord.CloseDate" 
+                                  size='x-small'></lightning-icon> -->
+                              </a>
+                              <div class="slds-resizable">
+                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                  <span class="slds-resizable__divider"></span>
+                                </span>
+                              </div>
+                            </div>
+                          </th>
+                          <th title="Father's Name" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                            data-column="parentRecord.LoanAmount" data-object="allRecOfApplObwithDetai"
+                            onclick={handleSort} scope="col">
+                            <div class="slds-cell-fixed fixedWidth">
+                              <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                <span class="slds-truncate"><abbr class="slds-required" title="required">* 
+                                </abbr>Father's Name</span>
+      
+                              </a>
+                              <div class="slds-resizable">
+                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                  <span class="slds-resizable__divider"></span>
+                                </span>
+                              </div>
+                            </div>
+                          </th>
+                          <th title="DIN Status (Flags)" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col"
+                            data-column="parentRecord.CurrentOs" data-object="allRecOfApplObwithDetai"
+                            onclick={handleSort}>
+                            <div class="slds-cell-fixed fixedWidth">
+                              <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+      
+                                <span class="slds-truncate">DIN Status (Flags)</span>
+                                <!-- <lightning-icon data-column="parentRecord.CurrentOs" 
+                                  size='x-small'></lightning-icon> -->
+                              </a>
+                              <div class="slds-resizable">
+                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                  <span class="slds-resizable__divider"></span>
+                                </span>
+                              </div>
+                            </div>
+                          </th>
+                          <th title="Date of Appointment for Current Designation" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                            <div class="slds-cell-fixed fixedWidth">
+                              <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+      
+                                <span class="slds-truncate">Date of Appointment for Current Designation</span>
+                              </a>
+                              <div class="slds-resizable">
+                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                  <span class="slds-resizable__divider"></span>
+                                </span>
+                              </div>
+                            </div>
+                          </th>
+                          <th title="Date of Cessation" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                            <div class="slds-cell-fixed fixedWidth">
+                              <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+      
+                                <span class="slds-truncate">Date of Cessation</span>
+                              </a>
+                              <div class="slds-resizable">
+                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                  <span class="slds-resizable__divider"></span>
+                                </span>
+                              </div>
+                            </div>
+                          </th>
+      
+                          <th title="Dsc Status" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                            <div class="slds-cell-fixed fixedWidth">
+                              <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+      
+                                <span class="slds-truncate">Dsc Status</span>
+                              </a>
+                              <div class="slds-resizable">
+                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                  <span class="slds-resizable__divider"></span>
+                                </span>
+                              </div>
+                            </div>
+                          </th>
+                    </tr>
+                      </thead>
+      
+      
+                      <tbody>
+                        <tr>
+                          <td></td>
+                          <td>-</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                          </tr>
+                        <template for:each={applicantRelationDetails} for:item="director" for:index="index">
+                          <tr data-row-index={index} onclick={handleRowClick} key={director.Id}
+                            aria-selected="false" class="slds-hint-parent">
+
+                            <td>
+                              <template if:false={director.Related_Person.isAPI}>
+                              <!-- <lightning-button label="Delete" name="delete" onclick={handleDelete} data-id={director.id} access-key={director.id} id={index} class="slds-button_icon-border"></lightning-button> -->
+                              <!-- <lightning-button label="Delete" name="delete" onclick={deleteHandler} data-id={director.Id} class="slds-button_icon-border"></lightning-button> -->
+                              <div class="slds-align_absolute-center">
+                                <lightning-button-icon icon-name="action:delete" alternative-text="Delete"
+                                    title="Delete" data-id={director.Id} onclick={deleteHandler} 
+                                    class="slds-button_icon-border" disabled={disbleAddButton}>
+                                </lightning-button-icon>
+                            </div>
+                          </template>
+                          </td> 
+
+                            <!-- <td> <lightning-combobox name="proposedloan" class="borrowersValue" label="" data-id={director.Id}
+                                value={director.Related_Person.Part_of_Loan_Propos} data-name="Applicant__c"
+                                data-field="Related_Person.Part_of_Loan_Propos" options={partOfLoanProposalPicklist} data-index={index}
+                                onchange={handleInputChange} variant="label-hidden" required>
+                              </lightning-combobox></td> -->
+
+                              <td> 
+                                <lightning-combobox 
+                                    name="proposedloan" 
+                                    class="borrowersValue" 
+                                    label="" 
+                                    data-id={director.Id}
+                                    value={director.Related_Person.Part_of_Loan_Propos} 
+                                    data-name="Applicant__c"
+                                    data-field="Related_Person.Part_of_Loan_Propos" 
+                                    options={partOfLoanProposalPicklist} 
+                                    data-index={index}
+                                    onchange={handleInputChange} 
+                                    variant="label-hidden" 
+                                    required 
+                                    style="min-width: 100px; width: auto;">
+                                </lightning-combobox>
+                            </td>
+                            
+                              
+                              <template if:false={director.isLoanPropos}>
+                              <td> <lightning-input type="text" data-objectname="Applicant__c"
+                                value={director.Related_Person.FName} onchange={handleInputChange} data-id={director.Id} data-fieldtype="string"
+                                data-field="Related_Person.FName" data-index={index}  disabled={director.Related_Person.isAPI}
+                                 variant="label-hidden" required></lightning-input>
+                            </td>
+                          </template>
+                          <template if:true={director.isLoanPropos}>
+                            <td> <lightning-combobox name="proposedloan" class="borrowersValue" label="" data-id={director.Id}
+                              value={director.Related_Person.FName} data-name="Applicant__c"
+                              data-field="Related_Person.FName" options={applNameOptions} data-index={index} 
+                              onchange={handleInputChange} variant="label-hidden"  disabled={director.Related_Person.isAPI} required>
+                            </lightning-combobox></td>
+                          </template>
+
+                          <template if:false={director.isLoanPropos}>
+                            <td> <lightning-input type="text" data-objectname="Applicant__c"
+                                value={director.Related_Person.PAN} onchange={handleInputChange} data-id={director.Id} pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
+                                data-field="Related_Person.PAN" data-index={index}  disabled={director.Related_Person.isAPI} data-fieldtype="string"
+                                 variant="label-hidden" required></lightning-input>
+                            </td>
+                          </template>
+                            <template if:true={director.isLoanPropos}>
+                            <td> <lightning-input type="text" data-objectname="Applicant__c"
+                              value={director.Related_Person.PAN} data-id={director.Id} data-fieldtype="string"
+                              data-field="Related_Person.PAN" data-index={index}  disabled
+                               variant="label-hidden" ></lightning-input>
+                          </td>
+                        </template>
+
+                            <td> <lightning-input type="text" data-objectname="ApplObligation"
+                                value={director.Din} onchange={handleInputChange} data-id={director.Id} data-fieldtype="string"
+                                data-field="Din" data-index={index}  disabled={director.Related_Person.isAPI}
+                                 variant="label-hidden"></lightning-input>
+                            </td>
+
+                            <template if:true={director.Related_Person.isAPI}>
+                            <td> <lightning-input name="designation" class="borrowersValue" label=""
+                              value={director.Designation} data-name="designation" data-id={director.Id} data-fieldtype="string"
+                              data-field="Designation"  data-index={index} required options={designationPicklist} 
+                              onchange={handleInputChange} variant="label-hidden"  disabled style="min-width: 100px; width: auto;">
+                            </lightning-input></td></template>
+
+
+                            <template if:false={director.Related_Person.isAPI}>
+                            <td> <lightning-combobox name="designation" class="borrowersValue" label=""
+                                value={director.Designation} data-name="designation" data-id={director.Id} data-fieldtype="string"
+                                data-field="Designation"  data-index={index} required options={designationPicklist} 
+                                onchange={handleInputChange} variant="label-hidden"  disabled={director.Related_Person.isAPI} style="min-width: 100px; width: auto;">
+                              </lightning-combobox></td></template><!-- //options={designationPicklist} -->
+
+                              <template if:false={director.isLoanPropos}>
+                             <td>
+                               <!-- <lightning-formatted-date-time value={director.dateOfBirth} year="numeric" month="short" day="numeric" variant="label-hidden"  
+                                ></lightning-formatted-date-time>  -->
+                              <lightning-input placeholder="DD-MMM-YYYY" type="date" data-field="Related_Person.DOB" required
+                                value={director.Related_Person.DOB}  disabled={director.Related_Person.isAPI} data-id={director.Id} onchange={handleInputChange}
+                                variant="label-hidden"></lightning-input>
+                                <template lwc:if={director.Related_Person.is_dobError}>
+                                  <p class="slds-text-color_error">{director.Related_Person.dobErrorMessage}</p>
+                              </template>
+                            </td>
+                          </template>
+                            <template if:true={director.isLoanPropos}>
+                            <td>
+                              <!-- <lightning-formatted-date-time value={director.dateOfBirth} year="numeric" month="short" day="numeric" variant="label-hidden"  
+                               ></lightning-formatted-date-time>  -->
+                             <lightning-input placeholder="DD-MMM-YYYY" type="date" data-field="Related_Person.DOB" 
+                               value={director.Related_Person.DOB}  disabled data-id={director.Id} onchange={handleInputChange}
+                               variant="label-hidden"></lightning-input>
+                           </td>
+                          </template>
+
+                          <template if:false={director.isLoanPropos}>
+                            <td> <lightning-combobox name="director.Related_Person.Gender" class="borrowersValue" label=""
+                                value={director.Related_Person.Gender} data-name="gender" data-id={director.Id} required
+                                data-field="Related_Person.Gender" options={genderPicklist} data-index={index} 
+                                onchange={handleInputChange} variant="label-hidden"  disabled={director.Related_Person.isAPI}>
+                              </lightning-combobox></td>
+                            </template>
+
+                              <template if:true={director.isLoanPropos}>
+                              <td> <lightning-combobox name="director.Related_Person.Gender" class="borrowersValue" label=""
+                                value={director.Related_Person.Gender} data-name="gender" data-id={director.Id}
+                                data-field="Related_Person.Gender" options={genderPicklist} data-index={index} 
+                                onchange={handleInputChange} variant="label-hidden"  disabled>
+                              </lightning-combobox></td>
+                            </template>
+                            <template if:false={director.isLoanPropos}>
+                              <td> <lightning-input type="text" data-objectname="Father_Name__c" data-fieldtype="string"
+                                value={director.Related_Person.Father_Name} onchange={handleInputChange} data-id={director.Id} required
+                                data-field="Related_Person.Father_Name" data-index={index}  disabled={director.Related_Person.isAPI}
+                                 variant="label-hidden"></lightning-input>
+                            </td>
+                          </template>
+                            <template if:true={director.isLoanPropos}>
+                            <td> <lightning-input type="text" data-objectname="Father_Name__c" data-fieldtype="string"
+                              value={director.Related_Person.Father_Name} onchange={handleInputChange} data-id={director.Id}
+                              data-field="Related_Person.Father_Name" data-index={index}  disabled
+                              required={director.iscloseRequired} variant="label-hidden"></lightning-input>
+                          </td>
+                        </template>
+
+                            <td> <lightning-input type="text"
+                                value={director.DinStatus} onchange={handleInputChange} data-field="DinStatus" data-fieldtype="string"
+                                 data-index={index}  disabled={director.Related_Person.isAPI} data-id={director.Id}
+                                required={director.iscloseRequired} variant="label-hidden"></lightning-input>
+                            </td>
+
+                            <td>
+                                <!-- <lightning-formatted-date-time value={director.DateOfAppointment__c} year="numeric" month="short" day="numeric" variant="label-hidden"  
+                                 ></lightning-formatted-date-time>  -->
+                               <lightning-input placeholder="DD-MMM-YYYY" type="date" data-field="DateOfAppointment"
+                                 value={director.DateOfAppointment}  disabled={director.Related_Person.isAPI} data-id={director.Id} onchange={handleInputChange}
+                                 variant="label-hidden"></lightning-input>
+                             </td>
+
+                             <td>
+                                <!-- <lightning-formatted-date-time value={director.DateOfCessation__c} year="numeric" month="short" day="numeric" variant="label-hidden"  
+                                 ></lightning-formatted-date-time>  -->
+                               <lightning-input placeholder="DD-MMM-YYYY" type="date" data-field="DateOfCessation"
+                                 value={director.DateOfCessation}  disabled={director.Related_Person.isAPI} data-id={director.Id} onchange={handleInputChange}
+                                 variant="label-hidden"></lightning-input>
+                             </td>
+
+                            <td> <lightning-input type="text" data-objectname="Dsc_Status"
+                                value={director.Dsc_Status} onchange={handleInputChange} data-id={director.Id} data-fieldtype="string"
+                                data-field="Dsc_Status" data-index={index}  disabled={director.Related_Person.isAPI}
+                                required={director.iscloseRequired} variant="label-hidden"></lightning-input>
+                            </td>
+
+                          </tr>
+      
+                        </template>
+                      </tbody>
+      
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <br/><br/>
+              <div class="slds-box slds-theme_default slds-scrollable_x" style="width: 200rem">
+                <table
+                    class="slds-table slds-table_cell-buffer slds-border_right slds-border_left slds-table_bordered slds-table_col-bordered"
+                    aria-label="Example table of Opportunities with vertical borders">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Name">
+                                    Name
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="DIN">
+                                    DIN
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Other directorship companies name/ LLP Name">
+                                    Other directorship companies name/ LLP Name
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Other directorship companies CIN/ LLPIN">
+                                    Other directorship companies CIN/ LLPIN
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="E-Filing Status">
+                                    E-Filing Status
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Active Compliance">
+                                    Active Compliance
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Date of Incorporation">
+                                    Date of Incorporation
+                                </div>
+                            </th>
+
+                            
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Present Designation">
+                                    Present Designation
+                                </div>
+                            </th>
+                            
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Date of Appointment">
+                                    Date of Appointment
+                                </div>
+                            </th>
+                            
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Date of Appointment for Current Designation">
+                                    Date of Appointment for Current Designation
+                                </div>
+                            </th>
+                            
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Date of Cessation">
+                                    Date of Cessation
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <template if:true={childRecords} for:each={childRecords} for:item="record">
+                            <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+                                <td data-label="Company Name">
+                                    <div class="slds-truncate" title="Company Name">
+                                        {record.parentRecord.APIVerification__r.Appl__r.FullName__c}
+                                    </div>
+                                </td>
+                                <td data-label="DIN/DPIN/PAN">
+                                    <div class="slds-truncate" title="DIN/DPIN/PAN">
+                                        {record.parentRecord.Din__c}
+                                    </div>
+                                </td>
+                                <td data-label="Full Name">
+                                    <div class="slds-truncate" title="Full Name">
+                                        {record.parentRecord.CompLegalName__c}
+                                    </div>
+                                </td>
+                                <td data-label="Date of Appointment">
+                                    <div class="slds-truncate" title="Date of Appointment">
+                                        {record.parentRecord.CompCin__c}
+                                    </div>
+                                </td>
+                                <td data-label="Whether DSC Registered">
+                                    <div class="slds-truncate" title="Whether DSC Registered">
+                                        {record.parentRecord.FilingsStatus__c}
+                                    </div>
+                                </td>
+                                <td data-label="Expiry Date of DSC">
+                                    <div class="slds-truncate" title="Expiry Date of DSC">
+                                        {record.parentRecord.CompActCompliance__c}
+                                    </div>
+                                </td>
+
+                                
+                                <td data-label="Expiry Date of DSC">
+                                    <div class="slds-truncate" title="Expiry Date of DSC">
+                                        {record.parentRecord.CompIncorpDate__c}
+                                    </div>
+                                </td>
+
+                                
+                                <td data-label="Expiry Date of DSC">
+                                    <div class="slds-truncate" title="Expiry Date of DSC">
+                                        {record.parentRecord.CompDesignation__c}
+                                    </div>
+                                </td>
+
+                                
+                                <td data-label="Expiry Date of DSC">
+                                    <div class="slds-truncate" title="Expiry Date of DSC">
+                                        {record.parentRecord.CompDateAppoint__c}
+                                    </div>
+                                </td>
+
+                                
+                                <td data-label="Expiry Date of DSC">
+                                    <div class="slds-truncate" title="Expiry Date of DSC">
+                                        {record.parentRecord.CompDateAppointCurrentDesig__c}
+                                    </div>
+                                </td>
+
+                                <td data-label="Expiry Date of DSC">
+                                    <div class="slds-truncate" title="Expiry Date of DSC">
+                                        {record.parentRecord.CompDateCessation__c}
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+              
+            </lightning-card>
+
+
+            <!-- Open Delete Model -->
+    <template if:true={showDeleteConfirmation}>
+      <section role="dialog" tabindex="-1" aria-labelledby="modal-heading"
+          aria-modal="true" aria-describedby="modal-content-id-1"
+          class="slds-modal slds-fade-in-open">
+          <div class="slds-modal__container rationaleWidth">
+              <header class="slds-modal__header">
+                  <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" 
+                  title="Close" onclick={hideModalBox}>
+       <lightning-icon icon-name="utility:close"   alternative-text="close" 
+         variant="inverse" 
+          size="small" ></lightning-icon>
+       <span class="slds-assistive-text">Close</span>
+       </button>
+                  <h2 id="modal-heading-01"
+                      class="slds-text-heading_medium slds-hyphenate">Delete
+                      Confirmation</h2>
+              </header>
+
+              <div class="slds-modal__content slds-p-around_medium div-center"
+                  id="modal-content-id-1">
+                  <strong>Do you really want to delete Details ?</strong>
+              </div>
+
+              <footer class="slds-modal__footer">
+                  <lightning-button  class="slds-p-horizontal_x-small" variant="brand" label="Yes" 
+                  title="Delete" 
+                      onclick={handleConfirmDelete}></lightning-button>
+                  <lightning-button   class="slds-p-horizontal_x-small" variant="destructive" label="No"
+                      title="cancel" onclick={handleCancelDelete}>
+                  </lightning-button>
+              </footer>
+
+          </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+  </template>
+      </template>
+    </template>
+    </template>
+  </template>

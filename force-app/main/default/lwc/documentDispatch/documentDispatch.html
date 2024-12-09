@@ -1,0 +1,54 @@
+<template>
+    <lightning-card>
+
+        <lightning-layout multiple-rows="true" class="slds-p-bottom_medium">
+            <lightning-layout-item size="12" padding="horizontal-small" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <lightning-combobox placeholder="Select Value" value={obj.DisType__c} onchange={handlChange}
+                    options={disTypeOptions} name="DisType__c" label="Disbursement Type"
+                    disabled={isReadOnly}></lightning-combobox>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" padding="horizontal-small" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <lightning-combobox placeholder="Select Value" value={obj.CourierComName__c} onchange={handlChange}
+                    options={courierNameOptions} name="CourierComName__c" label="Courier Company Name"
+                    disabled={isReadOnly}></lightning-combobox>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" padding="horizontal-small" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <lightning-input type="number" name="PODNum__c" label="POD Number" value={obj.PODNum__c}
+                    disabled={isReadOnly} onchange={handlChange}></lightning-input>
+            </lightning-layout-item>
+        </lightning-layout>
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item size="12" padding="horizontal-small" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <lightning-input type="date" name="DateofDispatch__c" label="Date of Dipatch"
+                    value={obj.DateofDispatch__c} disabled={isReadOnly} onchange={handlChange}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" padding="horizontal-small" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <lightning-textarea name="CPARemarks__c" label="CPA Remarks" value={obj.CPARemarks__c}
+                    disabled={isReadOnly} onchange={handlChange}></lightning-textarea>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" padding="horizontal-small" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <lightning-input type="date" name="DateofReceiptbyOps__c" label="Date of Receipt By Ops"
+                    value={obj.DateofReceiptbyOps__c} disabled={isReadOnly} onchange={handlChange}></lightning-input>
+            </lightning-layout-item>
+        </lightning-layout>
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item size="12" padding="horizontal-small" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <lightning-textarea name="OperationRem__c" label="Operation Remarks" value={obj.OperationRem__c}
+                    disabled={isReadOnly} onchange={handlChange}></lightning-textarea>
+            </lightning-layout-item>
+            <!-- <lightning-layout-item size="12" padding="horizontal-small" small-device-size="12" medium-device-size="8"
+                large-device-size="4">
+                <lightning-input type="date" name="DateofReceiptbyOps__c"  label="Date of Receipt By Ops"
+                    value={obj.DateofReceiptbyOps__c} disabled={isReadOnly} onchange={handlChange}></lightning-input>
+            </lightning-layout-item> -->
+        </lightning-layout>
+
+    </lightning-card>
+</template>

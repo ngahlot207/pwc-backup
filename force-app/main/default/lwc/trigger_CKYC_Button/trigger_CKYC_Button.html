@@ -1,0 +1,74 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+
+    <div class="slds-is-relative">
+        <lightning-quick-action-panel header="Confirm?">
+            <template if:true={showSpinner}>
+                <!-- <div class="spinner">
+                    <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                </div> -->
+            </template>
+
+
+            <template if:false={showSpinner}>
+                <header class="slds-modal__header">
+                    <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate slds-p-bottom_medium">
+                        Do you want to Trigger CKYC ?
+                    </h2>
+
+                    <table
+                        class="slds-table slds-table_cell-buffer slds-table_bordered slds-border_left slds-border_right"
+                        aria-labelledby="element-with-table-label other-element-with-table-label">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Applicant Type</th>
+                                <th>Trigger CKYC</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <template for:each={applicantList} for:item="record">
+                                <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+                                    <template if:true={record.TabName__c}>
+                                        <th class="slds-cell_action-mode" scope="row">
+                                            <div class="slds-truncate" title={record.TabName__c}>
+                                                {record.TabName__c}
+                                            </div>
+                                        </th>
+                                        <th class="slds-cell_action-mode" scope="row">
+                                            <div class="slds-truncate" title={record.ApplType__c}>
+                                                {record.ApplType__c}
+                                            </div>
+                                        </th>
+                                        <td class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title={record.selectCheckbox}>
+                                                <lightning-input variant="label-hidden" name="ckyc"
+                                                    data-recordid={record.Id} type="checkbox"
+                                                    checked={record.selectCheckbox} onclick={handleAddForCKYC}
+                                                    disabled={record.disable}></lightning-input>
+                                            </div>
+                                        </td>
+                                    </template>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </header>
+
+                <div style="text-align: end;" class="slds-m-top_large slds-m-bottom_medium">
+                    <footer class="slds-modal__footer">
+                        <lightning-button variant="brand" class="slds-m-left_x-large" label="YES" type="submit"
+                            onclick={triggerCKYC}></lightning-button>
+                        <lightning-button variant="brand" class="slds-m-left_x-large" label="NO"
+                            onclick={noBtn}></lightning-button>
+                    </footer>
+                </div>
+            </template>
+        </lightning-quick-action-panel>
+    </div>
+
+</template>

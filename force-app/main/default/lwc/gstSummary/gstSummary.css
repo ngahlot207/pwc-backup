@@ -1,0 +1,42 @@
+tr.border_bottom td {
+  border-bottom: 1px solid black;
+}
+
+
+table {
+  width: max-content;
+  border-collapse: collapse;
+  margin: 24px;
+}
+
+th, td {
+  border: 1px solid #585353;
+  /* border: 1px solid #dddbda; */
+  padding: 6px 12px;
+  text-align: left;
+  width: fit-content;
+}
+
+th {
+  background: #F3F2F2;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 20px;
+  text-align: center;
+  width: 220px;
+}
+
+td {
+  background: #ffffff;
+  font-size: 13px;
+  font-style: normal;
+  /* font-weight: 400; */
+  font-weight: bold;
+  line-height: 20px;
+}
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+}

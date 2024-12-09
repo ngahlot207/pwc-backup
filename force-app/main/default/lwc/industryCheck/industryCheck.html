@@ -1,0 +1,220 @@
+<template>
+    <lightning-card title="Industry for RBI Reporting ">
+        <div id="containerDiv1" onmousemove={handlemousemove} onmouseup={handlemouseup}
+           ondblclick={handledblclickresizable}
+           class="slds-table_header-fixed_container slds-border_right slds-border_left tableScroll"
+           onscroll={tableOuterDivScrolled}>
+              <div id="tableViewInnerDiv1" class="slds-scrollable_y tableViewInnerDiv slds-scrollable">
+                  <table class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout slds-max-medium-table_stacked-horizontal" onscroll={tableScrolled}>
+                    <thead>
+                      <tr>
+                        <th title="Applicant Type" class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                          <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset">
+                            <span class="slds-truncate">Applicant Type</span>
+                          </a>
+                          <div class="slds-resizable">
+                              <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                  <span class="slds-resizable__divider"></span>
+                              </span>
+                          </div>
+                          </div>
+                        </th>
+                        <th title="Customer Profile" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                          <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset">
+                            <span class="slds-truncate">Customer Profile</span>
+                          </a>
+                          <div class="slds-resizable">
+                              <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                  <span class="slds-resizable__divider"></span>
+                              </span>
+                          </div>
+                          </div>
+                        </th>
+                        <th title="Constitution" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                          <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                            <span class="slds-truncate">Constitution</span>
+                          </a>
+                          <div class="slds-resizable">
+                              <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                  <span class="slds-resizable__divider"></span>
+                              </span>
+                          </div>
+                          </div>
+                        </th>
+                        <th title="Customer Name" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                          <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                            <span class="slds-truncate">Customer Name</span>
+                          </a>
+                          <div class="slds-resizable">
+                              <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                  <span class="slds-resizable__divider"></span>
+                              </span>
+                          </div>
+                          </div>
+                        </th>
+                        
+                          <th title="Company Name" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                              <div class="slds-cell-fixed fixedWidth">
+                              <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                <span class="slds-truncate">Company Name</span>
+                              </a>
+                              <div class="slds-resizable">
+                                  <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                      <span class="slds-resizable__divider"></span>
+                                  </span>
+                              </div>
+                              </div>
+                            </th>
+      
+                            
+                            
+                            <th title="Designation" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                              <div class="slds-cell-fixed fixedWidth">
+                              <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                <span class="slds-truncate">Designation</span>
+                              </a>
+                              <div class="slds-resizable">
+                                  <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                      <span class="slds-resizable__divider"></span>
+                                  </span>
+                              </div>
+                              </div>
+                            </th>
+                        
+                        
+                          <th title="Industry Type" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                            <div class="slds-cell-fixed fixedWidth">
+                            <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                              <span class="slds-truncate">Industry Type</span>
+                            </a>
+                            <div class="slds-resizable">
+                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                    <span class="slds-resizable__divider"></span>
+                                </span>
+                            </div>
+                            </div>
+                          </th>
+                        
+                        
+                            <th title="Sub Industry" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                              <div class="slds-cell-fixed fixedWidth">
+                              <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                <span class="slds-truncate">Sub Industry</span>
+                              </a>
+                              <div class="slds-resizable">
+                                  <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                      <span class="slds-resizable__divider"></span>
+                                  </span>
+                              </div>
+                              </div>
+                            </th>
+                            <th title="Industry for RBI Reporting" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                              <div class="slds-cell-fixed fixedWidth">
+                              <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                <span class="slds-truncate">Industry for RBI Reporting</span>
+                              </a>
+                              <div class="slds-resizable">
+                                  <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                      <span class="slds-resizable__divider"></span>
+                                  </span>
+                              </div>
+                              </div>
+                            </th>
+                          
+                          
+                            <th title="Sub Industry for RBI Reporting" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                              <div class="slds-cell-fixed fixedWidth">
+                              <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                <span class="slds-truncate">Sub Industry for RBI Reporting</span>
+                              </a>
+                              <div class="slds-resizable">
+                                  <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                      <span class="slds-resizable__divider"></span>
+                                  </span>
+                              </div>
+                              </div>
+                            </th>
+                          
+                        
+                        
+                      </tr>
+                    </thead>
+          <tbody>
+            <template for:each={RBIRecords} for:item="fileIterator">
+              <tr key={fileIterator.cDId} aria-selected="false" class="slds-hint-parent">
+                <th class="slds-cell_action-mode" scope="row">
+                  <div class="slds-truncate" title={fileIterator.ApplType__c}>
+                    <!-- <a href="#" tabindex="0">Proof Of Identity</a> -->
+                    {fileIterator.ApplType__c}
+                  </div>
+                </th>
+                <td class="slds-cell_action-mode" role="gridcell">
+                  <!-- <div class="slds-truncate" title="PAN">PAN</div> -->
+                  <div class="slds-truncate" title={fileIterator.CustProfile__c}>
+                    {fileIterator.CustProfile__c}
+                  </div>
+                </td>
+                <td class="slds-cell_action-mode" role="gridcell">
+                  <div class="slds-truncate" title={fileIterator.Constitution__c}>
+                    {fileIterator.Constitution__c}
+                  </div>
+                </td>
+                <td class="slds-cell_action-mode" role="gridcell">
+                  <div class="slds-truncate" title={fileIterator.FullName__c}>
+                    {fileIterator.FullName__c}
+                  </div>
+                </td>
+      
+                <td class="slds-cell_action-mode" role="gridcell">
+                  <div class="slds-truncate" title={fileIterator.CompanyName__c}>
+                    {fileIterator.CompanyName__c}
+                  </div>
+                </td>
+                <td class="slds-cell_action-mode" role="gridcell">
+                  <div class="slds-truncate" title={fileIterator.Des__c}>
+                    {fileIterator.Des__c}
+                  </div>
+                </td>
+      
+                <td class="slds-cell_action-mode" role="gridcell">
+                  <div class="slds-truncate" title={fileIterator.IndustryType__c}>
+                    {fileIterator.IndustryType__c}
+                  </div>
+                </td>
+                <td class="slds-cell_action-mode" role="gridcell">
+                  <div class="slds-truncate" title={fileIterator.SubIndustry__c}>
+                    {fileIterator.SubIndustry__c}
+                  </div>
+                </td>
+                <td class="slds-cell_action-mode" role="gridcell">
+                  <div class="slds-truncate" title={fileIterator.MainRBIIndustry__c}>
+                    {fileIterator.MainRBIIndustry__c}
+                  </div>
+                </td>
+                <td class="slds-cell_action-mode" role="gridcell">
+                  <div class="slds-truncate" title={fileIterator.IndustryForRBIReporting__c}>
+                    {fileIterator.IndustryForRBIReporting__c}
+                  </div>
+                </td>
+      
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </div>
+      </div>
+      </lightning-card>
+      
+      <lightning-layout multiple-rows="12">  
+        <lightning-layout-item size="4" >
+            <div class="slds-p-around_x-small">
+                <lightning-input type="text" label="Final Industry for RBI Reporting" read-only={disableMode}  value={finalRBIResult}
+                required={requiredFlag} disabled="true"></lightning-input>
+            </div>
+        </lightning-layout-item> 
+      </lightning-layout> 
+</template>

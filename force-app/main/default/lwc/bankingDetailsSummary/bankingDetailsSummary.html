@@ -1,0 +1,350 @@
+<template>
+    <lightning-card title="Combined Banking (CASA)">
+
+
+        <div class="slds-p-around_medium">
+            <template for:each={listOfSvinJointCaAdd} for:item="fileIterator1" for:index="index">
+                <div key={fileIterator1.Id}> Borrowe Name <br />
+                    <b>{fileIterator1.listApplicantBankingWrapper.Appl__r.FullName__c}</b>
+                </div>
+                <br key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id} />
+                <div key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id} class="slds-box">
+                    <div class="slds-scrollable">
+
+                        <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                            <thead>
+                                <tr class="slds-text-title_bold slds-text-color_weak">
+
+                                    <th class="slds-text-color_inverse slds-cell-fixed">Particular</th>
+                                    <th colspan="2">Value Summation</th>
+                                    <th colspan="2">Count</th>
+                                    <th>Inward Returns (Count)</th>
+                                    <th>Outward Returns (Count)</th>
+                                    <template if:true={isBlPl}>
+                                        <th>No of EMI served</th>
+                                    </template>
+                                    <th>Outward Returns (Count)</th>
+                                    <th>Stop Payt. (Count)</th>
+                                    <th>Min Balance Charges (Y/N)</th>
+                                    <th>Average Bank Balance</th>
+
+                                </tr>
+                                <tr>
+                                    <th class="slds-text-color_inverse">Months</th>
+                                    <th class="slds-text-color_inverse">Debits</th>
+                                    <th class="slds-text-color_inverse">Credits</th>
+                                    <th class="slds-text-color_inverse">Debits</th>
+                                    <th class="slds-text-color_inverse">Credits</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- <template for:each={ListApplicantBankingDetails} for:item="fileIterator"
+                                    for:index="index"> -->
+                                    <template
+                                        for:each={fileIterator1.listApplicantBankingWrapper.Applicant_Banking_Detail__r}
+                                        for:item="item">
+                                <tr  key={item.Id} aria-selected="false" class="slds-hint-parent">
+
+
+                                    
+                                            
+                                            <td   scope="row"
+                                                class="slds-text-title_bold slds-text-color_weak slds-cell-fixed">
+                                                {item.Month__c}&nbsp;&nbsp;{item.Year__c}
+                                            </td>
+
+                                            <td >
+                                                {item.ValueSummationDebit__c}
+                                            </td>
+                                            <td >{item.ValueSummationCredit__c}</td>
+                                            <td >{item.CountofDebit__c}</td>
+                                            <td >{item.CountofCredit__c}</td>
+                                            <td >{item.InwardReturnsCount__c}</td>
+                                            <td >{item.OutwardReturnsCount__c}</td>
+                                            <template if:true={isBlPl}>
+                                                <td></td>
+                                            </template>
+                                            <td >{item.StopPaymentCount__c}</td>
+                                            <td >{item.MinBalanceCharges__c}</td>
+                                            <td >{item.AverageBankBalance__c}</td>
+                                </tr>
+                            </template>
+                                <!-- </template> -->
+                                <tr key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>
+                                    <th key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id} style="background-color: #F3F2F2;" scope="row">Total</th>
+                                    <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id} >{fileIterator1.totalValueSummationDebit}</td>
+                                    <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.totalValueSummationCredit}</td>
+                                    <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.totalCountDebit}</td>
+                                    <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.totalCountCredit}</td>
+                                    <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.totalInwardReturns}</td>
+                                    <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.totalOutwardReturns}</td>
+                                    <template if:true={isBlPl}>
+                                        <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}></td>
+                                    </template>
+                                    <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.totalStopPayment}</td>
+                                    <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.totalMinBalanceCharges}</td>
+                                    <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.totalAverageBankBalance}</td>
+                                    
+
+                                </tr>
+                                <tr key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>
+                                    <th key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id} style="background-color: #F3F2F2;" scope="row">Average</th>
+                                    <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.averageValueSummationDebit}</td>
+                                    <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.averageValueSummationCredit}</td>
+                                    <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.averageCountDebit}</td>
+                                    <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.averageCountCredit}</td>
+                                    <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.averageInwardReturns}</td>
+                                    <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.averageOutwardReturns}</td>
+                                    <template if:true={isBlPl}>
+                                        <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}></td>
+                                    </template>
+                                    <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.averageStopPayment}</td>
+                                    <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.totalMinBalanceCharges}</td>
+                                    <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}> {fileIterator1.averageAverageBankBalance}</td>
+                                    
+                    
+          
+
+
+            </tr>
+        
+
+
+            </tbody>
+            </table>
+        </div>
+        </div>
+</template>
+
+
+</div>
+
+
+
+
+</lightning-card>
+
+
+<lightning-card title="Combined Banking (OD/CC)">
+
+
+    <div class="slds-p-around_medium">
+        <template for:each={listOfOverDraftCcAdd} for:item="fileIterator1" for:index="index">
+            <div key={fileIterator1.Id}> Borrowe Name <br />
+                <b>{fileIterator1.listApplicantBankingWrapper.Appl__r.FullName__c}</b>
+            </div>
+            <br key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id} />
+            <div key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id} class="slds-box">
+                <div class="slds-scrollable">
+
+                    <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                        <thead>
+                            <tr class="slds-text-title_bold slds-text-color_weak">
+
+                                <th class="slds-text-color_inverse slds-cell-fixed">Particular</th>
+                                <th colspan="2">Value Summation</th>
+                                <th colspan="2">Count</th>
+                                <th>Inward Returns (Count)</th>
+                                <th>Outward Returns (Count)</th>
+                                <template if:true={isBlPl}>
+                                    <th>No of EMI served</th>
+                                </template>
+                                <th>Stop Payt. (Count)</th>
+                                <th>Average Utilization</th>
+                                <th>Limit</th>
+                                <th>Limit Utilization</th>
+
+                            </tr>
+                            <tr>
+                                <th class="slds-text-color_inverse">Months</th>
+                                <th class="slds-text-color_inverse">Debits</th>
+                                <th class="slds-text-color_inverse">Credits</th>
+                                <th class="slds-text-color_inverse">Debits</th>
+                                <th class="slds-text-color_inverse">Credits</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- <template for:each={ListApplicantBankingDetails} for:item="fileIterator"
+                                for:index="index"> -->
+                                <template
+                                    for:each={fileIterator1.listApplicantBankingWrapper.Applicant_Banking_Detail__r}
+                                    for:item="item">
+                            <tr  key={item.Id} aria-selected="false" class="slds-hint-parent">
+
+
+                                
+                                        
+                                        <td   scope="row"
+                                            class="slds-text-title_bold slds-text-color_weak slds-cell-fixed">
+                                            {item.Month__c}&nbsp;&nbsp;{item.Year__c}
+                                        </td>
+
+                                        <td >
+                                            {item.ValueSummationDebit__c}
+                                        </td>
+                                        <td >{item.ValueSummationCredit__c}</td>
+                                        <td >{item.CountofDebit__c}</td>
+                                        <td >{item.CountofCredit__c}</td>
+                                        <td >{item.InwardReturnsCount__c}</td>
+                                        <td >{item.OutwardReturnsCount__c}</td>
+                                        <template if:true={isBlPl}>
+                                            <td></td>
+                                        </template>
+                                        <td >{item.StopPaymentCount__c}</td>
+                                        <td></td>
+                                        <td >{item.MonthlyLimit__c}</td>
+                                        <td >{item.Utilization__c}</td>
+                            </tr>
+                        </template>
+                            <!-- </template> -->
+                            <tr key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>
+                                <th key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id} style="background-color: #F3F2F2;" scope="row">Total</th>
+                                <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id} >{fileIterator1.totalValueSummationDebit}</td>
+                                <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.totalValueSummationCredit}</td>
+                                <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.totalCountDebit}</td>
+                                <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.totalCountCredit}</td>
+                                <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.totalInwardReturns}</td>
+                                <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.totalOutwardReturns}</td>
+                                <template if:true={isBlPl}>
+                                    <td></td>
+                                </template>
+                                <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.totalStopPayment}</td>
+                                <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}></td>
+                                <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.totalLimit}</td>
+                                <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.totalUtilisation}</td>
+
+                            </tr>
+                            <tr key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>
+                                <th key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id} style="background-color: #F3F2F2;" scope="row">Average</th>
+                                <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.averageValueSummationDebit}</td>
+                                <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.averageValueSummationCredit}</td>
+                                <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.averageCountDebit}</td>
+                                <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.averageCountCredit}</td>
+                                <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.averageInwardReturns}</td>
+                                <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.averageOutwardReturns}</td>
+                                <template if:true={isBlPl}>
+                                    <td></td>
+                                </template>
+                                <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.averageStopPayment}</td>
+                                <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}></td>
+                                <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}> {fileIterator1.averageLimit}</td>
+                                <td key={fileIterator1.listApplicantBankingWrapper.Appl__r.Id}>{fileIterator1.averageUtilisation}</td>
+                
+      
+
+
+        </tr>
+    
+
+
+        </tbody>
+        </table>
+    </div>
+    </div>
+</template>
+
+
+</div>
+
+
+
+
+</lightning-card>
+
+<!--<lightning-card title="Combined Banking (OD/CC)">
+       
+        <div class="slds-p-around_medium">
+        <br/>
+            <div class="slds-box">
+                <div class="slds-scrollable">
+                
+                <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                    <thead>
+                        <tr class="slds-text-title_bold slds-text-color_weak">
+                            
+                            <th class="slds-text-color_inverse slds-cell-fixed" >Particular</th>
+                            <th colspan="2" >Value Summation</th>
+                            <th colspan="2" >Count</th>
+                            <th>Inward Returns (Count)</th>
+                            <th>Outward Returns (Count)</th>
+                            <th>Stop Payt. (Count)</th>
+                            <th>Average Utilization</th>
+                            <th>Limit</th>
+                            <th>Limit Utilization%</th>
+                           
+                        </tr>
+                        <tr>
+                            <th class="slds-text-color_inverse" >Months</th>
+                            <th class="slds-text-color_inverse" >Debits</th>
+                            <th class="slds-text-color_inverse" >Credits</th>
+                            <th class="slds-text-color_inverse" >Debits</th>
+                            <th class="slds-text-color_inverse" >Credits</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                     <template for:each={listOfOverDraftCcAdd} for:item="fileIterator" for:index="index">
+                        <tr key={fileIterator.monthYear} aria-selected="false" class="slds-hint-parent">
+                         
+                         <td scope="row" class="slds-text-title_bold slds-text-color_weak slds-cell-fixed">
+                           {fileIterator.monthYear}
+                         </td>
+                       
+                         <td>{fileIterator.sumValueSummationDebit}</td>
+                         <td>{fileIterator.sumValueSummationCredit}</td>
+                         <td>{fileIterator.sumChangesCountofDebit}</td>
+                         <td>{fileIterator.sumChangesCountofCredit}</td>
+                         <td>{fileIterator.sumInwardReturnsCount}</td>
+                         <td>{fileIterator.sumOutwardReturnsCount}</td>
+                         <td>{fileIterator.sumChangesStopPaymentCount}</td>
+                         <td>
+                           
+                         </td>
+                         <td>
+                           
+                         </td>
+                         <td>
+                            
+                         </td>
+                         
+                     </tr>
+                     
+                    </template>
+                    <tr>
+                     <th style="background-color: #F3F2F2;" scope="row">Total</th>
+                     <td>{calForTotalAndAverageODC.totalValueSummationDebit}</td>
+                <td>{calForTotalAndAverageODC.totalValueSummationCredit}</td>
+                <td>{calForTotalAndAverageODC.totalCountofDebit}</td>
+                <td>{calForTotalAndAverageODC.totalCountofCredit}</td>
+                <td>{calForTotalAndAverageODC.totalInwardReturnsCount}</td>
+                <td>{calForTotalAndAverageODC.totalOutwardReturnsCount}</td>
+                <td>{calForTotalAndAverageODC.totalStopPaymentCount}</td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                    
+                   </tr>
+                   <tr>
+                     <th style="background-color: #F3F2F2;" scope="row">Average</th>
+                     <td>{calForTotalAndAverageODC.averageValueSummationDebit}</td>
+                <td>{calForTotalAndAverageODC.averageValueSummationCredit}</td>
+                <td>{calForTotalAndAverageODC.averageCountofDebit}</td>
+                <td>{calForTotalAndAverageODC.averageCountofCredit}</td>
+                <td>{calForTotalAndAverageODC.averageInwardReturnsCount}</td>
+                <td>{calForTotalAndAverageODC.averageOutwardReturnsCount}</td>
+                <td>{calForTotalAndAverageODC.averageStopPaymentCount}</td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     
+                   </tr>
+                     
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+   
+
+
+</lightning-card>-->
+</template>

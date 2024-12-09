@@ -1,0 +1,10 @@
+.overflowClass{
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: pre-wrap !important;
+}
+
+.dropdownList{
+    white-space: pre-wrap !important;
+}

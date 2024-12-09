@@ -1,0 +1,274 @@
+<apex:page renderAs="pdf" showHeader="false" Controller="BTApplicationPart2" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+    <head>
+        <style>
+            @page { 
+            margin-bottom:2cm;
+            @bottom-right {
+            content:"Page " counter(page) " of " counter(pages) ;
+            font-size:12px;
+            
+            }
+            
+            }
+        
+            div.header{
+            
+            padding-top:0px;
+            padding-bottom:5px;
+            
+            } 
+             
+            table
+            {
+            display: table;
+            table-layout:auto;
+            width: 100%;
+            border: 0.5px solid black;
+            border-collapse: collapse;
+            
+            }
+            td,th {
+            border: 0.5px solid black;   
+            padding:2px; 
+            font-family:arial;
+            font-size:11px;
+            }
+            p{
+            font-family:arial;
+            font-size:11px;
+            }
+            .divClass{
+            font-family:arial;
+            font-size:11px;
+            }
+            
+        
+            .footer {
+            position: fixed;
+            bottom: 0;
+            font-size: 10pt;
+            color: #333;
+            width:100%;
+            right:0
+            
+            }
+            
+            .list-item::before {
+                    content: "• ";
+                }
+                .date-place-section {
+                    display: flex;
+                    align-items: center;
+                    margin-top: 20px;
+                }
+                .date-place-section input {
+                    margin-left: 5px;
+                    width: 20px;
+                    text-align: center;
+                    border: 1px solid black;
+                }
+                .place-input {
+                    margin-left: 20px;
+                    width: 200px;
+                    border: none;
+                    border-bottom: 1px solid black;
+                }
+                .section {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-top: 20px;
+                }
+                .signature-box {
+                    flex: 1;
+                    border: 1px solid black;
+                    height: 150px;
+                    margin-right: 10px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-end;
+                    position: relative;
+                }
+                .signature-box:last-child {
+                    margin-right: 0;
+                }
+                .signature-box label {
+                    font-size: 14px;
+                    padding: 5px;
+                    text-align: center;
+                }
+                .highlighted-number {
+                    font-weight: bold;
+                    color: #000;
+                    text-decoration: underline;
+                }
+                .highlighted-number1 {
+                    padding-left: 110px
+                }
+                .no-border-table {
+                border: 0;
+                border-collapse: collapse;
+                }
+                .no-border-table th,
+                .no-border-table td {
+                border: 0;
+                padding: 5px;
+                }
+                .form-container {
+                    font-size: 8px;
+                    padding: 4px;
+                    border: 1px solid black;
+                }
+                .header-table, .details-table, .personal-details-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+                .header-table td, .details-table td, .personal-details-table td {
+                    border: 1px solid black;
+                    padding: 3px;
+                    text-align: center;
+                }
+                .no-border {
+                    border: 0px solid;
+            		margin-top: 5px;
+                }
+                .title {
+                    font-size: 13px;
+                    font-weight: bold;
+                    text-align: center;
+                	padding-left:20px;
+                }
+                .photo-box {
+                    border: 1px solid black;
+                    width: 100px;
+                    height: 10px;
+                    text-align: center;
+                    vertical-align: middle;
+                }
+                .section-header {
+                    background-color: #FFA500;
+                    font-weight: bold;
+                    text-align: left;
+                    padding: 4px;
+                    font-size: 10px;
+                }
+                .section-header2 {
+                    background-color: #FFA500;
+                    font-weight: bold;
+                    text-align: left;
+                    padding: 3px;
+                    font-size: 5px;
+                }
+                .section-header1 {
+                	background-color: #0070C0;
+                    font-weight: bold;
+                    text-align: left;
+                    padding: 4px;
+                    font-size: 10px;
+                }
+                .inner-table td {
+                    
+                }
+                .blue-bar {
+                    background-color: #0070C0;
+                    color: white;
+                    text-align: left;
+                    font-weight: bold;
+                    padding: 4px;
+                    font-size: 10px;
+                }
+                .photo-label {
+                    font-size: 8px;
+                    text-align: center;
+                }
+                .fixed-header {
+                    top: 0;
+                    right:1%;
+                    bottom:100%
+                    width: 15%;
+                    height: 20px;
+                    text-align: right;
+                    position: fixed;
+                }
+                @page { 
+                    size: letter portrait;
+                    
+                    margin-top: 50px;
+                    margin-bottom: 50px;
+                    
+                    @top-left {
+                        content: element(header_left);
+                    }
+                    
+                    @top-center {
+                        content: element(header_center);
+                    }
+                    
+                    @top-right {
+                        content: element(header_right);
+                    }
+                    
+                    @bottom-left {
+                        content: element(footer_left);
+                    }
+                    
+                    @bottom-center {
+                        content: element(footer_center);
+                    }
+                    
+                    @bottom-right {
+                        content: element(footer_right);
+                    }
+                }
+
+                .header_left {
+                    text-align: left;
+                    position: running(header_left);
+                }
+
+                .header_center{
+                    text-align: center;
+                    position: running(header_center);
+                }
+
+                .header_right {
+                    text-align: right;
+                    position: running(header_right);
+                }
+
+                .footer_left {
+                    text-align: left;
+                    position: running(footer_left);
+                }
+
+                .footer_center {
+                    text-align: center;
+                    position: running(footer_center);
+                }
+
+                .footer_right {
+                    text-align: right;
+                    position: running(footer_right);
+                }
+                
+            
+        </style>
+    </head>
+    <div style="width: 100%; margin: 0 auto;">
+
+        <!-- First Page Content -->
+        <apex:outputPanel rendered="{!if(IsDocForPLAndPL == true , true ,false)}">  
+        <apex:include pageName="SanctionLetterForBLAndPL" />
+        </apex:outputPanel>
+        <apex:outputPanel rendered="{!if(IsDocForPLAndPL == false , true ,false)}">  
+        <apex:include pageName="SanctionLetterForm" />
+        </apex:outputPanel>
+        <!-- Page break to ensure content is split correctly -->
+        <div style="page-break-after: always;"></div>
+
+        <!-- Second Page Content -->
+        <div style="page-break-after: always;"></div>
+       <!-- <div style="padding-left:20px; padding-top:20px;text-align:center; font-family:calibiri;font-weight: bold;font-size:15px">PF Deduction Letter</div>-->
+        <apex:include pageName="KFSforLoansAdvances" />
+        
+    </div>
+</apex:page>

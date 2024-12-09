@@ -1,0 +1,208 @@
+<template>
+    <lightning-spinner if:true={showSpinner} alternative-text="Loading" size="medium" style="position: fixed;"></lightning-spinner>
+    <template if:true={isEligibleToView}>
+        <lightning-card title="Consolidate View of Income Details">
+            <lightning-layout multiple-rows="true">
+                <br><br>
+            <!-- <template if:false={hideConsolidateView}> -->
+                <lightning-layout-item padding="around-small" size="12">
+                    <template if:true={incomeTypeArray}>
+
+
+                <!-- <template if:true={incomeType.AgriIncome}> -->
+                    <div class="slds-p-horizontal_medium" >
+                        <lightning-accordion active-section-name={activeSection}
+                            allow-multiple-sections-open>
+                            <lightning-accordion-section name='E' label="Agricultural Income"
+                                class="accordionClass">
+                                <c-consolidated-agriculture-income loan-app-id={loanAppId}
+                                    applicant-id={_applicantIdOnTabset} has-edit-access={hasEditAccess}
+                                    layout-size={layoutSize} 
+                                    record-type-name={AgriIncomeRecordTypeId}
+                                    ></c-consolidated-agriculture-income>
+                            </lightning-accordion-section>
+                            <!-- is-selected={incomeType.AgriIncome} -->
+                        </lightning-accordion>
+                    </div>
+                <!-- </template> -->
+
+                        <div class="slds-p-horizontal_medium" >
+                            <lightning-accordion active-section-name={activeSection}
+                                allow-multiple-sections-open>
+                                <lightning-accordion-section name='J' label="Consulting Income"
+                                    class="accordionClass">
+
+                                    <c-consolidated-consulting-income loan-app-id={loanAppId}
+                                        applicant-id={_applicantIdOnTabset} has-edit-access={hasEditAccess}
+                                        layout-size={layoutSize} 
+                                        record-type-name={consultingIncomeRecordTypeId}
+                                        >
+                                    </c-consolidated-consulting-income>
+                                    <!-- is-selected={incomeType.Consulting_Income} -->
+                                </lightning-accordion-section>
+                            </lightning-accordion>
+                        </div>
+
+                        <!-- <template for:each={incomeTypeArray} for:item="incomeType"> -->
+                            <!-- <template if:true={incomeType.Rental_woBanking}> -->
+                                <div class="slds-p-horizontal_medium" >
+                                    <lightning-accordion active-section-name={activeSection}
+                                        allow-multiple-sections-open>
+                                        <lightning-accordion-section name='A'
+                                            label="Rental With No Bank Credit" class="accordionClass">
+                                            <c-consolidated-rentalwo-banking loan-app-id={loanAppId}
+                                                applicant-id={_applicantIdOnTabset} layout-size={layoutSize}
+                                                has-edit-access={hasEditAccess}
+                                                record-type-name={Rental_woBankingRecordTypeId}
+                                                >
+                                            </c-consolidated-rentalwo-banking>
+                                            <!-- is-selected={incomeType.Rental_woBanking} -->
+                                        </lightning-accordion-section>
+                                    </lightning-accordion>
+                                </div>
+                            <!-- </template> -->
+
+                            <!-- <template if:true={incomeType.RentalwBank}> -->
+                                <div class="slds-p-horizontal_medium" >
+                                    <lightning-accordion active-section-name={activeSection}
+                                        allow-multiple-sections-open>
+                                        <lightning-accordion-section name='B'
+                                            label="Rental Credits In Banking" class="accordionClass">
+                                            <c-consolidated-rental-banking loan-app-id={loanAppId}
+                                                applicant-id={_applicantIdOnTabset} layout-size={layoutSize}
+                                                has-edit-access={hasEditAccess}
+                                                record-type-name={RentalwBankTypeId}
+                                                >
+                                            </c-consolidated-rental-banking>
+                                            <!-- is-selected={incomeType.Rental_woBanking} -->
+                                        </lightning-accordion-section>
+                                    </lightning-accordion>
+                                </div>
+                            <!-- </template> -->
+
+                            <!-- <template if:true={incomeType.CashSal}> -->
+                                <div class="slds-p-horizontal_medium" >
+                                    <lightning-accordion active-section-name={activeSection}
+                                        allow-multiple-sections-open>
+                                        <lightning-accordion-section name='C' label="Cash Salary"
+                                            class="accordionClass">
+                                            <c-consolidated-salary-income loan-app-id={loanAppId}
+                                                applicant-id={_applicantIdOnTabset} layout-size={layoutSize}
+                                                has-edit-access={hasEditAccess} 
+                                                 record-type-name={CashSalRecordTypeId}>
+                                            </c-consolidated-salary-income>
+                                        </lightning-accordion-section>
+                                        <!-- is-selected={incomeType.CashSal} -->
+                                    </lightning-accordion>
+
+                                </div>
+                            <!-- </template> -->
+
+                            <!-- <template if:true={incomeType.Cashflow_Map}> -->
+
+                                <!-- <div class="slds-p-horizontal_medium" >
+                                    <lightning-accordion active-section-name={activeSection}
+                                        allow-multiple-sections-open>
+                                        <lightning-accordion-section name='D' label="Cash Flow Computation"
+                                            class="accordionClass">
+                                            <c-capture-cash-flow-computation-details loan-app-id={loanAppId}
+                                                applicant-id={_applicantIdOnTabset} has-edit-access={hasEditAccess}
+                                                layout-size={layoutSize}
+                                                record-type-name={CashflowRecordTypeId}
+                                                ></c-capture-cash-flow-computation-details>
+                                               
+                                        </lightning-accordion-section>
+                                    </lightning-accordion>
+                                </div> --> <!-- is-selected={incomeType.Cashflow_Map} -->
+                            <!-- </template> -->
+
+
+                            <!-- <template if:true={incomeType.BankCrSal}> -->
+                                <div class="slds-p-horizontal_medium" >
+                                    <lightning-accordion active-section-name={activeSection}
+                                        allow-multiple-sections-open>
+                                        <lightning-accordion-section name='F'
+                                            label="Salary With Bank Credit" class="accordionClass">
+                                            <c-consolidated-bank-credit loan-app-id={loanAppId}
+                                                applicant-id={_applicantIdOnTabset} layout-size={layoutSize}
+                                                has-edit-access={hasEditAccess} 
+                                                  record-type-name={BankCrSalRecordTypeId}></c-consolidated-bank-credit>
+                                        </lightning-accordion-section>
+                                        <!-- is-selected={incomeType.BankCrSal} -->
+                                    </lightning-accordion>
+
+                                </div>
+                            <!-- </template> -->
+
+                            <!-- <template if:true={incomeType.Pension}> -->
+                                <div class="slds-p-horizontal_medium" >
+                                    <lightning-accordion active-section-name={activeSection}
+                                        allow-multiple-sections-open>
+                                        <lightning-accordion-section name='G' label="Pension Income"
+                                            class="accordionClass">
+                                            <c-consolidated-pension-income loan-app-id={loanAppId}
+                                                applicant-id={_applicantIdOnTabset} has-edit-access={hasEditAccess}
+                                                layout-size={layoutSize} 
+                                                record-type-name={PensionRecordTypeId}
+                                                >
+                                            </c-consolidated-pension-income>
+                                            <!-- is-selected={incomeType.Pension} -->
+                                        </lightning-accordion-section>
+                                    </lightning-accordion>
+                                </div>
+                            <!-- </template> -->
+
+                            <!-- <template if:true={incomeType.Other_Income}> -->
+                                <div class="slds-p-horizontal_medium" >
+                                    <lightning-accordion active-section-name={activeSection}
+                                        allow-multiple-sections-open>
+                                        <lightning-accordion-section name='H' label="Other Income"
+                                            class="accordionClass">
+                                            <c-consolidated-other-income loan-app-id={loanAppId}
+                                                applicant-id={_applicantIdOnTabset} has-edit-access={hasEditAccess}
+                                                layout-size={layoutSize} 
+                                                record-type-name={Other_IncomeRecordTypeId}
+                                                >
+                                            </c-consolidated-other-income>
+                                            <!-- is-selected={incomeType.Other_Income} -->
+                                        </lightning-accordion-section>
+                                    </lightning-accordion>
+                                </div>
+                            <!-- </template> -->
+
+
+                            <!--  -->
+
+                            <!-- <template if:true={incomeType.Other_Income_Annual}> -->
+                                <div class="slds-p-horizontal_medium" >
+                                    <lightning-accordion active-section-name={activeSection}
+                                        allow-multiple-sections-open>
+                                        <lightning-accordion-section name='I' label="Other Income - Annual"
+                                            class="accordionClass">
+                                            <c-consolidated-other-income-annual loan-app-id={loanAppId}
+                                                applicant-id={_applicantIdOnTabset} has-edit-access={hasEditAccess}
+                                                layout-size={layoutSize} 
+                                                record-type-name={Other_IncomeAnnualRecordTypeId}
+                                                >
+                                            </c-consolidated-other-income-annual>
+                                            <!-- is-selected={incomeType.Other_Income_Annual} -->
+                                        </lightning-accordion-section>
+                                    </lightning-accordion>
+                                </div>
+                            <!-- </template> -->
+
+                            <!-- <template if:true={incomeType.Consulting_Income}> -->
+                            <!-- </template> -->
+                            <!--  -->
+
+
+                        <!-- </template> -->
+                    </template>
+                </lightning-layout-item>
+                <!-- </template> -->
+        </lightning-layout>
+        
+    </lightning-card>
+    </template>
+
+</template>

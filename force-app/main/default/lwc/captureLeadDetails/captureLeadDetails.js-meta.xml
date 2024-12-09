@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>57.0</apiVersion>
+    <isExposed>true</isExposed> 
+    <masterLabel>Capture Lead Details</masterLabel>
+    <description>Component to handle Lead Details</description>
+    <targets>
+        <target>lightning__FlowScreen</target>
+        <target>lightning__RecordPage</target>
+        <target>lightning__AppPage</target>
+        <target>lightning__HomePage</target>
+    </targets> 
+    <targetConfigs> 
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="EMIperLac" label="EMI Per Lac" type="Integer"/>
+            <property name="eligibilityinlacs" label="Eligibility in lacs" type="Integer"/>
+            <property name="emi" label="EMI" type="Integer"/>
+            <property name="leadFOIR" label="Lead FOIR" type="Integer"/>
+            <property name="declredMontlyOblVal" label="Declared Monthly Obligation (₹)" type="Integer"/>
+            <property name="declredMontlyIncVal" label="Declared Monthly Income (₹)" type="Integer"/>
+            <property name="leadROI" label="Lead ROI" type="Integer"/>
+            <property name="leadRecordId" label="Lead Record Id" type="String"/>
+            <property name="lastName" label="Last Name" type="String"/>
+            <property name="mobile" label="Mobile" type="String"/>
+            <property name="leadValue" label="Lead Source" type="String"/> 
+            <property name="channelName" label="Channel Name" type="String"/> 
+            <property name="customerProfileValue" label="Customer Profile" type="String"/>
+            <property name="constitutionValue" label="Constitution" type="String"/>
+            <property name="dob1" label="Date of Birth" type="Date"/>
+            <property name="currentCitySearch" label="Current Residence City" type="String" />
+            <property name="firstName" label="First Name" type="String"/>
+            <property name="emailId" label="Email" type="String"/>
+            <property name="doiValue1" label="Date of Incorporation" type="Date"/>
+            <property name="keyManName" label="Name of the Key Man/AuthorisedIndividual" type="String"/>
+            <property name="companyChange" label="Company" type="String"/>
+            <property name="officeCitySearch" label="Office Address City" type="String" />
+            <property name="rmNameId" label="RM/SM Name" type="String"/>
+            <property name="productValue" label="Product" type="String"/>
+            <property name="productSubTypeValue" label="Product Sub Type" type="String"/>
+            <property name="loanAmount" label="Requested loan amount" type="Integer"/>
+            <property name="tenure" label="Requested tenure in Months" type="Integer"/>
+            <property name="depStatusValue" label="Disposition Status" type="String"/>
+            <property name="promotionCode" label="Promotion Code" type="String"/>
+            <property name="assessedIncomeProgramValue1" label="Is this Assessed Income Program?New" type="String"/>
+            <property name="propertyIdentifiedValue" label="Property Identified?" type="String"/>
+            <property name="propertyCategoryValue" label="Property Category" type="String"/>
+            <property name="depositionRemark" label="Disposition Remarks" type="String"/>
+            <property name="leadClosureValue" label="Lead Closure Reason" type="String"/>
+            <property name="lmsLeadId" label="LMS Lead ID" type="String"/>
+            <property name="referralCode" label="Referral Employee Code" type="String"/>
+            <property name="disabledFlag" label="Disabled Flag" type="Boolean"/>
+            <property name="constiFlag" label="Consti Flag" type="Boolean" role="outputOnly"/>
+            <property name="otherReason" label="Comments" type="String"/>
+            <property name="currentUserId" label="Current User Id" type="String"/>
+            <property name="cityService" label="City Flag" type="Boolean"/>
+            <property name="leadStatus" label="Lead Status" type="String"/>
+            <property name="searchInput" label="Channel" type="String"/>
+            <property name="empRole" label="Emp Role" type="String"/>
+            <property name="dob" label="Date of Birth" type="String"/>
+            <property name="doiValue" label="Date of Incorporation" type="String"/>
+            <property name="assessedIncomeProgramValue" label="Is this Assessed Income Program?" type="Boolean"/>
+            <property name="promCodeId" label="Promotional Code ID" type="String"/>
+            <property name="dsaContactId" label="DSA ContactId" type="String"/>
+            <property name="selectDSACityId" label="Sourcing Location" type="String"/>
+            <property name="selectDSABranchId" label="Branch" type="String"/>
+            <property name="DSAUserId" label="DSAUserId" type="String"/>
+<!-- unused -->
+            <property name="pvChannelVerified" label="pvChannelVerified" type="Boolean"/>
+            <property name="pvCityVerified" label="pvCityVerified" type="Boolean"/>
+            <property name="testCityv1" label="Test City" type="String"/> 
+            <property name="isChannelverified" label="isChannelverified" type="String"/>
+            <property name="isCityVerified" label="isCityVerified" type="String"/>
+            <property name="CityValue_Bkp" label="CityValue_Bkp" type="String"/>
+<!-- Business Loan EMI Calculator Parameters -->
+            <property name="salExclVarPay" label="Salary excluding Variable Pay" type="Integer"/>
+            <property name="avgVarPay" label="Avg Variable Pay - 50%" type="Integer"/>
+            <property name="dedInclIncomeTax" label="Deduction(s) including Income Tax" type="Integer"/>
+            <property name="netTakHomeSal" label="Net Take Home Salary" type="Integer"/>
+            <property name="avgAddIncome" label="Avg Additional Income" type="Integer"/>
+            <property name="consultIncome" label="6 Months Consulting income (post Tax)" type="Integer"/>
+            <property name="totalNetMonthluInc" label="Total Net Monthly Income (NMI)" type="Integer"/>
+            <property name="applicableFOIR" label="Applicable FOIR" type="Integer"/>
+            <property name="maxEligibleEMI" label="Max Eligible EMI" type="Integer"/>
+            <property name="maxLoanBasisFOIR" label="Max Loan - Basis FOIR (60Months)" type="Integer"/>
+            <property name="maxLoanBasisNMIBand" label="Max Loan - Basis NMI Band" type="Integer"/>
+            <property name="maxLoanEligibility" label="Max Loan Eligibility" type="Integer"/>
+            <property name="profQual" label="Qualification" type="String"/>
+            <property name="grossRecipts" label="Gross Receipts" type="Integer"/>
+            <property name="patValue" label="PAT" type="Integer"/>
+            <property name="depreciation" label="Depreciation" type="Integer"/>
+            <property name="intrstExp" label="Interest Expenses" type="Integer"/>
+            <property name="OtheIcnme" label="Other Income" type="Integer"/>
+            <property name="netProfit" label="Net Profit (In Lakhs)" type="Integer"/>
+            <property name="grossProfReceipts" label="Gross Professional Receipts (In Lakhs)" type="Integer"/>
+            <property name="program" label="Program" type="String"/>
+            <property name="natureOfBusiness" label="Nature Of Business" type="String"/>
+            <property name="turnover" label="Turnover (as per latest Financial)" type="Integer"/>
+            <property name="last12MonthsTurnover" label="Last 12 months Turnover as per GST" type="Integer"/>
+            <property name="intonEMIloanAddBack" label="Interest on EMI loan add back" type="Integer"/>
+            <property name="patCapital" label="Rem and/or Int on partners Capital (after tax) - add back" type="Integer"/>
+            <property name="abbValue" label="ABB (Min of 6M and 12M)" type="Integer"/>
+            <property name="emiGoingFrmOthrAcnt" label="EMI going from other account" type="Integer"/>
+        </targetConfig>
+    </targetConfigs>  
+</LightningComponentBundle>

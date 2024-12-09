@@ -1,0 +1,989 @@
+<template>
+    <!-- <p>Dedupe Component</p> -->
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    <lightning-card>
+        <div class="slds-var-m-top_medium">
+            <div class="slds-clearfix">
+                <div class="slds-float_right">
+                    <lightning-button variant="brand" class="slds-m-around_x-small" icon-name="action:fallback"
+                        label="Re-Initiate" onclick={handleIntialization} disabled={disableButtons}></lightning-button>
+                    <lightning-button variant="brand" class="slds-m-around_x-small" icon-name="action:fallback"
+                        label="Generate UCID" onclick={handleUcid} disabled={disableGenUcid}></lightning-button>
+                    <template if:false={disableButtons}>
+                        <lightning-icon variant="success" class="customButton slds-m-around_x-small"
+                            icon-name='utility:refresh' alternative-text='refresh' size='small' title='refresh'
+                            onclick={handleRefreshClick}></lightning-icon>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+
+        <lightning-accordion active-section-name={activeSections} allow-multiple-sections-open>
+            <lightning-accordion-section name="A" label="Dedupe" class="accClass">
+                <template lwc:if={desktopBoolean}>
+                    <lightning-card>
+                        <div id="containerDiv" onmousemove={handlemousemove} onmouseup={handlemouseup}
+                            ondblclick={handledblclickresizable}
+                            class="slds-table_header-fixed_container slds-border_right slds-border_left tableScroll"
+                            onscroll={tableOuterDivScrolled}>
+                            <div id="tableViewInnerDiv" class="slds-scrollable_y tableViewInnerDiv slds-scrollable">
+                                <table
+                                    class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout slds-max-medium-table_stacked-horizontal"
+                                    onscroll={tableScrolled}>
+                                    <thead>
+                                        <tr>
+                                            <th title="Borrower Name"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Borrower Name</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="UCID" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                                scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">UCID</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="Dedupe match Name"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Dedupe match Name</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="Match criteria"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Match criteria</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="Match source"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Match source</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="Lan No" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                                scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Lan No</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="App Id" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                                scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">App Id</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="App Date" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                                scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">App Date</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="Loan type" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                                scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Loan type</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="Status" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                                scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Status</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="Rejection Reason"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Rejection Reason</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="Loan disbursement date"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidthh" scope="col">
+                                                <div class="slds-cell-fixed fixedWidthh">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Loan disbursement date</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="Loan amount"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Loan amount</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="Tenure" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                                scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Tenure</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="Current Outstanding"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Current Outstanding</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="System DPD" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                                scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">System DPD</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="Securitisation Status"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Securitisation Status</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="Internal Dedupe Response"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidthh" scope="col">
+                                                <div class="slds-cell-fixed fixedWidthh">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Internal Dedupe Response</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="Internal Dedupe Relevance"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidthh" scope="col">
+                                                <div class="slds-cell-fixed fixedWidthh">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <!-- <span class="slds-truncate">Internal Dedupe Relevance</span> -->
+                                                        <label id="id-01"> Internal Dedupe Relevance</label>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th class="slds-is-resizable dv-dynamic-width fixedWidthhh" scope="col">
+                                                <div class="slds-cell-fixed fixedWidthhh">
+                                                    <div class="header-content">
+                                                        <a class="slds-th__action slds-text-link--reset">
+                                                            <span class="slds-truncate">Internal Dedupe result</span>
+                                                            <lightning-icon class="help-icon" icon-name="utility:info"
+                                                                size="x-small" alternative-text="Help"
+                                                                title="Mandatory in case of accurate match found"
+                                                                onmouseover={showHelpText}></lightning-icon>
+                                                        </a>
+                                                    </div>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div if:true={showHelp} class="help-text">Mandatory in case of accurate
+                                                    match found</div>
+                                            </th>
+                                            <!-- <th title="Internal Dedupe result remark"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidthhh" scope="col">
+                                                <div class="slds-cell-fixed fixedWidthhh">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Internal Dedupe result remark</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <lightning-icon class="help-icon" icon-name="utility:info"
+                                                    size="x-small" alternative-text="Help"
+                                                    title="Mandatory in case of accurate match found"
+                                                    onmouseover={showHelpText}></lightning-icon>
+                                                <div if:true={showHelp} class="help-text">Mandatory in case of
+                                                    accurate
+                                                    match found</div>
+                                            </th> -->
+
+                                            <th class="slds-is-resizable dv-dynamic-width fixedWidthhh" scope="col">
+                                                <div class="slds-cell-fixed fixedWidthhh">
+                                                    <div class="header-content">
+                                                        <a class="slds-th__action slds-text-link--reset">
+                                                            <span class="slds-truncate">Internal Dedupe result
+                                                                remark</span>
+                                                            <lightning-icon class="help-icon" icon-name="utility:info"
+                                                                size="x-small" alternative-text="Help"
+                                                                title="Mandatory in case of accurate match found"
+                                                                onmouseover={showHelpText}></lightning-icon>
+                                                        </a>
+                                                    </div>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div if:true={showHelp} class="help-text">Mandatory in case of accurate
+                                                    match found</div>
+                                            </th>
+
+                                            <th title="Report Date"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidthhh" scope="col">
+                                                <div class="slds-cell-fixed fixedWidthhh">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Report Date</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="dataBodyVal">
+                                        <template for:each={dedupeData} for:item="record">
+                                            <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+
+                                                <th class="slds-cell_action-mode" role="gridcell">
+                                                    <div class="slds-truncate" title={record.Applicant__r.TabName__c}>
+                                                        {record.Applicant__r.TabName__c}
+                                                    </div>
+                                                </th>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div class="slds-truncate" title={record.UCID__c}>
+                                                        <!-- {record.Applicant__r.UCID__c} -->
+                                                        {record.UCID__c}
+                                                    </div>
+                                                </td>
+
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div class="slds-truncate" title={record.DedupeMatchName__c}>
+                                                        {record.DedupeMatchName__c}
+                                                    </div>
+                                                </td>
+                                                <td if:true={record.Dedupe__c} class="slds-cell_action-mode"
+                                                    role="gridcell">
+                                                    <div class="slds-truncate"
+                                                        title={record.Dedupe__r.MatchCriteria__c}>
+                                                        {record.Dedupe__r.MatchCriteria__c}
+                                                    </div>
+                                                </td>
+                                                <td if:false={record.Dedupe__c} class="slds-cell_action-mode"
+                                                    role="gridcell">
+                                                    <div class="slds-truncate" title=''>
+
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div class="slds-truncate" title={record.MatchSource__c}>
+                                                        {record.MatchSource__c}
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div class="slds-truncate" title={record.Lan__c}>
+                                                        {record.Lan__c}
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div class="slds-truncate" title={record.PastAppId__c}>
+                                                        {record.PastAppId__c}
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div class="slds-truncate" title={record.PastAppDate__c}>
+                                                        <!-- {record.PastAppDate__c} -->
+                                                        <!-- <c-date-display
+                                                            birth-date={record.PastAppDate__c}></c-date-display> -->
+                                                        {record.PastAppDate__c}    
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div class="slds-truncate" title={record.LoanType__c}>
+                                                        {record.LoanType__c}
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div class="slds-truncate" title={record.LoanStatus__c}>
+                                                        {record.LoanStatus__c}
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div class="slds-truncate" title={record.RejectionReason__c}>
+                                                        {record.RejectionReason__c}
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div class="slds-truncate" title={record.LoanDisbDate__c}>
+                                                         {record.LoanDisbDate__c}
+                                                       <!-- <c-date-display
+                                                            birth-date={record.LoanDisbDate__c}></c-date-display>-->
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div class="slds-truncate" title={record.LoanAmount__c}>
+                                                        {record.LoanAmount__c}
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div class="slds-truncate" title={record.Tenure__c}>
+                                                        {record.Tenure__c}
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div class="slds-truncate" title={record.CurrentOutstanding__c}>
+                                                        {record.CurrentOutstanding__c}
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div class="slds-truncate" title={record.DPD__c}>
+                                                        {record.DPD__c}
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div class="slds-truncate" title={record.SecuritisationStatus__c}>
+                                                        {record.SecuritisationStatus__c}
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div class="slds-truncate" title={record.InternalDedupeResponse__c}>
+                                                        {record.InternalDedupeResponse__c}
+                                                    </div>
+                                                </td>
+                                                <!-- <td>
+                                                    <c-dedupe-display-value
+                                                        dedupe-rsults-options={dedupeResponseOptions} type="picklist"
+                                                        field-value={record.InternalDedupeResponse__c} object={record}
+                                                        field-name="InternalDedupeResponse__c"
+                                                        onpicklistchange={handlePicklistValues}
+                                                        is-read-only={isReadOnly}></c-dedupe-display-value>
+
+                                                </td> -->
+                                                <td>
+                                                    <c-dedupe-display-value
+                                                        dedupe-rsults-options={dedupeRelevanceOptions} type="picklist"
+                                                        field-value={record.IntnlDeduRelevance__c} object={record}
+                                                        field-name="IntnlDeduRelevance__c"
+                                                        onpicklistchange={handlePicklistValues}
+                                                        is-read-only={isReadOnly} required={required}></c-dedupe-display-value>
+                                                    <!-- <select name="IntnlDeduRelevance__c"
+                                                            value={record.IntnlDeduRelevance__c}
+                                                            data-recordid={record.Id} class="slds-select"
+                                                            onchange={handleChange}>
+                                                            <template for:each={dedupeRelevanceOptions} for:item="opt">
+                                                                <option key={opt.value} value={opt.value}>{opt.label}
+                                                                </option>
+                                                            </template>
+                                                        </select>
+                                                 -->
+                                                </td>
+                                                <td>
+                                                    <c-dedupe-display-value dedupe-rsults-options={dedupeRsultsOptions}
+                                                        type="picklist" field-value={record.IntrnlDeduperes__c}
+                                                        object={record} field-name="IntrnlDeduperes__c"
+                                                        onpicklistchange={handlePicklistValues}
+                                                        is-read-only={isReadOnly} required={record.isRequired}></c-dedupe-display-value>
+                                                    <!-- <lightning-combobox placeholder="Select Value"
+                                                        value={record.IntrnlDeduperes__c} onchange={handleChange}
+                                                        options={dedupeRsultsOptions} data-recordid={record.Id}
+                                                        style="width: 210px;" name="IntrnlDeduperes__c"
+                                                        variant="label-hidden" class="custom-combobox" required>
+                                                    </lightning-combobox> -->
+                                                    <!-- 
+                                                    <select name="IntrnlDeduperes__c" value={record.IntrnlDeduperes__c}
+                                                        data-recordid={record.Id} class="slds-select"
+                                                        required={record.isRequired} onchange={handleChange}>
+                                                        <template for:each={dedupeRsultsOptions} for:item="opt">
+                                                            <option key={opt.value} value={opt.value}>
+                                                                {opt.label}
+                                                            </option>
+                                                        </template>
+                                                    </select> -->
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div class="slds-truncate" title={record.IntnalDeduperesremark__c}>
+                                                        <!-- <template if:true={record.isRequired}>
+                                                            <span style="color: red">*</span>
+                                                        </template> -->
+                                                        <lightning-input name="IntnalDeduperesremark__c"
+                                                            data-recordid={record.Id} variant="label-hidden"
+                                                            label="Name" value={record.IntnalDeduperesremark__c}
+                                                            onchange={handleChange} required={record.isRequired}
+                                                            disabled={isReadOnly}>
+                                                        </lightning-input>
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div class="slds-truncate" title={record.LatestReportTime__c}>
+                                                        <!-- {record.LatestReportTime__c} -->
+                                                        <!-- <lightning-formatted-date-time
+                                                            value={record.LatestReportTime__c} year="numeric"
+                                                            month="numeric"
+                                                            day="numeric"></lightning-formatted-date-time> -->
+                                                            {record.LatestReportTime__c}
+                                                        <!-- <c-date-time-display
+                                                            date-time={record.LatestReportTime__c}></c-date-time-display> -->
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </lightning-card>
+                </template>
+                <template lwc:if={phoneBolean}>
+                    <div class="slds-m-top_medium slds-m-bottom_x-large">
+                        <!-- <h2 class="slds-text-heading_medium slds-m-bottom_medium">
+                            KYC Verification Files
+                        </h2> -->
+                        <template for:each={dedupeData} for:item="record">
+                            <div key={record.Id} class="slds-p-around_medium lgc-bg">
+                                <ul class="slds-has-dividers_bottom-space">
+                                    <li class="slds-item">
+                                        <lightning-tile>
+                                            <dl class="slds-dl_horizontal">
+                                                <dt class="slds-dl_horizontal__label">
+                                                    <p class="slds-truncate" title="Borrower Name">
+                                                        <b>Borrower Name : </b>{record.Applicant__r.TabName__c}
+                                                    </p>
+                                                </dt>
+
+                                                <dt class="slds-dl_horizontal__label">
+                                                    <p class="slds-truncate" title="UCID">
+                                                        <b>
+                                                            UCID : </b>{record.UCID__c}
+                                                    </p>
+                                                </dt>
+
+                                                <dt class="slds-dl_horizontal__label">
+                                                    <p class="slds-truncate" title="Dedupe match Name">
+                                                        <b>
+                                                            Dedupe match Name : </b>{record.DedupeMatchName__c}
+                                                    </p>
+                                                </dt>
+                                                <dt class="slds-dl_horizontal__label">
+                                                    <p class="slds-truncate" title="Match criteria">
+                                                        <b>
+                                                            Match criteria : </b>{record.Dedupe__r.MatchCriteria__c}
+                                                    </p>
+                                                </dt>
+                                                <dt class="slds-dl_horizontal__label">
+                                                    <p class="slds-truncate" title="Match source">
+                                                        <b>
+                                                            Match source : </b>{record.MatchSource__c}
+                                                    </p>
+                                                </dt>
+                                                <dt class="slds-dl_horizontal__label">
+                                                    <p class="slds-truncate" title="Past application details">
+                                                        <b>
+                                                            Past application details : </b>
+                                                        {record.PastAppId__c}
+                                                    </p>
+                                                </dt>
+                                                <dt class="slds-dl_horizontal__label">
+                                                    <p class="slds-truncate" title="Past Application date">
+                                                        <b>
+                                                            Past Application date :
+                                                        </b>
+                                                        <!-- {record.PastAppDate__c} -->
+                                                        <!-- <c-date-display
+                                                            birth-date={record.PastAppDate__c}></c-date-display> -->
+
+                                                        {record.PastAppDate__c}    
+                                                    </p>
+                                                </dt>
+                                                <dt class="slds-dl_horizontal__label">
+                                                    <p class="slds-truncate" title="Uploaded File name">
+                                                        <b>
+                                                            Loan type :
+                                                        </b>{record.LoanType__c}
+                                                    </p>
+                                                </dt>
+                                                <dt class="slds-dl_horizontal__label">
+                                                    <p class="slds-truncate" title="Uploaded File name">
+                                                        <b>
+                                                            Status :
+                                                        </b>{record.LoanStatus__c}
+                                                    </p>
+                                                </dt>
+                                                <dt class="slds-dl_horizontal__label">
+                                                    <p class="slds-truncate" title="Uploaded File name">
+                                                        <b>
+                                                            Rejection Reason :
+                                                        </b>{record.RejectionReason__c}
+                                                    </p>
+                                                </dt>
+                                                <dt class="slds-dl_horizontal__label">
+                                                    <p class="slds-truncate" title="Uploaded File name">
+                                                        <b>
+                                                            Loan disbursement date :
+                                                        </b>
+                                                       <!-- {record.LoanDisbDate__c} -->
+                                                        <c-date-display
+                                                            birth-date={record.LoanDisbDate__c}></c-date-display>
+                                                    </p>
+                                                </dt>
+                                                <dt class="slds-dl_horizontal__label">
+                                                    <p class="slds-truncate" title="Uploaded File name">
+                                                        <b>
+                                                            Loan amount :
+                                                        </b>{record.LoanAmount__c}
+                                                    </p>
+                                                </dt>
+                                                <dt class="slds-dl_horizontal__label">
+                                                    <p class="slds-truncate" title="Uploaded File name">
+                                                        <b>
+                                                            Tenure :
+                                                        </b>{record.Tenure__c}
+                                                    </p>
+                                                </dt>
+                                                <dt class="slds-dl_horizontal__label">
+                                                    <p class="slds-truncate" title="Uploaded File name">
+                                                        <b>
+                                                            Current Outstanding :
+                                                        </b>{record.CurrentOutstanding__c}
+                                                    </p>
+                                                </dt>
+                                                <dt class="slds-dl_horizontal__label">
+                                                    <p class="slds-truncate" title="System DPD">
+                                                        <b>
+                                                            System DPD :
+                                                        </b>{record.DPD__c}
+                                                    </p>
+                                                </dt>
+                                                <dt class="slds-dl_horizontal__label">
+                                                    <p class="slds-truncate" title="Uploaded File name">
+                                                        <b>
+                                                            Securitisation Status :
+                                                        </b>{record.SecuritisationStatus__c}
+                                                    </p>
+                                                </dt>
+                                                <dt class="slds-dl_horizontal__label">
+                                                    <p class="slds-truncate" title="Uploaded File name">
+                                                        <b>
+                                                            Internal Dedupe Response :
+                                                        </b>{record.InternalDedupeResponse__c}
+                                                        <!-- <c-dedupe-display-value
+                                                            dedupe-rsults-options={dedupeResponseOptions}
+                                                            type="picklist"
+                                                            field-value={record.InternalDedupeResponse__c}
+                                                            object={record} field-name="InternalDedupeResponse__c"
+                                                            onpicklistchange={handlePicklistValues}
+                                                            is-read-only={isReadOnly}></c-dedupe-display-value> -->
+                                                    </p>
+                                                </dt>
+                                                <dt class="slds-dl_horizontal__label">
+                                                    <p class="slds-truncate" title="Uploaded File name">
+                                                        <b>
+                                                            Internal Dedupe Relevance :
+                                                        </b> <c-dedupe-display-value
+                                                            dedupe-rsults-options={dedupeRelevanceOptions}
+                                                            type="picklist" field-value={record.IntnlDeduRelevance__c}
+                                                            object={record} field-name="IntnlDeduRelevance__c"
+                                                            onpicklistchange={handlePicklistValues}
+                                                            is-read-only={isReadOnly} required={required}></c-dedupe-display-value>
+                                                    </p>
+                                                </dt>
+                                                <dt class="slds-dl_horizontal__label">
+                                                    <p class="slds-truncate" title="Uploaded File name">
+                                                        <b>
+                                                            Internal Dedupe result :
+                                                        </b> <c-dedupe-display-value
+                                                            dedupe-rsults-options={dedupeRsultsOptions} type="picklist"
+                                                            field-value={record.IntrnlDeduperes__c} object={record}
+                                                            field-name="IntrnlDeduperes__c"
+                                                            onpicklistchange={handlePicklistValues}
+                                                            is-read-only={isReadOnly} required={record.isRequired}></c-dedupe-display-value>
+                                                    </p>
+                                                </dt>
+                                                <dt class="slds-dl_horizontal__label">
+                                                    <p class="slds-truncate" title="Uploaded File name">
+                                                        <b>
+                                                            Internal Dedupe result remark :
+                                                        </b>
+                                                        <!-- <template if:true={record.isRequired}>
+                                                            <span style="color: red">*</span>
+                                                        </template> -->
+                                                        <lightning-input name="IntnalDeduperesremark__c"
+                                                            data-recordid={record.Id} variant="label-hidden"
+                                                            label="Name" value={record.IntnalDeduperesremark__c}
+                                                            onchange={handleChange} required={record.isRequired}
+                                                            disabled={isReadOnly}>
+                                                        </lightning-input>
+                                                    </p>
+                                                </dt>
+                                                <dt class="slds-dl_horizontal__label">
+                                                    <p class="slds-truncate" title="Uploaded File name">
+                                                        <b>
+                                                            Report Date :
+                                                        </b>
+                                                        <!-- <lightning-formatted-date-time
+                                                            value={record.LatestReportTime__c} year="numeric"
+                                                            month="numeric"
+                                                            day="numeric"></lightning-formatted-date-time> -->
+                                                        <!-- <c-date-time-display
+                                                            date-time={record.LatestReportTime__c}></c-date-time-display> -->
+                                                            {record.LatestReportTime__c}
+                                                        <!-- <c-date-display
+                                                            birth-date={record.LatestReportTime__c}></c-date-display> -->
+                                                    </p>
+                                                </dt>
+                                            </dl>
+                                        </lightning-tile>
+                                    </li>
+                                </ul>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </lightning-accordion-section>
+            <template if:true={enpaData}>
+                <template if:true={showEnpaData}>
+                    <div class="slds-var-m-top_medium">
+                        <div class="slds-clearfix">
+                            <div class="slds-float_right">
+                                <lightning-button variant="brand" class="slds-m-around_x-small"
+                                    icon-name="action:fallback" label="Re-Initiate ENPA"
+                                    onclick={handleENPAIntialization} disabled={disableButtons}></lightning-button>
+                                <template if:false={disableButtons}>
+                                    <lightning-icon variant="success" class="customButton slds-m-around_x-small"
+                                        icon-name='utility:refresh' alternative-text='refresh' size='small'
+                                        title='refresh' onclick={handleRefreshClick}></lightning-icon>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                    <lightning-accordion-section name="B" label="ENPA" class="accClass">
+                        <c-enpa-verification enpa-data={enpaData} internal-top-up-options={internalTopUpOptions}
+                            pdd-pending-options={pddPendingOptions} loan-l-t-v-options={loanLTVOptions}
+                            loan-proposed-lan-options={loanProposedLanOptions} is-read-only={isReadOnly}
+                            onenpadatachange={handleEnpaDataChange}
+                            loantobe-closed-internally={loantobeClosedInternally}></c-enpa-verification>
+                    </lightning-accordion-section>
+                </template>
+            </template>
+        </lightning-accordion>
+    </lightning-card>
+
+    <template if:true={isModalOpen}>
+        <c-re-initiate loan-app-id={loanAppId} service-name="Dedupe API Token" is-dedupe="true"
+            onfireevent={handleCustomEvent} display-data={applIds}></c-re-initiate>
+    </template>
+    <template if:true={isModalOpenENPA}>
+        <!-- <c-re-initiate loan-app-id={loanAppId} service-name="ENPADeatils" is-enpa="true"
+            onfireevent={handleCustomEvent}></c-re-initiate> -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="my-modal slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    
+                    <template if:true={showUcidBoxNGrpTxn}>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Enter UCID for
+                            Re-Initiate</h2>
+                    </template>   
+                    
+                    <template if:false={showUcidBoxNGrpTxn}>
+                        <h2 id="modal-heading-019" class="slds-text-heading_medium slds-hyphenate">Select the Applicant for
+                            Re-Initiate</h2>
+                    </template> 
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <!-- <p style="text-align:center;"><b>{removeModalMessage}</b></p> -->
+                    <!-- <c-dynamic-datatable params-data={params}></c-dynamic-datatable> -->
+                    <table
+                        class="slds-table slds-table_cell-buffer slds-table_bordered slds-border_left slds-border_right"
+                        aria-labelledby="element-with-table-label other-element-with-table-label">
+                        <thead>
+                        <template if:false={showUcidBoxNGrpTxn}>
+                            <tr>
+                                <th>Applicant Name</th>
+                                <th>Select Applicant</th>
+                            </tr>
+                        </template>
+
+                        <template if:true={showUcidBoxNGrpTxn}>
+                            <tr>
+                                <th>Enter Ucid</th>
+                            </tr>
+                        </template> 
+
+                        </thead>
+                        <tbody>
+                            <template if:false={showUcidBoxNGrpTxn}>
+                            <template for:each={appDataForEnpa} for:item="record">
+                                <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+                                    <template if:true={record.FullName__c}>
+                                        <th class="slds-cell_action-mode" scope="row">
+                                            <div class="slds-truncate" title={record.FullName__c}>
+                                                {record.FullName__c}
+                                            </div>
+                                        </th>
+                                        <td class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title={record.selectCheckbox}>
+                                                <lightning-input variant="label-hidden" data-recordid={record.Id}
+                                                    type="checkbox" checked={record.selectCheckbox}
+                                                    onclick={handleClick}></lightning-input>
+                                            </div>
+                                        </td>
+                                    </template>
+                                </tr>
+                            </template>
+                        </template>
+
+                        <template if:true={showUcidBoxNGrpTxn}>
+                            <td class="slds-cell_action-mode" role="gridcell">
+                                <div class="slds-truncate" title="Ucid">
+                                    <lightning-input
+                                    label="Enter UCID"
+                                    placeholder="Enter UCID"
+                                    value={ucidValue}
+                                    maxlength="8"
+                                    onchange={handleUcidChange}
+                                    required >
+                                </lightning-input>
+                                </div>
+                            </td>
+                        </template> 
+
+                        
+                        </tbody>
+                    </table>
+
+                    <!-- <template if:true={showError}>
+                        <p class="slds-text-color_error">Invalid UCID format.</p>
+                    </template> -->
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <template if:true={showEnterUcid}>
+                    <button class="slds-button slds-button_brand" onclick={handleUcidCall} title="Enter New Ucid">Enter New Ucid</button>
+                    </template>
+                    <template if:false={showUcidBoxNGrpTxn}>
+                        <button class="slds-button slds-button_neutral" onclick={closeModal} title="No">No</button>
+                        <button class="slds-button slds-button_brand" onclick={handleReIntialization} title="Yes">Yes</button>
+                    </template>
+                    <template if:true={showUcidBoxNGrpTxn}>
+                        <button class="slds-button slds-button_brand" onclick={handleUcidCallUpsert} title="Submit Ucid">Submit Ucid</button>
+                        <button class="slds-button slds-button_brand" onclick={handleUcidBackBtn} title="Back">Back</button>
+                    </template>
+                    
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+
+    <template if:true={showModalForUCID}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="my-modal slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModalUcid}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Select Applicant for
+                        Re-Initiate UCID</h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                    <table
+                        class="slds-table slds-table_cell-buffer slds-table_bordered slds-border_left slds-border_right"
+                        aria-labelledby="element-with-table-label other-element-with-table-label">
+                        <thead>
+                            <tr>
+                                <th>Applicant Name</th>
+                                <th>Select Applicant</th>
+                                <!-- <th>Rational</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={appDataForUdid} for:item="record">
+                                <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+                                    <template if:true={record.TabName__c}>
+                                        <th class="slds-cell_action-mode" scope="row">
+                                            <div class="slds-truncate" title={record.FullName__c}>
+                                                {record.FullName__c}
+                                            </div>
+                                        </th>
+                                        <td class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title={record.selectCheckbox}>
+                                                <lightning-input variant="label-hidden" data-recordid={record.Id}
+                                                    type="checkbox" checked={record.selectCheckbox}
+                                                    onclick={handleClickUcid}></lightning-input>
+                                            </div>
+                                        </td>
+                                    </template>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeModalUcid} title="No">No</button>
+                    <button class="slds-button slds-button_brand" onclick={handleUcidCre} title="Yes">Yes</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

@@ -1,0 +1,18 @@
+.tableScroll {
+    width: 100% !important;
+    overflow-x: auto;
+    /* height: 12rem; */
+  }
+.fixedWidth{
+    width: 10rem;
+  }
+  .fixedWidthhh{
+    width: 16rem;
+  }
+  .fixedWidthh{
+    width: 18rem;
+  }
+  label:before {
+    content: '*';
+    color: red;
+  }

@@ -1,0 +1,20 @@
+.custom-white-border {
+    border-color: white;
+}
+.pointerClass{
+    cursor: pointer;
+}
+.applicantClass{
+    --slds-c-accordion-summary-color-background : rgb(243, 243, 243) ;
+    --slds-c-accordion-color-border : 0.5rem;
+}
+.custom-css {
+    --lwc-squareIconMediumContentAlt:1.25rem;
+    --slds-c-icon-color-foreground:rgba(202, 8, 8, 0.934); 
+}
+.inLineClass{
+    display: inline-block;
+}
+.customButton:hover {
+    cursor: pointer;
+}

@@ -1,0 +1,42 @@
+<template>
+    <lightning-card>
+    <lightning-layout>
+        <lightning-layout-item padding="around-small" size="12" margin="around-small">
+            <lightning-accordion allow-multiple-sections-open class="accordion"> <!-- active-section-name={activeSection} slds-radio_faux slds-radio slds-form-element__control fieldgroup--> 
+                <lightning-accordion-section name="A" label="General Rules">
+                    <lightning-radio-group class="customRadioCls" name="field1a" label="Property is within Geo Limits"
+                        options={option} value={selectedValue1a} onchange={handleRadioChange} type="radio" required>
+                    </lightning-radio-group>
+                    <lightning-radio-group class="customRadioCls" name="field1b" label="Property is identifiable" options={option}
+                        value={selectedValue1b} onchange={handleRadioChange} type="radio" required>
+                    </lightning-radio-group>
+                    <lightning-radio-group class="customRadioCls" name="field1c" label="Property tax paid receipt is documented for latest year" options={option}
+                        value={selectedValue1c} onchange={handleRadioChange} type="radio" required>
+                    </lightning-radio-group>
+                    <lightning-radio-group class="customRadioCls" name="field1d" label="Property is not under Road Widening. If property is under Road Widening, it is not affecting the building structure" onchange={handleRadioChange} options={option}
+                        value={selectedValue1d} type="radio" required>
+                    </lightning-radio-group>
+                    <div class="slds-m-top_small">
+                    <lightning-input class="slds-p-left" type="checkbox" label="All Property General norms met" checked={generalCheckboxValue} onchange={handleCheckboxChange} disabled>
+                    </lightning-input>
+                </div>
+                </lightning-accordion-section>
+
+                <lightning-accordion-section name="B" label="Property Subtype Questionnaire">
+                    <lightning-radio-group class="customRadioCls" name="field2a" label="Property &lt;= 5 years old, Approved plans taken mandatory"
+                        options={optionNA} value={selectedValue2a} onchange={handleRadioChange} type="radio" required>
+                    </lightning-radio-group>
+                    <lightning-radio-group class="customRadioCls" name="field2b" label="Property &gt; 5 years old, Approved plans are not mandatory subject to technical agency confirming no violations, no demolition risk and area considered as per local FSI norms"
+                        options={optionNA} value={selectedValue2b} onchange={handleRadioChange} type="radio" required>
+                    </lightning-radio-group>
+                    <lightning-input  class="slds-p-left slds-m-top_small" type="checkbox" label="All Property Subtype norms met" checked={subtypeCheckboxValue} onchange={handleCheckboxChange} disabled>
+                    </lightning-input>
+
+                </lightning-accordion-section>
+
+            </lightning-accordion>
+
+        </lightning-layout-item>
+    </lightning-layout>
+</lightning-card>
+</template>

@@ -1,0 +1,6 @@
+.custom-button:hover {
+  cursor: pointer;
+}
+:host {
+  display: contents;
+}

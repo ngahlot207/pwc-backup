@@ -1,0 +1,32 @@
+<template>
+    <div class="slds-is-relative">
+        <lightning-quick-action-panel header="Confirm?">
+            <template if:true={showSpinner}>
+                <div class="spinner">
+                    <lightning-spinner alternative-text="Loading" variant="brand" size="medium"></lightning-spinner>
+                </div>
+            </template>
+            <template if:false={showSpinner}>
+                <lightning-record-edit-form record-id={recordId} object-api-name={objectApiName}
+                    onsuccess={handleSuccess}>
+                    <div class="slds-text-align_center slds-text-heading_small"><p>Do you want to Return the application to DDE ?</p></div>
+                    <lightning-input-field style="display:none;" field-name="Stage__c"
+                        value="DDE"></lightning-input-field>
+                        <lightning-input-field style="display:none;" field-name="SubStage__c"
+                        value="CPA Pool"></lightning-input-field>
+                        <lightning-input-field style="display:none;" field-name="OwnerId"
+                        value={loanApplicationQueueId}></lightning-input-field>
+
+                    <div style="text-align: end;" class="slds-m-top_large slds-m-bottom_medium">
+                        <footer class="slds-modal__footer">
+                            <lightning-button variant="brand" class="slds-m-left_x-large" label="YES"
+                                type="submit"></lightning-button>
+                            <lightning-button variant="brand" class="slds-m-left_x-large" label="NO"
+                                onclick={closeAction}></lightning-button>
+                        </footer>
+                    </div>
+                </lightning-record-edit-form>
+            </template>
+        </lightning-quick-action-panel>
+    </div>
+</template>

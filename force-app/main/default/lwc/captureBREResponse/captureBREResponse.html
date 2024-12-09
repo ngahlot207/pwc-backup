@@ -1,0 +1,133 @@
+<template>
+   <template if:false={showBREDataTable}>
+      <div class="slds-p-around_xx-large" style="text-align: center;font-size: 16px;font-weight: bold;">BRE Response details are not available.</div>
+  </template>
+
+  <template if:true={showBREDataTable}>
+   <lightning-accordion active-section-name={activeSection} class="myClass" allow-multiple-sections-open>
+      <lightning-accordion-section name="A" label="BRE Response Details" class="applicantClass">
+       <lightning-card >
+      <div class="slds-p-left_large"><b>BRE RESPONSE DETAILS</b></div>
+       <template  for:each={breDataArray} for:item="breIterator">
+          <div key={breIterator.key}>
+                   <div key={breIterator.key} class="slds-scrollable">
+                      <table class="datatable slds-table slds-table_bordered slds-table_cell-buffer">
+                         <thead>
+                            <tr style="height: 45px;">
+                               <th >Name</th>
+                               <th >BRE Response</th>
+                            </tr>
+ 
+                            <tr>
+                               <td style="background-color: #F3F2F2;">
+                                     <b>BRE initiation date & Time</b> 
+                               </td>
+                               <td>
+                                     {breIterator.CreatedDate} 
+                               </td >                               
+                            </tr>
+
+                            <tr >
+                               <td style="background-color:  #F3F2F2;">
+                                  <b> BRE result:</b>
+                               </td>             
+                               <td>
+                                 {breIterator.Decision__c}
+                               </td >                                   
+                            </tr>
+ 
+                            <tr>
+                               <td style="background-color:  #F3F2F2;">
+                                  <b>Application scorecard result</b>
+                               </td>    
+                               <td>
+                                 {AppScorecardResult}
+                               </td >                                
+                            </tr>
+
+                            <tr>
+                               <td style="background-color:  #F3F2F2;">
+                                  <b>Application scorecard remark</b>
+                               </td>    
+       
+                               <td>
+                                   {applScorecardRemrkStage1}
+                               </td >                              
+                            </tr>
+
+                            <tr>
+                              <td style="background-color:  #F3F2F2;">
+                                 <b>BRE response Date & Time</b>
+                              </td>    
+      
+                              <td>
+                                 {breIterator.LastModifiedDate}
+                              </td >                              
+                           </tr>                            
+                         </thead>
+                         <tbody>                           
+                        </tbody>
+                      </table> 
+                   </div>             
+          </div> 
+       </template> 
+       </lightning-card>
+      </lightning-accordion-section>
+     </lightning-accordion>
+   
+    <template if:true={isCallId2}>
+      <template if:true={showDeviationTable}>
+         <lightning-accordion active-section-name={activeSection} class="myClass" allow-multiple-sections-open>
+            <lightning-accordion-section name="B" label="BRE Deviations" class="applicantClass">
+                 <lightning-card>
+                  <div class="slds-p-left_large"><b>BRE DEVIATIONS</b></div>
+                     <div class="slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none modalBodyy">
+                        
+                                 <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                                     <thead>
+                                         <tr class="slds-line-height_reset" style="height: 45px;">
+                                          <template if:true={showDevCodeLevel}>
+                                             <th class="" scope="col">
+                                                     Deviation Code             
+                                             </th>
+                                          </template>
+                                             <th class="deviation-description custom-dropdown" scope="col">  
+                                                     Deviation Description          
+                                             </th>
+                                             <template if:true={showDevCodeLevel}>
+                                             <th class="" scope="col">                      
+                                                     Deviation Level
+                                             </th>                            
+                                          </template>
+                                         </tr>
+                                     </thead>
+                                     <tbody>
+     
+                                         <template for:each={deviationRecords} for:item="obj" for:index="index">
+                                             <tr class="inputRows" key={obj.index}>
+                                                <template if:true={showDevCodeLevel}>
+                                                 <td data-label="Deviation" style="text-align: left;">
+                                                   {obj.Deviation__c}
+                                                 </td>
+                                                </template>
+                                                 <td data-label="Deviation Description" style="text-align: left;">                    
+                                                   {obj.Devia_Desrp__c}                                    
+                                                 </td>
+                                                 <template if:true={showDevCodeLevel}>
+                                                 <td data-label="level" style="text-align: left;">
+                                                   {obj.Req_Apprv_Level__c}  
+                                                 </td>                   
+                                                </template>
+                                             </tr>
+                                         </template>
+     
+                                     </tbody>
+                                 </table>                                       
+                     </div>      
+                 </lightning-card>
+            </lightning-accordion-section>
+         </lightning-accordion>
+  </template>
+</template>
+</template>
+</template>

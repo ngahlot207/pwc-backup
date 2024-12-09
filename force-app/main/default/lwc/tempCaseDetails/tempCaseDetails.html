@@ -1,0 +1,565 @@
+<template>
+  <div if:true={showSpinner}>
+    <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+    </lightning-spinner>
+</div>
+<lightning-card if:true={showLegal}>
+     
+  <lightning-layout multiple-rows="12">
+    <lightning-layout-item 
+       
+   size="12"
+   small-device-size= "12"
+   medium-device-size="12"
+   large-device-size="12"
+  >
+  <div class="slds-align_absolute-left slds-text-heading_medium slds-p-around_x-small" >Legal Details</div>  
+
+</lightning-layout-item>
+
+  <lightning-layout-item
+          size="12"
+          small-device-size="12"
+          medium-device-size="6"
+          large-device-size="3"
+        >
+          <div class="slds-p-around_x-small">
+            <lightning-input
+              type="text"
+              value={dateTimeInitiation}
+              label="Date of Legal Initiation"
+              data-name="DateTimeInitiation__c"
+              required="true"
+              disabled
+            ></lightning-input>
+          </div>
+        </lightning-layout-item>
+
+
+
+
+      <lightning-layout-item
+       
+      size="12"
+      small-device-size= "12"
+     medium-device-size="6"
+     large-device-size="3"
+    >
+      <div class="slds-p-around_x-small">
+        <lightning-combobox
+          label="Is the title Clear & marketable"
+          value={isTitlClrNMar}
+          options={titleOptions}
+          onchange={handleInputChange}
+          required=true
+          data-name="IsTheTitleClearNdMarketable__c"
+          disabled={enableOverride}
+        >
+        </lightning-combobox>
+      </div>
+    </lightning-layout-item>
+
+ <!-- <lightning-layout-item     
+ size="12"
+ small-device-size= "12"
+ medium-device-size="6"
+ large-device-size="3"
+>
+<h3>deviation field</h3>
+    <div
+    class="slds-p-bottom_medium deviation-description level-column">
+    <c-custom-lookup label="" field-name='Devia_Desrp__c'
+        object-api-name='DeviaMstr__c'
+        field-api-name='Devia_Desc_Text__c'
+        selected-record-name={obj.Devia_Desrp__c}
+        selected-record-id={obj.Dev_DescrId__c}
+        filter-condn={filCondnDevDesrp}
+        onselect={handleValueSelect1} disabled={disbaleMode}
+        required={obj.isPinReq} index={index}></c-custom-lookup>
+</div>
+</lightning-layout-item> -->
+
+
+
+
+
+
+    <lightning-layout-item     
+ size="12"
+ small-device-size= "12"
+ medium-device-size="6"
+ large-device-size="3"
+>
+  <div class="slds-p-around_x-small">
+    <lightning-combobox
+      label="Status of Report"
+      value={statusReport}
+      options={reportStatusOptions}
+      onchange={handleInputChange}
+      required=true
+      data-name="ReportResult__c"
+      disabled={enableOverride}
+    >
+    </lightning-combobox>
+  </div>
+</lightning-layout-item>
+
+
+<lightning-layout-item
+                   
+                    size="12"
+                    small-device-size= "12"
+                    medium-device-size="6"
+                    large-device-size="3"
+                  >
+                    <div class="slds-p-around_x-small">
+                        <lightning-input
+                        type="date"
+                        value={reportDate}
+                        label="Date of Legal Report"
+                        onchange={handleInputChange}
+                        data-name="Date_of_Report__c"
+                        required=true
+                        disabled
+                      ></lightning-input>
+                    </div>
+                  </lightning-layout-item>
+
+            <lightning-layout-item
+                   
+                    size="12"
+                    small-device-size= "12"
+                    medium-device-size="6"
+                    large-device-size="3"
+                  >
+                    <div class="slds-p-around_x-small">  
+                      
+
+                                        <lightning-combobox
+                                        name="yesNoCombobox"
+                                        label="Are there any legal deviation/s"
+                                        value={valueDevOption}
+                                        placeholder="Select Yes Or No"
+                                        options={optionsForDeviation}
+                                        onchange={handleChangeDev}>
+                                    </lightning-combobox>
+                       </div>
+                  </lightning-layout-item>
+
+
+
+
+
+
+               <lightning-layout-item if:true={showFinalStatus}
+  size="12"
+  small-device-size="12"
+  medium-device-size="6"
+  large-device-size="3"
+>
+  <div class="slds-p-around_x-small">
+    <lightning-textarea
+      type="text"
+      value={finRemark}
+      data-name="Final_Remarks__c"
+      label="Final Remarks"
+      required="true"
+      onchange={handleInputChange}
+      disabled
+    ></lightning-textarea>
+  </div>
+</lightning-layout-item>
+
+
+<lightning-layout-item if:true={showQryDesc}
+  size="12"
+  small-device-size="12"
+  medium-device-size="6"
+  large-device-size="3"
+>
+  <div class="slds-p-around_x-small">
+    <lightning-textarea
+      type="text"
+      value={queryDes}
+      data-name="Query_description__c"
+      label="Query description"
+      required="true"
+      onchange={handleInputChange}
+      disabled
+    ></lightning-textarea>
+  </div>
+</lightning-layout-item>
+
+<lightning-layout-item            
+  size="12"
+  small-device-size= "12"
+  medium-device-size="6"
+  large-device-size="3"
+>
+  <div class="slds-p-around_x-small">
+    <lightning-combobox
+    label="Final Status of TSR report from Hub Legal Manager"
+    value={caseWrp.FinalStatusTSRReportFromHLM__c}
+    options={finalStatusHLMOptions}
+    onchange={handleInputChange}
+    required=true
+    data-name="FinalStatusTSRReportFromHLM__c"
+    disabled={disbaleHubManager}
+  >
+  </lightning-combobox>
+  </div>
+</lightning-layout-item>
+
+<lightning-layout-item            
+  size="12"
+  small-device-size= "12"
+  medium-device-size="6"
+  large-device-size="3"
+>
+  <div class="slds-p-around_x-small">
+    <lightning-combobox
+    label="Final Status of Legal Report"
+    value={caseWrp.FinalStatusOfTSR__c}
+    options={finalStatusTSROptions}
+    onchange={handleInputChange}
+    required=true
+    data-name="FinalStatusOfTSR__c"
+    disabled={disbaleHubManager}
+  >
+  </lightning-combobox>
+  </div>
+</lightning-layout-item>
+
+<lightning-layout-item if:true={showOverride}
+                     
+      size="12"
+      small-device-size= "12"
+      medium-device-size="6"
+      large-device-size="3"
+    >
+      <div class="slds-p-around_x-small">
+        <lightning-input
+        label="Override By FedFina"
+        type="checkbox"
+        checked={caseWrp.OverrideByFedFina__c}
+        data-name="OverrideByFedFina__c"
+        onclick={handleInputChange} 
+        disabled={disabled}></lightning-input>
+      </div>
+    </lightning-layout-item>
+
+<template if:true={valueDevOption}>
+<lightning-card style="width: 100%;">
+                        <div class="slds-m-around_small" style="width: 100%; margin: auto;">
+                            <!-- class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_fixed-layout" -->
+                            <!-- class="custom-table slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered slds-border_right slds-border_left slds-text-title slds-m-bottom_small" -->
+                            <table class="slds-table slds-table_cell-buffer slds-table_bordered" style="width: 100%;"
+                                aria-labelledby="element-with-table-label other-element-with-table-label">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <!-- <th class="" scope="col">
+                                            <div class="slds-truncate" title="Deviation">
+                                                Deviation
+                                            </div>
+                                        </th> -->
+                                        <th class="deviation-description custom-dropdown" scope="col">
+                                            <div class="slds-truncate">
+                                                Deviation Description
+                                            </div>
+                                        </th>
+                                      
+                                        <th class="mitigant-width" scope="col">
+                                            <div class="slds-truncate" title="Mitigant">
+                                                Mitigant
+                                            </div>
+                                        </th>
+                                        
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Remarks for Internal Legal">
+                                                Remarks for Internal Legal
+                                            </div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate">
+                                                Action
+                                            </div>
+                                        </th>
+                                    </tr>    
+                                </thead>
+
+                                <tbody>
+                                 
+                                    <template for:each={alldeviationDataList} for:item="obj" for:index="index">
+                                        <tr class="inputRows" key={obj.index}>
+                                            <!-- <td data-label="Deviation" scope="row">
+                                                <div class="slds-p-top_xxx-small deviation">
+                                                    <lightning-input type="text" class="fields" variant="label-hidden"
+                                                        label="Deviation" name="Deviation__c" value={obj.Deviation__c}
+                                                        data-name="Deviation__c" data-index={index}
+                                                        disabled></lightning-input>
+                                                </div>
+                                            </td> -->
+                                            <td data-label="Deviation Description">
+                                                <template if:true={obj.systDev}>
+                                                    
+                                                    <div>
+                                                        <lightning-textarea type="text"
+                                                        variant="label-hidden" label="Deviation Description"
+                                                        name="Devia_Desrp__c" value={obj.Devia_Desrp__c}
+                                                        data-name="Devia_Desrp__c" data-index={index}
+                                                        disabled 
+                                                            >
+                                                            </lightning-textarea>
+                                                    </div>
+                                                </template>
+                                                
+                                                <template if:true={obj.manualDev}>
+                                                    <template lwc:if={obj.Dev_DescrId__c}>
+                                                        <div
+                                                            class="slds-p-bottom_medium deviation-description level-column">
+                                                             
+                                                            <c-custom-lookup label="" field-name='Devia_Desrp__c'
+                                                                object-api-name='DeviaMstr__c'
+                                                                field-api-name='Devia_Desc_Text__c'
+                                                                selected-record-name={obj.Devia_Desrp__c}
+                                                                selected-record-id={obj.Dev_DescrId__c}
+                                                                filter-condn={filCondnDevDesrp}
+                                                                onselect={handleValueSelect1} disabled={disbaleMode}
+                                                                required={obj.isPinReq} index={index}></c-custom-lookup>
+                                                        </div>
+                                                       
+                                                    </template>
+                                                    <template lwc:else>
+                                                        <div
+                                                            class="slds-p-bottom_medium deviation-description level-column">
+                                                             
+                                                            <c-custom-lookup label="" field-name='Devia_Desrp__c'
+                                                                object-api-name='DeviaMstr__c' 
+                                                                field-api-name='Devia_Desc_Text__c'
+                                                                selected-record-name={obj.Devia_Desrp__c}
+                                                                selected-record-id={obj.Dev_DescrId__c}
+                                                                filter-condn={filCondnDevDesrp}
+                                                                onselect={handleValueSelect1} disabled={disbaleMode}
+                                                                required={obj.isPinReq} index={index}></c-custom-lookup>
+                                                        </div>
+                                                        
+                                                    </template>
+                                                </template>
+                                            </td>
+                                            
+                                            <td data-label="Mitigant">
+                                                <div class="slds-p-top_xxx-small mitigant-width">
+                                                    <lightning-textarea field-name='Mitigation__c' data-type="string" variant="label-hidden" label="Mitigant"
+                                                        name="Mitigation__c" value={obj.Mitigation__c}
+                                                        data-name="Mitigation__c" data-index={index}
+                                                        onchange={handleStatusChange} class="fixed-width-textarea"
+                                                        disabled={disbaleMode} index={index}></lightning-textarea>
+                                                </div>
+                                            </td>
+                                            
+                                            
+                                            <td data-label="Remarks for Internal Legal">
+                                                <div class="slds-p-bottom_medium">
+                                                    <lightning-textarea field-name='RemarksForInternalLegal__c' data-type="string" value={obj.RemarksForInternalLegal__c}
+                                                        data-name="RemarksForInternalLegal__c" data-index={index}
+                                                        onchange={handleStatusChange}
+                                                         index={index}></lightning-textarea>
+                                                </div>
+                                            </td>
+
+                                            <td data-label="Action">  
+                                               <!-- <template if:false={disAppStatus}> -->
+                                                <!-- <div class="slds-truncate">
+                                                    <lightning-button-icon icon-name="utility:delete" variant="bare" size="large" alternative-text="Delete"
+                                                        title="Delete" onclick={handleDeleteRow} data-index={index} disabled={disAppStatus}></lightning-button-icon>
+                                                </div> -->
+                                                <div class="slds-p-top_xxx-small">
+                                                    <template if:true={deleteButton}>
+                                                    <lightning-button-icon icon-name="action:delete"
+                                                        alternative-text="Delete" title="Delete" data-id={obj.Id}
+                                                          data-index={index}
+                                                        onclick={handleDeleteAction} disabled={obj.disTemp}></lightning-button-icon>
+                                                       
+                                                    </template>
+                                                </div>
+                                            
+                                                <!-- </template> -->
+                                            </td>
+                                          
+                                        </tr>
+                                    </template>
+
+                                </tbody>
+                            </table>
+                            
+                        </div>
+
+                        <lightning-button label="Add Deviation" slot="actions" icon-name="utility:add" onclick={addRow}
+                            disabled={disbaleMode}></lightning-button>
+
+                    </lightning-card>
+</template>
+    
+    </lightning-layout>
+
+    <template if:false={enableDocUpload}>
+      <lightning-card>
+        <c-case-document-upload record-id={caseId} onselect={handleValueSelect1}></c-case-document-upload>
+      </lightning-card>
+     <lightning-card>
+      <c-case-upload-photos record-id={caseId} onselect={handleValueSelect1}></c-case-upload-photos>
+     </lightning-card>
+    </template>
+   
+      <c-show-case-document case-id={caseId} technical="true"></c-show-case-document>
+      <!-- show-delete-icon={showDelete} -->
+   
+  <lightning-accordion active-section-name={activeSection} class="accordion" allow-multiple-sections-open>
+    <lightning-accordion-section name="A" label="Case Query Details">
+      <lightning-card >
+        <!-- UPDATED TABLE  -->
+        <table
+          class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered"
+          aria-label="Example table of Opportunities with vertical borders"
+        >
+          <thead>
+            <tr class="slds-line-height_reset">
+              <th class="" scope="col">
+                <div class="slds-truncate" title="Case No">
+                  Case No
+                </div>
+              </th>
+              <th class="" scope="col">
+                <div class="slds-truncate" title="Query">
+                  Query
+                </div>
+              </th>
+              <th class="" scope="col">
+                <div class="slds-truncate" title="Response">
+                  Response
+                </div>
+              </th>
+              <th class="" scope="col">
+                <div class="slds-truncate" title="Status">
+                  Status</div>
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <template for:each={caseQryList} for:item="record" for:index="index">
+              <tr
+                key={record.Id}
+                aria-selected="false"
+                class="slds-hint-parent"
+              >
+                <td data-label="Case No">
+                  <div class="slds-truncate" title="Case No">
+                    {record.CaseNumber__c}
+                  </div>
+                </td>
+                <template if:true={record.Query__c}>
+                  <td data-label="Query">
+                    <div class="slds-truncate" title="Query">
+                      {record.Query__c}
+                    </div>
+                  </td>
+                </template>
+                <!-- <template if:true={record.Response__c}> -->
+                  <td data-label="Response">
+                    <div class="slds-truncate" title="Response">
+                      <lightning-input variant="label-hidden" data-record-id={record.Id} data-index={index}
+                       data-field-name='Response__c' value={record.Response__c} onchange={handleValueChange}
+                       disabled={record.disableCaseQry}></lightning-input>
+                     
+                    </div>
+                  </td>
+                <!-- </template> -->
+                <td data-label="Status">
+                  <div class="slds-truncate" title="Status">
+                    <c-dedupe-display-value
+                    dedupe-rsults-options={caseQrystatusOptions} type="picklist"
+                    field-value={record.Status__c} object={record}
+                    field-name="Status__c" index-value={index}
+                    onpicklistchange={handlePicklistValues}
+                    is-read-only={record.disableCaseQry}></c-dedupe-display-value>
+                  </div>
+                </td>
+               
+                </tr
+            ></template>
+          </tbody>
+        </table>
+      </lightning-card>
+     
+      
+      <lightning-accordion-section name="B" label="Attach Document to Case">
+        <div style="height: 200px; width: 1000px;">
+            <lightning-datatable data={caseDocList} columns={caseDocColumns} key-field="Id" min-column-width="80"
+            onrowselection={handleRowSelected}>
+            </lightning-datatable>
+        </div>
+
+        <div class="slds-clearfix">
+          <lightning-button
+          class="slds-float_left slds-p-around_x-small"
+            label="Attach Document"
+            variant="brand-outline"
+            onclick={handleAttch}
+            icon-name='utility:attach'
+            disabled={disabled}
+          ></lightning-button>
+        </div>
+</lightning-accordion-section>
+
+<lightning-accordion-section name="C" label="Case Comment">
+  <div style="height: 200px; width: 1000px">
+    <lightning-datatable
+      data={commentQryList}
+      columns={commentsColumns}
+      key-field="Id"
+      min-column-width="80"
+      onsave={handleSaveDataTable}
+      draft-values={draftValues}
+      hide-checkbox-column
+    >
+    </lightning-datatable>
+  </div>
+
+ 
+</lightning-accordion-section>
+
+
+</lightning-accordion-section>
+</lightning-accordion>
+</lightning-card>
+
+<template if:true={isModalOpen}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-align--absolute-center slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Delete?</h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p style="text-align:center;"><b>{removeModalMessage}</b></p>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_brand" onclick={handleRemoveRecord} title="Yes" disabled ={disbaleMode}>Yes</button>
+                    <button class="slds-button slds-button_neutral" onclick={closeModal} title="No">No</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+  </template>

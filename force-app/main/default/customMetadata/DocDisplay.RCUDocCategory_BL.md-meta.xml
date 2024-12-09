@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>RCU Document Category</label>
+    <protected>false</protected>
+    <values>
+        <field>DocConfig__c</field>
+        <value xsi:type="xsd:string">{
+  &quot;DocCat&quot;: [
+  &quot;Financials - P&amp;L and BL&quot;,
+&quot;Income Tax Returns&quot;,
+&quot;Residence Address proof - Deemed OVD&quot;,
+&quot;Residence Address proof - OVD&quot;,
+&quot;Principal Place of Business - Address Proof&quot;,
+&quot;Property Papers&quot;,
+&quot;Aadhaar Consent&quot;,
+&quot;Constitution wise Mandatory KYC document&quot;,
+&quot;Bank Statement&quot;,
+&quot;Photograph&quot;,
+&quot;PAN&quot;,
+&quot;DOB proof&quot;,
+&quot;Identity Proof&quot;
+  ],
+  &quot;DocType&quot;: [],
+  &quot;DocSubType&quot;: []
+}</value>
+    </values>
+    <values>
+        <field>IsActive__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Product_Type__c</field>
+        <value xsi:type="xsd:string">Business Loan</value>
+    </values>
+    <values>
+        <field>ScrnName__c</field>
+        <value xsi:type="xsd:string">Verification</value>
+    </values>
+    <values>
+        <field>Stage__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>SubStage__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

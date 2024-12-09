@@ -1,0 +1,284 @@
+<template>
+     <lightning-card title="Financial Eligibility">
+            <!-- <template if:false={wrapObj.showApplicantEligibility}> -->
+                <div class="slds-box">
+                    <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                        <thead>
+                            <tr class="border_bottom">
+                                <th>Income Summary</th>
+                                <template for:each={wrapObj.eligibilityList} for:item="assesIncmProgm"
+                                    for:index="index">
+                                    <th key={assesIncmProgm.ApplicantId} scope="col">
+                                        {assesIncmProgm.applicantRecord}</th>
+                                </template>
+                            </tr>
+                            <template if:true={wrapObj.showAssesmentProgram}>
+                                <tr class="border_bottom">
+                                    <th>Borrower wise Assessment Program</th>
+                                    <template for:each={wrapObj.eligibilityList} for:item="assesIncmProgm"
+                                        for:index="index">
+                                        <th key={assesIncmProgm.ApplicantId} scope="col">
+                                            {assesIncmProgm.assesmentProgram}</th>
+                                    </template>
+                                    <th></th>
+                                </tr>
+                            </template>
+                            <template if:true={wrapObj.showcashFlowAssessedIncome}>
+                                <tr class="border_bottom">
+                                    <th>Cash Flow - Assessed income</th>
+                                    <template for:each={wrapObj.eligibilityList} for:item="assesIncm"
+                                        for:index="index">
+                                        <th key={assesIncm.ApplicantId} scope="col">
+                                            {assesIncm.cashFlowAssedIncome}</th>
+                                    </template>
+                                    <th>{wrapObj.application.cashFlowAssedIncome}</th>
+                                </tr>
+                            </template>
+                            <template if:true={wrapObj.showBusinessIncome}>
+                                <tr class="border_bottom">
+                                    <th>Business income - Regular Income Program (P&L) </th>
+                                    <template for:each={wrapObj.eligibilityList} for:item="businessIncm"
+                                        for:index="index">
+                                        <th key={businessIncm.ApplicantId} scope="col">
+                                            {businessIncm.businessIncome}</th>
+                                    </template>
+                                    <th>{wrapObj.application.businessIncome}</th>
+                                </tr>
+                            </template>
+                            <template if:true={wrapObj.showBusinessIncome}>
+                                <tr class="border_bottom">
+                                    <th>Gross Eligible Salary with Bank Credit</th>
+                                    <template for:each={wrapObj.eligibilityList} for:item="grossSalaryWBC"
+                                        for:index="index">
+                                        <th key={grossSalaryWBC.ApplicantId} scope="col">
+                                            {grossSalaryWBC.grossSalaryBankCredit}</th>
+                                    </template>
+                                    <th>{wrapObj.application.grossSalaryBankCredit}</th>
+                                </tr>
+                            </template>
+                           
+                            <template if:true={wrapObj.showNetWithBankCredit}>
+                                <tr class="border_bottom">
+                                    <th>Net Eligible Salary with Bank Credit</th>
+                                    <template for:each={wrapObj.eligibilityList} for:item="netSliSalaryWBC"
+                                        for:index="index">
+                                        <th key={netSliSalaryWBC.ApplicantId} scope="col">
+                                            {netSliSalaryWBC.netSalaryBankCredit}</th>
+                                    </template>
+                                    <th>{wrapObj.application.netSalaryBankCredit}</th>
+                                </tr>
+                            </template>
+
+                            <template if:true={wrapObj.showCashSalary}>
+                                <tr class="border_bottom">
+                                    <th>Cash Salary</th>
+                                    <template for:each={wrapObj.eligibilityList} for:item="cashSalary"
+                                        for:index="index">
+                                        <th key={cashSalary.ApplicantId} scope="col">{cashSalary.cashSalary}
+                                        </th>
+                                    </template>
+                                    <th>{wrapObj.application.cashSalary}</th>
+                                </tr>
+                            </template>
+                            <template if:true={wrapObj.showRentalWBankCredit}>
+                                <tr class="border_bottom">
+                                    <th>Rental bank credit</th>
+                                    <template for:each={wrapObj.eligibilityList} for:item="rentalBnkCredit"
+                                        for:index="index">
+                                        <th key={rentalBnkCredit.ApplicantId} scope="col">
+                                            {rentalBnkCredit.rentalBankCredit}</th>
+                                    </template>
+                                    <th>{wrapObj.application.rentalBankCredit}</th>
+                                </tr>
+                            </template>
+                            <template if:true={wrapObj.showRentalWNoBankCredit}>
+                                <tr class="border_bottom">
+                                    <th>Rental without bank credit</th>
+                                    <template for:each={wrapObj.eligibilityList} for:item="rentalWOBnkCredit"
+                                        for:index="index">
+                                        <th key={rentalWOBnkCredit.ApplicantId} scope="col">
+                                            {rentalWOBnkCredit.rentalWithoutBankCredit}</th>
+                                    </template>
+                                    <th>{wrapObj.application.rentalWithoutBankCredit}</th>
+                                </tr>
+                            </template>
+                            <template if:true={wrapObj.showPensionIncome}>
+                                <tr class="border_bottom">
+                                    <th>Pension Income</th>
+                                    <template for:each={wrapObj.eligibilityList} for:item="pensionIncm"
+                                        for:index="index">
+                                        <th key={pensionIncm.ApplicantId} scope="col">{pensionIncm.PensionIncome}</th>
+                                    </template>
+                                    <th>{wrapObj.application.PensionIncome}</th>
+                                </tr>
+                            </template>
+                            <template if:true={wrapObj.showAgricultureIncome}>
+                                <tr class="border_bottom">
+                                    <th>Agriculture Income</th>
+                                    <template for:each={wrapObj.eligibilityList} for:item="agriIncm"
+                                        for:index="index">
+                                        <th key={agriIncm.ApplicantId} scope="col">{agriIncm.AgricultureIncome}</th>
+                                    </template>
+                                    <th>{wrapObj.application.AgricultureIncome}</th>
+                                </tr>
+                            </template>
+                            <template if:true={wrapObj.showOtherIncome}>
+                                <tr class="border_bottom">
+                                    <th>Other Income</th>
+                                    <template for:each={wrapObj.eligibilityList} for:item="otherIncm"
+                                        for:index="index">
+                                        <th key={otherIncm.ApplicantId} scope="col">{otherIncm.OtherIncome}</th>
+                                    </template>
+                                    <th>{wrapObj.application.OtherIncome}</th>
+                                </tr>
+                            </template>
+
+                        </thead>
+                       <tbody>
+                    </tbody>
+                    </table>
+                </div>
+            </lightning-card>
+
+
+            <lightning-card title="BRE Summary">
+                <!-- <template if:false={wrapObj.showApplicantEligibility}> -->
+                    <div class="slds-box">
+                        <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+    
+                            <thead>
+
+                                <tr class="border_bottom">
+                                    <th>Eligible tenure in Months</th>
+                                    <th colspan={applicantLength}></th>
+                                    <th>{wrapApplData.EliTenureMonths}</th>
+                                </tr>
+
+                                <tr class="border_bottom">
+                                    <th>RAAC ROI (%)</th>
+                                    <th colspan={applicantLength}></th>
+                                    <th>{wrapApplData.RAACROI}</th>
+                                </tr>
+                                
+                                <tr class="border_bottom">
+                                    <th>Financial Loan Eligibility (₹) - Total</th>
+                                    <th colspan={applicantLength}></th>
+                                    <th>{wrapApplData.FinLoanEliTotal}</th>
+                                </tr>
+
+                                <tr class="border_bottom">
+                                    <th> Total LTV Based Loan Eligibility With Insurance </th>
+                                    <th colspan={applicantLength}></th>
+                                    <th>{totalCTVEligibility.TotlLTVBsdLnEliWIns2}</th>
+                                </tr>
+
+                                <tr class="border_bottom">
+                                    <th> Max BRE Loan Eligibility Without Insurance </th>
+                                    <th colspan={applicantLength}></th>
+                                    <th>{wrapApplData.MaxBreLnEliWoIns}</th>
+                                </tr>
+
+                                <tr class="border_bottom">
+                                    <th> Max BRE Loan Eligibility With Insurance </th>
+                                    <th colspan={applicantLength}></th>
+                                    <th>{wrapApplData.MaxBreLnEliWIns}</th>
+                                </tr>
+
+                                <tr class="border_bottom">
+                                    <th> Application Level Assessment Program </th>
+                                    <th colspan={applicantLength}></th>
+                                    <th>{wrapApplData.ApplLevelAssprogram}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                        </tbody>
+                        </table>
+                    </div>
+                </lightning-card>
+
+                <lightning-card title="Final Recommendation">
+                    <!-- <template if:false={wrapObj.showApplicantEligibility}> -->
+                        <div class="slds-box">
+                            <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                                <thead>
+                                    <tr class="border_bottom">
+                                        <th>Loan Amount (₹) without Insurance</th>
+                                        <template if:true={listOfLoanDetailsSummaryData.SanLoanAmt__c}>
+                                        <th>{listOfLoanDetailsSummaryData.SanLoanAmt__c}</th>
+                                        </template>
+                                        <template if:false={listOfLoanDetailsSummaryData.SanLoanAmt__c}>
+                                            <th></th>
+                                            </template>
+                                        </tr>
+    
+                                    <tr class="border_bottom">
+                                        <th>Insurance</th>
+                                        <template if:true={listOfLoanDetailsSummaryData.InsAmt__c}>
+                                        <th>{listOfLoanDetailsSummaryData.InsAmt__c}</th>
+                                        </template>
+                                        <template if:false={listOfLoanDetailsSummaryData.InsAmt__c}>
+                                            <th></th>
+                                            </template>
+                                    </tr>
+                                    
+                                    <tr class="border_bottom">
+                                        <th>Loan amount with insurance</th>
+                                        <template if:true={listOfLoanDetailsSummaryData.TotalLoanAmtInclInsurance__c}>
+                                        <th>{listOfLoanDetailsSummaryData.TotalLoanAmtInclInsurance__c}</th>
+                                        </template>
+                                        <template if:false={listOfLoanDetailsSummaryData.TotalLoanAmtInclInsurance__c}>
+                                            <th></th>
+                                            </template>
+                                    </tr>
+    
+                                    <tr class="border_bottom">
+                                        <th> Tenor (Months) </th>
+                                        <template if:true={listOfLoanDetailsSummaryData.Loan_Tenure_Months__c}>
+                                        <th>{listOfLoanDetailsSummaryData.Loan_Tenure_Months__c}</th>
+                                        </template>
+                                        <template if:false={listOfLoanDetailsSummaryData.Loan_Tenure_Months__c}>
+                                            <th></th>
+                                            </template>
+                                    </tr>
+    
+                                    <tr class="border_bottom">
+                                        <th> Effective ROI </th>
+                                        <template if:true={listOfLoanDetailsSummaryData.EffectiveROI__c}>
+                                        <th>{listOfLoanDetailsSummaryData.EffectiveROI__c}</th>
+                                        </template>
+                                        <template if:false={listOfLoanDetailsSummaryData.EffectiveROI__c}>
+                                            <th></th>
+                                            </template>
+                                    </tr>
+    
+                                    <tr class="border_bottom">
+                                        <th>EMI </th>
+                                        <th>{wrapApplData.EMI}</th>
+                                    </tr>
+                                    <!--LAK-6842 %(Percentage) sign Display-->
+                                    <tr class="border_bottom">
+                                        <th> Actual LTV (%)</th>
+                                        <th>{wrapApplData.ActualLTV}</th>
+                                    </tr>
+                                    
+                                    <tr class="border_bottom">
+                                        <th> Actual FOIR (%)</th>
+                                        <th>{wrapApplData.ActuaFOIR}</th>
+                                    </tr>
+
+                                    <tr class="border_bottom">
+                                        <th>Combined LTV and FOIR (%)</th>
+                                        <th>{wrapApplData.CombLTVFOIR}</th>
+                                    </tr>
+
+                                    <tr class="border_bottom">
+                                        <th>Total Fedfina Loan Exposure (Including proposed loan)</th>
+                                        <th>{totalCTVEligibility.TotalfedfinaLoanExposure}</th>
+                                    </tr>
+                            </thead>
+                        <tbody>
+                </tbody>
+            </table>
+        </div>
+    </lightning-card>          
+</template>

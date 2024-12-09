@@ -1,0 +1,211 @@
+<apex:component Controller="SanctionLetterController" >
+    <html>
+        
+        <head>
+            <style>
+                .table1 tr,td{
+                width:15px;
+                }
+            </style>
+        </head>
+        
+        <body >
+            <!--apex:outputText value="{!mapofContent[1]}" escape="false" /-->
+            
+            <div style="padding-top: 3cm;">
+                
+            </div>
+            <!--apex:outputText value="{!mapofContent[2]}" escape="false" /-->
+            
+          
+            <div style="text-align: right; font-size:12px">
+                {!CurrentDateTime}
+            </div>
+            <h4 style="text-align:center; font-family:Times New Roman;font-weight: bold;margin-top:-15px;font-size:24px">{!header}</h4>
+            <p style="align:left;font-weight: bold">{!todaysDate} <br/>{!allApplicantsNames}</p>
+            <div style="font-family:Times New Roman;font-size:12px">
+                <apex:outputText value="{!houseNo}" escape="false"></apex:outputText>
+                <apex:outputText value="{!addressLine1}" escape="false"></apex:outputText>
+                <apex:outputText value="{!addressLine2}" escape="false"></apex:outputText>
+                <apex:outputText value="{!landMark}" escape="false"></apex:outputText>
+                {!cityPincode}<br/>
+                {!state}<br/>
+                Contact No.  - {!mobileNumber}<br/>
+            </div>
+            <div style="font-family:Times New Roman;font-size:12px">
+                <br/>Dear Sir / Madam, <br/>
+                <b>Sub: Sanction Letter for Loan Facility vide Application Form No : {!loanNumber}</b><br/>
+                <apex:outputText value="{!mapofContent[3]}" escape="false" />
+            </div>
+            <br/> 
+            
+            <table class="table1">
+                <tr>
+                    <th style="width:30%; font-weight: 100;  ">&nbsp;Type of Facility</th>
+                    <th  style="width:70%; font-weight: 100;  ">&nbsp;{!typeofFacility}</th>
+                </tr>
+                <tr>
+                    <th style="width:30%; font-weight: 100;">&nbsp;Facility Loan Amount Sanctioned</th>
+                    <th  style="width:70%; font-weight: 100;">&nbsp;Rs. {!loanAmountSanctioned}/-</th>
+                    <!--th  style="width:70%; font-weight: 100;">&nbsp;Rs.<apex:outputText value="{0, number, #,###.##}">
+                        <apex:param value="{!loanAmountSanctioned}" />
+                        </apex:outputText>/-</th-->
+                </tr> 
+                <tr>
+                    <th style="width:30%; font-weight: 100;">&nbsp;Term of Facility</th>
+                    <th  style="width:70%; font-weight: 100;">&nbsp;{!termofFacility} Months</th>
+                </tr>
+                <tr>
+                    <th style="width:30%; font-weight: 100;">&nbsp;Type of Interest</th>
+                    <th  style="width:70%; font-weight: 100;">&nbsp;{!typeofInterest}</th>
+                </tr>
+                <apex:outputPanel rendered="{!showFloatingRate}"> 
+                    <tr>
+                        <th style="width:30%; font-weight: 100;">&nbsp;Floating Reference Rate(FRR)</th>
+                        <th  style="width:70%; font-weight: 100;">&nbsp;{!floatingReferenceRate}% p.a. as on date</th>
+                    </tr>
+                
+                </apex:outputPanel>
+                <tr>
+                    <th style="width:30%; font-weight: 100;">&nbsp;Interest Rate</th>
+                    <th  style="width:70%; font-weight: 100;">&nbsp;{!roi}% p.a. or as applicable at the time of disbursement</th>
+                </tr>
+                <tr>
+                    <th style="width:30%; font-weight: 100;">&nbsp;No of Equated Monthly Instalments (EMIs)</th>
+                    <th  style="width:70%; font-weight: 100;">&nbsp;{!termofFacility}</th>
+                </tr>
+                <tr>
+                    <th style="width:30%; font-weight: 100;">&nbsp;Amount of each EMI (on Monthly Rest)</th>
+                    <!--th  style="width:70%; font-weight: 100;">&nbsp;Rs.{!amountofEachEMI}/-</th-->
+                    <th  style="width:70%; font-weight: 100;">&nbsp;Rs.<apex:outputText value="{0, number, #,##,###,###}">
+                        <apex:param value="{!amountofEachEMI}" /></apex:outputText>/- </th>
+                </tr>
+                <tr>
+                    <th style="width:30%; font-weight: 100;">&nbsp;Security</th>
+                    <th  style="width:70%; font-weight: 100;"><apex:outputText value="{!security}" escape="false" /></th>
+                </tr>
+                <tr>
+                    <th style="width:30%; font-weight: 100;">&nbsp;Due Diligence Charges</th>
+                    <th  style="width:70%; font-weight: 100;">&nbsp;{!dueDiligence}</th>
+                </tr>
+                <tr>
+                    <th style="width:30%; font-weight: 100;">&nbsp;Processing Fee</th>
+                    <th  style="width:70%; font-weight: 100;">&nbsp;{!processingFee}</th>
+                </tr>
+                  <tr>
+                      <th style="width:30%; font-weight: 100;">&nbsp;Fees/Charges Recieved</th>
+                      <!--th  style="width:70%; font-weight: 100;">&nbsp;Rs.{!feesChargesToBeRecieved}/- (inclusive of GST)</th-->
+                      <th  style="width:70%; font-weight: 100;">&nbsp;Rs.<apex:outputText value="{0, number, #,##,###,###}">
+                          <apex:param value="{!feesChargesToBeRecieved}" /></apex:outputText>/- (inclusive of GST)</th>
+                </tr>
+                  <tr>
+                    <th style="width:30%; font-weight: 100;">&nbsp;Fees/Charges To Be Collected On &nbsp;Disbursement</th>
+                      <!--th  style="width:70%; font-weight: 100;">&nbsp;Rs.{!feesChargesToBeCollected}</th-->
+                      <th  style="width:70%; font-weight: 100;">&nbsp;Rs.<apex:outputText value="{0, number, #,##,###,###}">
+                          <apex:param value="{!feesChargesToBeCollected}" /></apex:outputText></th>
+                </tr>
+                <tr>
+                    <th style="width:30%; font-weight: 100;">&nbsp;Insurance Premium (Rs.)</th>
+                    <!--th  style="width:70%; font-weight: 100;">&nbsp;Rs.{!insurancePremium}</th-->
+                    <th  style="width:70%; font-weight: 100;">&nbsp;Rs.<apex:outputText value="{0, number, #,##,###,###}">
+                        <apex:param value="{!insurancePremium}" /></apex:outputText>/-</th>
+                </tr>
+            </table>
+            <div style="font-family:Times New Roman;font-size:12px">
+                
+                    <apex:outputText value="{!modifiedContent}" escape="false" />
+        
+                <apex:repeat var="cod" value="{!conditionList}">
+                • {!cod.condition} {!cod.remark} <br/>
+                </apex:repeat>
+                	
+                <br/>
+                
+            </div>
+            <!--table style="width:100%; border:0;">
+                <tr style=" border:0;">
+                	<td style=" border:0; vertical-align:top; ">
+                        <p style="text-align:left;">{!borrowerName}<br/>Borrower Signature__________</p>
+                    </td>
+                    <td  style=" border:0; vertical-align:top;">
+                         <apex:repeat var="coid" value="{!coApplicantIds}">
+                             <p style="text-align:right; padding-bottom:10px;">{!coid}<br/>Co-Borrowers Signature_____________</p>
+                    </apex:repeat>
+                    </td>
+                </tr>
+                 
+                
+            </table-->
+
+            
+            <div style="font-family:Times New Roman;font-size:12px; display:inline-block;width:100%;">
+                <apex:outputText value="{!mapofContent[5]}" escape="false" />
+                
+                Authorised Signatory<br/><br/>
+                I/We accept the terms and conditions/charges mentioned.<br/>
+               <div style=" display:inline-block;width:100%;">
+                   
+                    <div style="float:left;width:50%;">
+                <apex:repeat var="odd" value="{!oddList}">              
+                    {!odd.serialNumber}. Name : {!odd.name}<br/>&nbsp;&nbsp;&nbsp;&nbsp;Signature :<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;Place : {!branchName}<br/>&nbsp;&nbsp;&nbsp;&nbsp;Date : {!CurrentDate}<br/><br/>
+                </apex:repeat></div>
+                
+                <div style="float:left;width:50%;">
+                <apex:repeat var="even" value="{!evenList}">
+                {!even.serialNumber}. Name : {!even.name}<br/>&nbsp;&nbsp;&nbsp;&nbsp;Signature :<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;Place : {!branchName}<br/>&nbsp;&nbsp;&nbsp;&nbsp;Date : {!CurrentDate}<br/><br/>
+                </apex:repeat></div>
+                </div>
+               
+            </div>
+            <div  style="width:100%;">
+                
+            
+                
+                
+                <table class="table1">
+                    <tr>
+                        <th style="width:10%; font-weight: bold; " colspan="3">Description of Charges</th>
+                    </tr>
+                    
+                    <tr>
+                        <th style="width:5%; font-weight: 100; text-align:center;">1</th>
+                        <th style="width:30%; font-weight: 100;">Processing fees</th>
+                        <th style="width:65%; font-weight: 100;">{!processingFeeforDescription}% of loan amount + Applicable Taxes</th>
+                    </tr>
+                    <!--<apex:outputText value="{!descriptionContent}" escape="false" />-->
+                    <apex:repeat value="{!ChargeWrapperList}" var="chargeWrapper">
+                    	<tr>
+                            			<td style="width:5%; font-weight: 100; text-align:center;">{!chargeWrapper.Index}</td>
+                                        <td style="width:30%; font-weight: 100;">{!chargeWrapper.DecsOfCharge}</td>
+                                        <td style="width:65%; font-weight: 100;">{!chargeWrapper.valueOfCharge}</td>
+                                    </tr>
+                    
+                    </apex:repeat>
+                </table>
+                
+                
+            <apex:outputText value="{!mapofContent[8]}" escape="false" /> 
+            <apex:outputPanel rendered="{!showFloatingRate}">  
+            	<apex:outputText value="{!mapofContent[9]}" escape="false" />
+            </apex:outputPanel>
+            </div>
+            <div style="font-family:Times New Roman;font-size:12px; display:inline-block;width:100%;">
+               
+               <div style=" display:inline-block;width:100%;">
+                   
+                    <div style="float:left;width:50%;">
+                <apex:repeat var="odd" value="{!oddList}">              
+                    {!odd.serialNumber}. Name : {!odd.name}<br/>&nbsp;&nbsp;&nbsp;&nbsp;Signature :<br/>&nbsp;&nbsp;&nbsp;&nbsp;<br/><br/>
+                </apex:repeat></div>
+                
+                <div style="float:left;width:50%;">
+                <apex:repeat var="even" value="{!evenList}">
+                {!even.serialNumber}. Name : {!even.name}<br/>&nbsp;&nbsp;&nbsp;&nbsp;Signature :<br/>&nbsp;&nbsp;&nbsp;&nbsp;<br/><br/>
+                </apex:repeat></div>
+                </div>
+               
+            </div>
+          </body>
+        
+    </html>
+</apex:component>

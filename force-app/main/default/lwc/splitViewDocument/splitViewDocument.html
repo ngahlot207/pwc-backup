@@ -1,0 +1,127 @@
+<template>
+<lightning-card>
+  <div>
+    <!-- Card Body  -->
+    <lightning-layout multiple-rows="12">
+        <lightning-layout-item 
+           
+        size="12"
+        small-device-size= "12"
+       medium-device-size="12"
+       large-device-size="12"
+      >
+      <div class="slds-align_absolute-left slds-text-heading_medium slds-p-around_x-small" >Document Details</div>  
+      <table
+      class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered"
+      aria-label="Example table of Opportunities with vertical borders"
+    >
+      <thead>
+        <tr class="slds-line-height_reset">
+          <th class="" scope="col">
+            <div class="slds-truncate" title="Borrower Name">
+            Document Name
+            </div>
+          </th>
+
+          <th class="" scope="col">
+            <div class="slds-truncate" title="Type of address">
+            Document Type
+            </div>
+          </th>
+
+          <th class="" scope="col">
+            <div class="slds-truncate" title="Waiver reason">
+            Created Date
+            </div>
+          </th>
+         
+
+          <th class="" scope="col">
+            <div class="slds-truncate" title="Created Date">
+            Action
+            </div>
+          </th>  
+
+
+        </tr>
+
+       
+      </thead>
+
+      <tbody>
+        <template for:each={lstAllFiles} for:item="record">
+          <tr
+            key={record.docId}
+            aria-selected="false"
+            class="slds-hint-parent"
+          >
+          
+          <template if:true={record.docCategory}>
+            <td data-label="Document Name">
+              <div class="slds-truncate" title="Document Name">
+                {record.docCategory}
+              </div>
+            </td>
+          </template>
+          
+            <td data-label="Document Type">
+              <div class="slds-truncate" title="Document Type">
+                  {record.docDetName}
+              </div>
+            </td>
+         
+            <td data-label="Created Daye">
+              <div
+                class="slds-truncate"
+                title="Created Date"
+              >
+                {record.cDcrtdDate}
+              </div>
+            </td>
+            
+           
+            <td data-label="Created Date">
+              <div class="slds-truncate" title="Created Date">
+                <lightning-button
+                 data-caseid={record.Id} variant="success" label="View"
+                title="View Details" data-name='View' data-cd-id={record.cDId}
+                data-cv-id={record.cvId} data-doc-id={record.docId} data-file-type={record.cDFileType}
+                onclick={handlebutton}
+                ></lightning-button>
+              </div>
+            </td>
+                            
+            </tr
+        ></template>
+        
+       
+      </tbody>
+    </table>
+    </lightning-layout-item>
+
+    <lightning-layout-item 
+           
+    size="12"
+    small-device-size= "12"
+   medium-device-size="3"
+   large-device-size="6"
+  >
+
+ 
+  <template if:true={viewDoc}>
+<!-- 
+    <c-multi-doc-previewer document-detail-id={docId} onclosepreview={handleCloseModalEvent}
+            has-document-id={viewDoc}> </c-multi-doc-previewer> -->
+<div>
+  <c-view-document document-detail-id={docId} onclosepreview={handleCloseModalEvent}
+  has-document-id={viewDoc}></c-view-document>
+</div>
+ 
+
+</template>
+</lightning-layout-item>
+</lightning-layout>
+  </div>
+</lightning-card>
+
+</template>

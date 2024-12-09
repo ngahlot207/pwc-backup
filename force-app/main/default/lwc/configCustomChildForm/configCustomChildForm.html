@@ -1,0 +1,62 @@
+<template>
+    <template if:true={iscombobox}>
+        <lightning-combobox
+            name="Type"
+            label={fieldDetail.label}
+            required={fieldDetail.required}
+            placeholder="Select Type"
+            options={options}
+            value={value}
+            onchange={handleInputChange}
+            onfocus={pickValSelect}
+            disabled={fieldDetail.disabled}
+        ></lightning-combobox>
+    </template>
+    <template if:true={isText}>
+        <lightning-input
+            type={type}
+            required={fieldDetail.required}
+            label={fieldDetail.label}
+            field-name={fieldDetail.FieldName}
+            value={value}
+            disabled={fieldDetail.disabled}
+            min-length={fieldDetail.minLength}
+            maxlength={fieldDetail.maxChar}
+            max={fieldDetail.maxDate}
+            variant={fieldDetail.variant}
+            pattern={fieldDetail.pattern}
+            checked={fieldDetail.checked}
+            message-when-pattern-mismatch={fieldDetail.messagePatternMismatch}
+            onchange={handleInputChange}
+        ></lightning-input>
+    </template>
+
+    <template if:true={isRadio}>
+        <lightning-radio-group
+            label={fieldDetail.label}
+            options={options}
+            value={value}
+            onchange={handleInputChange}
+            required={fieldDetail.required}
+        >
+        </lightning-radio-group>
+    </template>
+
+    <template if:true={isLookup}>
+        <c-custom-lookup
+            help-text={helpText}
+            required={fieldDetail.required}
+            label={fieldDetail.label}
+            disable={fieldDetail.disabled}
+            field-name={fieldDetail.FieldName}
+            selected-icon-name={selectedIconName}
+            object-label={objectLabel}
+            object-api-name={objectApiName}
+            field-api-name={fieldApiName}
+            selected-record-id={selectedRecordId}
+            selected-record-name={selectedRecordName}
+            other-field-api-name="Industry"
+            onselect={handleValueSelect}
+        ></c-custom-lookup>
+    </template>
+</template>

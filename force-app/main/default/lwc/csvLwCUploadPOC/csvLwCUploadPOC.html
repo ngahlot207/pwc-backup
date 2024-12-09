@@ -1,0 +1,10 @@
+<template>
+    <lightning-card title="Process CSV File">
+    <div class="file-uploader">
+    <lightning-input label="" name="file uploader" onchange={handleFileChange} type="file" multiple></lightning-input>
+    <div class="error-message">{fileName}</div>
+    {fieldList}
+    <lightning-button class="upload-button" label="Upload CSV File" onclick={handleSave} variant="brand"></lightning-button>
+    </div>
+    </lightning-card>
+    </template>

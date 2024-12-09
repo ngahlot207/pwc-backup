@@ -1,0 +1,172 @@
+<template>
+  <div if:true={showSpinner}>
+    <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+    </lightning-spinner>
+</div>
+  <lightning-card title="Dedupe Match Summary">
+      <div id="containerDiv1" onmousemove={handlemousemove} onmouseup={handlemouseup}
+         ondblclick={handledblclickresizable}
+         class="slds-table_header-fixed_container slds-border_right slds-border_left tableScroll"
+         onscroll={tableOuterDivScrolled}>
+            <div id="tableViewInnerDiv1" class="slds-scrollable_y tableViewInnerDiv slds-scrollable">
+                <table class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout slds-max-medium-table_stacked-horizontal" onscroll={tableScrolled}>
+                  <thead>
+                    <tr>
+                      <template for:each={columns} for:item="column">
+                      <th class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col" key={column.fieldName}>
+                        <div class="slds-cell-fixed fixedWidth" title={column.label}>
+                        <a class="slds-th__action slds-text-link--reset">
+                          <span class="slds-truncate">{column.label}</span>
+                        </a>
+                        <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                <span class="slds-resizable__divider"></span>
+                            </span>
+                        </div>
+                        </div>
+                      </th>
+                    </template>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr aria-selected="false" class="slds-hint-parent">
+
+                      <th class="slds-cell_action-mode" scope="row">
+                        <div class="slds-truncate" title={previousAppNo}>
+                          {previousAppNo}
+                        </div>
+                      </th>
+
+                      <th class="slds-cell_action-mode" scope="row">
+                        <div class="slds-truncate" title="View">
+                      <lightning-button variant="success" label="View"
+                      title="View Details" data-name='View'
+                      onclick={handlebutton}></lightning-button>
+
+                          </div>
+                      </th>
+
+                      <th class="slds-cell_action-mode" scope="row">
+                        <div class="slds-truncate" title="Approve/Reject">
+                          <lightning-button label="Approve/Reject" onclick={openAction} disabled={buttndisable}></lightning-button>
+
+                        </div>
+                      </th>
+                      <!-- <th class="slds-cell_action-mode" scope="row">
+                        <div class="slds-truncate" title={LeadNo}>
+                          {LeadNo}
+                        </div>
+                      </th>
+                      
+                      <th class="slds-cell_action-mode" scope="row">
+                        <div class="slds-truncate" title={LeadCreatedDate}>
+                          {LeadCreatedDate}
+                        </div>
+                      </th> -->
+      
+                      <th class="slds-cell_action-mode" scope="row">
+                        <div class="slds-truncate" title="sourceBranch">
+                          {sourceBranch}
+                        </div>
+                      </th>
+      
+                      <th class="slds-cell_action-mode" scope="row">
+                        <div class="slds-truncate" title="matchFoundName">
+                          {matchFoundName}
+                        </div>
+                      </th>
+      
+                      <th class="slds-cell_action-mode" scope="row">
+                        <div class="slds-truncate" title="matchFoundMobile">
+                          {matchFoundMobile}
+                        </div>
+                      </th>
+      
+                      <th class="slds-cell_action-mode" scope="row">
+                        <div class="slds-truncate" title="currentStage">
+                          {currentStage}
+                        </div>
+                      </th>
+      
+                      <th class="slds-cell_action-mode" scope="row">
+                        <div class="slds-truncate" title="currentSubStage">
+                          {currentSubStage}
+                        </div>
+                      </th>
+      
+                      <th class="slds-cell_action-mode" scope="row">
+                        <div class="slds-truncate" title="sanctionOrRejectDate">
+                          {sanctionOrRejectDate}
+                        </div>
+                      </th>
+      
+                      <th class="slds-cell_action-mode" scope="row">
+                        <div class="slds-truncate" title="sanctionAmount">
+                          {sanctionAmount}
+                        </div>
+                      </th>
+      
+                      <th class="slds-cell_action-mode" scope="row">
+                        <div class="slds-truncate" title="propAdd">
+                          {propAdd}
+                        </div>
+                      </th>
+
+                      <th class="slds-cell_action-mode" scope="row">
+                        <div class="slds-truncate" title="rationale">
+                          {rationale}
+                        </div>
+                      </th>
+      
+                      <th class="slds-cell_action-mode" scope="row">
+                        <div class="slds-truncate" title="Lead No">
+                        </div>
+                      </th>
+                      </tr>
+                  </tbody>
+      </table>
+    </div>
+    </div>
+    <!-- Model Start here -->
+    <template if:true={showAction}>
+      <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open slds-modal_small">
+        <div class="slds-modal__container">
+            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeShowAction}>
+                <lightning-icon icon-name="utility:close" size="small" class="white-utility-icon"></lightning-icon>
+                <span class="slds-assistive-text">Close</span>
+            </button>
+        <div class="slds-modal__header">
+        <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate" tabindex="-1">Action</h1>
+        </div>
+        <div class="slds-modal__content slds-p-around_small" id="modal-content-id-4">
+            
+          <lightning-combobox name="actionPicklist" label="Approve/Reject"
+          options={actionPicklist} placeholder="Select" onchange={handleInputChange} required>
+          </lightning-combobox>
+          <template if:true={actionReject}>
+          <lightning-combobox name="rejectReason" label="Reject Reason" value={rejectReason}
+          options={leadClosureOptions} placeholder="Select" onchange={handleInputChange} required>
+          </lightning-combobox>
+        </template>
+
+        <lightning-input name="rationaleComment" label="Rationale" value={rationalVal} type="text" onchange={handleInputChange} required></lightning-input>
+        </div>
+        <div class="slds-modal__footer">
+    <lightning-button label="Submit" onclick={handleSave} class="slds-m-around_x-small" disabled={buttndisable}></lightning-button>
+        <button class="slds-button slds-button_neutral" aria-label="Cancel" onclick={closeShowAction}>Cancel</button>
+        </div>
+        </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+       
+        </template>   
+        <br/>
+        <br/>
+        <template if:true={showDetails}>
+        <c-dedupe-loan-details-summary record-id={loanId}></c-dedupe-loan-details-summary>
+        <br/>
+        <br/>
+        <c-dedupe-borrower-details-summary record-id={ApplId}></c-dedupe-borrower-details-summary>
+      </template>
+    </lightning-card> 
+</template>

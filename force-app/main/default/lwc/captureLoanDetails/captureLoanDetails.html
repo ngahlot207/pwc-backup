@@ -1,0 +1,2046 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+
+    <lightning-card>
+      <lightning-accordion
+        class="myClass"
+        allow-multiple-sections-open
+        active-section-name="Loan Details"
+        onsectiontoggle={handleSectionToggle} 
+      >
+        <lightning-accordion-section name="Loan Details" label="Loan Details" class="applicantClass">
+          <lightning-layout multiple-rows="12">
+            <lightning-layout-item
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            > 
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="text"
+                  value={sfdcLeadRefNo}
+                  label="SFDC Lead Ref No."
+                  required={requiredFlag}
+                  disabled="true"
+                  data-name="LeadId__c"
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item if:false={disableFieldsOnProd}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                  name="LeadSource"
+                  label="Lead Source"
+                  value={wrpLoanApp.LeadSource__c}
+                  options={leadValueOptions}
+                  onchange={handleInputChange}
+                  required={requiredFlag}
+                  class="leadSource"
+                  data-name="LeadSource__c"
+                  disabled={disableMode}
+                >
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item if:true={disableFieldsOnProd}
+            size="12"
+            small-device-size={layoutSize.small}
+            medium-device-size={layoutSize.medium}
+            large-device-size={layoutSize.large}
+          >
+            <div class="slds-p-around_x-small">
+              <lightning-combobox
+                name="LeadSource"
+                label="Lead Source"
+                value={wrpLoanApp.LeadSource__c}
+                options={leadValueOptions}
+                onchange={handleInputChange}
+                required={requiredFlag}
+                class="leadSource"
+                data-name="LeadSource__c"
+                disabled={disableLeadSource}
+              >
+              </lightning-combobox>
+            </div>
+          </lightning-layout-item>
+          <!-- <lightning-layout-item if:true={disableFieldsOnProd}
+          size="12"
+          small-device-size={layoutSize.small}
+          medium-device-size={layoutSize.medium}
+          large-device-size={layoutSize.large}
+        >
+          <div class="slds-p-around_x-small">
+              <lightning-input label="Channel Name" value={searchInputName} disabled></lightning-input>
+          </div>
+        </lightning-layout-item> -->
+            <lightning-layout-item
+              if:true={hideLMSId}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="text"
+                  value={wrpLoanApp.LMSLeadId__c}
+                  data-name="LMSLeadId__c"
+                  label="LMS Lead ID"
+                  required="true"
+                  onchange={handleInputChange}
+                  disabled="true"
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item if:true={isDsaUser}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+            <template if:true={disableFieldsOnProd}>
+              <div class="slds-p-around_x-small">
+                <c-custom-lookup required=true label="Sourcing Location" selected-icon-name="standard:identifier" 
+                object-api-name="LocMstr__c" field-api-name="City__c" selected-record-name={selectDSACity}
+                selected-record-id={selectDSACityId} onselect={handleLookupFieldChange} > 
+               </c-custom-lookup> 
+              </div>
+            </template>
+            </lightning-layout-item>
+            <lightning-layout-item 
+            size="12"
+            small-device-size={layoutSize.small}
+            medium-device-size={layoutSize.medium}
+            large-device-size={layoutSize.large}
+          >
+            <div class="slds-p-around_x-small">
+              <c-custom-lookup required=true label="Branch" selected-icon-name="standard:identifier"
+                                        object-api-name="LocBrchJn__c" field-api-name="Branch__r.Name" selected-fields="Branch__r.BrchCode__c"
+                                        selected-record-name={selectDSABranch} selected-record-id={locationBranJnId}
+                                        onselect={handleBranchChange} filter-condn={filterConditionForBranc} disabled={disableBranch}>
+                                    </c-custom-lookup>
+            </div>
+          </lightning-layout-item>
+            <lightning-layout-item 
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="text"
+                  value={wrpLoanApp.BrchCode__c}
+                  onchange={handleInputChange}
+                  data-name="BrchCode__c"
+                  label="Branch Code"
+                  required={requiredFlag}
+                  disabled
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item 
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="text"
+                  value={wrpLoanApp.BrchName__c}
+                  onchange={handleInputChange}
+                  data-name="BrchName__c"
+                  label="Branch Name"
+                  required={requiredFlag}
+                   disabled
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item if:false={isDsaUser}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="text"
+                  value={rmsmName}
+                  label="RM/SM Name"
+                  data-name="RM__c"
+                  required={requiredFlag}
+                  disabled
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item if:false={isDsaUser}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="text"
+                  value={rmsmEmpId}
+                  onchange={handleInputChange}
+                  data-name="RMSMEmployeeID__c"
+                  label="RM/SM Employee ID"
+                  required={requiredFlag}
+                  disabled="true"
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+
+            <!-- <lightning-layout-item if:false={hideChannel} size="4"> -->
+            <!-- Channel Name -->
+            
+              <lightning-layout-item
+              if:false={hideChannel}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <template lwc:if={channelName}>
+                <div class="slds-p-around_x-small">
+                  <c-custom-lookup
+                    required={channelFlag}
+                    label="Channel Name"
+                    field-name="ChanelNme__c"
+                    selected-icon-name="standard:identifier"
+                    object-label={objectLabel}
+                    object-api-name="DSABrchJn__c"
+                    field-api-name="Account__r.Name"
+                    selected-fields="Account__r.DSAConnId__c, Account__r.VCReferralCode__c"
+                    selected-field-name="Account__c"
+                    selected-record-id={channelName}
+                    filter-condn={filterCondnChannel}
+                    key-id="Account__r.Id"
+                    onselect={handleValueSelect}
+                    disabled={disableMode}
+                  ></c-custom-lookup>
+                </div>
+              </template>
+              <template lwc:else>
+                <div class="slds-p-around_x-small">
+                  <c-custom-lookup
+                    required={channelFlag}
+                    label="Channel Name"
+                    field-name="ChanelNme__c"
+                    selected-icon-name="standard:identifier"
+                    object-label={objectLabel}
+                    object-api-name="DSABrchJn__c"
+                    field-api-name="Account__r.Name"
+                    selected-fields="Account__r.DSAConnId__c, Account__r.VCReferralCode__c"
+                    selected-field-name="Account__c"
+                    selected-record-id={channelName}
+                    filter-condn={filterCondnChannel}
+                    key-id="Account__r.Id"
+                    onselect={handleValueSelect}
+                    disabled={disableMode}
+                  ></c-custom-lookup>
+                </div>
+              </template>
+            </lightning-layout-item>
+            
+            <lightning-layout-item
+              if:false={hideChannel}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="text"
+                  value={wrpLoanApp.ChannelCode__c}
+                  label="Channel Code"
+                  onchange={handleInputChange}
+                  data-name="ChannelCode__c"
+                  required={requiredFlag}
+                  disabled
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+            
+            <lightning-layout-item
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+              if:true={fedFinaEmp}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="text"
+                  value={wrpLoanApp.RefEmpCode__c}
+                  label="Referral Employee Code"
+                  onchange={handleInputChange}
+                  data-name="RefEmpCode__c"
+                  required={requiredFlag}
+                  disabled={disableMode}
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                  class="productValue"
+                  label="Product"
+                  value={wrpLoanApp.Product__c}
+                  options={productOptions}
+                  onchange={handleInputChange}
+                  required={requiredFlag}
+                  data-name="Product__c"
+                  disabled={disableAll}
+                >
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item if:true={isDsaUser}
+            size="12"
+            small-device-size={layoutSize.small}
+            medium-device-size={layoutSize.medium}
+            large-device-size={layoutSize.large}
+          >
+          <template if:true={disableFieldsOnProd}>
+            <div class="slds-p-around_x-small">
+              <c-custom-lookup required=true label="Select RM"
+              selected-icon-name="standard:identifier" object-api-name="TeamHierarchy__c"
+              field-api-name="Employee__r.Name" selected-record-name={selectedDsaRm} selected-field-name="Id"
+              selected-record-id={teamHierId} onselect={handleRmSelection} selected-fields="Name"
+              filter-condn={filterConditionForRM} disabled={disableDSARM}>
+          </c-custom-lookup>
+            </div>
+          </template>
+          </lightning-layout-item>
+
+          
+
+            <lightning-layout-item if:false={disableFieldsOnProd}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <template lwc:if={productSubTypeOptions}>
+                  <lightning-combobox
+                    class="productSubTypeValue"
+                    label="Product Sub Type"
+                    value={wrpLoanApp.ProductSubType__c}
+                    options={productSubTypeOptions}
+                    onchange={handleInputChange}
+                    required={requiredFlag}
+                    data-name="ProductSubType__c"
+                    disabled={disableAll}
+                  >
+                  </lightning-combobox>
+                </template>
+              </div>
+            </lightning-layout-item>
+
+            <!-- Schemes -->
+
+            <lightning-layout-item
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <template lwc:if={wrpLoanApp.SchemeId__c}>
+                <div class="slds-p-around_x-small">
+                  <c-custom-lookup
+                    required={channelFlag}
+                    label="Schemes"
+                    field-name="SchmCode__c"
+                    selected-icon-name="standard:account"
+                    object-label={objectLabel}
+                    object-api-name="SchMapping__c"
+                    field-api-name="SchemeDesc__c"
+                    selected-fields="IsBT__c, MaxAmtFin__c, MinAmtFin__c,MaxTenure__c,MinTenure__c, IsInternalTopUp__c,ProductSubType__c,SchmId__c,FloatingRateFlag__c,PrimeType__c,IsFixed__c,SellarBT__c,ApplicableOwnContribution__c "
+                    selected-record-id={wrpLoanApp.SchemeId__c}
+                    selected-record-name={selectedRecordName}
+                    filter-condn={filterCondition}
+                    onselect={handleValueSelect}
+                    disabled={disableAll}
+                  ></c-custom-lookup>
+                </div>
+              </template>
+              <template lwc:else>
+                <div class="slds-p-around_x-small">
+                  <c-custom-lookup
+                    required={channelFlag}
+                    label="Schemes"
+                    field-name="SchmCode__c"
+                    selected-icon-name="standard:account"
+                    object-label={objectLabel}
+                    object-api-name="SchMapping__c"
+                    field-api-name="SchemeDesc__c"
+                    selected-fields="IsBT__c, MaxAmtFin__c, MinAmtFin__c,MaxTenure__c,MinTenure__c, IsInternalTopUp__c,ProductSubType__c,SchmId__c,FloatingRateFlag__c,PrimeType__c,IsFixed__c,SellarBT__c,ApplicableOwnContribution__c "
+                    filter-condn={filterCondition}
+                    selected-record-id=""
+                    selected-record-name={selectedRecordName}
+                    onselect={handleValueSelect}
+                    disabled={disableAll}
+                  ></c-custom-lookup>
+                </div>
+              </template>
+            </lightning-layout-item>
+
+            <!-- Promotion -->
+            <lightning-layout-item
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <template lwc:if={promotion}>
+                <div class="slds-p-around_x-small">
+                  <c-custom-lookup
+                    label="Promotion"
+                    field-name="PromCode__c"
+                    selected-icon-name="standard:promotions"
+                    object-label={objectLabel}
+                    object-api-name="PromoMapping__c"
+                    field-api-name="PromoDesc__c"
+                    selected-fields="Scheme__c"
+                    selected-record-id={wrpLoanApp.PromotionId__c}
+                    selected-record-name={promotion}
+                    filter-condn={filterConditionPromotion}
+                    onselect={handleValueSelect}
+                    disabled={disableAll}
+                  ></c-custom-lookup>
+                </div>
+              </template>
+
+              <template lwc:else>
+                <div class="slds-p-around_x-small">
+                  <c-custom-lookup
+                    label="Promotion"
+                    field-name="PromCode__c"
+                    selected-icon-name="standard:promotions"
+                    object-label={objectLabel}
+                    object-api-name="PromoMapping__c"
+                    field-api-name="PromoDesc__c"
+                    selected-fields="Scheme__c"
+                    selected-record-id=""
+                    selected-record-name=""
+                    filter-condn={filterConditionPromotion}
+                    onselect={handleValueSelect}
+                    disabled={disableAll}
+                  ></c-custom-lookup>
+                </div>
+              </template>
+            </lightning-layout-item>
+
+            <!-- Loan Purpose -->
+            <lightning-layout-item
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <template lwc:if={wrpLoanApp.LoanPurposeId__c}>
+                <div class="slds-p-around_x-small">
+                  <c-custom-lookup
+                    required={requiredFlag}
+                    label="Loan Purpose"
+                    field-name="LoanPurpose__c"
+                    selected-icon-name="standard:identifier"
+                    object-label={objectLabel}
+                    object-api-name="LoanPurpose__c"
+                    field-api-name="Name"
+                    selected-fields="ProdType__c"
+                    selected-record-id={wrpLoanApp.LoanPurposeId__c}
+                    selected-record-name={selectedRecordName}
+                    filter-condn={filtCondnLoanPurpose}
+                    onselect={handleValueSelect}
+                    disabled={disableAll}
+                  ></c-custom-lookup>
+                </div>
+              </template>
+              <template lwc:else>
+                <div class="slds-p-around_x-small">
+                  <c-custom-lookup
+                    required={requiredFlag}
+                    label="Loan Purpose"
+                    field-name="LoanPurpose__c"
+                    selected-icon-name="standard:identifier"
+                    object-label={objectLabel}
+                    object-api-name="LoanPurpose__c"
+                    field-api-name="Name"
+                    selected-fields="ProdType__c"
+                    selected-record-id=""
+                    selected-record-name={selectedRecordName}
+                    filter-condn={filtCondnLoanPurpose}
+                    onselect={handleValueSelect}
+                    disabled={disableAll}
+                  ></c-custom-lookup>
+                </div>
+              </template>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+              ><span onkeypress={handleInputChange}>
+                <div class="slds-p-around_x-small">
+                  <lightning-input
+                    type="number"
+                    label="Requested loan Amount"
+                    data-name="ReqLoanAmt__c"
+                    onchange={handleInputChange}
+                    value={reqLoanAmount}
+                    required={requiredFlag}
+                    max={maxAmt}
+                    min={minAmt}
+                    formatter="currency"
+                    message-when-range-overflow={errorOverflowMsg}
+                    message-when-range-underflow={errorUnderflowMsg}
+                    message-when-bad-input="Non numeric value should not be accepted"
+                    disabled={disableAll}
+                  ></lightning-input></div
+              ></span>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="number"
+                  label="Requested Tenure in Months"
+                  data-name="ReqTenInMonths__c"
+                  onchange={handleInputChange}
+                  class="tenure"
+                  value={wrpLoanApp.ReqTenInMonths__c}
+                  required={requiredFlag}
+                  max={maxTenure}
+                  min={minTenure}
+                  message-when-range-overflow={maxTenureError}
+                  message-when-range-underflow={minTenureError}
+                  message-when-bad-input="Non numeric value should not be accepted"
+                  disabled={disableAll}
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+            <template if:true={disableFieldsOnProd}>
+            <lightning-layout-item if:true={eligibiltyProOptions}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox data-name="EligibilityProgram__c" label="Eligibility Program" value={eligibiltyProgramValue}
+                                        placeholder="Select Value" options={eligibiltyProOptions}
+                                        onchange={handleInputChange} required disabled={disableAll}>
+                                    </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+          </template>
+            <lightning-layout-item if:false={disableFieldsOnProd}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                  label="Is this an assessed income application"
+                  value={wrpLoanApp.AssesIncomeAppl__c}
+                  options={assesedOptions}
+                  onchange={handleInputChange}
+                  required={requiredFlag}
+                  data-name="AssesIncomeAppl__c"
+                  disabled={disableAll}
+                >
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={showDDEFields}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                  label="Repayment Frequency"
+                  value={wrpLoanApp.Repayment_Frequency__c}
+                  options={rePaymentFrequencyOption}
+                  onchange={handleInputChange}
+                  required={requiredFlag}
+                  data-name="Repayment_Frequency__c"
+                  disabled={disableMode}
+                >
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={showDDEFields}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                  label="Installment Plan"
+                  value={wrpLoanApp.Installment_Plan__c}
+                  options={installmentPlanOption}
+                  onchange={handleInputChange}
+                  required={requiredFlag}
+                  data-name="Installment_Plan__c"
+                  disabled={disableMode}
+                >
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={showDDEFields}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="text"
+                  value={rateType}
+                  label="Rate Type Floating Flag"
+                  data-name="Rate_Type_Floating_Flag__c"
+                  onchange={handleInputChange}
+                  disabled
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={showDueDay}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                  class="dueDay"
+                  label="Due Day"
+                  value={dueDay}
+                  options={dueDayOptions}
+                  onchange={handleInputChange}
+                  data-name="DueDay__c"
+                  required={requiredFlag}
+                  disabled={disableMode}
+                >
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={showDDEFields}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="text"
+                  value={primeType}
+                  label="Loan PLR Type"
+                  data-name="LoanPLRType__c"
+                  onchange={handleInputChange}
+                  disabled
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={showDDEFields}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="number"
+                  value={primeRate}
+                  label="Loan PLR Rate"
+                  data-name="LoanPLRRate__c"
+                  onchange={handleInputChange}
+                  disabled
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={showDDEFields}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+             <!--LAK-7750 Disabled eff roi-->
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="number"
+                  value={effectiveRoi}
+                  label="Effective ROI"
+                  data-name="EffectiveROI__c"
+                  onchange={handleInputChange}
+                  disabled={disableEffRoi} 
+                  step=".01"
+                  min=0
+                  message-when-range-underflow="Please enter only positive values"
+                  required={requiredFlag}
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={showDDEFields}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="number"
+                  value={spreadIdVal}
+                  label="Spread ID"
+                  data-name="SpreadID__c"
+                  onchange={handleInputChange}
+                  disabled
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={showLoanTakeover}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                  label="Loan takeover of registered mortgage"
+                  value={loanTakeover}
+                  options={assesedOptions}
+                  onchange={handleInputChange}
+                  required={loanTakeOverReq}
+                  data-name="LoanTakeOverofRegMortgage__c"
+                  disabled={disableAll}
+                >
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={showDDEFields}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                  label="Requested Interest Type"
+                  value={reqIntType}
+                  options={reqInterestTypeOption}
+                  onchange={handleInputChange}
+                  data-name="ReqInterestType__c"
+                  disabled={disableMode}
+                >
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={showreason}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="text"
+                  value={holdReasonValue}
+                  label="Hold Reason"
+                  data-name="Hold_Reason__c"
+                  disabled
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={showCancel}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="text"
+                  value={cancelReasonValue}
+                  label="Cancel Reason"
+                  data-name="Cancel_Reason__c"
+                  disabled
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item
+              if:true={showOthserCancel}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="text"
+                  value={cancelReasonOtherValue}
+                  label="Additional Comments"
+                  data-name="Additional_Comments__c"
+                  disabled
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item
+              if:true={showReject}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="text"
+                  value={rejectReasonValue}
+                  label="Reject Reason"
+                  data-name="RejectReason__c"
+                  disabled
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={postFields}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+              ><span onkeypress={handleInputChange}>
+                <div class="slds-p-around_x-small">
+                  <lightning-input
+                    type="number"
+                    value={totalAmtIncIns}
+                    label="Total Loan amount including insurance (₹)"
+                    disabled
+                  ></lightning-input></div
+              ></span>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={disbursalType}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                  label="Disbursal Type"
+                  value={disbType}
+                  options={disbTypeOptions}
+                  onchange={handleInputChange}
+                  required={requiredFlag}
+                  data-name="DisbursalType__c"
+                  disabled={disableDisbursalType}
+                  
+                >
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={postFields}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+              ><span onkeypress={handleInputChange}>
+                <div class="slds-p-around_x-small">
+                  <lightning-input
+                    type="number"
+                    value={emiIncIns}
+                    data-name="EMIIcludingInsurance__c"
+                    label="EMI (₹) -(Loan amount including insurance)"
+                    onchange={handleInputChange}
+                    disabled
+                    required={requiredFlag}
+                  ></lightning-input></div
+              ></span>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={postFields}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="date"
+                  value={effIntStartDt}
+                  data-name="EffectiveNextIntStartDt__c"
+                  label="Effective/Next Interest Start Date"
+                  onchange={handleInputChange}
+                  disabled={disableMode}
+                  required={requiredFlag}
+                  min={currentDate}
+                  message-when-range-underflow="Please enter future date"
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={postFields}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  label="First EMI Due Month"
+                  value={emiMonth}
+                 
+                  onchange={handleInputChange}
+                  required={requiredFlag}
+                  data-name="FirstEMIDueMonth__c"
+                  disabled
+                >
+                </lightning-input>
+                <!-- options={monthOptions} -->
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={postFields}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  label="First EMI Due Year"
+                  value={emiYear}
+                
+                  onchange={handleInputChange}
+                  required={requiredFlag}
+                  data-name="FirstEMIDueYear__c"
+                  disabled          
+                >
+                </lightning-input>
+                <!-- options={yearOptions} -->
+                <template lwc:if={emiDateErrMessage}>
+                  <p class="slds-text-color_error">{emiDateErrMessage}</p>
+              </template>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={postFields}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="date" placeholder="dd-mmm-yyyy"
+                  value={firtsEmiDate}
+                  label="First EMI Date"
+                  disabled
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={postFields}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                  label="Pre-EMI Type"
+                  value={emiType}
+                  options={emiTypeOptions}
+                  onchange={handleInputChange}
+                  required={requiredFlag}
+                  data-name="PreEmiType__c"
+                  disabled={disablePreEmi}
+                >
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={postMoratoriumApplicable}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                  label="Moratorium/Grace Applicable"
+                  value={graceApp}
+                  options={graceAppOptions}
+                  onchange={handleInputChange}
+                  required={requiredFlag}
+                  data-name="MoratGraceApplicable__c"
+                  disabled={disableMode}
+                >
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={postGracePeriodMonth}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="text"
+                  label="Moratorium/Grace Period(in months)"
+                  value={gracePeriod}
+                  onchange={handleInputChange}
+                  required={requiredFlag}
+                  data-name="MoratGracePeriodMonths__c"
+                  disabled={disabledFlag}
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={postGracePeriodMonth}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                  label="Impact on Tenure"
+                  value={impactTen}
+                  options={impTenOptions}
+                  onchange={handleInputChange}
+                  required={requiredFlag}
+                  data-name="ImpactOnTenure__c"
+                  disabled={disabledFlag}
+                >
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={postGracePeriodMonth}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                  label="Charge Interest"
+                  value={chargeInt}
+                  options={chargeIntOptions}
+                  onchange={handleInputChange}
+                  required={requiredFlag}
+                  data-name="ChargeInterest__c"
+                  disabled={disabledFlag}
+                >
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={postGracePeriodMonth}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                  label="Add Interest in Schedule"
+                  value={addlInt}
+                  options={addlIntOptions}
+                  onchange={handleInputChange}
+                  required={requiredFlag}
+                  data-name="AddIntSchedule__c"
+                  disabled={disabledFlag}
+                >
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={showSellBTTrans}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                  label="Is it a Seller Balance Transfer transaction"
+                  value={sellBtValue}
+                  options={balTransOptions}
+                  onchange={handleInputChange}
+                  required={requiredFlag}
+                  data-name="IsitSellerBalTransferTransaction__c"
+                  disabled
+                >
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={showSellBTTrans}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                  label="Is the seller's List of Documents (LOD) available upfront"
+                  value={wrpLoanApp.IsSellerListDocLODAvl__c}
+                  options={sellListDocOptions}
+                  onchange={handleInputChange}
+                  required={requiredSellarTBT}
+                  data-name="IsSellerListDocLODAvl__c"
+                  disabled={editableSellBt}
+                >
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={showSellBTTrans}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                  label="Is the seller's BT loan Foreclosure amount available upfront"
+                  value={wrpLoanApp.IsSellerBTLoanForeclosureAmt__c}
+                  options={forclosureOptions}
+                  onchange={handleInputChange}
+                  required={requiredSellarTBT}
+                  data-name="IsSellerBTLoanForeclosureAmt__c"
+                  disabled={editableSellBt}
+                >
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={showSellBTTrans}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                  label="Documents as per legal report matches with Seller's LOD from BT Bank / FI"
+                  value={wrpLoanApp.DocAsPerLegalReportMatches__c}
+                  options={legalRepOptions}
+                  onchange={handleInputChange}
+                  required={requiredSellarTBT}
+                  data-name="DocAsPerLegalReportMatches__c"
+                  disabled={editableSellBt}
+                >
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={showSellBTTrans}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                  label="Sale Deed between the Buyer (borrower) and Seller will be executed upfront before depositing BT cheque"
+                  value={wrpLoanApp.SaleDeedBetnBuyerBorr__c}
+                  options={saleDeedOptions}
+                  onchange={handleInputChange}
+                  required={requiredSellarTBT}
+                  data-name="SaleDeedBetnBuyerBorr__c"
+                  disabled={editableSellBt}
+                >
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={showSellBTTrans}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                  label="Own Contribution (Sale deed value Less BT amount) will be paid before depositing BT cheque"
+                  value={wrpLoanApp.OwnContriPaid__c}
+                  options={ownContriOptions}
+                  onchange={handleInputChange}
+                  required={requiredSellarTBT}
+                  data-name="OwnContriPaid__c"
+                  disabled={editableSellBt}
+                >
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={showSellBTTrans}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                  label="Letter from seller's BT financier stating No linked loan with Seller's BT loan documented"
+                  value={wrpLoanApp.LetterFomSellerBTFinancier__c}
+                  options={letterFormOptions}
+                  onchange={handleInputChange}
+                  required={requiredSellarTBT}
+                  data-name="LetterFomSellerBTFinancier__c"
+                  disabled={editableSellBt}
+                >
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={showSellBTTrans}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                  label="Cheque for amount equivalent to BT amount will be taken from Seller’s bank account. Alternatively, Seller to be taken as Guarantor"
+                  value={wrpLoanApp.ChequeForAmtEquiBTAmt__c}
+                  options={chqEquOptions}
+                  onchange={handleInputChange}
+                  required={requiredSellarTBT}
+                  data-name="ChequeForAmtEquiBTAmt__c"
+                  disabled={editableSellBt}
+                >
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={showSellBTTrans}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                  label="Seller Verification - KYC of seller taken"
+                  value={wrpLoanApp.SellerVerificationKYCSellerTaken__c}
+                  options={sellerVerOptions}
+                  onchange={handleInputChange}
+                  required={requiredSellarTBT}
+                  data-name="SellerVerificationKYCSellerTaken__c"
+                  disabled={editableSellBt}
+                >
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={showSellBTTrans}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                  label="Seller Verification - Credit tele-check to confirm all broad terms of Sale deed done"
+                  value={wrpLoanApp.SellerVerCredTeleChk__c}
+                  options={sellerVerCredOptions}
+                  onchange={handleInputChange}
+                  required={requiredSellarTBT}
+                  data-name="SellerVerCredTeleChk__c"
+                  disabled={editableSellBt}
+                >
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={showSellBTTrans}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                  label="All Seller BT norms met"
+                  value={checkAllSellBT}
+                  options={sellerVerCredOptions}
+                  onchange={handleInputChange}
+                  required={requiredSellarTBT}
+                  data-name="AllSellerBTNormMet__c"
+                  disabled
+                >
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={isItRefinance}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                  label="Is it a Refinance transaction"
+                  value={isItRefinaceValue}
+                  options={sellerVerCredOptions}
+                  onchange={handleInputChange}
+                  required={requiredSellarTBT}
+                  data-name="IsItRefinanceTransaction__c"
+                  disabled
+                >
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={showRefinance}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="date"
+                  value={agreeDate}
+                  data-name="RefinanceSaleAgreementDate__c"
+                  label="Refinance Sale agreement date"
+                  onchange={handleInputChange}
+                  disabled={disableAll}
+                  required={requiredSellarTBT}
+                 max={maxAgreeDate}
+                 message-when-range-overflow={agreeError}
+                ></lightning-input>
+                <!-- <template lwc:if={agreeError}>
+                  <p class="slds-text-color_error">{agreeError}</p>
+                </template> -->
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={showRefinance}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="text"
+                  value={wrpLoanApp.PeriodSinceSaleAgreementExecuted__c}
+                  label="Period since sale agreement is executed"
+                  data-name="PeriodSinceSaleAgreementExecuted__c"
+                  disabled
+                  required={requiredSellarTBT}
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={showRefinance}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="number"
+                  value={wrpLoanApp.RefinanceSaleAgreementAmt__c}
+                  data-name="RefinanceSaleAgreementAmt__c"
+                  label="Refinance Sale agreement amount (₹)"
+                  onchange={handleInputChange}
+                  disabled={disableAll}
+                  required={requiredSellarTBT}
+                  step=".02" min=0
+                  message-when-range-underflow="Please enter valid amount"
+                  message-when-step-mismatch="Only two decimals allowed"
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={showRefinance}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="number"
+                  value={wrpLoanApp.PaymentDoneInLast6MonthsCash__c}
+                  data-name="PaymentDoneInLast6MonthsCash__c"
+                  label="Payment done in last 6 months - Cash (₹)"
+                  step=".02" min=0
+                  onchange={handleInputChange}
+                  disabled={disableAll}
+                  required={requiredSellarTBT}
+                  message-when-range-underflow="Please enter valid amount"
+                  message-when-step-mismatch="Only two decimals allowed"
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={showRefinance}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="number"
+                  value={wrpLoanApp.PaymentDoneInLast6MonthsBank__c}
+                  data-name="PaymentDoneInLast6MonthsBank__c"
+                  label="Payment Done in last 6 months - Bank (₹)"
+                  step=".02"  min=0
+                  onchange={handleInputChange}
+                  disabled={disableAll}
+                  required={requiredSellarTBT}
+                  message-when-range-underflow="Please enter valid amount"
+                  message-when-step-mismatch="Only two decimals allowed"
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={showRefinance}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="number"
+                  value={wrpLoanApp.PaymentDoneInLast12MonthsCash__c}
+                  data-name="PaymentDoneInLast12MonthsCash__c"
+                  label="Payment done in last 12 months - Cash (₹)"
+                  step=".02" min=0
+                  onchange={handleInputChange}
+                  disabled={disableAll}
+                  required={requiredSellarTBT}
+                  message-when-range-underflow="Please enter valid amount"
+                  message-when-step-mismatch="Only two decimals allowed"
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={showRefinance}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="number"
+                  value={wrpLoanApp.PaymentDoneInLast12MonthsBank__c}
+                  data-name="PaymentDoneInLast12MonthsBank__c"
+                  label="Payment Done in last 12 months - Bank (₹)"
+                  step=".02" min=0
+                  onchange={handleInputChange}
+                  disabled={disableAll}
+                  required={requiredSellarTBT}
+                  message-when-range-underflow="Please enter valid amount"
+                  message-when-step-mismatch="Only two decimals allowed"
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              if:true={btTransferStatus}
+              size="12"
+              small-device-size={layoutSize.small}
+              medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                  label="Balance Transfer Financier Status"
+                  value={wrpLoanApp.BalTransferFinaStatus__c}
+                  options={balTransStatusOptions}
+                  onchange={handleInputChange}
+                  data-name="BalTransferFinaStatus__c"
+                  disabled={disabledFlag}
+                  required={requiredSellarTBT}
+                >
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+
+
+            <lightning-layout-item
+            size="12"
+            small-device-size={layoutSize.small}
+            medium-device-size={layoutSize.medium}
+            large-device-size={layoutSize.large}
+          >
+            <div class="slds-p-around_x-small">
+              <lightning-input
+                type="text"
+                value={wrpLoanApp.BranchTier__c}
+                data-name="BranchTier__c"
+                label="Branch Tier"
+                onchange={handleInputChange}
+                disabled                
+              ></lightning-input>
+            </div>
+          </lightning-layout-item>
+          <template if:true={disableFieldsOnProd}>
+          <template if:true={isCpaUser}>
+            <lightning-layout-item
+                size="12"
+                small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium}
+                large-device-size={layoutSize.large}>
+                <div class="slds-p-around_x-small">
+                    <lightning-input
+                        type="number"
+                        label="Application Form No"
+                        value={wrpLoanApp.Application_Form_No__c}
+                        data-name="Application_Form_No__c"
+                        onchange={handleInputChange}
+                        disabled={disableAll}
+                        required>
+                    </lightning-input>
+                    <template if:true={errorMessage3}>
+                      <p>{errorMessage3}</p>
+                    </template>
+                </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+                size="12"
+                small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium}
+                large-device-size={layoutSize.large}>
+                <div class="slds-p-around_x-small">
+                    <lightning-input
+                        type="date"
+                        label="Application Form Date"
+                        value={wrpLoanApp.Application_Form_Date__c}
+                        data-name="Application_Form_Date__c"
+                        onchange={handleInputChange}
+                        disabled={disableAll}
+                        required>
+                    </lightning-input>
+                    <template if:true={errorMessage}>
+                      <p>{errorMessage}</p>
+                    </template>
+                </div>
+         </lightning-layout-item>
+        </template>  
+      </template>       
+
+          <lightning-layout-item
+          if:true={postFields}
+          size="12"
+          small-device-size={layoutSize.small}
+          medium-device-size={layoutSize.medium}
+          large-device-size={layoutSize.large}
+        >
+          <div class="slds-p-around_x-small">
+            <lightning-combobox
+              label="Rate EMI Flag"
+              value={rateEmiFlag}
+              options={rateEmiFlagOptions}
+              onchange={handleInputChange}
+              data-name="RateEMIFlag__c"
+              disabled
+              required
+            >
+            </lightning-combobox>
+          </div>
+        </lightning-layout-item>
+
+
+        
+        <lightning-layout-item
+        if:true={trancheEmiOpt}
+        size="12"
+        small-device-size={layoutSize.small}
+        medium-device-size={layoutSize.medium}
+        large-device-size={layoutSize.large}
+      >
+        <div class="slds-p-around_x-small">
+          <lightning-combobox
+            label="EMI options in tranche disbursement case"
+            value={emiTrache}
+            options={emiTrancheOptions}
+            onchange={handleInputChange}
+            data-name="EMIOptionsintranchedisbursementCase__c"
+            disabled
+          >
+          </lightning-combobox>
+        </div>
+      </lightning-layout-item>
+
+
+      <lightning-layout-item
+      if:true={showDDEFields}
+      size="12"
+      small-device-size={layoutSize.small}
+      medium-device-size={layoutSize.medium}
+      large-device-size={layoutSize.large}
+    >
+      <div class="slds-p-around_x-small">
+        <lightning-combobox
+          label="File Acceptance Status"
+          value={fileAcceptValue}
+          options={fileAcceptOptions}
+          data-name="CPASubSt__c"
+          disabled
+        >
+        </lightning-combobox>
+      </div>
+    </lightning-layout-item>
+    <!-- LAK-166 -->
+    <lightning-layout-item
+    if:true={opsStatus}
+    size="12"
+    small-device-size={layoutSize.small}
+    medium-device-size={layoutSize.medium}
+    large-device-size={layoutSize.large}
+  >
+    <div class="slds-p-around_x-small">
+      <lightning-combobox
+        label="Ops Status"
+        value={opsStatus}
+        options={fileAcceptOptions}
+        data-name="OpsStatus__c"
+        disabled
+      >
+      </lightning-combobox>
+    </div>
+  </lightning-layout-item>
+  <lightning-layout-item
+  if:true={clonedLAN}
+  size="12"
+  small-device-size={layoutSize.small}
+  medium-device-size={layoutSize.medium}
+  large-device-size={layoutSize.large}
+>
+  <div class="slds-p-around_x-small">
+    <lightning-input
+    type="text"
+    value={clonedLAN}
+    data-name="ClonedForLAN__c"
+    label="Cloned FOR"
+    disabled                
+  ></lightning-input>
+  </div>
+</lightning-layout-item>
+    <lightning-layout-item
+    if:true={fineOneField}
+    size="12"
+    small-device-size={layoutSize.small}
+    medium-device-size={layoutSize.medium}
+    large-device-size={layoutSize.large}
+  >
+    <div class="slds-p-around_x-small">
+      <lightning-input
+        type="text"
+        value={finoneLoanNo}
+        data-name="Finnone_Loan_Number__c"
+        label="Finnone Loan Number"
+        disabled                
+      ></lightning-input>
+    </div>
+  </lightning-layout-item>
+
+
+  <lightning-layout-item if:true={firstSactDate}
+  size="12"
+  small-device-size={layoutSize.small}
+  medium-device-size={layoutSize.medium}
+  large-device-size={layoutSize.large}
+>
+  <div class="slds-p-around_x-small">
+    <lightning-input
+      type="date"
+      value={sanctDate}
+      data-name="FirstApprovalDate__c"
+      label="First Approval Date"
+      disabled                
+    ></lightning-input>
+  </div>
+</lightning-layout-item>
+          
+
+<lightning-layout-item if:true={postGraceAppFields}
+size="12"
+small-device-size={layoutSize.small}
+medium-device-size={layoutSize.medium}
+large-device-size={layoutSize.large}
+>
+<div class="slds-p-around_x-small">
+  <lightning-input
+    type="number"
+    value={ownContriBank}
+    data-name="OwnContriBank__c"
+    label="Own Contribution Bank"
+    disabled
+    required              
+  ></lightning-input>
+</div>
+</lightning-layout-item>
+        
+
+<lightning-layout-item if:true={postGraceAppFields}
+size="12"
+small-device-size={layoutSize.small}
+medium-device-size={layoutSize.medium}
+large-device-size={layoutSize.large}
+>
+<div class="slds-p-around_x-small">
+  <lightning-input
+    type="number"
+    value={ownContriCash}
+    data-name="OwnContriCash__c"
+    label="Own Contribution in Cash"
+    onchange={handleInputChange}
+    disabled={ownContri}       
+    required    
+    min="0"
+    formatter="currency"
+    message-when-range-underflow="Please enter Valid Input"
+  ></lightning-input>
+</div>
+</lightning-layout-item>
+        
+
+<lightning-layout-item if:true={postGraceAppFields}
+size="12"
+small-device-size={layoutSize.small}
+medium-device-size={layoutSize.medium}
+large-device-size={layoutSize.large}
+>
+<div class="slds-p-around_x-small">
+  <lightning-input
+    type="number"
+    value={totalContri}
+    data-name="TotalOwnContri__c"
+    label="Total Own Contribution"
+    disabled
+    required           
+  ></lightning-input>
+</div>
+</lightning-layout-item>
+
+      <!-- Changes Done Under LAK-4925(Interest Waiver Document) Developer Name: Dhananjay Gadekar-->
+      <template if:true={postFields}>
+      <lightning-layout-item  size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+        <div class="slds-p-around_x-small">
+          <lightning-combobox
+            label="Interest Waiver Taken" value={intrstWaiverValue} options={interestWaiverOptions}
+            data-name="InterestWaiverTaken__c" disabled={disableMode} onchange={handleInputChange} required>
+          </lightning-combobox>
+        </div>
+      </lightning-layout-item>
+    </template>
+</lightning-layout>
+
+          <template lwc:if={btTableVisible}>
+           <c-bt-loan-details loan-app-id={recordId} existing-fed={showExtFedAcc} stage={stage} is-inter-top-up={isInterTopUp} disabled={disableAll}  onselect={handleBtLoanValueSelect}></c-bt-loan-details>
+        </template>  
+      </lightning-accordion-section>
+    </lightning-accordion>
+    
+    <!-- Changes Done Under LAK-4925(Interest Waiver Document) Developer Name: Dhananjay Gadekar-->
+    <template if:true={showDocUploadSection}> 
+      <lightning-accordion class="myClass" allow-multiple-sections-open active-section-name="Interest Waiver Document">   
+        <lightning-accordion-section name="Interest Waiver Ducument" label="Interest Waiver Document" class="applicantClass"> 
+          
+          <lightning-layout multiple-rows="12">
+            <lightning-layout-item size="12" small-device-size="12" medium-device-size="8" large-device-size="4">
+              <div class="slds-p-around_x-small">
+                  <c-custom-lookup             
+                    required={showDocUploadSection}
+                    field-name="IntWaiverApprover__c"
+                    label="Interest Waiver Taken from"
+                    selected-icon-name="standard:identifier"
+                    object-api-name="User"
+                    field-api-name="Name"
+                    selected-record-id={wrpLoanApp.IntWaiverApprover__c}
+                    filter-condn={filterConditionForLookup}
+                    onselect={handleValueSelect}
+                    disabled={disableMode}
+                    index={index}
+                  ></c-custom-lookup>
+              </div>
+          </lightning-layout-item>
+           <lightning-layout-item size="12" small-device-size="12" medium-device-size="8" large-device-size="4">
+            <div  class="slds-p-around_x-small">
+              <lightning-combobox label="Document Type" placeholder="Select" options={documentTypeOptions} value={documentTypeValue} disabled></lightning-combobox>
+            </div>
+           </lightning-layout-item>
+           <lightning-layout-item size="12" small-device-size="12" medium-device-size="8" large-device-size="4">
+            <div  class="slds-p-around_x-small">
+              <lightning-combobox label="Document Name" placeholder="Select Document"  options={documentNameOptions} value={documentNameValue} disabled=true></lightning-combobox>
+            </div>
+           </lightning-layout-item>
+         </lightning-layout>
+
+            <lightning-layout-item if:true={documentNameValue}  size="12" small-device-size="12" medium-device-size="8" large-device-size="4">
+              <div  class="slds-p-around_x-small slds-m-top_medium">
+                <c-upload-docs-reusable-component loan-app-id={recordId} applicant-id={applicantId}
+                  doc-name={documentNameValue} doc-type={documentTypeValue} disabled={disableDocumentUpload} disable-mode={disableDocumentUpload} 
+                  doc-category={documentCategory} onrefreshdoctable={docUploadRespHandler} onspinnerstatus={spinnerStatus} document-detai-id={_docmntDetId} convert-to-single-image={convertToSingleImage}>
+                </c-upload-docs-reusable-component>  </div>   
+            </lightning-layout-item>  
+            
+            <template if:true={isFileDataPresent}>
+              <lightning-card title="Uploaded Files" style="background-color:darkgrey;">
+                <div  class="slds-p-around_x-small">
+                <table aria-multiselectable="true" class="slds-table slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols" role="grid" aria-label="">
+                  <thead>
+                    <tr class="slds-line-height_reset">
+              
+                      <th aria-label="Document Type" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+                        <a class="slds-th__action slds-text-link_reset" href="#" role="button" tabindex="0">
+                          <span class="slds-assistive-text">Sort by: </span>
+                          <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                            <span class="slds-truncate" title="Document Name">Document Type</span>
+                            <span class="slds-icon_container slds-icon-utility-arrowdown">
+                              <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                              </svg>
+                            </span>
+                          </div>
+                        </a>
+                        <div class="slds-resizable">
+                          <input type="range" aria-label="Document Type column width"  class="slds-resizable__input slds-assistive-text" max="1000" min="20" tabindex="0" />
+                          <span class="slds-resizable__handle">
+                            <span class="slds-resizable__divider dividerPosition"></span>
+                          </span>
+                        </div>
+                      </th>
+      
+                      <th aria-label="Document Name" aria-sort="none"
+                        class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+                        <a class="slds-th__action slds-text-link_reset" href="#" role="button" tabindex="0">
+                          <span class="slds-assistive-text">Sort by: </span>
+                          <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                            <span class="slds-truncate" title="Document Name">Document Name</span>
+                            <span class="slds-icon_container slds-icon-utility-arrowdown">
+                              <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                              </svg>
+                            </span>
+                          </div>
+                        </a>
+                        <div class="slds-resizable">
+                          <input type="range" aria-label="Document Name column width" class="slds-resizable__input slds-assistive-text" max="1000" min="20" tabindex="0" />
+                          <span class="slds-resizable__handle">
+                            <span class="slds-resizable__divider dividerPosition"></span>
+                          </span>
+                        </div>
+                      </th>
+      
+                      <th aria-label="Document Name" aria-sort="none"
+                        class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+                        <a class="slds-th__action slds-text-link_reset" href="#" role="button" tabindex="0">
+                          <span class="slds-assistive-text">Sort by: </span>
+                          <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                            <span class="slds-truncate" title="Document Name">Created Date</span>
+                            <span class="slds-icon_container slds-icon-utility-arrowdown">
+                              <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                              </svg>
+                            </span>
+                          </div>
+                        </a>
+                        <div class="slds-resizable">
+                          <input type="range" aria-label="File Name column width" class="slds-resizable__input slds-assistive-text" max="1000" min="20" tabindex="0" />
+                          <span class="slds-resizable__handle">
+                            <span class="slds-resizable__divider dividerPosition"></span>
+                          </span>
+                        </div>
+                      </th>
+        
+                      <th aria-label="Actions" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode"
+                        scope="col">
+                        <a class="slds-th__action slds-text-link_reset" href="#" role="button" tabindex="0">
+                          <span class="slds-assistive-text">Sort by: </span>
+                          <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                            <span class="slds-truncate" title="Actions">Actions</span>
+                            <span class="slds-icon_container slds-icon-utility-arrowdown">
+                              <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                              </svg>
+                            </span>
+                          </div>
+                        </a>
+                        <div class="slds-resizable">
+                          <input type="range" aria-label="Actions column width" class="slds-resizable__input slds-assistive-text" max="1000" min="20" tabindex="0" />
+                          <span class="slds-resizable__handle">
+                            <span class="slds-resizable__divider dividerPosition"></span>
+                          </span>
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <template for:each={waiverDocList} for:item="fileIterator">
+                      <tr key={fileIterator.Id} aria-selected="false" class="slds-hint-parent">
+                        <td class="slds-cell_action-mode" role="gridcell">
+                          <div class="slds-truncate" title={fileIterator.DocTyp__c}>{fileIterator.DocTyp__c}</div>
+                        </td>
+      
+                        <td class="slds-cell_action-mode" role="gridcell">
+                          <div class="slds-truncate" title={fileIterator.DocSubTyp__c}>{fileIterator.DocSubTyp__c}</div>
+                        </td>
+                      
+                        <td class="slds-cell_action-mode" role="gridcell">
+                          <div class="slds-truncate" title={fileIterator.CreatedDate}>{fileIterator.CreatedDate}</div>
+                        </td>
+          
+                        <td>
+                          <div>
+                              <lightning-icon class="custom-button slds-p-right_xx-small" onclick={handleDocumentViewPreview} 
+                               icon-name="utility:preview" alternative-text="preview" variant="success" size="small" data-documentid={fileIterator.Id} title="preview"></lightning-icon>                     
+          
+                            <template if:false={deleteIconDisabled}>
+                              <lightning-icon class="custom-button slds-p-right_xx-small" data-file-iterator={fileIterator}  onclick={handleDocumentDelete} data-documentid={fileIterator.Id}
+                                icon-name="utility:delete" alternative-text="delete" variant="error" size="small" title="delete" disabled={deleteIconDisabled}>
+                              </lightning-icon>
+                            </template>
+                          </div>
+                        </td>
+                      </tr>
+                    </template> 
+                  </tbody>
+                </table></div>
+                <template if:true={showModalForFilePre}>
+                  <c-multi-doc-previewer document-detail-id={documentDetailIdPreview} onclosepreview={handleCloseModalEvent} has-document-id={hasDocumentId}> </c-multi-doc-previewer>
+                </template>
+
+                <template if:true={isDeleteModalOpen}>
+                  <!-- Modal/Popup Box LWC starts here -->
+                  <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="my-modal slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                      <!-- Modal/Popup Box LWC header here -->
+                      <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModalDelete}>
+                          <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small"></lightning-icon>
+                          <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Delete?</h2>
+                      </header>
+                      <!-- Modal/Popup Box LWC body starts here -->
+                      <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <p style="text-align:center;"><b>{removeModalMessage}</b></p>
+                      </div>
+                      <!-- Modal/Popup Box LWC footer starts here -->
+                      <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick={closeModalDelete} title="No">No</button>
+                        <button class="slds-button slds-button_brand" data-documentid={docIdToDelete}
+                          onclick={handleRemoveRecord} title="Yes">Yes</button>
+                      </footer>
+                    </div>
+                  </section>
+                  <div class="slds-backdrop slds-backdrop_open"></div>
+                </template>
+              </lightning-card>
+            </template>
+        </lightning-accordion-section>  
+      </lightning-accordion>
+      </template>        
+    </lightning-card>
+</template>

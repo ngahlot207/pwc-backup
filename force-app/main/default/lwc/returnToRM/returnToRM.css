@@ -1,0 +1,40 @@
+/* Container for the dropdown, including heading and options */
+.custom-dropdown-container {
+  position: relative;
+  z-index: 9999; /* High z-index to ensure dropdown is above other elements */
+  width: 350px;  /* Increased width to fit more options */
+  max-height: 400px; /* Increased height to accommodate more options */
+  overflow-y: auto; /* Allows scrolling if options exceed max-height */
+  border: 1px solid #ccc; /* Optional: add a border for visibility */
+  padding: 10px; /* Optional: add padding for better spacing */
+  background-color: #fff; /* Optional: set background color */
+}
+
+/* Styling for the dropdown heading */
+.custom-dropdown-container .dropdown-heading {
+  font-size: 16px; /* Adjust as needed */
+  font-weight: bold; /* Optional: make heading bold */
+  margin-bottom: 10px; /* Space between heading and options */
+}
+/* CSS to change close icon color to black */
+.close-icon {
+  color: black; /* Set icon color to black */
+}
+
+/* Dropdown options styling */
+.custom-dropdown-container .dropdown-class {
+  z-index: 10000; /* Ensure it's above other elements */
+  max-height: 300px; /* Set a max-height for dropdown options */
+  overflow-y: auto; /* Enable scrolling for long lists */
+}
+
+/* Optional: Styling for individual options */
+.custom-dropdown-container .dropdown-class .option {
+  padding: 8px; /* Padding for each option */
+  cursor: pointer; /* Cursor pointer to indicate clickable items */
+}
+
+/* Optional: Styling for option hover effect */
+.custom-dropdown-container .dropdown-class .option:hover {
+  background-color: #f0f0f0; /* Light background on hover */
+}

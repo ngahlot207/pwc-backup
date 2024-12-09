@@ -1,0 +1,312 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    <lightning-card>
+        <div class="slds-p-left_medium">
+            <div class="slds-clearfix">
+                <div class="slds-float_right">
+                    <lightning-button variant="brand" class="slds-p-right_large" icon-name="action:fallback"
+                        label="Initiate CPV Verification" onclick={handleCpvIntialization}
+                        disabled={disableMode}></lightning-button>
+                </div>
+            </div>
+        </div>
+        <c-cpv-data-table loan-app-id={loanAppId} cpv-record-type-id={cpvRecordTypeId}
+            has-edit-access={hasEditAccess} ></c-cpv-data-table>
+    </lightning-card>
+
+    <template if:true={isModalOpen}>
+      
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="my-modal slds-modal slds-fade-in-open slds-modal_medium">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <div if:true={showSpinner}>
+                    <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+                    </lightning-spinner>
+                </div>
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Select Applicant for CPV
+                        Initiate</h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium scroller" id="modal-content-id-1">
+                    <template if:true={showHLSTLAPTable}>
+                    <table
+                        class="slds-table slds-table_cell-buffer slds-table_bordered slds-border_left slds-border_right"
+                        aria-labelledby="element-with-table-label other-element-with-table-label">
+                        <thead>
+                            <tr>
+                                <th>Borrower Name</th>
+                                <th>Type Of Address</th>
+                                <th>Mandatory</th>
+                                <th>Additional Co-applicant/Guarantor Name </th>
+                                <th>Remarks for agency</th>
+                                <th>Initiate CPV</th>
+                                <th>Waive CPV</th>
+                                <th>Waiver reason</th>
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={appModalData} for:item="record" for:index="index">
+                                <tr key={record.appAdrrsId} aria-selected="false" class="slds-hint-parent">
+                                    <th class="slds-cell_action-mode" scope="row">
+                                        <div class="slds-truncate" title={record.appName} data-index={index}>
+                                            {record.appName}
+                                        </div>
+                                    </th>
+                                    <td class="slds-cell_action-mode" role="gridcell">
+                                        <div class="slds-truncate" title={record.appAddrType}>
+                                            {record.appAddrType}
+                                        </div>
+                                    </td>
+
+                                    <td class="slds-cell_action-mode" role="gridcell">
+                                        <div class="slds-truncate" title={record.selectCheckbox}>
+                                            <lightning-input variant="label-hidden" data-appid={record.appId}
+                                                data-addressid={record.appAdrrsId} type="checkbox"
+                                                checked={record.mandtoryCheckbox} data-cityid={record.cityId}
+                                                data-cityname={record.addrCity} data-index={index} disabled></lightning-input>
+                                        </div>
+                                    </td>
+                                    <td class="slds-cell_action-mode" role="gridcell">
+                                        <div  title={record.addrCity}>
+                                            <c-multi-select-dropdown multi-select="true" onselectoption={handleSelectPropertOwners}
+                                            options={record.appList} selected-values={selectList} disabled={disableMode}
+                                            ondeleteoption={handleDeletedPillValue}></c-multi-select-dropdown>
+                                        </div>
+                                    </td>
+                                    <td class="slds-cell_action-mode" role="gridcell">
+                                       <div class="slds-m-bottom_medium">
+                                        <lightning-textarea
+                                                type="text"
+                                                data-label="Remarks for agency"
+                                                data-appid={record.appId}
+                                                data-cityid={record.cityId}
+                                                data-cityname={record.addrCity}
+                                                data-addressid={record.appAdrrsId} 
+                                                value={record.Remarks_for_Technical_Agency__c}
+                                                onchange={handleClick}
+                                                data-name="Remarks_for_Technical_Agency__c"
+                                                disabled={disableMode}
+                                            ></lightning-textarea>
+                                       </div>
+                                            
+                                       
+                                    </td>
+                                    <td class="slds-cell_action-mode" role="gridcell">
+                                        <div class="slds-truncate" title={record.selectCheckbox}>
+                                            <lightning-input variant="label-hidden" data-appid={record.appId}
+                                                data-addressid={record.appAdrrsId} type="checkbox" data-label="Initiate CPV"
+                                                checked={record.selectCheckbox} onclick={handleClick} data-cityid={record.cityId}
+                                                data-cityname={record.addrCity} data-index={index} disabled={record.isDisable}></lightning-input>
+                                        </div>
+                                    </td>
+                                    <td class="slds-cell_action-mode" role="gridcell">
+                                        <div class="slds-truncate" title={record.WaiveCPV__c}>
+                                            <lightning-input variant="label-hidden" data-appid={record.appId}
+                                                data-addressid={record.appAdrrsId} type="checkbox" data-label="Waive CPV"
+                                                checked={record.WaiveCPV__c} onclick={handleClick} data-cityid={record.cityId}
+                                                data-cityname={record.addrCity} data-index={index} disabled={record.isDisableWaive}></lightning-input>
+                                        </div>
+                                    </td>
+
+                                    <td class="slds-cell_action-mode" role="gridcell">
+                                        <div class="slds-m-bottom_medium">
+                                        <lightning-combobox
+                                                data-label="Waiver Reason"
+                                                data-appid={record.appId}
+                                                data-addressid={record.appAdrrsId} 
+                                                value={record.WaiverReason__c}
+                                                options={waiverReasonOptions}
+                                                onchange={handleClick}
+                                                data-index={index}
+                                                data-cityid={record.cityId}
+                                                data-cityname={record.addrCity}
+                                                data-name="WaiverReason__c"
+                                                disabled={record.showWaiveRsn}
+                                                required={record.reqWaiveRsn}
+                                                >
+                                                </lightning-combobox></div>
+                                            <!-- <lightning-input
+                                                type="text"
+                                                value={record.WaiverReason__c}
+                                                onchange={handleClick}
+                                                data-name="WaiverReason__c"
+                                                disabled={record.showWaiveRsn}
+                                                data-index={index}
+                                                data-label="Waiver Reason"
+                                            ></lightning-input> -->
+                                       
+                                    </td>
+                                   
+                                   
+                                   
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </template>
+
+                <template if:true={showBLTable}>
+                    <table
+                        class="slds-table slds-table_cell-buffer slds-table_bordered slds-border_left slds-border_right"
+                        aria-labelledby="element-with-table-label other-element-with-table-label">
+                        <thead>
+                            <tr>
+                                <th>Borrower Name</th>
+                                <th>Type Of Address</th>
+                                <th>Mandatory</th>
+                                <th>Additional Co-applicant/Guarantor Name </th>
+                                <th>Remarks</th>
+                                <th>Initiate CPV</th>
+                                <th>Assign to CPA/UW</th>
+                                <th>Select CPA/UW User</th>
+                                <th>Waive CPV</th>
+                                <th>Waiver reason</th>
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={appModalData} for:item="record" for:index="index">
+                                <tr key={record.appAdrrsId} aria-selected="false" class="slds-hint-parent">
+                                    <th class="slds-cell_action-mode" scope="row">
+                                        <div class="slds-truncate" title={record.appName} data-index={index}>
+                                            {record.appName}
+                                        </div>
+                                    </th>
+                                    <td class="slds-cell_action-mode" role="gridcell">
+                                        <div class="slds-truncate" title={record.appAddrType}>
+                                            {record.appAddrType}
+                                        </div>
+                                    </td>
+
+                                    <td class="slds-cell_action-mode" role="gridcell">
+                                        <div class="slds-truncate" title={record.selectCheckbox}>
+                                            <lightning-input variant="label-hidden" data-appid={record.appId}
+                                                data-addressid={record.appAdrrsId} type="checkbox"
+                                                checked={record.mandtoryCheckbox} data-cityid={record.cityId}
+                                                data-cityname={record.addrCity} data-index={index} disabled></lightning-input>
+                                        </div>
+                                    </td>
+                                    <td class="slds-cell_action-mode" role="gridcell">
+                                        <div  title={record.addrCity}>
+                                            <c-multi-select-dropdown multi-select="true" onselectoption={handleSelectPropertOwners}
+                                            options={record.appList} selected-values={selectList} disabled={disableMode}
+                                            ondeleteoption={handleDeletedPillValue}></c-multi-select-dropdown>
+                                        </div>
+                                    </td>
+                                    <td class="slds-cell_action-mode" role="gridcell">
+                                       <div class="slds-m-bottom_medium">
+                                        <lightning-textarea
+                                                type="text"
+                                                data-label="Remarks for agency"
+                                                data-appid={record.appId}
+                                                data-cityid={record.cityId}
+                                                data-cityname={record.addrCity}
+                                                data-addressid={record.appAdrrsId} 
+                                                value={record.Remarks_for_Technical_Agency__c}
+                                                onchange={handleBLClick}
+                                                data-name="Remarks_for_Technical_Agency__c"
+                                                disabled={disableMode}
+                                            ></lightning-textarea>
+                                       </div>
+                                            
+                                       
+                                    </td>
+                                    <td class="slds-cell_action-mode" role="gridcell">
+                                        <div class="slds-truncate" title={record.selectCheckbox}>
+                                            <lightning-input variant="label-hidden" data-appid={record.appId}
+                                                data-addressid={record.appAdrrsId} type="checkbox" data-label="Initiate CPV"
+                                                checked={record.selectCheckbox} onclick={handleBLClick} data-cityid={record.cityId}
+                                                data-cityname={record.addrCity} data-index={index} disabled={record.isDisable}></lightning-input>
+                                        </div>
+                                    </td>
+                                    <td class="slds-cell_action-mode" role="gridcell">
+                                        <div class="slds-truncate" title={record.assignInternal}>
+                                            <lightning-input variant="label-hidden" data-appid={record.appId}
+                                                data-addressid={record.appAdrrsId} type="checkbox" data-label="Assign to CPA/UW"
+                                                checked={record.assignInternal} onclick={handleBLClick} data-cityid={record.cityId}
+                                                data-cityname={record.addrCity} data-index={index} disabled={record.isDisable}></lightning-input>
+                                        </div>
+                                    </td>
+
+                                    <td class="slds-cell_action-mode" role="gridcell">
+                                    <div >
+                                        <c-custom-lookup field-name="Employee__r.Name" selected-icon-name="standard:identifier"
+                                        object-api-name="TeamHierarchy__c" field-api-name="Employee__r.Name" 
+                                        selected-record-id={record.Assigned_To__c} data-label="Select CPA/UW User"
+                                        selected-fields="Employee__c, EmpBrch__r.BrchCode__c"
+                                        selected-record-name="Name" onselect={handleLookupFieldChange} filter-condn={filterCondn}
+                                        index={index} read-only={disableMode} disabled={record.showUser} required={record.reqUser}
+                                        key-id="Employee__c"></c-custom-lookup>
+                                    </div>
+                    
+                                    </td>
+                                    <td class="slds-cell_action-mode" role="gridcell">
+                                        <div class="slds-truncate" title={record.WaiveCPV__c}>
+                                            <lightning-input variant="label-hidden" data-appid={record.appId}
+                                                data-addressid={record.appAdrrsId} type="checkbox" data-label="Waive CPV"
+                                                checked={record.WaiveCPV__c} onclick={handleBLClick} data-cityid={record.cityId}
+                                                data-cityname={record.addrCity} data-index={index} disabled={record.isDisableWaive}></lightning-input>
+                                        </div>
+                                    </td>
+
+                                    <td class="slds-cell_action-mode" role="gridcell">
+                                        <div class="slds-m-bottom_medium">
+                                        <lightning-combobox
+                                                data-label="Waiver Reason"
+                                                data-appid={record.appId}
+                                                data-addressid={record.appAdrrsId} 
+                                                value={record.WaiverReason__c}
+                                                options={waiverReasonOptions}
+                                                onchange={handleBLClick}
+                                                data-index={index}
+                                                data-cityid={record.cityId}
+                                                data-cityname={record.addrCity}
+                                                data-name="WaiverReason__c"
+                                                disabled={record.showWaiveRsn}
+                                                required={record.reqWaiveRsn}
+                                                >
+                                                </lightning-combobox></div>
+                                            <!-- <lightning-input
+                                                type="text"
+                                                value={record.WaiverReason__c}
+                                                onchange={handleBLClick}
+                                                data-name="WaiverReason__c"
+                                                disabled={record.showWaiveRsn}
+                                                data-index={index}
+                                                data-label="Waiver Reason"
+                                            ></lightning-input> -->
+                                       
+                                    </td>
+                                   
+                                   
+                                   
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </template>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeModal} title="No">No</button>
+                    <button if:true={showHLSTLAPTable} class="slds-button slds-button_brand" onclick={handleIntialization} title="Yes">Yes</button>
+                    <button if:true={showBLTable} class="slds-button slds-button_brand" onclick={handleBLCaseIntiate} title="Yes">Yes</button>
+                </footer>
+            </div>
+        </section>
+    
+        <!-- <div class="slds-backdrop slds-backdrop_open"></div> -->
+    </template>
+</template>

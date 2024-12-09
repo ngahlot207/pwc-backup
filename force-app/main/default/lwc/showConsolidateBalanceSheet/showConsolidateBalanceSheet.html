@@ -1,0 +1,725 @@
+<template>
+    
+    <h3 class="slds-text-heading_medium slds-m-bottom_medium" style="font-weight:bold;">Consolidated Balance Sheet Summary</h3>
+    <lightning-card >
+
+        <lightning-spinner if:true={showSpinner} alternative-text="Loading" size="large" variant="brand" style="position: fixed;">
+        </lightning-spinner>
+            <div class="slds-box">
+                <div></div>
+
+                <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                    <thead>
+                        <tr class="slds-text-title_bold" style="font-size:15px;">
+                            <th class="slds-text-color_inverse slds-cell-fixed" scope="col" style="width:300px">Financial Year</th>
+                            <th scope="col" style="width: 200px">{previousFinancialYear}</th>
+                            <th scope="col" style="width:200px">{currentFinancialYear}</th>
+                            <th scope="col" style="width:120px">Inc/Dec %</th>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <th scope="col" style="width:200px">{provisionalFinancialYear}</th>
+                                <th scope="col" style="width:120px">Inc/Dec %</th>
+                            </template>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th style="font-size:20px;text-align:center;font-weight: 600;">Liabilities</th>
+                            
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">Share capital / Partner's Capital</th> 
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="prev" name="Share_capital_Partner_s_Capital__c" value={wrapObj1.Share_capital_Partner_s_Capital__c} required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled= {disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"    data-fnyear="current" name="Share_capital_Partner_s_Capital__c" value={wrapObj2.Share_capital_Partner_s_Capital__c} required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td >
+                                
+                                <lightning-input variant="label-hidden" type="number" formatter="percent" value={sharePartnerPercentage} disabled onchange={handleInputChange}></lightning-input>
+                            
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"    data-fnyear="provisional" name="Share_capital_Partner_s_Capital__c" value={wrapObj3.Share_capital_Partner_s_Capital__c} required onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input  variant="label-hidden" type="number" formatter="percent" value={sharePartnerPercentage1} disabled onchange={handleInputChange}></lightning-input>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">P &amp; L A/capital</th>
+                            <td>
+                                <lightning-input variant="label-hidden" class = "slds-m-top_none"  disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="prev" value={wrapObj1.P_L_A_capital__c} name="P_L_A_capital__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="current" value={wrapObj2.P_L_A_capital__c} name="P_L_A_capital__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden"  type="number" formatter="percent" value={plaPercentage} disabled  onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="provisional" value={wrapObj3.P_L_A_capital__c} name="P_L_A_capital__c" required onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number" formatter="percent" value={plaPercentage1} disabled  onchange={handleInputChange}></lightning-input>
+                                </td>
+                            </template>
+                        </tr> 
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">Revaluation Reserves / National Reserves</th>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="prev" value={wrapObj1.Revaluation_Reserves_Notional_Reserves__c} name="Revaluation_Reserves_Notional_Reserves__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="current" value={wrapObj2.Revaluation_Reserves_Notional_Reserves__c} name="Revaluation_Reserves_Notional_Reserves__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" formatter="percent" value={revolutionPercentage} disabled  onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="provisional" value={wrapObj3.Revaluation_Reserves_Notional_Reserves__c} name="Revaluation_Reserves_Notional_Reserves__c" required onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number" formatter="percent" value={revolutionPercentage1} disabled  onchange={handleInputChange}></lightning-input>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">Net worth</th>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" disabled formatter="currency" value={recordNetWorthValue1} name="Net_worth__c" onchange={handleInputChange}></lightning-input> 
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" disabled formatter="currency" value={recordNetWorthValue2} name="Net_worth__c" onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" formatter="percent" value={networthPercentage} disabled  onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input variant="label-hidden"  type="number" disabled formatter="currency"  value={recordNetWorthValue3} name="Net_worth__c" onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number" formatter="percent" value={networthPercentage1} disabled  style="width:117%;" onchange={handleInputChange}></lightning-input>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">Advances to group co./friends</th>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="prev" value={wrapObj1.Adavces_to_group_co_friends__c} name="Adavces_to_group_co_friends__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="current" value={wrapObj2.Adavces_to_group_co_friends__c} name="Adavces_to_group_co_friends__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" formatter="percent" value={advancePercentage} disabled  onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="provisional" value={wrapObj3.Adavces_to_group_co_friends__c} name="Adavces_to_group_co_friends__c" required onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number" formatter="percent" value={advancePercentage1} disabled  onchange={handleInputChange}></lightning-input>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">Unsecured Loan from promoters &amp; family members</th>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"    data-fnyear="prev" value={wrapObj1.unsecured_Loan_from_promoters_family_m__c} name="unsecured_Loan_from_promoters_family_m__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="current" value={wrapObj2.unsecured_Loan_from_promoters_family_m__c} name="unsecured_Loan_from_promoters_family_m__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" formatter="percent" value={loanpromotorsPercentage} disabled  onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="provisional" value={wrapObj3.unsecured_Loan_from_promoters_family_m__c} name="unsecured_Loan_from_promoters_family_m__c" required onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number" formatter="percent" value={loanpromotorsPercentage1} disabled  onchange={handleInputChange}></lightning-input>
+                                </td>
+                            </template>
+                            
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">Misc. Exp. Not written off</th>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="prev" value={wrapObj1.Misc_Exp_Not_written_off__c} name="Misc_Exp_Not_written_off__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="current" value={wrapObj2.Misc_Exp_Not_written_off__c} name="Misc_Exp_Not_written_off__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" formatter="percent" value={miscExppercentage} disabled  onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="provisional" value={wrapObj3.Misc_Exp_Not_written_off__c} name="Misc_Exp_Not_written_off__c" required onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number" formatter="percent" value={miscExppercentage1} disabled  onchange={handleInputChange}></lightning-input>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">Adjusted tangible Net worth</th>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" step=".01" formatter="currency" disabled value={adjustedNetworthValue1} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" step=".01" formatter="currency" disabled value={adjustedNetworthValue2} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <!-- <lightning-input type="number" formatter="percent" value={adjustedPercentage} disabled  onchange={handleInputChange}></lightning-input> -->
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                <lightning-input variant="label-hidden" type="number" step=".01" formatter="currency" disabled value={adjustedNetworthValue3} onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <!-- <lightning-input type="number" formatter="percent" value={adjustedPercentage1} disabled  onchange={handleInputChange}></lightning-input> -->
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">Bank Borrowing - Working Capital(OD/CC)</th>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="prev" value={wrapObj1.Bank_Borrowing_Working_Capital_OD_CC__c} name="Bank_Borrowing_Working_Capital_OD_CC__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"    data-fnyear="current" value={wrapObj2.Bank_Borrowing_Working_Capital_OD_CC__c} name="Bank_Borrowing_Working_Capital_OD_CC__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={borrowPercentage}  onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="provisional" value={wrapObj3.Bank_Borrowing_Working_Capital_OD_CC__c} name="Bank_Borrowing_Working_Capital_OD_CC__c" required onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={borrowPercentage1}  onchange={handleInputChange}></lightning-input>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">Secured debts - Banks &amp; Ndfc</th>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="prev" value={wrapObj1.Secured_debts_Banks_Ndfc__c} name="Secured_debts_Banks_Ndfc__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"    data-fnyear="current" value={wrapObj2.Secured_debts_Banks_Ndfc__c} name="Secured_debts_Banks_Ndfc__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={unsecuredPercentage} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="provisional" value={wrapObj3.Secured_debts_Banks_Ndfc__c} name="Secured_debts_Banks_Ndfc__c" required onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={unsecuredPercentage1} onchange={handleInputChange}></lightning-input>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">Unsecured debts - Banks & Ndfc</th>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="prev" value={wrapObj1.Unsecured_debts_Banks_Ndfc__c}  name="Unsecured_debts_Banks_Ndfc__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"    data-fnyear="current" value={wrapObj2.Unsecured_debts_Banks_Ndfc__c} name="Unsecured_debts_Banks_Ndfc__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={otherExppercentage} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="provisional" value={wrapObj3.Unsecured_debts_Banks_Ndfc__c} name="Unsecured_debts_Banks_Ndfc__c" required onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={otherExppercentage1} onchange={handleInputChange}></lightning-input>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">Other Loans (From private parties)</th>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="prev" value={wrapObj1.Other_Loans_From_private_parties__c}  name="Other_Loans_From_private_parties__c" required  onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="current" value={wrapObj2.Other_Loans_From_private_parties__c}  name="Other_Loans_From_private_parties__c" required  onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={totalExppercentage} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="provisional" value={wrapObj3.Other_Loans_From_private_parties__c} name="Other_Loans_From_private_parties__c" required onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={totalExppercentage1} onchange={handleInputChange}></lightning-input>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">Total Loan funds</th>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" disabled formatter="currency"  value={otherWorthValue1} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number"  disabled formatter="currency" value={otherWorthValue2} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={totalPercentage} onchange={handleInputChange} ></lightning-input>
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number"  disabled  value={otherWorthValue3} onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={totalPercentage1} style="width:117%;" onchange={handleInputChange}></lightning-input>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">Sundry creditors</th>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="prev" value={wrapObj1.Sundry_creditors__c} name="Sundry_creditors__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="current" value={wrapObj2.Sundry_creditors__c} name="Sundry_creditors__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={creditorsPercentage} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="provisional" value={wrapObj3.Sundry_creditors__c} name="Sundry_creditors__c" required onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={creditorsPercentage1} onchange={handleInputChange}></lightning-input>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">Advances from customers</th>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="prev" value={wrapObj1.Advances_from_customers__c}  name="Advances_from_customers__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="current" value={wrapObj2.Advances_from_customers__c}  name="Advances_from_customers__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={advPercentage} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="provisional" value={wrapObj3.Advances_from_customers__c} name="Advances_from_customers__c" required onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={advPercentage1} onchange={handleInputChange}></lightning-input>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">Other current liabilities</th>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="prev" value={wrapObj1.Other_current_liabilities__c} name="Other_current_liabilities__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="current" value={wrapObj2.Other_current_liabilities__c} name="Other_current_liabilities__c"  required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={otherLiapercentage} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="provisional" value={wrapObj3.Other_current_liabilities__c} name="Other_current_liabilities__c" required onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={otherLiapercentage1} onchange={handleInputChange}></lightning-input>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">Provisions (for exps, tax, etc.)</th>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="prev" value={wrapObj1.Provisions_for_exps_tax_etc__c}  name="Provisions_for_exps_tax_etc__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="current" value={wrapObj2.Provisions_for_exps_tax_etc__c}  name="Provisions_for_exps_tax_etc__c"  required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={provExppercentage} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="provisional" value={wrapObj3.Provisions_for_exps_tax_etc__c} name="Provisions_for_exps_tax_etc__c" required onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={provExppercentage1} onchange={handleInputChange}></lightning-input>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">Deferred Tax Liability/(Assets)</th>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="prev" value={wrapObj1.Deffered_Tax_Liability_Assets__c} name="Deffered_Tax_Liability_Assets__c"  required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="current" value={wrapObj2.Deffered_Tax_Liability_Assets__c} name="Deffered_Tax_Liability_Assets__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={DifftaxExppercentage} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="provisional" value={wrapObj3.Deffered_Tax_Liability_Assets__c} name="Deffered_Tax_Liability_Assets__c" required onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={DifftaxExppercentage1} onchange={handleInputChange}></lightning-input>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">Total</th>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" disabled formatter="currency"  value={totWorthValue1} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" disabled formatter="currency"  value={totWorthValue2} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={totWorthPercentage} onchange={handleInputChange} ></lightning-input>
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number" disabled formatter="currency" value={totWorthValue3} onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={totWorthPercentage1} style="width:117%;" onchange={handleInputChange}></lightning-input>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th style="font-size:20px;text-align:center;font-weight: 600;">Assets</th>
+                            
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">Net Tangible Fixed Assets (Including Capital WIP)</th>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="prev" value={wrapObj1.Net_Tangible_Fixed_Assets_Including_Cap__c} name="Net_Tangible_Fixed_Assets_Including_Cap__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="current" value={wrapObj2.Net_Tangible_Fixed_Assets_Including_Cap__c} name="Net_Tangible_Fixed_Assets_Including_Cap__c" required  onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={nettangPercentage} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="provisional" value={wrapObj3.Net_Tangible_Fixed_Assets_Including_Cap__c} name="Net_Tangible_Fixed_Assets_Including_Cap__c" required onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={nettangPercentage1} onchange={handleInputChange}></lightning-input>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">Net Intangible Fixed Assets</th>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="prev" value={wrapObj1.Net_Intangible_Fixed_Assets__c}  name="Net_Intangible_Fixed_Assets__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="current" value={wrapObj2.Net_Intangible_Fixed_Assets__c}  name="Net_Intangible_Fixed_Assets__c" required  onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={fixedLiapercentage} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="provisional" value={wrapObj3.Net_Intangible_Fixed_Assets__c} name="Net_Intangible_Fixed_Assets__c" required onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={fixedLiapercentage1} onchange={handleInputChange}></lightning-input>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">Stock</th>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="prev" value={wrapObj1.Stock__c} name="Stock__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="current" value={wrapObj2.Stock__c} name="Stock__c"  required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={stockppercentage} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="provisional" value={wrapObj3.Stock__c} name="Stock__c" required onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={stockppercentage1} onchange={handleInputChange}></lightning-input>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">Debtors</th>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled type="number" formatter="currency" data-fnyear="prev" value={wrapObj1.Debtors__c} name="Debtors__c"></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled type="number" formatter="currency" data-fnyear="current" value={wrapObj2.Debtors__c} name="Debtors__c"></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={debtorsExppercentage}></lightning-input>
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input variant="label-hidden" disabled type="number" formatter="currency" data-fnyear="provisional" value={wrapObj3.Debtors__c} name="Debtors__c"></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={debtorsExppercentage1}></lightning-input>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">&lt; 6 months</th>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="prev" value={wrapObj1.LessSix_months__c} name="LessSix_months__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="current" value={wrapObj2.LessSix_months__c} name="LessSix_months__c" required  onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={sixmonthPercentage} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="provisional" value={wrapObj3.LessSix_months__c} name="LessSix_months__c" required onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={sixmonthPercentage1} onchange={handleInputChange}></lightning-input>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">&gt; 6 months</th>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="prev" value={wrapObj1.Greaterthan6__c} name="Greaterthan6__c" required  onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="current" value={wrapObj2.Greaterthan6__c} name="Greaterthan6__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={Greaterthan6months} onchange={handleInputChange}></lightning-input> 
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="provisional" value={wrapObj3.Greaterthan6__c} name="Greaterthan6__c" required onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={Greaterthan6months1} onchange={handleInputChange}></lightning-input> 
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">Advances to Suppliers</th>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="prev" value={wrapObj1.Advances_to_Suppliers__c} name="Advances_to_Suppliers__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="current" value={wrapObj2.Advances_to_Suppliers__c} name="Advances_to_Suppliers__c" required  onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={advsupPercentage} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="provisional" value={wrapObj3.Advances_to_Suppliers__c} name="Advances_to_Suppliers__c" required onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={advsupPercentage1} onchange={handleInputChange}></lightning-input>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">Investments</th>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="prev" value={wrapObj1.Investments__c} name="Investments__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="current" value={wrapObj2.Investments__c} name="Investments__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={invpercentage} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="provisional" value={wrapObj3.Investments__c} name="Investments__c" required onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={invpercentage1} onchange={handleInputChange}></lightning-input>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">Other loans &amp; advances</th>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="prev" value={wrapObj1.Other_loans_advances__c}  name="Other_loans_advances__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="current" value={wrapObj2.Other_loans_advances__c}  name="Other_loans_advances__c" required  onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={oLoanspercentage} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="provisional" value={wrapObj3.Other_loans_advances__c} name="Other_loans_advances__c" required onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={oLoanspercentage1} onchange={handleInputChange}></lightning-input>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">Prepaid expenses</th>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="prev" value={wrapObj1.Prepaid_expenses__c} name="Prepaid_expenses__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="current" value={wrapObj2.Prepaid_expenses__c} name="Prepaid_expenses__c"  required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={prepaidpercentage} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="provisional" value={wrapObj3.Prepaid_expenses__c} name="Prepaid_expenses__c" required onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={prepaidpercentage1} onchange={handleInputChange}></lightning-input>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">Other current assets</th>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="prev" value={wrapObj1.Other_current_assets__c} name="Other_current_assets__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="current" value={wrapObj2.Other_current_assets__c} name="Other_current_assets__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={othercurrentassetspercentage} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="provisional" value={wrapObj3.Other_current_assets__c} name="Other_current_assets__c" required onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={othercurrentassetspercentage1} onchange={handleInputChange}></lightning-input>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">Other Non Current assets (Security Deposits)</th>
+                            <td>
+                                <lightning-input  variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="prev" value={wrapObj1.Other_Non_Current_assets_Security_Depos__c} name="Other_Non_Current_assets_Security_Depos__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="current" value={wrapObj2.Other_Non_Current_assets_Security_Depos__c} name="Other_Non_Current_assets_Security_Depos__c" required  onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={currentExppercentage} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="provisional" value={wrapObj3.Other_Non_Current_assets_Security_Depos__c} name="Other_Non_Current_assets_Security_Depos__c" required onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={currentExppercentage1} onchange={handleInputChange}></lightning-input>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">Cash & Bank Balances</th>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="prev" value={wrapObj1.Cash_Bank_Balances__c} name="Cash_Bank_Balances__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="current" value={wrapObj2.Cash_Bank_Balances__c} name="Cash_Bank_Balances__c" required onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={balancespercentage} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input variant="label-hidden" disabled={disableMode} type="number" step=".01" formatter="currency" message-when-bad-input="Enter a valid input"  message-when-range-underflow="Enter a valid input"   data-fnyear="provisional" value={wrapObj3.Cash_Bank_Balances__c} name="Cash_Bank_Balances__c" required onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input variant="label-hidden" type="number" disabled formatter="percent" value={balancespercentage1} onchange={handleInputChange}></lightning-input>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">Total</th>
+                            <td>
+                                <lightning-input type="number" disabled formatter="currency" value={allTotalValue1} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input type="number" disabled formatter="currency" value={allTotalValue2} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input type="number" disabled  formatter="percent" value={allWorthPercentage} onchange={handleInputChange} ></lightning-input>
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input type="number" disabled formatter="currency" value={allTotalValue3} onchange={handleInputChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input type="number" disabled  formatter="percent" value={allWorthPercentage1} style="width:117%;" onchange={handleInputChange}></lightning-input>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="slds-text-title_bold  slds-cell-fixed">Difference</th>
+                            <td>
+                                <lightning-input type="number" disabled formatter="currency" style="font-weight:bold; color:red;" value={diff1} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input type="number" disabled formatter="currency" style="font-weight:bold;" value={diff2} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <!-- <lightning-input type="number" disabled  formatter="percent" value={provExppercentage} onchange={handleInputChange}></lightning-input> -->
+                            </td>
+                            <template if:true={provisionalFinancialYearSelectionValue}>
+                                <td>
+                                    <lightning-input type="number" disabled formatter="currency" style="font-weight:bold; color:red;" value={diff3} onchange={handleInputChange}></lightning-input>                                
+                                </td>
+                                <td>
+                                    <!-- <lightning-input type="number" disabled  formatter="percent" value={provExppercentage1} onchange={handleInputChange}></lightning-input> -->
+                                </td>
+                            </template>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        <br><lightning-layout multiple-rows="false">
+            <lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="8" large-device-size="4">
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card><br><br>
+</template>

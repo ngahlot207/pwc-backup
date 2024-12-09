@@ -1,0 +1,1594 @@
+<template>
+	<div if:true={showSpinnerChild}>
+		<lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+		</lightning-spinner>
+	</div>
+
+	<template lwc:if={desktopBoolean}>
+		<lightning-card title={title}>
+
+			<div id="containerDiv" onmousemove={handlemousemove} onmouseup={handlemouseup}
+				ondblclick={handledblclickresizable}
+				class="slds-table_header-fixed_container slds-border_right slds-border_left tableScroll"
+				onscroll={tableOuterDivScrolled}>
+				<div id="tableViewInnerDiv" class="slds-scrollable_y tableViewInnerDiv slds-scrollable">
+					<template lwc:if={ispankycstep}>
+						<table
+							class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout slds-max-medium-table_stacked-horizontal"
+							onscroll={tableScrolled}>
+							<thead>
+								<tr>
+									<th title="Document Type"
+										class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+										<div class="slds-cell-fixed fixedWidth">
+											<a class="slds-th__action slds-text-link--reset">
+												<span class="slds-truncate">Document Type</span>
+											</a>
+											<div class="slds-resizable">
+												<span class="slds-resizable__handle" onmousedown={handlemousedown}>
+													<span class="slds-resizable__divider"></span>
+												</span>
+											</div>
+										</div>
+									</th>
+									<th title="Document Name" class="slds-is-resizable dv-dynamic-width fixedWidth"
+										scope="col">
+										<div class="slds-cell-fixed fixedWidth">
+											<a class="slds-th__action slds-text-link--reset">
+												<span class="slds-truncate">Document Name</span>
+											</a>
+											<div class="slds-resizable">
+												<span class="slds-resizable__handle" onmousedown={handlemousedown}>
+													<span class="slds-resizable__divider"></span>
+												</span>
+											</div>
+										</div>
+									</th>
+									<template if:true={showDocData}>
+										<th title="Document Number"
+											class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+											<div class="slds-cell-fixed fixedWidth">
+												<a class="slds-th__action slds-text-link--reset" href="#" role="button"
+													tabindex="0">
+													<span class="slds-truncate">Document Number</span>
+												</a>
+												<div class="slds-resizable">
+													<span class="slds-resizable__handle" onmousedown={handlemousedown}>
+														<span class="slds-resizable__divider"></span>
+													</span>
+												</div>
+											</div>
+										</th>
+										<th title="Name On Document"
+											class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+											<div class="slds-cell-fixed fixedWidth">
+												<a class="slds-th__action slds-text-link--reset" href="#" role="button"
+													tabindex="0">
+													<span class="slds-truncate">Name On Document</span>
+												</a>
+												<div class="slds-resizable">
+													<span class="slds-resizable__handle" onmousedown={handlemousedown}>
+														<span class="slds-resizable__divider"></span>
+													</span>
+												</div>
+											</div>
+										</th>
+										<th title="Date Of Birth On Document"
+											class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+											<div class="slds-cell-fixed fixedWidth">
+												<a class="slds-th__action slds-text-link--reset" href="#" role="button"
+													tabindex="0">
+													<span class="slds-truncate">Date Of Birth On Document</span>
+												</a>
+												<div class="slds-resizable">
+													<span class="slds-resizable__handle" onmousedown={handlemousedown}>
+														<span class="slds-resizable__divider"></span>
+													</span>
+												</div>
+											</div>
+										</th>
+										<th title="Actions" class="slds-is-resizable dv-dynamic-width fixedWidth"
+											scope="col">
+											<div class="slds-cell-fixed fixedWidth">
+												<a class="slds-th__action slds-text-link--reset" href="#" role="button"
+													tabindex="0">
+													<span class="slds-truncate">Actions</span>
+												</a>
+												<div class="slds-resizable">
+													<span class="slds-resizable__handle" onmousedown={handlemousedown}>
+														<span class="slds-resizable__divider"></span>
+													</span>
+												</div>
+											</div>
+										</th>
+									</template>
+									<template if:false={captureAllDocuments}>
+										<th title="Validation Status"
+											class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+											<div class="slds-cell-fixed fixedWidth">
+												<a class="slds-th__action slds-text-link--reset" href="#" role="button"
+													tabindex="0">
+													<span class="slds-truncate">Validation Status</span>
+												</a>
+												<div class="slds-resizable">
+													<span class="slds-resizable__handle" onmousedown={handlemousedown}>
+														<span class="slds-resizable__divider"></span>
+													</span>
+												</div>
+											</div>
+										</th>
+										<th title="OCR Status" class="slds-is-resizable dv-dynamic-width fixedWidth"
+											scope="col">
+											<div class="slds-cell-fixed fixedWidth">
+												<a class="slds-th__action slds-text-link--reset" href="#" role="button"
+													tabindex="0">
+													<span class="slds-truncate">OCR Status</span>
+												</a>
+												<div class="slds-resizable">
+													<span class="slds-resizable__handle" onmousedown={handlemousedown}>
+														<span class="slds-resizable__divider"></span>
+													</span>
+												</div>
+											</div>
+										</th>
+										<th title="OSV" class="slds-is-resizable dv-dynamic-width fixedWidth"
+											scope="col">
+											<div class="slds-cell-fixed fixedWidth">
+												<a class="slds-th__action slds-text-link--reset" href="#" role="button"
+													tabindex="0">
+													<lightning-input type="checkbox" id="selectAllPan"
+														checked={checkAllValue} onchange={handleSelectAll}
+														disabled={isReadOnly}></lightning-input>
+													<span class="slds-truncate">OSV</span>
+												</a>
+												<div class="slds-resizable">
+													<span class="slds-resizable__handle" onmousedown={handlemousedown}>
+														<span class="slds-resizable__divider"></span>
+													</span>
+												</div>
+											</div>
+										</th>
+
+									</template>
+									<template if:true={showUtilityBillDate}>
+										<th title="Utility Bill Date"
+											class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+											<div class="slds-cell-fixed fixedWidth">
+												<a class="slds-th__action slds-text-link--reset" href="#" role="button"
+													tabindex="0">
+													<span class="slds-truncate">Utility Bill Date</span>
+												</a>
+												<div class="slds-resizable">
+													<span class="slds-resizable__handle" onmousedown={handlemousedown}>
+														<span class="slds-resizable__divider"></span>
+													</span>
+												</div>
+											</div>
+										</th>
+									</template>
+									<th title="File Type" class="slds-is-resizable dv-dynamic-width fixedWidth"
+										scope="col">
+										<div class="slds-cell-fixed fixedWidth">
+											<a class="slds-th__action slds-text-link--reset" href="#" role="button"
+												tabindex="0">
+												<span class="slds-truncate">File Type</span>
+											</a>
+											<div class="slds-resizable">
+												<span class="slds-resizable__handle" onmousedown={handlemousedown}>
+													<span class="slds-resizable__divider"></span>
+												</span>
+											</div>
+										</div>
+									</th>
+									<th title="Date/Time" class="slds-is-resizable dv-dynamic-width fixedWidth"
+										scope="col">
+										<div class="slds-cell-fixed fixedWidth">
+											<a class="slds-th__action slds-text-link--reset" href="#" role="button"
+												tabindex="0">
+												<span class="slds-truncate">Date/Time</span>
+											</a>
+											<div class="slds-resizable">
+												<span class="slds-resizable__handle" onmousedown={handlemousedown}>
+													<span class="slds-resizable__divider"></span>
+												</span>
+											</div>
+										</div>
+									</th>
+
+
+									<template if:false={hideAvailiableInFile}>
+										<template if:true={captureAllDocuments}>
+											<th title="Available In File"
+												class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+												<div class="slds-cell-fixed fixedWidth">
+													<a class="slds-th__action slds-text-link--reset" href="#"
+														role="button" tabindex="0">
+														<span class="slds-truncate">Available In File</span>
+													</a>
+													<div class="slds-resizable">
+														<span class="slds-resizable__handle"
+															onmousedown={handlemousedown}>
+															<span class="slds-resizable__divider"></span>
+														</span>
+													</div>
+												</div>
+											</th>
+										</template>
+									</template>
+									<template if:true={hideMarkForError}>
+										<template if:true={captureAllDocuments}>
+											<template if:true={isCpa}>
+												<th title="Mark for Error"
+													class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+													<div class="slds-cell-fixed fixedWidth">
+														<a class="slds-th__action slds-text-link--reset" href="#"
+															role="button" tabindex="0">
+															<span class="slds-truncate">Mark for
+																Error</span>
+														</a>
+														<div class="slds-resizable">
+															<span class="slds-resizable__handle"
+																onmousedown={handlemousedown}>
+																<span class="slds-resizable__divider"></span>
+															</span>
+														</div>
+													</div>
+												</th>
+												<th title="Remarks"
+													class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+													<div class="slds-cell-fixed fixedWidth">
+														<a class="slds-th__action slds-text-link--reset" href="#"
+															role="button" tabindex="0">
+															<span class="slds-truncate">Remarks</span>
+														</a>
+														<div class="slds-resizable">
+															<span class="slds-resizable__handle"
+																onmousedown={handlemousedown}>
+																<span class="slds-resizable__divider"></span>
+															</span>
+														</div>
+													</div>
+												</th>
+											</template>
+											<template if:false={isCpa}>
+												<template if:true={disableRemaPrelogin}>
+													<th title="Remarks"
+														class="slds-is-resizable dv-dynamic-width fixedWidth"
+														scope="col">
+														<div class="slds-cell-fixed fixedWidth">
+															<a class="slds-th__action slds-text-link--reset" href="#"
+																role="button" tabindex="0">
+																<span class="slds-truncate">Remarks</span>
+															</a>
+															<div class="slds-resizable">
+																<span class="slds-resizable__handle"
+																	onmousedown={handlemousedown}>
+																	<span class="slds-resizable__divider"></span>
+																</span>
+															</div>
+														</div>
+													</th>
+												</template>
+											</template>
+										</template>
+										<template if:true={captureAllDocuments}>
+											<th title="RM Remarks" class="slds-is-resizable dv-dynamic-width fixedWidth"
+												scope="col">
+												<div class="slds-cell-fixed fixedWidth">
+													<a class="slds-th__action slds-text-link--reset" href="#"
+														role="button" tabindex="0">
+														<span class="slds-truncate">RM Remarks</span>
+													</a>
+													<div class="slds-resizable">
+														<span class="slds-resizable__handle"
+															onmousedown={handlemousedown}>
+															<span class="slds-resizable__divider"></span>
+														</span>
+													</div>
+												</div>
+											</th>
+										</template>
+									</template>
+									<!--LAK-3223 -->
+								</tr>
+							</thead>
+							<tbody>
+								<template for:each={lstAllFiles} for:item="fileIterator">
+									<tr key={fileIterator.cDId} aria-selected="false" class="slds-hint-parent">
+										<th class="slds-cell_action-mode" scope="row">
+											<div class="slds-truncate" title={fileIterator.docDetType}>
+
+												{fileIterator.docDetType}
+											</div>
+										</th>
+										<td class="slds-cell_action-mode" role="gridcell">
+											<div class="slds-truncate" title={fileIterator.docDetName}>
+												{fileIterator.docDetName}
+											</div>
+										</td>
+										<template if:true={showDocData}>
+											<td class="slds-cell_action-mode" role="gridcell">
+												<div class="slds-truncate" title={fileIterator.idNumberOnDoc}>
+													{fileIterator.idNumberOnDoc}
+												</div>
+											</td>
+											<td class="slds-cell_action-mode" role="gridcell">
+												<div class="slds-truncate" title={fileIterator.nameOnDoc}>
+													{fileIterator.nameOnDoc}
+												</div>
+											</td>
+											<td class="slds-cell_action-mode" role="gridcell">
+												<div class="slds-truncate" title={fileIterator.dobOnDoc}>
+													{fileIterator.dobOnDoc}
+												</div>
+											</td>
+										</template>
+										<td>
+											<div>
+												<template if:false={fileIterator.cdlId}>
+													<lightning-icon class="custom-button slds-p-right_xx-small"
+														disabled={modeDis} data-documentid={fileIterator.docId}
+														icon-name="utility:preview" alternative-text="preview"
+														size="small" title="preview"></lightning-icon>
+												</template>
+												<template if:true={fileIterator.cdlId}>
+													<lightning-icon class="custom-button slds-p-right_xx-small"
+														onclick={handleDocumentView} data-cv-id={fileIterator.cvId}
+														data-type={fileIterator.cDFileType} data-id={fileIterator.cDId}
+														data-documentid={fileIterator.docId} icon-name="utility:preview"
+														alternative-text="preview" variant="success" size="small"
+														title="preview"></lightning-icon>
+												</template>
+												<template if:false={isReadOnly}>
+
+													<template if:false={disableDeleteBu}>
+														<lightning-icon class="custom-button slds-p-right_xx-small"
+															data-file-iterator={fileIterator}
+															onclick={handleDocumentDelete} name={fileIterator.docId}
+															data-documentid={fileIterator.docId}
+															data-id={fileIterator.cDId} data-cdlid={fileIterator.cdlId}
+															icon-name="utility:delete" alternative-text="delete"
+															variant="error" size="small" title="delete"
+															disabled={disableDeleteBu}>
+														</lightning-icon>
+
+													</template>
+												</template>
+												<template if:false={isReadOnly}>
+													<template if:false={hideUploadButton}>
+														<template if:false={fileIterator.cdlId}>
+															<lightning-icon class="custom-button slds-p-right_xx-small"
+																icon-name="utility:upload"
+																data-documentid={fileIterator.docId}
+																alternative-text="upload" variant="success" size="small"
+																disabled={disabled} title="upload"
+																onclick={handleFileUpload}></lightning-icon>
+														</template>
+													</template>
+												</template>
+
+												<template if:false={isReadOnly}>
+													<template if:false={captureAllDocuments}>
+														<c-validation-status-display
+															validation-status={fileIterator.validationStatus}
+															ocr-status={fileIterator.ocrStatus}
+															file-iterator={fileIterator} show-rerun-icon="true"
+															onclick={handleForwardClicked}>
+														</c-validation-status-display>
+													</template>
+												</template>
+											</div>
+										</td>
+										<template if:false={captureAllDocuments}>
+											<td class="slds-cell_action-mode" role="gridcell">
+												<div class="slds-truncate slds-text-align_center" title="yes">
+													<div class="slds-truncate slds-text-align_center" title="OSV">
+														<c-validation-status-display
+															validation-status={fileIterator.validationStatus}
+															file-iterator={fileIterator}></c-validation-status-display>
+													</div>
+												</div>
+											</td>
+
+											<td class="slds-cell_action-mode" role="gridcell">
+												<div class="slds-truncate slds-text-align_center" title="OSV">
+													<c-validation-status-display
+														validation-status={fileIterator.ocrStatus}
+														file-iterator={fileIterator}></c-validation-status-display>
+												</div>
+											</td>
+											<td class="slds-cell_action-mode" role="gridcell">
+												<div class="slds-truncate slds-text-align_left" title="OSV">
+													<lightning-input variant="label-hidden"
+														data-documentid={fileIterator.docId} type="checkbox"
+														checked={fileIterator.osv} data-id="checkbox"
+														onclick={handleOsvClick}
+														disabled={isReadOnly}></lightning-input>
+												</div>
+											</td>
+										</template>
+
+										<template if:true={showUtilityBillDate}>
+											<td class="slds-cell_action-mode" role="gridcell">
+												<div class="slds-truncate" title={fileIterator.cDUtilBillDate}>
+													{fileIterator.cDUtilBillDate}
+												</div>
+											</td>
+										</template>
+										<td class="slds-cell_action-mode" role="gridcell">
+											<div class="slds-truncate" title={fileIterator.cDFileType}>
+												{fileIterator.cDFileType}
+											</div>
+										</td>
+										<td class="slds-cell_action-mode" role="gridcell">
+											<div class="slds-truncate" title={fileIterator.cDcrtdDate}>
+												{fileIterator.cDcrtdDate}
+											</div>
+										</td>
+
+
+
+									</tr>
+								</template>
+							</tbody>
+						</table>
+					</template>
+					<template lwc:else>
+						<table
+							class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout slds-max-medium-table_stacked-horizontal"
+							onscroll={tableScrolled}>
+							<thead>
+								<tr>
+									<th title="Document Type"
+										class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+										<div class="slds-cell-fixed fixedWidth">
+											<a class="slds-th__action slds-text-link--reset">
+												<span class="slds-truncate">Document Type</span>
+											</a>
+											<div class="slds-resizable">
+												<span class="slds-resizable__handle" onmousedown={handlemousedown}>
+													<span class="slds-resizable__divider"></span>
+												</span>
+											</div>
+										</div>
+									</th>
+									<th title="Document Name" class="slds-is-resizable dv-dynamic-width fixedWidth"
+										scope="col">
+										<div class="slds-cell-fixed fixedWidth">
+											<a class="slds-th__action slds-text-link--reset">
+												<span class="slds-truncate">Document Name</span>
+											</a>
+											<div class="slds-resizable">
+												<span class="slds-resizable__handle" onmousedown={handlemousedown}>
+													<span class="slds-resizable__divider"></span>
+												</span>
+											</div>
+										</div>
+									</th>
+									<th title="File Type" class="slds-is-resizable dv-dynamic-width fixedWidth"
+										scope="col">
+										<div class="slds-cell-fixed fixedWidth">
+											<a class="slds-th__action slds-text-link--reset" href="#" role="button"
+												tabindex="0">
+												<span class="slds-truncate">File Type</span>
+											</a>
+											<div class="slds-resizable">
+												<span class="slds-resizable__handle" onmousedown={handlemousedown}>
+													<span class="slds-resizable__divider"></span>
+												</span>
+											</div>
+										</div>
+									</th>
+									<th title="Date/Time" class="slds-is-resizable dv-dynamic-width fixedWidth"
+										scope="col">
+										<div class="slds-cell-fixed fixedWidth">
+											<a class="slds-th__action slds-text-link--reset" href="#" role="button"
+												tabindex="0">
+												<span class="slds-truncate">Date/Time</span>
+											</a>
+											<div class="slds-resizable">
+												<span class="slds-resizable__handle" onmousedown={handlemousedown}>
+													<span class="slds-resizable__divider"></span>
+												</span>
+											</div>
+										</div>
+									</th>
+									<template if:true={showUtilityBillDate}>
+										<th title="Utility Bill Date"
+											class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+											<div class="slds-cell-fixed fixedWidth">
+												<a class="slds-th__action slds-text-link--reset" href="#" role="button"
+													tabindex="0">
+													<span class="slds-truncate">Utility Bill Date</span>
+												</a>
+												<div class="slds-resizable">
+													<span class="slds-resizable__handle" onmousedown={handlemousedown}>
+														<span class="slds-resizable__divider"></span>
+													</span>
+												</div>
+											</div>
+										</th>
+									</template>
+									<template if:true={showEstablishmentDate}>
+										<th title="Shop and Establishment Expiry Date"
+											class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+											<div class="slds-cell-fixed fixedWidth">
+												<a class="slds-th__action slds-text-link--reset" href="#" role="button"
+													tabindex="0">
+													<span class="slds-truncate">Shop and Establishment Expiry
+														Date</span>
+												</a>
+												<div class="slds-resizable">
+													<span class="slds-resizable__handle" onmousedown={handlemousedown}>
+														<span class="slds-resizable__divider"></span>
+													</span>
+												</div>
+											</div>
+										</th>
+									</template>
+									<template if:true={showDocData}>
+										<th title="Document Number"
+											class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+											<div class="slds-cell-fixed fixedWidth">
+												<a class="slds-th__action slds-text-link--reset" href="#" role="button"
+													tabindex="0">
+													<span class="slds-truncate">Document Number</span>
+												</a>
+												<div class="slds-resizable">
+													<span class="slds-resizable__handle" onmousedown={handlemousedown}>
+														<span class="slds-resizable__divider"></span>
+													</span>
+												</div>
+											</div>
+										</th>
+										<th title="Name On Document"
+											class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+											<div class="slds-cell-fixed fixedWidth">
+												<a class="slds-th__action slds-text-link--reset" href="#" role="button"
+													tabindex="0">
+													<span class="slds-truncate">Name On Document</span>
+												</a>
+												<div class="slds-resizable">
+													<span class="slds-resizable__handle" onmousedown={handlemousedown}>
+														<span class="slds-resizable__divider"></span>
+													</span>
+												</div>
+											</div>
+										</th>
+										<th title="Date Of Birth On Document"
+											class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+											<div class="slds-cell-fixed fixedWidth">
+												<a class="slds-th__action slds-text-link--reset" href="#" role="button"
+													tabindex="0">
+													<span class="slds-truncate">Date Of Birth On Document</span>
+												</a>
+												<div class="slds-resizable">
+													<span class="slds-resizable__handle" onmousedown={handlemousedown}>
+														<span class="slds-resizable__divider"></span>
+													</span>
+												</div>
+											</div>
+										</th>
+									</template>
+
+									<template if:false={captureAllDocuments}>
+										<th title="Validation Status"
+											class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+											<div class="slds-cell-fixed fixedWidth">
+												<a class="slds-th__action slds-text-link--reset" href="#" role="button"
+													tabindex="0">
+													<span class="slds-truncate">Validation Status</span>
+												</a>
+												<div class="slds-resizable">
+													<span class="slds-resizable__handle" onmousedown={handlemousedown}>
+														<span class="slds-resizable__divider"></span>
+													</span>
+												</div>
+											</div>
+										</th>
+										<th title="OSV" class="slds-is-resizable dv-dynamic-width fixedWidth"
+											scope="col">
+											<div class="slds-cell-fixed fixedWidth">
+												<a class="slds-th__action slds-text-link--reset" href="#" role="button"
+													tabindex="0">
+													<lightning-input type="checkbox" id="selectAll"
+														checked={checkAllValue} onchange={handleSelectAll}
+														disabled={isReadOnly}></lightning-input>
+													<span class="slds-truncate">OSV</span>
+												</a>
+												<div class="slds-resizable">
+													<span class="slds-resizable__handle" onmousedown={handlemousedown}>
+														<span class="slds-resizable__divider"></span>
+													</span>
+												</div>
+											</div>
+										</th>
+										<th title="OCR Status" class="slds-is-resizable dv-dynamic-width fixedWidth"
+											scope="col">
+											<div class="slds-cell-fixed fixedWidth">
+												<a class="slds-th__action slds-text-link--reset" href="#" role="button"
+													tabindex="0">
+													<span class="slds-truncate">OCR Status</span>
+												</a>
+												<div class="slds-resizable">
+													<span class="slds-resizable__handle" onmousedown={handlemousedown}>
+														<span class="slds-resizable__divider"></span>
+													</span>
+												</div>
+											</div>
+										</th>
+									</template>
+									<template if:false={hideAvailiableInFile}>
+										<template if:true={captureAllDocuments}>
+											<th title="Available In File"
+												class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+												<div class="slds-cell-fixed fixedWidth">
+													<a class="slds-th__action slds-text-link--reset" href="#"
+														role="button" tabindex="0">
+														<span class="slds-truncate">Available In File</span>
+													</a>
+													<div class="slds-resizable">
+														<span class="slds-resizable__handle"
+															onmousedown={handlemousedown}>
+															<span class="slds-resizable__divider"></span>
+														</span>
+													</div>
+												</div>
+											</th>
+										</template>
+									</template>
+
+									<template if:true={hideMarkForError}>
+										<template if:true={captureAllDocuments}>
+											<template if:true={isCpa}>
+												<th title="Mark for Error"
+													class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+													<div class="slds-cell-fixed fixedWidth">
+														<a class="slds-th__action slds-text-link--reset" href="#"
+															role="button" tabindex="0">
+															<span class="slds-truncate">Mark for
+																Error</span>
+														</a>
+														<div class="slds-resizable">
+															<span class="slds-resizable__handle"
+																onmousedown={handlemousedown}>
+																<span class="slds-resizable__divider"></span>
+															</span>
+														</div>
+													</div>
+												</th>
+												<th title="Remarks"
+													class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+													<div class="slds-cell-fixed fixedWidth">
+														<a class="slds-th__action slds-text-link--reset" href="#"
+															role="button" tabindex="0">
+															<span class="slds-truncate">Remarks</span>
+														</a>
+														<div class="slds-resizable">
+															<span class="slds-resizable__handle"
+																onmousedown={handlemousedown}>
+																<span class="slds-resizable__divider"></span>
+															</span>
+														</div>
+													</div>
+												</th>
+											</template>
+											<template if:false={isCpa}>
+												<template if:true={disableRemaPrelogin}>
+													<th title="Remarks"
+														class="slds-is-resizable dv-dynamic-width fixedWidth"
+														scope="col">
+														<div class="slds-cell-fixed fixedWidth">
+															<a class="slds-th__action slds-text-link--reset" href="#"
+																role="button" tabindex="0">
+																<span class="slds-truncate">Remarks</span>
+															</a>
+															<div class="slds-resizable">
+																<span class="slds-resizable__handle"
+																	onmousedown={handlemousedown}>
+																	<span class="slds-resizable__divider"></span>
+																</span>
+															</div>
+														</div>
+													</th>
+												</template>
+											</template>
+										</template>
+										<template if:true={captureAllDocuments}>
+											<th title="RM Remarks" class="slds-is-resizable dv-dynamic-width fixedWidth"
+												scope="col">
+												<div class="slds-cell-fixed fixedWidth">
+													<a class="slds-th__action slds-text-link--reset" href="#"
+														role="button" tabindex="0">
+														<span class="slds-truncate">RM Remarks</span>
+													</a>
+													<div class="slds-resizable">
+														<span class="slds-resizable__handle"
+															onmousedown={handlemousedown}>
+															<span class="slds-resizable__divider"></span>
+														</span>
+													</div>
+												</div>
+											</th>
+										</template>
+									</template>
+
+									<!--LAK-3223 -->
+
+									<th title="Actions" class="slds-is-resizable dv-dynamic-width fixedWidth"
+										scope="col">
+										<div class="slds-cell-fixed fixedWidth">
+											<a class="slds-th__action slds-text-link--reset" href="#" role="button"
+												tabindex="0">
+												<span class="slds-truncate">Actions</span>
+											</a>
+											<div class="slds-resizable">
+												<span class="slds-resizable__handle" onmousedown={handlemousedown}>
+													<span class="slds-resizable__divider"></span>
+												</span>
+											</div>
+										</div>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<template for:each={lstAllFiles} for:item="fileIterator">
+									<tr key={fileIterator.cDId} aria-selected="false" class="slds-hint-parent">
+										<th class="slds-cell_action-mode" scope="row">
+											<div class="slds-truncate" title={fileIterator.docDetType}>
+
+												{fileIterator.docDetType}
+											</div>
+										</th>
+										<td class="slds-cell_action-mode" role="gridcell">
+
+											<div class="slds-truncate" title={fileIterator.docDetName}>
+												{fileIterator.docDetName}
+											</div>
+										</td>
+										<td class="slds-cell_action-mode" role="gridcell">
+											<div class="slds-truncate" title={fileIterator.cDFileType}>
+												{fileIterator.cDFileType}
+											</div>
+										</td>
+										<td class="slds-cell_action-mode" role="gridcell">
+											<div class="slds-truncate" title={fileIterator.cDcrtdDate}>
+												{fileIterator.cDcrtdDate}
+											</div>
+										</td>
+										<template if:true={showUtilityBillDate}>
+											<td class="slds-cell_action-mode" role="gridcell">
+												<div class="slds-truncate" title={fileIterator.cDUtilBillDate}>
+													{fileIterator.cDUtilBillDate}
+												</div>
+											</td>
+										</template>
+										<template if:true={showEstablishmentDate}>
+											<td class="slds-cell_action-mode" role="gridcell">
+												<div class="slds-truncate" title={fileIterator.cDEstablishmentDate}>
+													{fileIterator.cDEstablishmentDate}
+												</div>
+											</td>
+										</template>
+										<template if:true={showDocData}>
+											<td class="slds-cell_action-mode" role="gridcell">
+												<div class="slds-truncate" title={fileIterator.idNumberOnDoc}>
+													{fileIterator.idNumberOnDoc}
+												</div>
+											</td>
+											<td class="slds-cell_action-mode" role="gridcell">
+												<div class="slds-truncate" title={fileIterator.nameOnDoc}>
+													{fileIterator.nameOnDoc}
+												</div>
+											</td>
+											<td class="slds-cell_action-mode" role="gridcell">
+												<div class="slds-truncate" title={fileIterator.dobOnDoc}>
+													{fileIterator.dobOnDoc}
+												</div>
+											</td>
+
+										</template>
+										<template if:false={captureAllDocuments}>
+											<td class="slds-cell_action-mode" role="gridcell">
+												<div class="slds-truncate slds-text-align_center" title="yes">
+													<div class="slds-truncate slds-text-align_center" title="OSV">
+														<c-validation-status-display
+															validation-status={fileIterator.validationStatus}
+															file-iterator={fileIterator}></c-validation-status-display>
+													</div>
+												</div>
+											</td>
+											<td class="slds-cell_action-mode" role="gridcell">
+												<div class="slds-truncate slds-text-align_left" title="OSV">
+													<lightning-input variant="label-hidden"
+														data-documentid={fileIterator.docId} type="checkbox"
+														checked={fileIterator.osv} data-id="checkbox"
+														onclick={handleOsvClick}
+														disabled={isReadOnly}></lightning-input>
+												</div>
+											</td>
+											<td class="slds-cell_action-mode" role="gridcell">
+												<div class="slds-truncate slds-text-align_center" title="OSV">
+													<c-validation-status-display
+														validation-status={fileIterator.ocrStatus}
+														file-iterator={fileIterator}></c-validation-status-display>
+												</div>
+											</td>
+										</template>
+										<template if:false={hideAvailiableInFile}>
+											<template if:true={captureAllDocuments}>
+												<td class="slds-cell_action-mode" role="gridcell">
+													<div class="slds-truncate slds-text-align_center"
+														title="Available In File">
+														<template if:true={isCpa}>
+															<lightning-input variant="label-hidden" type="checkbox"
+																checked={fileIterator.availableInFile}
+																data-id="checkbox" disabled></lightning-input>
+														</template>
+														<template if:false={isCpa}>
+															<template if:true={fileIterator.avaiableInFileReq}>
+																<lightning-input variant="label-hidden" type="checkbox"
+																	checked={fileIterator.availableInFile}
+																	data-id="checkbox"
+																	data-documentid={fileIterator.docId}
+																	onclick={handleAvailableFile}
+																	disabled={isReadOnly}></lightning-input>
+															</template>
+															<template if:false={fileIterator.avaiableInFileReq}>
+																<lightning-input variant="label-hidden" type="checkbox"
+																	disabled checked={fileIterator.availableInFile}
+																	data-id="checkbox"></lightning-input>
+															</template>
+														</template>
+													</div>
+												</td>
+											</template>
+										</template>
+
+										<template if:true={hideMarkForError}>
+											<template if:true={captureAllDocuments}>
+												<template if:true={isCpa}>
+													<td class="slds-cell_action-mode" role="gridcell">
+														<div class="slds-truncate" title={fileIterator.markForError}>
+															<lightning-input variant="label-hidden" type="checkbox"
+																checked={fileIterator.markForError} data-id="checkbox"
+																data-documentid={fileIterator.docId}
+																disabled={disableRemarks} onclick={hanldeMarkForError}>
+															</lightning-input>
+														</div>
+													</td>
+													<td class="slds-cell_action-mode" role="gridcell">
+														<div class="slds-truncate" title={fileIterator.remarks}>
+															<template if:true={disableRemarks}>
+																<lightning-textarea variant="label-hidden"
+																	value={fileIterator.remarks} data-id="checkbox"
+																	data-documentid={fileIterator.docId} disabled
+																	onchange={handleRemarks}></lightning-textarea>
+															</template>
+															<template if:false={disableRemarks}>
+																<lightning-textarea variant="label-hidden"
+																	value={fileIterator.remarks} data-id="checkbox"
+																	data-documentid={fileIterator.docId}
+																	disabled={fileIterator.renderRemarks}
+																	onchange={handleRemarks}></lightning-textarea>
+															</template>
+														</div>
+													</td>
+												</template>
+												<template if:false={isCpa}>
+													<template if:true={disableRemaPrelogin}>
+														<td class="slds-cell_action-mode" role="gridcell">
+															<div class="slds-truncate" title={fileIterator.remarks}>
+																<lightning-textarea variant="label-hidden"
+																	value={fileIterator.remarks}
+																	disabled={disableRemaPrelogin}></lightning-textarea>
+															</div>
+														</td>
+													</template>
+												</template>
+
+												<!-- LAK-3223-->
+												<td class="slds-cell_action-mode" role="gridcell">
+													<div class="slds-truncate" title={fileIterator.rmRemarks}>
+														<lightning-textarea variant="label-hidden"
+															value={fileIterator.rmRemarks} data-id="rmRemarks"
+															disabled={isNotRm} data-documentid={fileIterator.docId}
+															onchange={handleRemarks}>
+														</lightning-textarea>
+													</div>
+												</td>
+											</template>
+										</template>
+
+										<td>
+											<div>
+												<template if:false={fileIterator.cdlId}>
+													<lightning-icon class="custom-button slds-p-right_xx-small"
+														disabled={modeDis} data-documentid={fileIterator.docId}
+														icon-name="utility:preview" alternative-text="preview"
+														size="small" title="preview"></lightning-icon>
+												</template>
+												<template if:true={fileIterator.cdlId}>
+													<lightning-icon class="custom-button slds-p-right_xx-small"
+														onclick={handleDocumentView} data-cv-id={fileIterator.cvId}
+														data-type={fileIterator.cDFileType} data-id={fileIterator.cDId}
+														data-documentid={fileIterator.docId} icon-name="utility:preview"
+														alternative-text="preview" variant="success" size="small"
+														title="preview"></lightning-icon>
+												</template>
+												<template if:false={isReadOnly}>
+
+													<template if:false={disableDeleteBu}>
+														<lightning-icon class="custom-button slds-p-right_xx-small"
+															data-file-iterator={fileIterator}
+															onclick={handleDocumentDelete} name={fileIterator.docId}
+															data-documentid={fileIterator.docId}
+															data-id={fileIterator.cDId} data-cdlid={fileIterator.cdlId}
+															icon-name="utility:delete" alternative-text="delete"
+															variant="error" size="small" title="delete"
+															disabled={disableDeleteBu}>
+														</lightning-icon>
+
+													</template>
+												</template>
+												<template if:false={isReadOnly}>
+													<template if:false={hideUploadButton}>
+														<template if:false={fileIterator.cdlId}>
+															<lightning-icon class="custom-button slds-p-right_xx-small"
+																icon-name="utility:upload"
+																data-documentid={fileIterator.docId}
+																alternative-text="upload" variant="success" size="small"
+																disabled={disabled} title="upload"
+																onclick={handleFileUpload}></lightning-icon>
+														</template>
+													</template>
+												</template>
+
+												<template if:false={isReadOnly}>
+													<template if:false={captureAllDocuments}>
+														<c-validation-status-display
+															validation-status={fileIterator.validationStatus}
+															ocr-status={fileIterator.ocrStatus}
+															file-iterator={fileIterator} show-rerun-icon="true"
+															onclick={handleForwardClicked}>
+														</c-validation-status-display>
+													</template>
+												</template>
+											</div>
+										</td>
+									</tr>
+								</template>
+							</tbody>
+						</table>
+					</template>
+				</div>
+			</div>
+		</lightning-card>
+	</template>
+
+	<template lwc:if={phoneBolean}>
+		<div class="slds-m-top_medium slds-m-bottom_x-large">
+			<h2 class="slds-text-heading_medium slds-m-bottom_medium">
+				{title}
+			</h2>
+			<template lwc:if={ispankycstep}>
+				<template if:false={captureAllDocuments}>
+					<lightning-input label="Select All OSV" type="toggle" id="selectAlPan" checked={checkAllValue}
+						onchange={handleSelectAll} disabled={isReadOnly}></lightning-input>
+				</template>
+
+				<template for:each={lstAllFiles} for:item="fileIterator">
+					<div key={fileIterator.docId} class=" lgc-bg">
+						<ul class="slds-has-dividers_bottom-space">
+							<li class="slds-item">
+								<lightning-tile>
+									<dl class="slds-dl_horizontal">
+										<dt class="slds-dl_horizontal__label">
+											<p class="slds-truncate" title="Document Type">
+												<b>Document Type : </b>{fileIterator.docDetType}
+											</p>
+										</dt>
+
+										<dt class="slds-dl_horizontal__label">
+											<p class="slds-truncate" title="Document Name">
+												<b>Document Name : </b>{fileIterator.docDetName}
+											</p>
+										</dt>
+										<template if:true={showDocData}>
+											<dt class="slds-dl_horizontal__label">
+												<p class="slds-truncate" title="Uploaded File name">
+													<b>Document Number :
+													</b>{fileIterator.idNumberOnDoc}
+												</p>
+											</dt>
+											<dt class="slds-dl_horizontal__label">
+												<p class="slds-truncate" title="Uploaded File name">
+													<b>Name On Document :
+													</b>{fileIterator.nameOnDoc}
+												</p>
+											</dt>
+											<dt class="slds-dl_horizontal__label">
+												<p class="slds-truncate" title="Uploaded File name">
+													<b>Date Of Birth On Document :
+													</b>{fileIterator.dobOnDoc}
+												</p>
+											</dt>
+										</template>
+
+
+										<template if:false={captureAllDocuments}>
+											<dt class="slds-dl_horizontal__label">
+												<p class="slds-truncate" title="Uploaded File name">
+													<b>Validation Status : </b>
+													<c-validation-status-display
+														validation-status={fileIterator.validationStatus}
+														file-iterator={fileIterator}></c-validation-status-display>
+												</p>
+											</dt>
+
+
+
+											<dt class="slds-dl_horizontal__label">
+												<p class="slds-truncate" title="Uploaded File name">
+													<b>OCR Status : </b>
+													<c-validation-status-display
+														validation-status={fileIterator.ocrStatus}
+														file-iterator={fileIterator}></c-validation-status-display>
+												</p>
+											</dt>
+											<dl style="display: flex; align-items: center;">
+												<dt style="margin-right: 10px;">
+													<b>OSV:</b>
+												</dt>
+												<dd>
+													<lightning-input variant="label-hidden"
+														data-documentid={fileIterator.docId} type="checkbox"
+														checked={fileIterator.osv} data-id="checkbox"
+														onclick={handleOsvClick} disabled={isReadOnly}>
+													</lightning-input>
+												</dd>
+											</dl>
+
+										</template>
+										<template if:false={hideAvailiableInFile}>
+											<template if:true={captureAllDocuments}>
+												<dt class="slds-dl_horizontal__label">
+													<p class="slds-truncate" title="Uploaded Date">
+														<b>Available In File :</b>
+													</p>
+												</dt>
+												<dd class="slds-dl_horizontal__detail slds-tile__meta">
+													<p class="slds-truncate">
+														<template if:true={isCpa}>
+															<lightning-input variant="label-hidden" type="checkbox"
+																checked={fileIterator.availableInFile}
+																data-id="checkbox" disabled></lightning-input>
+														</template>
+														<template if:false={isCpa}>
+															<template if:true={fileIterator.avaiableInFileReq}>
+																<lightning-input variant="label-hidden" type="checkbox"
+																	checked={fileIterator.availableInFile}
+																	data-id="checkbox"
+																	data-documentid={fileIterator.docId}
+																	onclick={handleAvailableFile}
+																	disabled={isReadOnly}></lightning-input>
+															</template>
+															<template if:false={fileIterator.avaiableInFileReq}>
+																<lightning-input variant="label-hidden" type="checkbox"
+																	disabled checked={fileIterator.availableInFile}
+																	data-id="checkbox"></lightning-input>
+															</template>
+														</template>
+													</p>
+												</dd>
+											</template>
+										</template>
+										<template if:true={hideMarkForError}>
+											<template if:true={captureAllDocuments}>
+												<template if:true={isCpa}>
+													<dt class="slds-dl_horizontal__label">
+														<p class="slds-truncate" title="Uploaded Date">
+															<b>Mark for Error :</b>
+														</p>
+													</dt>
+													<dd class="slds-dl_horizontal__detail slds-tile__meta">
+														<p class="slds-truncate">
+															<lightning-input variant="label-hidden" type="checkbox"
+																checked={fileIterator.markForError} data-id="checkbox"
+																data-documentid={fileIterator.docId}
+																disabled={disableRemarks} onclick={hanldeMarkForError}>
+															</lightning-input>
+														</p>
+													</dd>
+													<dt class="slds-dl_horizontal__label">
+														<p class="slds-truncate" title="Uploaded Date">
+															<b>Remarks :</b>
+														</p>
+													</dt>
+													<dd class="slds-dl_horizontal__detail slds-tile__meta">
+														<p class="slds-truncate">
+
+															<template if:true={disableRemarks}>
+																<lightning-textarea variant="label-hidden"
+																	value={fileIterator.remarks} data-id="checkbox"
+																	data-documentid={fileIterator.docId} disabled
+																	onchange={handleRemarks}></lightning-textarea>
+															</template>
+															<template if:false={disableRemarks}>
+																<lightning-textarea variant="label-hidden"
+																	value={fileIterator.remarks} data-id="checkbox"
+																	data-documentid={fileIterator.docId}
+																	disabled={fileIterator.renderRemarks}
+																	onchange={handleRemarks}></lightning-textarea>
+															</template>
+														</p>
+													</dd>
+												</template>
+												<template if:false={isCpa}>
+													<template if:true={disableRemaPrelogin}>
+														<dt class="slds-dl_horizontal__label">
+															<p class="slds-truncate" title="Uploaded Date">
+																<b>Remarks :</b>
+															</p>
+														</dt>
+														<dd class="slds-dl_horizontal__detail slds-tile__meta">
+															<p class="slds-truncate">
+																<lightning-textarea variant="label-hidden"
+																	value={fileIterator.remarks}
+																	disabled={disableRemaPrelogin}></lightning-textarea>
+															</p>
+														</dd>
+													</template>
+												</template>
+											</template>
+										</template>
+										<template if:true={showUtilityBillDate}>
+											<dt class="slds-dl_horizontal__label">
+												<p class="slds-truncate" title="Uploaded File name">
+													<b>Utility Bill Date : </b>{fileIterator.cDUtilBillDate}
+												</p>
+											</dt>
+										</template>
+										<dt class="slds-dl_horizontal__label">
+											<p class="slds-truncate" title="Uploaded File name">
+												<b>File Type : </b>{fileIterator.cDFileType}
+											</p>
+										</dt>
+
+										<dt class="slds-dl_horizontal__label">
+											<p class="slds-truncate" title="Uploaded File name">
+												<b>Date/Time : </b>{fileIterator.cDcrtdDate}
+											</p>
+										</dt>
+										<dl style="display: flex; align-items: center;">
+											<dt class="slds-dl_horizontal__label" style="margin-right: 10px;">
+												<p class="slds-truncate" title="Uploaded File name">
+													<b>Actions :</b>
+												</p>
+											</dt>
+											<dd class="slds-dl_horizontal__detail slds-tile__meta">
+												<p class="slds-truncate">
+													<template if:false={fileIterator.cdlId}>
+														<lightning-icon class="custom-button slds-p-right_xx-small"
+															disabled={modeDis} data-documentid={fileIterator.docId}
+															icon-name="utility:preview" alternative-text="preview"
+															size="small" title="preview"></lightning-icon>
+													</template>
+													<template if:true={fileIterator.cdlId}>
+														<lightning-icon class="custom-button slds-p-right_xx-small"
+															onclick={handleDocumentView} data-cv-id={fileIterator.cvId}
+															data-type={fileIterator.cDFileType}
+															data-id={fileIterator.cDId}
+															data-documentid={fileIterator.docId}
+															icon-name="utility:preview" alternative-text="preview"
+															variant="success" size="small"
+															title="preview"></lightning-icon>
+													</template>
+
+													<template if:false={isReadOnly}>
+
+														<template if:false={disableDeleteBu}>
+															<lightning-icon class="custom-button slds-p-right_xx-small"
+																data-file-iterator={fileIterator}
+																onclick={handleDocumentDelete} name={fileIterator.docId}
+																data-documentid={fileIterator.docId}
+																data-id={fileIterator.cDId}
+																data-cdlid={fileIterator.cdlId}
+																icon-name="utility:delete" alternative-text="delete"
+																variant="error" size="small" title="delete"
+																disabled={disabled}>
+															</lightning-icon>
+														</template>
+
+													</template>
+													<template if:false={isReadOnly}>
+														<template if:false={hideUploadButton}>
+															<template if:false={fileIterator.cdlId}>
+																<lightning-icon
+																	class="custom-button slds-p-right_xx-small"
+																	icon-name="utility:upload"
+																	data-documentid={fileIterator.docId}
+																	alternative-text="upload" variant="success"
+																	size="small" disabled={disabled} title="upload"
+																	onclick={handleFileUpload}></lightning-icon>
+															</template>
+														</template>
+													</template>
+
+													<template if:false={captureAllDocuments}>
+														<c-validation-status-display
+															validation-status={fileIterator.validationStatus}
+															ocr-status={fileIterator.ocrStatus}
+															file-iterator={fileIterator} show-rerun-icon="true"
+															onclick={handleForwardClicked}>
+														</c-validation-status-display>
+													</template>
+												</p>
+											</dd>
+										</dl>
+										<br /><br />
+									</dl>
+								</lightning-tile>
+							</li>
+						</ul>
+					</div>
+				</template>
+			</template>
+			<template lwc:else>
+				<template if:false={captureAllDocuments}>
+					<lightning-input label="Select All OSV" type="toggle" id="selectAl" checked={checkAllValue}
+						onchange={handleSelectAll} disabled={isReadOnly}></lightning-input>
+				</template>
+
+				<template for:each={lstAllFiles} for:item="fileIterator">
+					<div key={fileIterator.docId} class=" lgc-bg">
+						<ul class="slds-has-dividers_bottom-space">
+							<li class="slds-item">
+								<lightning-tile>
+									<dl class="slds-dl_horizontal">
+										<dt class="slds-dl_horizontal__label">
+											<p class="slds-truncate" title="Document Type">
+												<b>Document Type : </b>{fileIterator.docDetType}
+											</p>
+										</dt>
+
+										<dt class="slds-dl_horizontal__label">
+											<p class="slds-truncate" title="Document Name">
+												<b>Document Name : </b>{fileIterator.docDetName}
+											</p>
+										</dt>
+
+										<dt class="slds-dl_horizontal__label">
+											<p class="slds-truncate" title="Uploaded File name">
+												<b>File Type : </b>{fileIterator.cDFileType}
+											</p>
+										</dt>
+
+										<dt class="slds-dl_horizontal__label">
+											<p class="slds-truncate" title="Uploaded File name">
+												<b>Date/Time : </b>{fileIterator.cDcrtdDate}
+											</p>
+										</dt>
+										<template if:true={showUtilityBillDate}>
+											<dt class="slds-dl_horizontal__label">
+												<p class="slds-truncate" title="Uploaded File name">
+													<b>Utility Bill Date : </b>{fileIterator.cDUtilBillDate}
+												</p>
+											</dt>
+										</template>
+										<template if:true={showEstablishmentDate}>
+											<dt class="slds-dl_horizontal__label">
+												<p class="slds-truncate" title="Uploaded File name">
+													<b>Shop and Establishment Expiry Date :
+													</b><br>{fileIterator.cDEstablishmentDate}
+												</p>
+											</dt>
+										</template>
+										<template if:true={showDocData}>
+											<dt class="slds-dl_horizontal__label">
+												<p class="slds-truncate" title="Uploaded File name">
+													<b>Document Number :
+													</b>{fileIterator.idNumberOnDoc}
+												</p>
+											</dt>
+											<dt class="slds-dl_horizontal__label">
+												<p class="slds-truncate" title="Uploaded File name">
+													<b>Name On Document :
+													</b>{fileIterator.nameOnDoc}
+												</p>
+											</dt>
+											<dt class="slds-dl_horizontal__label">
+												<p class="slds-truncate" title="Uploaded File name">
+													<b>Date Of Birth On Document :
+													</b>{fileIterator.dobOnDoc}
+												</p>
+											</dt>
+										</template>
+
+
+										<template if:false={captureAllDocuments}>
+											<dt class="slds-dl_horizontal__label">
+												<p class="slds-truncate" title="Uploaded File name">
+													<b>Validation Status : </b>
+													<c-validation-status-display
+														validation-status={fileIterator.validationStatus}
+														file-iterator={fileIterator}></c-validation-status-display>
+												</p>
+											</dt>
+
+											<dl style="display: flex; align-items: center;">
+												<dt style="margin-right: 10px;">
+													<b>OSV:</b>
+												</dt>
+												<dd>
+													<lightning-input variant="label-hidden"
+														data-documentid={fileIterator.docId} type="checkbox"
+														checked={fileIterator.osv} data-id="checkbox"
+														onclick={handleOsvClick} disabled={isReadOnly}>
+													</lightning-input>
+												</dd>
+											</dl>
+
+
+											<dt class="slds-dl_horizontal__label">
+												<p class="slds-truncate" title="Uploaded File name">
+													<b>OCR Status : </b>
+													<c-validation-status-display
+														validation-status={fileIterator.ocrStatus}
+														file-iterator={fileIterator}></c-validation-status-display>
+												</p>
+											</dt>
+
+										</template>
+										<template if:false={hideAvailiableInFile}>
+											<template if:true={captureAllDocuments}>
+												<dt class="slds-dl_horizontal__label">
+													<p class="slds-truncate" title="Uploaded Date">
+														<b>Available In File :</b>
+													</p>
+												</dt>
+												<dd class="slds-dl_horizontal__detail slds-tile__meta">
+													<p class="slds-truncate">
+														<template if:true={isCpa}>
+															<lightning-input variant="label-hidden" type="checkbox"
+																checked={fileIterator.availableInFile}
+																data-id="checkbox" disabled></lightning-input>
+														</template>
+														<template if:false={isCpa}>
+															<template if:true={fileIterator.avaiableInFileReq}>
+																<lightning-input variant="label-hidden" type="checkbox"
+																	checked={fileIterator.availableInFile}
+																	data-id="checkbox"
+																	data-documentid={fileIterator.docId}
+																	onclick={handleAvailableFile}
+																	disabled={isReadOnly}></lightning-input>
+															</template>
+															<template if:false={fileIterator.avaiableInFileReq}>
+																<lightning-input variant="label-hidden" type="checkbox"
+																	disabled checked={fileIterator.availableInFile}
+																	data-id="checkbox"></lightning-input>
+															</template>
+														</template>
+													</p>
+												</dd>
+											</template>
+										</template>
+										<template if:true={hideMarkForError}>
+											<template if:true={captureAllDocuments}>
+												<template if:true={isCpa}>
+													<dt class="slds-dl_horizontal__label">
+														<p class="slds-truncate" title="Uploaded Date">
+															<b>Mark for Error :</b>
+														</p>
+													</dt>
+													<dd class="slds-dl_horizontal__detail slds-tile__meta">
+														<p class="slds-truncate">
+															<lightning-input variant="label-hidden" type="checkbox"
+																checked={fileIterator.markForError} data-id="checkbox"
+																data-documentid={fileIterator.docId}
+																disabled={disableRemarks} onclick={hanldeMarkForError}>
+															</lightning-input>
+														</p>
+													</dd>
+													<dt class="slds-dl_horizontal__label">
+														<p class="slds-truncate" title="Uploaded Date">
+															<b>Remarks :</b>
+														</p>
+													</dt>
+													<dd class="slds-dl_horizontal__detail slds-tile__meta">
+														<p class="slds-truncate">
+
+															<template if:true={disableRemarks}>
+																<lightning-textarea variant="label-hidden"
+																	value={fileIterator.remarks} data-id="checkbox"
+																	data-documentid={fileIterator.docId} disabled
+																	onchange={handleRemarks}></lightning-textarea>
+															</template>
+															<template if:false={disableRemarks}>
+																<lightning-textarea variant="label-hidden"
+																	value={fileIterator.remarks} data-id="checkbox"
+																	data-documentid={fileIterator.docId}
+																	disabled={fileIterator.renderRemarks}
+																	onchange={handleRemarks}></lightning-textarea>
+															</template>
+														</p>
+													</dd>
+												</template>
+												<template if:false={isCpa}>
+													<template if:true={disableRemaPrelogin}>
+														<dt class="slds-dl_horizontal__label">
+															<p class="slds-truncate" title="Uploaded Date">
+																<b>Remarks :</b>
+															</p>
+														</dt>
+														<dd class="slds-dl_horizontal__detail slds-tile__meta">
+															<p class="slds-truncate">
+																<lightning-textarea variant="label-hidden"
+																	value={fileIterator.remarks}
+																	disabled={disableRemaPrelogin}></lightning-textarea>
+															</p>
+														</dd>
+													</template>
+												</template>
+											</template>
+										</template>
+
+
+										<dl style="display: flex; align-items: center;">
+											<dt class="slds-dl_horizontal__label" style="margin-right: 10px;">
+												<p class="slds-truncate" title="Uploaded File name">
+													<b>Actions :</b>
+												</p>
+											</dt>
+											<dd class="slds-dl_horizontal__detail slds-tile__meta">
+												<p class="slds-truncate">
+													<template if:false={fileIterator.cdlId}>
+														<lightning-icon class="custom-button slds-p-right_xx-small"
+															disabled={modeDis} data-documentid={fileIterator.docId}
+															icon-name="utility:preview" alternative-text="preview"
+															size="small" title="preview"></lightning-icon>
+													</template>
+													<template if:true={fileIterator.cdlId}>
+														<lightning-icon class="custom-button slds-p-right_xx-small"
+															onclick={handleDocumentView} data-cv-id={fileIterator.cvId}
+															data-type={fileIterator.cDFileType}
+															data-id={fileIterator.cDId}
+															data-documentid={fileIterator.docId}
+															icon-name="utility:preview" alternative-text="preview"
+															variant="success" size="small"
+															title="preview"></lightning-icon>
+													</template>
+													<template if:false={isReadOnly}>
+
+														<template if:false={disableDeleteBu}>
+															<lightning-icon class="custom-button slds-p-right_xx-small"
+																data-file-iterator={fileIterator}
+																onclick={handleDocumentDelete} name={fileIterator.docId}
+																data-documentid={fileIterator.docId}
+																data-id={fileIterator.cDId}
+																data-cdlid={fileIterator.cdlId}
+																icon-name="utility:delete" alternative-text="delete"
+																variant="error" size="small" title="delete"
+																disabled={disabled}>
+															</lightning-icon>
+														</template>
+
+													</template>
+													<template if:false={isReadOnly}>
+														<template if:false={hideUploadButton}>
+															<template if:false={fileIterator.cdlId}>
+																<lightning-icon
+																	class="custom-button slds-p-right_xx-small"
+																	icon-name="utility:upload"
+																	data-documentid={fileIterator.docId}
+																	alternative-text="upload" variant="success"
+																	size="small" disabled={disabled} title="upload"
+																	onclick={handleFileUpload}></lightning-icon>
+															</template>
+														</template>
+													</template>
+
+													<template if:false={captureAllDocuments}>
+														<c-validation-status-display
+															validation-status={fileIterator.validationStatus}
+															ocr-status={fileIterator.ocrStatus}
+															file-iterator={fileIterator} show-rerun-icon="true"
+															onclick={handleForwardClicked}>
+														</c-validation-status-display>
+													</template>
+												</p>
+											</dd>
+										</dl>
+										<br /><br />
+									</dl>
+								</lightning-tile>
+							</li>
+						</ul>
+					</div>
+				</template>
+			</template>
+		</div>
+	</template>
+
+	<template if:true={isModalOpen}>
+		<!-- Modal/Popup Box LWC starts here -->
+		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+			aria-describedby="modal-content-id-1" class="slds-align--absolute-center slds-modal slds-fade-in-open">
+			<div class="slds-modal__container">
+				<!-- Modal/Popup Box LWC header here -->
+				<header class="slds-modal__header">
+					<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+						title="Close" onclick={closeModal}>
+						<lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+							size="small"></lightning-icon>
+						<span class="slds-assistive-text">Close</span>
+					</button>
+					<h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
+						Delete?
+					</h2>
+				</header>
+				<!-- Modal/Popup Box LWC body starts here -->
+				<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+					<p style="text-align: center">
+						<b>{removeModalMessage}</b>
+					</p>
+				</div>
+				<!-- Modal/Popup Box LWC footer starts here -->
+				<footer class="slds-modal__footer">
+
+					<button class="slds-button slds-button_brand" data-documentid={docIdToDelete}
+						data-cdlid={cdlIdToDelete} onclick={handleRemoveRecord} title="Yes">
+						Yes
+					</button>
+					<button class="slds-button slds-button_neutral" onclick={closeModal} title="No">
+						No
+					</button>
+				</footer>
+			</div>
+		</section>
+		<div class="slds-backdrop slds-backdrop_open"></div>
+	</template>
+
+	<template if:true={showUploadModal}>
+		<!-- Modal/Popup Box LWC starts here -->
+		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+			aria-describedby="modal-content-id-1" class="my-modal slds-modal slds-fade-in-open">
+			<div class="slds-modal__container">
+				<!-- Modal/Popup Box LWC header here -->
+				<header class="slds-modal__header">
+					<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+						title="Close" onclick={closeUploadModal}>
+						<lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+							size="small"></lightning-icon>
+						<span class="slds-assistive-text">Close</span>
+					</button>
+					<h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">
+						Upload File
+					</h2>
+				</header>
+				<!-- Modal/Popup Box LWC body starts here -->
+				<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+
+					<c-upload-docs-reusable-component document-detai-id={documentId}
+						onrefreshdoctable={handleUploadFinished}></c-upload-docs-reusable-component>
+				</div>
+				<!-- Modal/Popup Box LWC footer starts here -->
+				<footer class="slds-modal__footer">
+					<button class="slds-button slds-button_neutral" onclick={closeUploadModal} title="No">
+						No
+					</button>
+
+				</footer>
+			</div>
+		</section>
+		<div class="slds-backdrop slds-backdrop_open"></div>
+	</template>
+
+
+
+	<template if:true={showModalForFilePre}>
+
+		<c-multi-doc-previewer document-detail-id={documentDetailId} onclosepreview={handleCloseModalEvent}
+			cont-vers-data-list={contVersDataList} has-document-id={hasDocumentId}> </c-multi-doc-previewer>
+	</template>
+</template>

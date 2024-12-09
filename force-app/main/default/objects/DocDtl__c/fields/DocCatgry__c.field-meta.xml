@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DocCatgry__c</fullName>
+    <externalId>false</externalId>
+    <label>Document Category</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Banking Documents</fullName>
+                <default>false</default>
+                <label>Banking Documents</label>
+            </value>
+            <value>
+                <fullName>Beneficial Owner Documents</fullName>
+                <default>false</default>
+                <label>Beneficial Owner Documents</label>
+            </value>
+            <value>
+                <fullName>Collateral Documents</fullName>
+                <default>false</default>
+                <label>Collateral Documents</label>
+            </value>
+            <value>
+                <fullName>Income Documents</fullName>
+                <default>false</default>
+                <label>Income Documents</label>
+            </value>
+            <value>
+                <fullName>KYC Documents</fullName>
+                <default>false</default>
+                <label>KYC Documents</label>
+            </value>
+            <value>
+                <fullName>PAN Documents</fullName>
+                <default>false</default>
+                <label>PAN Documents</label>
+            </value>
+            <value>
+                <fullName>Other Documents</fullName>
+                <default>false</default>
+                <label>Other Documents</label>
+            </value>
+            <value>
+                <fullName>Verification Documents</fullName>
+                <default>false</default>
+                <label>Verification Documents</label>
+            </value>
+            <value>
+                <fullName>IMD Documents</fullName>
+                <default>false</default>
+                <label>IMD Documents</label>
+            </value>
+            <value>
+                <fullName>Constitution wise Mandatory documents</fullName>
+                <default>false</default>
+                <label>Constitution wise Mandatory documents</label>
+            </value>
+            <value>
+                <fullName>Financial Documents</fullName>
+                <default>false</default>
+                <label>Financial Documents</label>
+            </value>
+            <value>
+                <fullName>Personal Discussion</fullName>
+                <default>false</default>
+                <label>Personal Discussion</label>
+            </value>
+            <value>
+                <fullName>Case Documents</fullName>
+                <default>false</default>
+                <label>Case Documents</label>
+            </value>
+            <value>
+                <fullName>Collateral Visit</fullName>
+                <default>false</default>
+                <label>Collateral Visit</label>
+            </value>
+            <value>
+                <fullName>Sanction Letter</fullName>
+                <default>false</default>
+                <label>Sanction Letter</label>
+            </value>
+            <value>
+                <fullName>NACH Form</fullName>
+                <default>false</default>
+                <label>NACH Form</label>
+            </value>
+            <value>
+                <fullName>CAM Report</fullName>
+                <default>false</default>
+                <label>CAM Report</label>
+            </value>
+            <value>
+                <fullName>Property Documents</fullName>
+                <default>false</default>
+                <label>Property Documents</label>
+            </value>
+            <value>
+                <fullName>Mandatory Post Sanction Documents</fullName>
+                <default>false</default>
+                <label>Mandatory Post Sanction Documents</label>
+            </value>
+            <value>
+                <fullName>Additional Post Sanction Documents</fullName>
+                <default>false</default>
+                <label>Additional Post Sanction Documents</label>
+            </value>
+            <value>
+                <fullName>Disbursement Memo</fullName>
+                <default>false</default>
+                <label>Disbursement Memo</label>
+            </value>
+            <value>
+                <fullName>Sanction Condition Documents</fullName>
+                <default>false</default>
+                <label>Sanction Condition Documents</label>
+            </value>
+            <value>
+                <fullName>Insurance documents</fullName>
+                <default>false</default>
+                <label>Insurance documents</label>
+            </value>
+            <value>
+                <fullName>Bureau Report</fullName>
+                <default>false</default>
+                <label>Bureau Report</label>
+            </value>
+            <value>
+                <fullName>Perfios Report</fullName>
+                <default>false</default>
+                <label>Perfios Report</label>
+            </value>
+            <value>
+                <fullName>Pricing Approval Document</fullName>
+                <default>false</default>
+                <label>Pricing Approval Document</label>
+            </value>
+            <value>
+                <fullName>Application Form</fullName>
+                <default>false</default>
+                <label>Application Form</label>
+            </value>
+            <value>
+                <fullName>LOD</fullName>
+                <default>false</default>
+                <label>LOD</label>
+            </value>
+            <value>
+                <fullName>Relook Document</fullName>
+                <default>false</default>
+                <label>Relook Document</label>
+            </value>
+            <value>
+                <fullName>Term Sheet</fullName>
+                <default>false</default>
+                <label>Term Sheet</label>
+            </value>
+            <value>
+                <fullName>Probe42 Documents</fullName>
+                <default>false</default>
+                <label>Probe42 Documents</label>
+            </value>
+            <value>
+                <fullName>KFS Document</fullName>
+                <default>false</default>
+                <label>KFS Document</label>
+            </value>
+            <value>
+                <fullName>BT Draft</fullName>
+                <default>false</default>
+                <label>BT Draft</label>
+            </value>
+            <value>
+                <fullName>DPN Document</fullName>
+                <default>false</default>
+                <label>DPN Document</label>
+            </value>
+            <value>
+                <fullName>Loan Obligation</fullName>
+                <default>false</default>
+                <label>Loan Obligation</label>
+            </value>
+            <value>
+                <fullName>System Generated Documents</fullName>
+                <default>false</default>
+                <label>System Generated Documents</label>
+            </value>
+            <value>
+                <fullName>Loan Term Negotiation Documents</fullName>
+                <default>false</default>
+                <label>Loan Term Negotiation Documents</label>
+            </value>
+            <value>
+                <fullName>Stamped Loan Agreement</fullName>
+                <default>false</default>
+                <label>Stamped Loan Agreement</label>
+            </value>
+            <value>
+                <fullName>Loan Agreement &amp; Related Annexures</fullName>
+                <default>false</default>
+                <label>Loan Agreement &amp; Related Annexures</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

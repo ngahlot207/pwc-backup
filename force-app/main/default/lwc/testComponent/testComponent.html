@@ -1,0 +1,1331 @@
+<template>
+    <lightning-card title="Obligation Details">          
+        <div>
+            <div id="containerDiv1" onmousemove={handlemousemove} onmouseup={handlemouseup} ondblclick={handledblclickresizable} onscroll={tableOuterDivScrolled}>
+                <div id="tableViewInnerDiv1">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th title="Sr.No." class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                                        <div class="slds-cell-fixed fixedWidth">
+                                            <a class="slds-th__action slds-text-link--reset">
+                                                <span class="slds-truncate">Sr.No.</span>
+                                            </a>
+                                            <div class="slds-resizable">
+                                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                    <span class="slds-resizable__divider"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th title="Source" class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                                        <div class="slds-cell-fixed fixedWidth">
+                                            <a class="slds-th__action slds-text-link--reset">
+                                                <span class="slds-truncate">Source</span>
+                                            </a>
+                                            <div class="slds-resizable">
+                                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                    <span class="slds-resizable__divider"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th title="Nature of loan" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col" >
+                                        <div class="slds-cell-fixed fixedWidth">
+                                            <a class="slds-th__action slds-text-link--reset">
+                                                <span class="slds-truncate">Nature of loan</span>
+                                            </a>
+                                            <div class="slds-resizable">
+                                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                    <span class="slds-resizable__divider"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={allRecOfApplObwithDetai} for:item="fileIterator" for:index="index">
+                                    <tr data-row-index={index} onclick={handleRowClick} key={fileIterator.parentRecord.Id} aria-selected="false" class="slds-hint-parent">
+                                        <td style="background-color: #F3F2F2;" scope="row">{fileIterator.index}</td>
+                                        <td style="padding-top:22px;">{fileIterator.parentRecord.Source__c}</td>
+                                        <td style="padding-top:22px;">{fileIterator.parentRecord.NatureOfLoan__c}</td>
+                                    </tr>
+                                </template>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    
+
+                    <!-- <table class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout slds-max-medium-table_stacked-horizontal" onscroll={tableScrolled}>                                      
+                        <thead>
+                            <tr>                                        
+                                <th title="Sr.No." class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                <a class="slds-th__action slds-text-link--reset">
+                                    <span class="slds-truncate">Sr.No.</span>
+                                </a>
+                                <div class="slds-resizable">
+                                    <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                        <span class="slds-resizable__divider"></span>
+                                    </span>
+                                </div>
+                                </div>
+                                </th>
+                                <th title="Source" class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                <a class="slds-th__action slds-text-link--reset">
+                                    <span class="slds-truncate">Source</span>
+                                </a>
+                                <div class="slds-resizable">
+                                    <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                        <span class="slds-resizable__divider"></span>
+                                    </span>
+                                </div>
+                                </div>
+                                </th>
+                                <th title="Nature of loan" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col" >
+                                <div class="slds-cell-fixed fixedWidth">
+                                <a class="slds-th__action slds-text-link--reset">
+                                    <span class="slds-truncate">Nature of loan</span>
+                                </a>
+                                <div class="slds-resizable">
+                                    <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                        <span class="slds-resizable__divider"></span>
+                                    </span>
+                                </div>
+                                </div>
+                                </th>
+                                <th title="Name of Borrower" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                    <span class="slds-truncate">Name of Borrower</span>
+                                </a>
+                                <div class="slds-resizable">
+                                    <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                        <span class="slds-resizable__divider"></span>
+                                    </span>
+                                </div>
+                                </div>
+                                </th>
+                                <th title="Loan Capacity" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                    <span class="slds-truncate">Loan Capacity</span>
+                                </a>
+                                <div class="slds-resizable">
+                                    <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                        <span class="slds-resizable__divider"></span>
+                                    </span>
+                                </div>
+                                </div>
+                                </th>                                        
+                                <th title="Financier Name"  class="slds-is-resizable dv-dynamic-width fixedWidthFN" scope="col">
+                                    <div class="slds-cell-fixed fixedWidthFN">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <label id="id-01"> Financier Name</label>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    </th>
+                                    <th title="Disbursal date" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                    <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">Disbursal date</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    </th>
+                                    <th title="Close date" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                    <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                    <span class="slds-truncate">Close date</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                </th>
+                                <th title="Loan Amount" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                    <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">Loan Amount</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    </th>
+                                    <th title="Current O/s" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                    <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <label id="id-cos"> Current O/s</label>
+                                        </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    </th>
+                                    <th title="EMI source" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                    <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <label id="id-es"> EMI source</label>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    </th>
+                                    <th title="EMI" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                    <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <label id="id-emi"> EMI</label>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    </th>
+            
+                                    <th title="Tenure" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                    <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <label id="id-0"> Tenure</label>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    </th>
+                                    <th title="No of EMI paid" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                        <div class="slds-cell-fixed fixedWidth">
+                                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">No of EMI paid</span>
+                                        </a>
+                                        <div class="slds-resizable">
+                                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                <span class="slds-resizable__divider"></span>
+                                            </span>
+                                        </div>
+                                        </div>
+                                    </th>
+
+                                    <th title="Tenure Left" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                        <div class="slds-cell-fixed fixedWidth">
+                                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">Tenure Left</span>
+                                        </a>
+                                        <div class="slds-resizable">
+                                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                <span class="slds-resizable__divider"></span>
+                                            </span>
+                                        </div>
+                                        </div>
+                                    </th>
+
+                                    <th title="Treatment" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                        <div class="slds-cell-fixed fixedWidth">
+                                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <label id="id-tr"> Treatment</label>
+                                        </a>
+                                        <div class="slds-resizable">
+                                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                <span class="slds-resizable__divider"></span>
+                                            </span>
+                                        </div>
+                                        </div>
+                                    </th>
+
+                                    <th title="Consider for Obligation" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                        <div class="slds-cell-fixed fixedWidth">
+                                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">Consider for Obligation</span>
+                                        </a>
+                                        <div class="slds-resizable">
+                                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                <span class="slds-resizable__divider"></span>
+                                            </span>
+                                        </div>
+                                        </div>
+                                    </th>
+
+                                    <th title="Repayment Bank" class="slds-is-resizable dv-dynamic-width fixedWidthFN" scope="col">
+                                        <div class="slds-cell-fixed fixedWidthFN">
+                                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <label id="id-02"> Repayment Bank</label>
+                                        </a>
+                                        <div class="slds-resizable">
+                                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                <span class="slds-resizable__divider"></span>
+                                            </span>
+                                        </div>
+                                        </div>
+                                    </th>
+
+                                    <th title="Repayment A/c Number" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                        <div class="slds-cell-fixed fixedWidth">
+                                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <label id="id-rac"> Repayment A/c Number</label>
+                                        </a>
+                                        <div class="slds-resizable">
+                                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                <span class="slds-resizable__divider"></span>
+                                            </span>
+                                        </div>
+                                        </div>
+                                    </th>
+
+                                    <th title="Overdues" class="slds-is-resizable dv-dynamic-width fixedWidthFN" scope="col">
+                                    <div class="slds-cell-fixed fixedWidthFN">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <label id="id-o"> Overdues</label>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    </th>
+
+                                    <th title="Max DPD in last 3 months" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                    <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">Max DPD in last 3 months</span>
+                                        
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    </th>
+
+                                    <th title="Max DPD in last 6 months" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                    <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">Max DPD in last 6 months</span>
+                                        
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    </th>
+                                    <th title="Max DPD in last 12 months" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                    <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">Max DPD in last 12 months</span>
+                                        
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    </th>
+                                    <th title="Ever 90+" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                    <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">Ever 90+</span>
+                                        
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    </th>
+                                    <th title="Status" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                    <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">Status</span>
+                                        
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    </th>
+                                    <th title="Bounce in last 12 months" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                    <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">Bounce in last 12 months</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    </th>
+
+                                    <th title="Bounce in last 18 months" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                    <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">Bounce in last 18 months</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    </th>
+                                    <th title="Total Bounces in RTR" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                    <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">Total Bounces in RTR</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    </th>
+                                    <th title="EMI Clearance date (Login Month)" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                    <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">EMI Clearance date (Login Month)</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    </th>
+                                    <th title="EMI Clearance date (Login Month -1)" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                    <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">EMI Clearance date (Login Month -1)</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    </th>
+                                    <th title="EMI Clearance date (Login Month -2)" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                    <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">EMI Clearance date (Login Month -2)</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    </th>
+                                    <th title="EMI Clearance date (Login Month -3)" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                    <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">EMI Clearance date (Login Month -3)</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    </th>
+                                    <th title="EMI Clearance date (Login Month -4)" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                    <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">EMI Clearance date (Login Month -4)</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    </th>
+                                    <th title="EMI Clearance date (Login Month -5)" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                    <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">EMI Clearance date (Login Month -5)</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    </th>
+                                    <th title="EMI Clearance date (Login Month -6)" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                    <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">EMI Clearance date (Login Month -6)</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    </th>
+                                    <th title="EMI Clearance date (Login Month -7)" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                    <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">EMI Clearance date (Login Month -7)</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    </th>
+                                    <th title="EMI Clearance date (Login Month -8)" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                    <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">EMI Clearance date (Login Month -8)</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    </th>
+                                    <th title="EMI Clearance date (Login Month -9)" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                    <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">EMI Clearance date (Login Month -9)</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    </th>
+                                    <th title="EMI Clearance date (Login Month -10)" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                    <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">EMI Clearance date (Login Month -10)</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    </th>
+                                    <th title="EMI Clearance date (Login Month -11)" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                    <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">EMI Clearance date (Login Month -11)</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    </th>
+                                    <th title="EMI Clearance date (Login Month -12)" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                    <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">EMI Clearance date (Login Month -12)</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    </th>                                       
+                                    </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={allRecOfApplObwithDetai} for:item="fileIterator" for:index="index">
+                                <tr data-row-index={index} onclick={handleRowClick} key={fileIterator.parentRecord.Id} aria-selected="false" class="slds-hint-parent">
+                                    <td style="background-color: #F3F2F2;" scope="row">{fileIterator.index}</td>
+                                    <td style="padding-top:22px;">{fileIterator.parentRecord.Source__c}</td>
+                                    <td style="padding-top:22px;">{fileIterator.parentRecord.NatureOfLoan__c}</td>
+                                    <td style="padding-top:22px;">{fileIterator.parentRecord.Applicant__r.FullName__c}</td>
+                                    <td style="padding-top:22px;">{fileIterator.parentRecord.LoanCapacity__c}</td>
+            
+                                    <td style="padding-top:22px;"><c-custom-lookup                           
+                                        field-name="FinancierName__c"
+                                        selected-icon-name="standard:identifier"
+                                        object-api-name="SFDCBANKMaster__c"
+                                        field-api-name="BankName__c"                            
+                                        selected-record-id={fileIterator.parentRecord.FinancierNameID__c}
+                                        selected-record-name={fileIterator.parentRecord.FinancierName__c}
+                                        onselect={handleValueSelect}
+                                        index={index}
+                                        read-only={disableMode} 
+                                        disabled={disableMode}
+                                        required={required} 
+                                        variant="label-hidden"                            
+                                        ></c-custom-lookup></td>
+                                    <td style="padding-top:22px;"><lightning-formatted-date-time value={fileIterator.parentRecord.DisbursalDate__c} year="numeric" month="short" day="numeric"
+                                        ></lightning-formatted-date-time></td>
+                                    <td > <lightning-input placeholder="DD/MM/YYYY" type="date" data-objectname="ApplObligation__c" value={fileIterator.parentRecord.CloseDate__c} onchange={handleBounceData} data-index={index} data-field="CloseDate__c" read-only={disableMode} disabled={disableMode}  ></lightning-input></td>
+                                    <td style="padding-top:22px;"><lightning-formatted-number value={fileIterator.parentRecord.LoanAmount__c} format-style="currency" currency-code="INR"></lightning-formatted-number></td>
+                                    <td style="padding-top:22px;"> <lightning-input type="number" step=".01" formatter="currency" data-objectname="ApplObligation__c" value={fileIterator.parentRecord.CurrentOs__c} onchange={handleBounceData} data-index={index} data-field="CurrentOs__c"  read-only={disableMode} disabled={disableMode} required={required} variant="label-hidden"></lightning-input></td>
+                                        <td style="padding-top:22px;">  <lightning-combobox
+                                        name="EMISource__c"
+                                        class="borrowersValue"
+                                        label=""
+                                        value={fileIterator.parentRecord.EMISource__c}
+                                        data-name="EMISource__c"
+                                        data-field="EMISource__c"
+                                        options={optionsEmiSource}
+                                        data-index={index}
+                                        onchange={handleBounceData}
+                                        read-only={disableMode} 
+                                        required={required}
+                                        variant="label-hidden"
+                                        disabled={disableMode}>                         
+                                    </lightning-combobox></td>
+                                    <td style="padding-top:22px;"> <lightning-input type="number" step=".01" formatter="currency" data-objectname="ApplObligation__c" value={fileIterator.parentRecord.EMI__c} onchange={handleBounceData} data-index={index} data-field="EMI__c"  read-only={disableMode} disabled={disableMode} required={required} variant="label-hidden"></lightning-input></td>
+                                    <td style="padding-top:22px;"> <lightning-input type="text" data-objectname="ApplObligation__c" value={fileIterator.parentRecord.Tenure__c} onchange={handleBounceData} data-field="Tenure__c"  data-index={index} read-only={disableMode} disabled={disableMode} required={required} 
+                                        variant="label-hidden"></lightning-input></td>                         
+                                        <td style="padding-top:22px;"> <lightning-input type="text" data-objectname="ApplObligation__c" value={fileIterator.parentRecord.NoEMIPaid__c} onchange={handleBounceData} data-field="NoEMIPaid__c"  data-index={index} read-only={disableMode} disabled={disableMode} required={required} 
+                                            variant="label-hidden"></lightning-input></td>
+                                            <td > <lightning-input type="text" data-objectname="ApplObligation__c" value={fileIterator.parentRecord.TenureLeft__c} onchange={handleBounceData} data-field="TenureLeft__c"  data-index={index} read-only={disableMode} disabled={disableMode}  
+                                            ></lightning-input></td>                       
+                                    <td > <lightning-combobox
+                                    name="Treatment__c"
+                                    class="borrowersValue"
+                                    label=""
+                                    value={fileIterator.parentRecord.Treatment__c}
+                                    data-name="Treatment__c"
+                                    options={TreatmentOptions}
+                                    data-index={index}
+                                    onchange={HandleValueChange}
+                                    read-only={disableMode} 
+                                    disabled={disableMode}>                       
+                                </lightning-combobox></td>
+                                <td style="padding-top:22px;">{fileIterator.parentRecord.ConsiderObligation__c}</td>
+                                    <td style="padding-top:22px;"><c-custom-lookup                           
+                                        field-name="Repayment_Bank__c"
+                                        selected-icon-name="standard:identifier"
+                                        object-api-name="SFDCBANKMaster__c"
+                                        field-api-name="BankName__c"                            
+                                        selected-record-id={fileIterator.parentRecord.RepaymentBankID__c}
+                                        selected-record-name={fileIterator.parentRecord.Repayment_Bank__c}
+                                        onselect={handleValueSelect}
+                                        index={index}
+                                        read-only={disableMode} 
+                                        disabled={disableMode}
+                                        required={required} 
+                                        variant="label-hidden"
+                                        ></c-custom-lookup></td>
+                                    <td> <lightning-input type="text" data-objectname="ApplObligation__c" value={fileIterator.parentRecord.RepayAc__c} onchange={handleBounceData} data-field="RepayAc__c"  data-index={index} read-only={disableMode} disabled={disableMode}></lightning-input></td>
+                                    
+                                    <td style="padding-top:22px;"> <lightning-input type="text" data-objectname="ApplObligation__c" value={fileIterator.parentRecord.Overdues__c} onchange={handleBounceData} data-field="Overdues__c"  data-index={index} read-only={disableMode} disabled={disableMode} required={required} 
+                                        variant="label-hidden"></lightning-input></td>
+                                    <td style="padding-top:22px;">{fileIterator.parentRecord.MaxDPDLst3month__c}</td>
+                                    <td style="padding-top:22px;">{fileIterator.parentRecord.MaxDPDLst6month__c}</td>
+                                    <td style="padding-top:22px;">{fileIterator.parentRecord.MaxDPDLst12month__c}</td>
+                                    <td style="padding-top:22px;">{fileIterator.parentRecord.Ever90__c}</td>
+                                    <td>{fileIterator.parentRecord.Status__c}</td>
+                                    <td><lightning-input data-index={index}  type="Number"  data-objectname="BureauRespDtl__c" value={fileIterator.parentRecord.BounceInLast12Months__c} onchange={handleBounceData} data-field="BounceInLast12Months__c" read-only={disableMode} disabled={disableMode}></lightning-input></td>
+                                    <td><lightning-input data-index={index} type="Number"  data-objectname="BureauRespDtl__c" value={fileIterator.parentRecord.BounceInLast18Months__c} onchange={handleBounceData} data-field="BounceInLast18Months__c" read-only={disableMode} disabled={disableMode}></lightning-input></td>
+                                    <td><lightning-input data-index={index} type="Number"  data-objectname="BureauRespDtl__c" value={fileIterator.parentRecord.TotalBouncesInRTR__c} onchange={handleBounceData} data-field="TotalBouncesInRTR__c" read-only={disableMode} disabled={disableMode}></lightning-input></td>
+                                    <td><lightning-input data-index={index} placeholder="DD/MM/YYYY" type="date" value={fileIterator.parentRecord.EMIClearanceDate__c} onchange={handleSystemDateChange} data-field="EMIClearanceDate__c" read-only={disableMode} disabled={disableMode}></lightning-input></td>
+                                    <template for:each={fileIterator.ChildReords} for:item="childRecord" for:index="index1" >
+                                        <td  onclick={handleColumnClick} key={childRecord.Id}><lightning-input  placeholder="DD/MM/YYYY" type="date" value={childRecord.EMI_Clearance_Date__c} onchange={handleDateChange} data-id={fileIterator.Id} data-field="EMI_Clearance_Date__c" data-cloumn-index={index1} data-parent-index={index} read-only={disableMode} disabled={disableMode}></lightning-input></td>
+                                    </template>
+                                </tr>
+                                
+                            </template>
+                        <tr>
+                            <td style="background-color: #F3F2F2;" scope="row">Total</td>                  
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>                 
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>{totalLoanAmount}</td>
+                            <td>{totalCurrentOS}</td>
+                            <td>-</td>
+                            <td>{totalEMI}</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>{totalContinueObli}</td>
+                            <td>-</td>
+                            <td>-</td>                  
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>                 
+                            
+                        </tr>
+                        </tbody>                    
+                    </table> -->
+                </div>
+            </div>            
+        </div>    
+    </lightning-card>
+      <!-- <lightning-card >
+            <div class="slds-col slds-size_1-of-5">
+                <lightning-combobox label="Add another loans which are not apprearing in Bureau" value={newBureau} options={options} onchange={handleNewBureauAddition} read-only={disableMode} disabled={disableMode} required> </lightning-combobox>
+            </div>
+                <template if:true={showNewBureauTable}>
+                    <div class="container slds-scrollable tableMinHeight" >                     
+                            <div id="containerDiv" onmousemove={handlemousemove} onmouseup={handlemouseup} ondblclick={handledblclickresizable}
+                              class="slds-table_header-fixed_container slds-border_right slds-border_left tableScroll"
+                              onscroll={tableOuterDivScrolled}>
+                                 <div id="tableViewInnerDiv" >
+                                     <table class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout slds-max-medium-table_stacked-horizontal" onscroll={tableScrolled}>
+                                      <thead>
+                                         <tr>
+                                           <th title="Delete" class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                                               <div class="slds-cell-fixed fixedWidth">
+                                               <a class="slds-th__action slds-text-link--reset">
+                                                 <span class="slds-truncate">Delete</span>
+                                               </a>
+                                               <div class="slds-resizable">
+                                                   <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                       <span class="slds-resizable__divider"></span>
+                                                   </span>
+                                               </div>
+                                               </div>
+                                             </th>
+                                           <th title="Sr.No." class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                                             <div class="slds-cell-fixed fixedWidth">
+                                             <a class="slds-th__action slds-text-link--reset">
+                                               <span class="slds-truncate">Sr.No.</span>
+                                             </a>
+                                             <div class="slds-resizable">
+                                                 <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                     <span class="slds-resizable__divider"></span>
+                                                 </span>
+                                             </div>
+                                             </div>
+                                           </th>
+                                           <th title="Nature of loan" class="slds-is-resizable dv-dynamic-width fixedWidthFN" scope="col" >
+                                             <div class="slds-cell-fixed fixedWidthFN">
+                                             <a class="slds-th__action slds-text-link--reset">
+                                               <label id="id-1"> Nature of loan</label>
+                                             </a>
+                                             <div class="slds-resizable">
+                                                 <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                     <span class="slds-resizable__divider"></span>
+                                                 </span>
+                                             </div>
+                                             </div>
+                                           </th>
+                                           <th title="Name of Borrower" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                             <div class="slds-cell-fixed fixedWidth">
+                                             <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                               <label id="id-2"> Name of Borrower</label>
+                                             </a>
+                                             <div class="slds-resizable">
+                                                 <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                     <span class="slds-resizable__divider"></span>
+                                                 </span>
+                                             </div>
+                                             </div>
+                                           </th>
+                                           <th title="Loan Capacity" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                             <div class="slds-cell-fixed fixedWidth">
+                                             <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                               <label id="id-3"> Loan Capacity</label>
+                                             </a>
+                                             <div class="slds-resizable">
+                                                 <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                     <span class="slds-resizable__divider"></span>
+                                                 </span>
+                                             </div>
+                                             </div>
+                                           </th>                                         
+                                             <th title="Financier Name"  class="slds-is-resizable dv-dynamic-width fixedWidthFN" scope="col">
+                                                 <div class="slds-cell-fixed fixedWidthFN">
+                                                 <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                                   <label id="id-4"> Financier Name</label>
+                                                 </a>
+                                                 <div class="slds-resizable">
+                                                     <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                         <span class="slds-resizable__divider"></span>
+                                                     </span>
+                                                 </div>
+                                                 </div>
+                                               </th>
+                                               <th title="Disbursal date" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                 <div class="slds-cell-fixed fixedWidth">
+                                                 <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                                   <label id="id-5"> Disbursal date</label>
+                                                 </a>
+                                                 <div class="slds-resizable">
+                                                     <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                         <span class="slds-resizable__divider"></span>
+                                                     </span>
+                                                 </div>
+                                                 </div>
+                                               </th>
+                                                <th title="Close date" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                               <div class="slds-cell-fixed fixedWidth">
+                                               <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                                 <span class="slds-truncate">Close date</span>
+                                               </a>
+                                               <div class="slds-resizable">
+                                                   <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                       <span class="slds-resizable__divider"></span>
+                                                   </span>
+                                               </div>
+                                               </div>
+                                             </th>
+                                              <th title="Loan Amount" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                 <div class="slds-cell-fixed fixedWidth">
+                                                 <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                                   <label id="id-6"> Loan Amount</label>
+                                                 </a>
+                                                 <div class="slds-resizable">
+                                                     <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                         <span class="slds-resizable__divider"></span>
+                                                     </span>
+                                                 </div>
+                                                 </div>
+                                               </th>
+                                               <th title="Current O/s" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                 <div class="slds-cell-fixed fixedWidth">
+                                                 <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                                   <label id="id-7"> Current O/s</label>
+                                                   </a>
+                                                 <div class="slds-resizable">
+                                                     <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                         <span class="slds-resizable__divider"></span>
+                                                     </span>
+                                                 </div>
+                                                 </div>
+                                               </th>
+                                               <th title="EMI" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                 <div class="slds-cell-fixed fixedWidth">
+                                                 <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                                   <label id="id-8"> EMI</label>
+                                                 </a>
+                                                 <div class="slds-resizable">
+                                                     <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                         <span class="slds-resizable__divider"></span>
+                                                     </span>
+                                                 </div>
+                                                 </div>
+                                               </th>
+                                               <th title="Tenure" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                 <div class="slds-cell-fixed fixedWidth">
+                                                 <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                                   <label id="id-9"> Tenure</label>
+                                                 </a>
+                                                 <div class="slds-resizable">
+                                                     <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                         <span class="slds-resizable__divider"></span>
+                                                     </span>
+                                                 </div>
+                                                 </div>
+                                               </th>
+                                               <th title="No of EMI paid" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                   <div class="slds-cell-fixed fixedWidth">
+                                                   <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                                     <span class="slds-truncate">No of EMI paid</span>
+                                                   </a>
+                                                   <div class="slds-resizable">
+                                                       <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                           <span class="slds-resizable__divider"></span>
+                                                       </span>
+                                                   </div>
+                                                   </div>
+                                                 </th>
+  
+                                                 <th title="Tenure Left" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                  <div class="slds-cell-fixed fixedWidth">
+                                                  <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                                    <span class="slds-truncate">Tenure Left</span>
+                                                  </a>
+                                                  <div class="slds-resizable">
+                                                      <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                          <span class="slds-resizable__divider"></span>
+                                                      </span>
+                                                  </div>
+                                                  </div>
+                                                </th>
+  
+                                                <th title="Treatment" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                  <div class="slds-cell-fixed fixedWidth">
+                                                  <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                                    <label id="id-10"> Treatment</label>
+                                                  </a>
+                                                  <div class="slds-resizable">
+                                                      <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                          <span class="slds-resizable__divider"></span>
+                                                      </span>
+                                                  </div>
+                                                  </div>
+                                                </th>
+  
+                                                <th title="Consider for Obligation" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                  <div class="slds-cell-fixed fixedWidth">
+                                                  <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                                    <span class="slds-truncate">Consider for Obligation</span>
+                                                  </a>
+                                                  <div class="slds-resizable">
+                                                      <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                          <span class="slds-resizable__divider"></span>
+                                                      </span>
+                                                  </div>
+                                                  </div>
+                                                </th>
+  
+                                                <th title="Repayment Bank" class="slds-is-resizable dv-dynamic-width fixedWidthFN" scope="col">
+                                                  <div class="slds-cell-fixed fixedWidthFN">
+                                                  <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                                    <label id="id-11"> Repayment Bank</label>
+                                                  </a>
+                                                  <div class="slds-resizable">
+                                                      <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                          <span class="slds-resizable__divider"></span>
+                                                      </span>
+                                                  </div>
+                                                  </div>
+                                                </th>
+  
+                                                <th title="Repayment A/c Number" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                  <div class="slds-cell-fixed fixedWidth">
+                                                  <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                                    <label id="id-12"> Repayment A/c Number</label>
+                                                  </a>
+                                                  <div class="slds-resizable">
+                                                      <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                          <span class="slds-resizable__divider"></span>
+                                                      </span>
+                                                  </div>
+                                                  </div>
+                                                </th>
+                                                <th title="Bounce in last 12 months" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                  <div class="slds-cell-fixed fixedWidth">
+                                                  <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                                    <span class="slds-truncate">Bounce in last 12 months</span>
+                                                  </a>
+                                                  <div class="slds-resizable">
+                                                      <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                          <span class="slds-resizable__divider"></span>
+                                                      </span>
+                                                  </div>
+                                                  </div>
+                                                </th>
+                                                <th title="Bounce in last 18 months" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                  <div class="slds-cell-fixed fixedWidth">
+                                                  <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                                    <span class="slds-truncate">Bounce in last 18 months</span>
+                                                  </a>
+                                                  <div class="slds-resizable">
+                                                      <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                          <span class="slds-resizable__divider"></span>
+                                                      </span>
+                                                  </div>
+                                                  </div>
+                                                </th>
+                                                <th title="Total Bounces in RTR" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                  <div class="slds-cell-fixed fixedWidth">
+                                                  <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                                    <span class="slds-truncate">Total Bounces in RTR</span>
+                                                  </a>
+                                                  <div class="slds-resizable">
+                                                      <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                          <span class="slds-resizable__divider"></span>
+                                                      </span>
+                                                  </div>
+                                                  </div>
+                                                </th>
+                                                <th title="EMI Clearance date (Login Month)" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                  <div class="slds-cell-fixed fixedWidth">
+                                                  <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                                    <span class="slds-truncate">EMI Clearance date (Login Month)</span>
+                                                  </a>
+                                                  <div class="slds-resizable">
+                                                      <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                          <span class="slds-resizable__divider"></span>
+                                                      </span>
+                                                  </div>
+                                                  </div>
+                                                </th>
+                                                <th title="EMI Clearance date (Login Month -1)" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                  <div class="slds-cell-fixed fixedWidth">
+                                                  <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                                    <span class="slds-truncate">EMI Clearance date (Login Month -1)</span>
+                                                  </a>
+                                                  <div class="slds-resizable">
+                                                      <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                          <span class="slds-resizable__divider"></span>
+                                                      </span>
+                                                  </div>
+                                                  </div>
+                                                </th>
+                                                <th title="EMI Clearance date (Login Month -2)" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                  <div class="slds-cell-fixed fixedWidth">
+                                                  <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                                    <span class="slds-truncate">EMI Clearance date (Login Month -2)</span>
+                                                  </a>
+                                                  <div class="slds-resizable">
+                                                      <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                          <span class="slds-resizable__divider"></span>
+                                                      </span>
+                                                  </div>
+                                                  </div>
+                                                </th>
+                                                <th title="EMI Clearance date (Login Month -3)" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                  <div class="slds-cell-fixed fixedWidth">
+                                                  <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                                    <span class="slds-truncate">EMI Clearance date (Login Month -3)</span>
+                                                  </a>
+                                                  <div class="slds-resizable">
+                                                      <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                          <span class="slds-resizable__divider"></span>
+                                                      </span>
+                                                  </div>
+                                                  </div>
+                                                </th>
+                                                <th title="EMI Clearance date (Login Month -4)" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                  <div class="slds-cell-fixed fixedWidth">
+                                                  <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                                    <span class="slds-truncate">EMI Clearance date (Login Month -4)</span>
+                                                  </a>
+                                                  <div class="slds-resizable">
+                                                      <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                          <span class="slds-resizable__divider"></span>
+                                                      </span>
+                                                  </div>
+                                                  </div>
+                                                </th>
+                                                <th title="EMI Clearance date (Login Month -5)" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                  <div class="slds-cell-fixed fixedWidth">
+                                                  <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                                    <span class="slds-truncate">EMI Clearance date (Login Month -5)</span>
+                                                  </a>
+                                                  <div class="slds-resizable">
+                                                      <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                          <span class="slds-resizable__divider"></span>
+                                                      </span>
+                                                  </div>
+                                                  </div>
+                                                </th>
+                                                <th title="EMI Clearance date (Login Month -6)" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                  <div class="slds-cell-fixed fixedWidth">
+                                                  <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                                    <span class="slds-truncate">EMI Clearance date (Login Month -6)</span>
+                                                  </a>
+                                                  <div class="slds-resizable">
+                                                      <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                          <span class="slds-resizable__divider"></span>
+                                                      </span>
+                                                  </div>
+                                                  </div>
+                                                </th>
+                                                <th title="EMI Clearance date (Login Month -7)" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                  <div class="slds-cell-fixed fixedWidth">
+                                                  <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                                    <span class="slds-truncate">EMI Clearance date (Login Month -7)</span>
+                                                  </a>
+                                                  <div class="slds-resizable">
+                                                      <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                          <span class="slds-resizable__divider"></span>
+                                                      </span>
+                                                  </div>
+                                                  </div>
+                                                </th>
+                                                <th title="EMI Clearance date (Login Month -8)" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                  <div class="slds-cell-fixed fixedWidth">
+                                                  <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                                    <span class="slds-truncate">EMI Clearance date (Login Month -8)</span>
+                                                  </a>
+                                                  <div class="slds-resizable">
+                                                      <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                          <span class="slds-resizable__divider"></span>
+                                                      </span>
+                                                  </div>
+                                                  </div>
+                                                </th>
+                                                <th title="EMI Clearance date (Login Month -9)" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                  <div class="slds-cell-fixed fixedWidth">
+                                                  <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                                    <span class="slds-truncate">EMI Clearance date (Login Month -9)</span>
+                                                  </a>
+                                                  <div class="slds-resizable">
+                                                      <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                          <span class="slds-resizable__divider"></span>
+                                                      </span>
+                                                  </div>
+                                                  </div>
+                                                </th>
+                                                <th title="EMI Clearance date (Login Month -10)" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                  <div class="slds-cell-fixed fixedWidth">
+                                                  <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                                    <span class="slds-truncate">EMI Clearance date (Login Month -10)</span>
+                                                  </a>
+                                                  <div class="slds-resizable">
+                                                      <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                          <span class="slds-resizable__divider"></span>
+                                                      </span>
+                                                  </div>
+                                                  </div>
+                                                </th>
+                                                <th title="EMI Clearance date (Login Month -11)" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                  <div class="slds-cell-fixed fixedWidth">
+                                                  <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                                    <span class="slds-truncate">EMI Clearance date (Login Month -11)</span>
+                                                  </a>
+                                                  <div class="slds-resizable">
+                                                      <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                          <span class="slds-resizable__divider"></span>
+                                                      </span>
+                                                  </div>
+                                                  </div>
+                                                </th>
+                                                <th title="EMI Clearance date (Login Month -12)" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                  <div class="slds-cell-fixed fixedWidth">
+                                                  <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                                    <span class="slds-truncate">EMI Clearance date (Login Month -12)</span>
+                                                  </a>
+                                                  <div class="slds-resizable">
+                                                      <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                          <span class="slds-resizable__divider"></span>
+                                                      </span>
+                                                  </div>
+                                                  </div>
+                                                </th>                                        
+                                            </tr>
+                                       </thead> 
+  
+  
+                              <tbody>
+                                  <template for:each={newBlankListOfAppObliRec} for:item="record" for:index="index">
+                                      <tr data-row-index={index} onclick={handleRowClick} key={record.parentRecord.Id} aria-selected="false" class="slds-hint-parent" >
+                                         
+                                          <td style="background-color: #F3F2F2; " scope="row"><lightning-button-icon
+                                              icon-name="action:delete"
+                                              alternative-text="Delete"
+                                              title="Delete"
+                                              data-index={index}                                        
+                                              onclick={handleDelete}
+                                              read-only={disableMode} 
+                                              disabled={disableMode}
+                                              ></lightning-button-icon></td>                                        
+                                          <td style="background-color: #F3F2F2;" scope="row">{record.index}</td>
+                                         <td style="background-color: #F3F2F2;">                                          
+                                            <c-custom-lookup                             
+                                              field-name="Loan_Type__c"
+                                              selected-icon-name="standard:identifier"
+                                              object-api-name="MultiBureau_Response_Master__mdt"
+                                              field-api-name="Loan_Type__c"
+                                              selected-record-name={record.parentRecord.NatureOfLoan__c}
+                                              selected-record-id={record.parentRecord.NatureOfLoanID__c}
+                                              onselect={handleValuemanualSelect}
+                                              index={index}
+                                              read-only={disableMode}
+                                               disabled={disableMode}
+                                               required={required} 
+                                               variant="label-hidden"
+                                              ></c-custom-lookup>                    
+                                          </td>                                         
+                                          <td style="background-color: #F3F2F2;" scope="row"> 
+                                              <div >
+                                                      <lightning-combobox                                                    
+                                                      name="LoanName__c"
+                                                      class="borrowersValue1"                                        
+                                                      value={record.parentRecord.Applicant__c}
+                                                      data-name="LoanName__c"
+                                                      options={AppNameList}
+                                                      data-index={index}
+                                                      onchange={HandleValue}
+                                                      read-only={disableMode} 
+                                                      disabled={disableMode}
+                                                      required={required} 
+                                                      variant="label-hidden">
+                                                  </lightning-combobox>
+                                              </div>
+                                              
+                                          </td> 
+                                          <td style="background-color: #F3F2F2;"> 
+                                              <lightning-combobox                                            
+                                              name="LoanCapacity__c"
+                                              class="borrowersValue"                                        
+                                              value={record.parentRecord.LoanCapacity__c}
+                                              data-name="LoanCapacity__c"
+                                              options={LoanCapacityOptions}
+                                              data-index={index}
+                                              onchange={HandleValue}
+                                              read-only={disableMode} 
+                                              disabled={disableMode}
+                                              required={required} 
+                                              variant="label-hidden">
+                                          </lightning-combobox>
+                                      </td> 
+                                          
+                                              <td style="background-color: #F3F2F2; " scope="row"><c-custom-lookup 
+                              
+                                                field-name="FinancierName__c"
+                                                selected-icon-name="standard:identifier"
+                                                object-api-name="SFDCBANKMaster__c"
+                                                field-api-name="BankName__c"                                            
+                                                selected-record-id={record.parentRecord.FinancierNameID__c}
+                                                selected-record-name={record.parentRecord.FinancierName__c}
+                                                onselect={handleValuemanualSelect}
+                                                index={index}
+                                                read-only={disableMode}
+                                                 disabled={disableMode}
+                                                 required={required} 
+                                                 variant="label-hidden"
+                                                ></c-custom-lookup></td>
+                                          <td style="background-color: #F3F2F2;" scope="row"> <lightning-input placeholder="DD/MM/YYYY" type="date" data-objectname="BureauRespDtl__c" value={record.parentRecord.DisbursalDate__c} onchange={handleInputChange} data-index={index} data-field="DisbursalDate__c" read-only={disableMode} disabled={disableMode} required={required} variant="label-hidden" ></lightning-input></td>
+                                          
+                                          <td style="background-color: #F3F2F2; padding-bottom: 22px" scope="row"> <lightning-input placeholder="DD/MM/YYYY" type="date" data-objectname="BureauRespDtl__c" value={record.parentRecord.CloseDate__c} onchange={handleInputChange} data-index={index} data-field="CloseDate__c" read-only={disableMode} disabled={disableMode}></lightning-input></td>
+                                          <td style="background-color: #F3F2F2;" scope="row"> <lightning-input type="number" step=".01" formatter="currency" data-objectname="BureauRespDtl__c" value={record.parentRecord.LoanAmount__c} onchange={handleInputChange} data-index={index} data-field="LoanAmount__c"  read-only={disableMode} disabled={disableMode} required={required} variant="label-hidden" ></lightning-input></td>
+                                          <td style="background-color: #F3F2F2;" scope="row"> <lightning-input type="number" step=".01" formatter="currency" data-objectname="BureauRespDtl__c" value={record.parentRecord.CurrentOs__c} onchange={handleInputChange} data-index={index} data-field="CurrentOs__c"  read-only={disableMode} disabled={disableMode} required={required} variant="label-hidden"></lightning-input></td>
+                                          <td style="background-color: #F3F2F2;" scope="row"> <lightning-input type="number" step=".01" formatter="currency" data-objectname="BureauRespDtl__c" value={record.parentRecord.EMI__c} onchange={handleInputChange} data-index={index} data-field="EMI__c"  read-only={disableMode} disabled={disableMode} required={required} variant="label-hidden"></lightning-input></td>
+                                          <td style="background-color: #F3F2F2;" scope="row"> <lightning-input type="text" data-objectname="BureauRespDtl__c" value={record.parentRecord.Tenure__c} onchange={handleInputChange} data-index={index} data-field="Tenure__c" pattern="^[0-9\s]+$" read-only={disableMode} disabled={disableMode} required={required} variant="label-hidden"></lightning-input></td>
+                                          <td style="background-color: #F3F2F2; padding-bottom: 22px" scope="row"> <lightning-input type="text" data-objectname="BureauRespDtl__c" value={record.parentRecord.NoEMIPaid__c} onchange={handleInputChange} data-index={index} data-field="NoEMIPaid__c" pattern="^[0-9\s]+$" read-only={disableMode} disabled={disableMode}></lightning-input></td>
+                                          <td style="background-color: #F3F2F2; padding-bottom: 22px" scope="row"> <lightning-input type="text" data-objectname="BureauRespDtl__c" value={record.parentRecord.TenureLeft__c} onchange={handleInputChange} data-index={index} data-field="TenureLeft__c" pattern="^[0-9\s]+$" read-only={disableMode} disabled={disableMode}> </lightning-input></td>
+                                          <td style="background-color: #F3F2F2;"> <lightning-combobox                                            
+                                              name="Treatment__c"
+                                              class="borrowersValue"                                        
+                                              value={record.parentRecord.Treatment__c}
+                                              data-name="Treatment__c"
+                                              options={TreatmentOptions}
+                                              data-index={index}
+                                              onchange={HandleValue}
+                                              read-only={disableMode} disabled={disableMode} required={required} variant="label-hidden">
+                                          </lightning-combobox></td>
+                                          <td style="background-color: #F3F2F2; padding-bottom: 22px" scope="row"> <lightning-input type="text" data-objectname="BureauRespDtl__c" value={record.parentRecord.ConsiderObligation__c} onchange={handleInputChange} data-index={index} data-field="ConsiderObligation__c" disabled="true" ></lightning-input></td>
+                                            <td style="background-color: #F3F2F2;"><c-custom-lookup 
+                              
+                                              field-name="Repayment_Bank__c"
+                                              selected-icon-name="standard:identifier"
+                                              object-api-name="SFDCBANKMaster__c"
+                                              field-api-name="BankName__c"
+                                              
+                                              selected-record-id={record.parentRecord.RepaymentBankID__c}
+                                              selected-record-name={record.parentRecord.Repayment_Bank__c}
+                                              onselect={handleValuemanualSelect}
+                                              index={index}
+                                              read-only={disableMode} 
+                                              disabled={disableMode}
+                                              required={required} variant="label-hidden"
+                                              ></c-custom-lookup></td>
+                                          <td style="background-color: #F3F2F2; " scope="row"> <lightning-input type="text" data-objectname="BureauRespDtl__c" value={record.parentRecord.RepayAc__c} onchange={handleInputChange} data-index={index} data-field="RepayAc__c" pattern="^[0-9\s]+$" read-only={disableMode} disabled={disableMode} required={required} variant="label-hidden"></lightning-input></td>
+                                          <td style="background-color: #F3F2F2; padding-bottom: 22px" scope="row"><lightning-input data-index={index}  type="Number"  data-objectname="BureauRespDtl__c" value={record.parentRecord.BounceInLast12Months__c} onchange={handleInputChange} data-field="BounceInLast12Months__c" read-only={disableMode} disabled={disableMode}  ></lightning-input></td>
+                                          <td style="background-color: #F3F2F2; padding-bottom: 22px" scope="row"><lightning-input data-index={index} type="Number"  data-objectname="BureauRespDtl__c" value={record.parentRecord.BounceInLast18Months__c} onchange={handleInputChange} data-field="BounceInLast18Months__c" read-only={disableMode} disabled={disableMode}></lightning-input></td>
+                                          <td style="background-color: #F3F2F2; padding-bottom: 22px" scope="row"><lightning-input data-index={index} type="Number"  data-objectname="BureauRespDtl__c" value={record.parentRecord.TotalBouncesInRTR__c} onchange={handleInputChange} data-field="TotalBouncesInRTR__c" read-only={disableMode} disabled={disableMode}></lightning-input></td>
+                                          <td style="background-color: #F3F2F2; padding-bottom: 22px" scope="row"><lightning-input data-index={index} placeholder="DD/MM/YYYY" type="date"  data-objectname="BureauRespDtl__c" value={record.parentRecord.EMIClearanceDate__c} onchange={handleLoginAceptanceDate} data-field="EMIClearanceDate__c" read-only={disableMode} disabled={disableMode}></lightning-input></td>
+                                          <template for:each={record.ChildReords} for:item="childRecord" for:index="index1" >
+                                              <td style="background-color: #F3F2F2; padding-bottom: 22px"  onclick={handleColumnClick} key={childRecord.Id}><lightning-input  placeholder="DD/MM/YYYY" type="date" value={childRecord.EMI_Clearance_Date__c} onchange={handleManualDateChange} data-id={record.Id} data-field="EMI_Clearance_Date__c" data-cloumn-index={index1} data-parent-index={index} read-only={disableMode} disabled={disableMode}></lightning-input></td>
+                                          </template>                                        
+                                      </tr>    
+                                  </template>
+                                  <tr >
+                                    <td style="background-color: #F3F2F2;" scope="row">Total</td>                              
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>                              
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>{totalLoanAmount_m}</td>      
+                                    <td>{totalCurrentOS_m}</td>
+                                    <td>{totalEMI_m}</td>
+                                    <td>-</td>
+                                    <td>-</td>      
+                                    <td>-</td>
+                                    <td>{totalContinueObli_m}</td>
+                                    <td>-</td>
+                                    <td>-</td>      
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>      
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>                            
+                                    </tr>
+                              </tbody>
+                              
+                      </table>
+                      </div>
+                      </div>                  
+                  </div> 
+              </template>
+            
+           <lightning-layout-item size="12">
+              <template if:true={showNewBureauTable}>
+                <div class="center slds-clearfix">
+                   <div class="slds-float_right"> 
+                  <lightning-button                
+                  label="Add Other Loan"               
+                  variant="brand"
+                  onclick={handleAddLoan}
+                  disabled={disableMode}
+                  read-only={disableMode} 
+                  ></lightning-button>
+              </div></div>
+          </template>            
+              </lightning-layout-item>       
+           
+      </lightning-card>     -->
+      <!-- <template if:true={openchild}>
+        <c-obligation-child-details loan-app-id={loanAppId}></c-obligation-child-details>
+      </template> -->
+  </template>

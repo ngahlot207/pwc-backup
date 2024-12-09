@@ -1,0 +1,174 @@
+<!--<template>
+    <lightning-card title="Merged PDF Viewer">
+        <template if:true={mergedPdfUrl}>
+            <iframe src={mergedPdfUrl} width="100%" height="1400px"></iframe>
+        </template>
+        <template if:false={mergedPdfUrl}>
+            <lightning-spinner alternative-text="Hang tight, merging magic in progress..."></lightning-spinner>
+        </template>
+    </lightning-card>
+</template>-->
+<template>
+
+    <lightning-card title=" ">
+        <lightning-layout multiple-rows="false">
+            <lightning-accordion active-section-name={activeSection} allow-multiple-sections-open>
+                <lightning-accordion-section name="B" label="E-Stamp" class="accClass">
+                    <lightning-combobox options={EStampOptions} data-id="estamp" data-objectname="" type="text" label="E-stamp/Physical" value={loanAppRecord.E_Stamp_Physical_Stamp__c} onchange={handleEStampData} data-field="E_Stamp_Physical_Stamp__c" required disabled={disableMode}></lightning-combobox>
+                    <template if:true={eStampSelected}>
+                      <template if:true={isStateMaharas}>
+                            <lightning-layout multiple-rows="false">
+                            <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                            medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                            <div class="slds-p-around_x-small">
+                                <c-custom-lookup 
+                                
+                                required=true
+                              field-name="EStamp_District__c"
+                              label="EStamp District"
+                              selected-icon-name="standard:identifier"
+                              object-api-name="MasterData__c"
+                              field-api-name="Name"
+                              selected-record-id={selectedDistrictRecId}
+                              selected-field-name={loanAppRecord.EStamp_District__c}
+                              onselect={handleDistricVal}
+                              disabled={disableMode}
+                              filter-condn={filterCondnForDistrict}
+                            ></c-custom-lookup>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                            medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                            <div class="slds-p-around_x-small">
+                                <c-custom-lookup 
+                                
+                                required=true
+                              field-name="EStamp_Sub_Registrar_Office__c"
+                              label="EStamp Sub Registrar Office"
+                              selected-icon-name="standard:identifier"
+                              object-api-name="MasterData__c"
+                              field-api-name="Name"
+                              selected-record-id={selectedRecId}
+                              selected-field-name="Name"
+                              onselect={handleValueSubReg}
+                              disabled={regiDisabled}
+                              filter-condn={filterConditionForSubReg}
+                            ></c-custom-lookup>
+                            </div>
+                        </lightning-layout-item>
+                      </lightning-layout>
+                        </template>
+                        <lightning-button style="padding-top: 20px;" label="Send E-Stamp Link" title="Send E-Sign Link" onclick={handleSendEStampLink} variant="brand"  disabled={disableMode}> </lightning-button>
+                    </template>
+                    <template if:true={showEstampPhysicalDoc}>
+                       <!-- <lightning-button style="padding-top: 20px;" label="Upload Physical Stamp" title="Upload Physical Stamp" onclick={handleUploadEStamp} variant="brand"  disabled={disableMode}> </lightning-button>-->
+                       <c-upload-esign-and-estamp-doc is-e-stamp-done={isEStampDone} has-edit-access={hasEditAccess} lead-record-id={_loanAppId} applicant-id={applicantId} onforrefreshtable={toRefreshDocumentTableforStamp} show-e-stamp-documents="true"></c-upload-esign-and-estamp-doc>
+                        </template>
+                        <template if:true={eStampSelected}>
+                        <c-uploded-document-display title={tableHeadingForStamp} type={docTypeSign} sub-type={subTypeSign}
+                            category={docCategorySign} loan-app-id={_loanAppId}
+                            applicant-id={applicantId} mode="false" disable-remarks="false" is-read-only="false"
+                            capture-all-documents="false" disabled="false" is-cpa="false" hide-mark-for-error="true"
+                            hide-availiable-in-file="true" hide-upload-button="false" show-upload-button="true" onuploadeddoc={uploadedDocument}>
+                        </c-uploded-document-display>
+                    </template>
+                    <template if:true={showEstampPhysicalDoc}>
+                      <c-uploded-document-display title={tableHeadingForStamp} type={docTypeSign1} sub-type={subTypeSign1}
+                          category={docCategorySign1} loan-app-id={_loanAppId}
+                          applicant-id={applicantId} mode="false" disable-remarks="false" is-read-only="false"
+                          capture-all-documents="false" disabled="false" is-cpa="false" hide-mark-for-error="true"
+                          hide-availiable-in-file="true" hide-upload-button="false" show-upload-button="true" onuploadeddoc={uploadedDocumentForStamp} >
+                      </c-uploded-document-display>
+                  </template>
+                </lightning-accordion-section>
+
+                <lightning-accordion-section name="A" label="E-Sign" class="accClass">
+                    <lightning-layout-item size="12">
+                    <lightning-combobox  options={ESignOptions} data-id="esign" data-objectname="" type="text" label="E-sign/Physical" value={loanAppRecord.E_Sign_Physical_Sign__c} onchange={handleEsignData} data-field="E_Sign_Physical_Sign__c" required disabled={disableMode}></lightning-combobox>
+                </lightning-layout-item>
+                <lightning-layout-item size="12">
+                    <template if:true={eSignSelected}>
+                        <lightning-button style="padding-top: 20px;" label="Send E-Sign Link" title="Send E-Sign Link" onclick={handleSendESignLink} variant="brand"  disabled={disableMode}></lightning-button>
+                    </template>
+                    <template if:true={physicalSignSelected}>
+                      <c-upload-esign-and-estamp-doc is-e-stamp-done={isEStampDone} has-edit-access={hasEditAccess} lead-record-id={_loanAppId} applicant-id={applicantId} onforrefreshtable={toRefreshDocumentTable} show-e-sign-documents="true"></c-upload-esign-and-estamp-doc>
+                  </template>
+                </lightning-layout-item>
+                    <template if:true={showEsignPhysicalDoc}>
+                        <c-uploded-document-display   title={tableHeadingforSign} type={docType} sub-type={subType}
+                            category={docCategory} loan-app-id={_loanAppId} 
+                            applicant-id={applicantId} mode="false" disable-remarks="false" is-read-only="false"
+                            capture-all-documents="false" disabled="false" is-cpa="false" hide-mark-for-error="true"
+                            hide-availiable-in-file="true" hide-upload-button="false" show-upload-button="true">
+                        </c-uploded-document-display>
+
+                    </template>
+                </lightning-accordion-section>
+                
+             </lightning-accordion>
+        </lightning-layout>
+    </lightning-card>
+    <template if:true={uploadSignedDocModel}> 
+        <section
+        role="dialog"
+        tabindex="-1"
+        aria-labelledby="modal-heading-01"
+        aria-modal="true"
+        aria-describedby="modal-content-id-1"
+        class="slds-modal slds-fade-in-open"
+      >
+        <div class="slds-modal__container" style="min-width:80% !important;">
+         
+          <header class="slds-modal__header">
+            <lightning-button-icon
+              class="slds-modal__close"
+              title="Close"
+              icon-name="utility:close"
+              icon-class="slds-button_icon-inverse"
+              onclick={closeModal}
+            ></lightning-button-icon>
+    
+            <h2 id="id-of-modalheader-h2" class="slds-text-heading_large">
+              File Upload
+            </h2>
+          </header>
+         
+          <div class="slds-modal__content" id="modal-content-id-2">
+           
+                <article class="slds-card">
+                  <div
+                    class="slds-card__body slds-card__body_inner"
+                    style="margin: 0"
+                  >
+                  <c-upload-docs-reusable-component loan-app-id={_loanAppId} applicant-id={applicantId}
+                  doc-name="Stamped Loan Agreement" doc-type="Stamped Loan Agreement" disable-mode={disableFileUpload} doc-category="Stamped Loan Agreement"
+                  onrefreshdoctable={fromUploadDocsContainer} 
+                  convert-to-single-image={convertToSingleImage} allowed-fil-format={allowedFilFormat}
+                   onchangefiles={parentFileChange} file-type-error={fileTypeError} 
+                   document-detai-id={documentDetaiId}  file-size-msz={fileSizeMsz}></c-upload-docs-reusable-component>
+                </div>
+            </article>
+         
+      </div>
+      
+      <footer class="slds-modal__footer">
+        <lightning-button
+          variant="brand-outline"
+          label="Close"
+          onclick={closeModal}
+          title="Close"
+          class="slds-m-left_xx-large"
+        ></lightning-button>
+      </footer>
+    </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+        
+      </template>
+    
+    <!--<lightning-card title="Download PDF File" icon-name="utility:user">
+   <lightning-button variant="brand" label="Download" title={recordId} onclick={createPdf} class="slds-align_absolute-center"></lightning-button>
+     
+    </lightning-card>-->
+   
+  </template>

@@ -1,0 +1,13 @@
+/* .applicantClass{
+    --slds-c-accordion-summary-color-background : rgb(243, 243, 243) ;
+    --slds-c-accordion-color-border : 0.5rem;
+} */
+.pointerClass{
+    cursor: pointer;
+  }
+ .pcklist-container{
+    width: 100%;
+    /*display: grid;
+    grid-template-columns: max-content auto;
+    grid-gap: 1rem;*/
+}

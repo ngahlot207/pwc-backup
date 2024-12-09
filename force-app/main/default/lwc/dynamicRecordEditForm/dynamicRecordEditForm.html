@@ -1,0 +1,54 @@
+<template>
+
+    <lightning-card title={formTitle}>
+        <lightning-record-edit-form object-api-name={objectName} record-id={recordId} onsubmit={handleSubmit}
+            onsuccess={handleSucess}>
+
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item padding="around-small" size="6"> </lightning-layout-item> </lightning-layout>
+            <template for:each={fieldDetails} for:item="item">
+                <div class={colCSS} key={item.fieldName}>
+
+                    <lightning-input-field field-name={item.fieldName} required={item.required}
+                        read-only={falseVal}></lightning-input-field>
+
+                </div>
+            </template>
+
+
+            <!-- <div class="slds-grid slds-wrap">
+                <div class={colCSS}>
+                    <lightning-input-field
+                        field-name="FirstName__c"
+                    ></lightning-input-field>
+                </div>
+                <div class={colCSS}>
+                    <lightning-input-field
+                        field-name="LastName__c"
+                    ></lightning-input-field>
+                </div>
+                <div class={colCSS}>
+                    <lightning-input-field
+                        field-name="MobNo__c"
+                        read-only
+                    ></lightning-input-field>
+                </div>
+                <div class={colCSS}>
+                    <lightning-input-field field-name="Email__c">
+                    </lightning-input-field>
+                </div>
+            </div> -->
+            <lightning-button class="slds-var-m-top_small" type="submit" label="Save">
+            </lightning-button>
+        </lightning-record-edit-form>
+
+        <!-- <lightning-record-form
+            object-api-name={objectName}
+            fields={fields}
+            columns={columns}
+            record-id={recordId}
+            onsubmit={handleSubmit}
+            onsuccess={handleSucess}
+        ></lightning-record-form> -->
+    </lightning-card>
+</template>

@@ -1,0 +1,717 @@
+<template>
+  <!-- <div if:true={showSpinner}>
+    <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+    </lightning-spinner> -->
+    <lightning-spinner if:true={showSpinner} alternative-text="Loading" size="medium" style="height:60rem;width:120rem;position:fixed;"></lightning-spinner>
+    
+  <!-- </div> -->
+    <lightning-card title="">
+      
+    <lightning-accordion active-section-name={activeSection} allow-multiple-sections-open>
+    <lightning-accordion-section name="A" label="Nach" class="accClass">
+      <!-- <lightning-layout multiple-rows="12">
+        <lightning-layout-item size="12" small-device-size="4" medium-device-size="4" large-device-size="4">
+            <div class="slds-p-around_x-small">
+              <lightning-input type="text" label="Penny Drop Status"    value={RVRecord.PennyDropStatus__c}
+              data-name="PennyDropStatus__c" disabled="true" required={isRequired} read-only="true"  data-fieldname={PennyDropStatus__c}
+              ></lightning-input>   
+            </div>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="12" small-device-size="4" medium-device-size="4" large-device-size="4">
+          
+            <lightning-button
+                    label="Initiate/Reinitiate"       
+                    variant="brand"
+                    onclick={handleClick}
+                    disabled={disable}
+                    ></lightning-button> 
+          
+      </lightning-layout-item>
+        </lightning-layout> -->
+
+        <lightning-layout multiple-rows="12">
+            <lightning-layout-item size="4" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <div class="slds-p-around_x-small">
+                    <!-- value={wrpAppReg.DealngIndstry__c -->
+                    <lightning-combobox
+                        
+                        label="Mandate Type"
+                        value={wrpAppReg.Mandate_Type__c}
+                        data-name="Mandate_Type__c"
+                        options={IsMandateTypeOptions}
+                        onchange={HandleValueChange} 
+                        required={requiredFlag}
+                        read-only={isStatusSuccess}
+                        disable={disableMode}
+                        >
+                    </lightning-combobox>    
+                </div>
+            </lightning-layout-item>
+          
+            <template if:true={isPhysicalNachButton}>
+              <lightning-layout-item padding="around-small" size="4" >
+                <div class="center slds-clearfix slds-p-top_medium">
+                  <div class="slds-float_left">
+                  <lightning-button variant="brand" name="Generate Document" label="Generate Document"
+                              onclick={handleGenerateDocuments} read-only={disableMode} disabled={disableMode}></lightning-button>
+                              </div></div>
+              </lightning-layout-item>
+            </template>
+
+            <template if:true={isEnachVisible}>
+              <lightning-layout-item padding="around-small" size="4" >
+                <div class="center slds-clearfix slds-p-top_medium">
+                  <div class="slds-float_left">
+                  <lightning-button variant="brand" name="ReTrigger eNACH registration" label="ReTrigger eNACH registration"
+                              onclick={handleEnachbutton}  read-only={disableMode} disabled={enachRetrigger}></lightning-button>
+                              </div></div>
+              </lightning-layout-item>
+            </template>
+            </lightning-layout>   
+
+            <!-- row1 -->
+
+            <lightning-layout multiple-rows="12"> 
+                <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="text" label="UMRN"  onchange={handleInputChange}  value={wrpAppReg.UMRN__c}
+                        data-name="UMRN__c" disabled={disable} required={IsrequiredUMRN} read-only={disable}  data-fieldname={UMRN__c}
+                        ></lightning-input>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="text" label="Sponsor Bank Code"  onchange={handleInputChange}  value={wrpAppReg.Spnsr_Bank__c}
+                        data-name="Spnsr_Bank__c" disabled={disable} required={isRequired} read-only={disable} data-fieldname={Spnsr_Bank__c}></lightning-input>
+                    </div>
+                </lightning-layout-item>
+        
+                <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="text" label="Utility Code "  onchange={handleInputChange}  value={wrpAppReg.Utility_Code__c}
+                        data-name="Utility_Code__c" disabled={disable} required={isRequired} read-only={disable} data-fieldname={Utility_Code__c}></lightning-input>
+                   </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="text" label="Authorise ( Financial Institution name )"  onchange={handleInputChange}  value={wrpAppReg.Authorise__c}
+                        data-name="Authorise__c" disabled={disable} required={isRequired} read-only={disable} data-fieldname={Authorise__c}></lightning-input>
+                   </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="text" label="Account Type"  onchange={handleInputChange}  value={wrpAppReg.Account_Type__c}
+                        data-name="Account_Type__c" disabled={disable} required={isRequired} read-only={disable}  data-fieldname={Account_Type__c}
+                        ></lightning-input>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+                  <div class="slds-p-around_x-small">
+                      <lightning-input type="text" label="Name Of Account Holder"  onchange={handleInputChange}  value={wrpAppReg.Name_Acc_Holder__c}
+                      data-name="Name_Acc_Holder__c" disabled={disable} required={isRequired} read-only={disable}  data-fieldname={Name_Acc_Holder__c}
+                      ></lightning-input>
+                  </div>
+              </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="text" label="Bank Account Number"  onchange={handleInputChange}  value={wrpAppReg.Bank_Account_Number__c}
+                        data-name="Bank_Account_Number__c" disabled={disable} required={isRequired} read-only={disable} data-fieldname={Bank_Account_Number__c}></lightning-input>
+                    </div>
+                </lightning-layout-item>
+        
+                <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="text" label="MICR Code "  onchange={handleInputChange}  value={wrpAppReg.MICR_Code__c}
+                        data-name="MICR_Code__c" disabled={disable} required={isRequired} read-only={disable} data-fieldname={MICR_Code__c}></lightning-input>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="text" label="Bank City"  onchange={handleInputChange}  value={wrpAppReg.Bank_City__c}
+                        data-name="Bank_City__c" disabled={disable} required={isRequired} read-only={disable} data-fieldname={Bank_City__c}></lightning-input>
+                    </div>
+                </lightning-layout-item>
+                        
+                <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="text" label="Bank Name"  onchange={handleInputChange}  value={wrpAppReg.Bank_Name__c}
+                        data-name="Bank_Name__c" disabled={disable} required={isRequired} read-only={disable}  data-fieldname={Bank_Name__c}
+                        ></lightning-input>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="text" label="Bank Code"  onchange={handleInputChange}  value={wrpAppReg.Bank_Code__c}
+                        data-name="Bank_Code__c" disabled={disable} required={isRequired} read-only={disable} data-fieldname={Bank_Code__c}></lightning-input>
+                    </div>
+                </lightning-layout-item>
+        
+                <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="text" label="Bank Branch "  onchange={handleInputChange}  value={wrpAppReg.Bank_Branch__c}
+                        data-name="Bank_Branch__c" disabled={disable} required={isRequired} read-only={disable} data-fieldname={Bank_Branch__c}></lightning-input>
+                   </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="text" label="IFSC Code"  onchange={handleInputChange}  value={wrpAppReg.IFSC_Code__c}
+                        data-name="IFSC_Code__c" disabled={disable} required={isRequired} read-only={disable} data-fieldname={IFSC_Code__c}></lightning-input>
+                   </div>
+                </lightning-layout-item> 
+                <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="text" label="With Bank"  onchange={handleInputChange}  value={wrpAppReg.With_Bank__c}
+                        data-name="With_Bank__c" disabled={disable} required={isRequired} read-only={disable}  data-fieldname={With_Bank__c}
+                        ></lightning-input>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="text" label="An amount of rupees in words"  onchange={handleInputChange}  value={wrpAppReg.amt_rupees_words__c}
+                        data-name="amt_rupees_words__c" disabled={disable} required={isRequired} read-only={disable} data-fieldname={amt_rupees_words__c}></lightning-input>
+                    </div>
+                </lightning-layout-item>
+        
+                <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="text" label="An amount of rupees in numbers"  onchange={handleInputChange}  value={wrpAppReg.amount_numbers__c}
+                        data-name="amount_numbers__c" disabled={disable} required={isRequired} read-only={disable} data-fieldname={amount_numbers__c}></lightning-input>
+                   </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="text" label="Frequency"  onchange={handleInputChange}  value={wrpAppReg.Frequency__c}
+                        data-name="Frequency__c" disabled={disable} required={isRequired} read-only={disable} data-fieldname={Frequency__c}></lightning-input>
+                   </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+                    <div class="slds-p-around_x-small">
+                        <!-- <lightning-input type="text" label="Debit Type"  onchange={handleInputChange}  value={wrpAppReg.Debit_Type__c}
+                        data-name="Debit_Type__c" disabled={disableMode} required={isRequired} read-only={disableMode}  data-fieldname={Debit_Type__c}
+                        ></lightning-input> -->
+                        <lightning-combobox
+                        
+                        label="Debit Type"
+                        value={wrpAppReg.Debit_Type__c}
+                        data-name="Debit_Type__c"
+                        options={IsDebitTypeOptions}
+                        onchange={HandleDebitChange} 
+                        required={requiredFlag}
+                        read-only={disableMode}
+                        disabled={disableMode}
+                        >
+                    </lightning-combobox> 
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="text" label="Reference 1"  onchange={handleInputChange}  value={wrpAppReg.Reference_1__c}
+                        data-name="Reference_1__c" disabled={disable} required={isRequired} read-only={disable} data-fieldname={Reference_1__c}></lightning-input>
+                    </div>
+                </lightning-layout-item>
+        
+                <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="text" label="Mobile Number"  onchange={handleInputChange}  value={wrpAppReg.Mobile_Number__c}
+                        data-name="Mobile_Number__c" disabled={disable} required={isRequired} read-only={disable} data-fieldname={Mobile_Number__c}></lightning-input>
+                   </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="text" label="Email Id"  onchange={handleInputChange}  value={wrpAppReg.Email_Id__c}
+                        data-name="Email_Id__c" disabled={disable} required={isRequired} read-only={disable} data-fieldname={Email_Id__c}></lightning-input>
+                   </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="date" label="From Date"  onchange={handleInputChange}  value={wrpAppReg.From_Date__c}
+                        data-name="From_Date__c" disabled={disable} required={isRequired} read-only={disable}  data-fieldname={From_Date__c}
+                        ></lightning-input>
+                    </div>
+                </lightning-layout-item>
+                <template lwc:if={isEnachVisible}>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="text" label="eNACH Registration Status"  onchange={handleInputChange}  value={wrpAppReg.eNACH_Registration_Status__c}
+                        data-name="eNACH_Registration_Status__c" disabled={disable} required={isRequired} read-only={disable} data-fieldname={eNACH_Registration_Status__c}></lightning-input>
+                    </div>
+                </lightning-layout-item>
+        
+                <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="text" label="eNACH Rejection Reasons"  onchange={handleInputChange}  value={wrpAppReg.eNACH_Rejection_Reasons__c}
+                        data-name="eNACH_Rejection_Reasons__c" disabled={disable} required={isRequired} read-only={disable} data-fieldname={eNACH_Rejection_Reasons__c}></lightning-input>
+                   </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+                  <div class="slds-p-around_x-small">
+                      <lightning-input type="text" label="eNACH Initiation DateTime"  onchange={handleInputChange}  value={formattedInitiationDateTime}
+                      data-name="EnachInitiationDateTime__c" disabled={disable} required={isRequired} read-only={disable} data-fieldname={EnachInitiationDateTime__c}></lightning-input>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+                  <div class="slds-p-around_x-small">
+                      <lightning-input type="text" label="eNACH Response DateTime"  onchange={handleInputChange}  value={formattedResponseDateTime}
+                      data-name="EnachResponseDateTime__c" disabled={disable} required={isRequired} read-only={disable} data-fieldname={EnachResponseDateTime__c}></lightning-input>
+                 
+                  <!-- <lightning-formatted-date-time label="eNACH Response DateTime" value={wrpAppReg.EnachResponseDateTime__c}
+                                            year="numeric" month="numeric" day="numeric" hour="2-digit"
+                                            minute="2-digit"></lightning-formatted-date-time> -->
+                    </div>
+              </lightning-layout-item>
+                </template>
+                <!-- <lightning-layout-item size="12" small-device-size="4" medium-device-size="4" large-device-size="3">
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="text" label="Email Id"  onchange={handleInputChange}  value={wrpAppReg.Email_Id__c}
+                        data-name="Email_Id__c" disabled={disableMode} required={isRequired} read-only={disableMode} data-fieldname={Email_Id__c}></lightning-input>
+                   </div>
+                </lightning-layout-item> -->
+                </lightning-layout>
+
+
+       
+
+            <!-- <lightning-layout>
+                <lightning-layout-item size="12">
+                <template lwc:if={isPhysicalNachButton}>
+                    <div class="center slds-clearfix">
+                        <div class="slds-float_right"> 
+                    <lightning-button                    
+                    label="Physical Nach"                   
+                    variant="brand"
+                    onclick={handlePhysicalNach}                   
+                    ></lightning-button>
+                </div></div>
+                    
+                </template>
+                </lightning-layout-item>
+                     </lightning-layout>  -->
+                     <template if:true={showDocList} >
+                    
+                      <c-uploded-document-display title="Generated NACH Form" type={docType} sub-type={subType} category={docCategory} loan-app-id={loanAppId}
+                          applicant-id={wrpAppReg.ApplicantId} mode="false" disable-remarks="false" is-read-only=true
+                          capture-all-documents="false" disabled="false" is-cpa="false" hide-mark-for-error="true" hide-availiable-in-file="true" hide-upload-button="true" read-only={disableMode} >
+                      </c-uploded-document-display>
+                    
+                  </template>
+
+                     <!-- <lightning-layout multiple-rows="true" if:true={isPhysicalNachButton}>
+                      <lightning-layout-item padding="around-small" size="12" >
+                        <div class="center slds-clearfix">
+                          <div class="slds-float_right">
+                          <lightning-button variant="brand" name="Generate Document" label="Generate Document"
+                                      onclick={handleGenerateDocuments} read-only={disableMode} disabled={disableMode}></lightning-button>
+                                      </div></div>
+                      </lightning-layout-item>
+                  </lightning-layout>        -->
+                    
+            
+             <!-- spdc table -->
+
+             <c-repayment-mode-s-p-d-c loan-app-id={loanAppId} has-edit-access={hasEditAccess} ontospdcrecords={spdcrecords}></c-repayment-mode-s-p-d-c>
+             <!-- <lightning-card title="SPDC" >
+               onnoofchequecount={noofchequecount} onspdcdata={spdcdata}
+                <div id="containerDiv1" onmousemove={handlemousemove} onmouseup={handlemouseup}
+                   ondblclick={handledblclickresizable}
+                   class="slds-table_header-fixed_container slds-border_right slds-border_left tableScroll"
+                   onscroll={tableOuterDivScrolled}>
+                      <div id="tableViewInnerDiv1" class="slds-scrollable_y tableViewInnerDiv slds-scrollable">
+                          <table class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout slds-max-medium-table_stacked-horizontal" onscroll={tableScrolled}>
+                            <thead>
+                              <tr>
+                                <th title="Delete" class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                                    <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                      <span class="slds-truncate">Delete</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                  </th>
+    
+                                  <th title="Same as Repayment" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                    <div class="slds-cell-fixed fixedWidth">
+                                      <a class="slds-th__action slds-text-link--reset checkbox-label" href="#" role="button"
+                                        tabindex="0">
+                                        <span class="slds-truncate">Same as Repayment</span>
+                                       </a>
+                                      <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                          <span class="slds-resizable__divider"></span>
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </th>
+                                <th title="Cheque Number from" class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                                  <div class="slds-cell-fixed fixedWidth">
+                                  <a class="slds-th__action slds-text-link--reset">
+                                    <span class="slds-truncate">Cheque Number from</span>
+                                  </a>
+                                  <div class="slds-resizable">
+                                      <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                          <span class="slds-resizable__divider"></span>
+                                      </span>
+                                  </div>
+                                  </div>
+                                </th>
+                                <th title="Cheque Number to" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                  <div class="slds-cell-fixed fixedWidth">
+                                  <a class="slds-th__action slds-text-link--reset">
+                                    <span class="slds-truncate">Cheque Number to</span>
+                                  </a>
+                                  <div class="slds-resizable">
+                                      <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                          <span class="slds-resizable__divider"></span>
+                                      </span>
+                                  </div>
+                                  </div>
+                                </th>
+                                <th title="No. of cheques" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                  <div class="slds-cell-fixed fixedWidth">
+                                  <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                    <span class="slds-truncate">No. of cheques</span>
+                                  </a>
+                                  <div class="slds-resizable">
+                                      <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                          <span class="slds-resizable__divider"></span>
+                                      </span>
+                                  </div>
+                                  </div>
+                                </th>
+                                <th title="MICR Code" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                  <div class="slds-cell-fixed fixedWidth">
+                                  <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                    <span class="slds-truncate">MICR Code</span>
+                                  </a>
+                                  <div class="slds-resizable">
+                                      <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                          <span class="slds-resizable__divider"></span>
+                                      </span>
+                                  </div>
+                                  </div>
+                                </th>
+                                
+                                  <th title="Bank Name" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                      <div class="slds-cell-fixed fixedWidth">
+                                      <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">Bank Name</span>
+                                      </a>
+                                      <div class="slds-resizable">
+                                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                              <span class="slds-resizable__divider"></span>
+                                          </span>
+                                      </div>
+                                      </div>
+                                    </th>
+              
+                                    
+                                    
+                                    <th title="Bank Branch" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                      <div class="slds-cell-fixed fixedWidth">
+                                      <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">Bank Branch</span>
+                                      </a>
+                                      <div class="slds-resizable">
+                                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                              <span class="slds-resizable__divider"></span>
+                                          </span>
+                                      </div>
+                                      </div>
+                                    </th>
+                                
+                                
+                                  <th title="PDC By Name" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                    <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                      <span class="slds-truncate">PDC By Name</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                    </div>
+                                  </th>
+                                
+                                
+                                    <th title="IFSC Code" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                      <div class="slds-cell-fixed fixedWidth">
+                                      <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">IFSC Code</span>
+                                      </a>
+                                      <div class="slds-resizable">
+                                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                              <span class="slds-resizable__divider"></span>
+                                          </span>
+                                      </div>
+                                      </div>
+                                    </th>
+                                    <th title="Customer A/C Number" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                      <div class="slds-cell-fixed fixedWidth">
+                                      <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">Customer A/C Number</span>
+                                        </a>
+                                      <div class="slds-resizable">
+                                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                              <span class="slds-resizable__divider"></span>
+                                          </span>
+                                      </div>
+                                      </div>
+                                    </th>
+                                  
+                                  
+                                    <th title="Cheque Purpose" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                      <div class="slds-cell-fixed fixedWidth">
+                                      <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">Cheque Purpose</span>
+                                      </a>
+                                      <div class="slds-resizable">
+                                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                              <span class="slds-resizable__divider"></span>
+                                          </span>
+                                      </div>
+                                      </div>
+                                    </th>
+            
+                                    <th title="Cheque Amount" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                      <div class="slds-cell-fixed fixedWidth">
+                                      <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">Cheque Amount</span>
+                                      </a>
+                                      <div class="slds-resizable">
+                                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                              <span class="slds-resizable__divider"></span>
+                                          </span>
+                                      </div>
+                                      </div>
+                                    </th>
+            
+                                    <th title="Cheque Available for EMI TILL" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                      <div class="slds-cell-fixed fixedWidth">
+                                      <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                        <span class="slds-truncate">Cheque Available for EMI TILL</span>
+                                      </a>
+                                      <div class="slds-resizable">
+                                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                              <span class="slds-resizable__divider"></span>
+                                          </span>
+                                      </div>
+                                      </div>
+                                    </th>
+                                    <th title="Pending Cheques will be collected on" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                        <div class="slds-cell-fixed fixedWidth">
+                                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                          <span class="slds-truncate">Pending Cheques will be collected on</span>
+                                        </a>
+                                        <div class="slds-resizable">
+                                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                <span class="slds-resizable__divider"></span>
+                                            </span>
+                                        </div>
+                                        </div>
+                                      </th>
+                                
+                                
+                              </tr>
+                            </thead>
+                  <tbody>
+                    <template for:each={AllSPDCRecords} for:item="SPDCIterator" for:index="index">
+                        <tr key={SPDCIterator.cDId} aria-selected="false" class="slds-hint-parent">
+          
+                          <td class="slds-cell_action-mode" role="gridcell">
+                            
+                              <div class="slds-truncate" title=''>
+                                 <lightning-icon icon-name='utility:delete' alternative-text='delete' variant='error' class="slds-m-top--large slds-float_left" size='small' title='delete' data-index={index} data-name="Delete" onclick={handleDeleteSPDC} read-only={disableMode} disabled={disableMode}></lightning-icon>
+        
+                              </div>
+                            </td>
+    
+                            <td class="slds-cell_action-mode" role="gridcell">
+                                <div class="slds-truncate slds-text-align_center" title="OSV">
+                                  <lightning-input variant="label-hidden"  type="checkbox"
+                                    checked={SPDCIterator.Same_As_Repayment_Account__c} data-name="Same_As_Repayment_Account__c" data-index={index} data-fieldname={Same_As_Repayment_Account__c} onchange={checkboxHandler} read-only={disableMode} disabled={disableMode} ></lightning-input>
+                                
+                              </td>
+          
+                          <th class="slds-cell_action-mode" scope="row">
+                            <div class="slds-truncate" title={SPDCIterator.Cheque_Number_From__c}>
+                             <lightning-input type="text"  onchange={handleInputChangeSPDC}  value={SPDCIterator.Cheque_Number_From__c}
+                          data-name="Cheque_Number_From__c" disabled={disableMode} required={requiredFlag} read-only={disableMode} pattern="^[0-9\s]+$" message-when-pattern-mismatch={messageMismatchError} data-index={index} data-fieldname={Cheque_Number_From__c}></lightning-input>
+                      
+                            </div>
+                          </th>
+                          <td class="slds-cell_action-mode" role="gridcell">
+                            <div class="slds-truncate" title={SPDCIterator.Cheque_Number_To__c}>
+                              <lightning-input type="text"  onchange={handleInputChangeSPDC}  value={SPDCIterator.Cheque_Number_To__c}
+                          data-name="Cheque_Number_To__c" disabled={disableMode} required={requiredFlag} read-only={disableMode} pattern="^[0-9\s]+$" message-when-pattern-mismatch={messageMismatchError} data-index={index} data-fieldname={Cheque_Number_To__c}></lightning-input>
+                      
+                            </div>
+                          </td>
+                          <td class="slds-cell_action-mode" role="gridcell">
+                            <div class="slds-truncate" title={SPDCIterator.No_of_Cheques__c}>
+                              <lightning-input type="text"  onchange={handleInputChangeSPDC}  value={SPDCIterator.No_of_Cheques__c}
+                              data-name="No_of_Cheques__c" disabled={disableMode} required={requiredFlag} read-only={disableMode} pattern="^[0-9\s]+$" message-when-pattern-mismatch={messageMismatchError} data-index={index} data-fieldname={No_of_Cheques__c}></lightning-input>
+                          
+                            </div>
+                          </td>
+                         
+                          
+                               <template lwc:if={SPDCIterator.Same_As_Repayment_Account__c}>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                <div class="slds-truncate" title={SPDCIterator.MICR_Code__c}>
+                                
+                                    {SPDCIterator.MICR_Code__c}
+            
+                                </div>
+                                </td>
+                    
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={SPDCIterator.Bank_Name__c}>
+                                    {SPDCIterator.Bank_Name__c}
+                                    </div>
+                                </td>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={SPDCIterator.Bank_Branch__c}>
+                                    {SPDCIterator.Bank_Branch__c}
+                                    </div>
+                                </td>
+                            </template>
+                            <template lwc:else>
+                              <template lwc:if={SPDCIterator.MICR_Code__c}>
+                                <td><c-custom-lookup 
+                              
+                                field-name="MICR_Code__c"
+                                selected-icon-name="standard:identifier"
+                                object-api-name="MICRCodeMstr__c"
+                                field-api-name="MICRCode__c"                            
+                                selected-record-id={SPDCIterator.MICR_Code__c}
+                                selected-record-name={SPDCIterator.MICR_Code__c}
+                                onselect={handleValueSelect}
+                                index={index}
+                                read-only={disableMode} 
+                                disabled={disableMode}
+                                ></c-custom-lookup></td></template>
+                                <template lwc:else>
+                                  <td><c-custom-lookup 
+                              
+                                    field-name="MICR_Code__c"
+                                    selected-icon-name="standard:identifier"
+                                    object-api-name="MICRCodeMstr__c"
+                                    field-api-name="MICRCode__c"                            
+                                    selected-record-id=''
+                                    selected-record-name=''
+                                    onselect={handleValueSelect}
+                                    index={index}
+                                    read-only={disableMode} 
+                                    disabled={disableMode}
+                                    ></c-custom-lookup></td>
+                                </template>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={SPDCIterator.Bank_Name__c}>
+                                    {SPDCIterator.Bank_Name__c}
+                                    </div>
+                                </td>
+                              
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={SPDCIterator.Bank_Branch__c}>
+                                    {SPDCIterator.Bank_Branch__c}
+                                    </div>
+                                </td>
+                            </template>
+                       
+                          <td class="slds-cell_action-mode" role="gridcell">
+                            <div class="slds-truncate" title={SPDCIterator.PDCbyName}>
+                              {SPDCIterator.PDCbyName}
+                            </div>
+                          </td>
+                          <template lwc:if={SPDCIterator.Same_As_Repayment_Account__c}>
+                          <td class="slds-cell_action-mode" role="gridcell">
+                            <div class="slds-truncate" title={SPDCIterator.IFSC_Code__c}>
+                              {SPDCIterator.IFSC_Code__c}
+                            </div>
+                          </td>
+                        </template>
+                        <template lwc:else>
+                            <td class="slds-cell_action-mode" role="gridcell">
+                                <div class="slds-truncate" title={SPDCIterator.IFSC_Code__c}>
+                                  {SPDCIterator.IFSC_Code__c}
+                                </div>
+                              </td>
+                        </template>
+                          
+                          <td class="slds-cell_action-mode" role="gridcell">
+                            <div class="slds-truncate"  title={SPDCIterator.Account_Number__c}>
+                              {SPDCIterator.Account_Number__c}
+                            </div>
+                          </td>
+                          <td class="slds-cell_action-mode" role="gridcell">
+                            
+                              <lightning-combobox
+                                                    
+                                                    name="Cheque_Purpose__c"                                                                                                                                              
+                                                    value={SPDCIterator.Cheque_Purpose__c}                                                    
+                                                    data-name="Cheque_Purpose__c"
+                                                    options={ChequePurposeOptions}
+                                                    data-index={index}
+                                                    data-field="Cheque_Purpose__c"
+                                                    onchange={handleInputChangeSPDC}
+                                                    read-only={disableMode} 
+                                                    disabled={disableMode}>
+                                                </lightning-combobox>
+                              
+                            </div>
+                          </td>
+                          <td class="slds-cell_action-mode" role="gridcell">
+                            <div class="slds-truncate" title={SPDCIterator.Cheque_Amount__c}>
+                              <lightning-input type="text" onchange={handleInputChangeSPDC}  value={SPDCIterator.Cheque_Amount__c}
+                              data-name="Cheque_Amount__c" disabled={disableMode} required={requiredFlag} read-only={disableMode} pattern="^[0-9\s]+$" message-when-pattern-mismatch={messageMismatchError} data-index={index} data-fieldname={Cheque_Amount__c}></lightning-input>
+                          
+                            </div>
+                          </td>
+                          <td class="slds-cell_action-mode" role="gridcell">
+                            <div class="slds-truncate" title={SPDCIterator.Cheque_Available_EMI__c}>
+                              <lightning-input  placeholder="DD/MM/YYYY" type="date" value={SPDCIterator.Cheque_Available_EMI__c} data-name="Cheque_Available_EMI__c" onchange={handleInputChangeSPDC} data-field="Cheque_Available_EMI__c"  data-index={index} data-fieldname={Cheque_Available_EMI__c} read-only={disableMode} disabled={disableMode}></lightning-input>
+                            </div>
+                          </td>
+                          
+                          <td class="slds-cell_action-mode" role="gridcell">
+                              <div class="slds-truncate" title={SPDCIterator.Pending_Cheque__c}>
+                                <lightning-input type="text" onchange={handleInputChangeSPDC}  value={SPDCIterator.Pending_Cheque__c}
+                                data-name="Pending_Cheque__c" disabled={disableMode} required={requiredFlag} read-only={disableMode} pattern="^[A-Za-z\s]+$" message-when-pattern-mismatch={messageMismatchError} data-index={index} data-fieldname={Pending_Cheque__c}></lightning-input>
+                            
+                              </div>
+                            </td>
+                        </tr>
+                      </template>
+                  </tbody>
+                </table>
+              </div>
+              </div>
+            </lightning-card> -->
+            <!-- <lightning-layout>
+                <lightning-layout-item size="12">
+               
+                    <div class="center slds-clearfix">
+                <div class="slds-float_right"> 
+                    <lightning-button
+                    label="Add Row"       
+                    variant="brand"
+                    onclick={handleSPDCAddRow}
+                    disabled={disableMode}
+                    ></lightning-button>
+                </div></div>        
+                
+                </lightning-layout-item>
+                     </lightning-layout>
+             -->
+        <!-- </template> -->
+           </lightning-accordion-section>
+                </lightning-accordion>
+    </lightning-card>
+    
+    
+</template>

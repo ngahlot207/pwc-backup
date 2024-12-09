@@ -1,0 +1,109 @@
+<template>
+  <!--  <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    <lightning-card >
+        <c-dynamic-datatable params-data={params}></c-dynamic-datatable>
+    </lightning-card>-->
+
+    
+        <lightning-card title="Borrower Details">
+           
+            <div class="slds-p-around_medium">
+            <br/>
+                <div class="slds-box">
+                    <div class="slds-scrollable">
+                    
+                    <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                        <thead>
+                            <tr class="slds-text-title_bold slds-text-color_weak">
+                                
+                                <th scope="col">Borrower Name</th>
+                                <th scope="col">Borrower Type</th>
+                                <th scope="col">Customer Segment</th>
+                                <th scope="col">Constitution</th>
+                                <th scope="col">Gender</th>
+                                <th scope="col">Relationship with applicant</th>
+                                <template if:true={isBLorPL}><th scope="col">Date of Birth/Incorporation</th></template>
+                                <th scope="col">Age</th>
+                                <th scope="col">Age at Loan Maturity</th>
+                                <template if:false={isBLorPL}><th scope="col">Property Owner</th></template>
+                                <th scope="col">Income Considered</th>
+                                <th scope="col">Bureau Score</th>
+                                <th scope="col">UCID</th>
+                                <th scope="col">UCID Max DPD</th>
+                                
+        
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template iterator:it={listBorrowerDetails}>
+                          <tr key={it.value.Id}>
+                             
+                             <td scope="row">
+                                {it.value.applicantListForBorrowerWrapper.FullName__c}
+                             </td>
+                             <td>
+                                {it.value.borrowerType}
+                             </td>
+                             <td>
+                                {it.value.applicantListForBorrowerWrapper.CustProfile__c}
+                             </td>
+                             <td>
+                                {it.value.applicantListForBorrowerWrapper.Constitution__c}
+                             </td>
+                             <td>
+                                {it.value.gender}
+                             </td>
+                             <td>
+                                {it.value.applicantListForBorrowerWrapper.Relationship__c}
+                             </td>
+                             <template if:true={isBLorPL}>
+                             <td>
+                              {it.value.applicantListForBorrowerWrapper.DOB__c}
+                             </td>
+                              </template>
+                             <td>
+                                {it.value.applicantListForBorrowerWrapper.Age__c}
+                             </td>
+                             <td>
+                                {it.value.ageAtLonaMaturityWrapper}
+                             </td>
+                             <template if:false={isBLorPL}>
+                             <td>
+                                {it.value.propertyOwnerWrapper}
+                             </td>
+                              </template>
+                             <td>
+                                {it.value.financialBorrowerWrapper}
+                             </td>
+                             <td>
+                                {it.value.scoreWrapper}
+                             </td>
+                             <td>
+                                {it.value.applicantListForBorrowerWrapper.UCID__c}
+                             </td>
+                             <td>
+                              {it.value.maxDPD}
+                           </td>
+                            
+                             
+                            
+                         </tr>
+                         
+                        </template>
+                        
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+            </div>
+        
+        
+        
+        </lightning-card>
+  
+
+
+</template>

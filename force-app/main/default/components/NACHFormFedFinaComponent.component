@@ -1,0 +1,386 @@
+<apex:component controller="NACHForm">
+	<div id="mandate_Instruction_Form" style="font-size:8px;padding-top:4px;border-style:solid;">
+        <div>
+            <table>
+                <tr>
+                    <td class="noBorder" style="text-align:left;padding-left:15px;padding-top:8px;padding-bottom:4px;" >
+                        <b>FEDERAL BANK LTD | SOL ID:</b>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="" style="">
+            <table id="umrn_Date">
+                <tr>
+                    <td  class="noBorder" style="width:17%;text-align:left;padding-left:15px">
+                	    <img id="tickbox" src="{!$Resource.FederalBank_Logo}" height="30px" width="90px"/>
+                    </td>
+                    <td class="noBorder" style="width:83%;text-align:left;padding-left:0.5px">
+                       <div style="padding-right:5px;margin-top:2px">
+                            <table style = "height:70%;">                                
+                                <tr>
+                                    <td class="noBorder" style="width:8%;height:20%;text-align:center;font-size:8px">UMRN</td>
+                                    <td style = "width: 2%;height:15px;text-align:center;">{!if (splittedUMRN.size>0, splittedUMRN[0], '')}</td>
+                                    <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedUMRN.size>1, splittedUMRN[1], '')}</td>
+                                    <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedUMRN.size>2, splittedUMRN[2], '')}</td>
+                                    <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedUMRN.size>3, splittedUMRN[3], '')}</td>
+                                    <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedUMRN.size>4, splittedUMRN[4], '')}</td>
+                                    <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedUMRN.size>5, splittedUMRN[5], '')}</td>
+                                    <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedUMRN.size>6, splittedUMRN[6], '')}</td>
+                                    <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedUMRN.size>7, splittedUMRN[7], '')}</td>
+                                    <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedUMRN.size>8, splittedUMRN[8], '')}</td>
+                                    <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedUMRN.size>9, splittedUMRN[9], '')}</td>
+                                    <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedUMRN.size>10, splittedUMRN[10], '')}</td>
+                                    <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedUMRN.size>11, splittedUMRN[11], '')}</td>
+                                    <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedUMRN.size>12, splittedUMRN[12], '')}</td>
+                                    <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedUMRN.size>13, splittedUMRN[13], '')}</td>
+                                    <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedUMRN.size>14, splittedUMRN[14], '')}</td>
+                                    <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedUMRN.size>15, splittedUMRN[15], '')}</td>
+                                    <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedUMRN.size>16, splittedUMRN[16], '')}</td>
+                                    <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedUMRN.size>17, splittedUMRN[17], '')}</td>
+                                    <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedUMRN.size>18, splittedUMRN[18], '')}</td>
+                                    <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedUMRN.size>19, splittedUMRN[19], '')}</td>
+                                    <td class="noBorder" style="width:2%;"></td> 
+                                    <td class="noBorder" style="width:4%;font-size:8px">Date </td>                                    
+                                    <td style="width:2%;text-align:center;padding-left:1px;font-size:8px">{!if (splittedMandateDates.size>0, splittedMandateDates[0], '')}</td>
+                                    <td style="width:2%;text-align:center;font-size:8px">{!if (splittedMandateDates.size>1, splittedMandateDates[1], '')}</td>
+                                    <td class="noBorder" style="width:0.1%;"></td>
+                                    <td style="width:2%;text-align:center;font-size:8px">{!if (splittedMandateDates.size>2, splittedMandateDates[2], '')}</td>
+                                    <td style="width:2%;text-align:center;font-size:8px">{!if (splittedMandateDates.size>3, splittedMandateDates[3], '')}</td>
+                                    <td class="noBorder" style="width:0.1%;"></td>
+                                    <td style="width:2%;text-align:center;font-size:8px">{!if (splittedMandateDates.size>4, splittedMandateDates[4], '')}</td>
+                                    <td style="width:2%;text-align:center;font-size:8px">{!if (splittedMandateDates.size>5, splittedMandateDates[5], '')}</td>
+                                    <td style="width:2%;text-align:center;font-size:8px">{!if (splittedMandateDates.size>6, splittedMandateDates[6], '')}</td>
+                                    <td style="width:2%;text-align:center;font-size:8px">{!if (splittedMandateDates.size>7, splittedMandateDates[7], '')}</td>   
+                                    <td class="noBorder" style="width:1%;"></td>               
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+    	</div>       
+        <div class="" style="margin-top:1px;">
+            <table id="umrn_Date">
+                <tr>
+                    <td  class="noBorder" style="width:17%;text-align:left;padding-left:15px;height:100px;font-size:8px"> Tick (<img id="tickbox" src="{!$Resource.Tick_check_Mark}" height="7px" width="7px"/>)
+                        <table style="height:80%;width:80%">
+                            <tr>
+                                <td style="padding-left:10px;margin-top:2px;margin-bottom:4px;font-size:8px;">Create</td>
+                                <td style="width:30%"><img id="tickbox" src="{!$Resource.Right_Checked_Checkbox}" height="10px" width="10px" style="padding-left:10px;margin-top:3px;margin-bottom:3px;"/></td>
+                            </tr> 
+                            <tr>
+                                <td style="padding-left:10px;margin-top:2px;margin-bottom:4px;font-size:8px">Modify</td>
+                                <td><img id="tickbox" src="{!$Resource.Blank_Check_box}" height="10px" width="20px" style="padding-left:6px;margin-top:4px;margin-bottom:3px;"/></td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:10px;margin-top:2px;margin-bottom:4px;font-size:8px">Cancel</td>
+                                <td><img id="tickbox" src="{!$Resource.Blank_Check_box}" height="10px" width="20px" style="padding-left:6px;margin-top:4px;margin-bottom:3px;"/></td>
+                            </tr>
+                        </table>                    	
+                    </td>
+                    <td class="noBorder" style="width:83%;text-align:left;padding-left:2px;">
+                         <div style="padding-right:5px;">
+                            <table id="sponser_Bank_Code" style="margin-right:3px;margin-bottom:20px;margin-top:-10px;">                       
+                                <tr>
+                                    <td class="noBorder" style="width:17%;text-align:center;font-size:8px">Sponsor Bank Code</td>
+                                    <td style="width:40%;height:0px; text-align:center;font-size:8px">&nbsp;&nbsp;<apex:outputText value="{!$Label.NACH_SponsorBankCode}"/></td>
+                                    <td class="authorise" style="width:17%;text-align:right;padding-right:8px;font-size:8px">Utility Code</td>
+                                    <td class="center" style="width:40%;text-align:center;padding-left:4px;"><span style="font-size:8px;"><b>{!$Label.NACH_UtilityCode}</b></span></td>
+                                    <td class="noBorder" style="width:2%;"></td> 
+                                </tr>
+                            </table>
+                        </div>
+                       	<div style="padding-right:5px;margin-top:-10px">
+                            <table id="sponser_Bank_Code" style="margin-top:4px; margin-right:3px;margin-bottom:20px;">                       
+                                <tr>
+                                    <td class="noBorder" style="width:25%;text-align:center;font-size:8px">I/We hereby authorise&nbsp;</td>
+                                    <td style="width:50%;height:0px; text-align:center;font-size:8px">&nbsp;&nbsp;<apex:outputText value="{!$Label.NACH_Authorise}"/></td>
+                                    <td class="noBorder" style="width:100%;">
+                                        <table class="mandate-info-align" style="margin-top:2px;">
+                                            <tr>
+                                                <td class="noBorder" style="width:7%;text-align:right;font-size:8px">To Debit</td>
+                                                <td class="noBorder" style="width:4%;text-align:left;padding-left:4px;"><img id="tick" src="{!$Resource.mandate_tick}" width="24px" height="10px"/></td>
+                                                <td class="center" style="width:70%; height:0px; vertical-align:left;">
+                                                    <span style="font-size:8px;margin-bottom:4px;">
+                                                    <!--     <img id="tickbox" src="{!$Resource.Blank_Check_box}" width="10px" style="margin-top: 4px"/>&nbsp;&nbsp; -->
+                                                    <apex:outputPanel rendered="{!isDebit}">
+                                                        <img id="tickbox" src="{!$Resource.Right_Checked_Checkbox}" width="10px" style="margin-right:-1%;margin-left:1%;"/>&nbsp;&nbsp;
+                                                     </apex:outputPanel>
+                                                     <apex:outputPanel rendered="{!!isDebit}">
+                                                        <img id="tickbox" src="{!$Resource.Blank_Check_box}" width="10px" style="margin-top: 4px"/>&nbsp;&nbsp;
+                                                     </apex:outputPanel>                                             
+                                                            SB
+                                                    </span>
+                                                    <span style="font-size:8px;margin-top:8px;">
+                                                     <!--   <img id="tickbox" src="{!$Resource.Blank_Check_box}" width="10px" style="margin-top: 4px"/>&nbsp;&nbsp; -->
+                                                     <apex:outputPanel rendered="{!isCA_CC}">
+                                                        <img id="tickbox" src="{!$Resource.Right_Checked_Checkbox}" width="10px" style="margin-right:-1%;margin-left:1%;"/>&nbsp;&nbsp;
+                                                     </apex:outputPanel>
+                                                     <apex:outputPanel rendered="{!!isCA_CC}">
+                                                        <img id="tickbox" src="{!$Resource.Blank_Check_box}" width="10px" style="margin-top: 4px"/>&nbsp;&nbsp;
+                                                     </apex:outputPanel>
+                                                        CA/CC
+                                                    </span>
+                                                    <span style="font-size:8px;margin-bottom:4px;">
+                                                        <img id="tickbox" src="{!$Resource.Blank_Check_box}" width="10px" style="margin-top: 4px"/>&nbsp;&nbsp;
+                                                        SB-NRE
+                                                    </span>                                      
+                                                    <span style="font-size:8px;margin-bottom:4px;">
+                                                        <img id="tickbox" src="{!$Resource.Blank_Check_box}" width="10px" style="margin-top: 4px"/>&nbsp;&nbsp;
+                                                        SB-NRO
+                                                    </span>                                                    
+                                                    <span style="font-size:8px;margin-bottom:4px;">
+                                                        <img id="tickbox" src="{!$Resource.Blank_Check_box}" width="10px" style="margin-top: 4px"/>&nbsp;&nbsp;
+                                                        Other
+                                                    </span>
+                                                </td> 
+                                                <td class="noBorder" style="width:1px;"></td>                                           
+                                            </tr> 
+                                         </table>
+                                    </td>                                            
+                                </tr>
+                            </table>
+                        </div> 
+                        <div>
+                            <table style="margin-top:-10px;margin-right:2px;"> 
+                                <tr>
+                                    <td class="noBorder" style="width:100%;">
+                                        <table class="mandate-info-align" style="margin-top:0px;margin-bottom:20px;">
+                                            <tr>
+                                                <td class="noBorder" style="width:12%;text-align:left;padding-left:7px;font-size:8px">Bank a/c number</td>
+                                                <td style = "width: 2%;height:15px;text-align:center;font-size:8px">{!if (splittedAccNumInDigits.size>0, splittedAccNumInDigits[0], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedAccNumInDigits.size>1, splittedAccNumInDigits[1], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedAccNumInDigits.size>2, splittedAccNumInDigits[2], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedAccNumInDigits.size>3, splittedAccNumInDigits[3], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedAccNumInDigits.size>4, splittedAccNumInDigits[4], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedAccNumInDigits.size>5, splittedAccNumInDigits[5], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedAccNumInDigits.size>6, splittedAccNumInDigits[6], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedAccNumInDigits.size>7, splittedAccNumInDigits[7], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedAccNumInDigits.size>8, splittedAccNumInDigits[8], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedAccNumInDigits.size>9, splittedAccNumInDigits[9], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedAccNumInDigits.size>10, splittedAccNumInDigits[10], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedAccNumInDigits.size>11, splittedAccNumInDigits[11], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedAccNumInDigits.size>12, splittedAccNumInDigits[12], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedAccNumInDigits.size>13, splittedAccNumInDigits[13], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedAccNumInDigits.size>14, splittedAccNumInDigits[14], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedAccNumInDigits.size>15, splittedAccNumInDigits[15], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedAccNumInDigits.size>16, splittedAccNumInDigits[16], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedAccNumInDigits.size>17, splittedAccNumInDigits[17], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedAccNumInDigits.size>18, splittedAccNumInDigits[18], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedAccNumInDigits.size>19, splittedAccNumInDigits[19], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedAccNumInDigits.size>20, splittedAccNumInDigits[20], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedAccNumInDigits.size>21, splittedAccNumInDigits[21], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedAccNumInDigits.size>22, splittedAccNumInDigits[22], '')}</td>
+                                                <td class="noBorder" style="width:1%;"></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>                     
+                        </div>                                               
+                    </td>
+                </tr>
+            </table>
+    	</div>
+        <div>
+            <table style="margin-top:-15px;margin-right:2px;width:99.7%;margin-bottom:20px;">
+                <tr>
+                    <td class="noBorder">
+                        <table id="bank_acc" class="mandate-info-align">                        
+                            <tr>
+                                <td class="noBorder" style="width:10%;height:18px;padding-left:3px;padding-left:12px;font-size:8px">With Bank</td>
+                                <td  class="center" style="width:25%;text-align:center;padding-left:4px;font-size:8px">{!if (repayAcc.size>0, repayAcc[0].Applicant_Banking__r.BankName__c, '')}</td>
+                                <td class="noBorder" style="width:83%;text-align:left;padding-left:2px">
+                                <div style="padding-right:5px;margin-top:2px">
+                                        <table style = "height:70%;">                                
+                                            <tr>
+                                                <td class="noBorder" style="width:8%;height:20%;text-align:center;font-size:8px">IFSC</td>
+                                                <td style = "width: 2%;height:15px;text-align:center;font-size:8px">{!if (splittedIFSC.size>0, splittedIFSC[0], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedIFSC.size>1, splittedIFSC[1], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedIFSC.size>2, splittedIFSC[2], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedIFSC.size>3, splittedIFSC[3], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedIFSC.size>4, splittedIFSC[4], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedIFSC.size>5, splittedIFSC[5], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedIFSC.size>6, splittedIFSC[6], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedIFSC.size>7, splittedIFSC[7], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedIFSC.size>8, splittedIFSC[8], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedIFSC.size>9, splittedIFSC[9], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedIFSC.size>10, splittedIFSC[10], '')}</td>                                     
+                                                <td class="noBorder" style="width:5%"></td>
+                                                <td class="noBorder" style="width:6%;font-size:8px">or MICR </td>                                    
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedMICR.size>0, splittedMICR[0], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedMICR.size>1, splittedMICR[1], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedMICR.size>2, splittedMICR[2], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedMICR.size>3, splittedMICR[3], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedMICR.size>4, splittedMICR[4], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedMICR.size>5, splittedMICR[5], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedMICR.size>6, splittedMICR[6], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedMICR.size>7, splittedMICR[7], '')}</td>
+                                                <td style = "width: 2%;text-align:center;font-size:8px">{!if (splittedMICR.size>8, splittedMICR[8], '')}</td>
+                                                <td class="noBorder" style="width:0.1%;"></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                 </td>
+                            </tr>                         
+                        </table>
+                    </td>
+                </tr>
+        	</table>
+        </div>
+        <div>
+           <table  id="amount_Of_Inr" class="mandate-info-align" style="margin-top:-15px; margin-right:15px;margin-bottom:15px;">
+                <tr>
+                    <td class="noBorder" style="width:15%; padding-left:5px;height:15px;padding-left:13px;font-size:8px">an amount of Rupees</td>
+                    <td style="width:50%;padding-left:5px;text-align:center;font-size:8px">{!amountInWords}</td>
+                    <td class="noBorder" style="width:4%;padding-left:10px;font-size:8px">
+                        Rs.
+                    </td>
+                    <td class="center" style="width:32%;text-align:center;font-size:8px;height:15px">
+                        {!if (repayAcc.size>0, repayAcc[0].Applicant_Banking__r.LoanAppl__r.EMIIcludingInsurance__c, '')} /-                    
+                    </td> 
+                    <td class="noBorder" style="width:2px;"></td>  
+                </tr>
+            </table>       
+        </div>
+        <div id="frequency" style="margin-top:-5px;margin-bottom:10px;"> 
+            <span style="padding-left:5px;padding-right:0.5px;padding-left:12px;font-size:8px"><b>FREQUENCY</b></span>
+            <span style="font-size:8px;margin-bottom:4px;padding-left:5px;">
+                <!--     <img id="tickbox" src="{!$Resource.Blank_Check_box}" width="10px" style="margin-top: 4px"/>&nbsp;&nbsp; -->
+                <apex:outputPanel rendered="{!isHDFCBank}">
+                    <img id="tickbox" src="{!$Resource.Right_Checked_Checkbox}" width="10px" style="margin-right:0%;margin-left:1%;"/>&nbsp;&nbsp;
+                 </apex:outputPanel>
+                 <apex:outputPanel rendered="{!!isHDFCBank}">
+                    <img id="tickbox" src="{!$Resource.Blank_Check_box}" width="10px" style="margin-top: 4px"/>&nbsp;&nbsp;
+                 </apex:outputPanel>                                             
+                    Mthly
+            </span>
+            <!-- <span style="padding-left:4px;font-size:8px"><img src="{!$Resource.Blank_Check_box}" height="10px" width="10px" style="margin-bottom:-1px;margin-left:1%;margin-right:1px;"/>Mthly</span><img src="{!Resource.Blank_Check_box}" height="8.5px"/> -->
+            <span style="padding-left:6px;font-size:8px"><img src="{!$Resource.Blank_Check_box}" height="10px" width="10px" style="margin-bottom:-1px;"/>Qtly</span>
+            <span style="padding-left:6px;font-size:8px"><img src="{!$Resource.Blank_Check_box}" height="10px" width="10px" style="margin-bottom:-1px;"/>H-Yrly</span>
+            <span style="padding-left:6px;font-size:8px"><img src="{!$Resource.Blank_Check_box}" height="10px" width="10px" style="margin-bottom:-1px;"/>Yrly</span>
+            <span style="font-size:8px;margin-bottom:4px;">
+                <!--     <img id="tickbox" src="{!$Resource.Blank_Check_box}" width="10px" style="margin-top: 4px"/>&nbsp;&nbsp; -->
+                <apex:outputPanel rendered="{!isHDFCBank}" style="margin-left:-1%;margin-bottom:-2px;">
+                    <img id="tickbox" src="{!$Resource.Blank_Check_box}" width="10px" style="margin-right:0%;margin-left:1%;"/>&nbsp;&nbsp;
+                 </apex:outputPanel>
+                 <apex:outputPanel rendered="{!!isHDFCBank}">
+                    <img id="tickbox" src="{!$Resource.Right_Checked_Checkbox}" width="10px" style="margin-top: 4px;margin-bottom:-3px;"/>&nbsp;&nbsp;
+                 </apex:outputPanel>                                             
+                    As &amp; when presented
+            </span>
+            <!-- <span style="padding-left:6px;font-size:8px"><img src="{!$Resource.Right_Checked_Checkbox}" height="10px" width="10px" style="margin-left:1%;"/>As &amp; when presented</span> -->
+            <span style="padding-left:100px;font-size:8px;"><b>DEBIT TYPE</b></span>
+            <span style="padding-left:6px;font-size:8px"><img src="{!$Resource.Blank_Check_box}" height="10px" width="10px" style="padding-left:15px;margin-bottom:-2px;;margin-right:1px;"/>Fixed Amount</span>
+            <span style="padding-left:6px;font-size:8px"><img src="{!$Resource.Right_Checked_Checkbox}" height="10px" width="10px" style="padding-left:15px;margin-bottom:-1px;margin-right:1px"/>Maximum Amount</span>
+        </div>
+        <div>
+            <table style="margin-top:5px;margin-left:3px;margin-right:5px;margin-bottom:4px;">                        
+                <tr>                             
+                    <td class="noBorder" style="width:10%; height:13px;padding-left:10px;font-size:8px">Reference 1</td>
+                    <td class="center" style="width:39%;text-align:center;height:10px;font-size:8px">{!if (repayAcc.size>0, repayAcc[0].Loan_Application__r.FinnoneAppid__c, '')}</td>
+                    <td class = "noBorder" style="width:2%"></td>
+                    <td class="noBorder" style="width:10%;text-align:right;font-size:8px">Mobile No.</td>
+                    <td class="center" style="width:39%;text-align:center;height:10px;font-size:8px">{!if (repayAcc.size>0, repayAcc[0].Applicant_Banking__r.Appl__r.MobNumber__c, '')}</td>
+                    <td class="noBorder" style="width:2%;"></td>
+                </tr>
+            </table>
+            <table style="margin-top:5px;margin-left:3px;margin-right:5px;margin-bottom:4px;">
+                <tr>                             
+                    <td class="noBorder" style="width:10%; height:13px;padding-left:10px;font-size:8px">Reference 2</td>
+                    <td class="center" style="width:39%;text-align:center;height:10px;font-size:8px"></td>
+                    <td class = "noBorder" style="width:2%"></td>
+                    <td class="noBorder" style="width:10%;text-align:right;font-size:8px">Email ID</td>
+                    <td class="center" style="width:39%;text-align:center;height:10px;font-size:8px">{!if (repayAcc.size>0, repayAcc[0].Applicant_Banking__r.Appl__r.EmailId__c, '')}</td>
+                    <td class="noBorder" style="width:2%;"></td>
+                </tr>
+        	</table>
+        </div>
+        <div>
+            <td class="noBorder" style="width:83%;text-align:left;padding-left:2px">
+                <div style="padding-right:5px;margin-top:2px">
+                    <table style = "height:70%;">                                
+                        <tr> 
+                            <td class="noBorder" style="width:20%;height:20%;text-align:left;padding-left:12px;font-size:8px">Period
+                            	<div style="width:100%;margin-top:2px" >
+                                    <div style="width:80%;">
+                                        <table >  
+                                            <tr>                                       
+                                                <td class="noBorder" style="width:20%;height:10px;font-size:10px;font-size:8px">From </td>
+                                                <td style="width:2%;height:15px;text-align:center;font-size:8px">{!if (splittedEmiStartDate.size>0, splittedEmiStartDate[0], '')}</td>
+                                                <td style="width:2%;text-align:center;font-size:8px">{!if (splittedEmiStartDate.size>1, splittedEmiStartDate[1], '')}</td>
+                                                <td class="noBorder" style="width:0.5%"></td>
+                                                <td style="width:2%;height:15px;text-align:center;font-size:8px">{!if (splittedEmiStartDate.size>2, splittedEmiStartDate[2], '')}</td>
+                                                <td style="width:2%;text-align:center;font-size:8px">{!if (splittedEmiStartDate.size>3, splittedEmiStartDate[3], '')}</td>
+                                                <td class="noBorder" style="width:0.5%"></td>
+                                                <td style="width:2%;height:15px;text-align:center;font-size:8px">{!if (splittedEmiStartDate.size>4, splittedEmiStartDate[4], '')}</td>
+                                                <td style="width:2%;text-align:center;font-size:8px">{!if (splittedEmiStartDate.size>5, splittedEmiStartDate[5], '')}</td>
+                                                <td style="width:2%;text-align:center;font-size:8px">{!if (splittedEmiStartDate.size>6, splittedEmiStartDate[6], '')}</td>
+                                                <td style="width:2%;text-align:center;font-size:8px">{!if (splittedEmiStartDate.size>7, splittedEmiStartDate[7], '')}</td>
+                                            </tr>
+                                        </table> 
+                                        <table style="margin-top: 3px;">
+                                            <tr>
+                                                <td class="noBorder" style="width:20%;height:10px;font-size:10px;font-size:8px">To </td>
+                                                <td style="width:2%;height:15px;text-align:center;font-size:8px">{!if (splittedEmiEndDate.size>0, splittedEmiEndDate[0], '')}</td>
+                                                <td style="width:2%;text-align:center;font-size:8px">{!if (splittedEmiEndDate.size>1, splittedEmiEndDate[1], '')}</td>
+                                                <td class="noBorder" style="width:0.5%"></td>
+                                                <td style="width:2%;height:15px;text-align:center;font-size:8px">{!if (splittedEmiEndDate.size>2, splittedEmiEndDate[2], '')}</td>
+                                                <td style="width:2%;text-align:center;font-size:8px">{!if (splittedEmiEndDate.size>3, splittedEmiEndDate[3], '')}</td>
+                                                <td class="noBorder" style="width:0.5%"></td>
+                                                <td style="width:2%;height:15px;text-align:center;font-size:8px">{!if (splittedEmiEndDate.size>4, splittedEmiEndDate[4], '')}</td>
+                                                <td style="width:2%;text-align:center;font-size:8px">{!if (splittedEmiEndDate.size>5, splittedEmiEndDate[5], '')}</td>
+                                                <td style="width:2%;text-align:center;font-size:8px">{!if (splittedEmiEndDate.size>6, splittedEmiEndDate[6], '')}</td>
+                                                <td style="width:2%;text-align:center;font-size:8px">{!if (splittedEmiEndDate.size>7, splittedEmiEndDate[7], '')}</td>
+                                                
+                                            </tr>                                  
+                                        </table>  
+                                        <table style="margin-top:3px">
+                                            <tr>
+                                                <td class="noBorder" style="width:20%;height:10px;font-size:10px;font-size:8px">Or </td>
+                                                <td class="noBorder" style="width:5%;padding-bottom:8px;padding-left:4px;font-size:8px"><img src="{!$Resource.Blank_Check_box}" width="16px" height="9px" style="padding-left:2px;"/></td>
+                                                <td class="noBorder" style="width:75%;font-size:10px;font-size:8px">&nbsp;&nbsp;&nbsp;&nbsp;Until Cancelled</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="noBorder" style="width:50%;height:20%;text-align:left;font-size:6.5px;">I agree for the debit of mandate processing charges by the bank whom I am authorizing to debit my account as per latest schedule of charges of the bank.
+                            <div class="mandate-ecs-sign" style="margin-bottom:5px; margin-left:0.5px">
+                                <br/>
+                				<br/><br/>
+                				<br/>
+                                <br/>
+                                <br/><br/><br/>
+                                <table id="mandate-sign-account-holder" style = "height:70%;margin-top:2px;width:130%">
+                                    <tr>
+                                        <td class="noBorder" style="text-align: center;width: 30%;font-size:8px"><u><span class="placeHolders noBorder" style="font-size: 10px; width: 100%;font-size:8px;">Signature of the account holder</span></u></td>
+                                        <td class="noBorder" style="text-align: center;width: 30%;font-size:8px"><u><span class="placeHolders noBorder" style="font-size: 10px; width: 100%;font-size:8px">Signature of the account holder</span></u></td>
+                                        <td class="noBorder" style="text-align: center;width: 30%;font-size:8px"><u><span class="placeHolders noBorder" style="font-size: 10px; width: 100%;font-size:8px">Signature of the account holder</span></u></td>
+                                    </tr>   
+                                    <tr style="margin:top: 5px;">
+										<td class="noBorder" style="text-align: center;width: 30%;"><u><span class="placeHolders noBorder" style="font-size: 10px; width: 100%;font-size:8px;color:black">{!accHolderName}</span></u></td>
+                                        <td class="noBorder" style="text-align: center;width: 30%"><u><span class="placeHolders noBorder" style="font-size: 10px; width: 100%;font-size:8px;color:black">Account holder name</span></u></td>
+                                       	<td class="noBorder" style="text-align: center;width: 30%"><u><span class="placeHolders noBorder" style="font-size: 10px; width: 100%;font-size:8px;color:black">Account holder name</span></u></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            </td>                    
+                        </tr>
+                    </table>
+                </div>
+            </td>            
+        </div> 
+        <div>
+            <table>
+                <tr>
+                    <td class="noBorder" style="text-align:left;padding-left:15px;padding-top:4px;padding-bottom:4px;font-size:6.5px;" >
+                        This is to confirm that the declaration has been carefully read, understood &amp; made-by me/us. I am authorising the User entity/ Corporate to debit my account. I have understood that i am authorised to cancel/ amend this mandate by appropriately communicating the cancellation/ amendment request to the user entity/ Corporate
+or the bank where i have authorized the debit.
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</apex:component>

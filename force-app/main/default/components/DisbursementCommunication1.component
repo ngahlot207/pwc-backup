@@ -1,0 +1,55 @@
+<apex:component controller="DisbursementCommunication" access="global">
+   
+    <apex:attribute name="loanApplId" type="String" description="Loan Application Id" assignTo="{!loanApplicationId}" access="global"/>
+    <html>
+        <body>
+            <apex:outputPanel rendered="{!PDDDocDetails.size > 0}">
+            <h3>
+                PDD
+            </h3>
+            <table border="1" style="border-collapse: collapse;">
+                    <tr>
+                    	<th>Doc Category</th>
+                    	<th>Document Type</th>
+                        <th>Document Name</th>
+                        <th>Document Description</th>
+                        <th>Deviation Level</th>
+                    </tr>
+                <apex:repeat var="doc" value="{!PDDDocDetails}">
+                    <tr>
+                        <td style="text-align: center; vertical-align: middle;">{!doc['DocCatgry__c']}</td>
+                        <td style="text-align: center; vertical-align: middle;">{!doc['DocTyp__c']}</td>
+                        <td style="text-align: center; vertical-align: middle;">{!doc['DocSubTyp__c']}</td>
+                        <td style="text-align: center; vertical-align: middle;">{!doc['Rmrk__c']}</td>
+                        <td style="text-align: center; vertical-align: middle;">{!doc['DevLvl__c']}</td>
+                    </tr>
+                    </apex:repeat>
+               </table>
+                </apex:outputPanel>
+            
+             <apex:outputPanel rendered="{!OTCDocDetails.size > 0}">
+            <h3>
+                OTC
+            </h3>
+            <table border="1" style="border-collapse: collapse;">
+                    <tr>
+                    	<th>Doc Category</th>
+                    	<th>Document Type</th>
+                        <th>Document Name</th>
+                        <th>Document Description</th>
+                        <th>Deviation Level</th>
+                    </tr>
+                <apex:repeat var="doc" value="{!OTCDocDetails}">
+                    <tr>
+                        <td style="text-align: center; vertical-align: middle;">{!doc['DocCatgry__c']}</td>
+                        <td style="text-align: center; vertical-align: middle;">{!doc['DocTyp__c']}</td>
+                        <td style="text-align: center; vertical-align: middle;">{!doc['DocSubTyp__c']}</td>
+                        <td style="text-align: center; vertical-align: middle;">{!doc['Rmrk__c']}</td>
+                        <td style="text-align: center; vertical-align: middle;">{!doc['DevLvl__c']}</td>
+                    </tr>
+                    </apex:repeat>
+               </table>
+                  </apex:outputPanel>
+            </body>
+    </html>
+</apex:component>

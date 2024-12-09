@@ -1,0 +1,36 @@
+.test{
+	color : blue;
+}
+
+/* .my{
+	color : rgb(48, 127, 246);
+}
+
+.IconColor{
+	color : rgb(48, 127, 246);
+}
+
+/* Define a custom class to change the icon color to blue 
+.custom-icon {
+    color: blue;  Change the color to blue 
+} */
+
+
+
+
+/* 
+.custom-button{
+    display: inline-block;
+    padding: 0; /* Remove any padding 
+    border: none; /* Remove the border 
+    background-color: transparent; /* Set background color to transparent 
+}
+
+.custom-button .slds-button {
+    padding: 0; /* Remove padding from the button 
+}
+
+.custom-button .slds-button__icon {
+    color: #0070d2; /* Set the icon color to blue 
+} 
+ */

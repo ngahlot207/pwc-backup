@@ -1,0 +1,53 @@
+<template>
+    <template if:true={showPdComponent}>
+
+
+        <lightning-card icon-name="standard:account" variant="base">
+            <div slot="title">
+                Vendor PD
+            </div>
+            <div slot="actions">
+
+            </div>
+            <div slot="footer">
+                <template if:true={hasEditAccessForPd}>
+                    <!-- <c-save-btn-component loan-app-id={loanAppId} has-edit-access={hasEditAccessForPd}
+                    save-btn-label="Submit PD" current-tab-id={applicantId} assigned-user={pdAssignedTo}>
+                </c-save-btn-component> -->
+                    <div class="slds-p-left_medium">
+                        <div class="slds-clearfix">
+                            <div class="slds-float_right">
+                                <template if:false={hideSaveAsDraft}></template>
+                                <lightning-button variant="brand-outline" label="Save As Draft"
+                                    class="slds-m-around_x-small" onclick={handleSave}>
+                                </lightning-button>
+
+                                <lightning-button variant="brand-outline" label={saveLabel}
+                                    class="slds-m-around_x-small" onclick={handleSave}>
+                                </lightning-button>
+
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+            <div>
+                <!-- Card Body  -->
+                <template if:true={isLoading}>
+                    <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                </template>
+                <template if:true={showPdComponent}>
+                    <c-pd-component pd-type-id={pdId} pd-type={pdType} pd-detail={pdDetail} current-tab-value={pdId}
+                        has-edit-access={hasEditAccessForPd} onpasstoparent={reloadPd} layout-size={layoutSize}
+                        applicant-id={applicantId} loan-app-id={loanAppId}>
+                    </c-pd-component>
+                </template>
+            </div>
+        </lightning-card>
+
+        <!-- <c-pd-component pd-type-id={pdId} pd-type={pdType} pd-detail={pdDetail} current-tab-value={applicantId}
+        has-edit-access={hasEditAccessForPd} onpasstoparent={reloadPd} layout-size={layoutSize}
+        applicant-id={applicantId} loan-app-id={loanAppId}>
+    </c-pd-component> -->
+    </template>
+</template>

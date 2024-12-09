@@ -1,0 +1,411 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 02-24-2024
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+  </div>
+    <template if:true={legalTab}>
+         <c-legal-details loan-app-id={loanAppId}
+        record-id={recordId}
+        applicant-id={applicantId}
+        current-tab-id={currentTabId}
+        layout-size={layoutSize}
+        has-edit-access={hasEditAccess}></c-legal-details>
+   
+                        </template>
+
+
+
+
+    <template if:true={TSRTab}>
+        <c-tsr-details loan-app-id={loanAppId}
+        record-id={recordId}
+        applicant-id={applicantId}
+        current-tab-id={currentTabId}
+        layout-size={layoutSize}
+        has-edit-access={hasEditAccess}></c-tsr-details>
+        <!-- <lightning-layout multiple-rows="12">
+            <lightning-layout-item padding="around-small" size="12" margin="around-small">
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                        medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                        <div class="slds-p-around_x-small">
+                            <lightning-combobox options={isTRWaivedOpt} data-objectname="Case" type="text" label="Is TSR waived?" value={parentRecForTSR.IsTSRwaived__c} onchange={handleTSRSCaseData} data-field="IsTSRwaived__c" required disabled={disableMode}></lightning-combobox>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                        medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                        <div class="slds-p-around_x-small">
+                            <lightning-combobox options={reasonForTSROpt} data-objectname="Case" type="text" label="Reason for TSR waiver" value={parentRecForTSR.WaiverReason__c} onchange={handleTSRSCaseData} data-field="WaiverReason__c" required={requiredForTSR} disabled={disableMode}></lightning-combobox>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                        medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                        <div class="slds-p-around_x-small">
+                            <c-custom-lookup 
+                    required={requiredForTSRforNo}
+                    field-name="Account__r.name"
+                   label="Agency Name"
+                   selected-icon-name="standard:identifier"
+                   object-api-name="AgncLocMap__c"
+                   field-api-name="Account__r.name"
+                   selected-record-id={parentRecForTSR.AccountId}
+                   selected-field-name="Account__c"
+                   onselect={handleValueTSRAgency}
+                   disabled={disableMode}
+                   index={index}
+                   filter-condn={filterCondnForTSR}
+                 ></c-custom-lookup>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                        medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                        <div class="slds-p-around_x-small">
+                            <lightning-combobox options={ReportStatusOpt} data-objectname="Case" type="text" label="Report status" value={parentRecForTSR.ReportResult__c} onchange={handleTSRSCaseData} data-field="ReportResult__c" required={requiredForTSRforNo} disabled={disableMode}></lightning-combobox>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                        medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                        <div class="slds-p-around_x-small">
+                            <lightning-textarea data-fieldtype="string" type="text" data-objectname="Case" label="Report Feedback" value={parentRecForTSR.Remarks_regarding_the_case__c} onchange={handleTSRSCaseData} data-field="Remarks_regarding_the_case__c" disabled={disableMode}></lightning-textarea>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                        <lightning-input placeholder="DD-MMM-YYYY" type="date" data-id="initiTSR" label="Date of initiation" data-objectname="Case" name="DateofInitiation" value={parentRecForTSR.DateofInitiation__c} onchange={handleTSRSCaseData} data-field="DateofInitiation__c"  required={requiredForTSRforNo} disabled={disableMode}></lightning-input>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                        <lightning-combobox options={noOfYearsOpt} data-objectname="Case" type="text" label="TSR/EC for no of Yrs." value={parentRecForTSR.TSR_EC_for_no_of_Yrs__c} onchange={handleTSRSCaseData} data-field="TSR_EC_for_no_of_Yrs__c" required={requiredForTSRforpen} disabled={disableMode}></lightning-combobox>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <div class="slds-p-around_x-small">
+                    <lightning-input placeholder="DD-MMM-YYYY" type="date" data-id="repDateTSR" label="Report Date" data-objectname="Case" name="dateofReport" value={parentRecForTSR.Date_of_Report__c} onchange={handleTSRSCaseData} data-field="Date_of_Report__c"  required={requiredForTSRforpen} disabled={disableMode}></lightning-input>
+                </div>
+            </lightning-layout-item>
+
+                </lightning-layout>
+            </lightning-layout-item>
+        </lightning-layout>
+        <c-upload-docs-reusable-component loan-app-id={_loanAppId} applicant-id={_applicantId} 
+                           doc-name={docSubType} doc-type={docType} disable-mode={disableMode} doc-category={docCategory}
+                                          onrefreshdoctable={fromUploadDocsContainerForTSR} 
+                                           allowed-fil-format={allowedFilFormat} document-detai-id={documentDetaiIdForTSR}
+                                          hide-attach-button={hideAttachButton} onchangefiles={parentFileChangeForTSR} file-type-error={fileTypeError} 
+                                         file-size-msz={fileSizeMsz}></c-upload-docs-reusable-component> -->
+    </template>
+
+
+    <template if:true={vettingTab}>
+        <!-- <lightning-layout multiple-rows="12">
+            <lightning-layout-item padding="around-small" size="12" margin="around-small">
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                        medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                        <div class="slds-p-around_x-small">
+                            <lightning-combobox options={isTRWaivedOpt} data-objectname="Case" type="text" label="Is Vetting waived?" value={parentRecForVetting.Is_Vetting_waived__c} onchange={handleVettingCaseData} data-field="Is_Vetting_waived__c" required disabled={disableMode}></lightning-combobox>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                        medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                        <div class="slds-p-around_x-small">
+                            <lightning-combobox options={reasonForvettingOpt} data-objectname="Case" type="text" label="Reason for Vetting waiver" value={parentRecForVetting.WaiverReason__c} onchange={handleVettingCaseData} data-field="WaiverReason__c" required={requiredForVetting} disabled={disableMode}></lightning-combobox>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                        medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                        <div class="slds-p-around_x-small">
+                            <c-custom-lookup 
+                        
+                        required={requiredForVettingForNo}
+                       field-name="Account__r.name"
+                       label="Agency Name"
+                       selected-icon-name="standard:identifier"
+                       object-api-name="AgncLocMap__c"
+                       field-api-name="Account__r.name"
+                       selected-record-id={parentRecForVetting.AccountId}
+                       selected-field-name="Account__c"
+                       onselect={handleValueVettingAgency}
+                       disabled={disableMode}
+                       index={index}
+                       filter-condn={filterCondnForVess}
+                     ></c-custom-lookup>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                        medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                        <div class="slds-p-around_x-small">
+                           
+                            <lightning-combobox options={ReportStatusOptVet} data-objectname="Case" type="text" label="Report status" value={parentRecForVetting.ReportResult__c} onchange={handleVettingCaseData} data-field="ReportResult__c" required={requiredForVettingForNo} disabled={disableMode}></lightning-combobox>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                        medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                        <div class="slds-p-around_x-small">
+                            <lightning-textarea data-fieldtype="string" type="text" data-objectname="Case" label="Report Feedback" value={parentRecForVetting.Remarks_regarding_the_case__c} onchange={handleVettingCaseData} data-field="Remarks_regarding_the_case__c" disabled={disableMode}></lightning-textarea>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                        <lightning-input placeholder="DD-MMM-YYYY" type="date" data-id="initivee" label="Date of initiation" data-objectname="Case" name="DateofInitiation" value={parentRecForVetting.DateofInitiation__c} onchange={handleVettingCaseData} data-field="DateofInitiation__c"  required={requiredForVettingForNo} disabled={disableMode}></lightning-input>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                        <lightning-input placeholder="DD-MMM-YYYY" type="date" data-id="repDatevee" label="Report Date" data-objectname="Case" name="dateofReport" value={parentRecForVetting.Date_of_Report__c} onchange={handleVettingCaseData} data-field="Date_of_Report__c"  required={requiredForVeeforpen} disabled={disableMode}></lightning-input>
+                    </div>
+                </lightning-layout-item>
+                
+                </lightning-layout>
+            </lightning-layout-item>
+        </lightning-layout> -->
+        <template if:true={vettingTab}>
+            <c-vetting-details loan-app-id={loanAppId}
+            record-id={recordId}
+            applicant-id={applicantId}
+            current-tab-id={currentTabId}
+            layout-size={layoutSize}
+            has-edit-access={hasEditAccess}></c-vetting-details></template>
+        <!-- <c-upload-docs-reusable-component loan-app-id={_loanAppId} applicant-id={_applicantId}
+            doc-name={docSubType} doc-type={docType} disable-mode={disableMode} doc-category={docCategory}
+                           onrefreshdoctable={fromUploadDocsContainerForVess} 
+                           convert-to-single-image={convertToSingleImage} allowed-fil-format={allowedFilFormat} document-detai-id={documentDetaiIdForVess}
+                           hide-attach-button={hideAttachButton} onchangefiles={parentFileChangeForVee} file-type-error={fileTypeError} 
+                           max-file-size={MAX_FILE_SIZE} file-size-msz={fileSizeMsz}></c-upload-docs-reusable-component>   
+     -->
+                        </template>
+
+    
+
+    <!--<template if:true={legalTab}>
+        <div class="slds-p-around_medium">
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <lightning-combobox options={WaiveCPV} data-objectname="Case" type="text" label="Is the legal verification waived?" value={parentRecForLegal.WaiveCPV__c} onchange={handleLegalCaseData} data-field="WaiveCPV__c" required disabled={disableMode}></lightning-combobox>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <lightning-combobox options={WaiverReasonOpt} data-objectname="Case" type="text" label="Reason for legal waiver" value={parentRecForLegal.WaiverReason__c} onchange={handleLegalCaseData} data-field="WaiverReason__c" required={requiredforlegal} disabled={disableMode}></lightning-combobox>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <lightning-combobox options={WaiverStatusOpt} data-objectname="Case" type="text" label="Report status" value={parentRecForLegal.ReportResult__c} onchange={handleLegalCaseData} data-field="ReportResult__c" required={requiredforlegalforNo} disabled={disableMode}></lightning-combobox>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <lightning-combobox options={allOwnerOpt} data-objectname="Case" type="text" label="All Property Owners are part of loan structure" value={parentRecForLegal.AllPropertyOwnersArePartOfLoanStru__c} onchange={handleLegalCaseData} data-field="AllPropertyOwnersArePartOfLoanStru__c" required={requLegForpen} disabled={disableMode}></lightning-combobox>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <lightning-combobox options={allClearNdMarkableOpt} data-objectname="Case" type="text" label="Is the title Clear and marketable" value={parentRecForLegal.IsTheTitleClearNdMarketable__c} onchange={handleLegalCaseData} data-field="IsTheTitleClearNdMarketable__c" required={requLegForpen} disabled={disableMode}></lightning-combobox>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <lightning-textarea type="text" data-objectname="Case" label="Report Feedback" value={parentRecForLegal.Remarks_regarding_the_case__c} onchange={handleLegalCaseData} data-field="Remarks_regarding_the_case__c" disabled={disableMode}></lightning-textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-p-around_small lgc-bg" style="padding-top: 35px;">
+                        <c-custom-lookup 
+                        
+                        required={requiredforlegalforNo}
+                       field-name="AccountId"
+                       label="Agency Name"
+                       selected-icon-name="standard:identifier"
+                       object-api-name="AgncLocMap__c"
+                       field-api-name="Account__r.name"
+                       selected-record-id={parentRecForLegal.AccountId}
+                       selected-field-name="Account__c"
+                       onselect={handleValueLegalAgency}
+                       disabled={disableMode}
+                       filter-condn={filterCondnForlegal}
+                     ></c-custom-lookup>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <lightning-input type="date" data-id="latestMon" label="Date of initiation" data-objectname="Case" name="DateofInitiation" value={parentRecForLegal.DateofInitiation__c} onchange={handleLegalCaseData} data-field="DateofInitiation__c"  required={requiredforlegalforNo} disabled={disableMode}></lightning-input>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <lightning-input type="date" data-id="reportDate" label="Report Date" data-objectname="Case" name="dateofReport" value={parentRecForLegal.Date_of_Report__c} onchange={handleLegalCaseData} data-field="Date_of_Report__c"  required={requLegForpen} disabled={disableMode}></lightning-input>
+                    </div>
+                </div>
+            </div>
+            <c-upload-docs-reusable-component loan-app-id={_loanAppId} applicant-id={_applicantId}
+            doc-name={docSubType} doc-type={docType} disable-mode={disableFileUpload} doc-category={docCategory}
+                           onrefreshdoctable={fromUploadDocsContainerForLegal} 
+                           convert-to-single-image={convertToSingleImage} allowed-fil-format={allowedFilFormat} document-detai-id={documentDetaiIdForLegal}
+                           hide-attach-button={hideAttachButton} onchangefiles={parentFileChangeForLegal} file-type-error={fileTypeError} 
+                           max-file-size={MAX_FILE_SIZE} file-size-msz={fileSizeMsz}></c-upload-docs-reusable-component>
+        </div>
+    </template>
+    <template if:true={TSRTab}>
+        <div class="slds-p-around_medium">
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <lightning-combobox options={isTRWaivedOpt} data-objectname="Case" type="text" label="Is TSR waived?" value={parentRecForTSR.IsTSRwaived__c} onchange={handleTSRSCaseData} data-field="IsTSRwaived__c" required disabled={disableMode}></lightning-combobox>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <lightning-combobox options={reasonForTSROpt} data-objectname="Case" type="text" label="Reason for TSR waiver" value={parentRecForTSR.WaiverReason__c} onchange={handleTSRSCaseData} data-field="WaiverReason__c" required={requiredForTSR} disabled={disableMode}></lightning-combobox>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-p-around_small lgc-bg" style="padding-top: 35px;">
+                    <c-custom-lookup 
+                    required={requiredForTSRforNo}
+                    field-name="Account__r.name"
+                   label="Agency Name"
+                   selected-icon-name="standard:identifier"
+                   object-api-name="AgncLocMap__c"
+                   field-api-name="Account__r.name"
+                   selected-record-id={parentRecForTSR.AccountId}
+                   selected-field-name="Account__c"
+                   onselect={handleValueTSRAgency}
+                   disabled={disableMode}
+                   index={index}
+                   filter-condn={filterCondnForTSR}
+                 ></c-custom-lookup>
+                </div>
+                </div>
+                </div>
+            </div>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <lightning-combobox options={ReportStatusOpt} data-objectname="Case" type="text" label="Report status" value={parentRecForTSR.ReportResult__c} onchange={handleTSRSCaseData} data-field="ReportResult__c" required={requiredForTSRforNo} disabled={disableMode}></lightning-combobox>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <lightning-textarea type="text" data-objectname="Case" label="Report Feedback" value={parentRecForTSR.Remarks_regarding_the_case__c} onchange={handleTSRSCaseData} data-field="Remarks_regarding_the_case__c" disabled={disableMode}></lightning-textarea>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <lightning-input type="date" data-id="initiTSR" label="Date of initiation" data-objectname="Case" name="DateofInitiation" value={parentRecForTSR.DateofInitiation__c} onchange={handleTSRSCaseData} data-field="DateofInitiation__c"  required={requiredForTSRforNo} disabled={disableMode}></lightning-input>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <lightning-combobox options={noOfYearsOpt} data-objectname="Case" type="text" label="TSR/EC for no of Yrs." value={parentRecForTSR.TSR_EC_for_no_of_Yrs__c} onchange={handleTSRSCaseData} data-field="TSR_EC_for_no_of_Yrs__c" required={requiredForTSRforpen} disabled={disableMode}></lightning-combobox>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <lightning-input type="date" data-id="repDateTSR" label="Report Date" data-objectname="Case" name="dateofReport" value={parentRecForTSR.Date_of_Report__c} onchange={handleTSRSCaseData} data-field="Date_of_Report__c"  required={requiredForTSRforpen} disabled={disableMode}></lightning-input>
+                    </div>
+                </div>
+            </div> 
+           
+                           <c-upload-docs-reusable-component loan-app-id={_loanAppId} applicant-id={_applicantId}
+                           doc-name={docSubType} doc-type={docType} disable-mode={disableFileUpload} doc-category={docCategory}
+                                          onrefreshdoctable={fromUploadDocsContainerForTSR} 
+                                           allowed-fil-format={allowedFilFormat} document-detai-id={documentDetaiIdForTSR}
+                                          hide-attach-button={hideAttachButton} onchangefiles={parentFileChangeForTSR} file-type-error={fileTypeError} 
+                                         file-size-msz={fileSizeMsz}></c-upload-docs-reusable-component>
+                        
+    </template>
+    <template if:true={vettingTab}>
+        <div class="slds-p-around_medium">
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <lightning-combobox options={isTRWaivedOpt} data-objectname="Case" type="text" label="Is Vetting waived?" value={parentRecForVetting.Is_Vetting_waived__c} onchange={handleVettingCaseData} data-field="Is_Vetting_waived__c" required disabled={disableMode}></lightning-combobox>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <lightning-combobox options={reasonForvettingOpt} data-objectname="Case" type="text" label="Reason for TSR waiver" value={parentRecForVetting.WaiverReason__c} onchange={handleVettingCaseData} data-field="WaiverReason__c" required={requiredForVetting} disabled={disableMode}></lightning-combobox>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-p-around_small lgc-bg"  style="padding-top: 35px;">
+                        <c-custom-lookup 
+                        
+                        required={requiredForVettingForNo}
+                       field-name="Account__r.name"
+                       label="Agency Name"
+                       selected-icon-name="standard:identifier"
+                       object-api-name="AgncLocMap__c"
+                       field-api-name="Account__r.name"
+                       selected-record-id={parentRecForVetting.AccountId}
+                       selected-field-name="Account__c"
+                       onselect={handleValueVettingAgency}
+                       disabled={disableMode}
+                       index={index}
+                       filter-condn={filterCondnForVess}
+                     ></c-custom-lookup>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <lightning-combobox options={ReportStatusOpt} data-objectname="Case" type="text" label="Report status" value={parentRecForVetting.ReportResult__c} onchange={handleVettingCaseData} data-field="ReportResult__c" required={requiredForVettingForNo} disabled={disableMode}></lightning-combobox>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <lightning-textarea type="text" data-objectname="Case" label="Report Feedback" value={parentRecForVetting.Remarks_regarding_the_case__c} onchange={handleVettingCaseData} data-field="Remarks_regarding_the_case__c" disabled={disableMode}></lightning-textarea>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <lightning-input type="date" data-id="initivee" label="Date of initiation" data-objectname="Case" name="DateofInitiation" value={parentRecForVetting.DateofInitiation__c} onchange={handleVettingCaseData} data-field="DateofInitiation__c"  required={requiredForVettingForNo} disabled={disableMode}></lightning-input>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <lightning-input type="date" data-id="repDatevee" label="Report Date" data-objectname="Case" name="dateofReport" value={parentRecForVetting.Date_of_Report__c} onchange={handleVettingCaseData} data-field="Date_of_Report__c"  required={requiredForVeeforpen} disabled={disableMode}></lightning-input>
+                    </div>
+                </div>
+            </div> 
+            <c-upload-docs-reusable-component loan-app-id={_loanAppId} applicant-id={_applicantId}
+            doc-name={docSubType} doc-type={docType} disable-mode={disableFileUpload} doc-category={docCategory}
+                           onrefreshdoctable={fromUploadDocsContainerForVess} 
+                           convert-to-single-image={convertToSingleImage} allowed-fil-format={allowedFilFormat} document-detai-id={documentDetaiIdForVess}
+                           hide-attach-button={hideAttachButton} onchangefiles={parentFileChangeForVee} file-type-error={fileTypeError} 
+                           max-file-size={MAX_FILE_SIZE} file-size-msz={fileSizeMsz}></c-upload-docs-reusable-component>   
+        </div>    
+    </template>
+    <template if:true={caseidyes}>
+        <c-show-case-document case-id={caseId}></c-show-case-document>
+    </template>
+    -->
+    
+        <!-- <c-show-case-document technical="true" show-delete-icon={showDeleteIcon} case-id={caseId} has-edit-access={hasEditAccess}  onalllistdata={allListDatahandler}></c-show-case-document>
+     -->
+</template>

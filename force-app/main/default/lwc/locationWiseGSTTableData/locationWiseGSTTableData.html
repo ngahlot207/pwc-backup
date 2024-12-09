@@ -1,0 +1,122 @@
+<template>
+    <br/>
+    <lightning-accordion allow-multiple-sections-open>
+        <template if:true={GSTdata} for:each={GSTdata} for:item="record" for:index="index">
+            <div if:true={record.parentRecord} key={record.parentRecord.Id}>
+                <template if:true={record.parentRecord.Applicant_GST__r}>
+                    <!-- Start a new accordion section for each GST record -->
+                    <lightning-accordion-section label={record.parentRecord.Applicant_GST__r.GSTIN__c} class="accordionClass">
+
+                        <!-- Table 1: Filing Details - GSTR3B -->
+                        <lightning-layout multiple-rows="true">
+                            <lightning-layout-item size="7">
+                                <table class="table-style">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="5" style="height: 50px; background-color: #F3F2F2;">
+                                                Filing Details - GSTR3B (GST NUMBER - {record.parentRecord.Applicant_GST__r.GSTIN__c})
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th style="background-color: #F3F2F2;">FINANCIAL YEAR</th>
+                                            <th style="background-color: #F3F2F2;">TAX PERIOD</th>
+                                            <th style="background-color: #F3F2F2;">DUE DATE</th>
+                                            <th style="background-color: #F3F2F2;">DATE OF FILING</th>
+                                            <th style="background-color: #F3F2F2;">DELAYED DAYS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template if:true={record.parentRecord.Applicant_Financial_Summary_s__r} for:each={record.parentRecord.Applicant_Financial_Summary_s__r} for:index="index1" for:item="item">
+                                            <tr key={item.Id}>
+                                                <td style="background-color: #F3F2F2;">{item.Financial_Year__c}</td>
+                                                <td style="background-color: #F3F2F2;">{item.GST_Month_Year__c}</td>
+                                                <td style="background-color: #F3F2F2;">
+                                                    <lightning-input type="date" value={item.DueDt__c} onchange={handleInputChange} data-fieldname="DueDt__c" data-parent-index={index} access-key={item.Index__c} data-index={index1} data-cloumn-index={index1}></lightning-input>
+                                                </td>
+                                                <td style="background-color: #F3F2F2;">
+                                                    <lightning-input type="date" value={item.FilingDate__c} onchange={handleInputChange} data-fieldname="FilingDate__c" data-parent-index={index} access-key={item.Index__c} data-index={index1} data-cloumn-index={index1}></lightning-input>
+                                                </td>
+                                                <td style="background-color: #F3F2F2;" data-index={index1} data-fieldname="DelayedDays__c">{item.DelayedDays__c}</td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </lightning-layout-item>
+                        </lightning-layout>
+
+                        <br/><br/>
+
+                        <!-- Table 2: Top 10 Partywise Bifurcation of Revenue -->
+                        <lightning-layout-item size="10">
+                            <table class="table-style">
+                                <thead>
+                                    <tr>
+                                        <th colspan="6" style="height: 50px; background-color: #F3F2F2;">
+                                            Top 10 Partywise Bifurcation of Revenue (in INR) based on TTM/Latest Financial Year
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th style="background-color: #F3F2F2;">CUSTOMER'S NAME</th>
+                                        <th style="background-color: #F3F2F2;">CUSTOMER'S GSTIN</th>
+                                        <template for:each={lastThreeFY} for:item="item" for:index="index">
+                                            <th key={item.Id} style="background-color: #F3F2F2;">{item}</th>
+                                        </template>
+                                        <th style="background-color: #F3F2F2;">TTM</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={tempArray} for:item="item" for:index="index">
+                                        <tr key={item.Id}>
+                                            <td style="background-color: #F3F2F2;"><lightning-input></lightning-input></td>
+                                            <td style="background-color: #F3F2F2;"><lightning-input></lightning-input></td>
+                                            <td style="background-color: #F3F2F2;"><lightning-input type="currency"></lightning-input></td>
+                                            <td style="background-color: #F3F2F2;"><lightning-input type="currency"></lightning-input></td>
+                                            <td style="background-color: #F3F2F2;"><lightning-input type="currency"></lightning-input></td>
+                                            <td style="background-color: #F3F2F2;"><lightning-input type="currency"></lightning-input></td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </lightning-layout-item>
+
+                        <br/><br/>
+
+                        <!-- Table 3: Top 10 Partywise Bifurcation of Purchase and Expenses -->
+                        <lightning-layout-item size="10">
+                            <table class="table-style">
+                                <thead>
+                                    <tr>
+                                        <th colspan="6" style="height: 50px; background-color: #F3F2F2;">
+                                            Top 10 Partywise Bifurcation of Purchase and Expenses (in INR) based on TTM/Latest Financial Year
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th style="background-color: #F3F2F2;">SUPPLIER'S NAME</th>
+                                        <th style="background-color: #F3F2F2;">SUPPLIER'S GSTIN</th>
+                                        <template for:each={lastThreeFY} for:item="item" for:index="index">
+                                            <th key={item.Id} style="background-color: #F3F2F2;">{item}</th>
+                                        </template>
+                                        <th style="background-color: #F3F2F2;">TTM</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={tempArray} for:item="item" for:index="index">
+                                        <tr key={item.Id}>
+                                            <td style="background-color: #F3F2F2;"><lightning-input></lightning-input></td>
+                                            <td style="background-color: #F3F2F2;"><lightning-input></lightning-input></td>
+                                            <td style="background-color: #F3F2F2;"><lightning-input type="currency"></lightning-input></td>
+                                            <td style="background-color: #F3F2F2;"><lightning-input type="currency"></lightning-input></td>
+                                            <td style="background-color: #F3F2F2;"><lightning-input type="currency"></lightning-input></td>
+                                            <td style="background-color: #F3F2F2;"><lightning-input type="currency"></lightning-input></td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </lightning-layout-item>
+
+                    </lightning-accordion-section>
+                </template>
+            </div>
+        </template>
+    </lightning-accordion>
+</template>

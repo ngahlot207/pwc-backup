@@ -1,0 +1,252 @@
+<template>
+    <lightning-card title="Other Income">
+        <lightning-spinner if:true={showSpinner} alternative-text="Loading" size="large" variant="brand" style="position: fixed;">
+        </lightning-spinner>
+        <div class="datatable-container slds-p-left_medium slds-p-right_xx-small">
+                    <table class="datatable slds-table_bordered slds-table_col-bordered slds-border_right slds-border_left">
+                        <tr>
+                            <th class="slds-border_bottom" scope="col">
+                                <div class="slds-m-around_small slds-align_absolute-left"
+                                    title="Sr No">SR NO</div>
+                            </th>
+                            <th class="slds-border_bottom" scope="col">
+                                <div class="slds-m-around_small slds-align_absolute-left"
+                                    title="Property Address">FY</div>
+                            </th>
+                            <th class="slds-border_bottom" scope="col">
+                                <div class="slds-m-around_x-small slds-align_absolute-left"
+                                    title="Yearly Income"><abbr class="slds-required" title="required">* 
+                                    </abbr>Income</div>
+                            </th>
+                            <!-- <th class="slds-border_bottom" scope="col">
+                            <div class="slds-truncate  slds-align_absolute-left" title="Average Monthly Income"><br>Total Monthly</br> Other Income</br></div>
+                        </th> -->
+                            <th class="slds-border_bottom" scope="col">
+                                <div class="slds-m-around_x-small slds-align_absolute-left"
+                                    title="Average Monthly Income"><abbr class="slds-required" title="required">* 
+                                    </abbr>Less Tax</div>
+                                    
+                            </th>
+                            <!-- <th class="slds-border_bottom" scope="col">
+                                <div class="slds-m-around_small"
+                                    title="Average Monthly Income">Income after tax</div>
+                            </th> -->
+
+                            <th class="slds-border_bottom" scope="col">
+                                <div class="slds-m-around_x-small slds-align_absolute-left"
+                                    title="Average Monthly Income"><abbr class="slds-required" title="required">* 
+                                    </abbr>Income after tax</div>
+                                    
+                            </th>
+
+                        </tr>
+
+                        <template iterator:it={properties} for:index="index">
+                            <tr key={it.value.Index__c}>
+                                <td class="slds-border_bottom">
+                                    <div class="slds-p-left_small"
+                                        title="Sr No" access-key={it.value.Index__c} data-id={it.value.Index__c}
+                                        onchange={handleSerialNumberChange}>{it.value.Index__c}</div>
+                                </td>
+
+                                <td class="slds-border_bottom">
+                                    <div class="slds-m-around_xx-small">
+                                        <template if:false={it.value.isDisabled}>
+                                        <lightning-combobox placeholder="Select Month" value={it.value.Month__c}
+                                        onchange={inputChangeHandler} options={financialYearOptions} 
+                                        data-objectname="Applicant_Income__c" access-key={it.value.Index__c}
+                                        data-fieldname="Month__c"
+                                        style="width: 140px;" 
+                                        variant="label-hidden"
+                                        required
+                                        disabled={it.value.isDisabled}
+                               ></lightning-combobox>
+                            </template>
+                            
+                            <template if:true={it.value.isDisabled}>
+                                        <lightning-input type="text" value={it.value.Month__c}
+                                            onchange={inputChangeHandler} access-key={it.value.Index__c}
+                                            data-id={it.value.Index__c} placeholder="Enter Here"
+                                            data-objectname="Applicant_Income__c" data-fieldname="Month__c" required
+                                            style="width: 140px;" variant="label-hidden" disabled>
+                                        </lightning-input>
+                                    </template>
+                                    </div>
+                                </td>
+
+                                <td class="slds-border_bottom">
+                                    <div class="slds-m-around_xx-small">
+                                        <lightning-input type="number" value={it.value.Monthly_Other_Income__c}
+                                            onchange={inputChangeHandler} access-key={it.value.Index__c}
+                                            data-id={it.value.Index__c} placeholder="Enter Here"
+                                            data-objectname="Applicant_Income__c"
+                                            data-fieldname="Monthly_Other_Income__c" variant="label-hidden"
+                                            style="width: 145px;" formatter="currency"
+                                            message-when-bad-input="Enter a Valid Input" min=0
+                                            message-when-range-underflow="Enter a Valid Input" required
+                                            disabled={disableMode}></lightning-input>
+                                    </div>
+                                </td>
+
+                                <!-- <td class="slds-border_bottom"><div class=" slds-align_absolute-left">
+                                {it.value.Monthly_Other_Income__c}  </div></td> -->
+                                <!-- style="margin-top: 34px;" -->
+                                <td class="slds-border_bottom">
+                                    <div class="slds-m-around_xx-small">
+                                        <lightning-input type="text" value={it.value.Less_Tax__c}
+                                            onchange={inputChangeHandler} access-key={it.value.Index__c}
+                                            data-id={it.value.Index__c} placeholder="Enter Here" formatter="currency"
+                                            data-objectname="Applicant_Income__c" data-fieldname="Less_Tax__c"
+                                            variant="label-hidden" required disabled={disableMode}
+                                            style="width: 150px;"
+                                            data-fieldtype="string">
+                                        </lightning-input>
+                                    </div>
+                                </td>
+
+                                <!-- <td class="slds-border_bottom"> -->
+                                    <!-- <template if:true={showDeleteAction}>
+                                         <div key={it.value.Index__c} lwc:if={it.last}
+                                            class="list-last slds-m-around_xx-small slds-align_absolute-center">
+                                            <lightning-icon access-key={it.value.Index__c}
+                                                icon-name="utility:delete" alternative-text="Delete" title="Delete"
+                                                variant="error" size="small" data-id={it.value.Index__c}
+                                                class="custom-button" onclick={deleteHandler}
+                                                disabled={disableMode}>
+                                            </lightning-icon>
+                                        </div> 
+                                        <div key={it.value.Index__c} lwc:if={it.last} 
+                                        class="list-last slds-m-around_xx-small slds-align_absolute-center" >                               
+                                            <lightning-button-icon   access-key={it.value.Index__c} icon-name="utility:delete"
+                                            alternative-text="Delete" title="Delete"  variant="error" size="large"
+                                            data-id={it.value.Index__c} class="custom-button"
+                                            onclick={deleteHandler} disabled={disableMode}>
+                                            </lightning-button-icon>
+                                        </div>
+                                    </template> -->
+
+                                    <td class="slds-border_bottom">
+                                        <div class="slds-m-around_xx-small">
+                                            <lightning-input type="text" value={it.value.Income_after_tax__c}
+                                                onchange={inputChangeHandler} access-key={it.value.Index__c}
+                                                data-id={it.value.Index__c} placeholder="Enter Here" formatter="currency"
+                                                data-objectname="Applicant_Income__c" data-fieldname="Income_after_tax__c"
+                                                variant="label-hidden" required disabled={disableMode}
+                                                style="width: 150px;"
+                                                data-fieldtype="string">
+                                            </lightning-input>
+                                        </div>
+                                    </td>
+
+                                    <!-- Logic added for delete confirmation pop up message DG -->
+                                    <!-- <template if:true={showDeleteConfirmation}>
+                                        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading"
+                                            aria-modal="true" aria-describedby="modal-content-id-1"
+                                            class="slds-modal slds-fade-in-open">
+                                            <div class="slds-modal__container rationaleWidth">
+                                                <header class="slds-modal__header">
+                                                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={hideModalBox}>
+             <lightning-icon icon-name="utility:close"   alternative-text="close" 
+               variant="inverse" 
+                size="small" ></lightning-icon>
+             <span class="slds-assistive-text">Close</span>
+             </button>
+                                                    <h2 id="modal-heading-01"
+                                                        class="slds-text-heading_medium slds-hyphenate">Delete
+                                                        Confirmation</h2>
+                                                </header>
+
+                                                <div class="slds-modal__content slds-p-around_medium div-center"
+                                                    id="modal-content-id-1">
+                                                    <strong>Do you want to delete Other income details ?</strong>
+                                                </div>
+
+                                                <footer class="slds-modal__footer">
+                                                    <lightning-button class="slds-p-horizontal_x-small"
+                                                        variant="brand" label="Yes" title="Delete"
+                                                        onclick={handleConfirmDelete}></lightning-button>
+                                                    <lightning-button class="slds-p-horizontal_x-small"
+                                                        variant="destructive" label="No" title="cancel"
+                                                        onclick={handleCancelDelete}>
+                                                    </lightning-button>
+                                                </footer>
+
+                                            </div>
+                                        </section>
+                                        <div class="slds-backdrop slds-backdrop_open"></div>
+                                    </template> -->
+
+                                <!-- </td> -->
+                            </tr>
+                        </template>
+
+                        <tr class="color">
+                            <td colspan="2">
+                                <div class="slds-m-around_x-small slds-align_absolute-center">
+                                    <b>AVERAGE PER MONTH (RS)</b></div>
+                            </td>
+
+                            <td colspan="1" class="bordr lineBreak">
+                                <div class="slds-m-around_x-small slds-align_absolute-left"
+                                    title="Average Monthly">
+                                    <lightning-input type="text" value={averageMonthlyOtherIncome}
+                                    variant="label-hidden" 
+                                    disabled
+                                    formatter="currency"
+                                    style="width: 145px;">
+                                </lightning-input></div>
+                            </td>
+
+                            <td colspan="1" class="bordr lineBreak">
+                                <div class="slds-m-around_x-small slds-align_absolute-left"
+                                    title="Average Monthly">
+                                    <lightning-input type="text" value={averageMonthlyLessTax}
+                                    variant="label-hidden" 
+                                    disabled
+                                    formatter="currency"
+                                    style="width: 145px;">
+                                </lightning-input></div>
+                            </td>
+
+                            <td colspan="1" class="bordr lineBreak">
+                                <div class="slds-m-around_x-small slds-align_absolute-left"
+                                    title="Average Monthly">
+                                    <lightning-input type="text" value={averageMonthlyAftertax}
+                                    variant="label-hidden" 
+                                    disabled
+                                    formatter="currency"
+                                    style="width: 145px;">
+                                </lightning-input></div>
+                            </td>
+                            <!-- <td colspan="1" class="bordr lineBreak"><div class=" slds-align_absolute-left"
+                            title="Average Monthly">{averageMonthlyOtherIncome}</div></td> -->
+                            <td colspan="2" class="bordr lineBreak">
+                                <div class="slds-m-around_x-small"
+                                    title="Average Monthly"></div>
+                            </td>
+                            <!-- <td colspan="2" class="bordr lineBreak">
+                                <div class="slds-truncate  slds-align_absolute-left"
+                                    title="Average Monthly"></div>
+                            </td> -->
+
+                        </tr>
+                    </table>
+        </div>
+    
+        <lightning-layout>
+            <lightning-layout-item flexibility="auto" padding="horizontal-small" class="slds-text-align_left">
+                <!-- <div class="slds-m-around_medium">
+        
+                    <lightning-button icon-name="utility:connected_apps" label="Add Month" variant="brand-outline"
+                        onclick={addMonthHandler} disabled={disableMode}></lightning-button>
+                </div> -->
+            </lightning-layout-item>
+        </lightning-layout>
+        
+        <!-- <div class="">
+        <lightning-button label="Add Record" onclick={handleUpsert}></lightning-button>
+    </div> -->
+    </lightning-card>
+
+</template>

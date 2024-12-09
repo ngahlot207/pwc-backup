@@ -1,0 +1,57 @@
+<template>
+    <div class="slds-truncate" title={fieldValue}>
+        <!-- <p> {fieldValue}</p> -->
+
+        <template if:true={stringBoolean}>
+            <p><lightning-formatted-text value={fieldValue}></lightning-formatted-text></p>
+        </template>
+        <template if:true={datetimeBoolean}>
+            <!-- <p><lightning-formatted-date-time value={fieldValue}></lightning-formatted-date-time></p> -->
+            <!-- <p><lightning-formatted-date-time value={fieldValue} year="numeric" month="numeric" day="numeric"
+                    hour="2-digit" minute="2-digit"></lightning-formatted-date-time></p> -->
+                    <p>{fieldValue}</p>
+        </template>
+        <template if:true={dateBoolean}>
+            <!-- <c-date-display birth-date={fieldValue}></c-date-display> -->
+            <p>{fieldValue}</p>
+        </template>
+        <template if:true={numberBoolean}>
+            <p><lightning-formatted-number value={fieldValue}></lightning-formatted-number></p>
+        </template>
+        <template if:true={phoneBoolean}>
+            <p><lightning-formatted-phone value={fieldValue}></lightning-formatted-phone></p>
+        </template>
+        <template if:true={emailBooelan}>
+            <p><lightning-formatted-email value={fieldValue}></lightning-formatted-email></p>
+        </template>
+        <template if:true={urlBoolean}>
+            <p><lightning-formatted-url value={fieldValue} tooltip="Omit leading slash"
+                    target="_blank"></lightning-formatted-url></p>
+        </template>
+        <template if:true={nullBoolean}>
+            <p>{fieldValue}</p>
+        </template>
+        <template if:true={readBoolean}>
+            <lightning-input variant="label-hidden" type="checkbox" checked={fieldValue} disabled></lightning-input>
+        </template>
+        <template if:true={editBoolean}>
+            <lightning-input variant="label-hidden" data-id={recordId} type="checkbox" checked={fieldValue}
+                onclick={handleClick}></lightning-input>
+        </template>
+        <template if:true={previewBooelan}>
+
+            <template if:true={fieldValue}>
+                <lightning-icon class="custom-button slds-p-right_xx-small " onclick={handleDocumentView}
+                    data-documentid={fieldValue} icon-name="utility:preview" alternative-text="preview"
+                    variant="success" size="small" title="preview"></lightning-icon>
+            </template>
+            <template if:false={fieldValue}>
+                <lightning-icon class="custom-button slds-p-right_xx-small " data-documentid={fieldValue}
+                    icon-name="utility:preview" alternative-text="preview" size="small" title="preview"
+                    disabled></lightning-icon>
+            </template>
+        </template>
+    </div>
+
+
+</template>

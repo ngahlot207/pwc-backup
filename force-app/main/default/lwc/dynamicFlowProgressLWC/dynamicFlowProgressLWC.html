@@ -1,0 +1,265 @@
+<template>
+    <lightning-layout multiple-rows="true">
+        <lightning-layout-item size="12">
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item size="4">
+                    <div class="slds-p-around_small" style="width: 600px;">
+    <!-- ##### Vertical Indicator ##### -->
+    <template if:true={showTypeVertical}>
+        <div class="slds-progress slds-progress_vertical">
+            <ol class="slds-progress__list">
+                <template for:each={stepsArray} for:item="step">
+                    
+                    <!-- if FinalComplete -->
+                    <template if:true={step.showFinalComplete}>
+                        <li key={step.label} class="slds-progress__item slds-is-completed">
+                            <span class="slds-icon_container slds-icon-utility-success slds-progress__marker slds-progress__marker_icon slds-progress__marker_icon-success" title={label.DFP_Complete}>
+                                <div class="slds-icon slds-icon_xx-small" aria-hidden="true">
+                                    <lightning-icon icon-name="utility:success" variant="success" size="xx-small" class="slds-icon slds-icon_xx-small"></lightning-icon>
+                                </div>
+                                <span class="slds-assistive-text">{label.DFP_Complete}</span>
+                            </span>
+                            <div class="slds-progress__item_content slds-grid slds-grid_align-spread"><strong>{step.label}</strong></div>
+                        </li>
+                    </template>
+
+                    <!-- if Complete -->
+                    <template if:true={step.showComplete}>
+                        <li key={step.label} class="slds-progress__item slds-is-completed">
+                            <span class="slds-icon_container slds-icon-utility-success slds-progress__marker slds-progress__marker_icon slds-progress__marker_icon-success" title={label.DFP_Complete}>
+                                <div class="slds-icon slds-icon_xx-small" aria-hidden="true">
+                                    <lightning-icon icon-name="utility:success" variant="success" size="xx-small" class="slds-icon slds-icon_xx-small"></lightning-icon>
+                                </div>
+                                <span class="slds-assistive-text">{label.DFP_Complete}</span>
+                            </span>
+                            <div class="slds-progress__item_content slds-grid slds-grid_align-spread">{step.label}</div>
+                        </li>
+                    </template>
+                    
+                    <!-- if Current -->
+                    <template if:true={step.showCurrent}>
+                        <li key={step.label} class="slds-progress__item slds-is-active">
+                            <div class="slds-progress__marker">
+                                <span class="slds-assistive-text">{label.DFP_Current}</span>
+                            </div>
+                            <div class="slds-progress__item_content slds-grid slds-grid_align-spread"><strong>{step.label}</strong></div>
+                        </li>
+                    </template>
+                    
+                    <!-- if Upcoming -->
+                    <template if:true={step.showUpcoming}>
+                        <li key={step.label} class="slds-progress__item">
+                            <div class="slds-progress__marker">
+                                <span class="slds-assistive-text">{label.DFP_Upcoming}</span>
+                            </div>
+                            <div class="slds-progress__item_content slds-grid slds-grid_align-spread">{step.label}</div>
+                        </li>
+                    </template>
+                    
+                </template>
+            </ol>
+        </div>
+    </template>
+    <!-- ##### END: Vertical Indicator ##### -->
+
+
+
+    <!-- ##### VertNav ##### -->
+    <template if:true={showTypeVertNav}>
+        <!-- <nav class="slds-nav-vertical" aria-label="Dynamic Flow Progress"> -->
+        <nav class="slds-nav-vertical">
+            <div class="slds-nav-vertical__section">
+                <ul aria-describedby="entity-header">
+                    
+                    <template for:each={stepsArray} for:item="step">
+                        
+                        <!-- if FinalComplete -->
+                        <template if:true={step.showFinalComplete}>
+                            <li key={step.label} class="slds-nav-vertical__item slds-is-active">
+                                <span class="slds-nav-vertical__action no-cursor" aria-current="true">{step.label}</span>
+                                <span class="slds-assistive-text">{label.DFP_Complete}</span>
+                            </li>
+                        </template>
+                        
+                        <!-- if Complete -->
+                        <template if:true={step.showComplete}>
+                            <li key={step.label} class="slds-nav-vertical__item">
+                                <span class="slds-nav-vertical__action no-hover">{step.label}</span>
+                                <span class="slds-assistive-text">{label.DFP_Complete}</span>
+                            </li>
+                        </template>
+                        
+                        <!-- if Current -->
+                        <template if:true={step.showCurrent}>
+                            <li key={step.label} class="slds-nav-vertical__item slds-is-active">
+                                <span class="slds-nav-vertical__action no-cursor" aria-current="true">{step.label}</span>
+                                <span class="slds-assistive-text">{label.DFP_Current}</span>
+                            </li>
+                        </template>
+                        
+                        <!-- if Upcoming -->
+                        <template if:true={step.showUpcoming}>
+                            <li key={step.label} class="slds-nav-vertical__item">
+                                <span class="slds-nav-vertical__action no-hover">{step.label}</span>
+                                <span class="slds-assistive-text">{label.DFP_Upcoming}</span>
+                            </li>
+                        </template>
+                        
+                    </template>
+                </ul>
+            </div>
+        </nav>
+    </template>
+    <!-- ##### END: VertNav ##### -->
+
+
+
+    <!-- ##### Horizontal ##### -->
+    <template if:true={showTypeHorizontal}>
+        <div class="slds-progress slds-var-m-top_small slds-var-m-bottom_small">
+            <ol class="slds-progress__list">
+                
+                <div class="slds-progress-bar slds-progress-bar_x-small" aria-valuemin="0" aria-valuemax="100" aria-valuenow={pathProgress} aria-label={progressLabel} role="progressbar">
+                    <span class="slds-progress-bar__value progress-style">
+                        <span class="slds-assistive-text">{progressLabel}</span>
+                    </span>
+                </div>
+                
+                <template for:each={stepsArray} for:item="step">
+                    
+                    
+                    <!-- if Complete -->
+                    <template if:true={step.showComplete}>
+                        <li key={step.label} class="slds-progress__item slds-is-completed">
+                            <span class="slds-icon_container slds-icon-utility-success slds-progress__marker slds-progress__marker_icon" title={label.DFP_Complete}>
+                                <div class="slds-icon slds-icon_xx-small" aria-hidden="true">
+                                    <lightning-icon icon-name="utility:success" variant="success" size="xx-small" class="slds-icon slds-icon_xx-small"></lightning-icon>
+                                </div>
+                                <span class="slds-assistive-text">{label.DFP_Complete}</span>
+                            </span>
+                        </li>
+                    </template>
+                    
+                    
+                    <!-- if Current -->
+                    <template if:true={step.showCurrent}>
+                        <li key={step.label} class="slds-progress__item slds-is-active">
+                            <div class="slds-button slds-progress__marker">
+                                <span class="slds-assistive-text">{label.DFP_Current}</span>
+                            </div>
+                        </li>
+                    </template>
+                    
+                    
+                    <!-- if Upcoming -->
+                    <template if:true={step.showUpcoming}>
+                        <li key={step.label} class="slds-button slds-progress__item">
+                            <div class="slds-progress__marker">
+                                <span class="slds-assistive-text">{label.DFP_Upcoming}</span>
+                            </div>
+                        </li>
+                    </template>
+                    
+                    
+                </template>
+            </ol>
+        </div>
+    </template>
+    <!-- ##### END: Horizontal ##### -->
+
+
+
+    <!-- ##### Path ##### -->
+    <template if:true={showTypePath}>
+        <div class="slds-path slds-var-m-top_small slds-var-m-bottom_small">
+            <div class="slds-grid slds-path__track">
+                <div class="slds-grid slds-path__scroller-container">
+                    <div class="slds-path__scroller">
+                        <div class="slds-path__scroller_inner">
+                            <ul class="slds-path__nav" role="listbox" aria-orientation="horizontal" style="width: 500px;">
+                                
+                                <template for:each={stepsArray} for:item="step">
+                                    
+                                    <!-- if Complete -->
+                                    <template if:true={step.showComplete}>
+                                        <li key={step.label} class="slds-path__item slds-is-complete" role="presentation">
+                                            <a aria-selected="false" class="slds-path__link" role="option">
+                                                <span class="slds-path__stage">
+                                                    <lightning-icon icon-name="utility:check" variant="inverse" size="xx-small" class="slds-icon slds-icon_x-small"></lightning-icon>
+                                                    <span class="slds-assistive-text">{label.DFP_Complete}</span>
+                                                </span>
+                                                <span class="slds-path__title">{step.label}</span>
+                                            </a>
+                                        </li>
+                                    </template>
+                                    
+                                    
+                                    <!-- if Current -->
+                                    <template if:true={step.showCurrent}>
+                                        <li key={step.label} class="slds-path__item slds-is-current slds-is-active" role="presentation">
+                                            <a aria-selected="true" class="slds-path__link" role="option">
+                                                <span class="slds-path__stage">
+                                                    <lightning-icon icon-name="utility:check" variant="inverse" size="xx-small" class="slds-icon slds-icon_x-small"></lightning-icon>
+                                                    <span class="slds-assistive-text">{label.DFP_Current}</span>
+                                                </span>
+                                                <span class="slds-path__title">{step.label}</span>
+                                            </a>
+                                        </li>
+                                    </template>
+                                    
+                                    
+                                    <!-- if Upcoming -->
+                                    <template if:true={step.showUpcoming}>
+                                        <li key={step.label} class="slds-path__item slds-is-incomplete" role="presentation">
+                                            <a aria-selected="false" class="slds-path__link" role="option">
+                                                <span class="slds-path__stage">
+                                                    <lightning-icon icon-name="utility:check" variant="inverse" size="xx-small" class="slds-icon slds-icon_x-small"></lightning-icon>
+                                                    <span class="slds-assistive-text">{label.DFP_Upcoming}</span>
+                                                </span>
+                                                <span class="slds-path__title">{step.label}</span>
+                                            </a>
+                                        </li>
+                                    </template>
+
+                                </template>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <!-- ##### END: Path ##### -->
+
+
+
+    <!-- ##### Bar ##### -->
+    <template if:true={showTypeBar}>
+        <div class="slds-grid slds-grid_align-spread slds-var-p-bottom_x-small" id="progress-bar-label-id-6">
+            <span><strong>{currentStep}</strong></span>
+            <span aria-hidden="true">
+                <strong>{progressLabel}</strong>
+            </span>
+        </div>
+        <div class="slds-progress-bar slds-progress-bar_circular slds-progress-bar_large" aria-valuemin="0" aria-valuemax="100" aria-valuenow={pathProgress} aria-labelledby="progress-bar-label-id-6" aria-label={progressLabel} role="progressbar">
+            <span class="slds-progress-bar__value progress-style">
+                <span class="slds-assistive-text">{progressLabel}</span>
+            </span>
+        </div>
+    </template>
+    <!-- ##### END: Bar ##### -->
+
+
+
+    <!-- ##### Ring ##### -->
+    <template if:true={showTypeRing}>
+        <div class="progress-ring" aria-valuenow={pathProgress} aria-valuemin="0" aria-valuemax="100"></div>
+    </template>
+    <!-- ##### END: Ring ##### -->
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+        </lightning-layout-item>
+    </lightning-layout>     
+</template>

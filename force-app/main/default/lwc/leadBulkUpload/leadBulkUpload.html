@@ -1,0 +1,147 @@
+<!--/**
+* ─────────────────────────────────────────────────────────────────────────────────────────────────
+* @Author         PwC India
+* @Componet       leadBulkUploadUnico     
+* @Description    This component is used for download template and bulk uplaod lead from CSV file. 
+* @CreatedDateBy  Shekhar Kumar
+* @ModifiedBy     
+* @ModifiedDate   
+* ──────────────────────────────────────────────────────────────────────────────────────────────────
+*/-->
+
+<template>
+    <template lwc:if={isSpinnerOn}>
+        <lightning-spinner alternative-text="Loading"></lightning-spinner>
+    </template>
+    <!--   <template lwc:if={isClickedBulkUpload}> -->
+    <!-- Modal/Popup Box LWC starts here -->
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+        aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <!-- Modal/Popup Box LWC header here -->
+            <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+                    data-id="close" onclick={buttonClickHandler}>
+                    <lightning-icon icon-name="utility:close" alternative-text="close" size="small"></lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">BULK LEAD UPLOAD</h2>
+            </header>
+            <!-- Modal/Popup Box LWC body starts here -->
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <template if:true={allowedUpload}>
+                    <lightning-layout horizontal-align="space">
+                        <lightning-layout-item flexibility="auto" padding="around-small">
+                            <lightning-button variant="neutral" label="Download Template" title="Download Template"
+                                icon-name="utility:download" data-id="download" onclick={buttonClickHandler}
+                                class="slds-p-around_xxx-small">
+                            </lightning-button>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="around-small">
+                            <input type="file" accept=".csv" data-id="fileInput" class="slds-hide"
+                                onchange={handleFileChange} />
+                            <lightning-button variant="neutral" label="Upload File" title="Upload File"
+                                icon-name="utility:upload" data-id="upload" disabled={isUploadButtonDisable}
+                                onclick={buttonClickHandler} class="slds-p-around_xxx-small">
+                            </lightning-button>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                    <lightning-layout>
+                        <lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+                            large-device-size="12" flexibility="auto" padding="around-small">
+                            <b>
+                                <p>Note : Only .csv format supported. Suggest you to download the given template for
+                                    upload.</p>
+                                <p>Required Field For Individual : First Name, Last Name , Email, Product, Mobile
+                                    Number,
+                                    Constitution
+                                </p>
+                                <p>Required Field For Non Individual : CompanyName, Email, Product, Mobile Number
+                                    Constitution</p>
+                                <p>Date format should be in (dd/mm/yyyy) / (dd-mm-yyyy) </p>
+                            </b>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </template>
+                <template if:false={allowedUpload}>
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+                        large-device-size="12" flexibility="auto" padding="around-small">
+                        <b>
+                            <p>Note : You are not allowed for bulk upload</p>
+                        </b>
+                    </lightning-layout-item>
+                </template>
+
+                <template if:true={displayFileUpload}>
+                    <div class="ml-25 mb-10 mr-20 file-container">
+
+                        <lightning-icon icon-name="doctype:csv" alternative-text="CSV file"
+                            title="CSV"></lightning-icon>
+                        <div class="ml-10 mr-18 file-description-container">
+                            <div class="file-name">
+                                {csvFileName}
+                            </div>
+                            <div class="file-size">
+                                {fileSize}KB
+                            </div>
+                        </div>
+                        <div class="close-status-image-container">
+                            <div>
+                                <lightning-icon icon-name="utility:close" alternative-text="File Close" title="close"
+                                    data-id="fileclose" onclick={buttonClickHandler}></lightning-icon>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ml-25 progress-bar-root mr-20">
+                        <div lwc:if={isProgressbarOn}>
+                            <lightning-progress-bar value={progressVal} size="large"
+                                variant="circular"></lightning-progress-bar>
+                        </div>
+                        <div if:true={displayUploadFailSection} class="upload-result-root">
+                            <span class="upload-failed" if:true={isUploadFailure}>
+                                Upload failed.
+                            </span>
+                            <span if:true={isUploadPartialSuccess}>
+                                <img class="icon-size" src={successIcon}>
+                                <span class="successrows">
+                                    &nbsp;{numberOfSuccessRecords} rows
+                                </span>
+                                <span class="upload-message">
+                                    &nbsp;got successfully uploaded and&nbsp;
+                                </span>
+                                <img class="icon-size" src={failureIcon}>
+                                <span class="failurerows">
+                                    &nbsp;{numberOfFailedRecords} rows&nbsp;
+                                </span>
+                                <span class="upload-message">
+                                    failed.
+                                </span>
+                            </span>
+                            <span class="download-log-button_container">
+                                <a class="download-log-button" data-id="downloadlog" onclick={buttonClickHandler}>
+                                    Download Log
+                                </a>
+                            </span>
+                        </div>
+                        <div if:true={isUploadSuccess} class="upload-result-root">
+                            <span class="upload-failed">
+                                1 of 1 file Uploaded
+                            </span>
+                        </div>
+                    </div>
+                </template>
+            </div>
+            <!-- Modal/Popup Box LWC footer starts here -->
+            <footer class="slds-modal__footer">
+                <div class="slds-grid  slds-grid_align-end">
+                    <lightning-button variant="neutral" label="Cancel" title="Cancel" data-id="cancel"
+                        onclick={buttonClickHandler} class="slds-m-left_x-small"></lightning-button>
+                    <lightning-button variant="brand" label="Done" title="Done" data-id="done"
+                        onclick={buttonClickHandler} class="slds-m-left_x-small"></lightning-button>
+                </div>
+            </footer>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open modal-backdrop"></div>
+</template>
+<!--</template>-->

@@ -1,0 +1,19 @@
+.dummy{
+	color : black;
+}
+.green-verified {
+    color: green;
+    font-weight: bold; /* Optional: Make the text bold for emphasis */
+}
+.two-column-container {
+    display: flex;
+    justify-content: space-between; /* Adjust as needed */
+    align-items: flex-start; /* Adjust as needed */
+}
+
+.column {
+    flex: 1;
+    margin: 10px;
+    box-sizing: border-box;
+    min-width: 0; /* Ensure text content can overflow if needed */
+}

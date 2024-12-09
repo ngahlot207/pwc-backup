@@ -1,0 +1,524 @@
+<template>
+
+  <div if:true={showSpinner}>
+    <lightning-spinner
+      alternative-text="Loading..."
+      variant="brand"
+      class="slds-is-fixed"
+    >
+    </lightning-spinner>
+  </div>
+
+    <template if:true={rcuAgency}>
+      <lightning-accordion active-section-name={activeSection} allow-multiple-sections-open>
+      <lightning-accordion-section name="A" label="Borrower Details" class="accClass">
+
+        <lightning-card title="">
+            <div class="slds-p-around_medium">
+            <br/>
+                <div class="slds-box">
+                    <div class="slds-scrollable">
+                    
+                    <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                        <thead>
+                            <tr class="slds-text-title_bold slds-text-color_weak">
+                                
+                                <th scope="col">Borrower Name</th>
+                                <th scope="col">Borrower Type</th>
+                                <th scope="col">Customer Segment</th>
+                                <!-- <th scope="col">Constitution</th>
+                                <th scope="col">Gender</th>
+                                <th scope="col">Relationship with applicant</th>
+                                <th scope="col">Property Owner</th>
+                                <th scope="col">Income Considered</th> -->
+                              
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template iterator:it={appList}>
+                          <tr key={it.value.Id}>
+                             
+                             <td scope="row">
+                                {it.value.FullName__c}
+                             </td>
+                             <td>
+                                {it.value.ApplType__c}
+                             </td>
+                             <td>
+                                {it.value.CustProfile__c}
+                             </td>
+                             <!-- <td>
+                                {it.value.applicantListForBorrowerWrapper.Constitution__c}
+                             </td>
+                             <td>
+                                {it.value.gender}
+                             </td>
+                             <td>
+                                {it.value.applicantListForBorrowerWrapper.Relationship__c}
+                             </td>
+                          
+                             <td>
+                                {it.value.propertyOwnerWrapper}
+                             </td>
+                             <td>
+                                {it.value.financialBorrowerWrapper}
+                             </td>                                -->
+                                
+                         </tr>
+                         
+                        </template>
+                        
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+            </div>
+        
+        
+        
+        </lightning-card>
+   
+    
+
+</lightning-accordion-section>
+<!-- <lightning-accordion-section name="B" label="Documents" class="accClass">
+  
+</lightning-accordion-section> -->
+</lightning-accordion>
+<lightning-layout padding="slds-p-around_x-small"  multiple-rows="12">
+  <lightning-layout-item padding="slds-p-around_xx-small"       
+    size="12"
+    small-device-size= "12"
+    medium-device-size="3"
+    large-device-size={leftScreen}
+    ><div class="slds-box slds-scrollable" style="height:500px">
+      <lightning-card icon-name="standard:sort_policy" variant="base">
+        <div slot="title">
+          Sampling Case
+        </div>
+        <div slot="actions">
+      
+        </div>
+        <div slot="footer">
+              <lightning-button
+                variant="brand"
+                label="Update"
+                title="Update"
+                data-name="Update"
+                onclick={handleUpdate}
+                disabled={disableMode}
+              ></lightning-button>    
+        </div>
+      
+       
+      
+    
+      <div id="containerDiv" style="height:800px;" onmousemove={handlemousemove} onmouseup={handlemouseup} ondblclick={handledblclickresizable}
+       class="slds-table_header-fixed_container slds-border_right slds-border_left tableScroll slds-scrollable_y tableViewInnerDiv slds-scrollable"
+       onscroll={tableOuterDivScrolled}>
+         <div id="tableViewInnerDiv" >
+             <table class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols
+              slds-table_fixed-layout slds-max-medium-table_stacked-horizontal"
+              onscroll={tableScrolled}>
+               <thead>
+                 <tr>
+                  <th title="Borrower Name" class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                    <div class="slds-cell-fixed fixedWidth">
+                    <a class="slds-th__action slds-text-link--reset">
+                      <span class="slds-truncate">Borrower Name</span>
+                    </a>
+                    <div class="slds-resizable">
+                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                        </span>
+                    </div>
+                    </div>
+                  </th>
+                   <th title="Document Name" class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                     <div class="slds-cell-fixed fixedWidth">
+                     <a class="slds-th__action slds-text-link--reset">
+                       <span class="slds-truncate">Document Name</span>
+                     </a>
+                     <div class="slds-resizable">
+                         <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                             <span class="slds-resizable__divider"></span>
+                         </span>
+                     </div>
+                     </div>
+                   </th>
+                   <th title="Document Type" class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                     <div class="slds-cell-fixed fixedWidth">
+                     <a class="slds-th__action slds-text-link--reset">
+                       <span class="slds-truncate">Document Type</span>
+                     </a>
+                     <div class="slds-resizable">
+                         <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                             <span class="slds-resizable__divider"></span>
+                         </span>
+                     </div>
+                     </div>
+                   </th>
+                   <!-- <th title="Applicant/Guarantor Name" class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                     <div class="slds-cell-fixed fixedWidth">
+                     <a class="slds-th__action slds-text-link--reset">
+                       <span class="slds-truncate">Applicant/Guarantor Name</span>
+                     </a>
+                     <div class="slds-resizable">
+                         <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                             <span class="slds-resizable__divider"></span>
+                         </span>
+                     </div>
+                     </div>
+                   </th>
+                   <th title="Property Name" class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                     <div class="slds-cell-fixed fixedWidth">
+                     <a class="slds-th__action slds-text-link--reset">
+                       <span class="slds-truncate">Property Name</span>
+                     </a>
+                     <div class="slds-resizable">
+                         <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                             <span class="slds-resizable__divider"></span>
+                         </span>
+                     </div>
+                     </div>
+                   </th>
+                   <th title="Source" class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                     <div class="slds-cell-fixed fixedWidth">
+                     <a class="slds-th__action slds-text-link--reset">
+                       <span class="slds-truncate">Source</span>
+                     </a>
+                     <div class="slds-resizable">
+                         <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                             <span class="slds-resizable__divider"></span>
+                         </span>
+                     </div>
+                     </div>
+                   </th> -->
+      
+                   <th title="Sample Trigger" class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                    <div class="slds-cell-fixed fixedWidth">
+                    <a class="slds-th__action slds-text-link--reset">
+                      <span class="slds-truncate">Sample Trigger</span>
+                    </a>
+                    <div class="slds-resizable">
+                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                        </span>
+                    </div>
+                    </div>
+                  </th>
+                   <th title="Document Status" class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                      <div class="slds-cell-fixed fixedWidth">
+                      <a class="slds-th__action slds-text-link--reset">
+                        <span class="slds-truncate">Document Status</span>
+                      </a>
+                      <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                          </span>
+                      </div>
+                      </div>
+                    </th>
+      
+                  
+                    <th title="Remarks" class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                      <div class="slds-cell-fixed fixedWidth">
+                      <a class="slds-th__action slds-text-link--reset" >
+                        <span class="slds-truncate">Remarks</span>
+                      </a>
+                      <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                          </span>
+                      </div>
+                      </div>
+                    </th>
+                    <th title="Action" class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                      <div class="slds-cell-fixed fixedWidth">
+                      <a class="slds-th__action slds-text-link--reset" >
+                        <span class="slds-truncate">Action</span>
+                      </a>
+                      <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                          </span>
+                      </div>
+                      </div>
+                    </th>
+                 </tr>
+               </thead>
+              <tbody>
+      
+       <template for:each={appModalData} for:item="fileIterator" for:index="index">
+         <tr key={fileIterator.Id} aria-selected="false" class="slds-hint-parent">
+          <th class="slds-cell_action-mode" scope="row">
+            <div class="slds-truncate" title={fileIterator.DocDetail__r.Appl__r.FullName__c}>
+              {fileIterator.DocDetail__r.Appl__r.FullName__c}
+            </div>
+          </th>
+      
+           <th class="slds-cell_action-mode" scope="row">
+             <div class="slds-truncate" title={fileIterator.DocDetail__r.DocTyp__c}>
+               {fileIterator.DocDetail__r.DocTyp__c}
+             </div>
+           </th>
+           
+           <td class="slds-cell_action-mode" role="gridcell">
+             <div class="slds-truncate" title={fileIterator.DocDetail__r.DocSubTyp__c}>
+               {fileIterator.DocDetail__r.DocSubTyp__c}
+             </div>
+           </td>
+   
+            <td class="slds-cell_action-mode" role="gridcell">
+              <div class="slds-m-bottom_medium">
+                <lightning-textarea type="text"
+                value={fileIterator.DocDetail__r.SampleTrigger__c}
+                name="Sample Trigger"
+                disabled>
+                </lightning-textarea>
+              </div>
+             
+            </td>
+            <td  role="gridcell">
+                        <div class="slds-m-bottom_medium">
+                        <lightning-combobox
+                                data-label="Document Status"
+                                data-docid={fileIterator.Id}
+                                value={fileIterator.DocDetail__r.AgencyDocStatus__c}
+                                options={rcuStatOptions}
+                                onchange={handleRcuInit}
+                                data-index={index}
+                                data-name="AgencyDocStatus__c"
+                                disabled={disableMode}
+                                required
+                                >
+                                </lightning-combobox></div>
+                       
+            </td>
+                    
+            <td class="slds-cell_action-mode" role="gridcell">
+              <div class="slds-m-bottom_medium">
+                <lightning-textarea type="text"
+                 data-docid={fileIterator.Id}
+                value={fileIterator.DocDetail__r.RCURemarks__c}
+                data-label="Remarks"
+                name="Remarks"
+                 data-index={index}
+                onchange={handleRcuInit}
+                disabled={disableMode}>
+                </lightning-textarea>
+              </div>
+             
+            </td>
+                    <td data-label="Actions">
+                      <div class="slds-truncate" title="Actions">
+                        <lightning-button
+                        data-caseid={fileIterator.Id} variant="success" label="View" 
+                        title="View Details" data-name='ViewDoc' data-cd-id={fileIterator.cDId}
+                        data-cv-id={fileIterator.cvId} data-doc-id={fileIterator.Id} data-file-type={fileIterator.cDFileType}
+                        onclick={handlebutton}
+                        ></lightning-button>                  
+                      </div>
+                    </td> 
+      
+                    
+         </tr>
+       </template>
+      </tbody>
+      </table>
+      </div>
+      </div>
+
+      <lightning-card icon-name="standard:account" variant="base">
+        <div slot="title">
+           RCU Profile Check Details
+        </div>
+        <div slot="actions">
+      
+        </div>
+        <div slot="footer">
+      
+        </div>
+        <div>
+          <div id="containerDiv1" onmousemove={handlemousemove} onmouseup={handlemouseup} ondblclick={handledblclickresizable}
+       class="slds-table_header-fixed_container slds-border_right slds-border_left tableScroll"
+       onscroll={tableOuterDivScrolled}>
+         <div id="tableViewInnerDiv1" class="slds-scrollable_y tableViewInnerDiv slds-scrollable">
+             <table class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout slds-max-medium-table_stacked-horizontal" onscroll={tableScrolled}>
+               <thead>
+                 <tr>
+                  <th title="Applicant Name" class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                    <div class="slds-cell-fixed fixedWidth">
+                    <a class="slds-th__action slds-text-link--reset">
+                      <span class="slds-truncate">Applicant Name</span>
+                    </a>
+                    <div class="slds-resizable">
+                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                        </span>
+                    </div>
+                    </div>
+                  </th>
+                   <th title="Address Type" class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                     <div class="slds-cell-fixed fixedWidth">
+                     <a class="slds-th__action slds-text-link--reset">
+                       <span class="slds-truncate">Address Type</span>
+                     </a>
+                     <div class="slds-resizable">
+                         <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                             <span class="slds-resizable__divider"></span>
+                         </span>
+                     </div>
+                     </div>
+                   </th>
+                   <th title="Full Address" class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                    <div class="slds-cell-fixed fixedWidth">
+                    <a class="slds-th__action slds-text-link--reset">
+                      <span class="slds-truncate">Full Address</span>
+                    </a>
+                    <div class="slds-resizable">
+                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                        </span>
+                    </div>
+                    </div>
+                  </th>
+                  
+                   <th title="Sample Trigger" class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                    <div class="slds-cell-fixed fixedWidth">
+                    <a class="slds-th__action slds-text-link--reset">
+                      <span class="slds-truncate">Sample Trigger</span>
+                    </a>
+                    <div class="slds-resizable">
+                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                        </span>
+                    </div>
+                    </div>
+                  </th>
+                   <th title="Document Status" class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                      <div class="slds-cell-fixed fixedWidth">
+                      <a class="slds-th__action slds-text-link--reset">
+                        <span class="slds-truncate">Document Status</span>
+                      </a>
+                      <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                          </span>
+                      </div>
+                      </div>
+                    </th>
+      
+                  
+                    <th title="Remarks" class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                      <div class="slds-cell-fixed fixedWidth">
+                      <a class="slds-th__action slds-text-link--reset" >
+                        <span class="slds-truncate">Remarks</span>
+                      </a>
+                      <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                          </span>
+                      </div>
+                      </div>
+                    </th>
+                 </tr>
+               </thead>
+              <tbody>
+      
+       <template for:each={appAddrData} for:item="fileIterator" for:index="index">
+         <tr key={fileIterator.Id} aria-selected="false" class="slds-hint-parent">
+          <th class="slds-cell_action-mode" scope="row">
+            <div class="slds-truncate" title={fileIterator.ApplAddr__r.Applicant__r.FullName__c}>
+              {fileIterator.ApplAddr__r.Applicant__r.FullName__c}
+            </div>
+          </th>
+      
+           <th class="slds-cell_action-mode" scope="row">
+             <div class="slds-truncate" title={fileIterator.ApplAddr__r.AddrTyp__c}>
+               {fileIterator.ApplAddr__r.AddrTyp__c}
+             </div>
+           </th>
+           
+           <td class="slds-cell_action-mode" role="gridcell">
+             <div class="slds-truncate" title={fileIterator.ApplAddr__r.FullAdrs__c}>
+               {fileIterator.ApplAddr__r.FullAdrs__c}
+             </div>
+           </td>
+     
+            <td class="slds-cell_action-mode" role="gridcell">
+              <div class="slds-m-bottom_medium">
+                <lightning-textarea type="text"
+                value={fileIterator.ApplAddr__r.SampleTrigger__c}
+                name="Sample Trigger"
+                disabled>
+                </lightning-textarea>
+              </div>
+             
+            </td>
+            <td class="slds-cell_action-mode" role="gridcell">
+                        <div class="slds-m-bottom_medium">
+                        <lightning-combobox
+                                data-label="Document Status"
+                                data-docid={fileIterator.Id}
+                                value={fileIterator.ApplAddr__r.AgencyDocStatus__c}
+                                options={rcuStatOptions}
+                                onchange={handleProfileCheck}
+                                data-index={index}
+                                data-name="AgencyDocStatus__c"
+                                disabled={disableMode}
+                                required
+                                >
+                                </lightning-combobox></div>
+                       
+            </td>
+                    
+            <td class="slds-cell_action-mode" role="gridcell">
+              <div class="slds-m-bottom_medium">
+                <lightning-textarea type="text"
+                data-label="Remarks"
+                 data-docid={fileIterator.Id}
+                value={fileIterator.ApplAddr__r.RCURemarks__c}
+                name="Remarks"
+                 data-index={index}
+                onchange={handleProfileCheck}
+                disabled={disableMode}>
+                </lightning-textarea>
+              </div>
+             
+            </td>
+        
+                    
+         </tr>
+       </template>
+      </tbody>
+      </table>
+      </div>
+      </div>
+          
+        </div>
+      </lightning-card>
+      </lightning-card>
+    </div>
+   
+  
+  </lightning-layout-item>
+  
+  
+    <lightning-layout-item if:true={viewDoc} padding="slds-p-around_xx-small"          
+    size="12"
+    small-device-size= "12"
+   medium-device-size="9"
+   large-device-size={rightScreen}
+  >
+  <div class="slds-box slds-scrollable" style="height:500px">
+
+      <c-rcu-document-previewer document-detail-id={docId} onclosepreview={handleCloseModalEvent}
+      cont-vers-data-list={contVersDataList} has-document-id={hasDocId} ></c-rcu-document-previewer>
+
+  </div>
+</lightning-layout-item>
+  </lightning-layout>
+   
+</template>
+</template>

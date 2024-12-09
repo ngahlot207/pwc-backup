@@ -1,0 +1,320 @@
+<template>
+    
+     
+    <lightning-layout multiple-rows="12">
+    <!--  <lightning-button class="slds-float--right slds-m-around--medium" label="Download File" title="Download File" onclick={downloadBankDetailFile} variant="brand" disabled={downloadFileDis} > </lightning-button>-->
+      
+      <lightning-button class="slds-float--right slds-m-around--medium" label="Download Banking File" title="Download Banking File11" onclick={handleExcelDownFileseconbutton} variant="brand" disabled={disableMode} > </lightning-button>
+      <lightning-button class="slds-float--right slds-m-around--medium" label="Manual Banking Upload" title="Manual Banking Upload" onclick={showUploadExcelFile} variant="brand" disabled={disableMode} > </lightning-button>
+      <div if:true={showSpinner}>
+                      <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+                      </lightning-spinner>
+                </div>
+      <lightning-layout-item padding="around-small" size="12" margin="around-small">
+        
+            <lightning-layout multiple-rows="true">
+              <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-input data-fieldtype="string" type="text" label="Name of Primary Account Holder" data-objectname="ApplBanking__c" value={parentRecord.Name_of_the_Primary_Account_Holder_s__c} onchange={handleAccountData} data-field="Name_of_the_Primary_Account_Holder_s__c" required  disabled={disableMode}></lightning-input>
+                  </div>
+                </lightning-layout-item>
+               <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-input data-fieldtype="string" type="text" label="Joint Account Holder Names" data-objectname="ApplBanking__c" value={parentRecord.JointAccountHoldersName__c}  onchange={handleAccountData} data-field="JointAccountHoldersName__c" disabled={disableMode}></lightning-input>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-input type="text" label="A/c No." value={parentRecord.AC_No__c} data-objectname="ApplBanking__c" onchange={handleAccountData} data-field="AC_No__c" required disabled={disableMode}></lightning-input>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <c-custom-lookup 
+                             required=true
+                             field-name="SFDCBankMaster__c"
+                             label="Bank Name"
+                             selected-icon-name="standard:identifier"
+                             object-api-name="SFDCBANKMaster__c"
+                             field-api-name="BankName__c"
+                             selected-record-id={parentRecord.SFDCBankMaster__c}
+                             onselect={handleValueForSDFCBnk}
+                             disabled={disableMode}
+                             index={index}
+                           ></c-custom-lookup>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-combobox options={repaymentOptions} data-id="repayCombo" data-objectname="ApplBanking__c" type="text" label="Repayment Account" value={parentRecord.Repayment_bank_A_c__c} onchange={handleAccountData} data-field="Repayment_bank_A_c__c" required={reuiredforRepay} disabled={disableMode}></lightning-combobox>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-combobox data-id="accType" name="Account type" label="Account Type" data-objectname="ApplBanking__c"
+                              data-field="AccountType__c" value={parentRecord.AccountType__c} options={accTypeOptions}
+                                onchange={handleAccountData} disabled={disableMode} dropdown-alignment="auto" required></lightning-combobox>
+                  </div>
+                </lightning-layout-item>
+                <template if:true={accountTypeCCndOD}>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-combobox label="Is there change in Limit during the period" data-objectname="ApplBanking__c" value={parentRecord.IsThereChangeInLimitDuringThePeri__c} options={changeinLimitOptions} onchange={handleAccountData} data-field="IsThereChangeInLimitDuringThePeri__c" required disabled={disableMode}></lightning-combobox>
+                  </div>
+                </lightning-layout-item>
+                <template if:true={limitShow}>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-input type="number" data-id="limitVal" formatter="currency" step="0.01"  label="Limit"  name="limit" data-objectname="ApplBanking__c" value={parentRecord.Limit__c} onblur={handleFocus} data-field="Limit__c" required disabled={disableMode}></lightning-input>
+                  </div>
+                </lightning-layout-item>
+                </template>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-input  type="number" formatter="currency" step="0.01" label="Average Limit (₹) during the period" data-objectname="ApplBanking__c" value={parentRecord.AverageLimitDuringThePeriod__c} onchange={handleAccountData} data-field="AverageLimitDuringThePeriod__c" required={monthlyLimitReDis} disabled={monthLimitDis}></lightning-input>
+                  </div>
+                </lightning-layout-item>
+              </template>
+              <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-input placeholder="DD-MMM-YYYY"  type="date" data-id="latestMon" label="Latest Month for which bank statement is Available" data-objectname="ApplBanking__c" name="selectedDate" value={parentRecord.LatestMonthForWhichBankStatementIs__c} onchange={handleAccountData} data-field="LatestMonthForWhichBankStatementIs__c" required disabled={disableMode}></lightning-input>
+                  </div>
+                </lightning-layout-item>
+                <template if:false={parentRecord.FileAvalbl__c}>
+                  <template if:false={showSorceTypeFields}>
+                  <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                      <lightning-combobox label="File Type" data-objectname="ApplBanking__c" value={parentRecord.FileType__c} options={FileTypeOptions} onchange={handleAccountData} data-field="FileType__c" required disabled={disableMode}></lightning-combobox>
+                    </div>
+                  </lightning-layout-item>
+                </template>
+              </template>
+                <template if:true={sisCompanyShow}>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-input data-fieldtype="string" type="text"   label="Sister Company Name"  name="Sister Company Name" data-objectname="ApplBanking__c" value={parentRecord.SisterCompanyName__c} onchange={handleAccountData} data-field="SisterCompanyName__c" disabled={disableMode}></lightning-input>
+                  </div>
+                </lightning-layout-item>
+                </template>
+                <template if:true={RepaymentValYes}>
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                      medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                      <div class="slds-p-around_x-small">
+                        <!--for LAK-5405 CHANGED THE POSITION OF MICR CODE-->
+                        <c-custom-lookup    
+                                        help-text-val="This field is mandatory before final sanction."
+                                        show-help-text="true"
+                                          
+                                          label="MICR Code"
+                                          field-name='MICRCode__c'
+                                          object-api-name='MICRCodeMstr__c'
+                                          field-api-name='MICRCode__c' 
+                                          selected-record-name={parentRecord.MICRCode__c}
+                                          selected-record-id={parentRecord.MICRId__c}
+                                          onselect={handleMICRSelect}
+                                          onlookupblur={handleBlurforLookup}
+                                          disabled={disableMode}>
+                                      </c-custom-lookup>
+                                      <template if:true={validMicrode}>
+                                        <div style="color:red">Please get the MICR updated in Finnone Master - Contact Central IT team</div>
+                                    </template>
+                       
+                      </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                      medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                      <div class="slds-p-around_x-small">
+                        <lightning-input type="text" label="IFSC Code" data-objectname="ApplBanking__c" name="selectedDate" value={parentRecord.IFSC_Code__c} onblur={handleFocus} data-field="IFSC_Code__c" disabled></lightning-input>
+                      </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                      medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                      <div class="slds-p-around_x-small">
+                        <lightning-input  type="text" label="NACH Feasible" data-objectname="ApplBanking__c" value={parentRecord.NACHFeasible__c} onchange={handleAccountData} data-field="NACHFeasible__c" disabled></lightning-input>
+                      </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                      medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                      <div class="slds-p-around_x-small">
+                        <lightning-input  type="text" label="eNACH Feasible" data-objectname="ApplBanking__c" value={parentRecord.eNACHFeasible__c} onchange={handleAccountData} data-field="eNACHFeasible__c" disabled></lightning-input>
+                      </div>
+                    </lightning-layout-item>
+                                      <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                      medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                      <div class="slds-p-around_x-small">
+                        <lightning-input type="text" label="Bank Branch as per MICR Master" data-objectname="ApplBanking__c" value={parentRecord.Bank_Branch__c} onchange={handleAccountData} disabled data-field="BankBrch__c" required></lightning-input>
+                      </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                      medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                      <div class="slds-p-around_x-small">
+                        <lightning-input type="text" label="Bank Name as per MICR Master" data-objectname="ApplBanking__c" value={parentRecord.BankName__c} onchange={handleAccountData} disabled data-field="BankName__c" required></lightning-input>
+                      </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                      medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                      <div class="slds-p-around_x-small">
+                        <lightning-input  type="text" label="Bank Code" data-objectname="ApplBanking__c" value={parentRecord.Bank_Code__c} onchange={handleAccountData} data-field="Bank_Code__c" disabled></lightning-input>
+                      </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                      medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                      <div class="slds-p-around_x-small">
+                        <lightning-input  type="text" label="PDC by Name" data-objectname="ApplBanking__c" value={parentRecord.PDC_by_Name__c} onchange={handleAccountData} data-field="PDC_by_Name__c" disabled></lightning-input>
+                      </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                      medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                      <div class="slds-p-around_x-small" >
+                        
+                        <lightning-input type="text" label="Bank City as per MICR Master" data-objectname="ApplBanking__c" value={parentRecord.Bank_City__c} onchange={handleAccountData} disabled data-field="Bank_City__c" required ></lightning-input>
+                              
+                                     
+                      </div>
+                    </lightning-layout-item>
+                     </template>
+
+                     <!-- Add this condition for LAK-6320-->
+                     <template if:false={parentRecord.FileAvalbl__c}>
+                      <template if:false={showSorceTypeFields}>
+                        <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                          <div class="slds-p-around_x-small">
+                            <lightning-combobox  label="Is Statement Password Protected" data-objectname="ApplBanking__c" value={parentRecord.Is_Statement_password_protected__c} options={isPassProtecOpt} onchange={handleAccountData} data-field="Is_Statement_password_protected__c" required disabled={disableMode}></lightning-combobox>
+                          </div>
+                        </lightning-layout-item>
+                        </template>
+                          <template if:true={showDocuPassCol}>
+                            <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                              medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                              <div class="slds-p-around_x-small">
+                                <lightning-input  type="text" label="Document Password" data-objectname="ApplBanking__c" name="documentPassword" value={parentRecord.Password__c} onchange={handleAccountData} data-field="Password__c" required={documentPassReq} disabled={disableMode}></lightning-input>
+                              </div>
+                            </lightning-layout-item>
+                          </template>
+                     </template>
+                     
+                  <!--  <template if:true={IfStageIsDDE}>-->
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                      medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                      <div class="slds-p-around_x-small">
+                        <lightning-input placeholder="DD-MMM-YYYY" type="date" data-id="opendata" label="Account Open Date" data-objectname="ApplBanking__c" name="selectedDate" value={parentRecord.AccountOpenDate__c} onchange={handleAccountData} data-field="AccountOpenDate__c" disabled={disableMode}></lightning-input>
+                      </div>
+                    </lightning-layout-item>
+                     <!--</template>-->
+                    <template if:true={showConiForAbb}>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                      medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                      <div class="slds-p-around_x-small">
+                        <lightning-combobox data-id="consiBbb" label="Consider For ABB Program" data-objectname="ApplBanking__c" value={parentRecord.ConsideredForABBProgram__c} options={considerABBOptions} onchange={handleAccountData} data-field="ConsideredForABBProgram__c" required disabled={disableMode}></lightning-combobox>
+                      </div>
+                    </lightning-layout-item>
+                    </template>
+                    <template if:true={showOtherField}>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                      medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                      <div class="slds-p-around_x-small">
+                        <lightning-input data-fieldtype="string" type="text" label="Other Bank Name" data-objectname="ApplBanking__c" name="otherBankNme" value={parentRecord.OtherBankName__c} onchange={handleAccountData} data-field="OtherBankName__c" required disabled={disableMode}></lightning-input>
+                                  <div style="color:red">Please get the SFDC bank Nach Enach master updated</div>
+                      </div>
+                    </lightning-layout-item>
+                    </template>
+                    
+              </lightning-layout>
+            
+      </lightning-layout-item>
+     
+    </lightning-layout>
+
+    <!--model pop up for manual file upload start here-->
+
+
+    <template if:true={showPopForManBnk}>
+      <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-03" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container modalCss">
+               <header class="slds-modal__header">
+                  <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+                           onclick={hideManualUplModalBox}>
+                     <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                              size="small"></lightning-icon>
+                      <span class="slds-assistive-text">Close</span>
+                  </button>
+                  <h2 id="modal-heading-03" class="slds-text-heading_medium slds-hyphenate">Manual Banking Upload</h2>
+               </header>
+                  <!-- modal body start -->
+               <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3">
+                  <div if:true={showSpinner}>
+                        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+                        </lightning-spinner>
+                  </div>
+                  <lightning-layout multiple-rows="4">
+                     <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} >
+                        <lightning-input 
+                           type="file" 
+                           label="Attach receipt" 
+                           name="fileUploader"
+                           accept={acceptedFormats}
+                           onchange={handleUploadFinished}>
+                        </lightning-input>
+                     </lightning-layout-item>  
+                  </lightning-layout>
+                  <template for:each={uploadedFiles} for:item="file" for:index="index">
+                    <div key={file.name} class="slds-p-left_medium">
+                        <div class="slds-clearfix">
+                            <div class="slds-float_left" style="margin-right: 10px;">
+                                <p style="background:white; display: inline-block; margin-bottom: 0; font-size: 16px;">{file.name}
+                                </p>
+                            </div>
+                            <div class="slds-float_left">
+                                <!-- <lightning-icon icon-name='action:remove' alternative-text='remove' size='xx-small' title='remove'
+                                    onclick={handleFileRemove}></lightning-icon> -->
+                                <lightning-icon icon-name='utility:close' alternative-text='close' size='x-small' title='remove'
+                                    onclick={handleFileRemove} data-index={index}></lightning-icon>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+                  <footer class="slds-modal__footer">
+                     <button class="slds-button slds-button_neutral" onclick={hideManualUplModalBox}>Cancel</button>
+                     <lightning-button variant="brand" class="slds-m-left_x-small" label="Upload" disabled={disabled}  onclick={handleExcelUpload}>
+                     </lightning-button>
+                  </footer>
+               </div>
+            </div>
+         </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+   </template>
+   <!--model pop up for manual file upload end here-->
+    <lightning-card>
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-5">
+                <div class="slds-p-around_small lgc-bg">
+                    <lightning-input placeholder="DD/MMM/YYYY" type="date" data-id="startDate" label="Period of Banking" data-objectname="ApplBanking__c" name="selectedDate" value={parentRecord.PeriodOfBankingStart__c} onchange={handleAccountData} data-field="PeriodOfBankingStart__c" required disabled={disableMode}></lightning-input>
+                    
+                </div>
+            </div>
+            <div class="slds-col slds-size_1-of-5">
+                <div class="slds-p-around_small lgc-bg" style="padding-top: 10px;">
+                    <lightning-input placeholder="DD/MMM/YYYY" data-id="endDate" type="date"  name="selectedDate" data-objectname="ApplBanking__c" value={parentRecord.PeriodOfBankingEnd__c} onchange={handleAccountData} data-field="PeriodOfBankingEnd__c" disabled></lightning-input>
+                    
+                </div>
+            </div>
+            
+        </div>
+    </lightning-card>
+   
+        <c-banking-summary-data  applicant-record-id={applicantRecordId} foreditable-table-data={bankingDetailDataList} parent-record={wrapBankObj} limit-value={limitValue} banking-detail-data-list={bankingDetailDataList} monthand-year-list={monthYearList} onbankdetailchildupdate={handleBankDetailChildUpdate} onmonthlylimit={handleLimitValue} account-type-cc-nd-od={accountTypeCCndOD} change-limit-in-peri-val={changeLimitInPeriVal} source-of-appli-bank={sourceOfAppliBank} has-edit-access={hasEditAccess}></c-banking-summary-data> 
+  
+</template>

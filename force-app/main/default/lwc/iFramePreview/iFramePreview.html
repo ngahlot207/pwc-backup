@@ -1,0 +1,71 @@
+<template>
+  <section
+    role="dialog"
+    tabindex="-1"
+    aria-labelledby="modal-heading-01"
+    aria-modal="true"
+    aria-describedby="modal-content-id-1"
+    class="slds-modal slds-fade-in-open"
+  >
+    <div class="slds-modal__container" style="min-width:80% !important;">
+     
+      <header class="slds-modal__header">
+        <lightning-button-icon
+          class="slds-modal__close"
+          title="Close"
+          icon-name="utility:close"
+          icon-class="slds-button_icon-inverse"
+          onclick={closeModal}
+        ></lightning-button-icon>
+
+        <h2 id="id-of-modalheader-h2" class="slds-text-heading_large">
+          File Preview
+        </h2>
+      </header>
+     
+      <div class="slds-modal__content" id="modal-content-id-1">
+            <article class="slds-card">
+          <div class="slds-card__body slds-card__body_inner" style="margin: 0">
+            <!-- Changes start here -->
+            <template if:true={isImage}>
+              <!-- Display images using <img> tag -->
+              <img src={url} alt="Image Preview" style="width: 100%; height: auto;" />
+                </template>
+            
+                  <template if:true={isVideo}>
+              <!-- Display videos using <video> tag -->
+              <video autoplay controls style="width: 100%; height: auto;">
+                        <source src={url} type="video/mp4" />
+                    </video>
+                  </template>
+            
+            <!-- Corrected conditional rendering for PDFs and other documents -->
+                <template if:true={showFrame}>
+              <template if:false={isImage}>
+                <template if:false={isVideo}>
+                  <!-- Display PDFs and other files using <iframe> -->
+                  <iframe 
+                    src={url}
+                    style="width: 100%; height: 800px;"
+                  ></iframe>
+                </template>
+              </template>
+            </template>
+            <!-- Changes end here -->
+              </div>
+            </article>
+      </div>
+
+      <footer class="slds-modal__footer">
+        <lightning-button
+          variant="brand-outline"
+          label="Close"
+          onclick={closeModal}
+          title="Close"
+          class="slds-m-left_xx-large"
+        ></lightning-button>
+      </footer>
+    </div>
+  </section>
+  <div class="slds-backdrop slds-backdrop_open"></div>
+</template>

@@ -1,0 +1,44 @@
+<template>
+
+    <template if:true={isText}>
+        <template if:true={pattern}>
+            <lightning-input type="text" label={formConfig.label} name={formConfig.fieldName} value={value}
+                required={formConfig.required} onchange={handleInputChange} disabled={isDisabled}
+                pattern={pattern}></lightning-input>
+
+        </template>
+        <template if:false={pattern}>
+            <lightning-input type="text" label={formConfig.label} name={formConfig.fieldName} value={value}
+                required={formConfig.required} onchange={handleInputChange} disabled={isDisabled}></lightning-input>
+
+        </template>
+
+
+    </template>
+    <template if:true={isTextarea}>
+
+        <lightning-textarea name={formConfig.fieldName} label={formConfig.label} value={value}
+            required={formConfig.required} onchange={handleInputChange} disabled={isDisabled}></lightning-textarea>
+
+    </template>
+    <template if:true={isNumber}>
+
+        <lightning-input type="number" name={formConfig.fieldName} label={formConfig.label} value={value}
+            required={formConfig.required} onchange={handleInputChange} disabled={isDisabled}></lightning-input>
+
+    </template>
+    <template if:true={isPhone}>
+
+        <lightning-input type="tel" name={formConfig.fieldName} label={formConfig.label} value={value} pattern={pattern}
+            required={formConfig.required} onchange={handleInputChange} disabled={isDisabled}></lightning-input>
+
+    </template>
+    <template if:true={isPicklist}>
+
+        <lightning-combobox name={formConfig.fieldName} label={formConfig.label} value={value}
+            required={formConfig.required} options={pickListOptions} onchange={handleInputChange}
+            disabled={isDisabled}></lightning-combobox>
+
+
+    </template>
+</template>

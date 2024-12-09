@@ -1,0 +1,82 @@
+<template>
+    <div class="slds-is-relative">
+        <lightning-quick-action-panel>
+            <template if:true={showSpinner}>
+                <div class="spinner">
+                    <lightning-spinner alternative-text="Loading" variant="brand" size="medium"></lightning-spinner>
+                </div>
+            </template>
+            <template if:false={showSpinner}>
+                <!-- <div class="slds-text-align_center slds-text-heading_small"><p>Do you want to Return ?</p></div> -->
+                <div class="slds-m-around_medium">
+                    <template if:false={showMsg}>
+                        <lightning-layout if:true={allowClone} multiple-rows>
+                            <lightning-layout-item size="12" large-device-size="12" padding="around-small">
+                                <div class="slds-p-top_medium">
+                                    <lightning-combobox placeholder="Select Value" label="Clone Reason"
+                                        options={cloneReaOptions} value={cloneResValue} onchange={handleChange}
+                                        disabled={isReadOnly}></lightning-combobox>
+                                </div>
+                                <div if:true={showRmSelect} class="slds-p-top_medium">
+                                    <!-- <lightning-textarea placeholder="Enter Remarks" label="Remarks" value={returRemarks}
+                                    onchange={onChange} disabled={isReadOnly} required> -->
+                                    <c-custom-lookup required=true label="select RM user"
+                                        selected-icon-name="standard:identifier" object-api-name="TeamHierarchy__c"
+                                        field-api-name="Employee__r.Name" selected-fields="Name"
+                                        selected-record-id={lookupId} onselect={handleLookupFieldChange}
+                                        filter-condn={filterConditionForLookup} key-id="Employee__c">
+                                    </c-custom-lookup>
+                                    <!-- </lightning-textarea> -->
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                        <template if:false={caseInpro}>
+                            <template if:false={allowClone}>
+                                <div if:true={noMatchFound} class="slds-text-align_center slds-text-heading_small">
+                                    <strong class="slds-text-color_error">
+                                        You are not allowed to clone the loan application
+                                    </strong>
+                                </div>
+                            </template>
+                        </template>
+                        <div if:true={caseInpro} class="slds-text-align_center slds-text-heading_small">
+                            <strong class="slds-text-color_success">
+                                Verifications are in progress on this loan. Do you still want to clone the application ( {recordTypeString} )
+                                <!-- <template for:each={recordTypeName} for:item="type">
+                                    <span key={type}>{type}</span>
+                                </template> -->
+                                <!-- ) -->
+                            </strong>
+                        </div>
+                    </template>
+                    <template if:true={showMsg}>
+                        <div class="slds-text-align_center slds-text-heading_small">
+                            <strong class="slds-text-color_success">
+                                Cloning of Loan Application is In Progress.&nbsp;New Loan Application Number is&nbsp;
+                                <a href={loanAppUrl} target="_blank"
+                                    style="text-decoration: underline;">{loanAppLink}</a>
+                            </strong>
+                        </div>
+                    </template>
+                </div>
+                <div if:false={caseInpro} style="text-align: end;" class="slds-m-top_large slds-m-bottom_medium">
+                    <footer class="slds-modal__footer">
+                        <lightning-button if:true={allowClone} variant="brand" class="slds-m-left_x-large"
+                            label="Clone Loan Application" type="submit"
+                            onclick={handleCloneLoanApplication}></lightning-button>
+                        <lightning-button variant="brand" class="slds-m-left_x-large" label={noLabel}
+                            onclick={noBtn}></lightning-button>
+                    </footer>
+                </div>
+                <div if:true={caseInpro} style="text-align: end;" class="slds-m-top_large slds-m-bottom_medium">
+                    <footer class="slds-modal__footer">
+                        <lightning-button variant="brand" class="slds-m-left_x-large" label="Yes" type="submit"
+                            onclick={handleYesButton}></lightning-button>
+                        <lightning-button variant="brand" class="slds-m-left_x-large" label={noLabel}
+                            onclick={noBtn}></lightning-button>
+                    </footer>
+                </div>
+            </template>
+        </lightning-quick-action-panel>
+    </div>
+</template>

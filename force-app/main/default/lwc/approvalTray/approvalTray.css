@@ -1,0 +1,9 @@
+.accClass
+{
+    --slds-c-accordion-summary-color-background : rgb(243, 243, 243) ;
+    --slds-c-accordion-color-border : 0.5rem;
+}
+
+.button-container {
+    display: flex;
+  }

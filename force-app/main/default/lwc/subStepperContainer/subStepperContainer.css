@@ -1,0 +1,145 @@
+.mobileCs{
+ /* overflow-x: scroll; 
+-ms-overflow-style: none; 
+scrollbar-width: 10%;   
+max-height: 500px; */
+display: flex;
+flex-wrap: nowrap;
+overflow-x: auto;
+
+.card {
+flex: 0 0 auto;
+display: none;
+}
+}
+
+.mobileCs::-webkit-scrollbar {
+display: none; 
+}
+.desktopCs{
+    overflow-x: scroll; 
+   -ms-overflow-style: none; 
+   scrollbar-width: 10%;   
+   max-height: 500px;
+   display: flex;
+ flex-wrap: nowrap;
+ overflow-x: auto;
+
+ .card {
+   flex: 0 0 auto;
+   display: none;
+ }
+}
+.desktopCs::-webkit-scrollbar {
+    /* display: none;  */
+ }
+.txtIndex{
+    z-index: 3;
+}
+.slds-is-complete{
+    background-color: #32BA62 !important;   
+}
+.slds-is-complete::before {
+    background: #32BA62 !important;
+}
+.slds-is-complete::after{
+    background: #32BA62 !important;
+}
+.slds-is-current{
+    background-color: black !important;
+    /*border: 2px solid black !important;*/   
+}
+.slds-is-current::before {
+    background: black !important;
+}
+.slds-is-current::after{
+    background: black !important;
+}
+.slds-path__nav {
+    display: flex;
+    align-items: flex-start;
+    overflow: hidden;
+}
+.slds-is-current a.slds-path__link{
+    color: white !important;
+}
+.fedfina .slds-path__nav .NavIsComplete a,
+.fedfina .slds-path__nav .NavIsCurrent a{
+    -webkit-text-fill-color: white;
+    color: white !important;
+}
+
+ 
+.fedfina .slds-path__item{
+    position: relative !important;
+    flex: 1 !important;
+    margin-left: 0.375rem !important;
+    margin-right: 0.4375rem !important;
+    min-width: 10rem !important;
+    text-align: center !important;
+}
+.fedfina .slds-path__nav .NavIsComplete,
+.fedfina .slds-path__nav .NavIsComplete:before, 
+.fedfina .slds-path__nav .NavIsComplete:after {
+    background-color: #32BA62;    
+}
+
+ 
+
+.fedfina .slds-path__nav .NavIsCurrent,
+.fedfina .slds-path__nav .NavIsCurrent:before, 
+.fedfina .slds-path__nav .NavIsCurrent:after {
+    background-color: #32BA62;
+}
+.fedfina .slds-path__nav .slds-is-incomplete:hover,
+.fedfina .slds-path__nav .slds-is-incomplete:hover:before, 
+.fedfina .slds-path__nav .slds-is-incomplete:hover:after{
+    background-color: #ecebea;
+}
+
+ 
+
+.fedfina .slds-path__nav .slds-is-incomplete.NavIsComplete:hover,
+.fedfina .slds-path__nav .slds-is-incomplete.NavIsComplete:hover:before, 
+.fedfina .slds-path__nav .slds-is-incomplete.NavIsComplete:hover:after{
+    background-color: #32BA62; 
+}
+
+ 
+
+.fedfina .actionButton{
+    border-radius:2.0rem;
+}
+
+ 
+.fedfina .slds-path__nav .NavIsCurrentConf a{
+    -webkit-text-fill-color: white;
+    color: white !important;
+}
+
+ 
+
+.fedfina .slds-path__nav .NavIsCompleteConf,
+.fedfina .slds-path__nav .NavIsCompleteConf:before, 
+.fedfina .slds-path__nav .NavIsCompleteConf:after {
+    /*background-color: darkorange;   */
+    background-color: #ff7700;
+}
+
+ 
+
+.fedfina .slds-path__nav .NavIsCurrentConf,
+.fedfina .slds-path__nav .NavIsCurrentConf:before, 
+.fedfina .slds-path__nav .NavIsCurrentConf:after {
+    /*background-color: orange;*/
+    background-color: #ffb900;
+}
+
+ 
+
+.fedfina .slds-path__nav .slds-is-incomplete.NavIsCompleteConf:hover,
+.fedfina .slds-path__nav .slds-is-incomplete.NavIsCompleteConf:hover:before, 
+.fedfina .slds-path__nav .slds-is-incomplete.NavIsCompleteConf:hover:after{
+    /*background-color: darkorange;   */
+    background-color: #ff7700;
+}

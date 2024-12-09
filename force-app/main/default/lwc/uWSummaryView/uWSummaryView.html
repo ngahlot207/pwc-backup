@@ -1,0 +1,87 @@
+<template>
+  <div if:true={showSpinner}>
+    <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+    </lightning-spinner>
+</div>
+<lightning-accordion active-section-name={activeSection} allow-multiple-sections-open>
+  <lightning-accordion-section name="A" label="CAM Report " class="accClass">
+    <br/>
+  <div>
+        <lightning-button variant="brand" name="Generate CAM Report" label="Generate CAM Report"
+                    onclick={handleGenerateDocuments} disabled={isReadOnly}></lightning-button>
+                  </div>
+
+    <template if:true={showCAMReports}>
+
+    
+    <c-uploded-document-display title="Generated CAM Report" type={docType} sub-type={subType} category={docCategory} loan-app-id={loanApplicationRecord.Id}
+        applicant-id={loanApplicationRecord.Applicant__c} mode="false" disable-remarks="false" is-read-only=true 
+        capture-all-documents="false" disabled="false" is-cpa="false" hide-mark-for-error="true" hide-availiable-in-file="true" hide-upload-button="true">
+    </c-uploded-document-display>
+  </template>
+</lightning-accordion-section>
+  
+    <lightning-accordion-section name="B" label="Loan Details Summary " class="accClass">
+         <!--LAK-7316 - Changes under BIL UW Summary Start-->
+  <c-loan-details-summary record-id={recordId} applicant-id={loanApplicationRecord.Applicant__c} ></c-loan-details-summary>
+    </lightning-accordion-section>
+  <lightning-accordion-section name="C" label="Borrower Details" class="accClass">
+  <c-borrower-details-summary record-id={recordId}></c-borrower-details-summary>
+    </lightning-accordion-section>
+ 
+
+    <lightning-accordion-section name="D" label="Details regarding Non Individual Borrower" class="accClass">
+      <c-bo-table-summary loan-app-id={recordId} app-id={loanApplicationRecord.Applicant__c} is-read-only></c-bo-table-summary>
+        </lightning-accordion-section>
+   <lightning-accordion-section name="E" label="Financial Borrower Employments and PD Details" class="accClass">
+  <c-financial-borrower-employment record-id={recordId} is-bl-pl={isBLorPL}></c-financial-borrower-employment>
+</lightning-accordion-section>
+
+<template if:true={showFinState}>
+<lightning-accordion-section name="F" label="Financial Statements" class="accClass">
+  <c-financial-statements record-id={recordId} is-bl-pl={isBLorPL} applicant-id={loanApplicationRecord.Applicant__c}></c-financial-statements>
+</lightning-accordion-section>
+</template>
+
+<template if:true={showGst}>
+  <lightning-accordion-section name="G" label="GST Summary" class="accClass">
+    <c-gst-summary record-id={recordId} applicant-id={loanApplicationRecord.Applicant__c} is-bl-pl={isBLorPL}></c-gst-summary>
+  </lightning-accordion-section>
+</template>
+  
+<lightning-accordion-section name="H" label="Financial Eligibility" class="accClass">
+  <c-summary-for-eligibility-B-R-E-component record-id={recordId}></c-summary-for-eligibility-B-R-E-component>
+</lightning-accordion-section>
+
+<lightning-accordion-section name="I" label="Obligation Details" class="accClass">
+  <c-obligation-details-summary record-id={recordId} is-bl-pl={isBLorPL}></c-obligation-details-summary>
+</lightning-accordion-section>
+<lightning-accordion-section name="J" label="Banking Details" class="accClass">
+  <c-banking-details-summary record-id={recordId} is-bl-pl={isBLorPL}></c-banking-details-summary>
+</lightning-accordion-section>
+<template if:false={isBLorPL}>
+<lightning-accordion-section name="K" label="Collateral Visit" class="accClass">
+  <c-collateral-visit-details record-id={recordId}></c-collateral-visit-details>
+</lightning-accordion-section>
+</template>
+<template if:true={isHl}>
+  <lightning-accordion-section name="L" label="HL Related Additional Details" class="accClass">
+    <c-hl-related-details-summary record-id={recordId}></c-hl-related-details-summary>
+  </lightning-accordion-section>
+</template>
+<!--LAK-7316 - Changes under BIL UW Summary END-->
+<lightning-accordion-section name="M" label="Borrower Verification Details" class="accClass">
+  <c-borrower-verificaton-details record-id={recordId}></c-borrower-verificaton-details>
+</lightning-accordion-section>
+<lightning-accordion-section name="N" label="Deviation, Risk & Mitigation" class="accClass">
+  <c-deviation-risk-details record-id={recordId}></c-deviation-risk-details>
+</lightning-accordion-section>
+<lightning-accordion-section name="O" label="Sanction Condition" class="accClass">
+  <c-sanction-condtion-details record-id={recordId}></c-sanction-condtion-details>
+</lightning-accordion-section>
+<lightning-accordion-section name="P" label="Decision Summary" class="accClass">
+  <c-decision-summary record-id={recordId}></c-decision-summary>
+</lightning-accordion-section>  
+
+  </lightning-accordion>
+</template>

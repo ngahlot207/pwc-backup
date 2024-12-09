@@ -1,0 +1,62 @@
+<template>
+
+  <div if:true={showSpinner}>
+    <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+    </lightning-spinner>
+  </div>
+
+  <template if:true={refreshHost}>
+    <template if:true={refreshScrConfigView}>
+      <c-screen-config-view stage={stage} stage-name={stageName} record-id={recordId} applicant-id={applicantId}
+        current-appl-tab-id={applicantId} metadata={metadata} has-edit-access={hasEditAccess}
+        has-read-access={hasReadAccess}>
+      </c-screen-config-view>
+    </template>
+    <lightning-card>
+
+      <template if:true={isReturnToRM}>
+        <c-return-to-r-m record-id={recordId} return-to-rm-options={returnToRmOptions} selected-value={selectedValue} onspinner={handleSpinner} oncustomaction={handleReturnToRm}></c-return-to-r-m>
+      </template>
+      <template if:true={isFileAcceptance}>
+        <c-file-acceptance record-id={recordId} onspinner={handleSpinner}
+          onclick={handleReturnToRm}></c-file-acceptance>
+      </template>
+      <template if:true={isLoginAcceptance}>
+        <c-login-acceptance-button record-id={recordId} onspinner={handleSpinner}
+          onclick={handleReturnToRm}></c-login-acceptance-button>
+      </template>
+
+      <div class="slds-var-m-top_medium">
+        <div class="slds-clearfix">
+          <template if:true={isCpa}>
+            <div class="slds-float_left">
+              <lightning-button variant="destructive-text" data-name="Return To RM" label="Return to Sales "
+                class="slds-m-around_x-small" onclick={handlebuttonclicked} disabled={disabledReturnToRM}>
+              </lightning-button>
+              <lightning-button variant="brand" data-name="File Acceptance" label="File Acceptance"
+                class="slds-m-around_x-small" disabled={fileAccept} onclick={handlebuttonclicked}>
+              </lightning-button>
+              <lightning-button variant="success" data-name="Login Acceptance" label="Login Acceptance"
+                class="slds-m-around_x-small" onclick={handlebuttonclicked}
+                disabled={disableLoginAcceptance}></lightning-button>
+            </div>
+          </template>
+
+          <div class="slds-float_right">
+            <template if:false={isFirstStep}>
+              <lightning-button label="< Previous" class="slds-p-horizontal_small" onclick={handlePrevious}>
+              </lightning-button>
+            </template>
+            <template if:false={isFinalStep}>
+              <lightning-button variant="brand" label=" Next >" class="slds-p-horizontal_small" onclick={handleNext}>
+              </lightning-button>
+            </template>
+          </div>
+        </div>
+      </div>
+    </lightning-card>
+  </template>
+
+
+
+</template>

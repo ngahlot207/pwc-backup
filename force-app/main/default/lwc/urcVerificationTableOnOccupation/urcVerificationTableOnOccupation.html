@@ -1,0 +1,298 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+
+    <lightning-card title="Udyam Document Table">
+        <div class="slds-var-m-top_medium">
+            <div class="slds-clearfix">
+                <div class="slds-float_right">
+                    <lightning-button variant="brand" class="slds-m-around_x-small" icon-name="action:fallback"
+                        label="Re-Initiate" onclick={handleIntializationUrc}
+                        disabled={disableReintiate}></lightning-button>
+
+                    <template if:false={isReadOnly}>
+                        <lightning-icon variant="success" class="customButton slds-m-around_x-small"
+                            icon-name='utility:refresh' alternative-text='refresh' size='small' title='refresh'
+                            onclick={handleRefreshClick} disabled={isReadOnly}></lightning-icon>
+                    </template>
+                </div>
+            </div>
+        </div>
+        <template if:true={data}>
+            <lightning-card>
+                <!-- UPDATED TABLE  -->
+                <div class="slds-box slds-theme_default slds-scrollable_x" style="width:200rem">
+                    <table
+                        class="slds-table slds-table_cell-buffer slds-border_right slds-border_left slds-table_bordered slds-table_col-bordered"
+                        aria-label="Example table of Opportunities with vertical borders">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Name">
+                                        Name
+                                    </div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Applicant Type">
+                                        Applicant Type
+                                    </div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Constitution">
+                                        Constitution
+                                    </div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Udyam Registration Number">
+                                        Udyam Registration Number
+                                    </div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Document Used for">
+                                        Document Used for
+                                    </div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Date of Udyam Registration">
+                                        Date of Udyam Registration
+                                    </div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Name as Filled in Application">
+                                        Name as Filled in Application
+                                    </div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Name Match %">
+                                        Name Match %
+                                    </div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Date of Incorporation of Enterprise">
+                                        Date of Incorporation of Enterprise
+                                    </div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Type of Enterprise as per URC">
+                                        Type of Enterprise as per URC
+                                    </div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate"
+                                        title="Registered Nature of Business / Activity of the Entity">
+                                        Registered Nature of Business / Activity of the Entity
+                                    </div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Address as per URC">
+                                        Address as per URC
+                                    </div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Email Id Filled in Application">
+                                        Email Id Filled in Application
+                                    </div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Certificate">
+                                        Certificate
+                                    </div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="API Verification Status">
+                                        API Verification Status
+                                    </div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Error Message">
+                                        Error Message
+                                    </div>
+                                </th>
+
+
+                            </tr>
+
+
+
+                        </thead>
+
+                        <tbody>
+                            <template if:true={data} for:each={data} for:item="record">
+                                <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+                                    <td data-label="Name">
+                                        <div class="slds-truncate" title="Name">{record.name}</div>
+                                    </td>
+                                    <td data-label="Applicant Type">
+                                        <div class="slds-truncate" title="Applicant Type">{record.applicantType}</div>
+                                    </td>
+                                    <td data-label="Constitution">
+                                        <div class="slds-truncate" title="Constitution">{record.constitution}</div>
+                                    </td>
+                                    <td data-label="Udyam Registration Number">
+                                        <div class="slds-truncate" title="Udyam Registration Number">
+                                            {record.udyamRegistrationNumber}
+                                            <!-- <lightning-input type="text" value={record.udyamRegistrationNumber}
+                                                data-id={record.Id} onchange={handleInputChange}></lightning-input> -->
+                                        </div>
+                                    </td>
+                                    <td data-label="Document Used for">
+                                        <div class="slds-truncate" title="Document Used for">{record.documentUsedFor}
+                                        </div>
+                                    </td>
+                                    <td data-label="Date of Udyam Registration">
+                                        <div class="slds-truncate" title="Date of Udyam Registration">
+                                            {record.dateOfUdyamRegistration}</div>
+                                    </td>
+                                    <td data-label="Name as Filled in Application">
+                                        <div class="slds-truncate" title="Name as Filled in Application">
+                                            {record.nameAsFilledInApplication}</div>
+                                    </td>
+                                    <td data-label="Name Match %">
+                                        <div class="slds-truncate" title="Name Match %">{record.nameMatchPercent}</div>
+                                    </td>
+                                    <td data-label="Date of Incorporation">
+                                        <div class="slds-truncate" title="Date of Incorporation">
+                                            {record.dateOfIncorporation}</div>
+                                    </td>
+                                    <td data-label="Type of Enterprise">
+                                        <div class="slds-truncate" title="Type of Enterprise">{record.typeOfEnterprise}
+                                        </div>
+                                    </td>
+                                    <td data-label="Registered Nature of Business">
+                                        <div class="slds-truncate" title="Registered Nature of Business">
+                                            {record.registeredNatureOfBusiness}</div>
+                                    </td>
+                                    <td data-label="Address as per URC">
+                                        <div class="slds-truncate" title="Address as per URC">{record.addressAsPerURC}
+                                        </div>
+                                    </td>
+                                    <td data-label="Email Id Filled in Application">
+                                        <div class="slds-truncate" title="Email Id Filled in Application">
+                                            {record.emailId}</div>
+                                    </td>
+                                    <td data-label="Certificate">
+
+                                        <lightning-icon class="slds-truncate" icon-name='action:download'
+                                            alternative-text='download' size='x-small' title='Certificate Download'
+                                            data-id={record.id} onclick={handlePreview}></lightning-icon>
+                                        <!-- <div class="slds-truncate" title="Certificate">{record.certificate}</div> -->
+                                    </td>
+                                    <td data-label="API Verification Status">
+                                        <div class="slds-truncate" title="API Verification Status">
+                                            {record.apiVerificationStatus}</div>
+                                    </td>
+                                    <td data-label="Error Message">
+                                        <div class="slds-truncate" title="Error Message">{record.errorMessage}</div>
+                                    </td>
+
+
+                                </tr>
+                            </template>
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+
+
+
+                <!-- OLD TABLE TO REMOVE -->
+            </lightning-card>
+
+
+
+
+
+
+
+
+
+        </template>
+    </lightning-card>
+    <template if:true={showModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="my-modal slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Select Applicant for
+                        Re-Initiate</h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <!-- <p style="text-align:center;"><b>{removeModalMessage}</b></p> -->
+                    <!-- <c-dynamic-datatable params-data={params}></c-dynamic-datatable> -->
+                    <table
+                        class="slds-table slds-table_cell-buffer slds-table_bordered slds-border_left slds-border_right"
+                        aria-labelledby="element-with-table-label other-element-with-table-label">
+                        <thead>
+                            <tr>
+                                <th>Applicant Name</th>
+                                <th>Select Applicant</th>
+                                <!-- <th>Rational</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={appDataDisplay} for:item="record">
+                                <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+                                    <template if:true={record.name}>
+                                        <th class="slds-cell_action-mode" scope="row">
+                                            <div class="slds-truncate" title={record.name}>
+                                                {record.name}
+                                            </div>
+                                        </th>
+                                        <td class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title={record.selectCheckbox}>
+                                                <lightning-input variant="label-hidden" data-recordid={record.Id}
+                                                    type="checkbox" checked={record.selectCheckbox}
+                                                    onclick={handleClick}></lightning-input>
+                                            </div>
+                                        </td>
+                                        <!-- <td class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title=''>
+                                                <lightning-textarea variant="label-hidden" data-recordid={record.Id}
+                                                    label="" value={record.RationalRemarks}
+                                                    onchange={handleRationalChange}
+                                                    disabled={readOnly}></lightning-textarea>
+                                            </div>
+                                        </td> -->
+                                    </template>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeModal} title="No">No</button>
+                    <button class="slds-button slds-button_brand" onclick={handleReIntialization}
+                        disabled={disableInitiatinAction} title="Yes">Yes</button>
+                    <div if:true={showSpinnerPopUp}>
+                        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+                        </lightning-spinner>
+                    </div>
+
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <template if:true={showModalForFilePre}>
+
+        <c-multi-doc-previewer document-detail-id={documentDetailId} onclosepreview={handleCloseModalEvent}
+            has-document-id={hasDocumentId}> </c-multi-doc-previewer>
+        <!-- <c-i-frame-preview image-type-file-url={imageTypeFileUrl} cont-doc-type={contDocType} cont-doc-id={contDocId}
+          url={url} cv-id={cvId} onclosepreview={handleCloseModalEvent}></c-i-frame-preview> -->
+    </template>
+
+</template>

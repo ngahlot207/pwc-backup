@@ -1,0 +1,20 @@
+<template>
+    <lightning-layout multiple-rows="true">
+        <lightning-layout-item size="12">
+            <div class="slds-m-top_small slds-m-bottom_medium slds-p-left_medium ">
+                <div class="slds-clearfix">
+                    <div class="slds-float_right"> 
+                        <template lwc:if={saveAndDraft}> 
+                             <!-- Button to open the EMI calculator -->
+                        <!-- <lightning-button label="Eligibility Calculator" onclick={handleEmiCalculator} icon-name="standard:budget" size='large' class="slds-m-around_x-small" icon-position="left" disabled={disableEMIButton}></lightning-button> -->
+                            <lightning-button label="Save as draft" name="SaveAsDraft" title="Save as draft" onclick={handleSaveAsDraft} icon-name="utility:file" class="slds-m-around_x-small" disabled={saveButton}></lightning-button>
+                        </template>               
+                        <template lwc:if={closeLead}>
+                            <lightning-button label="Close Lead" title="Close Lead" onclick={handleCloseLead} variant="destructive" class="slds-m-around_x-small" disabled={closeButton}></lightning-button>
+                        </template>  
+                    </div>
+                </div>                  
+            </div> 
+        </lightning-layout-item> 
+    </lightning-layout>
+</template>

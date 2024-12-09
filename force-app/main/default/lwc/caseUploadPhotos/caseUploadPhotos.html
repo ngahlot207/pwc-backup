@@ -1,0 +1,23 @@
+<template>
+
+<div if:true={showSpinner}>
+    <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+    </lightning-spinner>
+</div>
+<lightning-card title="Upload Photos">
+    <p style="text-align:center">
+        <template if:false={disableFileUpload}>
+        <c-upload-docs-reusable-component loan-app-id={loanAppId} applicant-id={applicantId}
+        doc-name={docName} doc-type={docType} disabled={disableFileUpload} doc-category={catValue}
+        onrefreshdoctable={fromUploadDocsContainer} onspinnerstatus={spinnerStatus} file-type-error={fileTypeError}
+        convert-to-single-image={convertToSingleImage} file-size-msz={fileSizeMsz} allowed-fil-format={allowedFilFormat}
+        document-detai-id={DocumentDetaiId} onchangefiles={parentFileChange} hide-attach-button={hideAttachButton} disable-mode={disableAgency}></c-upload-docs-reusable-component>
+        </template>
+    </p>
+    </lightning-card>
+
+    <!-- <c-case-uploaded-photos record-id={latestRecordId}></c-case-uploaded-photos>  -->
+
+   
+     
+</template>

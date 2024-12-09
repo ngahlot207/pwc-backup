@@ -1,0 +1,11 @@
+<apex:page controller="MergePDFController_Manish" contentType="application/pdf">
+    <apex:outputPanel rendered="{!mergedPdf != null}">
+        <img style="width:600px" src="{!mergedPdf}" />
+        <!--<apex:outputLink value="data:application/pdf;base64,{!BASE64ENCODE(mergedPdf)}" target="_blank">
+            View Merged PDF
+        </apex:outputLink>-->
+    </apex:outputPanel>
+    <apex:outputPanel rendered="{!mergedPdf == null}">
+        <p>Error: Unable to merge PDFs</p>
+    </apex:outputPanel>
+</apex:page>

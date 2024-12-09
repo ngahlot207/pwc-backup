@@ -1,0 +1,194 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    <!-- loanAppId = {loanAppId} <br />
+    applicantId = {applicantId} <br />
+    applicantIdOnTabset = {applicantIdOnTabset} -->
+
+
+    <!-- <lightning-card> -->
+    <div if:true={showNote} class="slds-p-left_medium">
+        <p><strong>Note : {message}</strong></p>
+    </div>
+    <template if:false={isReadOnly}>
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <lightning-combobox required={reqDocFlag} name="DocumentType" label="Document Type" value={docType}
+                    placeholder="Select Document Type" options={docTypeOptionNew} onchange={handleChange}
+                    disabled={disableMode}></lightning-combobox>
+                <!-- <p style="color: red;">Please Select value</p> -->
+            </lightning-layout-item>
+
+            <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size="5">
+                <template if:false={isotherDocuments}>
+                    <lightning-combobox required={reqDocFlag} name="DocumentName" label="Document Name" value={docName}
+                        placeholder="Select Document Name" options={docNameOptionNew} onchange={handleChange}
+                        is-read-only={isReadOnly} field-level-help={helperText} disabled={disableMode}>
+                    </lightning-combobox>
+                </template>
+                <template if:true={isotherDocuments}>
+                    <lightning-input type="text" required name="DocumentName" value={docName} label="Document Name"
+                        onchange={handleChange} is-read-only={isReadOnly} disabled={disableMode}
+                        field-level-help={helperText}></lightning-input>
+                </template>
+                <!-- <p style="color: red;">Please Select value</p> -->
+            </lightning-layout-item>
+
+        </lightning-layout>
+
+
+        <lightning-layout multiple-rows="true">
+            <template if:true={showAvailable}>
+                <lightning-layout-item padding="around-medium" size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+
+                    <lightning-input label="Available in File" name="availableInFile" type="checkbox"
+                        checked={availableInFile} onchange={handleChange} disabled={disableAvialbleInFile}>
+                    </lightning-input>
+
+                </lightning-layout-item>
+            </template>
+            <template if:false={showAvailable}>
+                <lightning-layout-item padding="around-medium" size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                </lightning-layout-item>
+            </template>
+            <template if:true={showUpload}>
+                <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size="8">
+                    <!-- <div class="slds-hide">
+							<iframe src={vfUrl}></iframe>
+						</div>
+						<lightning-input style="padding: 0%;" name="file uploader" label="Attachment"
+							variant="label-hidden" onchange={handleFileChange} type="file" disabled={disableFileUpload}
+							accept={allowedFilFormat}>
+						</lightning-input>
+						<p if:true={fileName}>{fileName}</p><br>
+						<div style="white-space: pre-line;">
+							Note: <br>
+                            Maximum File Size should be 5Mb. Allowed File Types are .pdf, .jpg, .jpeg
+                        </div> -->
+                    <!-- Loan App:: {loanAppId}
+						App Id:: {applicantId}
+						Doc Name:: {docName}
+						Doc Type:: {docType} 
+						Disbaled:: {disableFileUpload}
+						Doc Cat:: {catValue}
+						Convert To Single Imahe:: {convertToSingleImage}
+						Doc Detail Id:: {DocumentDetaiId} -->
+                    <c-upload-docs-reusable-component loan-app-id={loanAppId} applicant-id={applicantId}
+                        doc-name={docName} doc-type={docType} disabled={disableFileUpload} doc-category={catValue}
+                        onrefreshdoctable={fromUploadDocsContainer} onspinnerstatus={spinnerStatus}
+                        convert-to-single-image={convertToSingleImage} document-detai-id={DocumentDetaiId}
+                        allowed-fil-format={allowedFilFormat} file-size-msz={_isobligation}
+                        file-type-error={_fileTypeError}>
+                    </c-upload-docs-reusable-component>
+                </lightning-layout-item>
+            </template>
+            <template if:true={showAddDoc}>
+                <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <lightning-button variant="neutral" label="Add Existing File" title="AddDoc"
+                        onclick={handleAddDocClick}></lightning-button>
+                </lightning-layout-item>
+            </template>
+
+        </lightning-layout>
+    </template>
+    <template if:true={appAsserId}>
+        <!-- <lightning-layout multiple-rows="true"> -->
+        <!-- <lightning-layout-item padding="slds-p-around_none" size="12" class="slds-p-bottom_small"> -->
+        <c-uploded-document-display applicant-id={appAsserId} loan-app-id={loanAppId} mode="false"
+            capture-all-documents="true" disable-remarks={disableRemarks} onuploadeddoc={getDocuments}
+            is-read-only={isReadOnly} is-cpa={isCpa} is-not-rm={isNotRm} category="Collateral Documents" 
+            hide-upload-button={hildUplButton} has-edit-access={hasEditAccess}></c-uploded-document-display>
+        <!-- </lightning-layout-item> -->
+        <!-- </lightning-layout> -->
+        <template if:false={isProperty}>
+            <lightning-layout>
+                <template if:true={displayCpaRemarks}>
+                    <lightning-layout-item size="12" padding="around-small" small-device-size="12"
+                        medium-device-size={layoutSize.medium} large-device-size="6">
+                        <lightning-textarea data-fieldname="REMARK__c" type="text" label="CPA Remarks"
+                            value={cpaRemarks} onchange={handleApplicantRemarks} disabled={disableCpaRemarks}>
+                        </lightning-textarea>
+                    </lightning-layout-item>
+                </template>
+                <lightning-layout-item size="12" padding="around-small" small-device-size="12"
+                    medium-device-size={layoutSize.medium} large-device-size="6">
+                    <lightning-textarea data-fieldname="RM_Remarks__c" type="text" label="Sales Remarks" value={rmRemarks}
+                        onchange={handleApplicantRemarks} disabled={disableSalesRemarks}>
+                    </lightning-textarea>
+                </lightning-layout-item>
+            </lightning-layout>
+        </template>
+    </template>
+    <template if:false={appAsserId}>
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item if:true={showTable} padding="around-small" size="12">
+                <c-uploded-document-display applicant-id={applicantIdOnTabset} loan-app-id={loanAppId} mode="false"
+                    capture-all-documents="true" disable-remarks={disableRemarks} onuploadeddoc={getDocuments}
+                    is-read-only={isReadOnly} is-cpa={isCpa} is-not-rm={isNotRm} disabled-upl={disbUpload} has-edit-access={hasEditAccess}
+                    hide-upload-button={hildUplButton} category={docCate}></c-uploded-document-display>
+            </lightning-layout-item>
+        </lightning-layout>
+        <template if:false={isProperty}>
+            <lightning-layout>
+                <template if:true={displayCpaRemarks}>
+                    <lightning-layout-item size="12" padding="around-small" small-device-size="12"
+                        medium-device-size={layoutSize.medium} large-device-size="6">
+                        <lightning-textarea data-fieldname="REMARK__c" type="text" label="CPA Remarks"
+                            value={cpaRemarks} onchange={handleApplicantRemarks} disabled={disableCpaRemarks}>
+                        </lightning-textarea>
+                    </lightning-layout-item>
+                </template>
+                <lightning-layout-item size="12" padding="around-small" small-device-size="12"
+                    medium-device-size={layoutSize.medium} large-device-size="6">
+                    <lightning-textarea data-fieldname="RM_Remarks__c" type="text" label="RM Remarks" value={rmRemarks}
+                        onchange={handleApplicantRemarks} disabled={disableRMRemarks}>
+                    </lightning-textarea>
+                </lightning-layout-item>
+            </lightning-layout>
+        </template>
+    </template>
+
+    <!-- </lightning-card> -->
+    <template if:false={isProperty}>
+        <!-- <template if:true={isDsa}>  || Getting error pls check -->
+        <template if:true={isCpa}>
+            <div class="slds-p-left_medium">
+                <div class="slds-clearfix">
+                    <div class="slds-float_right">
+                        <!-- <lightning-button variant="brand-outline" data-name="Return To RM" label="Return to RM "
+                        class="slds-m-around_x-small" onclick={handlebuttonclicked}>
+                    </lightning-button>
+                    <lightning-button variant="brand" data-name="File Acceptance" label="File Acceptance"
+                        class="slds-m-around_x-small" onclick={handlebuttonclicked}>
+                    </lightning-button> -->
+                        <lightning-button variant="brand-outline" data-name="Save Remarks" label="Save"
+                            class="slds-m-around_x-small" disabled={disableSaveRemarks} onclick={handlebuttonclicked}>
+                        </lightning-button>
+                    </div>
+                </div>
+            </div>
+        </template>
+            <!-- </template> -->
+        </template>
+        <template if:false={isNotRm}>
+            <div class="slds-p-left_medium">
+                <div class="slds-clearfix">
+                    <div class="slds-float_right">
+                        <lightning-button variant="brand-outline" data-name="Save Remarks" label="Save"
+                            class="slds-m-around_x-small" onclick={handlebuttonclicked} disabled={disableSave}>
+                        </lightning-button>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </template>
+
+</template>

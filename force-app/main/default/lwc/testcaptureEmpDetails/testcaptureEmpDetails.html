@@ -1,0 +1,762 @@
+<template>
+    <lightning-card title="Employment Details">
+        
+        <lightning-layout multiple-rows="true">                         
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                <div class="slds-p-around_x-small">
+                    <lightning-combobox 
+                        data-fieldname="CustProfile__c" 
+                        data-objname="Applicant"
+                        name="customerProfile"
+                        label="Customer Profile"
+                        value={results.applicant.CustProfile__c}
+                        options={customerProfileOptions}
+                        required 
+                        disabled
+                    >
+                    </lightning-combobox>       
+                </div>
+            </lightning-layout-item>    
+        </lightning-layout>
+        
+        <div if:true={displayLayout}>
+            
+            <lightning-layout multiple-rows="true">                         
+                <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="12">
+                    <div class="slds-p-around_x-small">
+                        <div class="page-section page-header">
+                            <h2 if:true={isSalaried}>Salaried</h2>
+                            <h2 if:true={isSelfEmployedProfessional}>Self Employed Professional</h2>
+                            <h2 if:true={isSelfEmployedNonProfessional}>Self Employed Non Professional</h2>
+                        </div>   
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+            
+            <div if:true={isSalaried}>
+
+                <lightning-layout multiple-rows="true">                         
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                        <div class="slds-p-around_x-small">
+                            
+                            <lightning-combobox 
+                            data-fieldname="EmployerName__c" 
+                            data-objname="applicantEmployment"
+                            name="employerName"
+                            label="Name of Employer"
+                            value={results.applicantEmployment.EmployerName__c}
+                            options={employersPicklistOptions}
+                            placeholder="Select"
+                            required
+                            onchange={handleInputChange}   
+                            >
+                            </lightning-combobox> 
+                            
+                            <div if:true={displayOthersOption}>
+                                <lightning-input type="text" name="others" data-fieldname="Others__c" data-objname="applicantEmployment" value={results.applicantEmployment.Others__c} label="Others" required onchange={handleInputChange}></lightning-input>                      
+                            </div>
+
+                            <!-- <c-custom-lookup
+                                label="Name of Employer"
+                                field-name="EmployerName__c"
+                                selected-icon-name="standard:employee_organization"
+                                object-api-name="Employer__c"
+                                field-api-name="Name"
+                                selected-record-id={results.applicantEmployment.EmployerName__c}
+                                onselect={handleValueSelect}
+                                required
+                             ></c-custom-lookup>    -->
+                        </div>
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                        <div class="slds-p-around_x-small">
+                            <lightning-combobox
+                                data-fieldname="TypeOfOrganisation__c" 
+                                data-objname="applicantEmployment"
+                                name="typeOfOrganisation"
+                                label="Type of Organisation"
+                                value={results.applicantEmployment.TypeOfOrganisation__c}
+                                options={organisationTypeOptions}
+                                placeholder="Select"
+                                required
+                                onchange={handleInputChange} 
+                            >
+                            </lightning-combobox>
+                        </div>    
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                        <div class="slds-p-around_x-small">
+                            <lightning-input type="text" name="designationText" data-fieldname="DesignationText__c" data-objname="applicantEmployment" value={results.applicantEmployment.DesignationText__c} label="Designation" required onchange={handleInputChange}></lightning-input>                      
+                        </div>    
+                    </lightning-layout-item>   
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item>
+    
+                </lightning-layout>
+    
+                <lightning-layout multiple-rows="true">                         
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                        <div class="slds-p-around_x-small">
+                            <lightning-input class="emailValidateCls" type="text" data-fieldname="OfficialEmail__c" data-objname="applicantEmployment" name="officialEmail" value={results.applicantEmployment.OfficialEmail__c} label="Offical Email Id" required onchange={handleInputChange}></lightning-input>        
+                        </div>
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                        <div class="slds-p-around_x-small">
+                            <fieldset  class="slds-form-element slds-form-element_compound">
+                                <label class="slds-form-element__label"><abbr class="slds-required" title="required">* </abbr>Working With Current Organisation</label>
+                                <div class="slds-form-element__control">
+                                <div class="slds-form-element__row">
+                                    <div class="slds-size_1-of-2">
+                                    <div data-id="divblock-1" class="slds-form-element">
+                                        <div class="slds-form-element__control">
+                                        <lightning-input type="text" data-id="input-01" class="yearValidateCls" name="workingWithCurrentEmployerYears" data-fieldname="WorkingWithCurrentEmployer_Years__c" data-objname="applicantEmployment" value={results.applicantEmployment.WorkingWithCurrentEmployer_Years__c} onchange={handleInputChange} placeholder="YY" required variant = "label-hidden"></lightning-input>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="slds-size_1-of-2">
+                                    <div data-id="divblock-2" class="slds-form-element">
+                                        <div class="slds-form-element__control">
+                                            <lightning-input type="text" data-id="input-02" class="monthValidateCls" name="workingWithCurrentEmployerMonths" data-fieldname="WorkingWithCurrentEmployer_Months__c" data-objname="applicantEmployment" value={results.applicantEmployment.WorkingWithCurrentEmployer_Months__c} onchange={handleInputChange} placeholder="MM" required variant = "label-hidden"></lightning-input>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                        <div class="slds-p-around_x-small">
+                            <fieldset class="slds-form-element slds-form-element_compound">
+                                <label class="slds-form-element__label"><abbr class="slds-required" title="required">* </abbr>Total Work Experience</label>
+                                <div class="slds-form-element__control">
+                                <div class="slds-form-element__row">
+                                    <div class="slds-size_1-of-2">
+                                    <div data-id="divblock-3" class="slds-form-element">
+                                        <div class="slds-form-element__control">
+                                        <lightning-input type="text" data-id="input-03" class="yearValidateCls" name="totalWorkExperienceYears" data-fieldname="TotalWorkExperience_Years__c" data-objname="applicantEmployment" value={results.applicantEmployment.TotalWorkExperience_Years__c} onchange={handleInputChange} placeholder="YY" required variant = "label-hidden"></lightning-input>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="slds-size_1-of-2">
+                                    <div data-id="divblock-4" class="slds-form-element">
+                                        <div class="slds-form-element__control">
+                                            <lightning-input type="text" data-id="input-04" class="monthValidateCls" name="totalWorkExperienceMonths" data-fieldname="TotalWorkExperience_Months__c" data-objname="applicantEmployment" value={results.applicantEmployment.TotalWorkExperience_Months__c} onchange={handleInputChange} placeholder="MM" required variant = "label-hidden"></lightning-input>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </fieldset>                    
+                        </div>
+                    </lightning-layout-item>  
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item>  
+                </lightning-layout>
+    
+                <lightning-layout multiple-rows="true">                         
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                        <div class="slds-p-around_x-small">
+                            <lightning-input type="number" name="retirementAge" class="retirementAgeValidateCls" data-fieldname="RetirementAge__c" data-objname="applicantEmployment" value={results.applicantEmployment.RetirementAge__c} label="Retirement Age" required max="75" min="21" onchange={handleInputChange}></lightning-input>        
+                        </div>
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                        <div class="slds-p-around_x-small">
+                            <lightning-combobox
+                            data-fieldname="NatureOfBusinessIndividual__c" 
+                            data-objname="applicantEmployment"
+                            name="natureOfBusiness"
+                            label="Nature of Businesss"
+                            value={results.applicantEmployment.NatureOfBusinessIndividual__c}
+                            options={businessNatureIndividualOptions}
+                            placeholder="Select"
+                            onchange={handleInputChange}
+                            >
+                            </lightning-combobox>        
+                        </div>
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3" >
+                        <div class="slds-p-around_x-small">
+                            <!-- <lightning-combobox 
+                                data-fieldname="IndustryType__c" 
+                                data-objname="applicantEmployment"
+                                name="industryType"
+                                label="Industry Type"
+                                value={selectedIndustryValue}
+                                options={industriesPicklistOptions}
+                                placeholder="Select" 
+                                onchange={handleInputChange}      
+                            >
+                            </lightning-combobox>   -->
+                            
+                            <c-custom-lookup
+                                label="Industry Type"
+                                field-name="IndustryType__c"
+                                selected-icon-name="standard:store_group"
+                                object-api-name="Industry__c"
+                                field-api-name="Name"
+                                selected-record-id={selectedIndustryValue}
+                                onselect={handleValueSelect}
+                             ></c-custom-lookup>
+                        </div>
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item>
+    
+                </lightning-layout>
+    
+                <lightning-layout multiple-rows="true">                         
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                        <div class="slds-p-around_x-small">
+                            <!-- <lightning-combobox 
+                                data-fieldname="SubIndustry__c" 
+                                data-objname="applicantEmployment"
+                                name="subIndustryType"
+                                label="Sub-industry Type"
+                                value={selectedSubIndustryValue}
+                                options={subIndustriesPicklistOptions}
+                                placeholder="Select"   
+                                onchange={handleInputChange}    
+                            >
+                            </lightning-combobox> -->
+
+                            <c-custom-lookup
+                                label="Sub-industry Type"
+                                field-name="SubIndustry__c"
+                                selected-icon-name="custom:custom24"
+                                object-api-name="SubIndustry__c"
+                                field-api-name="Name"
+                                selected-record-id={selectedSubIndustryValue}
+                                onselect={handleValueSelect}
+                                filter-condn={subIndustriesFilterCondition}
+                             ></c-custom-lookup>
+
+                        </div>
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                        <div class="slds-p-around_x-small">
+                            <lightning-combobox 
+                                data-fieldname="IndustryForRBIReporting__c" 
+                                data-objname="applicantEmployment"
+                                name="industryRBIReporting"
+                                label="Industry for RBI Reporting"
+                                value={selectedindustryRBIReportingValue}
+                                options={industryRBIReportingOptions}
+                                placeholder="Select"  
+                                disabled     
+                            >
+                            </lightning-combobox> 
+                        </div>
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item>
+                        
+                </lightning-layout>
+            </div>
+            
+            <div if:true={isIndividualSelfEmployed}>
+                
+                <lightning-layout multiple-rows="true">                         
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                        <div class="slds-p-around_x-small">
+                            <lightning-input type="text" name="entityName" data-fieldname="EntityName__c" data-objname="applicantEmployment" value={results.applicantEmployment.EntityName__c} label="Entity Name" required onchange={handleInputChange}></lightning-input>
+                        </div>
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                        <div class="slds-p-around_x-small">
+                            
+                            <fieldset  class="slds-form-element slds-form-element_compound">
+                                <label class="slds-form-element__label"><abbr class="slds-required" title="required">* </abbr>Current Business Vintage</label>
+                                <div class="slds-form-element__control">
+                                <div class="slds-form-element__row">
+                                    <div class="slds-size_1-of-2">
+                                    <div data-id="divblock-5" class="slds-form-element">
+                                        <div class="slds-form-element__control">
+                                        <!-- <input type="text" data-id="input-05" id="input-05" name="currentBusinessVintageYears" data-fieldname="CurrentBusinessVintage_Years__c" data-objname="applicantEmployment" value={results.applicantEmployment.CurrentBusinessVintage_Years__c} class="slds-input" onchange={handleInputChange} aria-describedby="form-error-05" aria-invalid={invalidCurrentBusinessVintageYears} placeholder="YY"/> -->
+                                        <lightning-input type="text" data-id="input-05" class="yearValidateCls" name="currentBusinessVintageYears" data-fieldname="CurrentBusinessVintage_Years__c" data-objname="applicantEmployment" value={results.applicantEmployment.CurrentBusinessVintage_Years__c} onchange={handleInputChange} placeholder="YY" required variant = "label-hidden"></lightning-input>
+                                        </div>
+                                        <!-- <div if:true={invalidCurrentBusinessVintageYears} class="slds-form-element__help" id="form-error-05">Please make sure the year is formatted in YY.</div> -->
+                                    </div>
+                                    </div>
+                                    <div class="slds-size_1-of-2">
+                                    <div data-id="divblock-6" class="slds-form-element">
+                                        <div class="slds-form-element__control">
+                                            <!-- <input type="text" data-id="input-06" id="input-06" name="currentBusinessVintageMonths" data-fieldname="CurrentBusinessVintage_Months__c" data-objname="applicantEmployment" value={results.applicantEmployment.CurrentBusinessVintage_Months__c} class="slds-input" onchange={handleInputChange} aria-describedby="form-error-06" aria-invalid={invalidCurrentBusinessVintageMonths} placeholder="MM"/> -->
+                                            <lightning-input type="text" data-id="input-06" class="monthValidateCls" name="currentBusinessVintageMonths" data-fieldname="CurrentBusinessVintage_Months__c" data-objname="applicantEmployment" value={results.applicantEmployment.CurrentBusinessVintage_Months__c} onchange={handleInputChange} placeholder="MM" required variant = "label-hidden"></lightning-input>
+                                        </div>
+                                        <!-- <div if:true={invalidCurrentBusinessVintageMonths} class="slds-form-element__help" id="form-error-06">Please make sure the month is formatted in MM.</div> -->
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                        <div class="slds-p-around_x-small">
+                            <lightning-input  type="number" name="shareholdingInTheEntity" data-fieldname="ShareholdingInTheEntity__c" data-objname="applicantEmployment" value={results.applicantEmployment.ShareholdingInTheEntity__c} label="% shareholding in the Entity" required max="100" min="0" onchange={handleInputChange}></lightning-input>        
+                        </div>
+                    </lightning-layout-item>   
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item>
+    
+                </lightning-layout>
+    
+                <lightning-layout multiple-rows="true">                         
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                        <div class="slds-p-around_x-small">
+                            <lightning-combobox
+                            data-fieldname="DesignationValues__c" 
+                            data-objname="applicantEmployment"
+                            name="designation"
+                            label="Designation"
+                            value={results.applicantEmployment.DesignationValues__c}
+                            options={designationOptions}
+                            placeholder="Select"
+                            required 
+                            onchange={handleInputChange}
+                            >
+                            </lightning-combobox>
+                        </div>
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                        <div class="slds-p-around_x-small">
+                            <lightning-combobox
+                                data-fieldname="TypeOfOrganisation__c" 
+                                data-objname="applicantEmployment"
+                                name="typeOfOrganisation"
+                                label="Type of Organisation"
+                                value={results.applicantEmployment.TypeOfOrganisation__c}
+                                options={organisationTypeOptions}
+                                placeholder="Select"
+                                required 
+                                onchange={handleInputChange}
+                            >
+                            </lightning-combobox>
+                        </div>
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                        <div class="slds-p-around_x-small">
+                            <fieldset class="slds-form-element slds-form-element_compound">
+                                <label class="slds-form-element__label"><abbr class="slds-required" title="required">* </abbr>Total Work Experience</label>
+                                <div class="slds-form-element__control">
+                                <div class="slds-form-element__row">
+                                    <div class="slds-size_1-of-2">
+                                    <div data-id="divblock-3" class="slds-form-element">
+                                        <div class="slds-form-element__control">
+                                        <!-- <input type="text" data-id="input-03" id="input-03" name="totalWorkExperienceYears" data-fieldname="TotalWorkExperience_Years__c" data-objname="applicantEmployment" value={results.applicantEmployment.TotalWorkExperience_Years__c} class="slds-input" onchange={handleInputChange} aria-describedby="form-error-03" aria-invalid={invalidTotalWorkExperienceYears} placeholder="YY"/> -->
+                                        <lightning-input type="text" data-id="input-03" class="yearValidateCls" name="totalWorkExperienceYears" data-fieldname="TotalWorkExperience_Years__c" data-objname="applicantEmployment" value={results.applicantEmployment.TotalWorkExperience_Years__c} onchange={handleInputChange} placeholder="YY" required variant = "label-hidden"></lightning-input>
+                                        </div>
+                                        <!-- <div if:true={invalidTotalWorkExperienceYears} class="slds-form-element__help" id="form-error-03">Please make sure the year is formatted in YY.</div> -->
+                                    </div>
+                                    </div>
+                                    <div class="slds-size_1-of-2">
+                                    <div data-id="divblock-4" class="slds-form-element">
+                                        <div class="slds-form-element__control">
+                                            <!-- <input type="text" data-id="input-04" id="input-04"  name="totalWorkExperienceMonths" data-fieldname="TotalWorkExperience_Months__c" data-objname="applicantEmployment" value={results.applicantEmployment.TotalWorkExperience_Months__c} class="slds-input" onchange={handleInputChange}  aria-describedby="form-error-04" aria-invalid={invalidTotalWorkExperienceMonths} placeholder="MM"/> -->
+                                            <lightning-input type="text" data-id="input-04" class="monthValidateCls" name="totalWorkExperienceMonths" data-fieldname="TotalWorkExperience_Months__c" data-objname="applicantEmployment" value={results.applicantEmployment.TotalWorkExperience_Months__c} onchange={handleInputChange} placeholder="MM" required variant = "label-hidden"></lightning-input>
+                                        </div>
+                                        <!-- <div if:true={invalidTotalWorkExperienceMonths} class="slds-form-element__help" id="form-error-04">Please make sure the month is formatted in MM.</div> -->
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </fieldset>                    
+                        </div>
+                    </lightning-layout-item>  
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item>  
+                </lightning-layout>
+    
+                <lightning-layout multiple-rows="true">                         
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                        <div class="slds-p-around_x-small">
+                            <lightning-combobox if:true={isIndividualConstituiton}
+                            data-fieldname="NatureOfBusinessIndividual__c" 
+                            data-objname="applicantEmployment"
+                            name="natureOfBusiness"
+                            label="Nature of Businesss"
+                            value={results.applicantEmployment.NatureOfBusinessIndividual__c}
+                            options={businessNatureIndividualOptions}
+                            placeholder="Select"
+                            onchange={handleInputChange}
+                            >
+                            </lightning-combobox>
+                        </div>
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                        <div class="slds-p-around_x-small">
+                            <lightning-combobox 
+                                data-fieldname="IndustryType__c" 
+                                data-objname="applicantEmployment"
+                                name="industryType"
+                                label="Industry Type"
+                                value={selectedIndustryValue}
+                                options={industriesPicklistOptions}
+                                placeholder="Select" 
+                                onchange={handleInputChange}      
+                            >
+                            </lightning-combobox>
+                        </div>
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3" >
+                        <div class="slds-p-around_x-small">
+                            <lightning-combobox 
+                                data-fieldname="SubIndustry__c" 
+                                data-objname="applicantEmployment"
+                                name="subIndustryType"
+                                label="Sub-industry Type"
+                                value={selectedSubIndustryValue}
+                                options={subIndustriesPicklistOptions}
+                                placeholder="Select"   
+                                onchange={handleInputChange}    
+                            >
+                            </lightning-combobox>
+                        </div>
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item>
+    
+                </lightning-layout>
+    
+                <lightning-layout multiple-rows="true">                         
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                        <div class="slds-p-around_x-small">
+                            <lightning-combobox 
+                                data-fieldname="IndustryForRBIReporting__c" 
+                                data-objname="applicantEmployment"
+                                name="industryRBIReporting"
+                                label="Industry for RBI Reporting"
+                                value={selectedindustryRBIReportingValue}
+                                options={industryRBIReportingOptions}
+                                placeholder="Select"  
+                                disabled     
+                            >
+                            </lightning-combobox>
+                        </div>
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item> 
+
+                </lightning-layout>
+    
+                
+            </div>
+
+            <div if:true={isNonIndividualSelfEmployed}>
+
+                <lightning-layout multiple-rows="true">                         
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                        <div class="slds-p-around_x-small">
+                            <lightning-combobox
+                                data-fieldname="NatureOfBusinessCorporate__c" 
+                                data-objname="applicantEmployment"
+                                name="natureOfBusiness"
+                                label="Nature of Businesss"
+                                value={results.applicantEmployment.NatureOfBusinessCorporate__c}
+                                options={businessNatureCorporateOptions}
+                                placeholder="Select"
+                                onchange={handleInputChange}
+                            >
+                            </lightning-combobox>
+                        </div>
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                        <div class="slds-p-around_x-small">
+                            <lightning-combobox 
+                                data-fieldname="IndustryType__c" 
+                                data-objname="applicantEmployment"
+                                name="industryType"
+                                label="Industry Type"
+                                value={selectedIndustryValue}
+                                options={industriesPicklistOptions}
+                                placeholder="Select" 
+                                onchange={handleInputChange}      
+                            >
+                            </lightning-combobox>
+                        </div>
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                        <div class="slds-p-around_x-small">
+                            <lightning-combobox 
+                                data-fieldname="SubIndustry__c" 
+                                data-objname="applicantEmployment"
+                                name="subIndustryType"
+                                label="Sub-industry Type"
+                                value={selectedSubIndustryValue}
+                                options={subIndustriesPicklistOptions}
+                                placeholder="Select"   
+                                onchange={handleInputChange}    
+                            >
+                            </lightning-combobox>
+                        </div>
+                    </lightning-layout-item>   
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item>
+    
+                </lightning-layout>
+    
+                <lightning-layout multiple-rows="true">                         
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                        <div class="slds-p-around_x-small">
+                            <lightning-combobox 
+                                data-fieldname="IndustryForRBIReporting__c" 
+                                data-objname="applicantEmployment"
+                                name="industryRBIReporting"
+                                label="Industry for RBI Reporting"
+                                value={selectedindustryRBIReportingValue}
+                                options={industryRBIReportingOptions}
+                                placeholder="Select"  
+                                disabled     
+                            >
+                            </lightning-combobox>
+                        </div>
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                        <div class="slds-p-around_x-small">
+                            <lightning-input class="udyamValidateCls" name="udyamRegistrationNumber" type="text" data-fieldname="UdyamRegistrationNumber__c" data-objname="applicantEmployment" value={results.applicantEmployment.UdyamRegistrationNumber__c} label="Udyam Registration Number" required onchange={handleInputChange}></lightning-input>
+                        </div>
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                        <div class="slds-p-around_x-small">
+                            <lightning-input type="date" class="dateValidateCls" name="dateOfUdyamRegistration" data-fieldname="DateOfUdyamRegistration__c" data-objname="applicantEmployment" value={results.applicantEmployment.DateOfUdyamRegistration__c} label="Date of Udyam Registration" onchange={handleInputChange} max={currentDate}></lightning-input>
+                        </div>
+                    </lightning-layout-item>  
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item>  
+                </lightning-layout>
+    
+                <lightning-layout multiple-rows="true">                         
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                        <div class="slds-p-around_x-small">
+                            <lightning-input type="text" data-fieldname="TypeOfEnterprise_URC__c" data-objname="applicantEmployment" value={results.applicantEmployment.TypeOfEnterprise_URC__c} label="Type of enterprise as per URC" onchange={handleInputChange}></lightning-input>
+                        </div>
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                        <div class="slds-p-around_x-small">
+                            <lightning-input type="text" data-fieldname="Industry_URC__c" data-objname="applicantEmployment" value={results.applicantEmployment.Industry_URC__c} label="Industry as per URC" onchange={handleInputChange}></lightning-input>
+                        </div>
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3" >
+                        <div class="slds-p-around_x-small">
+                            <lightning-input type="text" data-fieldname="SubSector_URC__c" data-objname="applicantEmployment" value={results.applicantEmployment.SubSector_URC__c} label="Sub Sector as per URC" onchange={handleInputChange}></lightning-input>
+                        </div>
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item>
+    
+                </lightning-layout>
+    
+                <lightning-layout multiple-rows="true">                         
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                        <div class="slds-p-around_x-small">
+                            <lightning-input type="text" data-fieldname="Activity_URC__c" data-objname="applicantEmployment" value={results.applicantEmployment.Activity_URC__c} label="Activity as per URC" onchange={handleInputChange}></lightning-input>
+                        </div>
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                        <div class="slds-p-around_x-small">
+                            <lightning-input type="text" data-fieldname="NIC_URC__c" data-objname="applicantEmployment" value={results.applicantEmployment.NIC_URC__c} label="NIC as per URC" onchange={handleInputChange}></lightning-input>
+                        </div>
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item size="1">
+                    </lightning-layout-item>
+    
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                        <div class="slds-p-around_x-small">
+                            <lightning-input type="text" data-fieldname="ActivityDescription_URC__c" data-objname="applicantEmployment" value={results.applicantEmployment.ActivityDescription_URC__c} label="Activity description as per URC" onchange={handleInputChange}></lightning-input>
+                        </div>
+                    </lightning-layout-item>
+    
+                </lightning-layout>
+    
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">   
+                        <div class="slds-p-around_x-small">
+                            <lightning-input type="text" name="GSTRegistered" data-fieldname="GST_Registered__c" data-objname="applicantEmployment" value={GSTRegistered} label="GST Registered" onchange={handleInputChange}></lightning-input>
+                        </div>
+                    </lightning-layout-item>
+                </lightning-layout>
+
+            </div> 
+            
+            <div if:true={displayGSTLayout}>
+            <lightning-layout if:true={isGSTRegistered} multiple-rows="true">                         
+                <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="12">
+                    <div class="slds-p-around_x-small">
+                        <div class="page-section page-header">
+                            <h2 >GST Details</h2>
+                        </div>   
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+
+
+            <lightning-layout if:true={isGSTRegistered} multiple-rows="true">
+                <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">   
+                    <div class="slds-p-around_x-small">
+                        <lightning-input class="gstValidateCls" type="text" name="GSTIN" data-fieldname="GSTIN__c" data-objname="applicantEmployment" value={results.applicantEmployment.GSTIN__c} label="GSTIN" onchange={handleInputChange} placeholder="Enter Here"></lightning-input>
+                    </div>
+                </lightning-layout-item>
+
+                <lightning-layout-item size="1">
+                </lightning-layout-item>
+
+                <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">   
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="text" name="GSTINStatus" data-fieldname="GSTIN_Status__c" data-objname="applicantEmployment" value={results.applicantEmployment.GSTIN_Status__c} label="GSTIN Status" onchange={handleInputChange} placeholder="Enter Here"></lightning-input>
+                    </div>
+                </lightning-layout-item>
+
+                <lightning-layout-item size="1">
+                </lightning-layout-item>
+
+                <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">   
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="text" name="registeredAddressGST" data-fieldname="RegisteredAddress_GST__c" data-objname="applicantEmployment" value={results.applicantEmployment.RegisteredAddress_GST__c} label="Registered address as per GST" onchange={handleInputChange} placeholder="Enter Here"></lightning-input>
+                    </div>
+                </lightning-layout-item>
+
+                <lightning-layout-item size="1">
+                </lightning-layout-item>
+            </lightning-layout>
+
+
+            <lightning-layout if:true={isGSTRegistered} multiple-rows="true">
+                <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">   
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="text" name="legalNameOfBusinessGSTCertificate" data-fieldname="LegalNameOfBusiness_GST_Certificate__c" data-objname="applicantEmployment" value={results.applicantEmployment.LegalNameOfBusiness_GST_Certificate__c} label="Legal Name of Business as per GST Certificate" onchange={handleInputChange} placeholder="Enter Here"></lightning-input>
+                    </div>
+                </lightning-layout-item>
+
+                <lightning-layout-item size="1">
+                </lightning-layout-item>
+
+                <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">   
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="text" name="tradeNameGSTCertificate" data-fieldname="TradeName_GST_Certificate__c" data-objname="applicantEmployment" value={results.applicantEmployment.TradeName_GST_Certificate__c} label="Trade Name  as per GST certificate" onchange={handleInputChange} placeholder="Enter Here"></lightning-input>
+                    </div>
+                </lightning-layout-item>
+
+                <lightning-layout-item size="1">
+                </lightning-layout-item>
+
+                <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">   
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="text" name=" mainGSTIN" data-fieldname="Main_GSTIN__c" data-objname="applicantEmployment" value={results.applicantEmployment.Main_GSTIN__c} label="Main GSTIN" onchange={handleInputChange} placeholder="Enter Here"></lightning-input>
+                    </div>
+                </lightning-layout-item>
+
+                <lightning-layout-item size="1">
+                </lightning-layout-item>
+            </lightning-layout>
+            </div>
+        
+            <!-- <lightning-layout multiple-rows="true">
+                <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="12">
+                    <div class="slds-m-top_small slds-m-bottom_medium">
+                        <div class="slds-clearfix">
+                            <div class="slds-float_right">
+                                <lightning-button label="Previous" class="slds-m-around_x-small" onclick={handleSave}></lightning-button>
+                            </div>
+                        </div>                  
+                    </div> 
+                </lightning-layout-item>                       
+            </lightning-layout> -->
+            
+
+        </div>
+    </lightning-card>     
+                                
+</template>

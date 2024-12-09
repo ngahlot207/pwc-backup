@@ -1,0 +1,60 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    <lightning-card>
+
+
+        <div class="slds-var-m-top_medium">
+            <div class="slds-clearfix">
+                <div class="slds-float_right">
+                    <lightning-button variant="brand" class="slds-m-around_x-small" icon-name="action:fallback"
+                        label="Re-Initiate" onclick={handleIntialization}
+                        disabled={disableReintiate}></lightning-button>
+                    <template if:false={isReadOnly}>
+                        <lightning-icon variant="success" class="customButton slds-m-around_x-small"
+                            icon-name='utility:refresh' alternative-text='refresh' size='small' title='refresh'
+                            onclick={handleRefreshClick} disabled={isReadOnly}></lightning-icon>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="slds-p-left_medium slds-p-bottom_small">
+            <div class="slds-clearfix">
+                <div class="slds-float_right">
+                
+                    <lightning-button variant="brand" class="slds-p-right_large" icon-name='utility:refresh'
+                        label="Refresh" onclick={handleRefreshClick}></lightning-button>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-clearfix">
+            <div class="slds-float_right">
+                <lightning-button variant="brand" class="slds-p-right_large" icon-name="action:fallback"
+                    label="Re-Initiate" onclick={handleIntialization}></lightning-button>
+            </div>
+        </div> -->
+        <!-- <h1><span></span></h1> -->
+        <!-- <div class="table-title">Screening Details</div> -->
+
+
+        <lightning-accordion active-section-name={activeSection} allow-multiple-sections-open>
+            <lightning-accordion-section name="A" label="Screening Details" class="accClass">
+                <c-dynamic-datatable data-id="childComponentOne" params-data={paramsScrAPI}></c-dynamic-datatable>
+            </lightning-accordion-section>
+            <br><br>
+            <lightning-accordion-section name="B" label="Risk Rating Details" class="accClass">
+                <!-- <div class="table-title">Risk Rating Details</div> -->
+                <c-dynamic-datatable data-id="childComponentTwo" params-data={paramsRiskAPI}></c-dynamic-datatable>
+            </lightning-accordion-section>
+        </lightning-accordion>
+    </lightning-card>
+
+    <template if:true={isModalOpen}>
+        <c-re-initiate loan-app-id={loanAppId} is-trackwizz="true" service-name="Trackwizz"
+            onfireevent={handleCustomEvent} display-data={applIds}></c-re-initiate>
+    </template>
+</template>

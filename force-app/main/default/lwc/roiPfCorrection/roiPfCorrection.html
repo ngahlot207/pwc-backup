@@ -1,0 +1,561 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    <lightning-card variant="base">
+        <div slot="title">
+            ROI/PF Reduction
+        </div>
+
+
+        <div slot="actions">
+            <template if:true={isRmUser}>
+                <lightning-button label="Initiate ROI/PF Reduction" onclick={handleInitiateRoi}
+                    disabled={disablebtn}></lightning-button>
+            </template>
+        </div>
+        <div slot="footer">
+
+
+        </div>
+
+
+
+        <template if:true={formattedloanAppealData}>
+            <lightning-card variant="base">
+                <div slot="title">
+                    ROI/PF Application History
+                </div>
+                <div slot="actions">
+
+                </div>
+                <div slot="footer">
+
+                </div>
+                <div>
+                    <!-- Card Body  -->
+                    <div class="slds-modal__content slds-p-around_medium scroller" id="modal-content-id-9">
+                        <table
+                            class="slds-table slds-table_cell-buffer slds-table_bordered slds-border_left slds-border_right"
+                            aria-labelledby="element-with-table-label other-element-with-table-label">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Initiation Date">
+                                            Initiation Date
+                                        </div>
+                                    </th>
+
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Loan Appeal No">Loan Appeal No</div>
+                                    </th>
+
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Approver Name">
+                                            Approver Name
+                                        </div>
+                                    </th>
+
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Recommender Name">Recommender Name</div>
+                                    </th>
+
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Status">
+                                            Status
+                                        </div>
+                                    </th>
+
+                                    <!-- <th class="" scope="col">
+                                            <div class="slds-truncate" title="Comment">Comment</div>
+                                        </th> -->
+
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Action">View</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="View">Decision</div>
+                                    </th>
+                                    <!-- <th class="" scope="col">
+                                                <div class="slds-truncate" title="View">Reject</div>
+                                            </th> -->
+
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <template for:each={formattedloanAppealData} for:item="record">
+                                    <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+                                        <td data-label="Relook Initiation Date">
+                                            <div class="slds-truncate" title="Relook Initiation Date">
+                                                {record.formattedDate}
+
+                                            </div>
+                                        </td>
+
+                                        <td data-label="Loan Appeal No">
+                                            <div class="slds-truncate" title="Loan Appeal No">
+                                                {record.Name}
+                                            </div>
+                                        </td>
+
+
+                                        <td data-label="Approver Name">
+                                            <div if:true={record.Approver__c} class="slds-truncate"
+                                                title="Approver Name">
+                                                {record.Approver__r.Name}
+                                            </div>
+                                        </td>
+                                        <td data-label="Recommender Name">
+                                            <div class="slds-truncate" title="Recommender Name">
+                                                <template if:true={record.Recommender__c}>
+                                                    {record.Recommender__r.Name}
+                                                </template>
+
+                                            </div>
+                                        </td>
+                                        <td data-label="Status">
+                                            <div class="slds-truncate" title="Status">
+                                                {record.Status__c}
+                                            </div>
+                                        </td>
+
+
+                                        <!-- <td data-label="Comments">
+                                                <lightning-textarea name="approvalcomment" value={record.Comment}
+                                                    data-id={record.Id} onchange={handleCommentChangeUw}
+                                                    disabled={record.EnableAction}
+                                                    required={record.UwCommReq}></lightning-textarea>
+
+                                            </td> -->
+                                        <td data-label="Action">
+                                            <div class="slds-truncate" title="View">
+                                                <lightning-button variant="success" label="View" data-id={record.Id}
+                                                    title="View" onclick={handleView}
+                                                    class="slds-m-left_x-small"></lightning-button>
+                                            </div>
+                                        </td>
+                                        <td data-label="Status">
+                                            <div class="slds-truncate" title="Status">
+                                                {record.Decision__c}
+                                            </div>
+                                        </td>
+                                        <!-- <template if:true={isUwUser}>
+                                                <td data-label="Action">
+                                                    <div class="slds-truncate " title="Action">
+                                                        <lightning-button variant="Approve" label="Approve"
+                                                            data-id={record.Id} title="View" onclick={handleSumitUw}
+                                                            disabled={record.EnableAction}
+                                                            class="slds-m-left_x-small"></lightning-button>
+
+
+                                                    </div>
+                                                </td>
+                                                <td data-label="Submit">
+                                                    <div class="slds-truncate" title="Submit">
+
+                                                        <lightning-button variant="Reject" label="Reject"
+                                                            data-id={record.Id} title="View" onclick={handleSumitUw}
+                                                            disabled={record.EnableAction}
+                                                            class="slds-m-left_x-small"></lightning-button>
+
+                                                    </div>
+                                                </td>
+                                            </template> -->
+
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <template if:true={viewTableReport}>
+                        <c-multi-doc-previewer document-detail-id={documentDetailId}
+                            onclosepreview={handleCloseModalEvent} has-document-id={hasDocumentId}>
+                        </c-multi-doc-previewer>
+                    </template>
+                </div>
+            </lightning-card>
+        </template>
+
+        <div>
+
+
+
+
+
+            <template if:true={showRoiPfForm}>
+                <lightning-card>
+                    <lightning-layout multiple-rows="true" class="slds-p-bottom_medium">
+                        <lightning-layout-item size="12" padding="horizontal-small" small-device-size={layoutSize.small}
+                            medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+
+                            <lightning-input type="text" name="RateType" label="Rate Type Floating Flag"
+                                value={roiPfData.RateType} onchange={handleInputChange} disabled>
+                            </lightning-input>
+
+
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" padding="horizontal-small" small-device-size={layoutSize.small}
+                            medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                            <lightning-input type="text" name="RaacROI" label="RAAC ROI (%)" value={roiPfData.RaacROI}
+                                onchange={handleInputChange} disabled>
+                            </lightning-input>
+
+
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" padding="horizontal-small" small-device-size={layoutSize.small}
+                            medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+
+
+                            <lightning-input type="text" name="RaacPF" label="RAAC PF (%)" value={roiPfData.RaacPF}
+                                onchange={handleInputChange} disabled>
+                            </lightning-input>
+
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" padding="horizontal-small" small-device-size={layoutSize.small}
+                            medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+
+                            <lightning-input type="text" name="EffRoiUw" label="Effective Roi (Approved By UW)"
+                                value={roiPfData.EffRoiUw} onchange={handleInputChange} disabled>
+                            </lightning-input>
+
+                        </lightning-layout-item>
+
+                        <template if:true={isRmUser}>
+                            <lightning-layout-item size="12" padding="horizontal-small"
+                                small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                large-device-size={layoutSize.large}>
+
+
+                                <lightning-combobox label="Is Pricing Approval Applicable"
+                                    value={isPricingApplicableVal} name="isPricingApplicable" options={ynOpt}
+                                    onchange={handleInputChangePricing} disabled={disableMode}>
+                                </lightning-combobox>
+
+                            </lightning-layout-item>
+                        </template>
+
+                        <template if:true={isPricingApplicable}>
+                            <lightning-layout-item size="12" padding="horizontal-small"
+                                small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                large-device-size={layoutSize.large}>
+
+                                <lightning-input type="number" name="RevRoi" label="Revised ROI (%) " step="0.01"
+                                    max={roiPfData.RevRoiMaxVal} min={ROI_PF_Limit.Minimum_ROI__c}
+                                    value={latestroipfRevROI} onchange={handleInputChange} disabled={disableMode}
+                                    field-level-help={revRoiPlaceholder}>
+                                </lightning-input>
+
+
+
+                            </lightning-layout-item>
+
+
+                            <lightning-layout-item size="12" padding="horizontal-small"
+                                small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                large-device-size={layoutSize.large}>
+
+
+                                <lightning-input type="number" name="RevPf" label="Revised PF (%) "
+                                    max={roiPfData.RaacPF} min={ROI_PF_Limit.Minimum_PF__c} step="0.01"
+                                    value={latestroipfRevPf} onchange={handleInputChange} disabled={disableMode}
+                                    field-level-help={revPfPlaceholder}>
+                                </lightning-input>
+
+
+                            </lightning-layout-item>
+
+                            <lightning-layout-item size="12" padding="horizontal-small"
+                                small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                large-device-size={layoutSize.large}>
+
+
+                                <lightning-input type="text" name="BranchRoi"
+                                    label="Branch Wise weighted average ROI (%)" value={roiPfData.BranchRoi}
+                                    onchange={handleInputChange} disabled>
+                                </lightning-input>
+
+                            </lightning-layout-item>
+                            <template if:true={isRecomendorOrApprover}>
+                                <lightning-layout-item size="12" padding="horizontal-small"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+
+
+                                    <lightning-input type="text" name="RegionRoi"
+                                        label="Region's weighted average ROI (%) " value={roiPfData.RegionRoi}
+                                        onchange={handleInputChange} disabled>
+                                    </lightning-input>
+
+                                </lightning-layout-item>
+
+                            </template>
+                            <template if:true={isApprover}>
+                                <lightning-layout-item size="12" padding="horizontal-small"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+
+                                    <lightning-input type="text" name="PanRoi" label="PAN India Weighted ROI "
+                                        value={roiPfData.PanRoi} onchange={handleInputChange} disabled>
+                                    </lightning-input>
+
+                                </lightning-layout-item>
+                            </template>
+                            <template if:true={showApproverProp}>
+
+
+                                <lightning-layout-item size="12" padding="horizontal-small"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+                                    <lightning-textarea name="RationalComment" label="Rational for rate / PF reduction"
+                                        value={roiPfData.RationalComment} disabled={disableMode}
+                                        onchange={handleInputChange} required></lightning-textarea>
+
+
+                                </lightning-layout-item>
+                                <lightning-layout-item size="12" padding="horizontal-small"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+
+                                    <lightning-input type="text" name="ApproverLevel" label="Approval level"
+                                        value={roiPfData.ApproverLevel} onchange={handleInputChange} disabled>
+                                    </lightning-input>
+
+                                </lightning-layout-item>
+                                <lightning-layout-item if:false={hideRouteRec} size="12" padding="horizontal-small"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+
+
+                                    <lightning-combobox label="Route through recommender" value={roiPfData.RoutRec}
+                                        name="RoutRec" options={YesNoOpt} onchange={handleInputChangeRout}
+                                        disabled={disableMode}>
+                                    </lightning-combobox>
+
+                                </lightning-layout-item>
+                                <template if:true={showRoutRec}>
+                                    <lightning-layout-item size="12" padding="horizontal-small"
+                                        small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                        large-device-size={layoutSize.large}>
+                                        <!-- <lightning-combobox label="Recommender Name" value={roiPfData.RecomenderId}
+                                    name="RecomenderId" required options={recomenderOpt} onchange={handleInputChange}
+                                    disabled={disableMode}>
+                                </lightning-combobox> -->
+                                        <c-custom-lookup required=true label="Recommender Name"
+                                            selected-icon-name="standard:identifier" object-api-name="TeamHierarchy__c"
+                                            field-api-name="Employee__r.Name" selected-fields="Name"
+                                            selected-record-id={lookupIdProp} onselect={handleLookupFieldChange}
+                                            selected-record-name={recommenderName} filter-condn={filterCondn}
+                                            key-id="Employee__c">
+                                        </c-custom-lookup>
+
+
+                                    </lightning-layout-item>
+                                </template>
+
+
+                                <lightning-layout-item if:false={hideApprover} size="12" padding="horizontal-small"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+
+                                    <!-- <lightning-combobox label="Approver Name" value={roiPfData.ApproverId} name="ApproverId"
+                                options={approverOpt} onchange={handleInputChange} disabled={disableMode} required>
+                            </lightning-combobox> -->
+                                    <c-custom-lookup required=true label="Approver Name"
+                                        selected-icon-name="standard:identifier" object-api-name="TeamHierarchy__c"
+                                        field-api-name="Employee__r.Name" selected-fields="Name"
+                                        selected-record-id={lookupIdAppr} onselect={handleLookupFieldChangeAppr}
+                                        selected-record-name={approverName} filter-condn={filterCondnAppr}
+                                        key-id="Employee__c">
+                                    </c-custom-lookup>
+
+
+                                </lightning-layout-item>
+
+                                <lightning-layout-item size="12" padding="horizontal-small"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+
+                                    <lightning-combobox label="Decision" value={roiPfData.Decision} name="Decision"
+                                        options={decisionOption} onchange={handleInputChange} disabled={disableMode}
+                                        required>
+                                    </lightning-combobox>
+
+                                </lightning-layout-item>
+
+                                <!-- LAK-8658 required={isNotApprover}-->
+                                <lightning-layout-item size="12" padding="horizontal-small"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+                                    <lightning-textarea name="RecAppComments" label="Comments"
+                                        value={roiPfData.RecAppComments} disabled={disableMode}
+                                        onchange={handleInputChange}></lightning-textarea>
+                                </lightning-layout-item>
+                            </template>
+                        </template>
+                    </lightning-layout>
+
+                </lightning-card>
+                <div class="slds-clearfix">
+                    <lightning-button variant="brand" class="slds-float_right slds-p-around_x-small" label="Submit"
+                        disabled={disableMode} onclick={handleSaveLms}>
+                    </lightning-button>
+                </div>
+            </template>
+
+
+
+            <lightning-card if:true={appealItemheading} variant="base">
+                <div slot="title">
+                    {appealItemheading}
+                </div>
+
+                <div>
+                    <!-- Card Body  -->
+                    <div class="slds-modal__content slds-p-around_medium scroller" id="modal-content-id-10">
+                        <table
+                            class="slds-table slds-table_cell-buffer slds-table_bordered slds-border_left slds-border_right"
+                            aria-labelledby="element-with-table-label other-element-with-table-label">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title=" Date">
+                                            Date
+                                        </div>
+                                    </th>
+
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Modified By">Modified By </div>
+                                    </th>
+
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Recomended To">
+                                            Recomended To
+                                        </div>
+                                    </th>
+
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Revised ROI (%)">Revised ROI (%)</div>
+                                    </th>
+
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Revised PF (%)">
+                                            Revised PF (%)
+                                        </div>
+                                    </th>
+
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="RationalComment">Rational for rate / PF
+                                            reduction</div>
+                                    </th>
+
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Comment">Comments</div>
+                                    </th>
+
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+
+                                <template for:each={formattedAppealItems} for:item="record">
+                                    <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+                                        <td data-label="Date">
+                                            <div class="slds-truncate" title="Relook Initiation Date">
+                                                {record.formattedDate}
+                                            </div>
+                                        </td>
+
+
+                                        <td data-label="Modified By">
+                                            <div class="slds-truncate" title="Date">
+                                                {record.RecomendedBy}
+                                            </div>
+                                        </td>
+                                        <td data-label="Recommender Name">
+                                            <div class="slds-truncate" title="Recommender Name">
+                                                {record.RecomeddedTo}
+                                            </div>
+                                        </td>
+                                        <td data-label="ROI">
+                                            <div class="slds-truncate" title="Roi">
+                                                {record.RevRoi}
+                                            </div>
+                                        </td>
+                                        <td data-label="Pev Pf">
+                                            <div class="slds-truncate" title="Rev Pf">
+                                                {record.RevPfStr}
+                                            </div>
+                                        </td>
+
+
+
+                                        <td data-label="RationalComments">
+                                            <lightning-textarea name="approvalcomment" value={record.Comment}
+                                                data-id={record.Id} onchange={handleCommentChangeUw} disabled
+                                                required={record.UwCommReq}></lightning-textarea>
+
+                                        </td>
+
+                                        <td data-label="Comments">
+                                            <lightning-textarea name="recapprcomment" value={record.RecAppComment}
+                                                data-id={record.Id} disabled>
+                                            </lightning-textarea>
+
+                                        </td>
+
+
+
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </lightning-card>
+
+
+
+
+
+
+
+        </div>
+    </lightning-card>
+
+
+
+
+
+    <template if:true={showLoanTermModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Do you want to appeal for
+                        change in loan parameters</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button label="YES" variant="brand" onclick={handleSubmit}></lightning-button>
+                    <lightning-button label="NO" class="slds-var-m-left_x-small"
+                        onclick={closeModal}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+</template>

@@ -1,0 +1,37 @@
+<template>
+    <div class="slds-is-relative">
+        <lightning-quick-action-panel header="Do you want to Reject the Application?">
+            <template if:true={showSpinner}>
+                <div class="spinner">
+                    <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                </div>
+            </template>
+
+			
+            <template if:false={showSpinner}>
+
+            <div class="slds-p-top_medium">
+                <c-custom-lookup required="true" label="Select Reason" selected-icon-name="standard:identifier"
+                    object-api-name="ReasonMstr__c" field-api-name="Reason__c" selected-fields="Name" selected-record-id={reasonId}
+                     onselect={handleReasonFieldChange}
+                   >
+                </c-custom-lookup>
+            </div>
+            <div class="slds-p-top_medium">
+                <lightning-textarea onchange={handleInputChange} label="Remarks"
+                    placeholder="Enter Here" value={decRemarks} required ></lightning-textarea>
+            </div>
+                    <div style="text-align: end;" class="slds-m-top_large slds-m-bottom_medium">
+                        <footer class="slds-modal__footer">
+
+                                <lightning-button variant="brand" class="slds-m-left_x-large" label="YES"
+                                 type="submit" onclick ={handleSubmit}></lightning-button>
+
+                            <lightning-button variant="brand" class="slds-m-left_x-large" label="NO"
+                                onclick={noBtn}></lightning-button>
+                        </footer>
+                    </div>
+            </template>
+        </lightning-quick-action-panel>
+    </div>
+</template>

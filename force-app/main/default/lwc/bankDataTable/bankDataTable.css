@@ -1,0 +1,29 @@
+/*.dividerPosition{
+    position: static !important;
+ 
+}
+.custom-button:hover {
+    cursor: pointer;
+}
+.slds-modal__container {
+    width: 85% !important;
+}*/
+.custom-css {
+    --lwc-squareIconMediumContentAlt:1.3rem;
+    --slds-c-icon-color-foreground:green; 
+}
+.custom-css1 {
+    --lwc-squareIconMediumContentAlt:1.3rem;
+    --slds-c-icon-color-foreground:red; 
+}
+.tableScroll {
+    width: 100% !important;
+    overflow-x: auto;
+    /* height: 12rem; */
+  }
+  .fixedWidth{
+    width: 7rem;
+  }
+  .fixedWidthForActions{
+    width: 13rem;
+  }

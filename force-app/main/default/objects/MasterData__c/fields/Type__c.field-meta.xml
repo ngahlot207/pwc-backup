@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Marital Status</fullName>
+                <default>false</default>
+                <label>Marital Status</label>
+            </value>
+            <value>
+                <fullName>Religion</fullName>
+                <default>false</default>
+                <label>Religion</label>
+            </value>
+            <value>
+                <fullName>Category</fullName>
+                <default>false</default>
+                <label>Category</label>
+            </value>
+            <value>
+                <fullName>Applicant Type</fullName>
+                <default>false</default>
+                <label>Applicant Type</label>
+            </value>
+            <value>
+                <fullName>Ownership Type</fullName>
+                <default>false</default>
+                <label>Ownership Type</label>
+            </value>
+            <value>
+                <fullName>Professional Qualification</fullName>
+                <default>false</default>
+                <label>Professional Qualification</label>
+            </value>
+            <value>
+                <fullName>Education Qualification</fullName>
+                <default>false</default>
+                <label>Education Qualification</label>
+            </value>
+            <value>
+                <fullName>Nationality</fullName>
+                <default>false</default>
+                <label>Nationality</label>
+            </value>
+            <value>
+                <fullName>Customer Profile Selection</fullName>
+                <default>false</default>
+                <label>Customer Profile Selection</label>
+            </value>
+            <value>
+                <fullName>Sanction Condition</fullName>
+                <default>false</default>
+                <label>Sanction Condition</label>
+            </value>
+            <value>
+                <fullName>Charge Master</fullName>
+                <default>false</default>
+                <label>Charge Master</label>
+            </value>
+            <value>
+                <fullName>Life Insurance</fullName>
+                <default>false</default>
+                <label>Life Insurance</label>
+            </value>
+            <value>
+                <fullName>General Insurance</fullName>
+                <default>false</default>
+                <label>General Insurance</label>
+            </value>
+            <value>
+                <fullName>Channel</fullName>
+                <default>false</default>
+                <label>Channel</label>
+            </value>
+            <value>
+                <fullName>Constitution</fullName>
+                <default>false</default>
+                <label>Constitution</label>
+            </value>
+            <value>
+                <fullName>Payment Mode</fullName>
+                <default>false</default>
+                <label>Payment Mode</label>
+            </value>
+            <value>
+                <fullName>Instrument Type</fullName>
+                <default>false</default>
+                <label>Instrument Type</label>
+            </value>
+            <value>
+                <fullName>Product</fullName>
+                <default>false</default>
+                <label>Product</label>
+            </value>
+            <value>
+                <fullName>Source</fullName>
+                <default>false</default>
+                <label>Source</label>
+            </value>
+            <value>
+                <fullName>Customer Profile</fullName>
+                <default>false</default>
+                <label>Customer Profile</label>
+            </value>
+            <value>
+                <fullName>Disburse To</fullName>
+                <default>false</default>
+                <label>Disburse To</label>
+            </value>
+            <value>
+                <fullName>Address Type</fullName>
+                <default>false</default>
+                <label>Address Type</label>
+            </value>
+            <value>
+                <fullName>Income Type</fullName>
+                <default>false</default>
+                <label>Income Type</label>
+            </value>
+            <value>
+                <fullName>CashBank Account</fullName>
+                <default>false</default>
+                <label>CashBank Account</label>
+            </value>
+            <value>
+                <fullName>Property Type</fullName>
+                <default>false</default>
+                <label>Property Type</label>
+            </value>
+            <value>
+                <fullName>Property Usage</fullName>
+                <default>false</default>
+                <label>Property Usage</label>
+            </value>
+            <value>
+                <fullName>Fund Transfer Mode</fullName>
+                <default>false</default>
+                <label>Fund Transfer Mode</label>
+            </value>
+            <value>
+                <fullName>Selected Eligibility Program</fullName>
+                <default>false</default>
+                <label>Selected Eligibility Program</label>
+            </value>
+            <value>
+                <fullName>Neighbour Reference Check</fullName>
+                <default>false</default>
+                <label>Neighbour Reference Check</label>
+            </value>
+            <value>
+                <fullName>Negative Report reason</fullName>
+                <default>false</default>
+                <label>Negative Report reason</label>
+            </value>
+            <value>
+                <fullName>Product Sub Type</fullName>
+                <default>false</default>
+                <label>Product Sub Type</label>
+            </value>
+            <value>
+                <fullName>Branch Tier</fullName>
+                <default>false</default>
+                <label>Branch Tier</label>
+            </value>
+            <value>
+                <fullName>Funding Under ESG Policy</fullName>
+                <default>false</default>
+                <label>Funding Under ESG Policy</label>
+            </value>
+            <value>
+                <fullName>Property Category</fullName>
+                <default>false</default>
+                <label>Property Category</label>
+            </value>
+            <value>
+                <fullName>Type of Accounts</fullName>
+                <default>false</default>
+                <label>Type of Accounts</label>
+            </value>
+            <value>
+                <fullName>Account Type</fullName>
+                <default>false</default>
+                <label>Account Type</label>
+            </value>
+            <value>
+                <fullName>Dealing Bank</fullName>
+                <default>false</default>
+                <label>Dealing Bank</label>
+            </value>
+            <value>
+                <fullName>Doc Status</fullName>
+                <default>false</default>
+                <label>Doc Status</label>
+            </value>
+            <value>
+                <fullName>Final RCU Status</fullName>
+                <default>false</default>
+                <label>Final RCU Status</label>
+            </value>
+            <value>
+                <fullName>Final RCU Status Reason</fullName>
+                <default>false</default>
+                <label>Final RCU Status Reason</label>
+            </value>
+            <value>
+                <fullName>FI Report Result</fullName>
+                <default>false</default>
+                <label>FI Report Result</label>
+            </value>
+            <value>
+                <fullName>TSR Report Result</fullName>
+                <default>false</default>
+                <label>TSR Report Result</label>
+            </value>
+            <value>
+                <fullName>Legal Report Result</fullName>
+                <default>false</default>
+                <label>Legal Report Result</label>
+            </value>
+            <value>
+                <fullName>Vetting Report Result</fullName>
+                <default>false</default>
+                <label>Vetting Report Result</label>
+            </value>
+            <value>
+                <fullName>Technical Report Result</fullName>
+                <default>false</default>
+                <label>Technical Report Result</label>
+            </value>
+            <value>
+                <fullName>KYC Udyam Reg Cert</fullName>
+                <default>false</default>
+                <label>KYC Udyam Reg Cert</label>
+            </value>
+            <value>
+                <fullName>Hunter Status</fullName>
+                <default>false</default>
+                <label>Hunter Status</label>
+            </value>
+            <value>
+                <fullName>Final RCU Hunter Status</fullName>
+                <default>false</default>
+                <label>Final RCU Hunter Status</label>
+            </value>
+            <value>
+                <fullName>Trackwizz State Master</fullName>
+                <default>false</default>
+                <label>Trackwizz State Master</label>
+            </value>
+            <value>
+                <fullName>Repayment Account Type</fullName>
+                <default>false</default>
+                <label>Repayment Account Type</label>
+            </value>
+            <value>
+                <fullName>Prop Type</fullName>
+                <default>false</default>
+                <label>Prop Type</label>
+            </value>
+            <value>
+                <fullName>Income Head</fullName>
+                <default>false</default>
+                <label>Income Head</label>
+            </value>
+            <value>
+                <fullName>Assessment Program</fullName>
+                <default>false</default>
+                <label>Assessment Program</label>
+            </value>
+            <value>
+                <fullName>Electricity Service Provider</fullName>
+                <default>false</default>
+                <label>Electricity Service Provider</label>
+            </value>
+            <value>
+                <fullName>Shop &amp; Establishment Area Code</fullName>
+                <default>false</default>
+                <label>Shop &amp; Establishment Area Code</label>
+            </value>
+            <value>
+                <fullName>Electricity Service Provider District</fullName>
+                <default>false</default>
+                <label>Electricity Service Provider District</label>
+            </value>
+            <value>
+                <fullName>Nature Of Loan</fullName>
+                <default>false</default>
+                <label>Nature Of Loan</label>
+            </value>
+            <value>
+                <fullName>Bank Statement Criteria</fullName>
+                <default>false</default>
+                <label>Bank Statement Criteria</label>
+            </value>
+            <value>
+                <fullName>Borrower Preferred Language</fullName>
+                <default>false</default>
+                <label>Borrower Preferred Language</label>
+            </value>
+            <value>
+                <fullName>ROI Deviation Master</fullName>
+                <default>false</default>
+                <label>ROI Deviation Master</label>
+            </value>
+            <value>
+                <fullName>Rack Rate ROI</fullName>
+                <default>false</default>
+                <label>Rack Rate ROI</label>
+            </value>
+            <value>
+                <fullName>Lead FOIR</fullName>
+                <default>false</default>
+                <label>Lead FOIR</label>
+            </value>
+            <value>
+                <fullName>Bre Decision Remark</fullName>
+                <default>false</default>
+                <label>Bre Decision Remark</label>
+            </value>
+            <value>
+                <fullName>Email Providers</fullName>
+                <default>false</default>
+                <label>Email Providers</label>
+            </value>
+            <value>
+                <fullName>Eligibility Program</fullName>
+                <default>false</default>
+                <label>Eligibility Program</label>
+            </value>
+            <value>
+                <fullName>BO Criteria</fullName>
+                <default>false</default>
+                <label>BO Criteria</label>
+            </value>
+            <value>
+                <fullName>KFS Contact Details</fullName>
+                <default>false</default>
+                <label>KFS Contact Details</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

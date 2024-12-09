@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Applicant Digital Template</label>
+    <protected>false</protected>
+    <values>
+        <field>Product__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Query_Criteria__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Recipient_Field__c</field>
+        <value xsi:type="xsd:string">Mobile</value>
+    </values>
+    <values>
+        <field>Recipient_Object__c</field>
+        <value xsi:type="xsd:string">Applicant__c</value>
+    </values>
+    <values>
+        <field>SMS_Template__c</field>
+        <value xsi:type="xsd:string">We thank you for your interest in availing loan from Fedbank Financial Services. Kindly refer to the T&amp;C in &lt;&lt;____Bitly link_______&gt;&gt;. By Confirming the to our sales representative, you agree to give your consent to the T&amp;C for the loan application.</value>
+    </values>
+    <values>
+        <field>Template_Fields__c</field>
+        <value xsi:type="xsd:string">FullName__c</value>
+    </values>
+</CustomMetadata>

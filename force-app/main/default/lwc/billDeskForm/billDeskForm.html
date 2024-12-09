@@ -1,0 +1,12 @@
+<template>
+    <lightning-card title="BillDesk Payment">
+        <div class="slds-p-around_medium">
+            <form name="sdklaunch" id="sdklaunch" action={href} method="POST" target="_blank">
+                <input type="hidden" id="bdorderid" name="bdorderid" value={bdorderid}>
+                <input type="hidden" id="merchantid" name="merchantid" value={merchantid}>
+                <input type="hidden" id="rdata" name="rdata" value={rdata}>
+                <lightning-button variant="neutral" label="Complete your Payment" onclick={handleOnClick}></lightning-button>
+            </form>
+        </div>
+    </lightning-card>
+</template>

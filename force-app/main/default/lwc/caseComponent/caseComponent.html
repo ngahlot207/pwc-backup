@@ -1,0 +1,65 @@
+<template>
+    <!-- <br> child component
+
+    <template for:each={cvResp} for:item="cvr">
+        {cvr.quesTitle}<br key={cvr.cvRespId}>
+
+    </template> -->
+
+    <lightning-layout multiple-rows="true">
+
+        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+            medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+            <lightning-input type="text" label="Name of Credit Officer" value={currentUserName} disabled
+                ></lightning-input>
+
+        </lightning-layout-item>
+
+        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+            medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+            <lightning-input type="date" label="Date of Visit" value={visitDate} disabled
+                onchange={handleInputChange}></lightning-input>
+
+        </lightning-layout-item>
+
+    </lightning-layout>
+
+    
+    <template lwc:if={cvResponceList}>
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item padding="around-small" size="12" margin="around-small">
+                <lightning-accordion active-section-name="CV" class="accordion" allow-multiple-sections-open>
+                    <template for:each={cvResponceList} for:item="cvr">
+                        <lightning-accordion-section name={cvr.sectionTitle} label={cvr.sectionTitle}
+                            class="applicantClass" key={cvr.sectionTitle}>
+                            <lightning-layout multiple-rows="true">
+                                <template for:each={cvr.cvQuestions} for:item="cvQues">
+                                    <template if:true={cvQues.quesConfig}>
+                                        <lightning-layout-item padding="around-small" size="12" key={cvQues.quesId}>
+                                            <c-dynamic-form-filled pd-question={cvQues} has-edit-access={hasEditAccess}
+                                                onpasstoparent={fromChildComp}
+                                                layout-size={layoutSize}></c-dynamic-form-filled>
+
+                                        </lightning-layout-item>
+
+                                    </template>
+                                    <template if:false={cvQues.quesConfig}>
+                                        <lightning-layout-item padding="around-small" size="6" key={cvQues.quesId}>
+                                            <c-dynamic-form-filled pd-question={cvQues} has-edit-access={hasEditAccess}
+                                                onpasstoparent={fromChildComp}
+                                                layout-size={layoutSize}></c-dynamic-form-filled>
+
+                                        </lightning-layout-item>
+                                    </template>
+
+
+                                </template>
+                            </lightning-layout>
+                        </lightning-accordion-section>
+                    </template>
+                </lightning-accordion>
+
+            </lightning-layout-item>
+        </lightning-layout></template>
+
+</template>

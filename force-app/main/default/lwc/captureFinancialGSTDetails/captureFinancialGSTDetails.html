@@ -1,0 +1,483 @@
+<template>
+<lightning-card >
+
+    <template if:true={showUI}>
+        <lightning-layout>
+            <lightning-layout-item >
+                <lightning-button class="slds-m-around_x-small" style="font-size: 11px;" label="Download GST" title="Download GST" onclick={handleDownExcelSheet} variant="brand" disabled={disableMode}></lightning-button>
+            </lightning-layout-item>
+            <lightning-layout-item >
+                <lightning-button class="slds-m-around_x-small" style="font-size: 11px;" label="Upload GST" title="Upload GST" onclick={handleUploadExcelSheet} variant="brand" disabled={disableMode}></lightning-button>
+            </lightning-layout-item>
+            <lightning-layout-item >
+                <lightning-button class="slds-m-around_x-small" style="font-size: 11px;" label="Borrower GST" title="Borrower GST" onclick={handleApplicantConsiData} variant="brand"></lightning-button>
+            </lightning-layout-item>
+            <lightning-layout-item >
+                <lightning-button class="slds-m-around_x-small" style="font-size: 11px;" label="Consolidate GST" title="Consolidate GST" onclick={handleAppConsiDataLAN} variant="brand"></lightning-button>
+            </lightning-layout-item>
+        </lightning-layout>
+            </template>
+    <div class="slds-m-left_medium"><b></b>
+       
+    </div>  
+              
+    <div class="slds-m-left_medium"><b></b>
+        </div>
+        <lightning-spinner if:true={showSpinner} alternative-text="Loading" size="small" variant="brand" style="height:30rem;width:60rem;">
+        </lightning-spinner>
+        <template if:true={showLocationGST}>
+            <template if:true={showUI}>
+           <!-- <lightning-button variant="success" label="View" data-index={index} title="View Details" onclick={handleSaveForGSTdata}  class="slds-m-left_x-small slds-truncate"></lightning-button>-->
+           <br/>
+           <lightning-combobox 
+           style="margin-left: 15px; width: 300px;" 
+           label="Month-Year For Location Wise GST" 
+           placeholder="Select Month" 
+           value={monthNdYearForGSTWise}
+           onchange={handleInputChangeForLoc} 
+           options={last18Months} 
+           data-objectname="Applicant_Financial_Summary__c" 
+           data-fieldname="GST_Month_Year__c" 
+           data-field="GST_Month_Year__c"
+           required 
+           disabled={disableMode}
+           class="slds-p-left_small">
+       </lightning-combobox>
+
+       <br/>
+       <br/>
+
+        <template if:true={gstRecsForAllLoca} for:each={gstRecsForAllLoca} for:item="record" for:index="index">
+        <div if:true={record.parentRecord} key={record.parentRecord.Id}>
+
+            <table >
+                <thead>
+                    <tr>
+                        <th style=" background-color: #F3F2F2;"></th>
+                        <template if:true={record.parentRecord.Applicant_GST__r}>
+                            <th style="height: 50px; background-color: #F3F2F2;" colspan="3">{record.parentRecord.TypeOfFinancial__c} (GST NUMBER- {record.parentRecord.Applicant_GST__r.GSTIN__c})</th>
+                        </template>
+                        <template if:false={record.parentRecord.Applicant_GST__r}>
+                            <th style="height: 50px; background-color: #F3F2F2;" colspan="3">{record.parentRecord.TypeOfFinancial__c} (GST NUMBER- )</th>
+                        </template>
+                    </tr>
+                    <tr>
+                        <th style=" background-color: #F3F2F2;">SI.no</th>
+                        <th style=" background-color: #F3F2F2;">Month</th>
+                        <th style=" background-color: #F3F2F2;">Gross to Excel taxes</th>
+                        <th style=" background-color: #F3F2F2;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template if:true={record.parentRecord.Applicant_Financial_Summary_s__r}>      
+            <template for:each={record.parentRecord.Applicant_Financial_Summary_s__r} for:index="index1" for:item="item1">
+                <tr key={item1.Id} class="tableRow">
+                    <td style=" background-color: #F3F2F2;"><p>{item1.Index__c}</p></td>
+                    <td style=" background-color: #F3F2F2;">{item1.GST_Month_Year__c}</td>
+                    <td style=" background-color: #F3F2F2;">
+                        <lightning-input style="margin-right: 70px;" type="number" formatter="currency"
+                        value={item1.Gross_Turnover_as_per_GST_excl_taxes__c} placeholder="Enter here" onchange={handleInputChangeForTaxGst}
+                        data-objectname="Applicant_Financial_Summary__c" 
+                        data-fieldname="Gross_Turnover_as_per_GST_excl_taxes__c" data-field="Gross_Turnover_as_per_GST_excl_taxes__c"
+                        variant="label-hidden" access-key={item1.Index__c}
+                         message-when-bad-input="Enter a Valid Input" data-key={item1.key}
+                        min=1 data-id="taxvalue" data-cloumn-index={index1} data-parent-index={index}
+                        message-when-range-underflow="Enter a Valid Input"
+                        required disabled={disableMode}></lightning-input>
+                    </td>
+                    <td style=" background-color: #F3F2F2;">{item1.Percentage_of_Total_Turnover__c}%</td>
+        </tr>
+            </template>
+        </template>
+        <tr>
+            <th style=" background-color: #F3F2F2;"></th>
+            <th style=" background-color: #F3F2F2;">Total</th>
+            <th style=" background-color: #F3F2F2;">{record.parentRecord.Total_Gross_Turnover__c}</th>
+            <th style=" background-color: #F3F2F2;">{record.parentRecord.Percentage_Total_Gross_Turnover__c}%</th>
+        
+            
+        </tr>
+                </tbody>
+           
+            </table>
+
+        </div>
+        </template>
+        <br/>
+
+            <lightning-layout multiple-rows=false>
+                <lightning-layout-item padding="around-small" size="6">
+        <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+        <thead aria-label="GST/Sales Register">
+            <tr>
+                <th></th>
+                <th style="height: 50px;" colspan="2">GST/Sales Register</th>
+            </tr>
+            <tr>
+            <th>SI.no</th>
+            <th style="height: 45px;"><b class="requiredIndicator"></b> Month-Year</th>
+            <th style="height: 45px;"><b class="requiredIndicator"></b> Gross Turnover as per GST Excel taxes (₹)</th>
+            </tr>
+            </thead>
+            <tbody>
+                    <template for:each={tempArray} for:index="index" for:item="item">
+                        <tr key={item.Id} class="tableRow">
+                            <td><p>{item.Index__c}</p></td>
+                            <td style=" background-color: #F3F2F2;">{item.GST_Month_Year__c}</td>
+                                <!-- <div> -->
+                                    
+                                   
+                                        <!-- <lightning-combobox placeholder="Select Month" value={item.GST_Month_Year__c}
+                                        onchange={handleInputChange} options={last18Months} 
+                                        data-objectname="Applicant_Financial_Summary__c" 
+													data-fieldname="GST_Month_Year__c" data-field="GST_Month_Year__c"
+													variant="label-hidden" access-key={item.Index__c}
+													 data-key={item.key}
+                                        required disabled
+                                        class="slds-p-left_small">
+                                        </lightning-combobox> -->
+                        
+                    <!-- </div> -->
+            <!-- </td> -->
+                <td> 
+                    <lightning-input type="number" formatter="currency"
+                value={item.Gross_Turnover_as_per_GST_excl_taxes__c} placeholder="Enter here" onchange={handleInputChange}
+                data-objectname="Applicant_Financial_Summary__c" 
+                data-fieldname="Gross_Turnover_as_per_GST_excl_taxes__c" data-field="Gross_Turnover_as_per_GST_excl_taxes__c"
+                variant="label-hidden" access-key={item.Index__c}
+                 data-key={item.key} message-when-bad-input="Enter a Valid Input"
+                 min=1
+                 message-when-range-underflow="Enter a Valid Input"
+                required disabled={disableMode}></lightning-input>
+        </td>
+                </tr>
+                
+        </template>
+                <tr>
+                    <td></td>
+                        <td style="background-color: #F3F2F2;">
+                            <b>Total Turnover as per GST</b> 
+                    </td>
+                        <td style="background-color: #F3F2F2;">
+                            <b>₹{total_Turnover_as_per_GST}
+                            </b> 
+                    </td>
+                </tr>
+            </tbody>
+            </table>
+            </lightning-layout-item>
+
+
+            <!-- <br/> -->
+
+                          <!--  -->
+                          <lightning-layout-item padding="around-small" size="6" >
+                            
+                                
+            <template if:true={appliFinancialConRec} for:each={appliFinancialConRec} for:item="record" for:index="index">
+                <div key={record.parentRecord.Id}>
+                          <table >
+                            <thead>
+                                <tr>
+                                    <th style=" background-color: #F3F2F2;"></th>
+                                    <th style=" background-color: #F3F2F2;">GST last 12 months for GST method</th>
+                                    <th style=" background-color: #F3F2F2;">Regular GST Program</th>
+                                    <th style=" background-color: #F3F2F2;">GST Test Program</th>
+                                    <th style=" background-color: #F3F2F2;"></th>
+                                </tr>
+                                
+                                <tr>
+                                    
+                                  <th style=" background-color: #F3F2F2;">SI.no</th>
+                                  <th style=" background-color: #F3F2F2;">Month-Year</th>
+                                  <th style=" background-color: #F3F2F2;">Gross TO excl taxes</th>
+                                  <th style=" background-color: #F3F2F2;">Gross TO excl taxes and NIL rated etc</th>
+                                  <th style=" background-color: #F3F2F2;">Date of Filing</th>
+                              </tr>
+            
+                            </thead>
+                            <tbody>
+                                <template if:true={record.parentRecord.Applicant_Financial_Summary_s__r}>      
+                        <template for:each={record.parentRecord.Applicant_Financial_Summary_s__r} for:index="index1" for:item="item1">
+                            <tr key={item1.Id} class="tableRow">
+                                <td style=" background-color: #F3F2F2;"><p>{item1.Index__c}</p></td>
+                                <td style=" background-color: #F3F2F2;">{item1.GST_Month_Year__c}</td>
+                                <td style=" background-color: #F3F2F2;">
+                                    <lightning-input style="margin-right: 70px;" type="number" formatter="currency"
+                                    value={item1.Gross_Turnover_as_per_GST_excl_taxes__c} placeholder="Enter here" onchange={handleInputChangeForTaxGst}
+                                    data-objectname="Applicant_Financial_Summary__c" 
+                                    data-fieldname="Gross_Turnover_as_per_GST_excl_taxes__c" data-field="Gross_Turnover_as_per_GST_excl_taxes__c"
+                                    variant="label-hidden" access-key={item1.Index__c}
+                                     message-when-bad-input="Enter a Valid Input" data-key={item1.key}
+                                    min=1 data-id="taxvalue" data-cloumn-index={index1} data-parent-index={index}
+                                    message-when-range-underflow="Enter a Valid Input"
+                                    required disabled></lightning-input>
+                                </td>
+                                <td style=" background-color: #F3F2F2;">
+                                    <lightning-input style="margin-right: 70px;" type="number" formatter="currency"
+                                    value={item1.Gross_TO_NIL_Rated__c} placeholder="" onchange={handleInputChangeForTaxGst}
+                                    data-objectname="Applicant_Financial_Summary__c" 
+                                    data-fieldname="Gross_TO_NIL_Rated__c" data-field="Gross_TO_NIL_Rated__c"
+                                    variant="label-hidden" access-key={item1.Index__c}
+                                     message-when-bad-input="Enter a Valid Input" data-key={item1.key}
+                                    min=1 data-id="taxvalue" data-cloumn-index={index1} data-parent-index={index}
+                                    message-when-range-underflow="Enter a Valid Input"
+                                    required disabled></lightning-input>
+                                </td>
+                                <td style=" background-color: #F3F2F2;">
+                                    <lightning-input style="margin-right: 70px;" type="number" formatter="currency"
+                                    value={item1.FilingDate__c} placeholder="" onchange={handleInputChangeForTaxGst}
+                                    data-objectname="Applicant_Financial_Summary__c" 
+                                    data-fieldname="FilingDate__c" data-field="FilingDate__c"
+                                    variant="label-hidden" access-key={item1.Index__c}
+                                     message-when-bad-input="Enter a Valid Input" data-key={item1.key}
+                                    min=1 data-id="taxvalue" data-cloumn-index={index1} data-parent-index={index}
+                                    message-when-range-underflow="Enter a Valid Input"
+                                    required disabled></lightning-input>
+                                </td>
+                    </tr>
+                        </template>
+                    </template>
+
+                    <tr>
+                        <th style=" background-color: #F3F2F2;"></th>
+                        <th style=" background-color: #F3F2F2;">Total</th>
+                        <th style=" background-color: #F3F2F2;">{record.parentRecord.Total_Gross_Turnover__c}</th>
+                        <th style=" background-color: #F3F2F2;"></th>
+                        <th style=" background-color: #F3F2F2;"></th>
+    
+                        
+                    </tr>
+                            </tbody>
+                                        </table> </div></template>
+
+                        </lightning-layout-item>
+                        </lightning-layout>
+                          <!--  -->
+        </template>
+
+
+
+        <!--  -->
+        <!-- <lightning-tabset>
+            <template if:true={gstRecsForAllLoca} for:each={gstRecsForAllLoca} for:item="record" for:index="index">
+                <div if:true={record.parentRecord} key={record.parentRecord.Id}>
+                    <template if:true={record.parentRecord.Applicant_GST__r}>
+                        <lightning-tab label={record.parentRecord.Applicant_GST__r.GSTIN__c}>
+                            <c-location-wise-g-s-t-table-data gst-recs-for-all-loca={gstRecsForAllLoca} gst-tab-name={record.parentRecord.Applicant_GST__r.GSTIN__c}></c-location-wise-g-s-t-table-data>
+                        </lightning-tab>
+                    </template></div></template>
+        </lightning-tabset> -->
+        
+
+                  <!-- <lightning-tabset>
+            <template if:true={applGST} for:each={applGST} for:item="record" for:index="index">
+                <div if:true={record.parentRecord} key={record.parentRecord.Id}>
+                    <template if:true={record.parentRecord.GSTIN__c}>
+                        <lightning-tab label={record.parentRecord.GSTIN__c}>
+                          <c-location-wise-g-s-t-table-data gst-recs-for-all-loca={applGST} gst-tab-name={record.parentRecord.GSTIN__c}></c-location-wise-g-s-t-table-data>
+                        </lightning-tab>
+                    </template></div></template>
+        </lightning-tabset>-->
+
+        <!--  -->
+        </template>
+<!--for consolidate data applicant and co-applicant wise-->
+        <template if:true={showConsolidateGST}>
+            <template for:each={appliFinancialConRec} for:item="record" for:index="index">
+                <div key={record.parentRecord.Id}>
+                   
+                    <table >
+                        <thead>
+                            <tr>
+                                <th style=" background-color: #F3F2F2;"></th>
+                                <th style="height: 50px; background-color: #F3F2F2;" colspan="3">Consolidate GST For {record.parentRecord.Loan_Applicant__r.FullName__c}</th>
+                                
+                            </tr>
+                            <tr>
+                                <th style=" background-color: #F3F2F2;">SI.no</th>
+                                <th style=" background-color: #F3F2F2;">Month</th>
+                                <th style=" background-color: #F3F2F2;">Gross to Excel taxes</th>
+                                <th style=" background-color: #F3F2F2;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template if:true={record.parentRecord.Applicant_Financial_Summary_s__r}>      
+                    <template for:each={record.parentRecord.Applicant_Financial_Summary_s__r} for:index="index1" for:item="item1">
+                        <tr key={item1.Id} class="tableRow">
+                            <td style=" background-color: #F3F2F2;"><p>{item1.Index__c}</p></td>
+                            <td style=" background-color: #F3F2F2;">{item1.GST_Month_Year__c}</td>
+                            <td style=" background-color: #F3F2F2;">
+                                <lightning-input style="margin-right: 70px;" type="number" formatter="currency"
+                                value={item1.Gross_Turnover_as_per_GST_excl_taxes__c} placeholder="Enter here" onchange={handleInputChangeForTaxGst}
+                                data-objectname="Applicant_Financial_Summary__c" 
+                                data-fieldname="Gross_Turnover_as_per_GST_excl_taxes__c" data-field="Gross_Turnover_as_per_GST_excl_taxes__c"
+                                variant="label-hidden" access-key={item1.Index__c}
+                                 message-when-bad-input="Enter a Valid Input" data-key={item1.key}
+                                min=1 data-id="taxvalue" data-cloumn-index={index1} data-parent-index={index}
+                                message-when-range-underflow="Enter a Valid Input"
+                                required disabled></lightning-input>
+                            </td>
+                            <td style=" background-color: #F3F2F2;">{item1.Percentage_of_Total_Turnover__c}%</td>
+                </tr>
+                    </template>
+                </template>
+                <tr>
+                    <th style=" background-color: #F3F2F2;"></th>
+                    <th style=" background-color: #F3F2F2;">Total</th>
+                    <th style=" background-color: #F3F2F2;">{record.parentRecord.Total_Gross_Turnover__c}</th>
+                    <th style=" background-color: #F3F2F2;">{record.parentRecord.Percentage_Total_Gross_Turnover__c}%</th>
+
+                    
+                </tr>
+                        </tbody>
+                   
+                    </table>
+                </div>
+            </template>
+        </template>
+        
+
+        <!--for consolidate data LOAN APPLICATION WISE-->
+        <template if:true={showConsolidateLANGST}>
+            <template for:each={appliFinancialConRecLAN} for:item="record" for:index="index">
+                <div key={record.parentRecord.Id}>
+                   
+                    <table >
+                        <thead>
+                            <tr>
+                                <th style=" background-color: #F3F2F2;"></th>
+                                <th style="height: 50px; background-color: #F3F2F2;" colspan="3">Consolidate GST For All GST</th>
+                                
+                            </tr>
+                            <tr>
+                                <th style=" background-color: #F3F2F2;">SI.no</th>
+                                <th style=" background-color: #F3F2F2;">Month</th>
+                                <th style=" background-color: #F3F2F2;">Gross to Excel taxes</th>
+                                <th style=" background-color: #F3F2F2;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template if:true={record.parentRecord.Applicant_Financial_Summary_s__r}>      
+                    <template for:each={record.parentRecord.Applicant_Financial_Summary_s__r} for:index="index1" for:item="item1">
+                        <tr key={item1.Id} class="tableRow">
+                            <td style=" background-color: #F3F2F2;"><p>{item1.Index__c}</p></td>
+                            <td style=" background-color: #F3F2F2;">{item1.GST_Month_Year__c}</td>
+                            <td style=" background-color: #F3F2F2;">
+                                <lightning-input style="margin-right: 70px;" type="number" formatter="currency"
+                                value={item1.Gross_Turnover_as_per_GST_excl_taxes__c} placeholder="Enter here" onchange={handleInputChangeForTaxGst}
+                                data-objectname="Applicant_Financial_Summary__c" 
+                                data-fieldname="Gross_Turnover_as_per_GST_excl_taxes__c" data-field="Gross_Turnover_as_per_GST_excl_taxes__c"
+                                variant="label-hidden" access-key={item1.Index__c}
+                                 message-when-bad-input="Enter a Valid Input" data-key={item1.key}
+                                min=1 data-id="taxvalue" data-cloumn-index={index1} data-parent-index={index}
+                                message-when-range-underflow="Enter a Valid Input"
+                                required disabled></lightning-input>
+                            </td>
+                            <td style=" background-color: #F3F2F2;">{item1.Percentage_of_Total_Turnover__c}%</td>
+                </tr>
+                    </template>
+                </template>
+                <tr>
+                    <th style=" background-color: #F3F2F2;"></th>
+                    <th style=" background-color: #F3F2F2;">Total</th>
+                    <th style=" background-color: #F3F2F2;">{record.parentRecord.Total_Gross_Turnover__c}</th>
+                    <th style=" background-color: #F3F2F2;">{record.parentRecord.Percentage_Total_Gross_Turnover__c}%</th>
+
+                    
+                </tr>
+                        </tbody>
+                   
+                    </table>
+                </div>
+            </template>
+        </template>
+
+        <!-- <lightning-accordion allow-multiple-sections-open>
+            <template if:true={gstRecsForAllLoca} for:each={gstRecsForAllLoca} for:item="record" for:index="index">
+                <div if:true={record.parentRecord} key={record.parentRecord.Id}>
+                    <template if:true={record.parentRecord.Applicant_GST__r}> -->
+                        <!--  -->
+    
+                        <!-- <template if:true={gstRecsForAllLoca} for:each={gstRecsForAllLoca} for:item="record" for:index="index">
+                            <div if:true={record.parentRecord} key={record.parentRecord.Id}> -->
+                               
+                            <!-- </div>
+                        </template> -->
+    
+    
+                        <!--  -->
+                        <!-- <lightning-accordion-section label={record.parentRecord.Applicant_GST__r.GSTIN__c} class="accordionClass"> -->
+
+                            <c-location-wise-g-s-t-table-data last18-months={last18Months} month-nd-year={monthNdYearForGSTWise}
+                                gst-recs-for-all-loca={gstRecsForAllLoca} appl-id={applId}
+                                gst-tab-name="">
+                            </c-location-wise-g-s-t-table-data>
+                        <!-- </lightning-accordion-section>{record.parentRecord.Applicant_GST__r.GSTIN__c}
+                    </template>
+                </div>
+            </template>
+        </lightning-accordion> -->
+
+
+    <template if:true={showUploadWind}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-03" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+              <div class="slds-modal__container modalCss">
+                 <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+                             onclick={hideManualUplModalBox}>
+                       <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                                ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-03" class="slds-text-heading_medium slds-hyphenate">Upload Manual GST</h2>
+                 </header>
+                    <!-- modal body start -->
+                 <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3">
+                    <div if:true={showSpinner}>
+                          <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+                          </lightning-spinner>
+                    </div>
+                    <lightning-layout multiple-rows="4">
+                       <lightning-layout-item padding="around-small" size="12" >
+                          <lightning-input 
+                             type="file" 
+                             label="Attach receipt" 
+                             name="fileUploader"
+                             accept={acceptedFormats}
+                             onchange={handleUploadFinished}>
+                          </lightning-input>
+                       </lightning-layout-item>  
+                    </lightning-layout>
+                    <template for:each={uploadedFiles} for:item="file" for:index="index">
+                        <div key={file.name} class="slds-p-left_medium">
+                            <div class="slds-clearfix">
+                                <div class="slds-float_left" style="margin-right: 10px;">
+                                    <p style="background:white; display: inline-block; margin-bottom: 0; font-size: 16px;">{file.name}
+                                    </p>
+                                </div>
+                                <div class="slds-float_left">
+                                    <lightning-icon icon-name='utility:close' alternative-text='close' size='x-small' title='remove'
+                                        onclick={handleFileRemove} data-index={index}></lightning-icon>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                    <footer class="slds-modal__footer">
+                       <button class="slds-button slds-button_neutral" onclick={hideManualUplModalBox}>Cancel</button>
+                       <lightning-button variant="brand" class="slds-m-left_x-small" label="Upload" disabled={disabled}  onclick={handleExcelUpload}>
+                       </lightning-button>
+                    </footer>
+                 </div>
+              </div>
+           </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+     </template>
+</lightning-card>
+
+<!--
+
+[{"ChildReords":[{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfNIAS","Gross_Turnover_as_per_GST_excl_taxes__c":32,"GST_Month_Year__c":"July - 22","Index__c":1},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfOIAS","Gross_Turnover_as_per_GST_excl_taxes__c":33,"GST_Month_Year__c":"August - 22","Index__c":2},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfPIAS","Gross_Turnover_as_per_GST_excl_taxes__c":38,"GST_Month_Year__c":"September - 22","Index__c":3},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfQIAS","Gross_Turnover_as_per_GST_excl_taxes__c":37,"GST_Month_Year__c":"October - 22","Index__c":4},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfRIAS","Gross_Turnover_as_per_GST_excl_taxes__c":38,"GST_Month_Year__c":"November - 22","Index__c":5},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfSIAS","Gross_Turnover_as_per_GST_excl_taxes__c":39,"GST_Month_Year__c":"December - 22","Index__c":6},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfTIAS","Gross_Turnover_as_per_GST_excl_taxes__c":40,"GST_Month_Year__c":"January - 23","Index__c":7},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfUIAS","Gross_Turnover_as_per_GST_excl_taxes__c":41,"GST_Month_Year__c":"February - 23","Index__c":8},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfVIAS","Gross_Turnover_as_per_GST_excl_taxes__c":42,"GST_Month_Year__c":"March - 23","Index__c":9},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfWIAS","Gross_Turnover_as_per_GST_excl_taxes__c":43,"GST_Month_Year__c":"April - 23","Index__c":10},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfXIAS","Gross_Turnover_as_per_GST_excl_taxes__c":88,"GST_Month_Year__c":"May - 23","Index__c":11},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfYIAS","Gross_Turnover_as_per_GST_excl_taxes__c":98,"GST_Month_Year__c":"June - 23","Index__c":12},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfZIAS","Gross_Turnover_as_per_GST_excl_taxes__c":0,"GST_Month_Year__c":"July - 23","Index__c":13},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfaIAC","Gross_Turnover_as_per_GST_excl_taxes__c":0,"GST_Month_Year__c":"August - 23","Index__c":14},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfbIAC","Gross_Turnover_as_per_GST_excl_taxes__c":0,"GST_Month_Year__c":"September - 23","Index__c":15},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfcIAC","Gross_Turnover_as_per_GST_excl_taxes__c":0,"GST_Month_Year__c":"October - 23","Index__c":16},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfdIAC","Gross_Turnover_as_per_GST_excl_taxes__c":0,"GST_Month_Year__c":"November - 23","Index__c":17}],"parentRecord":{"Id":"a0cC4000000I0PlIAK","Loan_Application__c":"a08C40000082ahBIAQ","Loan_Applicant__c":"a0AC4000000JTcbMAG","Applicant_Financial_Summary_s__r":[{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfNIAS","Gross_Turnover_as_per_GST_excl_taxes__c":32,"GST_Month_Year__c":"July - 22","Index__c":1},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfOIAS","Gross_Turnover_as_per_GST_excl_taxes__c":33,"GST_Month_Year__c":"August - 22","Index__c":2},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfPIAS","Gross_Turnover_as_per_GST_excl_taxes__c":38,"GST_Month_Year__c":"September - 22","Index__c":3},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfQIAS","Gross_Turnover_as_per_GST_excl_taxes__c":37,"GST_Month_Year__c":"October - 22","Index__c":4},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfRIAS","Gross_Turnover_as_per_GST_excl_taxes__c":38,"GST_Month_Year__c":"November - 22","Index__c":5},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfSIAS","Gross_Turnover_as_per_GST_excl_taxes__c":39,"GST_Month_Year__c":"December - 22","Index__c":6},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfTIAS","Gross_Turnover_as_per_GST_excl_taxes__c":40,"GST_Month_Year__c":"January - 23","Index__c":7},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfUIAS","Gross_Turnover_as_per_GST_excl_taxes__c":41,"GST_Month_Year__c":"February - 23","Index__c":8},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfVIAS","Gross_Turnover_as_per_GST_excl_taxes__c":42,"GST_Month_Year__c":"March - 23","Index__c":9},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfWIAS","Gross_Turnover_as_per_GST_excl_taxes__c":43,"GST_Month_Year__c":"April - 23","Index__c":10},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfXIAS","Gross_Turnover_as_per_GST_excl_taxes__c":88,"GST_Month_Year__c":"May - 23","Index__c":11},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfYIAS","Gross_Turnover_as_per_GST_excl_taxes__c":98,"GST_Month_Year__c":"June - 23","Index__c":12},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfZIAS","Gross_Turnover_as_per_GST_excl_taxes__c":0,"GST_Month_Year__c":"July - 23","Index__c":13},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfaIAC","Gross_Turnover_as_per_GST_excl_taxes__c":0,"GST_Month_Year__c":"August - 23","Index__c":14},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfbIAC","Gross_Turnover_as_per_GST_excl_taxes__c":0,"GST_Month_Year__c":"September - 23","Index__c":15},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfcIAC","Gross_Turnover_as_per_GST_excl_taxes__c":0,"GST_Month_Year__c":"October - 23","Index__c":16},{"Applicant_Financial__c":"a0cC4000000I0PlIAK","Id":"a19C4000000KsfdIAC","Gross_Turnover_as_per_GST_excl_taxes__c":0,"GST_Month_Year__c":"November - 23","Index__c":17}],"Loan_Applicant__r":{"FullName__c":"PRICIPAL PLACE","Id":"a0AC4000000JTcbMAG"}}}]
+-->
+</template>

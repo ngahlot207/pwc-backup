@@ -1,0 +1,145 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    <lightning-card>
+        <lightning-accordion active-section-name={activeSection} allow-multiple-sections-open>
+            <lightning-accordion-section name="A" label="Decision Summary" class="accClass">
+                <div class="slds-m-around_medium">
+                    <lightning-layout multiple-rows>
+                        <lightning-layout-item size="12" large-device-size="3" padding="around-small">
+                            <div class="slds-p-top_medium">
+                                <lightning-combobox placeholder="Select" label="Approver's Decision" options={decType}
+                                    value={Decisionvalue} onchange={handleChange} disabled={isReadOnly}>
+                                </lightning-combobox>
+                            </div>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item if:true={forward} size="12" large-device-size="3" padding="around-small">
+                            <div class="slds-p-top_medium">
+                                <c-custom-lookup required=true label="Select User"
+                                    selected-icon-name="standard:identifier" object-api-name="TeamHierarchy__c"
+                                    field-api-name="Employee__r.Name" selected-fields="Name"
+                                    selected-record-id={lookupId} onselect={handleLookupFieldChange}
+                                    filter-condn={filterConditionForLookup} key-id="Employee__c">
+                                </c-custom-lookup>
+                            </div>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item if:true={forward} size="12" large-device-size="3" padding="around-small">
+                            <div class="slds-p-top_medium">
+                                <lightning-input type="text" value={employeeLevelToRender} label="Level"
+                                    disabled></lightning-input>
+                            </div>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item size="12" large-device-size="3" padding="around-small">
+                            <div class="slds-p-top_medium">
+                                <lightning-input type="date" value={currentDateTime} label="Date"
+                                    disabled></lightning-input>
+
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+
+
+                    <lightning-layout multiple-rows>
+
+                        <lightning-layout-item if:true={softApprove} size="12" large-device-size="12"
+                            padding="around-small">
+                            <div class="slds-p-top_medium">
+                                <lightning-textarea type="text" onchange={handleInputChange} label="Decision Remarks"
+                                    placeholder="Enter Here" required={trueOnRejection}
+                                    value={decRemarks}></lightning-textarea>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item if:true={reject} size="12" large-device-size="12" padding="around-small">
+                            <div class="slds-p-top_medium">
+                                <lightning-textarea onchange={handleInputChange} label="Decision Remarks"
+                                    required={trueOnRejection} placeholder="Enter Here"
+                                    value={decRemarks}></lightning-textarea>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item if:true={Approve} size="12" large-device-size="12"
+                            padding="around-small">
+                            <div class="slds-p-top_medium">
+                                <lightning-textarea onchange={handleInputChange} label="Decision Remarks"
+                                    required={trueOnRejection} placeholder="Enter Here"
+                                    value={decRemarks}></lightning-textarea>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item if:true={forward} size="12" large-device-size="12"
+                            padding="around-small">
+                            <div class="slds-p-top_medium">
+                                <lightning-textarea onchange={handleInputChange} label="Decision Remarks"
+                                    placeholder="Enter Here" required={trueOnRejection}
+                                    value={decRemarks}></lightning-textarea>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item if:true={returnTo} size="12" large-device-size="12"
+                            padding="around-small">
+                            <div class="slds-p-top_medium">
+                                <lightning-textarea onchange={handleInputChange} label="Decision Remarks"
+                                    placeholder="Enter Here" required={trueOnRejection}
+                                    value={decRemarks}></lightning-textarea>
+                            </div>
+                        </lightning-layout-item>
+
+                    </lightning-layout>
+                    <lightning-card if:true={forwardAppNdSoft}>
+                        <h1><strong>&nbsp;&nbsp; Recommendation Comments</strong></h1>
+                        <lightning-layout multiple-rows>
+
+                            <lightning-layout-item size="12" large-device-size="3" padding="around-small">
+                                <div class="slds-p-top_medium">
+                                    <lightning-textarea onchange={handleRecoInputChange} data-name="id1"
+                                        label="Personal/Family Details of Promoters" max-length="131072"
+                                        placeholder="Enter Comments Here" required={trueOnForward}
+                                        value={RecoComment1}></lightning-textarea>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" large-device-size="3" padding="around-small">
+                                <div class="slds-p-top_medium">
+                                    <lightning-textarea onchange={handleRecoInputChange} data-name="id2"
+                                        label="Business Details of Applicant and Coapplicant"
+                                        placeholder="Enter Comments Here" required={trueOnForward} value={RecoComment2}
+                                        max-length="131072"></lightning-textarea>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" large-device-size="3" padding="around-small"
+                                style="padding-top: 15px;">
+                                <div class="slds-p-top_medium">
+                                    <lightning-textarea onchange={handleRecoInputChange} data-name="id3"
+                                        label="Income Related Comments" placeholder="Enter Comments Here"
+                                        required={trueOnForward} value={RecoComment3}
+                                        max-length="131072"></lightning-textarea>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" large-device-size="3" padding="around-small"
+                                style="padding-top: 15px;">
+                                <div class="slds-p-top_medium">
+                                    <lightning-textarea onchange={handleRecoInputChange} data-name="id4"
+                                        label="Additional Comments" placeholder="Enter Comments Here"
+                                        required={trueOnForward} value={RecoComment4}
+                                        max-length="131072"></lightning-textarea>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-card>
+
+                    <lightning-card>
+                        <div class="slds-var-m-top_medium">
+                            <lightning-button class="slds-p-horizontal_small" variant="brand" label="Submit"
+                                onclick={handleSubmit} disabled={desableSubmit}>
+                            </lightning-button>
+                        </div>
+                    </lightning-card>
+
+                </div>
+                <c-decision-summary record-id={recordId}></c-decision-summary>
+            </lightning-accordion-section>
+
+        </lightning-accordion>
+    </lightning-card>
+</template>

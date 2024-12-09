@@ -1,0 +1,174 @@
+<template>
+  <lightning-card title="Decision Summary">
+
+    <div class="slds-p-around_medium">
+      <br />
+      <div id="tableViewInnerDiv" class="slds-scrollable_y tableViewInnerDiv slds-scrollable">
+        <div class="slds-scrollable">
+
+          <table
+            class="slds-table slds-table_resizable slds-table_bordered slds-table_resizable-cols slds-table_fixed-layout slds-max-medium-table_stacked-horizontal"
+            onscroll={tableScrolled}>
+            <thead>
+              <tr>
+
+                <th class="slds-is-resizable dv-dynamic-width fixedWidth1 " scope="col">User Name</th>
+                <th class="slds-is-resizable dv-dynamic-width fixedWidth1 " scope="col">Decision</th>
+                <th class="slds-is-resizable dv-dynamic-width fixedWidth " scope="col">Approver/Recommendation Comments
+                </th>
+                <!-- <th class="slds-is-resizable dv-dynamic-width fixedWidth " scope="col">Personal/Family Details of Promoters</th>
+                            <th class="slds-is-resizable dv-dynamic-width fixedWidth " scope="col">Breif of Buisness Details of Applicant and Coapplicant</th>
+                            <th class="slds-is-resizable dv-dynamic-width fixedWidth " scope="col">Income Related Comments</th>
+                            <th class="slds-is-resizable dv-dynamic-width fixedWidth " scope="col">Additional Remarks</th> -->
+                <th class="slds-is-resizable dv-dynamic-width fixedWidth " scope="col">Decision Date</th>
+
+
+              </tr>
+            </thead>
+            <tbody>
+              <template iterator:it={listDecisionSummaryDetails}>
+                <tr key={it.value.Id}>
+
+                  <td scope="row" class="slds-form-element slds-size--1-of-12 td-fixed-width"
+                    if:true={it.value.User__c}>
+                    {it.value.User__r.Name}
+                  </td>
+                  <td scope="row" class="slds-form-element slds-size--1-of-12 td-fixed-width"
+                    if:false={it.value.User__c}>
+
+                  </td>
+                  <td scope="row" class="slds-form-element slds-size--1-of-12 td-fixed-width">
+                    <div class="slds-cell-wrap">
+                      {it.value.Decision__c}
+                    </div>
+                  </td>
+                  <td scope="row" class="slds-form-element slds-size--1-of-12 td-fixed-width">
+                    <div class="slds-cell-wrap">
+                      {it.value.DecisionRmrks__c}
+                    </div>
+                  </td>
+                  <!-- <td scope="row" class="slds-form-element slds-size--1-of-12 td-fixed-width" >
+                           <div class="slds-cell-wrap">
+                            {it.value.PrsnldetailsofPromotrs__c}
+                           </div>
+                         </td>
+                         <td scope="row" class="slds-form-element slds-size--1-of-12 td-fixed-width" >
+                           <div class="slds-cell-wrap">
+                            {it.value.BDApplicantCoapp__c}
+                           </div>
+                         </td>
+                         <td scope="row" class="slds-form-element slds-size--1-of-12 td-fixed-width" >
+                           <div class="slds-cell-wrap">
+                            {it.value.IncomerelateComm__c}
+                           </div>
+                         </td>
+                         <td scope="row" class="slds-form-element slds-size--1-of-12 td-fixed-width" >
+                           <div class="slds-cell-wrap">
+                            {it.value.AddationalComm__c}
+                            </div>
+                         </td> -->
+                  <td scope="row" class="slds-form-element slds-size--1-of-12 td-fixed-width">
+                    <div class="slds-cell-wrap">
+                      <lightning-formatted-date-time value={it.value.DecisionDt__c}></lightning-formatted-date-time>
+                    </div>
+                  </td>
+
+
+
+                </tr>
+
+              </template>
+
+
+            </tbody>
+          </table>
+
+          <!-- adding here -->
+          <table class="datatable">
+
+            <thead>
+              <tr>
+                <th style="text-align: center;">Approver/Recommendation Comments</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <table class="datatable">
+            <thead>
+
+              <tr>
+                <th style="text-align: left;  " class="slds-form-element slds-size--1-of-4 td-fixed-width">
+                  Personal/Family Details
+                  of Promoters</th>
+                <!-- <th colspan="5"></th> -->
+
+                <th>
+
+
+                  <lightning-textarea class="textAreaBreakWrap" variant="label-hidden"
+                    style="overflow-wrap: break-word;" value={listOfLoanDetailsSummary.PrsnldetailsofPromotrs}
+                    disabled="true">
+
+                  </lightning-textarea>
+
+                </th>
+
+              </tr>
+
+              <tr style="height: 10em; overflow-y:auto;">
+                <th style="text-align: left;">Brief of Business Details of Applicant and Co-Applicant</th>
+                <!-- <th colspan="5"></th> -->
+                <th style="height: 8em">
+
+
+                  <lightning-textarea variant="label-hidden" class="textAreaBreakWrap"
+                    value={listOfLoanDetailsSummary.BDApplicantCoapp} disabled="true">
+                  </lightning-textarea>
+
+                </th>
+
+              </tr>
+              <!-- <th colspan={applicantLength}></th> -->
+              <tr>
+                <th style="text-align: left;">Income Related Comments</th>
+                <!-- <th colspan="5"></th> -->
+                <th>
+                  <lightning-textarea variant="label-hidden" class="textAreaBreakWrap"
+                    value={listOfLoanDetailsSummary.IncomerelateComm} disabled="true">
+                  </lightning-textarea>
+                </th>
+              </tr>
+
+              <!-- FedFina Loan Exposure details -->
+              <tr>
+                <th style="text-align: left;">Additional Remarks
+                </th>
+                <!-- <th colspan="5"></th> -->
+                <th>
+                  <lightning-textarea variant="label-hidden" class="textAreaBreakWrap"
+                    value={listOfLoanDetailsSummary.AddationalComm} disabled="true">
+                  </lightning-textarea>
+                </th>
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+            </tbody>
+          </table>
+          <!-- end here -->
+          <!-- </table> -->
+          <br/>
+                <br/>
+                <div>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Recommender : {fedfinaUnderwriter}  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fedfina Approver : {fedfinaApprover}
+                </div>
+        </div>
+      </div>
+    </div>
+
+
+
+  </lightning-card>
+</template>

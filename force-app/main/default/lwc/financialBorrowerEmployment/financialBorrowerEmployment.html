@@ -1,0 +1,119 @@
+<!-- <template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    <lightning-card >
+        <c-dynamic-datatable params-data={params}></c-dynamic-datatable>
+    </lightning-card>
+
+
+</template> -->
+<template>
+    <!--  <div if:true={showSpinner}>
+          <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+          </lightning-spinner>
+      </div>
+      <lightning-card >
+          <c-dynamic-datatable params-data={params}></c-dynamic-datatable>
+      </lightning-card>-->
+  
+      
+          <lightning-card title="">
+             
+              <div class="slds-p-around_medium">
+              <br/>
+                  <div class="slds-box">
+                      <div class="slds-scrollable">
+                      
+                      <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                          <thead>
+                              <tr class="slds-text-title_bold slds-text-color_weak">
+                                  
+                                  <th scope="col">Borrower Name</th>
+                                  <th scope="col">Type of Employment</th>
+                                  <th scope="col">Industry of main establishment/company</th>
+                                  <th scope="col">Sub Industry of main establishment/company</th>
+
+                                  <template if:true={isBlPl}>
+                                  <th scope="col">Key person met</th>
+                                  <th scope="col">Relationship with Applicant</th>
+                                  <th scope="col">PD Mode (Physical or Agency)</th>
+                                  <th scope="col">Office PD status</th>
+                                  <th scope="col">Office PD Comments</th>
+                                  <th scope="col">Mfg Unit/Factory/Warehouse PD Status</th>
+                                  <th scope="col">PD Done by</th>
+                                  </template>
+
+                                  <template if:false={isBlPl}>
+                                  <th scope="col">PD Status</th>
+                                  <th scope="col">PD Remarks/Summary</th>
+                                  <th scope="col">PD Authority Name</th>
+                                  <th scope="col">PD Date</th>
+                                  </template>
+        
+                                  
+                                  
+          
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <template iterator:it={listBorrowerDetails}>
+                            <tr key={it.value.Id}>
+                               
+                               <td scope="row">
+                                  {it.value.borrowerName}
+                               </td>
+                               <td>
+                                  {it.value.typeOfEmployment}
+                               </td>
+                               <td>
+                                  {it.value.industryOfMainEstablishment}
+                               </td>
+                               <td>
+                                  {it.value.subIndustryOfMainEstablishment}
+                               </td>
+                               <template if:true={isBlPl}>
+                               <td></td>
+                               <td></td>
+                               <td></td>
+                               <td>{it.value.pdStatus}</td>
+                               <td></td>
+                               <td></td>
+                               <td></td>
+                               </template>  
+                               <template if:false={isBlPl}>
+                               <td>
+                                  {it.value.pdStatus}
+                               </td>
+                               <td>
+                                  {it.value.pdRemarksSummary}
+                               </td>
+                               <td>
+                                  {it.value.pdAuthorityName}
+                               </td>
+                               <td>
+                                  {it.value.pdDate}
+                               </td>
+                            </template>
+                               
+                              
+                               
+                              
+                           </tr>
+                           
+                          </template>
+                          
+                          </tbody>
+                      </table>
+                  </div>
+                  </div>
+              </div>
+          
+          
+          
+          </lightning-card>
+    
+  
+  
+  </template>

@@ -1,0 +1,276 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+
+    <!-- Delete confirmation pop-up box-->
+    <template if:true={isModalOpen}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-align--absolute-center slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeConsentModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Delete?</h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-10">
+                    <p style="text-align:center;"><b>{deleteMsg}</b></p>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_brand" onclick={handleRemoveRecord} title="Yes">Yes</button>
+                    <button class="slds-button slds-button_neutral" onclick={closeConsentModal} title="No">No</button>
+                    
+                </footer>
+            </div>  
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!-- Delete confirmation pop-up box-->
+    <!-- close lead -->
+    <template if:true={isShowModal}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-label="Meaningful description of the modal content" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse">
+            <span class="slds-assistive-text">Cancel and close</span>
+            </button>
+            <div class="slds-modal__content slds-p-around_medium slds-modal__content_headless"  id="modal-content-id-1" style="
+            align-self: center;width: 70%;">
+            <div class="slds-align_absolute-center">
+                <img style="max-height:40px" alt="QuestionMark" src={image}/>
+            </div>
+            <div class="slds-align_absolute-center" style="color:grey">                                              
+                Are you sure, You want to Close this lead? 
+            </div>
+            <!-- <div class="slds-modal__content slds-p-around_large slds-align_absolute-center" id="modal-content-id-3"> -->
+                <div class="slds-modal__content slds-p-around_large" id="modal-content-id-3">
+                <lightning-record-edit-form object-api-name="Lead" record-id={leadRecordId} onsubmit={handleSubmit} style="width:100%;">
+                    <lightning-messages></lightning-messages>
+                    <lightning-layout multiple-rows="true">  
+                         <!-- multiple-rows="true" -->
+                        <lightning-layout-item size="12">
+                            <lightning-input-field field-name="Lead_Closure_Reason__c" required onchange={handlePicklistChange}></lightning-input-field>
+                        </lightning-layout-item>
+                            <template if:true={showAdditionalComments}>
+                                <lightning-layout-item size="12">
+                            <lightning-input-field field-name="Additional_Comments__c" required  data-id="addCommentsInput" onchange={onChangeAdditionalComments}></lightning-input-field>
+                        </lightning-layout-item>
+                        </template>
+                        
+                            </lightning-layout>
+                            <div  class="slds-p-around_small btn-container">
+                                <button class="slds-button slds-button_brand" style="background-color: rgb(161, 30, 30);">Close Lead</button>  
+                                <button class="slds-button slds-button_brand" onclick={closeModal}>Cancel</button>
+                            </div>
+                </lightning-record-edit-form>
+            </div>
+            </div>
+          
+            </div>
+            </div>
+            </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>  
+        </template> 
+    <!-- close lead -->
+    <lightning-card>
+        <lightning-layout multiple-rows="12">
+            <lightning-layout-item size="6" padding="around-small"  >
+                <div class="slds-p-around_x-small slds-m-bottom_x-large">
+                <lightning-combobox name="DocumentType" label="Document Type" value={docType}
+                    placeholder="Select Document Type" options={docTypeOption} onchange={handleChange}
+                    disabled={disableMode}></lightning-combobox>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small" >
+                <div class="slds-p-around_x-small slds-m-bottom_x-large">
+                <lightning-combobox name="DocumentName" label="Document Name" value={docName}
+                    field-level-help={helperText} placeholder="Select Document Name"
+                    options={docNameOption} onchange={handleChange}
+                    disabled={desableOnRunManual}></lightning-combobox>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+
+        <!-- <template if:true={showUpload}>
+        <c-upload-docs-reusable-component loan-app-id={loanAppId}
+                                            applicant-id={applicantId} doc-name={panDocvalue} doc-type="Form 60"
+                                            onrefreshdoctable={fromUploadDocsContainer} onspinnerstatus={spinnerStatus}
+                                            convert-to-single-image={convertToSingleImage} doc-category="PAN Documents"
+                                            is-pan-kyc={isPanKyc}></c-upload-docs-reusable-component>
+        </template>
+
+        
+
+            <c-uploded-document-display ispankycstep='true' category={documentCategoryList} applicant-id={leadRecordId}
+                onuploadeddoc={callDocAvailable} mode='true' is-read-only={disableMode}
+                has-edit-access={hasEditAccess}  
+                
+                onclick={handleForwardClicked}></c-uploded-document-display>
+        </template> -->
+        <template if:true={showUpload}>
+        <div class="slds-m-around_medium">
+            <lightning-input type="file" accept={acceptedFormats} label="" onchange={openfileUpload} disabled={disableMode}>
+            </lightning-input>
+        </div>
+        
+        <div if:true={isError}>
+            <p style="color:rgb(184, 39, 39)">{label.uploadOneFile}</p>
+        </div>
+        <br>
+        <br>
+        <p>Note: Maximum File Size should be 5Mb. Allowed file types are pdf, jpg, jpeg, png</p>
+        </template>
+        <div class="slds-hide">
+            <iframe src={vfUrl}></iframe> 
+        </div>
+
+        <!-- Table -->
+        <template if:true={showTable}>
+            <div id="containerDiv" onmousemove={handlemousemove} onmouseup={handlemouseup}
+				ondblclick={handledblclickresizable}
+				class="slds-table_header-fixed_container slds-border_right slds-border_left tableScroll"
+				onscroll={tableOuterDivScrolled}>
+				<div id="tableViewInnerDiv" class="slds-scrollable_y tableViewInnerDiv slds-scrollable">
+					<table
+						class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout slds-max-medium-table_stacked-horizontal"
+						onscroll={tableScrolled}>
+						<thead>
+							<tr>
+								<th title="Document Type"
+									class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+									<div class="slds-cell-fixed fixedWidth">
+										<a class="slds-th__action slds-text-link--reset">
+											<span class="slds-truncate">Document Type</span>
+										</a>
+										<div class="slds-resizable">
+											<span class="slds-resizable__handle" onmousedown={handlemousedown}>
+												<span class="slds-resizable__divider"></span>
+											</span>
+										</div>
+									</div>
+								</th>
+								<th title="Document Name" class="slds-is-resizable dv-dynamic-width fixedWidth"
+									scope="col">
+									<div class="slds-cell-fixed fixedWidth">
+										<a class="slds-th__action slds-text-link--reset">
+											<span class="slds-truncate">Document Name</span>
+										</a>
+										<div class="slds-resizable">
+											<span class="slds-resizable__handle" onmousedown={handlemousedown}>
+												<span class="slds-resizable__divider"></span>
+											</span>
+										</div>
+									</div>
+								</th>
+								<th title="File Type" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+									<div class="slds-cell-fixed fixedWidth">
+										<a class="slds-th__action slds-text-link--reset" href="#" role="button"
+											tabindex="0">
+											<span class="slds-truncate">File Type</span>
+										</a>
+										<div class="slds-resizable">
+											<span class="slds-resizable__handle" onmousedown={handlemousedown}>
+												<span class="slds-resizable__divider"></span>
+											</span>
+										</div>
+									</div>
+								</th>
+								<th title="Date/Time" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+									<div class="slds-cell-fixed fixedWidth">
+										<a class="slds-th__action slds-text-link--reset" href="#" role="button"
+											tabindex="0">
+											<span class="slds-truncate">Date/Time</span>
+										</a>
+										<div class="slds-resizable">
+											<span class="slds-resizable__handle" onmousedown={handlemousedown}>
+												<span class="slds-resizable__divider"></span>
+											</span>
+										</div>
+									</div>
+								</th>
+                                <th title="Actions" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+									<div class="slds-cell-fixed fixedWidth">
+										<a class="slds-th__action slds-text-link--reset" href="#" role="button"
+											tabindex="0">
+											<span class="slds-truncate">Actions</span>
+										</a>
+										<div class="slds-resizable">
+											<span class="slds-resizable__handle" onmousedown={handlemousedown}>
+												<span class="slds-resizable__divider"></span>
+											</span>
+										</div>
+									</div>
+								</th>
+                            </tr>
+						</thead>
+						<tbody>
+							<template for:each={fileNames} for:item="fileIterator">
+								<tr key={fileIterator.cDId} aria-selected="false" class="slds-hint-parent">
+									<th class="slds-cell_action-mode" scope="row">
+										<div class="slds-truncate" title={fileIterator.docDetType}>
+											<!-- <a href="#" tabindex="0">Proof Of Identity</a> -->
+											{fileIterator.docType}
+										</div>
+									</th>
+									<td class="slds-cell_action-mode" role="gridcell">
+										<!-- <div class="slds-truncate" title="PAN">PAN</div> -->
+										<div class="slds-truncate" title={fileIterator.docDetName}>
+											{fileIterator.docName}
+										</div>
+									</td>
+									<td class="slds-cell_action-mode" role="gridcell">
+										<div class="slds-truncate" title={fileIterator.cDFileType}>
+											{fileIterator.fileType}
+										</div>
+									</td>
+									<td class="slds-cell_action-mode" role="gridcell">
+										<div class="slds-truncate" title={fileIterator.cDcrtdDate}>
+											{fileIterator.createDate}
+										</div>
+									</td>
+                                    <td>
+
+                                        <lightning-icon class="custom-button slds-p-right_xx-small"
+													onclick={handleDocumentView} 
+													 data-id={fileIterator.cDId}
+                                                      data-file-type={fileIterator.fileType}
+													 icon-name="utility:preview"
+													alternative-text="preview" variant="success" size="small"
+										title="preview"></lightning-icon>
+                                    <lightning-icon class="custom-button slds-p-right_xx-small"
+                                                    data-file-iterator={fileIterator} onclick={handleDocumentDelete}                                                    
+                                                    data-id={fileIterator.cDId}
+                                                    icon-name="utility:delete" alternative-text="delete"
+                                                    variant="error" size="small" title="delete"
+                                                    disabled={disableDeleteBu}>
+                                    
+                                </lightning-icon>
+                                    </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+        </template>
+
+        <footer class="slds-grid slds-grid_align-end">  
+            <template if:true={showModal}>
+                <c-i-frame-preview cont-doc-id={contentDocumentId} cont-doc-type={contentDocumentType} onclosepreview={handleCloseModalEvent}> </c-i-frame-preview>
+            </template> 
+            <div class="slds-p-around_small">
+                <lightning-button label="Previous" variant="brand" onclick={handlePrevious}></lightning-button> 
+         </div>
+                <div if:true={_showConvertButton} class="slds-p-around_small">
+                <lightning-button label="Convert to Loan Application" variant="brand" onclick={handleNext} disabled={disableConversionBtn}></lightning-button> 
+                
+                </div>
+                <lightning-button label="Cancel" variant="destructive" onclick={handleCancel} class="slds-p-around_small"></lightning-button>
+         </footer>
+    </lightning-card>
+</template>

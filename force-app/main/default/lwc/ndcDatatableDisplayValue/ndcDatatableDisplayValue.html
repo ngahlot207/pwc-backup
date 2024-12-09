@@ -1,0 +1,216 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+
+    <!-- <p>{requiredvalue }</p> -->
+
+    <!-- class="slds-cell_action-mode slds-truncate" role="gridcell" -->
+    <div if:true={col.Editable}>
+        <p if:true={stringBoolean}>
+            <template lwc:if={fieldValue}>
+                <lightning-input variant="label-hidden" label="" data-record={recordData} data-ndcid={ndcId}
+                data-opsveri={opsVerifcation} data-sobjectype={sobjectType} data-record-id={recordId}
+                data-field-name={col.fieldName} value={fieldValue} data-section-name={sectionName}
+                onchange={handleValueChange} title={fieldValue} disabled={disableRead}></lightning-input>
+            </template>
+            <template lwc:else>
+                <lightning-input variant="label-hidden" label="" data-record={recordData} data-ndcid={ndcId}
+                data-opsveri={opsVerifcation} data-sobjectype={sobjectType} data-record-id={recordId}
+                data-field-name={col.fieldName} value={fieldValue} data-section-name={sectionName}
+                onchange={handleValueChange} disabled={disableRead}></lightning-input>
+            </template>
+            
+        </p>
+        <p if:true={textAreaBoolean}  onpaste={handleKeyPress}>
+            <template lwc:if={fieldValue}>
+                <lightning-textarea variant="label-hidden" label="" data-record={recordData} data-ndcid={ndcId}
+                data-opsveri={opsVerifcation} data-sobjectype={sobjectType} data-record-id={recordId}
+                data-field-name={col.fieldName} value={fieldValue} data-section-name={sectionName}
+                onchange={handleValueChange} title={fieldValue} disabled={disableRead} onkeypress={handleKeyPress}></lightning-textarea>
+            </template>
+            <template lwc:else>
+                <lightning-textarea variant="label-hidden" label="" data-record={recordData} data-ndcid={ndcId}
+                data-opsveri={opsVerifcation} data-sobjectype={sobjectType} data-record-id={recordId}
+                data-field-name={col.fieldName} value={fieldValue} data-section-name={sectionName}
+                onchange={handleValueChange} disabled={disableRead} onkeypress={handleKeyPress}></lightning-textarea>
+            </template> 
+        </p>
+        <p if:true={numberBoolean}>
+            <lightning-input type="number" variant="label-hidden" label="" data-record={recordData} data-ndcid={ndcId}
+                data-opsveri={opsVerifcation} data-sobjectype={sobjectType} data-record-id={recordId}
+                data-field-name={col.fieldName} data-section-name={sectionName} value={fieldValue}
+                onchange={handleValueChange} disabled={disableRead}></lightning-input>
+        </p>
+        <p if:true={nullBoolean}>
+            <lightning-input type="checkbox" label="" data-record-id={recordId} data-record={recordData}
+                data-ndcid={ndcId} data-opsveri={opsVerifcation} data-sobjectype={sobjectType}
+                data-field-name={col.fieldName} value={fieldValue} data-section-name={sectionName}
+                onchange={handleValueChange} disabled={disableRead}></lightning-input>
+        </p>
+        <p if:true={checkBoxBoolean}>
+            <lightning-input type="checkbox" label="Red" data-record-id={recordId} data-record={recordData}
+                data-ndcid={ndcId} data-opsveri={opsVerifcation} data-sobjectype={sobjectType}
+                data-field-name={col.fieldName} variant="label-hidden" data-section-name={sectionName}
+                checked={fieldValue} disabled={disableChecbox} onchange={handleValueChange}>
+            </lightning-input>
+        </p>
+        <!--Start LAK-4916 -->
+        <p if:true={avalFilBoolean}>
+            <lightning-input type="checkbox" label="Red" variant="label-hidden" checked={fieldValue} disabled>
+            </lightning-input>
+        </p>
+        <!-- End LAK-4916 -->
+        <!-- <p if:true={opsVerBoolean}>
+            <lightning-input type="checkbox" label="Red" data-record={recordData} data-ndcid={ndcId}
+                data-opsveri={opsVerifcation} data-sobjectype={sobjectType} data-record-id={recordId}
+                data-field-name={col.fieldName} variant="label-hidden" data-section-name={sectionName}
+                checked={opsVerifcation} disabled={readOnly} onchange={handleValueChange}>
+            </lightning-input>
+        </p> -->
+
+        <p if:true={datetimeBoolean}>
+            <!-- <template if:true={newBool}> -->
+            <!-- {dateFieldValue} -->
+            <!-- {fieldValue} -->
+            <lightning-input type="date" label="Red" data-record={recordData} data-ndcid={ndcId}
+                data-opsveri={opsVerifcation} data-sobjectype={sobjectType} data-record-id={recordId}
+                data-field-name={col.fieldName} variant="label-hidden" data-section-name={sectionName}
+                value={fieldValue} disabled={isDisabled} required={requiredvalue} onchange={handleValueChange}>
+            </lightning-input>
+            <!-- </template> -->
+        </p>
+        <template if:true={picklistBoolean}>
+            <div class={formCls}>
+                <div class="slds-form-element__control">
+                    <div class="slds-select_container">
+                        <select name={fieldName} data-opsveri={opsVerifcation} data-section-name={sectionName}
+                            data-sobjectype={sobjectType} data-record-id={recordId} data-record={recordData}
+                            data-field-name={col.fieldName} data-ndcid={ndcId} class="slds-select"
+                            disabled={isDisabledPicklist} onchange={handleValueChange} required={requiredvalue}>
+                            <template for:each={options} for:item="opt">
+                                <option key={opt.value} value={opt.value} selected={opt.selected}>
+                                    {opt.label}
+                                </option>
+                            </template>
+                        </select>
+                    </div>
+                </div>
+                <div if:true={hasError} class="slds-form-element__help" id="error-01">
+                    Select an option.
+                </div>
+            </div>
+        </template>
+    </div>
+
+    <template if:false={col.Editable}>
+        <!-- <div if:false={editable}> -->
+        <div class="slds-cell_action-mode" role="gridcell">
+            <p if:true={stringBoolean}>
+                <lightning-formatted-text value={fieldValue}></lightning-formatted-text>
+            </p>
+             <!-- For LAK-8307 -->
+             <p if:true={textAreaBoolean}>
+                <lightning-textarea variant="label-hidden" label="" title={fieldValue} value={fieldValue} disabled></lightning-textarea>
+            </p>
+            <p if:true={picklistBoolean}>
+                <lightning-formatted-text value={fieldValue}></lightning-formatted-text>
+            </p>
+            <p if:true={datetimeBoolean}>
+                <!-- <template if:true={newBool}> -->
+                <!-- {dateFieldValue} -->
+                <!-- <lightning-formatted-date-time
+                    value={fieldValue}></lightning-formatted-date-time> -->
+                <!-- <lightning-formatted-date-time value={fieldValue} year="numeric" month="numeric"
+                    day="numeric"></lightning-formatted-date-time> -->
+                <lightning-formatted-text value={fieldValue}></lightning-formatted-text>
+                <!-- </template> -->
+            </p>
+            <p if:true={numberBoolean}>
+                <lightning-formatted-number value={fieldValue}></lightning-formatted-number>
+            </p>
+            <p if:true={phoneBoolean}>
+                <lightning-formatted-phone value={fieldValue}></lightning-formatted-phone>
+            </p>
+            <p if:true={emailBooelan}>
+                <lightning-formatted-email value={fieldValue}></lightning-formatted-email>
+            </p>
+            <p if:true={nullBoolean}>{fieldValue}</p>
+            <p if:true={checkBoxBoolean}>
+                <lightning-input type="checkbox" label="Red" variant="label-hidden" checked={fieldValue} disabled>
+                </lightning-input>
+            </p>
+            <!--Start LAK-4916 -->
+            <p if:true={avalFilBoolean}>
+                <lightning-input type="checkbox" label="Red" variant="label-hidden" checked={fieldValue} disabled>
+                </lightning-input>
+            </p>
+            <!--End LAK-4916 -->
+            <!-- <p if:true={opsVerBoolean}>
+                <lightning-input type="checkbox" label="Red" variant="label-hidden" checked={checkBoxBoolean} disabled>
+                </lightning-input>
+            </p> -->
+        </div>
+        <template if:true={queryRemBoolean}>
+            <lightning-button label="Query" variant={quryColor} data-ndc-id={ndcId} disabled={readOnlyNew}
+                onclick={handleNdcRemarks}></lightning-button>
+            <!-- <c-show-application-query-details ndc-id={ndcId}></c-show-application-query-details> -->
+        </template>
+        <template if:true={queryRemBooleanfalse}>
+            <lightning-button label="Query" variant={quryColor} disabled></lightning-button>
+            <!-- <c-show-application-query-details ndc-id={ndcId}></c-show-application-query-details> -->
+        </template>
+        <template if:true={previewBoolean}>
+            <template if:true={uploadedDocDetail}>
+                <template if:true={uploadedDocDetail.cdlId}>
+                    <!-- <div class="preview-container"> -->
+                    <lightning-icon class="custom-button slds-p-right_xx-small" data-record-id={recordId}
+                        disabled={disableRead} data-docid={fieldValue} icon-name="utility:preview"
+                        data-cdid={uploadedDocDetail.cdId} data-cvid={uploadedDocDetail.cvId} alternative-text="preview"
+                        size="small" title="preview" variant="success" data-filetype={uploadedDocDetail.fileType}
+                        onclick={handleDocumentView}></lightning-icon>
+                    <!-- </div> -->
+                    <template if:false={disableRead}>
+                        <template if:true={col.allowUpload}>
+                            <template if:false={recordData.FileAvalbl__c}>
+                                <template if:true={col.allowMultiUpload}>
+                                    <lightning-icon icon-name="utility:upload" alternative-text="upload" variant="success"
+                                size="small" title="upload" onclick={handleFileUpload}
+                                disabled={disableRead}></lightning-icon>
+                                </template>
+                                <lightning-icon class="custom-button slds-p-right_xx-small"
+                                    onclick={handleDocumentDelete} icon-name="utility:delete" alternative-text="delete"
+                                    variant="error" size="small" title="delete" disabled={disableRead}></lightning-icon>
+                            </template>
+                        </template>
+                    </template>
+                </template>
+            </template>
+
+            <!-- <template if:true={showUploadIcon}> -->
+            <template if:false={uploadedDocDetail}>
+                <lightning-icon class="custom-button slds-p-right_xx-small" disabled icon-name="utility:preview"
+                    alternative-text="preview" data-docid={fieldValue} size="small" title="preview"></lightning-icon>
+                <template if:false={disableRead}>
+                    <template if:true={col.allowUpload}>
+                        <template if:false={recordData.FileAvalbl__c}>
+                            <lightning-icon icon-name="utility:upload" alternative-text="upload" variant="success"
+                                size="small" title="upload" onclick={handleFileUpload}
+                                disabled={disableRead}></lightning-icon>
+                        </template>
+                    </template>
+                </template>
+            </template>
+
+            <!-- </template> -->
+        </template>
+        <p if:true={oopsVeriBoolean}>
+            <lightning-input type="checkbox" label="Red" data-record-id={recordId} data-record={recordData}
+                data-ndcid={ndcId} data-opsveri={opsVerifcation} data-sobjectype={sobjectType}
+                data-field-name={col.fieldName} variant="label-hidden" data-section-name={sectionName}
+                checked={fieldValue} disabled={disableOpsCheck} onchange={handleValueChange}>
+            </lightning-input>
+        </p>
+    </template>
+</template>

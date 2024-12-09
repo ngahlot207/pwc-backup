@@ -1,0 +1,46 @@
+<template>
+    <!-- <template if:true={isStageUW}> -->
+        <!-- <lightning-card> -->
+            <lightning-layout>
+                <lightning-layout-item size="12" margin="around-small" horizontal-align="center" vertical-align="end">
+                    <lightning-accordion active-section-name="pdQues" allow-multiple-sections-open class="accordion">
+                            <lightning-accordion-section name="A" label="Property General Norms Checklist" if:true={isVisibleSectionA}>
+                                <div class="pcklist-container">
+                                <lightning-layout vertical-align={VerticalAlign} multiple-rows="true">
+                                    <template for:each={genNormQuesList} for:item="genQues">
+                                        <lightning-layout-item padding="around-small" horizontal-align="center" size="6" key={genQues.quesId}>
+                                            <c-dynamic-form-filled pd-question={genQues} data-id ={genQues.quesId} has-edit-access={hasEditAccess}
+                                            onpasstoparent={genNormQuesfromChild}
+                                            layout-size={layoutSize} disabled={disableComp}></c-dynamic-form-filled>
+                                        </lightning-layout-item>
+                                    </template>
+                                    <div class="slds-m-top_small">
+                                        <lightning-input class="slds-p-left" type="checkbox" label="All Property General norms met" checked={gnrlCheckboxValue} disabled>
+                                        </lightning-input>
+                                    </div>
+                                </lightning-layout>
+                            </div>
+                            </lightning-accordion-section>
+                            <lightning-accordion-section name="B" label="Property Subtype Wise Checklist" if:true={isVisibleSectionB}>
+                                <div class="pcklist-container">
+                                <lightning-layout multiple-rows="true">
+                                    <template for:each={propTypeQuesList} for:item="propQues">
+                                        <lightning-layout-item padding="around-small" size="6" key={propQues.quesId}>
+                                            <c-dynamic-form-filled pd-question={propQues} data-id ={propQues.quesId} has-edit-access={hasEditAccess}
+                                            onpasstoparent={subTypeQuesfromChild}
+                                            layout-size={layoutSize} disabled={disableComp}></c-dynamic-form-filled>
+                                        </lightning-layout-item>
+                                    </template>
+                                    <div class="slds-m-top_small">
+                                    <lightning-input  type="checkbox" label="All Property Subtype norms met" checked={propCheckboxValue} disabled>
+                                    </lightning-input>
+                                </div>
+                                </lightning-layout>
+                            </div>
+                            </lightning-accordion-section>
+                    </lightning-accordion>
+                </lightning-layout-item>
+            </lightning-layout>
+        <!-- </lightning-card> -->
+    <!-- </template> -->
+    </template>

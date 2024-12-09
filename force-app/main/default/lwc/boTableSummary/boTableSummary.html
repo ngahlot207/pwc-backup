@@ -1,0 +1,89 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    <template if:true={desktopBoolean}>
+        <lightning-card>
+            <!-- UPDATED TABLE  -->
+            <div class="slds-box slds-theme_default slds-scrollable_x" style="width:200rem">
+                <table
+                    class="slds-table slds-table_cell-buffer slds-border_right slds-border_left slds-table_bordered slds-table_col-bordered"
+                    aria-label="Example table of Opportunities with vertical borders">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Name">
+                                    Name
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Gender">
+                                    <label id="id-01">Gender</label>
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Age">
+                                    <label id="id-02">Age</label>
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Shareholding / PSR %">
+                                    Shareholding / PSR %
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Beneficial Owner">
+                                    Beneficial Owner
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Type">
+                                    Type
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <template if:true={appData} for:each={appData} for:item="record" for:index="index">
+                            <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+                                <td data-label="Name">
+                                    <div class="slds-truncate" title="Name">
+                                        {record.FullName__c}
+                                    </div>
+                                </td>
+                                <td data-label="Gender">
+                                    <div class="slds-truncate" title="Gender">
+                                        {record.Gender__c}
+                                    </div>
+                                </td>
+                                <td data-label="Age">
+                                    <div class="slds-truncate" title="Age">
+                                        {record.Age__c}
+                                    </div>
+                                </td>
+                                <td data-label="Shareholding / PSR %">
+                                    <div class="slds-truncate" title="Shareholding / PSR %">
+                                        {record.Shareholding__c}
+                                    </div>
+                                </td>
+                                <td data-label="Beneficial Owner">
+                                    <div class="slds-truncate" title="Beneficial Owner">
+                                        {record.BeneficialOwner__c}
+                                    </div>
+                                </td>
+                                <td data-label="Relationship__c">
+                                    <div class="slds-truncate" title="Relationship__c">
+                                        {record.Relationship__c}
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </lightning-card>
+
+    </template>
+</template>

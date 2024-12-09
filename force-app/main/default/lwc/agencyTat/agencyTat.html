@@ -1,0 +1,167 @@
+<template>
+
+    <lightning-card title="Agency TAT">
+        <div id="containerDiv" onmousemove={handlemousemove} onmouseup={handlemouseup}
+           ondblclick={handledblclickresizable}
+           class="slds-table_header-fixed_container slds-border_right slds-border_left tableScroll"
+           onscroll={tableOuterDivScrolled}>
+              <div id="tableViewInnerDiv" class="slds-scrollable_y tableViewInnerDiv slds-scrollable">
+                  <table class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout slds-max-medium-table_stacked-horizontal my-table" onscroll={tableScrolled}>
+                    <thead>
+                      <tr>
+                        <th title="Case Type" class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                          <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset">
+                            <span class="slds-truncate">Case Type</span>
+                          </a>
+                          <div class="slds-resizable">
+                              <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                  <span class="slds-resizable__divider"></span>
+                              </span>
+                          </div>
+                          </div>
+                        </th>
+                        <th title="Agency Name" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                          <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset">
+                            <span class="slds-truncate">Agency Name</span>
+                          </a>
+                          <div class="slds-resizable">
+                              <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                  <span class="slds-resizable__divider"></span>
+                              </span>
+                          </div>
+                          </div>
+                        </th>
+                        <th title="Case Number" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                          <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                            <span class="slds-truncate">Case Number</span>
+                          </a>
+                          <div class="slds-resizable">
+                              <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                  <span class="slds-resizable__divider"></span>
+                              </span>
+                          </div>
+                          </div>
+                        </th>
+                        <th title="Date Time Initiation" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                          <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                            <span class="slds-truncate">Date Time Initiation</span>
+                          </a>
+                          <div class="slds-resizable">
+                              <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                  <span class="slds-resizable__divider"></span>
+                              </span>
+                          </div>
+                          </div>
+                        </th>
+
+
+                        <th title="Date Time Submission" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                          <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                            <span class="slds-truncate">Date Time Submission</span>
+                          </a>
+                          <div class="slds-resizable">
+                              <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                  <span class="slds-resizable__divider"></span>
+                              </span>
+                          </div>
+                          </div>
+                        </th>
+
+
+                        <th title="Date Time Submission" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                            <div class="slds-cell-fixed fixedWidth">
+                            <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                              <span class="slds-truncate">TAT</span>
+                            </a>
+                            <div class="slds-resizable">
+                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                    <span class="slds-resizable__divider"></span>
+                                </span>
+                            </div>
+                            </div>
+                          </th>
+                      </tr>
+                    </thead>
+                   <tbody>
+
+                    <template for:each={groupedData} for:item="caseData" >
+                    <template for:each={caseData.accountRecords} for:item="agencyData" >
+                       
+                        <tr key={agencyData.accountName} style="background: #dad6d6; color: black;">
+                            <td colspan="1">{caseData.caseType}</td>
+                            <td colspan="2">{agencyData.accountName}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                
+    
+                            <template for:each={agencyData.cases} for:item="agencyValue" >
+                                <tr key={agencyValue.Id}>
+                                    <td></td>
+                                    <td></td>
+                                    <td>{agencyValue.CaseNumber}</td>
+                                    <td>{agencyValue.DateTimeInitiation__c}</td>
+                                    <td>{agencyValue.Date_Time_of_Submission__c}</td>
+                                    <td>{agencyValue.TAT__c}</td>
+                                </tr>
+                            </template>
+    
+                        </template>
+    
+                    </template>
+    
+          </tbody>
+        </table>
+      </div>
+  </div>
+</lightning-card>
+</template>
+
+    <!-- <lightning-card>
+        <table class="my-table">
+            <thead>
+                <tr>
+                    <th>Case Type</th>
+                    <th>Agency Name</th>
+                    <th>Case Number</th>
+                    <th>Date Time Initiation</th>
+                    <th>Date Time Submission</th>
+                </tr>
+            </thead>
+            <tbody>
+                <template for:each={groupedData} for:item="caseData" >
+                    <tr class="industry-cell" key={caseData.caseType}>
+                        <td colspan="5">{caseData.caseType}</td>
+                    </tr>
+
+                    <template for:each={caseData.accountRecords} for:item="agencyData" >
+                        <tr class="rating-cell" key={agencyData.accountName}>
+                            <td></td>
+                            <td colspan="4">{agencyData.accountName}</td>
+                        </tr>
+
+                        <template for:each={agencyData.cases} for:item="agencyValue" >
+                            <tr key={agencyValue.Id}>
+                                <td></td>
+                                <td></td>
+                                <td>{agencyValue.CaseNumber}</td>
+                                <td>{agencyValue.DateTimeInitiation__c}</td>
+                                <td>{agencyValue.Date_Time_of_Submission__c}</td>
+                            </tr>
+                        </template>
+
+                    </template>
+
+                </template>
+
+            </tbody>
+
+        </table>
+
+    </lightning-card> -->

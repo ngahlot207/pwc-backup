@@ -1,0 +1,80 @@
+<!-- Updated to Dyanmic Button -->
+<template>
+    <div class="slds-is-relative">
+        <lightning-quick-action-panel header="Confirm?">
+            <template if:true={showSpinner}>
+                <div class="spinner">
+                    <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                </div>
+            </template>
+
+
+            <template if:false={showSpinner}>
+                <header class="slds-modal__header">
+                    <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">
+                        <span lwc:if={isDeviationPresent}>
+                            BRE has populated new deviation/s with highest level {deviationLevel} has raised 
+                            due to changes made in the loan application. If you select YES then the application would be sent 
+                            back to UW for approval of the new deviation/s & taking reapproval for the loan application. In 
+                            case NO is selected then the case will be sent forward to Post UW stage and approval would need 
+                            to be taken from appropriate authority in Post sanction UW approval stage.
+                        </span>
+                        <span lwc:else>Do you want to forward the Application?</span>
+                    </h2>
+                </header>
+
+                <div style="text-align: end;" class="slds-m-top_large slds-m-bottom_medium">
+                    <footer class="slds-modal__footer">
+
+                        <template if:true={buttonDisplay}>
+                            <lightning-button variant="brand" class="slds-m-left_x-large" label="YES" type="submit"
+                                onclick={getForwardUwValidationreport}></lightning-button>
+                        </template>
+
+                        <template if:false={buttonDisplay}>
+                            <lightning-button variant="brand" class="slds-m-left_x-large" label="YES" type="submit"
+                                disabled></lightning-button>
+                        </template>
+
+
+                        <lightning-button variant="brand" class="slds-m-left_x-large" label="NO"
+                            onclick={noBtn}></lightning-button>
+                    </footer>
+                </div>
+            </template>
+        </lightning-quick-action-panel>
+    </div>
+</template>
+
+<!-- <template>
+    <div class="slds-is-relative">
+        <lightning-quick-action-panel header="Confirm?">
+            <template if:true={showSpinner}>
+                <div class="spinner">
+                    <lightning-spinner alternative-text="Loading" variant="brand" size="medium"></lightning-spinner>
+                </div>
+            </template>
+            <template if:false={showSpinner}>
+                <lightning-record-edit-form record-id={recordId} object-api-name={objectApiName}
+                    onsuccess={handleSuccess}>
+                    <div class="slds-text-align_center slds-text-heading_small"><p>Do you want to Forward the application to UW ?</p></div>
+                    <lightning-input-field style="display:none;" field-name="Stage__c"
+                        value="UnderWriting"></lightning-input-field>
+                        <lightning-input-field style="display:none;" field-name="SubStage__c"
+                        value="UW Pool"></lightning-input-field>
+                        <lightning-input-field style="display:none;" field-name="OwnerId"
+                        value={loanApplicationQueueId}></lightning-input-field>
+
+                    <div style="text-align: end;" class="slds-m-top_large slds-m-bottom_medium">
+                        <footer class="slds-modal__footer">
+                            <lightning-button variant="brand" class="slds-m-left_x-large" label="YES"
+                                type="submit"></lightning-button>
+                            <lightning-button variant="brand" class="slds-m-left_x-large" label="NO"
+                                onclick={closeAction}></lightning-button>
+                        </footer>
+                    </div>
+                </lightning-record-edit-form>
+            </template>
+        </lightning-quick-action-panel>
+    </div>
+</template> -->

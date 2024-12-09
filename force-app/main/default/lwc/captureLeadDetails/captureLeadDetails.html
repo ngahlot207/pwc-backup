@@ -1,0 +1,1127 @@
+<template>
+    <lightning-spinner if:true={showSpinner} alternative-text="Loading" size="medium"></lightning-spinner>
+    <lightning-layout multiple-rows="true">
+        <lightning-layout-item size="12">
+            <lightning-accordion active-section-name={activeSection} allow-multiple-sections-open>
+                <lightning-accordion-section name="A" label="Lead Source Details" class="accClass">
+                    <lightning-layout multiple-rows="12">
+                        <lightning-layout-item size="4">                       
+                            <div class="slds-p-around_x-small">
+                                <lightning-combobox
+                                    name="LeadSource"
+                                    label="Lead Source"
+                                    value={leadValue} 
+                                    options={leadValueOptions}
+                                    onchange={handleLeadSourceChange}
+                                    required={requiredFlag}
+                                    class="leadSource"
+                                    disabled={disableLMSId}>  
+                                </lightning-combobox> 
+                            </div>                              
+                        </lightning-layout-item>
+                        <lightning-layout-item size="4">
+                            <div class="slds-p-around_x-small">
+                                <template lwc:if={digitalValue}>
+                                    <lightning-input type="text" onblur={handleBlur}  label="LMS Lead ID" onchange={lmsLeadIdHandler} required={digitalValue} class="lmsLeadId" value={lmsLeadId} name="lmsLeadId" disabled={disableLMSId}></lightning-input>
+                                </template>
+                                <template lwc:if={directValue}>
+                                    <lightning-input type="text" label="RM/SM Name" value={rmNameValue}  disabled="true"></lightning-input>
+                                </template>
+                                <template lwc:if={fedFinaEmpValue}>
+                                    <lightning-input type="text"  required={fedFinaEmpValue} label="Referral Employee Code" onchange={referralCodeHandler}  class="referralCode" value={referralCode} name="referralCode"  pattern="[a-zA-Z0-9]{5,6}" 
+                                    message-when-pattern-mismatch="Please Enter Correct Referral Code." disabled={disabledFlag}></lightning-input>
+                                </template>
+                                <template if:true={isDSA}>
+                                    <lightning-input label="Channel Name" value={searchInputName} disabled></lightning-input>
+                                </template>
+                                <template if:false={isDSA}>
+                                    <template lwc:if={dsaValue}>                                   
+                                        <div class="slds-form-element">
+                                            <div class="slds-form-element__control">
+                                                <div class="slds-combobox_container">
+                                                    <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                                                        <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                                            <lightning-input type="search" label="Channel Name" value={searchInput} onchange={handleChannelResponse} placeholder="Search..." required={channelFlag} class="channelClass" disabled={disabledFlag}>                       
+                                                            </lightning-input>                   
+                                                        </div>
+                                                    </div>
+                                                </div>                               
+                                                <div if:true={errorMessage4} class="slds-p-around_x-small">
+                                                    <p class="slds-text-color_error">No Result Found!</p> 
+                                                </div>
+                                                <template if:true={searchResult4}>
+                                                    <div id="listbox-id-7" tabindex="0" class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox">
+                                                        <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                                            <template for:each={resultData} for:item="rec">
+                                                                <li role="presentation" key={rec.label} class="slds-listbox__item">
+                                                                    <div onclick={handleChannelSelection} data-value={rec.label} data-label={rec.value}
+                                                                        class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                                                        role="option">
+                                                                        <span class="slds-media__body">
+                                                                            <span class="slds-listbox__option-text slds-listbox__option-text_entity">
+                                                                                <span>
+                                                                                    <mark>{rec.value}</mark>
+                                                                                </span>
+                                                                            </span>
+                                                                        </span>
+                                                                    </div>
+                                                                </li>
+                                                            </template>
+                                                        </ul>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </div>                                                                                                                      
+                                </template>
+                                </template>
+                              
+
+                            </div>
+                        </lightning-layout-item> 
+                        <!-- <template if:true={isDSA}> -->
+                            <lightning-layout-item if:true={isDSA} size="4">                       
+                                <div class="slds-p-around_x-small">
+                                <c-custom-lookup required=true label="Sourcing Location" selected-icon-name="standard:identifier" 
+                                object-api-name="LocMstr__c" field-api-name="City__c" selected-record-name={selectDSACity}
+                                selected-record-id={selectDSACityId} onselect={handleLookupFieldChange} > 
+                               </c-custom-lookup> 
+                                </div>                              
+                            </lightning-layout-item> 
+                            <lightning-layout-item size="4">
+                                <div class="slds-p-around_x-small">
+                                    <c-custom-lookup required=true label="Branch" selected-icon-name="standard:identifier"
+                                        object-api-name="LocBrchJn__c" field-api-name="Branch__r.Name"
+                                        selected-record-name={selectDSABranch} selected-record-id={locationBranJnId}
+                                        onselect={handleBranchChange} filter-condn={filterConditionForBranc} disabled={disableBranch}>
+                                    </c-custom-lookup>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="4">
+                                <div class="slds-p-around_x-small">
+                                    <lightning-combobox
+                                    class="productValue"
+                                    label="Product"
+                                    value={productValue}
+                                    options={productOptions}
+                                    onchange={handleProductChange}
+                                    required={requiredFlag}
+                                    disabled={disabledFlag}>
+                                </lightning-combobox>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item if:true={isDSA} size="4">
+                                <div class="slds-p-around_x-small">
+                                    <c-custom-lookup required=true label="Select RM"
+                                        selected-icon-name="standard:identifier" object-api-name="TeamHierarchy__c"
+                                        field-api-name="Employee__r.Name" selected-record-name={selectedDsaRm}
+                                        selected-record-id={teamHierId} onselect={handleRmSelection}
+                                        filter-condn={filterConditionForRM} disabled={disableDSARM}>
+                                    </c-custom-lookup>
+                                </div>
+                            </lightning-layout-item>
+                        <!-- </template>                          -->
+                    </lightning-layout>                    
+                </lightning-accordion-section>            
+                <lightning-accordion-section name="B" label="Personal Details" class="accClass">
+                    <lightning-layout multiple-rows="12">
+                        <lightning-layout-item size="4">
+                            <div class="slds-p-around_x-small">
+                                <lightning-combobox
+                                    name="customerProfile"
+                                    class="customerProfileValue"
+                                    label="Customer Profile"
+                                    value={customerProfileValue}
+                                    options={customerProfileOptions}
+                                    onchange={handleCustomerProfileChange} 
+                                    required={requiredFlag}
+                                    disabled={disabledFlag}>
+                                </lightning-combobox>    
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="4"> 
+                            <div class="slds-p-around_x-small">
+                                <lightning-combobox
+                                    name="constitution"
+                                    class="constitutionValue"
+                                    label="Constitution"
+                                    value={constitutionValue}
+                                    options={constitutionOptions}
+                                    onchange={handleConstitutionChange}
+                                    required={requiredFlag}
+                                    disabled ={constiFlag}
+                                    >
+                                </lightning-combobox>    
+                            </div>
+                        </lightning-layout-item> 
+                            <lightning-layout-item size="4">
+                                <div class="slds-p-around_x-small">
+                                    <lightning-input type="email" onblur={handleBlur} data-id="txtEmailAddress" label="Email ID" name="email" class="validateEmailID"
+                                    value={emailId} onchange={emailHandler} disabled={disabledFlag} ></lightning-input>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                        <lightning-layout multiple-rows="12">
+                            <template lwc:if={isNonIndividual}>
+                                <lightning-layout-item size="4">
+                                    <div class="slds-p-around_x-small"> 
+                                        <lightning-input type="text" onblur={handleBlur}  label="Company Name" required={isNonIndividual} onchange={companyChangeHandler} class="companyChange" value={companyChange}
+                                        pattern="[A-Z][A-Za-z.&\s@$#*}{][,=)(+;'/]+" message-when-pattern-mismatch="Please enter a valid Company Name" disabled={disabledFlag} 
+                                        field-level-help="Company Name is mandatory for lead creation"></lightning-input>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="4"> 
+                                    <div class="slds-p-around_x-small">
+                                        <lightning-input type="text" onblur={handleBlur}  label="Name of the Keyman/Authorised Individual" required={isNonIndividual} onchange={keyManHandler} class="keyManName" value={keyManName}
+                                        pattern="^[A-Za-z]+(?: [A-Za-z]+)*$" message-when-pattern-mismatch="Please enter a valid Keyman/Authorised Individual Name" disabled={disabledFlag}
+                                        ></lightning-input>
+                                    </div>
+                                </lightning-layout-item>
+                            </template>
+                        <!-- </lightning-layout>  
+                        <lightning-layout multiple-rows="12"> -->
+                            <template lwc:if={isIndividual}>
+                                <lightning-layout-item size="4">                                                                   
+                                    <div class="slds-p-around_x-small">
+                                        <lightning-input type="text" onblur={handleBlur}  label="First Name" required={isIndividual} onchange={firstNameHandler}  class="firstName" value={firstName}
+                                        pattern="^[A-Za-z]+(?: [A-Za-z]+)*$" message-when-pattern-mismatch="Please enter a valid First Name" disabled={disabledFlag}></lightning-input>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="4">
+                                
+                                    <div class="slds-p-around_x-small">
+                                        <lightning-input type="text" onblur={handleBlur}  label="Last Name" required={isIndividual} onchange={lastNameHandler}  class="lastName" value={lastName}
+                                        pattern="^[A-Za-z]+(?: [A-Za-z]+)*$" message-when-pattern-mismatch="Please enter a valid Last Name" disabled={disabledFlag}
+                                        field-level-help="Last Name is mandatory for lead creation"></lightning-input>
+                                    </div>
+                                </lightning-layout-item>
+                            </template>
+                                <lightning-layout-item size="4">
+                                    <div class="slds-p-around_x-small">
+                                        <lightning-input type="tel" label="Mobile No." name="mobile" required={requiredFlag} pattern="[6,7,8,9]{1}[0-9]{9}"
+                                        onchange={mobileHandler} class="validate1" value={mobile} 
+                                        message-when-pattern-mismatch="Please enter a valid Mobile Number" disabled={disabledFlag}
+                                        ></lightning-input>
+                                    </div>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        <lightning-layout multiple-rows="12"> 
+                            <template lwc:if={isIndividual}>                           
+                                <lightning-layout-item size="4"> 
+                                    <div class="slds-p-around_x-small"> 
+                                    <div class="slds-form-element">
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-combobox_container">
+                                                <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                                                    <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                                        <lightning-input type="search" label="Current Residence City" class=currentCitySearch value={currentCitySearch} onchange={handleCurrentCityResponse} placeholder="Search..." required={isIndividual} disabled={disabledFlag}>                       
+                                                        </lightning-input>                   
+                                                    </div>
+                                                </div>
+                                            </div>                               
+                                            <div if:true={errorMessage1} class="slds-p-around_x-small">
+                                                <p class="slds-text-color_error">No Result Found!</p> 
+                                            </div>
+                                            <template if:true={searchResult1}>
+                                                <div id="listbox-id-4" tabindex="0" class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox">
+                                                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                                        <template for:each={currentCityData} for:item="rec">
+                                                            <li role="presentation" key={rec.label} class="slds-listbox__item">
+                                                                <div onclick={handleCurCitySelection} data-value={rec.label} data-label={rec.value} data-subfield={rec.subfield}
+                                                                    class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                                                    role="option">
+                                                                    <span class="slds-media__body">
+                                                                        <span class="slds-listbox__option-text slds-listbox__option-text_entity">
+                                                                            <span>
+                                                                                <mark>{rec.value}</mark>
+                                                                            </span>
+                                                                        </span>
+                                                                    </span>
+                                                                </div>
+                                                            </li>
+                                                        </template> 
+                                                    </ul>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </div>
+                                    </div>
+                
+                            </lightning-layout-item>
+                                <lightning-layout-item size="4">
+                                    <div class="slds-p-around_x-small">
+                                        <lightning-input type="date" date-style="short" name="dob" label="Date of Birth" required={isIndividual} onchange={dobHandler} class="dob1" value={dob1} disabled={disabledFlag}></lightning-input>
+                                        <template lwc:if={dobError}>
+                                            <p class="slds-text-color_error">{dobError}</p>
+                                        </template>                
+                                    </div>
+                            
+                            </lightning-layout-item>
+                            </template>
+                            </lightning-layout>
+                            <lightning-layout multiple-rows="true">
+                                <lightning-layout-item size="4">
+                                    <template lwc:if={isNonIndividual}>                                    
+                                        <div class="slds-p-around_x-small"> 
+                                         <lightning-input type="date" date-style="short" name="doi" label="Date of Incorporation" required={isNonIndividual} onchange={doiHandler} class="doiValue1" value={doiValue1} disabled={disabledFlag}></lightning-input>
+                                         <template lwc:if={doiErrMessage}>
+                                             <p class="slds-text-color_error">{doiErrMessage}</p>
+                                         </template>
+                                     </div>
+                                                         
+                             </template>
+                             </lightning-layout-item>
+                                <lightning-layout-item size="4">
+                                    <template lwc:if={isNonIndividual}>
+                                        <div class="slds-p-around_x-small">
+                                            <div class="slds-form-element">
+                                                <div class="slds-form-element__control">
+                                                    <div class="slds-combobox_container">
+                                                        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                                                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                                                <lightning-input type="search" label="Office Address City" value={officeCitySearch} onchange={handleOfficeCityResponse} placeholder="Search..." required={isNonIndividual} class="officeCitySearch" disabled={disabledFlag}>                       
+                                                                </lightning-input>                   
+                                                            </div>
+                                                        </div>
+                                                    </div>                               
+                                                    <div if:true={errorMessage2} class="slds-p-around_x-small">
+                                                        <p class="slds-text-color_error">No Result Found!</p> 
+                                                    </div>
+                                                    <template if:true={searchResult2}>
+                                                        <div id="listbox-id-6" tabindex="0" class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox">
+                                                            <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                                                <template for:each={officeCityData} for:item="rec">
+                                                                    <li role="presentation" key={rec.label} class="slds-listbox__item">
+                                                                        <div onclick={handleOffCitySelection} data-value={rec.label} data-label={rec.value} data-subfield={rec.subfield}
+                                                                            class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                                                            role="option">
+                                                                            <span class="slds-media__body">
+                                                                                <span class="slds-listbox__option-text slds-listbox__option-text_entity">
+                                                                                    <span> 
+                                                                                        <mark>{rec.value}</mark> 
+                                                                                    </span>
+                                                                                </span>
+                                                                            </span>
+                                                                        </div>
+                                                                    </li>
+                                                                </template>
+                                                            </ul>
+                                                        </div>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                </template> 
+                                </lightning-layout-item>                                
+                            </lightning-layout>
+                        </lightning-accordion-section>                               
+                        <lightning-accordion-section name="C" label="Loan & Product Details" class="accClass">
+                        <lightning-layout multiple-rows="12">
+                            <!-- <lightning-layout-item size="4">
+                                <div class="slds-p-around_x-small">
+                                    <lightning-combobox
+                                        class="productValue"
+                                        label="Product"
+                                        value={productValue}
+                                        options={productOptions}
+                                        onchange={handleProductChange}
+                                        required={requiredFlag}
+                                        disabled={disabledFlag}>
+                                    </lightning-combobox>
+                                </div>
+                            
+                                </lightning-layout-item> -->
+                                <lightning-layout-item if:false={disableFieldsOnProd} size="4">
+                                    <div class="slds-p-around_x-small">
+                                        <lightning-combobox
+                                            class="productSubTypeValue"
+                                            label="Product Sub Type"
+                                            value={productSubTypeValue}
+                                            options={productSubTypeOptions}
+                                            onchange={handleProductSubTypeChange}
+                                            required={requiredFlag}
+                                            disabled={disabledFlag}>
+                                        </lightning-combobox>
+                                    </div>                               
+                                </lightning-layout-item>
+
+                                <!-- <lightning-layout-item size="4">
+                                    <div class="slds-p-around_x-small">
+                                        <div class="slds-form-element">
+                                            <div class="slds-form-element__control">
+                                                <div class="slds-combobox_container">
+                                                    <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                                                        <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                                            <lightning-input 
+                                                                type="search" 
+                                                                name="promotionCode"
+                                                                label="Promotion Code"
+                                                                value={promotionCode}
+                                                                class="promotionCode"
+                                                                placeholder="Search..."
+                                                                onchange={handlePromotionCode}
+                                                                disabled={disabledFlag}>                       
+                                                            </lightning-input>                   
+                                                        </div>
+                                                    </div>
+                                                </div>                               
+                                                <div if:true={errorMessage3} class="slds-p-around_x-small">
+                                                    <p class="slds-text-color_error">No Result Found!</p> 
+                                                </div>
+                                                <template if:true={searchResult3}>
+                                                    <div id="listbox-id-5" tabindex="0" class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox">
+                                                        <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                                            <template for:each={promotionData} for:item="rec">
+                                                                <li role="presentation" key={rec.label} class="slds-listbox__item">
+                                                                    <div onclick={handlePromotionSelection} data-value={rec.label} data-label={rec.value}
+                                                                        class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                                                        role="option">
+                                                                        <span class="slds-media__body">
+                                                                            <span class="slds-listbox__option-text slds-listbox__option-text_entity">
+                                                                                <span>
+                                                                                    <mark>{rec.value}</mark>
+                                                                                </span>
+                                                                            </span>
+                                                                        </span>
+                                                                    </div>
+                                                                </li>
+                                                            </template>
+                                                        </ul> 
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </div>   
+                                </lightning-layout-item> -->
+                                <lightning-layout-item if:false={disableFieldsOnProd} size="4">
+                                                    <div class="slds-p-around_x-small">
+                                                        <c-custom-lookup label="Promotion" field-name="PromCode__c"
+                                                            selected-icon-name="standard:promotions" object-label={objectLabel}
+                                                            object-api-name="PromoMapping__c" field-api-name="PromoDesc__c" selected-fields="Scheme__c"
+                                                            selected-record-id={promotionCode} selected-record-name={promotion}
+                                                            filter-condn={filterConditionPromotion} onselect={handlePromotionSelection}
+                                                            disabled={disabledFlag}></c-custom-lookup>
+                                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="4">
+                                    <div class="slds-p-around_x-small" >
+                                        <span onkeypress={loanAmountHandler} onblur={loanAmountHandler} >
+                                        <form autocomplete="off">
+                                            <lightning-input type="number"  name="loanAmount" label="Requested Loan Amount" value={loanAmount} onchange={loanAmountHandler} formatter="currency" required={requiredFlag} disabled={disabledFlag} message-when-bad-input="Enter a valid value manually"></lightning-input>
+                                        </form>
+                                        </span>                   
+                                        <template lwc:if={loanAmountFlag}>
+                                            <p class="slds-text-color_error">{loanAmountErrorMessage}</p>
+                                        </template>
+                                    </div>                               
+                            </lightning-layout-item>
+                            <lightning-layout-item if:true={disableFieldsOnProd} size="4">
+                                <div class="slds-p-around_x-small">
+                                    <lightning-input type="number" label="Requested Tenure in Months" onchange={tenureHandler} class="tenure" value={tenure} required={requiredFlag} disabled={disabledFlag}
+                                    ></lightning-input>
+                                    <template lwc:if={tenureErrorFlag}>
+                                        <p class="slds-text-color_error">{tenureErrorMessage}</p>
+                                    </template>
+                                </div> 
+                            
+                            </lightning-layout-item>
+                            <template if:true={disableFieldsOnProd}>
+                                <lightning-layout-item if:false={isDSA} size="4">
+                                    <div class="slds-p-around_x-small">
+                                        <lightning-combobox
+                                            name="disposition"
+                                            class="depStatusValue"
+                                            label="Disposition Status"
+                                            value={depStatusValue}
+                                            options={depStatusOptions}
+                                            onchange={handleDepStatusChange}
+                                            required={requiredFlag}
+                                            disabled={disabledFlag}>
+                                        </lightning-combobox>
+                                    </div>
+                            </lightning-layout-item>
+                             </template> 
+                            </lightning-layout>
+                            <lightning-layout multiple-rows="12">    
+                                <lightning-layout-item if:false={disableFieldsOnProd} size="4">
+                                    <div class="slds-p-around_x-small">
+                                        <lightning-input type="number" label="Requested Tenure in Months" onchange={tenureHandler} class="tenure" value={tenure} required={requiredFlag} disabled={disabledFlag}
+                                        ></lightning-input>
+                                        <template lwc:if={tenureErrorFlag}>
+                                            <p class="slds-text-color_error">{tenureErrorMessage}</p>
+                                        </template>
+                                    </div> 
+                                
+                                </lightning-layout-item>                         
+                                <lightning-layout-item if:false={disableFieldsOnProd} size="4">
+                                    <div class="slds-p-around_x-small">
+                                        <lightning-combobox
+                                            name="assessedIncome"
+                                            label="Is this Assessed Income Program"
+                                            value={assessedIncomeProgramValue1}
+                                            options={globalTrueFalseOptions}
+                                            onchange={handleAssesIncomeChange}
+                                            disabled={disabledFlag}>
+                                        </lightning-combobox>
+                                    </div>
+                                
+                            </lightning-layout-item>
+                            <lightning-layout-item if:false={disableFieldsOnProd} size="4">
+                                <div class="slds-p-around_x-small">
+                                    
+                                        <lightning-combobox                                               
+                                            label="Property Identified"
+                                            value={propertyIdentifiedValue}
+                                            options={globalTrueFalseOptions}
+                                            onchange={handlePropertyIdentifiedChange}
+                                            disabled={proIdentifiedFlag}></lightning-combobox>
+                                    
+                                </div>
+                            
+                        </lightning-layout-item> 
+                            
+                            
+                        </lightning-layout>
+                        <lightning-layout multiple-rows="12"> 
+                                    
+                                    
+                                    <lightning-layout-item if:false={disableFieldsOnProd} size="4">
+                                        <div class="slds-p-around_x-small">
+                                            <lightning-combobox
+                                                name="propertyCategory"
+                                                label="Property Category"
+                                                value={propertyCategoryValue}
+                                                options={propertyCategoryOptions}
+                                                onchange={handlePropertyCategoryChange} 
+                                                required={proCategoryFlag}
+                                                disabled={disabledFlag}>
+                                            </lightning-combobox>
+                                        </div> 
+                                        </lightning-layout-item>
+                                         <template if:false={disableFieldsOnProd}>
+                                            <lightning-layout-item if:false={isDSA} size="4">
+                                                <div class="slds-p-around_x-small">
+                                                    <lightning-combobox
+                                                        name="disposition"
+                                                        class="depStatusValue"
+                                                        label="Disposition Status"
+                                                        value={depStatusValue}
+                                                        options={depStatusOptions}
+                                                        onchange={handleDepStatusChange}
+                                                        required={requiredFlag}
+                                                        disabled={disabledFlag}>
+                                                    </lightning-combobox>
+                                                </div>
+                                        </lightning-layout-item>
+                                         </template>
+                                <lightning-layout-item if:false={isDSA} size="4">
+                                    <div class="slds-p-around_x-small">
+                                        <lightning-textarea label="Disposition Remarks" onchange={remarkHandler} value={depositionRemark} disabled={disabledFlag}
+                                        pattern="[A-Za-z. ]*" message-when-pattern-mismatch="Please enter a valid Remark"></lightning-textarea>
+                                   </div>                                      
+                                </lightning-layout-item>  
+                            </lightning-layout>
+                                <lightning-layout multiple-rows="12">                                                                       
+                                                <lightning-layout-item size="4">
+                                                    <div class="slds-p-around_x-small">
+                                                        <template lwc:if={leadClosureVisibilty}>
+                                                            <lightning-combobox
+                                                                name="leadClosure"
+                                                                label="Lead Closure Reason"
+                                                                value={leadClosureValue}
+                                                                options={leadClosureOptions}
+                                                                onchange={handleLeadClosureChange} 
+                                                                required={leadClosureVisibilty}
+                                                                disabled={disabledFlag}></lightning-combobox>
+                                                        </template>
+                                                    </div>
+                                                
+                                                </lightning-layout-item>
+                                                <template lwc:if={otherSelected}>
+                                                    <lightning-layout-item size="4">
+                                                        <div class="slds-p-around_x-small">
+                                                            <lightning-input type="text" onblur={handleBlur}  value={otherReason} label="Additional Comments" onchange={otherCommentsHandler} disabled={disabledFlag} required={otherSelected}></lightning-input>
+                                                        </div> 
+                                                 
+                                                    </lightning-layout-item>
+                                                </template>
+
+                                            </lightning-layout>
+                                        </lightning-accordion-section>
+                                        <!-- LAK-61 -->   
+                                        <lightning-accordion-section name="D" label="EMI Eligibility Details" class="accClass slds-is-open">
+                                      <template if:false={showEligibilityDetails}>
+                                            <lightning-layout multiple-rows="12">
+                                        <lightning-layout-item size="4">
+                                        <div class="slds-p-around_x-small">
+                                            <lightning-input label="Declared Monthly Income (₹)" type="number" formatter="currency" value={declredMontlyIncVal} disabled></lightning-input>        
+                                        </div>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="4">
+                                        <div class="slds-p-around_x-small">
+                                            <lightning-input label="Declared Monthly Obligation (₹)" type="number" formatter="currency" value={declredMontlyOblVal} disabled></lightning-input>                    
+                                        </div>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="4">
+                                            <div class="slds-p-around_x-small">
+                                                <lightning-input type="number" name="leadROI" label="Lead ROI(%)" value={leadROINew}
+                                                formatter="percent-fixed" disabled step="0.01"></lightning-input>                                                  
+                                            </div>
+                                        </lightning-layout-item> 
+                                    </lightning-layout>
+                                    <lightning-layout multiple-rows="12">
+                                        <lightning-layout-item size="4">
+                                            <div class="slds-p-around_x-small">
+                                                <lightning-input type="number" name="leadFOIR" label="Lead FOIR" value={leadFOIR}
+                                                formatter="percent-fixed" disabled step="0.01"></lightning-input>   
+                                            </div>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="4">
+                                        <div class="slds-p-around_x-small">
+                                            <lightning-input label="EMI per Lac" type="number" formatter="currency" value={EMIperLac} disabled></lightning-input>                    
+                                        </div>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="4">
+                                            <div class="slds-p-around_x-small">                                            
+                                            <lightning-input label="Eligibility in lacs (₹)" type="number" formatter="currency" value={eligibilityinlacs} disabled></lightning-input>                    
+                                                 
+                                            </div>
+                                        </lightning-layout-item> 
+                                    </lightning-layout>
+                                    <lightning-layout multiple-rows="12">
+                                        <lightning-layout-item size="4">
+                                            <div class="slds-p-around_x-small">
+                                                <lightning-input label="EMI" type="number" formatter="currency" value={emi} disabled></lightning-input>                                                 
+                                            </div>
+                                            </lightning-layout-item>
+                                            </lightning-layout>
+                                        </template>
+                                        <template if:true={salariedEl}>
+                                            <lightning-layout multiple-rows="12">
+                                                <lightning-layout-item size="4">
+                                                <div class="slds-p-around_x-small">
+                                                    <lightning-input type="number" name="Applicable FOIR" label="Applicable FOIR" value={applicableFOIR}
+                                                    formatter="percent-fixed" disabled step="0.01"></lightning-input>   
+                                                </div>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item size="4">
+                                                <div class="slds-p-around_x-small">
+                                                    <lightning-input label="Max Eligible EMI" type="number" formatter="currency" value={maxEligibleEMI} disabled></lightning-input>                    
+                                                </div>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item size="4">
+                                                    <div class="slds-p-around_x-small">
+                                                        <lightning-input label="Max Loan - Basis FOIR (60Months)" type="number" formatter="currency" value={maxLoanBasisFOIR} disabled></lightning-input>                                                 
+                                                    </div>
+                                                </lightning-layout-item> 
+                                            </lightning-layout>
+                                            <lightning-layout multiple-rows="12">
+                                                <lightning-layout-item size="4">
+                                                <div class="slds-p-around_x-small">
+                                                    <lightning-input label="Max Loan - Basis NMI Band" type="number" formatter="currency" value={maxLoanBasisNMIBand} disabled></lightning-input>                    
+                                                </div>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item size="4">
+                                                    <div class="slds-p-around_x-small">
+                                                        <lightning-input label="Max Loan Eligibility" type="number" formatter="currency" value={maxLoanEligibility} disabled></lightning-input>                                                 
+                                                    </div>
+                                                </lightning-layout-item> 
+                                            </lightning-layout>
+                                        </template>
+                                        <template if:true={selfEmpEl}>
+                                            <lightning-layout multiple-rows="12">
+                                                <lightning-layout-item size="4">
+                                                <div class="slds-p-around_x-small">
+                                                    <lightning-input label="Net Profit (NP)" type="number" formatter="currency" value={netProfit} disabled></lightning-input>                      
+                                                </div>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item size="4">
+                                                <div class="slds-p-around_x-small">
+                                                    <lightning-input label="Gross Professional Receipts (GPR)" type="number" formatter="currency" value={grossProfReceipts} disabled></lightning-input>                                 
+                                                </div>
+                                                </lightning-layout-item>
+                                            </lightning-layout> 
+                                        </template>
+                                        <template if:true={selfEmpNonEl}>
+                                            <lightning-layout multiple-rows="12">
+                                                <lightning-layout-item size="4">
+                                                <div class="slds-p-around_x-small">
+                                                    <lightning-input label="Eligibilty (In Lakhs)" type="number" formatter="currency" value={eligibility} disabled></lightning-input>                      
+                                                </div>
+                                                </lightning-layout-item>
+                                                <!-- <lightning-layout-item size="4">
+                                                <div class="slds-p-around_x-small">
+                                                    <lightning-input label="Gross Professional Receipts (GPR)" type="number" formatter="currency" value={grossProfReceipts} disabled></lightning-input>                                 
+                                                </div>
+                                                </lightning-layout-item> -->
+                                            </lightning-layout> 
+                                        </template>
+                                        </lightning-accordion-section>
+                                        <!-- LAK-61 -->
+                                         <!-- LAK-9668 -->
+                                         <lightning-accordion-section name="E" label="Referred Case Details" class="accClass slds-is-open">
+                                            <lightning-layout multiple-rows="12">
+                                            <lightning-layout-item size="4">
+                                            <div class="slds-p-around_x-small">
+                                                <lightning-input label="Case Number" type="text" value={caseNo} disabled></lightning-input>        
+                                            </div>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="4">
+                                            <div class="slds-p-around_x-small">
+                                                <lightning-input label="Case Owner" type="text" value={caseOwner} disabled></lightning-input>                    
+                                            </div>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="4">
+                                                <div class="slds-p-around_x-small">
+                                                    <lightning-input type="text" name="ApprovalStauts" label="Approval Status" value={approverejectStuts}
+                                                     disabled step="0.01"></lightning-input>                                                  
+                                                </div>
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                            </lightning-accordion-section>
+                                          <!-- LAK-9668 -->
+                                    </lightning-accordion> 
+                                 </lightning-layout-item> 
+                                </lightning-layout>
+                                <lightning-layout multiple-rows="true">
+                                    <lightning-layout-item size="12">
+                                        <div class="slds-m-top_small slds-m-bottom_medium">
+                                            <div class="slds-clearfix">
+                                                <div class="slds-float_right">
+                                                    <template if:true={disableFieldsOnProd}>
+                                                        <lightning-button label="Eligibility Calculator" onclick={handleEmiCalculatorNew} icon-name="standard:budget" size='large' class="slds-m-around_x-small" icon-position="left" disabled={disableEMIButtonNew}></lightning-button>
+                                                    </template>
+                                                    <template if:false={disableFieldsOnProd}>
+                                                        <lightning-button label="Eligibility Calculator" onclick={handleEmiCalculator} icon-name="standard:budget" size='large' class="slds-m-around_x-small" icon-position="left" disabled={disableEMIButton}></lightning-button>
+                                                    </template>
+                                                    <lightning-button label="Save as draft" name="SaveAsDraft" title="Save as draft" onclick={handleSave} disabled={disabledFlag} icon-name="utility:file" class="slds-m-around_x-small"></lightning-button> 
+                                                    <lightning-button label="Cancel" variant="destructive" onclick={handleCancel} disabled={disabledFlag} class="slds-m-around_x-small"></lightning-button>
+                                                    <lightning-button label="Next" variant="brand" onclick={handleNext} disabled={disabledFlag} class="slds-m-around_x-small"></lightning-button>
+                                                </div>
+                                            </div>                  
+                                        </div> 
+                                    </lightning-layout-item>                       
+                                </lightning-layout>
+                                <!-- modal start -->       
+                            
+                                <template if:true={isShowModal}>
+                                    <section role="dialog" tabindex="-1" aria-modal="true" aria-label="Meaningful description of the modal content" class="slds-modal slds-fade-in-open">
+                                        <div class="custom-modal__container" style="width:100%;">
+                                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse">
+                                        <span class="slds-assistive-text">Cancel and close</span>
+                                        </button>
+                                        <div class="slds-modal__content slds-p-around_medium slds-modal__content_headless" id="modal-content-id-1">
+                                        <div class="slds-align_absolute-center">
+                                            <img style="max-height:40px" alt="QuestionMark" src={image}/>
+                                        </div>
+                                        <div class="slds-align_absolute-center" style="color:grey">                                           
+                                            Are you sure, You want to Close this lead?
+                                        </div>
+                                        <div class="slds-modal__content slds-p-horizontal_xx-large slds-p-top_large slds-align_absolute-left" id="modal-content-id-2">
+                                                    <lightning-combobox
+                                                        name="leadClosure"
+                                                        label="Lead Closure Reason"
+                                                        value={leadClosureValue}
+                                                        options={leadClosureOptions}
+                                                        onchange={handleLeadClosureChange} 
+                                                        required={modalFieldFlag}
+                                                        disabled={disabledFlag} 
+                                                        class="slds-p-around_x-small">
+                                                    </lightning-combobox>
+                                                
+                                        </div>
+                                        <template lwc:if={otherSelected}>
+                                            <div class="slds-modal__content slds-p-horizontal_xx-large slds-align_absolute-left" id="modal-content-id-3">
+                                                
+                                                        <lightning-input type="text" onblur={handleBlur}  class="slds-p-around_x-small" value={otherReason} label="Additional Comments" onchange={otherCommentsHandler} disabled={disabledFlag} required={otherSelected}></lightning-input>                                                
+                                                    </div>
+                                                
+                                        </template>
+                                        </div> 
+                                        <div class="slds-modal__footer">
+                                            <lightning-button label="Close Lead" variant="destructive" onclick={closeLeadHandler} class="slds-m-around_x-small"></lightning-button>
+                                            <lightning-button label="Cancel" variant="brand" onclick={cancelHandler} class="slds-m-around_x-small"></lightning-button>
+                                        </div>
+
+                                        </div>
+                                        </div>
+                                        </section>
+                                    <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>  
+                                    </template>   
+                                      
+                                <!-- modal end -->    
+                                
+        <!-- EMI Calculator on Lead Start LAK-46-->
+         <template if:true={showEMICalculator}> 
+
+            <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open slds-modal_small">
+                <div class="slds-modal__container">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeEMICalculator}>
+                        <lightning-icon icon-name="utility:close" size="small" class="white-utility-icon"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                <div class="slds-modal__header">
+                <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate" tabindex="-1">Eligibility Calculator</h1>
+                </div>
+                <div class="slds-modal__content slds-p-around_small" id="modal-content-id-4">
+                    
+                <templete if:true={showcalculation}>
+                    <div class="slds-box slds-theme_default slds-m-bottom_small custom-emi-box">
+                        <label for="emi" class="custom-emi-label">EMI(₹) : </label>
+                        <span id="emi" class="custom-emi-label">{emi}</span>
+                    </div>
+                    </templete>
+                    <lightning-input label="Declared Monthly Income (₹)" type="number" formatter="currency" message-when-bad-input="Enter a Valid Input." value={MontlyIncdeclval} onchange={handleValueChange} name="declMonthInc" class="declMonthInc" required step="0.01"></lightning-input>
+        
+                        <lightning-input label="Declared Monthly Obligation (₹)" type="number" formatter="currency" message-when-bad-input="Enter a Valid Input." value={MontlyObldeclval} onchange={handleValueChange} name="declMonthObl" class="declMonthObl" required step="0.01"></lightning-input>
+                            <templete if:true={showcalculation}>
+                        <lightning-input label="EMI per Lac" type="number" formatter="currency" value={EMIperLac} name="emiperlac" disabled step="0.01"></lightning-input>
+                        <lightning-input label="Eligibility in lacs (₹)" type="number" formatter="currency" value={eligibilityinlacs} name="eligyinlac" disabled step="0.01"></lightning-input>
+                        <br/>
+                        <p style="color: red;">{label.EligibilityCalculatorMsg}</p>
+                    </templete>
+                </div>
+                <div class="slds-modal__footer">
+            <lightning-button label="Calculate EMI" onclick={calculateEMI} class="slds-m-around_x-small"></lightning-button>
+            <lightning-button label="Reset" onclick={resetValues} class="slds-m-around_x-small"></lightning-button>
+                <button class="slds-button slds-button_neutral" aria-label="Cancel" onclick={closeEMICalculator}>Cancel</button>
+                </div>
+                </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+        </template>
+        <!-- EMI Calculator on Lead Close LAK-46-->
+
+         <!-- EMI Calculator on Lead Start LAK-7267-->
+         <template if:true={showEMICalculatorNew}> 
+
+            <section if:true={salariedEl} role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open slds-modal_large">
+                <div class="slds-modal__container slds-modal_large">
+                    <div if:true={showSpinnerNew}>
+                        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+                        </lightning-spinner>
+                    </div>
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeEMICalculatorNew}>
+                        <lightning-icon icon-name="utility:close" size="small" class="white-utility-icon"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                <div class="slds-modal__header">
+                <h1 id="modal-heading-02" class="slds-modal__title slds-hyphenate" tabindex="-1">Eligibility Calculator</h1>
+                </div>
+                <div class="slds-modal__content slds-p-around_small" id="modal-content-id-5">
+                    
+                <template if:true={showcalculationNew}>
+                    <div class="slds-box slds-theme_default slds-m-bottom_small custom-emi-box">
+                        <label for="emi" class="custom-emi-label">EMI(₹) : </label>
+                        <span id="emiNew" class="custom-emi-label">{emiNew}</span>
+                    </div>
+                </template>
+                    <lightning-layout multiple-rows="12">
+                        <lightning-layout-item size="4">
+                        <div class="slds-p-around_x-small">
+                            <lightning-input label="Salary excluding Variable Pay" type="number" formatter="currency" message-when-bad-input="Enter a Valid Input." value={salExclVarPay} onchange={handleValueChangeNew} name="salExclVarPay" class="salExclVarPay" required step="0.01"></lightning-input>
+                        </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="4">
+                        <div class="slds-p-around_x-small">
+                            <lightning-input label="Avg Variable Pay - 50%" type="number" formatter="currency" message-when-bad-input="Enter a Valid Input." value={avgVarPay} onchange={handleValueChangeNew} name="avgVarPay" class="avgVarPay" required step="0.01"></lightning-input>                    
+                        </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="4">
+                            <div class="slds-p-around_x-small">
+                                <lightning-input label="Deduction(s) including Income Tax" type="number" formatter="currency" message-when-bad-input="Enter a Valid Input." value={dedInclIncomeTax} onchange={handleValueChangeNew} name="dedInclIncomeTax" class="dedInclIncomeTax" required step="0.01"></lightning-input>                      
+                            </div>
+                        </lightning-layout-item> 
+                    </lightning-layout>
+                    <lightning-layout multiple-rows="12">
+                        <lightning-layout-item size="4">
+                        <div class="slds-p-around_x-small">
+                            <lightning-input label="Net Take Home Salary" type="number" formatter="currency" value={netTakHomeSal} name="netTakHomeSal" disabled step="0.01"></lightning-input>
+                        </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="4">
+                        <div class="slds-p-around_x-small">
+                            <lightning-input label="Avg Additional Income" type="number" formatter="currency" message-when-bad-input="Enter a Valid Input." value={avgAddIncome} onchange={handleValueChangeNew} name="avgAddIncome" class="avgAddIncome" required step="0.01"></lightning-input>                    
+                        </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="4">
+                            <div class="slds-p-around_x-small">
+                                <lightning-input label="6 Months Consulting income (post Tax)" type="number" formatter="currency" message-when-bad-input="Enter a Valid Input." value={consultIncome} onchange={handleValueChangeNew} name="consultIncome" class="consultIncome" required step="0.01"></lightning-input>                      
+                            </div>
+                        </lightning-layout-item> 
+                    </lightning-layout>
+                    <lightning-layout multiple-rows="12">
+                        <lightning-layout-item size="4">
+                        <div class="slds-p-around_x-small">
+                            <lightning-input label="Total Net Monthly Income (NMI)" type="number" formatter="currency" value={totalNetMonthluInc} name="totalNetMonthluInc" disabled step="0.01"></lightning-input>
+                        </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="4">
+                        <div class="slds-p-around_x-small">
+                            <lightning-input label="Monthly Obligations" type="number" formatter="currency" message-when-bad-input="Enter a Valid Input." value={monthlyObl} onchange={handleValueChangeNew} name="monthlyObl" class="monthlyObl" required step="0.01"></lightning-input>                    
+                        </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item if:true={showcalculationNew} size="4">
+                            <div class="slds-p-around_x-small">
+                                <lightning-input type="number" name="Applicable FOIR" label="Applicable FOIR" value={applicableFOIR}
+                                                    formatter="percent-fixed" disabled step="0.01"></lightning-input>
+                            </div>
+                        </lightning-layout-item> 
+                    </lightning-layout>
+                    <lightning-layout if:true={showcalculationNew} multiple-rows="12">
+                        <lightning-layout-item size="4">
+                        <div class="slds-p-around_x-small">
+                            <lightning-input label="Max Eligible EMI" type="number" formatter="currency" value={maxEligibleEMI} disabled></lightning-input>                    
+                        </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="4">
+                        <div class="slds-p-around_x-small">
+                            <lightning-input label="Max Loan - Basis FOIR (60Months)" type="number" formatter="currency" value={maxLoanBasisFOIR} disabled></lightning-input>               
+                        </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item if:true={showcalculationNew} size="4">
+                            <div class="slds-p-around_x-small">
+                                <lightning-input label="Max Loan - Basis NMI Band" type="number" formatter="currency" value={maxLoanBasisNMIBand} disabled></lightning-input>
+                            </div>
+                        </lightning-layout-item> 
+                    </lightning-layout>
+                    <lightning-layout if:true={showcalculationNew} multiple-rows="12">
+                        <lightning-layout-item size="4">
+                        <div class="slds-p-around_x-small">
+                            <lightning-input label="Max Loan Eligibility" type="number" formatter="currency" value={maxLoanEligibility} disabled></lightning-input>
+                        </div>
+                        </lightning-layout-item> 
+                    </lightning-layout>
+                        <!-- <lightning-input label="Declared Monthly Obligation (₹)" type="number" formatter="currency" message-when-bad-input="Enter a Valid Input." value={MontlyObldeclval} onchange={handleValueChange} name="declMonthObl" class="declMonthObl" required step="0.01"></lightning-input>
+                            <templete if:true={showcalculation}>
+                        <lightning-input label="EMI per Lac" type="number" formatter="currency" value={EMIperLac} name="emiperlac" disabled step="0.01"></lightning-input>
+                        <lightning-input label="Eligibility in lacs (₹)" type="number" formatter="currency" value={eligibilityinlacs} name="eligyinlac" disabled step="0.01"></lightning-input>
+                        <br/> -->
+                        <!-- <p style="color: red;">{label.EligibilityCalculatorMsg}</p> -->
+                    <!-- </templete> -->
+                    <p if:true={showcalculationNew} style="color: red;">{label.EligibilityCalculatorMsg}</p>
+                </div>
+                <div class="slds-modal__footer">
+            <lightning-button label="Calculate EMI" onclick={calculateEMINew} class="slds-m-around_x-small"></lightning-button>
+            <lightning-button label="Reset" onclick={resetValuesNew} class="slds-m-around_x-small"></lightning-button>
+                <button class="slds-button slds-button_neutral" aria-label="Cancel" onclick={closeEMICalculatorNew}>Cancel</button>
+                </div>
+                </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+             <!-- Self Employed professional emi calculator -->
+                <section if:true={selfEmpEl} role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open slds-modal_large">
+                    <div class="slds-modal__container slds-modal_large">
+                        <div if:true={showSpinnerSEP}>
+                            <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+                            </lightning-spinner>
+                        </div>
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeEMICalculatorSEP}>
+                            <lightning-icon icon-name="utility:close" size="small" class="white-utility-icon"></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                    <div class="slds-modal__header">
+                    <h1 id="modal-heading-03" class="slds-modal__title slds-hyphenate" tabindex="-1">Eligibility Calculator</h1>
+                    </div>
+                    <div class="slds-modal__content slds-p-around_small" id="modal-content-id-6">
+                        
+                    <template if:true={showcalculationSEP}>
+                        <div class="slds-box slds-theme_default slds-m-bottom_small custom-emi-box">
+                            <label for="emi" class="custom-emi-label">EMI(₹) : </label>
+                            <span id="emiNe" class="custom-emi-label">{emiSEP}</span>
+                        </div>
+                    </template>
+                        <lightning-layout multiple-rows="12">
+                            <lightning-layout-item size="4">
+                                <div class="slds-p-around_x-small">
+                                    <lightning-combobox
+                                    name="profQual"
+                                    class="profQual"
+                                    label="Qualification"
+                                    value={profQual}
+                                    options={profQuaOptions}
+                                    onchange={handleValueChangeNew}
+                                    required
+                                    >
+                                </lightning-combobox> 
+                                </div>
+                                </lightning-layout-item>
+                            <lightning-layout-item size="4">
+                            <div class="slds-p-around_x-small">
+                                <lightning-input label="Gross Receipts" type="number" formatter="currency" message-when-bad-input="Enter a Valid Input." value={grossRecipts} onchange={handleValueChangeNew} name="grossRecipts" class="grossRecipts" required step="0.01"></lightning-input>
+                            </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="4">
+                            <div class="slds-p-around_x-small">
+                                <lightning-input label="PAT" type="number" formatter="currency" message-when-bad-input="Enter a Valid Input." value={patValue} onchange={handleValueChangeNew} name="pat" class="pat" required step="0.01"></lightning-input>                    
+                            </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                        <lightning-layout multiple-rows="12">
+                            <lightning-layout-item size="4">
+                                <div class="slds-p-around_x-small">
+                                    <lightning-input label="Depreciation" type="number" formatter="currency" message-when-bad-input="Enter a Valid Input." value={depreciation} onchange={handleValueChangeNew} name="depreciation" class="depreciation" required step="0.01"></lightning-input>                      
+                                </div>
+                            </lightning-layout-item> 
+                            <lightning-layout-item size="4">
+                            <div class="slds-p-around_x-small">
+                                <lightning-input label="Interest Expenses" type="number" formatter="currency" message-when-bad-input="Enter a Valid Input." value={intrstExp} onchange={handleValueChangeNew} name="intrstExp" class="intrstExp" required step="0.01"></lightning-input>                      
+                            </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="4">
+                            <div class="slds-p-around_x-small">
+                                <lightning-input label="Other Income" type="number" formatter="currency" message-when-bad-input="Enter a Valid Input." value={OtheIcnme} onchange={handleValueChangeNew} name="OtheIcnme" class="OtheIcnme" required step="0.01"></lightning-input>                    
+                            </div>
+                            </lightning-layout-item>
+                            
+                        </lightning-layout>
+                        <lightning-layout multiple-rows="12">
+                            <lightning-layout-item size="4">
+                                <div class="slds-p-around_x-small">
+                                    <lightning-input label="Monthly Obligations" type="number" formatter="currency" message-when-bad-input="Enter a Valid Input." value={monthlyObli} onchange={handleValueChangeNew} name="monthlyObli" class="monthlyObli" required step="0.01"></lightning-input>                      
+                                </div>
+                            </lightning-layout-item> 
+
+                            <lightning-layout-item  if:true={showcalculationSEP} size="4">
+                            <div class="slds-p-around_x-small">
+                                <lightning-input label="Net Profit (In Lakhs)" type="number" formatter="currency" value={netProfit} disabled></lightning-input>                    
+                            </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item  if:true={showcalculationSEP} size="4">
+                            <div class="slds-p-around_x-small">
+                                <lightning-input label="Gross Professional Receipts (In Lakhs)" type="number" formatter="currency" value={grossProfReceipts} disabled></lightning-input>               
+                            </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                        <p if:true={showcalculationSEP} style="color: red;">{label.EligibilityCalculatorMsg}</p>
+                    </div>
+                    <div class="slds-modal__footer">
+                <lightning-button label="Calculate EMI" onclick={calculateEMISEP} class="slds-m-around_x-small"></lightning-button>
+                <lightning-button label="Reset" onclick={resetValuesSEP} class="slds-m-around_x-small"></lightning-button>
+                    <button class="slds-button slds-button_neutral" aria-label="Cancel" onclick={closeEMICalculatorSEP}>Cancel</button>
+                    </div>
+                    </div>
+                    </section>
+                    <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+                    <!-- Self Employed non professional emi calculator -->
+                    <section if:true={selfEmpNonEl} role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open slds-modal_large">
+                        <div class="slds-modal__container slds-modal_large">
+                            <div if:true={showSpinnerSEPNon}>
+                                <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+                                </lightning-spinner>
+                            </div>
+                            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeEMICalculatorSEPNon}>
+                                <lightning-icon icon-name="utility:close" size="small" class="white-utility-icon"></lightning-icon>
+                                <span class="slds-assistive-text">Close</span>
+                            </button>
+                        <div class="slds-modal__header">
+                        <h1 id="modal-heading-04" class="slds-modal__title slds-hyphenate" tabindex="-1">Eligibility Calculator</h1>
+                        </div>
+                        <div class="slds-modal__content slds-p-around_small" id="modal-content-id-7">
+                            
+                        <template if:true={showcalculationSEPNon}>
+                            <div class="slds-box slds-theme_default slds-m-bottom_small custom-emi-box">
+                                <label for="emi" class="custom-emi-label">EMI(₹) : </label>
+                                <span id="emiNeNon" class="custom-emi-label">{emiSEPNon}</span>
+                            </div>
+                        </template>
+                            <lightning-layout multiple-rows="12">
+                                <lightning-layout-item size="4">
+                                    <div class="slds-p-around_x-small">
+                                        <lightning-combobox
+                                        name="program"
+                                        class="program"
+                                        label="Program"
+                                        value={program}
+                                        options={programOptions}
+                                        onchange={handleValueChangeNew}
+                                        required
+                                        >
+                                    </lightning-combobox> 
+                                    </div>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="4">
+                                        <div class="slds-p-around_x-small">
+                                            <lightning-combobox
+                                            name="natureOfBusiness"
+                                            class="natureOfBusiness"
+                                            label="Nature Of Business"
+                                            value={natureOfBusiness}
+                                            options={natureOfBusinessOptions}
+                                            onchange={handleValueChangeNew}
+                                            required
+                                            >
+                                        </lightning-combobox> 
+                                        </div>
+                                        </lightning-layout-item>
+                                <lightning-layout-item size="4">
+                                <div class="slds-p-around_x-small">
+                                    <lightning-input label="Turnover (as per latest Financial)" type="number" formatter="currency" message-when-bad-input="Enter a Valid Input." value={turnover} onchange={handleValueChangeNew} name="turnover" class="turnover" required step="0.01"></lightning-input>
+                                </div>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                            <lightning-layout multiple-rows="12">
+                                <lightning-layout-item size="4">
+                                    <div class="slds-p-around_x-small">
+                                        <lightning-input label="Last 12 months Turnover as per GST" type="number" formatter="currency" message-when-bad-input="Enter a Valid Input." value={last12MonthsTurnover} onchange={handleValueChangeNew} name="last12MonthsTurnover" class="last12MonthsTurnover" required step="0.01"></lightning-input>                      
+                                    </div>
+                                </lightning-layout-item> 
+                                <lightning-layout-item size="4">
+                                <div class="slds-p-around_x-small">
+                                    <lightning-input label="Profit After Tax (Excluding non operating income)" type="number" formatter="currency" message-when-bad-input="Enter a Valid Input." value={patValue} onchange={handleValueChangeNew} name="pat" class="pat" required step="0.01"></lightning-input>                      
+                                </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="4">
+                                <div class="slds-p-around_x-small">
+                                    <lightning-input label="Depreciation" type="number" formatter="currency" message-when-bad-input="Enter a Valid Input." value={depreciation} onchange={handleValueChangeNew} name="depreciation" class="depreciation" required step="0.01"></lightning-input>                    
+                                </div>
+                                </lightning-layout-item>
+                                
+                            </lightning-layout>
+                            <lightning-layout multiple-rows="12">
+                                <lightning-layout-item size="4">
+                                    <div class="slds-p-around_x-small">
+                                        <lightning-input label="Interest on EMI loan add back" type="number" formatter="currency" message-when-bad-input="Enter a Valid Input." value={intonEMIloanAddBack} onchange={handleValueChangeNew} name="intonEMIloanAddBack" class="intonEMIloanAddBack" required step="0.01"></lightning-input>                    
+                                    </div>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="4">
+                                        <div class="slds-p-around_x-small">
+                                            <lightning-input label="Rem and/or Int on partners Capital (after tax) - add back" type="number" formatter="currency" message-when-bad-input="Enter a Valid Input." value={patCapital} onchange={handleValueChangeNew} name="patCapital" class="patCapital" required step="0.01"></lightning-input>                    
+                                        </div>
+                                        </lightning-layout-item>
+                                <lightning-layout-item size="4">
+                                    <div class="slds-p-around_x-small">
+                                        <lightning-input label="Monthly Obligations" type="number" formatter="currency" message-when-bad-input="Enter a Valid Input." value={monthlyObli} onchange={handleValueChangeNew} name="monthlyObli" class="monthlyObli" required step="0.01"></lightning-input>                      
+                                    </div>
+                                </lightning-layout-item> 
+                            </lightning-layout>
+                            <lightning-layout multiple-rows="12">
+                                <lightning-layout-item size="4">
+                                    <div class="slds-p-around_x-small">
+                                        <lightning-input label="ABB (Min of 6M and 12M)" type="number" formatter="currency" message-when-bad-input="Enter a Valid Input." value={abbValue} onchange={handleValueChangeNew} name="abbValue" class="abbValue" required step="0.01"></lightning-input>                      
+                                    </div>
+                                </lightning-layout-item> 
+                                <lightning-layout-item size="4">
+                                    <div class="slds-p-around_x-small">
+                                        <lightning-input label="EMI going from other account" type="number" formatter="currency" message-when-bad-input="Enter a Valid Input." value={emiGoingFrmOthrAcnt} onchange={handleValueChangeNew} name="emiGoingFrmOthrAcnt" class="emiGoingFrmOthrAcnt" required step="0.01"></lightning-input>                      
+                                    </div>
+                                </lightning-layout-item> 
+                                    <lightning-layout-item  if:true={showcalculationSEPNon} size="4">
+                                    <div class="slds-p-around_x-small">
+                                        <lightning-input label="Eligibilty (In Lakhs)" type="number" formatter="currency" value={eligibility} disabled></lightning-input>               
+                                    </div>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                           
+                            <p if:true={showcalculationSEPNon} style="color: red;">{label.EligibilityCalculatorMsg}</p>
+                        </div>
+                        <div class="slds-modal__footer">
+                    <lightning-button label="Calculate EMI" onclick={calculateEMISEPNon} class="slds-m-around_x-small"></lightning-button>
+                    <lightning-button label="Reset" onclick={resetValuesSEPNon} class="slds-m-around_x-small"></lightning-button>
+                        <button class="slds-button slds-button_neutral" aria-label="Cancel" onclick={closeEMICalculatorSEPNon}>Cancel</button>
+                        </div>
+                        </div>
+                        </section>
+                        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+        </template>
+        <!-- EMI Calculator on Lead Close LAK-7267-->
+</template>

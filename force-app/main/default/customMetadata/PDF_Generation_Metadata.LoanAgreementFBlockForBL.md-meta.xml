@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>LoanAgreementFBlockForBL</label>
+    <protected>false</protected>
+    <values>
+        <field>Content_Order__c</field>
+        <value xsi:type="xsd:double">4.0</value>
+    </values>
+    <values>
+        <field>Content__c</field>
+        <value xsi:type="xsd:string">&lt;div style=&quot;font-family:Times New Roman;font-size:14px&quot;&gt;
+            &lt;b&gt;Note:&lt;/b&gt;&lt;br/&gt;
+            1) The charges/interest rate(s) specified in this Agreement and/or other Transaction Documents in relation to the
+Loan are non-refundable in nature and rates are changeable, at the discretion of FEDBANK FINANCIAL SERVICES
+            LIMITED, from time to time. Fedfina shall endeavour to give notice of such changes.&lt;br/&gt;&lt;br/&gt;
+2) The charges for missed due date shall be payable by the Applicant/s to FEDBANK FINANCIAL SERVICES LIMITED
+under the NACH mandate and any other payment method selected by the Applicant (except the PDC method) for
+every instance that instalment/s is/are not paid to/received by Fedfina in accordance with the repayment
+schedule specified above (irrespective of the reasons for such non – payment/non-receipt).&lt;br/&gt;&lt;br/&gt;
+GST and all other applicable taxes/statutory levies, if any, will be charges additionally.
+        &lt;/div&gt;&lt;br/&gt;&lt;br/&gt;
+&lt;div style=&quot;font-family:Times New Roman;font-weight: bold;font-size:14px&quot;&gt;
+          &lt;u&gt;E) Illustration of Repayment Schedule:&lt;/u&gt;
+        &lt;/div&gt;&lt;br/&gt;
+       &lt;div&gt;
+                &lt;table style = &quot;font-family: Verdana, Helvetica, Arial, sans-serif;font-size: 8px;border: 1px solid black;border-collapse: collapse;page-break-inside:avoid;page-break-before:avoid&quot;&gt;
+                      &lt;tr&gt;                      		
+                            &lt;td &gt;Loan Amount&lt;/td&gt;
+                       		&lt;td &gt;100000&lt;/td&gt;
+                     &lt;/tr&gt;
+                   &lt;tr&gt;                      		
+                            &lt;td style=&quot;width:20%;&quot;&gt;ROI&lt;/td&gt;
+                       		&lt;td &gt;18%&lt;/td&gt;
+                     &lt;/tr&gt;
+                    &lt;tr&gt;                      		
+                            &lt;td&gt;Original Tenure&lt;/td&gt;
+                       		&lt;td&gt;12&lt;/td&gt;
+                     &lt;/tr&gt;
+                    &lt;tr&gt;                      		
+                            &lt;td&gt;EMI&lt;/td&gt;
+                       		&lt;td&gt;9,168&lt;/td&gt;
+                     &lt;/tr&gt;
+                    &lt;tr&gt;                      		
+                            &lt;td&gt;Repayment Frequency&lt;/td&gt;
+                       		&lt;td&gt;Monthly&lt;/td&gt;
+                     &lt;/tr&gt;                   
+                    &lt;tr&gt;                      		
+                            &lt;td&gt;Moratorium End Date&lt;/td&gt;
+                       		&lt;td&gt;NA&lt;/td&gt;
+                     &lt;/tr&gt;
+           &lt;/table&gt;&lt;/div&gt;&lt;br/&gt;&lt;br/&gt;
+        &lt;div&gt;
+                &lt;table style = &quot;font-family: Verdana, Helvetica, Arial, sans-serif;font-size: 8px;border: 1px solid black;border-collapse: collapse;page-break-inside:avoid;page-break-before:avoid&quot;&gt;
+                     &lt;tr&gt;
+                       		&lt;th&gt;EMI Number&lt;/th&gt;
+                            &lt;th&gt;Opening Balance&lt;/th&gt;
+                       		&lt;th&gt;EMI&lt;/th&gt;
+                         	&lt;th&gt;Interest&lt;/th&gt;
+                            &lt;th&gt;Principal&lt;/th&gt;
+                       		&lt;th&gt;Closing Balance&lt;/th&gt;
+                     &lt;/tr&gt; 
+                    &lt;tr&gt;
+                        	&lt;td&gt;1&lt;/td&gt;
+                       		&lt;td&gt;100000&lt;/td&gt;
+                            &lt;td&gt;9,168&lt;/td&gt;
+                       		&lt;td&gt;1500&lt;/td&gt;
+                         	&lt;td&gt;7,668&lt;/td&gt;
+                            &lt;td&gt;92,332&lt;/td&gt;
+                       		
+                     &lt;/tr&gt; 
+                    &lt;tr&gt;
+                       		&lt;td&gt;2&lt;/td&gt;
+                            &lt;td&gt;92332&lt;/td&gt;
+                       		&lt;td&gt;9,168&lt;/td&gt;
+                        	&lt;td&gt;1385&lt;/td&gt;
+                         	&lt;td&gt;7,783&lt;/td&gt;
+                            &lt;td&gt;84,549&lt;/td&gt;
+                     &lt;/tr&gt;
+                    &lt;tr&gt;
+                       		&lt;td&gt;3&lt;/td&gt;
+                            &lt;td&gt;84549&lt;/td&gt;
+                       		&lt;td&gt;9,168&lt;/td&gt;
+                        	&lt;td&gt;1268&lt;/td&gt;
+                         	&lt;td&gt;7,900&lt;/td&gt;
+                            &lt;td&gt;76,649&lt;/td&gt;
+                     &lt;/tr&gt;
+                    &lt;tr&gt;
+                        &lt;td&gt;4&lt;/td&gt;
+                            &lt;td&gt;76649&lt;/td&gt;
+                       		&lt;td&gt;9,168&lt;/td&gt;
+                        	&lt;td&gt;1150&lt;/td&gt;
+                         	&lt;td&gt;8,018&lt;/td&gt;
+                            &lt;td&gt;68,631&lt;/td&gt;                       
+                    &lt;/tr&gt;
+                    &lt;tr&gt;
+                        &lt;td&gt;5&lt;/td&gt;
+                            &lt;td&gt;68631&lt;/td&gt;
+                       		&lt;td&gt;9,168&lt;/td&gt;
+                        	&lt;td&gt;1029&lt;/td&gt;
+                         	&lt;td&gt;8,139&lt;/td&gt;
+                            &lt;td&gt;60,492&lt;/td&gt;
+                    &lt;/tr&gt;                    
+                    &lt;tr&gt;
+                        &lt;td&gt;6&lt;/td&gt;
+                            &lt;td&gt;60492&lt;/td&gt;
+                       		&lt;td&gt;9,168&lt;/td&gt;
+                        	&lt;td&gt;907&lt;/td&gt;
+                         	&lt;td&gt;8,261&lt;/td&gt;
+                            &lt;td&gt;52,232&lt;/td&gt;                       
+                    &lt;/tr&gt;
+                    &lt;tr&gt;
+                        &lt;td&gt;7&lt;/td&gt;
+                            &lt;td&gt;52232&lt;/td&gt;
+                       		&lt;td&gt;9,168&lt;/td&gt;
+                        	&lt;td&gt;783&lt;/td&gt;
+                         	&lt;td&gt;8,385&lt;/td&gt;
+                            &lt;td&gt;43,847&lt;/td&gt;                       
+                    &lt;/tr&gt;
+                    &lt;tr&gt;
+                        &lt;td&gt;8&lt;/td&gt;
+                            &lt;td&gt;43847&lt;/td&gt;
+                       		&lt;td&gt;9,168&lt;/td&gt;
+                        	&lt;td&gt;658&lt;/td&gt;
+                         	&lt;td&gt;8,510&lt;/td&gt;
+                            &lt;td&gt;35,337&lt;/td&gt;
+                    &lt;/tr&gt;
+                    &lt;tr&gt;
+                        &lt;td&gt;9&lt;/td&gt;
+                            &lt;td&gt;35337&lt;/td&gt;
+                       		&lt;td&gt;9,168&lt;/td&gt;
+                        	&lt;td&gt;530&lt;/td&gt;
+                         	&lt;td&gt;8,638&lt;/td&gt;
+                            &lt;td&gt;26,699&lt;/td&gt;                       
+                    &lt;/tr&gt;
+                    
+                    &lt;tr&gt;
+                        &lt;td&gt;10&lt;/td&gt;
+                            &lt;td&gt;26699&lt;/td&gt;
+                       		&lt;td&gt;9,168&lt;/td&gt;
+                        	&lt;td&gt;400&lt;/td&gt;
+                         	&lt;td&gt;8,768&lt;/td&gt;
+                            &lt;td&gt;17,932&lt;/td&gt;                       
+                    &lt;/tr&gt;
+                    &lt;tr&gt;
+                        &lt;td&gt;11&lt;/td&gt;
+                            &lt;td&gt;17932&lt;/td&gt;
+                       		&lt;td&gt;9,168&lt;/td&gt;
+                        	&lt;td&gt;269&lt;/td&gt;
+                         	&lt;td&gt;8,899&lt;/td&gt;
+                            &lt;td&gt;9,033&lt;/td&gt;                     
+                    &lt;/tr&gt;
+                    &lt;tr&gt;
+                        &lt;td&gt;12&lt;/td&gt;
+                            &lt;td&gt;9033&lt;/td&gt;
+                       		&lt;td&gt;9,168&lt;/td&gt;
+                        	&lt;td&gt;135&lt;/td&gt;
+                         	&lt;td&gt;9,033&lt;/td&gt;
+                            &lt;td&gt;0&lt;/td&gt;                            
+                    &lt;/tr&gt;   
+                &lt;/table&gt;
+        &lt;/div&gt;&lt;br/&gt;&lt;br/&gt;
+        &lt;div style=&quot;font-family:Times New Roman;font-size:14px&quot;&gt;
+        Fedfina shall share with the Borrower a Welcome letter consisting of actual repayment schedule with split
+of principal and interest, PEMII/EMI, start date and actual due date of monthly instalment, etc post customer
+on-boarding is complete.&lt;br/&gt;&lt;br/&gt;
+IN WITNESS WHEREOF the Parties have executed this Agreement on the day and the year first hereinabove written,
+    &lt;/div&gt;</value>
+    </values>
+    <values>
+        <field>Document_Type__c</field>
+        <value xsi:type="xsd:string">Loan Agreement for BL/PL</value>
+    </values>
+    <values>
+        <field>Page_Number__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Product_Type__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Region_Picklist__c</field>
+        <value xsi:type="xsd:string">Content</value>
+    </values>
+    <values>
+        <field>Static_Resource_Name__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

@@ -1,0 +1,592 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    <lightning-card>
+        <!-- <div class="slds-var-m-top_medium">
+            <div class="slds-clearfix">
+                <div class="slds-float_right">
+                    <lightning-button variant="brand" class="slds-m-around_x-small" icon-name="action:fallback"
+                        label="Validate KYC" onclick={handleIntialization} disabled={isReadOnly}></lightning-button>
+
+                    <lightning-icon variant="success" class="customButton slds-m-around_x-small"
+                        icon-name='utility:refresh' alternative-text='refresh' size='small' title='refresh'
+                        onclick={handleRefreshClick} disabled={isReadOnly}></lightning-icon>
+                </div>
+            </div>
+        </div> -->
+
+        <lightning-accordion active-section-name={activeSections} allow-multiple-sections-open>
+            <lightning-accordion-section name="A" label="Borrower Wise Consent Details" class="accClass">
+                <!-- <div class="table-title">Risk Rating Details</div> -->
+                <c-dynamic-datatable params-data={paramsConsent}></c-dynamic-datatable>
+            </lightning-accordion-section>
+            <lightning-accordion-section name="B" label="KYC Verification Details" class="accClass">
+                <br />
+                <div class="message-container">
+                    <p><strong>Note : {message}</strong></p>
+                </div>
+                <br />
+                <!-- <c-dynamic-datatable data-id="childComponent" params-data={params}></c-dynamic-datatable> -->
+                <!-- <div class="slds-clearfix">
+                    <div class="slds-float_right">
+                        <lightning-button variant="brand" class="slds-m-around_x-small" icon-name="action:fallback"
+                            label="Validate KYC" onclick={handleIntialization} disabled={isReadOnly}></lightning-button>
+
+                        <lightning-icon variant="success" class="customButton slds-m-around_x-small"
+                            icon-name='utility:refresh' alternative-text='refresh' size='small' title='refresh'
+                            onclick={handleRefreshClick} disabled={isReadOnly}></lightning-icon>
+                    </div>
+                </div> -->
+                <!-- </div> -->
+
+                <template lwc:if={desktopBoolean}>
+                    <lightning-card>
+                        <div id="containerDiv" onmousemove={handlemousemove} onmouseup={handlemouseup}
+                            ondblclick={handledblclickresizable}
+                            class="slds-table_header-fixed_container slds-border_right slds-border_left tableScroll"
+                            onscroll={tableOuterDivScrolled}>
+                            <div id="tableViewInnerDiv" class="slds-scrollable_y tableViewInnerDiv slds-scrollable">
+                                <table
+                                    class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout slds-max-medium-table_stacked-horizontal"
+                                    onscroll={tableScrolled}>
+                                    <thead>
+                                        <tr>
+                                            <!-- <th title="Select"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidthCheckbox fixedPosition"
+                                                scope="col">
+                                                <div class="slds-cell-fixed fixedWidthCheckbox">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">SELECT</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th> -->
+
+                                            <th title="Applicant Name"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Applicant Name</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="Applicant Type"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Applicant Type</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="KYC Document No"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">KYC Document No</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="KYC Document Type"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">KYC Document Type</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="KYC Document For"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">KYC Document For</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="Output Name"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Output Name</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="Name Match %"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Name Match %</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="DOB" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                                scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">DOB/DOI</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="Address" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                                scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Address</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="Father's Name"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Father's Name</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="Husband Name"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Husband Name</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="Gender" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                                scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Gender</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="Expiry Date"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Expiry Date</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="Document Upload"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Document Upload</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="OCR Status" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                                scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">OCR Status</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="API Verification Status"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">API Verification Status</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="OCR Error Message"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">OCR Error Message</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="Validation Error Message"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Validation Error Message</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <template for:each={appkycData} for:item="record">
+                                            <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+                                                <!-- <th class="slds-cell_action-mode" scope="row">
+                                                    <div class="slds-text-align_center slds-truncate"
+                                                        title={record.selectCheckbox}>
+                                                        <lightning-input variant="label-hidden"
+                                                            data-recordid={record.Id} type="checkbox"
+                                                            checked={record.selectCheckbox}
+                                                            onclick={handleClick}></lightning-input>
+                                                    </div>
+                                                </th> -->
+
+                                                <th class="slds-cell_action-mode" role="gridcell">
+                                                    <div if:true={record.Applicant_KYC__c} class="slds-truncate"
+                                                        title={record.Applicant_KYC__r.Applicant__r.TabName__c}>
+                                                        {record.Applicant_KYC__r.Applicant__r.TabName__c}
+                                                    </div>
+                                                    <div if:false={record.Applicant_KYC__c} class="slds-truncate"
+                                                        title={record.Appl__r.TabName__c}>
+                                                        {record.Appl__r.TabName__c}
+                                                    </div>
+                                                </th>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div if:true={record.Applicant_KYC__c} class="slds-truncate"
+                                                        title={record.Applicant_KYC__r.Applicant__r.ApplType__c}>
+                                                        {record.Applicant_KYC__r.Applicant__r.ApplType__c}
+                                                    </div>
+                                                    <div if:false={record.Applicant_KYC__c} class="slds-truncate"
+                                                        title={record.Appl__r.ApplType__c}>
+                                                        {record.Appl__r.ApplType__c}
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div if:true={record.Applicant_KYC__c} class="slds-truncate"
+                                                        title={record.Applicant_KYC__r.KycDocNo__c}>
+                                                        {record.Applicant_KYC__r.KycDocNo__c}
+                                                    </div>
+                                                    <div if:false={record.Applicant_KYC__c} class="slds-truncate"
+                                                        title="">
+
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div class="slds-truncate" title={record.DocSubTyp__c}>
+                                                        {record.DocSubTyp__c}
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div class="slds-truncate" title={record.DocTyp__c}>
+                                                        {record.DocTyp__c}
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div if:true={record.Applicant_KYC__c} class="slds-truncate"
+                                                        title={record.Applicant_KYC__r.Name__c}>
+                                                        {record.Applicant_KYC__r.Name__c}
+                                                    </div>
+                                                    <div if:false={record.Applicant_KYC__c} class="slds-truncate"
+                                                        title="">
+
+                                                    </div>
+                                                </td>
+                                                <td class={record.cellClass} role="gridcell">
+                                                    <div if:true={record.Applicant_KYC__c} class="slds-truncate"
+                                                        title={record.Applicant_KYC__r.Name_Match_Score__c}>
+                                                        {record.Applicant_KYC__r.Name_Match_Score__c}
+                                                    </div>
+                                                    <div if:false={record.Applicant_KYC__c} class="slds-truncate"
+                                                        title="">
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <!-- <div if:true={record.Applicant_KYC__c} class="slds-truncate"
+                                                        title={record.Applicant_KYC__r.DtOfBirth__c}> -->
+                                                    <div if:true={record.Applicant_KYC__c} class="slds-truncate">
+                                                        <!-- <lightning-formatted-date-time
+                                                            value={record.parentRecord.DtOfBirth__c} day="numeric"
+                                                            month="numeric" year="numeric">
+                                                        </lightning-formatted-date-time> 
+                                                        <c-date-display
+                                                            birth-date={record.Applicant_KYC__r.DtOfBirth__c}></c-date-display>-->
+                                                        <template
+                                                            if:true={record.Applicant_KYC__r.DtOfBirth__c}>{record.Applicant_KYC__r.DtOfBirth__c}</template>
+                                                    </div>
+                                                    <div if:false={record.Applicant_KYC__c} class="slds-truncate"
+                                                        title="">
+
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div if:true={record.Applicant_KYC__c} class="slds-truncate"
+                                                        title={record.Applicant_KYC__r.Address__c}>
+                                                        {record.Applicant_KYC__r.Address__c}
+                                                    </div>
+                                                    <div if:false={record.Applicant_KYC__c} class="slds-truncate"
+                                                        title="">
+
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div if:true={record.Applicant_KYC__c} class="slds-truncate"
+                                                        title={record.Applicant_KYC__r.FatherName__c}>
+                                                        {record.Applicant_KYC__r.FatherName__c}
+                                                    </div>
+                                                    <div if:false={record.Applicant_KYC__c} class="slds-truncate"
+                                                        title="">
+
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div if:true={record.Applicant_KYC__c} class="slds-truncate"
+                                                        title={record.Applicant_KYC__r.HusbandName__c}>
+                                                        {record.Applicant_KYC__r.HusbandName__c}
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div if:true={record.Applicant_KYC__c} class="slds-truncate"
+                                                        title={record.Applicant_KYC__r.Gender__c}>
+                                                        {record.Applicant_KYC__r.Gender__c}
+                                                    </div>
+                                                    <div if:false={record.Applicant_KYC__c} class="slds-truncate"
+                                                        title="">
+
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div if:true={record.Applicant_KYC__c} class="slds-truncate">
+                                                        <!-- title={record.Applicant_KYC__r.ExpiryDt__c} -->
+                                                        <!-- {record.Applicant_KYC__r.DtOfExp__c} -->
+                                                        <!-- <c-date-display
+                                                            birth-date={record.Applicant_KYC__r.ExpiryDt__c}></c-date-display> -->
+                                                        <template
+                                                            if:true={record.Applicant_KYC__r.ExpiryDt__c}>{record.Applicant_KYC__r.ExpiryDt__c}</template>
+
+                                                    </div>
+                                                    <div if:false={record.Applicant_KYC__c} class="slds-truncate"
+                                                        title="">
+
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div class="slds-truncate" title={record.documentUpload}>
+                                                        <!-- Document Upload will add here -->
+                                                        {record.documentUpload}
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div if:true={record.Applicant_KYC__c} class="slds-truncate"
+                                                        title={record.Applicant_KYC__r.OCRStatus__c}>
+                                                        {record.Applicant_KYC__r.OCRStatus__c}
+                                                    </div>
+                                                    <div if:false={record.Applicant_KYC__c} class="slds-truncate"
+                                                        title="">
+
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div class="slds-truncate" title={record.DocValidStatus__c}>
+                                                        {record.DocValidStatus__c}
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div if:true={record.Applicant_KYC__c} class="slds-truncate"
+                                                        title={record.Applicant_KYC__r.OCR_Error_Message__c}>
+                                                        {record.Applicant_KYC__r.OCR_Error_Message__c}
+                                                    </div>
+                                                    <div if:false={record.Applicant_KYC__c} class="slds-truncate"
+                                                        title="">
+
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div if:true={record.Applicant_KYC__c} class="slds-truncate"
+                                                        title={record.Applicant_KYC__r.Validation_Error_Message__c}>
+                                                        {record.Applicant_KYC__r.Validation_Error_Message__c}
+                                                    </div>
+                                                    <div if:false={record.Applicant_KYC__c} class="slds-truncate"
+                                                        title="">
+
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </template>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </lightning-card>
+                </template>
+
+
+                <template lwc:if={phoneBolean}>
+                    <div class="slds-m-top_medium slds-m-bottom_x-large">
+                        <!-- <h2 class="slds-text-heading_medium slds-m-bottom_medium">
+                            KYC Verification Files
+                        </h2> -->
+                        <template for:each={appkycData} for:item="record">
+                            <div key={record.Id} class="slds-p-around_medium lgc-bg">
+                                <ul class="slds-has-dividers_bottom-space">
+                                    <li class="slds-item">
+                                        <lightning-tile>
+                                            <dl class="slds-dl_horizontal">
+                                                <dt class="slds-dl_horizontal__label">
+                                                    <p class="slds-truncate" title="Document Type">
+                                                        <b>SELECT : </b> <lightning-input variant="label-hidden"
+                                                            data-recordid={record.parentRecord.Id} type="checkbox"
+                                                            checked={record.parentRecord.selectCheckbox}
+                                                            onclick={handleClick}></lightning-input>
+                                                    </p>
+                                                </dt>
+
+                                                <dt class="slds-dl_horizontal__label">
+                                                    <p class="slds-truncate" title="Document Name">
+                                                        <b>Proof : </b>{record.parentRecord.kycDoc__c}
+                                                    </p>
+                                                </dt>
+
+                                                <dt class="slds-dl_horizontal__label">
+                                                    <p class="slds-truncate" title="Uploaded File name">
+                                                        <b>Name : </b>{record.parentRecord.Applicant__r.TabName__c}
+                                                    </p>
+                                                </dt>
+
+                                                <dt class="slds-dl_horizontal__label">
+                                                    <p class="slds-truncate" title="Uploaded File name">
+                                                        <b>DOB : </b><template
+                                                            if:true={record.Applicant_KYC__r.DtOfBirth__c}>{record.parentRecord.DtOfBirth__c}</template>
+                                                    </p>
+                                                </dt>
+                                                <dt class="slds-dl_horizontal__label">
+                                                    <p class="slds-truncate" title="Uploaded File name">
+                                                        <b>Address : </b>{record.parentRecord.Address__c}
+                                                    </p>
+                                                </dt>
+                                                <dt class="slds-dl_horizontal__label">
+                                                    <p class="slds-truncate" title="Uploaded File name">
+                                                        <b>Gender : </b>{record.parentRecord.Gender__c}
+                                                    </p>
+                                                </dt>
+                                                <dt class="slds-dl_horizontal__label">
+                                                    <p class="slds-truncate" title="Uploaded File name">
+                                                        <b>Father's Name : </b> {record.parentRecord.FatherName__c}
+                                                    </p>
+                                                </dt>
+                                                <dt class="slds-dl_horizontal__label">
+                                                    <p class="slds-truncate" title="Uploaded File name">
+                                                        <b>Validation Status :
+                                                        </b>{record.DocValidStatus__c}
+                                                    </p>
+                                                </dt>
+                                            </dl>
+                                        </lightning-tile>
+                                    </li>
+                                </ul>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </lightning-accordion-section>
+        </lightning-accordion>
+
+    </lightning-card>
+</template>

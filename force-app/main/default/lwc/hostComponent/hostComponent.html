@@ -1,0 +1,48 @@
+<template>
+    <template if:true={refreshHost}>
+        <template if:true={showTabset}>
+            <lightning-tabset variant="scoped" class="tab-active" style="background-color: #276e85">
+                <template for:each={subSteps} for:item="tab">
+                    <lightning-tab label={tab.label} key={tab.value} value={tab.value} class="tab"
+                        onactive={handleActive}>
+                        <template if:true={callScreenConfig}>
+                            <!-- <c-screen-config-view stage-name={stageName} redirect-to-co-app={redirectToCoApp}
+                                record-id={recordId} calling-sub-stage={tabContentType}
+                                ongetselectedval={valueFromChild}>
+                            </c-screen-config-view> -->
+                        </template>
+                    </lightning-tab>
+                </template>
+            </lightning-tabset>
+        </template>
+        <!-- <template if:true={showScreenConfig}> -->
+        <template if:false={showTabset}>
+
+            <!-- <c-screen-config-view stage-name={stageName} record-id={recordId} calling-sub-stage={applicantId}
+                redirect-to-co-app={redirectToCoApp} ongetselectedval={valueFromChild}>
+            </c-screen-config-view> -->
+        </template>
+        <!-- <template if:true={showSplitView} for:each={splitFor} for:item="spl">
+            <c-screen-config-view
+                key={spl.key}
+                stage-name={spl.stageName}
+                record-id={spl.recordId}
+                calling-sub-stage={spl.applicantId}
+                ongetselectedval={valueFromChild}
+            ></c-screen-config-view>
+        </template> -->
+        <lightning-card>
+            <div class="slds-var-m-top_medium">
+                <template if:false={isFirstStep}>
+                    <lightning-button label="< Previous" class="slds-p-horizontal_small" onclick={handlePrevious}>
+                    </lightning-button>
+                </template>
+
+                <template if:false={isFinalStep}>
+                    <lightning-button label=" Next >" class="slds-p-horizontal_small" onclick={handleNext}>
+                    </lightning-button>
+                </template>
+            </div>
+        </lightning-card>
+    </template>
+</template>

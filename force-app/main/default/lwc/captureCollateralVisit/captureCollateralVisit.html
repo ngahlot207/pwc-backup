@@ -1,0 +1,244 @@
+<template>
+    <div class="slds-is-relative">
+        <div if:true={showSpinner}>
+            <lightning-spinner
+                alternative-text="Loading..."
+                variant="brand"
+                size="medium"
+            >
+            </lightning-spinner>
+        </div>
+
+        <div class="slds-p-left_medium">
+            <div class="slds-clearfix">
+                <div class="slds-float_right">
+                    <template if:true={showCloneButton}>
+                        <lightning-button label="Clone CV" variant="natural"
+                        onclick={handleCloneMethod} disabled={isReadOnly}></lightning-button>
+                    </template>
+                    <lightning-button
+                        variant="natural"
+                        label="Withdraw CV"
+                        title="Withdraw CV"
+                        onclick={removeCV}
+                        class="slds-m-around_x-small"
+                        disabled={isDisableWithdraw}
+                    >
+                    </lightning-button>
+
+                    <lightning-button
+                        variant="brand"
+                        label="Initiate Collateral Visit"
+                        icon-name="utility:connected_apps"
+                        title="Open popup"
+                        onclick={showModalBox}
+                        disabled={isDisableforCV}
+                    >
+                    </lightning-button>
+                </div>
+            </div>
+        </div>
+
+        <!-- modal start -->
+        <template if:true={isShowModal}>
+            <!--
+                 I Used SLDS for this code
+                 Here is link https://www.lightningdesignsystem.com/components/modals/
+             -->
+
+            <section
+                role="dialog"
+                tabindex="-1"
+                aria-labelledby="modal-heading-01"
+                aria-modal="true"
+                aria-describedby="modal-content-id-1"
+                class="slds-modal slds-fade-in-open"
+            >
+                <div class="slds-modal__container">
+                    <!-- modal header start -->
+                    <header class="slds-modal__header">
+                        <button
+                            class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                            title="Close"
+                            onclick={hideModalBox}
+                        >
+                            <lightning-icon
+                                icon-name="utility:close"
+                                alternative-text="close"
+                                variant="inverse"
+                                size="small"
+                            ></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2
+                            id="modal-heading-01"
+                            class="slds-text-heading_medium slds-hyphenate"
+                        >
+                            Initiate Collateral Visit
+                        </h2>
+                    </header>
+
+                    <!-- modal body start -->
+                    <div
+                    class="slds-p-around_medium"
+                    id="modal-content-id-1"
+                    style="background: white"
+                >
+                    <!-- <div
+                        class="slds-modal__content slds-p-around_medium"
+                        id="modal-content-id-1"
+                    > -->
+                        <div if:true={showSpinner}>
+                            <lightning-spinner
+                                alternative-text="Loading..."
+                                variant="brand"
+                                class="slds-is-fixed"
+                            >
+                            </lightning-spinner>
+                        </div>
+                        <c-custom-lookup
+                            required="true"
+                            label="Assigned To"
+                            selected-icon-name="standard:identifier"
+                            object-api-name="TeamHierarchy__c"
+                            field-api-name="Employee__r.Name"
+                            selected-fields="Name"
+                            selected-record-id={lookupId}
+                            onselect={handleLookupFieldChange}
+                            selected-field-name="Employee__c"
+                            filter-condn={filterCondn}
+                            key-id="Employee__c"
+                        ></c-custom-lookup>
+                        <!-- filter-condn="EmpRole__c='UW'"  {filterCon}-->
+                        <lightning-input
+                            type="date"
+                            label="Scheduled Date"
+                            id="ScheduledDate"
+                            required="true"
+                            onchange={handleScheduledDateChange}
+                        ></lightning-input>
+                    </div>
+
+                    <!-- modal footer start-->
+                    <footer class="slds-modal__footer">
+                        <lightning-button
+                            type="submit"
+                            variant="brand"
+                            onclick={handleCreateCV}
+                            label="Create Collateral Visit"
+                            disabled={isReadOnly}
+                        ></lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+        <!-- modal end -->
+
+        <template if:true={showCaseTabs}>
+            <div class="slds-p-horizontal_medium">
+                <lightning-tabset
+                    variant="standard"
+                    data-id="multipleTabSet"
+                    active-tab-value={tabDefaultValue}
+                    class="tab-active"
+                    disabled={isReadOnly}
+                >
+                    <template
+                        if:true={refreshTabset}
+                        for:each={caseTabset}
+                        for:item="tab"
+                    >
+                        <lightning-tab
+                            label={tab.label}
+                            key={tab.value}
+                            value={tab.value}
+                            class="tab"
+                            onactive={handleActive}
+                        >
+                            <template if:true={tab.showTab}>
+                                <c-cv-response
+                                    case-id={tab.value}
+                                    cv-detail={cvDetail}
+                                    has-edit-access={hasEditAccess}
+                                    layout-size={layoutSize}
+                                    onrefreshcasetabs={fromChildComp}
+                                >
+                                </c-cv-response>
+                            </template>
+                        </lightning-tab>
+                    </template>
+                </lightning-tabset>
+            </div>
+        </template>
+    </div>
+    <template if:true={isModalOpen}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section
+            role="dialog"
+            tabindex="-1"
+            aria-labelledby="modal-heading-02"
+            aria-modal="true"
+            aria-describedby="modal-content-id-1"
+            class="my-modal slds-modal slds-fade-in-open"
+        >
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button
+                        class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close"
+                        onclick={closeModal}
+                    >
+                        <lightning-icon
+                            icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small"
+                        ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2
+                        id="modal-heading-02"
+                        class="slds-text-heading_medium slds-hyphenate"
+                    >
+                        Delete?
+                    </h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div
+                    class="slds-modal__content slds-p-around_medium"
+                    id="modal-content-id-2"
+                >
+                    <p style="text-align: center">
+                        <b>{removeModalMessage}</b>
+                    </p>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <button
+                        class="slds-button slds-button_neutral"
+                        onclick={closeModal}
+                        title="No"
+                    >
+                        No
+                    </button>
+                    <button
+                        class="slds-button slds-button_brand"
+                        disabled={isReadOnly}
+                        onclick={handleRemoveRecord}
+                        title="Yes"
+                    >
+                        Yes
+                    </button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!-- <template if:true={hasEditAccess}>
+        <c-save-btn-component loan-app-id={loanAppId} has-edit-access={hasEditAccess}
+           save-btn-label="Submit CV" current-tab-id={applicantId}>
+        </c-save-btn-component>
+    </template> -->
+</template>

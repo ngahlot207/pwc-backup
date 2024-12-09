@@ -1,0 +1,1010 @@
+<template>
+
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    <lightning-card>
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <strong>Disbursement Type</strong>
+                <lightning-combobox placeholder="Select Value" value={ndcDisType} onchange={handleNdcTypeChange}
+                    options={disTypeOptions} name="DisType__c" variant="label-hidden" label="Disbursement Type"
+                    disabled={disableDisbTypeNew}></lightning-combobox>
+            </lightning-layout-item>
+
+            <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+
+            </lightning-layout-item>
+            <template if:true={showdDocDispatch}>
+                <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-float_right">
+                        <lightning-button variant="brand" data-name="AWB Details" label="AWB Details"
+                            class="slds-m-around_x-small" onclick={handleDocumentDispatch}
+                            disabled={disableDisbTypeVal}>
+                        </lightning-button>
+                    </div>
+                </lightning-layout-item>
+            </template>
+            </div><br>
+        </lightning-layout>
+        <lightning-layout if:true={showdDocDispatch} multiple-rows="true">
+            <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <lightning-input type="checkbox" label="All Documents Received" checked={allDocsReceived}
+                    disabled={disableAllDocsCheck} onchange={handleAllDocsChanged}></lightning-input>
+            </lightning-layout-item>
+        </lightning-layout>
+        <template if:true={showdDocDispatch}>
+            <br />
+            <div class="slds-box slds-theme_default slds-scrollable_x" style="width:200rem">
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered"
+                    aria-label="Example table of Opportunities with vertical borders">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <template if:false={existingFed}>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Courier Company Name">Courier Company Name
+                                    </div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Other Courier Company Name">Other Courier Company
+                                        Name
+                                    </div>
+                                </th>
+                                <!-- <template if:true={showOtherBT}> -->
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="AWB Number">AWB Number</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Type">Dispatch Type
+                                    </div>
+                                </th>
+                                <!-- </template> -->
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Date of Dipatch">Date of
+                                        Dipatch</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="CPA Remarks">CPA Remarks
+                                    </div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Physical File Received">Physical File Received
+                                    </div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Date of Receipt">Date of Receipt
+                                    </div>
+                                </th>
+                            </template>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Operation Remarks">Operation Remarks</div>
+                            </th>
+                            <!-- Sender / Dispatch By added for LAK-8022 -->
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Sender / Dispatch By">Sender / Dispatch By</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Action">Action</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={disObjDet} for:item="obj" for:index="index">
+                            <tr class="inputRows" key={obj.Id}>
+                                <td data-label="Courier Company Name">
+                                    <!-- <div class="slds-p-around_x-small fields">
+                                        <c-hunter-displayvalue dedupe-rsults-options={courierNameOptions}
+                                            type="picklist" field-value={obj.CourierComName__c} object={obj}
+                                            field-name="CourierComName__c" index-value={index}
+                                            onpicklistchange={handlePicklistValues}
+                                            is-read-only={disableDispatchInputs}></c-hunter-displayvalue>
+                                    </div> -->
+                                    <template if:true={isOpsUser}>
+                                        <div if:false={obj.isOpsUser} class="slds-truncate"
+                                            title="Courier Company Name">
+                                            <c-hunter-displayvalue dedupe-rsults-options={courierNameOptions}
+                                                type="picklist" field-value={obj.CourierComName__c} object={obj}
+                                                field-name="CourierComName__c" index-value={index}
+                                                onpicklistchange={handlePicklistValues}
+                                                is-read-only=true></c-hunter-displayvalue>
+                                        </div>
+                                        <div if:true={obj.isOpsUser} class="slds-truncate" title="Courier Company Name">
+                                            <template lwc:if={obj.isNew}>
+                                                <c-hunter-displayvalue dedupe-rsults-options={courierNameOptions}
+                                                    type="picklist" field-value={obj.CourierComName__c} object={obj}
+                                                    field-name="CourierComName__c" index-value={index}
+                                                    onpicklistchange={handlePicklistValues}
+                                                    is-read-only={disableDispatchInputs}></c-hunter-displayvalue>
+                                            </template>
+                                            <template lwc:else>
+                                                <c-hunter-displayvalue dedupe-rsults-options={courierNameOptions}
+                                                    type="picklist" field-value={obj.CourierComName__c} object={obj}
+                                                    field-name="CourierComName__c" index-value={index}
+                                                    onpicklistchange={handlePicklistValues}
+                                                    is-read-only=true></c-hunter-displayvalue>
+                                            </template>
+
+                                        </div>
+                                    </template>
+                                    <template if:true={isCpaUser}>
+                                        <div if:false={obj.isCpaUser} class="slds-truncate"
+                                            title="Courier Company Name">
+                                            <c-hunter-displayvalue dedupe-rsults-options={courierNameOptions}
+                                                type="picklist" field-value={obj.CourierComName__c} object={obj}
+                                                field-name="CourierComName__c" index-value={index}
+                                                onpicklistchange={handlePicklistValues}
+                                                is-read-only=true></c-hunter-displayvalue>
+                                        </div>
+                                        <div if:true={obj.isCpaUser} class="slds-truncate" title="Courier Company Name">
+                                            <template lwc:if={obj.isNew}>
+                                                <c-hunter-displayvalue dedupe-rsults-options={courierNameOptions}
+                                                    type="picklist" field-value={obj.CourierComName__c} object={obj}
+                                                    field-name="CourierComName__c" index-value={index}
+                                                    onpicklistchange={handlePicklistValues}
+                                                    is-read-only={disableDispatchInputs}></c-hunter-displayvalue>
+                                            </template>
+                                            <template lwc:else>
+                                                <c-hunter-displayvalue dedupe-rsults-options={courierNameOptions}
+                                                    type="picklist" field-value={obj.CourierComName__c} object={obj}
+                                                    field-name="CourierComName__c" index-value={index}
+                                                    onpicklistchange={handlePicklistValues}
+                                                    is-read-only=true></c-hunter-displayvalue>
+                                            </template>
+                                        </div>
+                                    </template>
+                                </td>
+                                <td data-label="Other Courier Company Name">
+                                    <template if:true={isOpsUser}>
+                                        <div if:false={obj.isOpsUser} class="slds-truncate"
+                                            title="Other Courier Company Name">
+                                            <lightning-input type="text" name="OthrCourierComName__c"
+                                                label="Other Courier Company Name" value={obj.OthrCourierComName__c}
+                                                variant="label-hidden" disabled onchange={handlChange}
+                                                data-index={index} onkeypress={handleKeyPressNew}></lightning-input>
+                                        </div>
+                                        <div if:true={obj.isOpsUser} class="slds-truncate"
+                                            title="Other Courier Company Name">
+                                            <template lwc:if={obj.isNew}>
+                                                <lightning-input type="text" name="OthrCourierComName__c"
+                                                    label="Other Courier Company Name" value={obj.OthrCourierComName__c}
+                                                    variant="label-hidden" disabled={obj.disableOthrCurComName}
+                                                    onchange={handlChange} onkeypress={handleKeyPressNew}
+                                                    data-index={index} required></lightning-input>
+                                            </template>
+                                            <template lwc:else>
+                                                <lightning-input type="text" name="OthrCourierComName__c"
+                                                    label="Other Courier Company Name" value={obj.OthrCourierComName__c}
+                                                    variant="label-hidden" disabled
+                                                    data-index={index}></lightning-input>
+                                            </template>
+                                        </div>
+                                    </template>
+                                    <template if:true={isCpaUser}>
+                                        <div if:false={obj.isCpaUser} class="slds-truncate"
+                                            title="Other Courier Company Name">
+                                            <lightning-input type="text" name="OthrCourierComName__c"
+                                                label="Other Courier Company Name" value={obj.OthrCourierComName__c}
+                                                variant="label-hidden" disabled onchange={handlChange}
+                                                data-index={index} onkeypress={handleKeyPressNew}
+                                                required></lightning-input>
+                                        </div>
+                                        <div if:true={obj.isCpaUser} class="slds-truncate"
+                                            title="Other Courier Company Name">
+                                            <template lwc:if={obj.isNew}>
+                                                <lightning-input type="text" name="OthrCourierComName__c"
+                                                    label="Other Courier Company Name" value={obj.OthrCourierComName__c}
+                                                    variant="label-hidden" disabled={obj.disableOthrCurComName}
+                                                    onchange={handlChange} onkeypress={handleKeyPressNew}
+                                                    data-index={index} required></lightning-input>
+                                            </template>
+                                            <template lwc:else>
+                                                <lightning-input type="text" name="OthrCourierComName__c"
+                                                    label="Other Courier Company Name" value={obj.OthrCourierComName__c}
+                                                    variant="label-hidden" disabled
+                                                    data-index={index}></lightning-input>
+                                            </template>
+
+                                        </div>
+                                    </template>
+                                </td>
+                                <!-- <template if:true={showOtherBT}> -->
+                                <td data-label="POD Number">
+                                    <!-- <div class="slds-p-around_x-small">
+                                        <lightning-input type="text" name="PODNum__c" label="POD Number"
+                                            value={obj.PODNum__c} variant="label-hidden"
+                                            disabled={disableDispatchInputs} onchange={handlChange} data-index={index}
+                                            onkeypress={handleKeyPress}></lightning-input>
+                                    </div> -->
+                                    <template if:true={isOpsUser}>
+                                        <div if:false={obj.isOpsUser} class="slds-truncate" title="POD Number">
+                                            <!-- <lightning-formatted-number
+                                                value={obj.PODNum__c}></lightning-formatted-number> -->
+                                            <lightning-input type="text" name="PODNum__c" label="POD Number"
+                                                value={obj.PODNum__c} variant="label-hidden" disabled
+                                                onchange={handlChange} data-index={index}
+                                                onkeypress={handleKeyPress}></lightning-input>
+                                        </div>
+                                        <div if:true={obj.isOpsUser} class="slds-truncate" title="POD Number">
+                                            <template lwc:if={obj.isNew}>
+                                                <lightning-input type="text" name="PODNum__c" label="POD Number"
+                                                    value={obj.PODNum__c} variant="label-hidden"
+                                                    disabled={disableDispatchInputs} onchange={handlChange}
+                                                    data-index={index} onkeypress={handleKeyPress}></lightning-input>
+                                            </template>
+                                            <template lwc:else>
+                                                <lightning-input type="text" name="PODNum__c" label="POD Number"
+                                                    value={obj.PODNum__c} variant="label-hidden" disabled
+                                                    data-index={index}></lightning-input>
+                                            </template>
+
+                                        </div>
+                                    </template>
+                                    <template if:true={isCpaUser}>
+
+                                        <div if:false={obj.isCpaUser} class="slds-truncate" title="POD Number">
+                                            <!-- <lightning-formatted-number
+                                                value={obj.PODNum__c}></lightning-formatted-number> -->
+                                            <lightning-input type="text" name="PODNum__c" label="POD Number"
+                                                value={obj.PODNum__c} variant="label-hidden" disabled
+                                                onchange={handlChange} data-index={index}
+                                                onkeypress={handleKeyPress}></lightning-input>
+                                        </div>
+                                        <div if:true={obj.isCpaUser} class="slds-truncate" title="POD Number">
+                                            <template lwc:if={obj.isNew}>
+                                                <lightning-input type="text" name="PODNum__c" label="POD Number"
+                                                    value={obj.PODNum__c} variant="label-hidden"
+                                                    disabled={disableDispatchInputs} onchange={handlChange}
+                                                    data-index={index} onkeypress={handleKeyPress}></lightning-input>
+                                            </template>
+                                            <template lwc:else>
+                                                <lightning-input type="text" name="PODNum__c" label="POD Number"
+                                                    value={obj.PODNum__c} variant="label-hidden" disabled
+                                                    data-index={index}></lightning-input>
+                                            </template>
+
+                                        </div>
+                                    </template>
+                                </td>
+
+                                <td data-label="Type">
+                                    <template if:true={isOpsUser}>
+                                        <div if:false={obj.isOpsUser} class="slds-truncate" title="Type">
+
+                                            <c-hunter-displayvalue dedupe-rsults-options={typeOptions} type="picklist"
+                                                field-value={obj.Type__c} object={obj} field-name="Type__c"
+                                                index-value={index} onpicklistchange={handlePicklistValues}
+                                                is-read-only=true></c-hunter-displayvalue>
+
+                                        </div>
+                                        <div if:true={obj.isOpsUser} class="slds-truncate" title="Type">
+                                            <template lwc:if={obj.isNew}>
+                                                <c-hunter-displayvalue dedupe-rsults-options={typeOptions}
+                                                    type="picklist" field-value={obj.Type__c} object={obj}
+                                                    field-name="Type__c" index-value={index}
+                                                    onpicklistchange={handlePicklistValues}
+                                                    is-read-only={disableDispatchInputs}></c-hunter-displayvalue>
+                                            </template>
+                                            <template lwc:else>
+                                                <c-hunter-displayvalue dedupe-rsults-options={typeOptions}
+                                                    type="picklist" field-value={obj.Type__c} object={obj}
+                                                    field-name="Type__c" index-value={index}
+                                                    onpicklistchange={handlePicklistValues}
+                                                    is-read-only=true></c-hunter-displayvalue>
+                                            </template>
+
+                                        </div>
+                                    </template>
+                                    <template if:true={isCpaUser}>
+                                        <div if:false={obj.isCpaUser} class="slds-truncate" title="Type">
+                                            <c-hunter-displayvalue dedupe-rsults-options={typeOptions} type="picklist"
+                                                field-value={obj.Type__c} object={obj} field-name="Type__c"
+                                                index-value={index} onpicklistchange={handlePicklistValues}
+                                                is-read-only=true></c-hunter-displayvalue>
+                                        </div>
+                                        <div if:true={obj.isCpaUser} class="slds-truncate" title="Type">
+                                            <template lwc:if={obj.isNew}>
+                                                <c-hunter-displayvalue dedupe-rsults-options={typeOptions}
+                                                    type="picklist" field-value={obj.Type__c} object={obj}
+                                                    field-name="Type__c" index-value={index}
+                                                    onpicklistchange={handlePicklistValues}
+                                                    is-read-only={disableDispatchInputs}></c-hunter-displayvalue>
+                                            </template>
+                                            <template lwc:else>
+                                                <c-hunter-displayvalue dedupe-rsults-options={typeOptions}
+                                                    type="picklist" field-value={obj.Type__c} object={obj}
+                                                    field-name="Type__c" index-value={index}
+                                                    onpicklistchange={handlePicklistValues}
+                                                    is-read-only=true></c-hunter-displayvalue>
+                                            </template>
+
+                                        </div>
+                                    </template>
+                                </td>
+                                <!-- </template> -->
+                                <th data-label="Date of Dipatch" scope="row">
+                                    <!-- <div class="slds-p-around_x-small">
+                                        <lightning-input type="date" name="DateofDispatch__c" label="Date of Dipatch"
+                                            value={obj.DateofDispatch__c} disabled={disableDispatchInputs}
+                                            onchange={handlChange} variant="label-hidden"
+                                            data-index={index}></lightning-input>
+                                    </div> -->
+                                    <template if:true={isOpsUser}>
+                                        <div if:false={obj.isOpsUser} class="slds-truncate" title="Date of Dipatch">
+                                            <!-- <c-date-display birth-date={obj.DateofDispatch__c}></c-date-display> -->
+                                            <lightning-input type="date" name="DateofDispatch__c"
+                                                label="Date of Dipatch" value={obj.DateofDispatch__c} disabled
+                                                variant="label-hidden" data-index={index}></lightning-input>
+                                        </div>
+                                        <div if:true={obj.isOpsUser} class="slds-truncate" title="Date of Dipatch">
+                                            <template lwc:if={obj.isNew}>
+                                                <lightning-input type="date" name="DateofDispatch__c"
+                                                    label="Date of Dipatch" value={obj.DateofDispatch__c}
+                                                    disabled={disableDispatchInputs} onchange={handlChange}
+                                                    variant="label-hidden" data-index={index}></lightning-input>
+                                            </template>
+                                            <template lwc:else>
+                                                <lightning-input type="date" name="DateofDispatch__c"
+                                                    label="Date of Dipatch" value={obj.DateofDispatch__c} disabled
+                                                    variant="label-hidden" data-index={index}></lightning-input>
+                                            </template>
+
+                                        </div>
+                                    </template>
+                                    <template if:true={isCpaUser}>
+                                        <div if:false={obj.isCpaUser} class="slds-truncate" title="Date of Dipatch">
+                                            <!-- <c-date-display birth-date={obj.DateofDispatch__c}></c-date-display> -->
+                                            <lightning-input type="date" name="DateofDispatch__c"
+                                                label="Date of Dipatch" value={obj.DateofDispatch__c} disabled
+                                                variant="label-hidden" data-index={index}></lightning-input>
+                                        </div>
+                                        <div if:true={obj.isCpaUser} class="slds-truncate" title="Date of Dipatch">
+                                            <template lwc:if={obj.isNew}>
+                                                <lightning-input type="date" name="DateofDispatch__c"
+                                                    label="Date of Dipatch" value={obj.DateofDispatch__c}
+                                                    disabled={disableDispatchInputs} onchange={handlChange}
+                                                    variant="label-hidden" data-index={index}></lightning-input>
+                                            </template>
+                                            <template lwc:else>
+                                                <lightning-input type="date" name="DateofDispatch__c"
+                                                    label="Date of Dipatch" value={obj.DateofDispatch__c} disabled
+                                                    variant="label-hidden"></lightning-input>
+                                            </template>
+
+                                        </div>
+                                    </template>
+                                </th>
+                                <td data-label="CPA Remarks">
+
+                                    <template if:true={isCpaUser}>
+                                        <div if:false={obj.isCpaUser} class="slds-p-around_x-small">
+                                            <template lwc:if={obj.reqFilled}>
+                                                <lightning-textarea name="CPARemarks__c" label="CPA Remarks"
+                                                    value={obj.CPARemarks__c} disabled
+                                                    variant="label-hidden"></lightning-textarea>
+                                            </template>
+                                            <template lwc:else>
+                                                <lightning-textarea name="CPARemarks__c" label="CPA Remarks"
+                                                    value={obj.CPARemarks__c} disabled={disableDispatchInputs}
+                                                    onchange={handlChange} data-index={index} variant="label-hidden"
+                                                    required={obj.isCpaRem}></lightning-textarea>
+                                            </template>
+                                        </div>
+                                        <div if:true={obj.isCpaUser} class="slds-p-around_x-small">
+                                            <template lwc:if={obj.isNew}>
+                                                <lightning-textarea name="CPARemarks__c" label="CPA Remarks"
+                                                    value={obj.CPARemarks__c} disabled={disableDispatchInputs}
+                                                    onchange={handlChange} data-index={index} variant="label-hidden"
+                                                    required={obj.isCpaRem}></lightning-textarea>
+                                            </template>
+                                            <template lwc:else>
+                                                <lightning-textarea name="CPARemarks__c" label="CPA Remarks"
+                                                    value={obj.CPARemarks__c} disabled data-index={index}
+                                                    variant="label-hidden"></lightning-textarea>
+                                            </template>
+
+                                        </div>
+                                    </template>
+                                    <template if:true={isOpsUser}>
+                                        <!-- {obj.CPARemarks__c} -->
+                                        <div class="slds-p-around_x-small">
+                                            <lightning-textarea name="CPARemarks__c" label="CPA Remarks"
+                                                value={obj.CPARemarks__c} data-index={index} variant="label-hidden"
+                                                disabled></lightning-textarea>
+                                        </div>
+                                    </template>
+                                    <!-- </div> -->
+                                </td>
+                                <td data-label="Physical File Received">
+                                    <template if:true={isOpsUser}>
+                                        <div if:true={obj.isOpsUser} class="slds-truncate"
+                                            title="Physical File Received">
+                                            <c-hunter-displayvalue dedupe-rsults-options={phyFileRecOptions}
+                                                type="picklist" field-value={obj.PhyFileRec__c} object={obj}
+                                                field-name="PhyFileRec__c" index-value={index}
+                                                onpicklistchange={handlePicklistValues}
+                                                is-read-only=true></c-hunter-displayvalue>
+                                        </div>
+                                        <div if:false={obj.isOpsUser} class="slds-truncate"
+                                            title="Physical File Received">
+                                            <template lwc:if={obj.reqFilled}>
+                                                <c-hunter-displayvalue dedupe-rsults-options={phyFileRecOptions}
+                                                    type="picklist" field-value={obj.PhyFileRec__c} object={obj}
+                                                    field-name="PhyFileRec__c" index-value={index}
+                                                    onpicklistchange={handlePicklistValues}
+                                                    is-read-only=true></c-hunter-displayvalue>
+                                            </template>
+                                            <template lwc:else>
+                                                <c-hunter-displayvalue dedupe-rsults-options={phyFileRecOptions}
+                                                    type="picklist" field-value={obj.PhyFileRec__c} object={obj}
+                                                    field-name="PhyFileRec__c" index-value={index}
+                                                    onpicklistchange={handlePicklistValues}
+                                                    is-read-only={disableDispatchInputs}></c-hunter-displayvalue>
+                                            </template>
+
+                                        </div>
+                                    </template>
+                                    <template if:true={isCpaUser}>
+                                        <div if:true={obj.isCpaUser} class="slds-truncate"
+                                            title="Physical File Received">
+                                            <c-hunter-displayvalue dedupe-rsults-options={phyFileRecOptions}
+                                                type="picklist" field-value={obj.PhyFileRec__c} object={obj}
+                                                field-name="PhyFileRec__c" index-value={index}
+                                                onpicklistchange={handlePicklistValues}
+                                                is-read-only=true></c-hunter-displayvalue>
+                                        </div>
+                                        <div if:false={obj.isCpaUser} class="slds-truncate"
+                                            title="Physical File Received">
+                                            <template lwc:if={obj.reqFilled}>
+                                                <c-hunter-displayvalue dedupe-rsults-options={phyFileRecOptions}
+                                                    type="picklist" field-value={obj.PhyFileRec__c} object={obj}
+                                                    field-name="PhyFileRec__c" index-value={index}
+                                                    onpicklistchange={handlePicklistValues}
+                                                    is-read-only=true></c-hunter-displayvalue>
+                                            </template>
+                                            <template lwc:else>
+                                                <c-hunter-displayvalue dedupe-rsults-options={phyFileRecOptions}
+                                                    type="picklist" field-value={obj.PhyFileRec__c} object={obj}
+                                                    field-name="PhyFileRec__c" index-value={index}
+                                                    onpicklistchange={handlePicklistValues}
+                                                    is-read-only={disableDispatchInputs}></c-hunter-displayvalue>
+                                            </template>
+
+                                        </div>
+                                    </template>
+                                </td>
+                                <td data-label="Date of Receipt">
+                                    <template if:true={isOpsUser}>
+                                        <div if:true={obj.isOpsUser} class="slds-truncate" title="Date of Receipt">
+                                            <!-- <lightning-formatted-date-time value={obj.DateofReceiptbyOps__c}
+                                                year="numeric" month="numeric" day="numeric" hour="2-digit"
+                                                minute="2-digit" time-zone-name="short"></lightning-formatted-date-time> -->
+                                            <!-- <c-date-time-display
+                                                date-time={obj.DateofReceiptbyOps__c}></c-date-time-display> -->
+                                            <lightning-input type="datetime" name="DateofReceiptbyOps__c"
+                                                label="Date of Receipt" value={obj.DateofReceiptbyOps__c} disabled
+                                                variant="label-hidden" data-index={index}></lightning-input>
+                                        </div>
+                                        <div if:false={obj.isOpsUser} class="slds-truncate" title="Date of Receipt">
+                                            <template lwc:if={obj.reqFilled}>
+                                                <lightning-input type="datetime" name="DateofReceiptbyOps__c"
+                                                    label="Date of Receipt By Ops" value={obj.DateofReceiptbyOps__c}
+                                                    disabled variant="label-hidden"></lightning-input>
+                                            </template>
+                                            <template lwc:else>
+                                                <lightning-input type="datetime" name="DateofReceiptbyOps__c"
+                                                    label="Date of Receipt By Ops" value={obj.DateofReceiptbyOps__c}
+                                                    disabled={disableReceiptdate} variant="label-hidden"
+                                                    onchange={handlChange} data-index={index}
+                                                    required={obj.isDoRReq}></lightning-input>
+                                            </template>
+
+                                        </div>
+                                    </template>
+                                    <template if:true={isCpaUser}>
+                                        <div if:true={obj.isCpaUser} class="slds-truncate" title="Date of Receipt">
+                                            <!-- <lightning-formatted-date-time value={obj.DateofReceiptbyOps__c}
+                                                year="numeric" month="numeric" day="numeric" hour="2-digit"
+                                                minute="2-digit" time-zone-name="short"></lightning-formatted-date-time> -->
+                                            <!-- <c-date-time-display
+                                                date-time={obj.DateofReceiptbyOps__c}></c-date-time-display> -->
+                                            <lightning-input type="datetime" name="DateofReceiptbyOps__c"
+                                                label="Date of Receipt" value={obj.DateofReceiptbyOps__c} disabled
+                                                variant="label-hidden" data-index={index}></lightning-input>
+                                        </div>
+                                        <div if:false={obj.isCpaUser} class="slds-truncate" title="Date of Receipt">
+                                            <!-- <lightning-input type="datetime" name="DateofReceiptbyOps__c"
+                                                label="Date of Receipt By Ops" value={obj.DateofReceiptbyOps__c}
+                                                disabled={disableReceiptdate} variant="label-hidden"
+                                                onchange={handlChange} data-index={index}
+                                                required={obj.isDoRReq}></lightning-input> -->
+                                            <template lwc:if={obj.reqFilled}>
+                                                <lightning-input type="datetime" name="DateofReceiptbyOps__c"
+                                                    label="Date of Receipt By Ops" value={obj.DateofReceiptbyOps__c}
+                                                    disabled variant="label-hidden"></lightning-input>
+                                            </template>
+                                            <template lwc:else>
+                                                <lightning-input type="datetime" name="DateofReceiptbyOps__c"
+                                                    label="Date of Receipt By Ops" value={obj.DateofReceiptbyOps__c}
+                                                    disabled={disableReceiptdate} variant="label-hidden"
+                                                    onchange={handlChange} data-index={index}
+                                                    required={obj.isDoRReq}></lightning-input>
+                                            </template>
+                                        </div>
+                                    </template>
+                                </td>
+                                <td data-label="Operation Remarks">
+                                    <template if:true={isCpaUser}>
+                                        <div class="slds-p-around_x-small">
+                                            <lightning-textarea name="OperationRem__c" variant="label-hidden"
+                                                label="Operation Remarks" value={obj.OperationRem__c} disabled
+                                                data-index={index}></lightning-textarea>
+                                        </div>
+                                    </template>
+                                    <template if:true={isOpsUser}>
+                                        <div if:false={obj.isOpsUser} class="slds-p-around_x-small">
+                                            <template lwc:if={obj.reqFilled}>
+                                                <lightning-textarea name="OperationRem__c" variant="label-hidden"
+                                                    label="Operation Remarks" value={obj.OperationRem__c}
+                                                    disabled></lightning-textarea>
+                                            </template>
+                                            <template lwc:else>
+                                                <lightning-textarea name="OperationRem__c" variant="label-hidden"
+                                                    label="Operation Remarks" value={obj.OperationRem__c}
+                                                    disabled={disableReceiptdate} onchange={handlChange}
+                                                    data-index={index} required={obj.isOpsRem}></lightning-textarea>
+                                            </template>
+
+                                        </div>
+                                        <div if:true={obj.isOpsUser} class="slds-p-around_x-small">
+                                            <template lwc:if={obj.isNew}>
+                                                <lightning-textarea name="OperationRem__c" variant="label-hidden"
+                                                    label="Operation Remarks" value={obj.OperationRem__c}
+                                                    disabled={disableReceiptdate} onchange={handlChange}
+                                                    data-index={index} required={obj.isOpsRem}></lightning-textarea>
+                                            </template>
+                                            <template lwc:else>
+                                                <lightning-textarea name="OperationRem__c" variant="label-hidden"
+                                                    label="Operation Remarks" value={obj.OperationRem__c}
+                                                    disabled></lightning-textarea>
+                                            </template>
+
+                                        </div>
+                                    </template>
+
+                                </td>
+                                <td data-label="Created By">
+                                    <div class="slds-p-around_x-small">
+                                        <lightning-formatted-text value={obj.CreatedByName}></lightning-formatted-text>
+                                    </div>
+                                </td>
+                                <td>
+                                    <template if:true={isCpaUser}>
+                                        <div if:true={obj.isCpaUser} class="slds-p-around_x-small">
+                                            <template lwc:if={obj.isNew}>
+                                                <lightning-button-icon icon-name="action:delete"
+                                                    alternative-text="Delete" title="Delete" data-index={index}
+                                                    data-id={obj.Id} onclick={handleDeleteAction}
+                                                    disabled={disableDispatchInputs}>
+                                                </lightning-button-icon>
+                                            </template>
+                                        </div>
+                                    </template>
+                                    <template if:true={isOpsUser}>
+                                        <div if:true={obj.isOpsUser} class="slds-p-around_x-small">
+                                            <template lwc:if={obj.isNew}>
+                                                <lightning-button-icon icon-name="action:delete"
+                                                    alternative-text="Delete" title="Delete" data-index={index}
+                                                    data-id={obj.Id} onclick={handleDeleteAction}
+                                                    disabled={disableDispatchInputs}>
+                                                </lightning-button-icon>
+                                            </template>
+                                        </div>
+                                    </template>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </template>
+        <br />
+
+        <template if:true={showQuery}>
+            <c-show-application-query-details ndc-id={ndcId} loan-substage={loanSubstage} loan-stage={loanStage}
+                is-modal-open-api="true" onpasstoparent={handleCloseRem}
+                onqueryadd={handleQueryAdd}></c-show-application-query-details>
+        </template>
+
+        <template if:true={showTables}>
+            <!-- New normal table -->
+            <template lwc:if={desktopBoolean}>
+                <template lwc:if={ndcSectionData}>
+                    <template for:each={ndcSectionData} for:item="item" for:index="index">
+                        <lightning-accordion key={item.sectionOrder} active-section-name={activeSections}
+                            allow-multiple-sections-open>
+                            <lightning-accordion-section name="A" label={item.ndcSection} class={item.secCls}
+                                if:true={item.showSection}>
+                                <template for:each={item.tablConfig} for:item="tableItem">
+                                    <div key={tableItem.id} if:true={tableItem.title} class="slds-p-around_medium"
+                                        style="font-size: medium;">
+                                        <strong>{tableItem.title}</strong>
+                                    </div>
+                                    <template if:true={tableItem.allowUpload}>
+                                        <!-- <br key={tableItem.id} /> -->
+                                        <!-- <h2 key={tableItem.id}>{item.ndcSection}</h2> -->
+                                        <c-ndc-upload-doc key={tableItem.id} loan-app-id={loanAppId}
+                                            appid={primaryAppId} doc-category={tableItem.docCategory}
+                                            app-asset-id={tableItem.applicantAssetId} read-only={disableDisbTy}
+                                            layout-size={layoutSize} section-name={item.ndcSection}
+                                            onpasstoparentupload={handleDocumentUpload}></c-ndc-upload-doc>
+                                    </template>
+                                    <template if:true={tableItem.addDeviation}>
+                                        <c-add-deviation key={tableItem.id} loan-app-id={loanAppId} product={product}
+                                            deviation-category={tableItem.deviationCategory} read-only={disableDisbTy}
+                                            layout-size={layoutSize} section-name={item.ndcSection}
+                                            onpasstoparent={handleDevRecCreation}></c-add-deviation>
+                                    </template>
+                                    <div key={tableItem.id} class="table-container">
+                                        <table
+                                            class="slds-p-around_small data-table slds-table slds-table_cell-buffer slds-table_bordered"
+                                            aria-labelledby="element-with-table-label other-element-with-table-label">
+                                            <thead>
+                                                <tr class="slds-line-height_reset">
+                                                    <template for:each={tableItem.columnConfig} for:item="col">
+                                                        <th key={col.fieldName} class="" scope="col"
+                                                            if:true={col.isVisible}>
+                                                            <template if:true={tableItem.showSelectAll}>
+                                                                <template if:true={col.selectAll}>
+                                                                    <lightning-input type="checkbox"
+                                                                        data-section={item.ndcSection}
+                                                                        data-asset={tableItem.applicantAssetId}
+                                                                        data-name={col.fieldName}
+                                                                        onchange={handleSelectAll}
+                                                                        disabled={disableOopsVer}
+                                                                        checked={tableItem.selectAll}>
+                                                                    </lightning-input>
+                                                                    <span class="slds-truncate">{col.label}</span>
+                                                                </template>
+                                                                <template if:true={col.selectAllPhyFU}>
+                                                                    <template if:false={tableItem.hidePhyFileSend}>
+                                                                        <lightning-input type="checkbox"
+                                                                            data-section={item.ndcSection}
+                                                                            data-asset={tableItem.applicantAssetId}
+                                                                            data-name={col.fieldName}
+                                                                            onchange={handleSelectAll}
+                                                                            disabled={tableItem.disablePhyscFilSend}
+                                                                            checked={tableItem.selectAllPhyFU}>
+                                                                        </lightning-input>
+                                                                    </template>
+                                                                    <span class="slds-truncate">{col.label}</span>
+                                                                </template>
+                                                            </template>
+                                                            <template if:false={tableItem.showSelectAll}>
+                                                                <template if:true={col.selectAll}>
+                                                                    <div style={col.style} class="slds-truncate"
+                                                                        title={col.label}>
+                                                                        {col.label}
+                                                                    </div>
+                                                                </template>
+                                                                <template if:true={col.selectAllPhyFU}>
+                                                                    <div style={col.style} class="slds-truncate"
+                                                                        title={col.label}>
+                                                                        {col.label}
+                                                                    </div>
+                                                                </template>
+                                                            </template>
+                                                            <template if:false={col.selectAll}>
+                                                                <template if:false={col.selectAllPhyFU}>
+                                                                    <div style={col.style} class="slds-truncate"
+                                                                        title={col.label}>
+                                                                        {col.label}
+                                                                    </div>
+                                                                </template>
+                                                            </template>
+                                                        </th>
+                                                    </template>
+                                                    <template if:true={tableItem.allowDelete}>
+                                                        <template if:true={hideDeleteBrn}>
+                                                            <th class="Delete" scope="col">
+                                                                <div class="slds-truncate" title="Delete">
+                                                                    Delete
+                                                                </div>
+                                                            </th>
+                                                        </template>
+                                                    </template>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <template for:each={tableItem.ndcRecords} for:item="record"
+                                                    for:index="index">
+                                                    <tr key={record.id} if:true={record.displayRow}
+                                                        class="slds-hint-parent">
+                                                        <template for:each={tableItem.columnConfig} for:item="col"
+                                                            for:index="index">
+                                                            <td key={col.label} data-label={col.label}
+                                                                if:true={col.isVisible}>
+                                                                <div class="slds-line-clamp">
+                                                                    <c-ndc-datatable-display-value
+                                                                        query-enable={queryEnable}
+                                                                        record-data={record.record}
+                                                                        data-recordid={record.record.Id}
+                                                                        data-fieldname={col.fieldName} col={col}
+                                                                        read-only={disableDisbType}
+                                                                        read-only-new={isReadOnly} ndc-id={record.ndcId}
+                                                                        ops-query={record.opsQuery}
+                                                                        show-ops-query={record.showOpsQuery}
+                                                                        sobject-type={tableItem.sobjectType}
+                                                                        loan-substage={loanSubstage}
+                                                                        loan-stage={loanStage}
+                                                                        section-name={item.ndcSection}
+                                                                        app-asset-id={tableItem.applicantAssetId}
+                                                                        save-data={saveData} onprevi={handlePreview}
+                                                                        onndcrecord={handleQueryRemarks}
+                                                                        onpasssavedata={handleSaveData}
+                                                                        onuploaddoc={handleUploadingDocument}
+                                                                        ondeletedoc={handleDeletingDocument}
+                                                                        employe-role={empRole} is-ops-user={isOpsUser}
+                                                                        is-cpa-user={isCpaUser}
+                                                                        all-docs-received={allDocsReceived}
+                                                                        finnone-submit-date={finnoneSubmitDate}></c-ndc-datatable-display-value>
+                                                                </div>
+                                                            </td>
+                                                        </template>
+                                                        <template if:true={tableItem.allowDelete}>
+                                                            <template if:true={hideDeleteBrn}>
+                                                                <template if:false={record.record.OpsVer__c}>
+                                                                    <td data-label="Delete">
+                                                                        <lightning-icon
+                                                                            class="custom-button slds-p-right_xx-small "
+                                                                            data-index={index} onclick={handleDelete}
+                                                                            data-section={item.ndcSection}
+                                                                            data-appassetid={tableItem.applicantAssetId}
+                                                                            data-id={record.record.Id}
+                                                                            icon-name="utility:delete"
+                                                                            alternative-text="delete" size="small"
+                                                                            title="delete" disabled={isReadOnly}
+                                                                            variant="error">
+                                                                        </lightning-icon>
+                                                                    </td>
+                                                                </template>
+                                                            </template>
+                                                        </template>
+                                                    </tr>
+                                                </template>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </template>
+                            </lightning-accordion-section>
+                        </lightning-accordion>
+                    </template>
+                </template>
+            </template>
+        </template>
+        <!-- LAK-7525 -->
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <lightning-input type="text" label="Credit User" value={creditUserName} disabled></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <lightning-input type="text" label="Ops User" value={opsUserName} disabled></lightning-input>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card>
+    <template if:true={showModalForFilePre}>
+        <!-- <c-i-frame-preview image-type-file-url={imageTypeFileUrl} cont-doc-type={fileType} cont-doc-id={cdId} url={url}
+            cv-id={cvId} onclosepreview={handleCloseModalEvent}></c-i-frame-preview> -->
+        <c-multi-doc-previewer document-detail-id={docIdToPreview} onclosepreview={handleCloseModalEvent}
+            cont-vers-data-list={contVersDataList} has-document-id={hasDocumentId}> </c-multi-doc-previewer>
+    </template>
+
+
+
+
+    <template if:true={showUploadModal}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="my-modal slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div if:true={showSpinnerNew}>
+                    <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+                    </lightning-spinner>
+                </div>
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeUploadModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Upload File</h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                    <!-- <p style="text-align:center;"><b>{removeModalMessage}</b></p> -->
+                    <!-- <lightning-file-upload label="Attach receipt" name="fileUploader" accept={acceptedFormats}
+                        record-id={documentId} data-appaseetid={appAssetIdForUp} data-sectionname={sectionName}
+                        onuploadfinished={handleUploadFinished}>
+                    </lightning-file-upload> -->
+                    <!-- <c-ndc-upload-document loan-app-id={loanAppId} doc-dtl-id={documentId}
+                        onuploaddoc={handleUploadDoc}></c-ndc-upload-document> -->
+                    <c-upload-docs-reusable-component loan-app-id={loanAppId}
+                        onrefreshdoctable={fromUploadDocsContainer} onspinnerstatus={spinnerStatus}
+                        document-detai-id={documentId} max-file-size={maxFileSize} file-size-msz={fileSizeMsz}>
+                    </c-upload-docs-reusable-component>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeUploadModal} title="No">No</button>
+
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+
+
+    <template if:true={showModalForDelete}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-align--absolute-center slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModalDelete}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
+                        Delete?
+                    </h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p style="text-align: center">
+                        <b>{removeModalMessage}</b>
+                    </p>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_brand" onclick={handleRemoveRecord} title="Yes">
+                        Yes
+                    </button>
+                    <button class="slds-button slds-button_neutral" onclick={closeModalDelete} title="No">
+                        No
+                    </button>
+
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+
+    <template if:true={showModalForDeleteDoc}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-align--absolute-center slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModalDeleteDoc}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-04" class="slds-text-heading_medium slds-hyphenate">
+                        Delete?
+                    </h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-4">
+                    <p style="text-align: center">
+                        <b>{removeModalMessageDoc}</b>
+                    </p>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_brand" onclick={handleRemoveRecordDel} title="Yes">
+                        Yes
+                    </button>
+                    <button class="slds-button slds-button_neutral" onclick={closeModalDeleteDoc} title="No">
+                        No
+                    </button>
+
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+
+    <template if:true={showDocumentDispatchDelete}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-align--absolute-center slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModalDeleteDocDis}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-05" class="slds-text-heading_medium slds-hyphenate">
+                        Delete?
+                    </h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-5">
+                    <p style="text-align: center">
+                        <b>{removeModalMessageDocDis}</b>
+                    </p>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_brand" onclick={handleDeleteDocDis} title="Yes">
+                        Yes
+                    </button>
+                    <button class="slds-button slds-button_neutral" onclick={closeModalDeleteDocDis} title="No">
+                        No
+                    </button>
+
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+
+    <template if:true={showAllDocsModal}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-align--absolute-center slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModalDeleteAllDocs}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-06" class="slds-text-heading_medium slds-hyphenate">
+                        Confirm?
+                    </h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-6">
+                    <p style="text-align: center">
+                        <b>{removeModalMessageAllDocs}</b>
+                    </p>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_brand" onclick={handleAllDocsSelected} title="Yes">
+                        Yes
+                    </button>
+                    <button class="slds-button slds-button_neutral" onclick={closeModalDeleteAllDocs} title="No">
+                        No
+                    </button>
+
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

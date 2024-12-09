@@ -1,0 +1,22 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+
+    <lightning-card>
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item padding="around-small" size="12" >
+                <lightning-combobox name="DocumentType" label="Document Type" value={docType}
+                    placeholder="Select Document Type" options={docTypeOption} onchange={handleChange}
+                    disabled={disableMode}></lightning-combobox>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small" size="12" >
+                <lightning-combobox name="DocumentName" label="Document Name" value={docName}
+                    field-level-help={helperText} placeholder="Select Document Name"
+                    options={docNameOption} onchange={handleChange}
+                    disabled={desableOnRunManual}></lightning-combobox>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card>
+</template>

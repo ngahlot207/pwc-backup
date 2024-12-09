@@ -1,0 +1,78 @@
+<apex:component Controller="EndUserLetterController" access="global">
+     
+     <html>
+        
+        <head>
+            <style>
+                .table1 tr,td{
+                width:15px;
+                }
+            </style>
+        </head>
+    </html>
+    <body >
+        <div style="text-align: right; font-size:12px">
+                {!CurrentDateTime}
+            </div>
+         <div>
+            <h4 style="text-align:center; font-family:calibiri;font-weight: bold;font-size:15px">End Use Letter</h4>
+        </div>
+        <div style="padding-left:40px; padding-top:30px;">
+            
+        
+        <div style="font-family:Times New Roman;font-size:12px">
+            To,<br/>
+            Fedbank Financial Services Limited<br/>
+            Date: {!CurrentDate}
+        </div>
+			
+        <br/>        
+        
+        <div style="font-family:Times New Roman;font-size:12px">
+            Dear Sirs,<br/><br/>
+                <u>Sub: {!Subject}</u><br/>						
+				               
+            </div>
+        <br/> 
+        <div style="font-family:Times New Roman;font-size:12px">
+                I, <u>{!ApplicantName}</u> refer to the loan application no <u>{!LoanNumber}</u> dated <u>{!loginAcceptance}</u> submitted to
+				Fedbank Financial Services Ltd for availing of a loan facility (the Facility) from Fedbank Financial
+				Services Ltd
+                
+            </div>        
+        
+        <br/>
+        <div style="font-family:Times New Roman;font-size:12px">
+                The said facility is for the purpose of:<br/>              
+                
+            </div>
+        <br/>
+          <div style="font-family:Times New Roman;font-size:12px">
+                {!LoanPurpose}<br/>              
+                
+            </div>
+        <br/>
+        <apex:outputText value="{!mapofContent[1]}" escape="false" />
+            <apex:outputPanel rendered="{!if(showTable == true , true ,false)}">  
+                                          <table border="1"  style="border-collapse: collapse; width: 100%; font-size: 5; padding-top:10px">
+                <tbody>
+                    <tr style="font-size: 5">
+                        <td style="width: 30%">Name</td>
+                        <td style="width: 30%">Type</td>
+                        <td style="width: 30%">Signature</td>
+                    </tr>
+                    <apex:repeat value="{!applicantList}" var="applicantWrapper">
+                    
+                        <tr style="font-size: 5" >
+                        <td>{!applicantWrapper.FullName__c}</td>
+                        <td>{!applicantWrapper.ApplType__c}</td>
+                            <td></td>
+                    </tr>
+                    </apex:repeat>
+                </tbody>
+            </table>
+                                    	</apex:outputPanel>
+           
+        </div>
+    </body>
+</apex:component>

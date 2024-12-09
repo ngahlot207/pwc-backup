@@ -1,0 +1,64 @@
+<apex:page > 
+ 
+    <script type="text/javascript">
+    __sfdcSessionId = '{!$Api.Session_Id}'; 
+    </script>
+    <script src="../../soap/ajax/50.0/connection.js" type="text/javascript"></script> 
+    <script> 
+   
+    function uploadContentVersion(data) {
+           console.log('data ', JSON.stringify(data));
+        // system.debug(data);
+         
+            if (data.files && data.files.length > 0) {
+                let fileIdList = [];
+                let integrationMessages = [];
+               
+                data.files.forEach(item => {
+                    console.log('item ', JSON.stringify(item));
+                    let contentVersion = new sforce.SObject('ContentVersion');
+                    contentVersion.Title = item.fileName;
+                    contentVersion.FirstPublishLocationId = data.parameters;
+                    contentVersion.ContentLocation = 'S'; // S = Salesforce, E = External Files
+                    contentVersion.PathOnClient = item.fileName;
+                    contentVersion.VersionData = item.fileContent;//EncodingUtil.base64Decode(file.fileContent);
+                    if(item.additionalParams && item.additionalParams == true){
+                       contentVersion.Document_Category__c = item.docCategory != null ? item.docCategory : '';
+                       contentVersion.Document_Type__c = item.docType != null ? item.docType : '';
+                       contentVersion.Document_Name__c = item.docName != null ? item.docName : '';
+                    }
+                                                       
+                        
+                    let results = sforce.connection.create([contentVersion]);
+                       console.log('result', JSON.stringify(results));
+                          for (let i = 0; i < results.length; i++) {
+                    
+                        if (results[i].getBoolean("success")) {
+                            fileIdList.push(results[i].id);
+                    
+                        }
+                    }
+                
+                  
+                });
+                console.log('fileIdList' + fileIdList);
+                if (fileIdList.length > 0) {
+                    console.log('MESSAGE CREATED ', { "source": "vf", "fileIdList": fileIdList},event.data.lightningDomain);
+                    
+                    window.parent.postMessage({ "source": "vf", "fileIdList": fileIdList},event.data.lightningDomain );
+                }
+
+            }
+        }
+        
+        window.addEventListener('message', (event) => {
+
+        
+           if (event.data.source === "lwc") {
+            console.log('data is ', JSON.stringify(event.data));
+
+                uploadContentVersion(event.data);
+            console.log('coming');
+            }
+        });
+    </script>    <body></body></apex:page>

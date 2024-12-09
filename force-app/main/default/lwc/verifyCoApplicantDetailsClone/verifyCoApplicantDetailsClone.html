@@ -1,0 +1,234 @@
+<template>
+	<!--applicantId = {applicantId}
+	@api recordId ={recordId}
+	@api loanAppId = {loanAppId}-->
+	<lightning-card>
+		<lightning-layout multiple-rows="true">
+			<!--<lightning-button label="Check Validity" variant="brand" onclick={checkValidity} ></lightning-button>-->
+			<lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+				<div>
+					<lightning-combobox label="Customer Profile" data-objectname="Applicant__c"
+						data-fieldname="CustProfile__c" value={wrapObj.CustProfile__c} onchange={inputChangeHandler}
+						options={customerProfileOptions} required></lightning-combobox>
+				</div>
+			</lightning-layout-item>
+
+			<lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+				<div>
+					<lightning-combobox label="Constitution	" data-objectname="Applicant__c"
+						data-fieldname="Constitution__c" value={wrapObj.Constitution__c} onchange={inputChangeHandler}
+						options={constitutionOptions} required disabled={disabledConstitution}></lightning-combobox>
+				</div>
+			</lightning-layout-item>
+
+			<lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+				<div>
+					<lightning-combobox label="Type of Borrower" data-objectname="Applicant__c"
+						data-fieldname="Type_of_Borrower__c" value={wrapObj.Type_of_Borrower__c}
+						onchange={inputChangeHandler} options={BorrowerOptions} required
+						disabled={disabledTypeOfBorrower}></lightning-combobox>
+				</div>
+			</lightning-layout-item>
+
+
+
+
+			<lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+				<lightning-combobox label="Applicant Type" data-objectname="Applicant__c" data-fieldname="ApplType__c"
+					value={wrapObj.ApplType__c} onchange={inputChangeHandler} options={applicantTypeOptionsModified}
+					required>
+				</lightning-combobox>
+			</lightning-layout-item>
+
+			
+			<template if:true={showNameSection}>
+				<template if:true={isIndividual}>
+					<lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+						<div>
+							<lightning-input type="text" value={wrapObj.FName__c} label="First Name"
+								onchange={inputChangeHandler} data-fieldname="FName__c" required data-objectname="Applicant__c">
+							</lightning-input>
+						</div>
+					</lightning-layout-item>
+	
+					<lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+						<div>
+							<lightning-input type="text" value={wrapObj.MName__c} label="Middle Name"
+								onchange={inputChangeHandler} data-fieldname="MName__c" data-objectname="Applicant__c">
+							</lightning-input>
+						</div>
+					</lightning-layout-item>
+	
+					<lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+						<div>
+							<lightning-input type="text" value={wrapObj.LName__c} label="Last Name"
+								onchange={inputChangeHandler} data-fieldname="LName__c" required data-objectname="Applicant__c">
+							</lightning-input>
+						</div>
+					</lightning-layout-item>
+	
+				</template>
+				<template if:false={isIndividual}>
+					<lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+						<div>
+							<lightning-input type="text" value={wrapObj.CompanyName__c} label="Company Name"
+								onchange={inputChangeHandler} data-fieldname="CompanyName__c"
+								data-objectname="Applicant__c" required>
+							</lightning-input>
+						</div>
+					</lightning-layout-item>
+	
+					<lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+						<div>
+							<lightning-input type="text" value={wrapObj.KeyManName__c}
+								label="Name of the KeyMan/Authorised Individual" onchange={inputChangeHandler}
+								data-fieldname="KeyManName__c" data-objectname="Applicant__c">
+							</lightning-input>
+						</div>
+					</lightning-layout-item>
+				</template>
+			</template>
+			
+			
+
+			<lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+				<div>
+					<lightning-input type="tel" value={wrapObj.MobNumber__c} label="Mobile Number" data-id="mobileInput"
+						onchange={inputChangeHandler} required data-fieldname="MobNumber__c"
+						data-objectname="Applicant__c" pattern="[6,7,8,9]{1}[0-9]{9}"
+						message-when-pattern-mismatch={messageMismatchError} disabled={disableMobileNumber}>
+					</lightning-input>
+				</div>
+				<template if:true={isVerified}>
+					<div class="verified-message green-verified slds-p-left_small"> Verified</div>
+				</template>
+			</lightning-layout-item>
+
+		</lightning-layout>
+		<br/>
+
+		<lightning-card> <div class="slds-m-left_small">
+			<template if:true={showConsent}>
+				<template if:true={showMobileOtpConsent}>
+					<span class="slds-radio">
+						<input type="radio" id="radio-1" data-field="mobile" checked={isMobile}  name="consentButtons"  onclick={handleRadioClick} />
+						<label class="slds-radio__label" for="radio-1">
+							<span class="slds-radio_faux"></span>
+					<span class="slds-form-element__label">Mobile OTP Consent</span>
+					</label>
+					</span>
+				</template>
+				<template if:true={showPhysicalConsent}>
+					<span class="slds-radio">
+						<input type="radio" id="radio-2"  data-field="manual" checked={isManual} name="consentButtons" onclick={handleRadioClick} />
+						<label class="slds-radio__label" for="radio-2">
+							<span class="slds-radio_faux"></span>
+					<span class="slds-form-element__label">Physical Consent Upload</span>
+					</label>
+					</span>
+				</template>
+			</template> </div>
+		</lightning-card>
+		
+
+		<div if:true={isMobile}>
+			<div if:true={showMobileNumber}>
+				<lightning-layout multiple-rows>
+					<lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+						<lightning-input type="phone" pattern="[6,7,8,9]{1}[0-9]{9}"
+							message-when-pattern-mismatch="Please enter a valid Phone Number" label="Mobile Number"
+							maxlength="10" minlength="10" class="mobile" value={mobileNumberValue}
+							onchange={handleMobileChange} disabled></lightning-input>
+							<!-- OTP SENT SUCCESSFULLY Message -->
+							<div if:true={otpSentSuccess} style="color:rgb(8, 128, 44)">{label.SentOTPSuccess}</div> 
+					</lightning-layout-item>
+					
+					<lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+						<div class="slds-p-left_small slds-p-top_small">
+							<template if:true={mobileNumberValue}>
+								<lightning-button label="Send OTP" variant="brand" onclick={handleSendOTP}
+									disabled={disableSendOTP}></lightning-button>&nbsp;  
+									
+							</template>
+						</div>
+					</lightning-layout-item>
+				</lightning-layout>
+			</div>
+			<div if:true={showEnterOtp}>
+				<lightning-layout multiple-rows>
+					<lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+						<span onkeypress={handleEnterOtp}>
+                     <lightning-input type="text" label="Enter OTP" data-id="OtpInput" class="enter-otp" onchange={handleEnterOtp} disabled={disableValidateOTP}></lightning-input>
+                    </span>
+					</lightning-layout-item>
+					<lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+						<div class="slds-p-left_small slds-p-top_small">
+							<lightning-button label="Validate OTP" data-id="enterOtp" variant="brand"
+								onclick={handleValidateOTP} disabled={disableValidateOTP}></lightning-button>
+						</div>
+					</lightning-layout-item>
+
+				</lightning-layout>
+			</div>
+			<div if:true={showEnterOtp}>
+				<div if:false={hidetimer} style="color:rgb(184, 44, 44)" class="slds-m-left_small">Time Remaining: {otpTimerValue}</div>
+				<div if:false={hidetimer} class="slds-m-left_small">{label.OTPRetryMessage}</div>
+			</div>
+			<div if:true={isOTPValidated}>
+				<div class="slds-p-top_small">
+					<lightning-layout-item size="1" class="slds-p-top_small slds-m-left_small">
+						<lightning-icon icon-name="action:approval" size="xx-small"></lightning-icon>&nbsp;
+                             {label.MobileNumSuccess}
+					</lightning-layout-item>
+				</div>
+			</div>
+
+			<div if:true={isOTPNotValidated}>
+				<lightning-layout-item size="1" class="slds-p-top_small slds-m-left_small" >
+					<p style="color:rgb(184, 44, 44)">
+					<img src={mobFailedImage} alt="Custom Image" width="40" height="30" >&nbsp;
+					{label.mobVerificationFailed}</p>
+				</lightning-layout-item>
+			</div> 
+			
+		</div>
+
+		<div if:true={isManual}>
+			<div class="slds-m-around_medium">
+				<lightning-input type="file" accept={acceptedFormats} label="" onchange={openfileUpload}>
+				</lightning-input>
+			</div>
+			<p>Note: Please upload file of pdf, jpg, jpeg and png format only</p>
+		</div>
+
+		<template if:false={mobileOptionSelected}>
+			<div if:true={filesList}>
+				<div if:true={filesPresent}>
+					<lightning-card title="">
+						<div>
+							<template for:each={filesList} for:item="file">
+								<div key={file.Id}>
+									<div class="two-column-container">
+										<div class="column">
+											<lightning-icon icon-name="custom:custom18" size="small"></lightning-icon>
+											<strong style="padding-left:20px;">{file.Title}</strong>
+										</div>
+										<div class="column">
+											<lightning-icon icon-name="utility:success" variant="success" size="small" alternative-text="File Uploaded Successfully" data-id={file.Id} if:true={fileUploaded}></lightning-icon>
+											<lightning-icon onclick={previewHandler} alternative-text="preview"
+												data-id={file.Id} title="Preview" icon-name='utility:preview'
+												class="slds-p-right_medium" variant='success' size='small'></lightning-icon>
+											<lightning-icon onclick={deleteHandler} alternative-text="Delete"
+												data-id={file.Id} title="Delete" icon-name='utility:delete' variant='error'
+												size='small'></lightning-icon>
+										</div>
+									</div>
+								</div>
+							</template>
+						</div>
+					</lightning-card>
+				</div>
+			</div>
+		</template>
+	</lightning-card>
+</template>

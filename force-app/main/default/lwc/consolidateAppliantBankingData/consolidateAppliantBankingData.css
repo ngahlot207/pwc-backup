@@ -1,0 +1,109 @@
+/*body {
+
+    font-family: 'Segoe UI', sans-serif;
+
+    margin: 0;
+
+}
+
+ 
+
+.container {
+
+    width: 100%;
+    margin: 0 auto;
+    font-size: large;
+    font-weight: bold;
+
+}
+*/
+ 
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+}
+
+ 
+
+th, td {
+
+    border: 1px solid #dddbda;
+
+    padding: 10px;
+
+    text-align: center;
+
+}
+
+ /*
+
+th {
+
+    background-color: #F3F2F2;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+}
+
+ 
+
+td {
+
+    background-color: #F3F2F2;
+
+    font-size: 14px;
+
+    font-weight: 400;
+
+}
+
+ 
+
+th[colspan], th[rowspan], td[colspan], td[rowspan] {
+
+    background-color: #F3F2F2;
+
+}
+
+ 
+
+table th[colspan] {
+
+    background-color: #F3F2F2;
+
+}
+
+ 
+
+table th[colspan], table th[rowspan], table td[colspan], table td[rowspan] {
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    text-align: center;
+
+}
+
+ 
+
+tr:nth-child(even) {
+
+    background-color: #F3F2F2;
+
+}
+.comboboxwidth{
+    width:20%
+}
+
+
+.text-alignment{
+    text-align: right !important;
+    text-align: -webkit-right !important;
+} */

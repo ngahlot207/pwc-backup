@@ -1,0 +1,11 @@
+<template>
+    <lightning-card>
+        <template for:each={buttonConfiguration} for:item="btn">
+            <div key={btn.btnLabel} class={btn.positionClass}>
+                <lightning-button variant={btn.variant} label={btn.btnLabel} class={btn.class} onclick={handleSave}
+                    disabled={disableMode}>
+                </lightning-button>
+            </div>
+        </template>
+    </lightning-card>
+</template>

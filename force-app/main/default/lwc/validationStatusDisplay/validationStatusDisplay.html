@@ -1,0 +1,27 @@
+<template>
+    <!-- validationStatus = {validationStatus} -->
+    <!-- <template if:true={showValiAndOcrStatus}> -->
+    <template if:false={showRerunIcon}>
+        <template if:true={success}>
+            <lightning-icon icon-name='utility:success' alternative-text='success' variant='success' size='x-small'
+                title='success'></lightning-icon>
+        </template>
+        <template if:true={failure}>
+            <lightning-icon icon-name='utility:error' alternative-text='error' variant='error' size='xx-small'
+                title='error'></lightning-icon>
+        </template>
+        <template if:true={inProgress}>
+            <!-- <lightning-icon icon-name='utility:process' alternative-text='process' variant='warning' size='xx-small'
+            title='process'></lightning-icon> -->
+            <lightning-icon icon-name='utility:warning' alternative-text='pending' variant='info' size='x-small'
+                title='pending'></lightning-icon>
+        </template>
+    </template>
+    <!-- </template> -->
+    <template if:true={showRerunIcon}>
+        <template if:true={skipforwardIcon}>
+            <lightning-icon data-docid={docId} icon-name='utility:skip_forward' alternative-text='skip_forward'
+                variant='error' size='small' title='Run Manual' onclick={handleForwardClicked}></lightning-icon>
+        </template>
+    </template>
+</template>

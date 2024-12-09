@@ -1,0 +1,47 @@
+<template>
+
+	<lightning-card title="File Upload Demo LWC" icon-name="custom:custom14">
+		<div class="slds-m-around_medium">
+			<lightning-input type="file" accept=".xlsx, .xls, .csv, .png, .jpng,.doc, .docx, .pdf" label="Attachment"
+				onchange={openfileUpload}>
+			</lightning-input>
+		</div>
+
+		<template if:true={fileData}>
+			<p>{fileData.filename}</p>
+		</template>
+
+
+		<div>
+			<template for:each={filesList} for:item="file">
+				<div key={file.value} class="slds-box slds-m-bottom_medium">
+					<div class="slds-grid slds-align-center">
+						<div class="slds-col slds-size_1-of-12">
+							<lightning-icon icon-name="custom:custom18" size="small"></lightning-icon>
+						</div>
+						<div class="slds-col slds-size_5-of-12 delete-button">
+							<strong>{file.label}</strong>
+						</div>
+						<div class="slds-col slds-size_2-of-12">
+							{file.size}
+						</div>
+						<div class="slds-col slds-size_2-of-12">
+							<lightning-button-icon icon-name="action:preview" data-id={file.value}
+								onclick={priviewHandler} alternative-text="Preview"
+								title="Preview"></lightning-button-icon>
+						</div>
+                        <div class="slds-col slds-size_2-of-12">
+							<lightning-button-icon class="red-icon" icon-name="action:delete" alternative-text="Delete"
+								variant="destructive" data-id={file.value}
+								onclick={deleteHandal} title="Delete"></lightning-button-icon>
+						</div>
+					</div>
+				</div>
+			</template>
+		</div>
+
+	</lightning-card>
+
+
+
+</template>

@@ -1,0 +1,16 @@
+.datatable-container {
+
+    width: 100%;
+
+    /* overflow-x: auto; */
+
+}
+
+
+.datatable th {
+
+    background-color: hsl(0, 20%, 97%);
+
+    font-weight: bold;
+
+}

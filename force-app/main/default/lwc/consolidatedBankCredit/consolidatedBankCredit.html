@@ -1,0 +1,337 @@
+<template>
+	<lightning-spinner if:true={showSpinner} alternative-text="Loading" size="medium" style="position: fixed;"></lightning-spinner>
+
+	<lightning-card title="Bank Credit Salary Calculation">
+
+		<div aria-label="tableElements">
+			<lightning-layout vertical-align="center">
+				<lightning-layout-item size="12">
+					<div class="datatable slds-box slds-theme_default slds-scrollable_x slds-scrollable_y ">
+						<table
+							class="slds-table slds-table_header-fixed slds-table_bordered slds-table_col-bordered slds-border_right slds-border_left">
+							<thead>
+								<tr class=" slds-line-height_reset">
+									<template iterator:header={bankCreditSalaryHeaders} for:index="index">
+										<th key={header.value.key} scope="col">
+											<div class="slds-p-horizontal_x-small slds-p-vertical_x-small slds-cell-wrap slds-truncate "
+												style={header.value.style}>
+												<div class="asterisk">
+													<template if:true={header.value.required}>
+														<span style="color: red; margin-left: 4px;">* </span>
+													</template>
+												</div>
+												<div class="slds-p-left_xx-small">
+													{header.value.columnName}
+												</div>
+											</div>
+										</th>
+									</template>
+								</tr>
+							</thead>
+							<tbody>
+								<template iterator:it={bankCreditSalaryData} for:index="index">
+									<tr key={it.value.key} class="tableRow">
+										<td >
+											<div>
+												<template if:false={it.value.isDisabled}>
+													<lightning-combobox placeholder="Select Month" value={it.value.Month__c}
+													onchange={handleInputChange} options={month1Options} 
+													data-objectname="Applicant_Income__c" 
+													data-fieldname="Month__c" data-field="Month__c"
+													variant="label-hidden" access-key={it.value.Index__c}
+													required data-key={it.value.key}
+													disabled
+										   ></lightning-combobox>
+										</template>
+
+										<template if:true={it.value.isDisabled}>
+											<lightning-input type="text" value={it.value.Month__c}
+												onchange={handleInputChange} access-key={it.value.Index__c}
+												data-id={it.value.Index__c} placeholder="Enter Here" data-field="Month__c"
+												data-objectname="Applicant_Income__c" data-fieldname="Month__c" required
+												variant="label-hidden" data-key={it.value.key} disabled>
+											</lightning-input>
+										</template>
+											</div>
+										</td>
+										<td>
+											<lightning-input type="number" formatter="currency" min="0"
+												value={it.value.Gross_Salary_Rs__c} onchange={handleInputChange}
+												data-key={it.value.key} data-field="Gross_Salary_Rs__c"
+												variant="label-hidden" placeholder="Enter here" disabled>
+											</lightning-input>
+										</td>
+										<td>
+											<lightning-input type="number" formatter="currency" min="0"
+												value={it.value.Variable_Component__c} onchange={handleInputChange}
+												data-key={it.value.key} data-field="Variable_Component__c"
+												variant="label-hidden" placeholder="Enter here" disabled>
+											</lightning-input>
+										</td>
+										<td>
+											<lightning-input type="number" formatter="currency" min="0"
+												value={it.value.LTA_Monthly__c} onchange={handleInputChange}
+												data-key={it.value.key} data-field="LTA_Monthly__c"
+												variant="label-hidden" placeholder="Enter here" disabled>
+											</lightning-input>
+										</td>
+										<td>
+											<lightning-input type="number" formatter="currency" min="0"
+												value={it.value.Performance_Bonus_Monthly__c}
+												onchange={handleInputChange} data-key={it.value.key}
+												variant="label-hidden" data-field="Performance_Bonus_Monthly__c"
+												placeholder="Enter here" disabled>
+											</lightning-input>
+										</td>
+										<td>
+											<lightning-input type="number" formatter="currency" min="0"
+												value={it.value.Taxes__c} onchange={handleInputChange}
+												variant="label-hidden" data-key={it.value.key} data-field="Taxes__c"
+												placeholder="Enter here" disabled>
+											</lightning-input>
+										</td>
+										<td>
+											<lightning-input type="number" formatter="currency" min="0"
+												value={it.value.Other_Deductions__c} onchange={handleInputChange}
+												data-key={it.value.key} data-field="Other_Deductions__c"
+												variant="label-hidden" placeholder="Enter here" disabled>
+											</lightning-input>
+										</td>
+										<td>
+											<lightning-input type="number" formatter="currency" min="0"
+												variant="label-hidden" value={it.value.Net_Salary__c}
+												onchange={handleInputChange} data-key={it.value.key}
+												data-field="Net_Salary__c" disabled="true" placeholder="Enter here">
+											</lightning-input>
+
+
+										</td>
+										<td>
+											<lightning-input type="date" value={it.value.Bank_Credit_Date__c}
+												 onchange={handleInputChange}
+												data-key={it.value.key} variant="label-hidden"
+												data-field="Bank_Credit_Date__c" placeholder="Enter here"
+												disabled>
+											</lightning-input>
+										</td>
+										<td>
+											<lightning-input type="text" value={it.value.Remark__c}
+												variant="label-hidden" onchange={handleInputChange}
+												data-key={it.value.key} data-field="Remark__c" placeholder="Enter here"
+												disabled>
+											</lightning-input>
+										</td>
+										<td>
+											<lightning-input type="number" formatter="currency" min="0"
+												variant="label-hidden" value={it.value.Other_Salary_Component__c}
+												onchange={handleInputChange} data-key={it.value.key}
+												data-field="Other_Salary_Component__c" placeholder="Enter here"
+												disabled>
+											</lightning-input>
+										</td>
+									</tr>
+								</template>
+								<tr class="tableRow">
+									<td> Average Salary</td>
+									<td>
+										<div class="slds-align_absolute-center">
+											<lightning-input aria-label="averages" type="number" formatter="currency"
+												variant="label-hidden" value={averageGrossSalary} disabled="true">
+											</lightning-input>
+										</div>
+									</td>
+									<td>
+										<div class="slds-align_absolute-center">
+											<lightning-input aria-label="averages" type="number" formatter="currency"
+												variant="label-hidden" value={averageVariableCmp} disabled="true">
+											</lightning-input>
+										</div>
+									</td>
+									<td>
+										<div class="slds-align_absolute-center">
+											<lightning-input aria-label="averages" type="number" variant="label-hidden"
+												formatter="currency" value={averageLTA} disabled="true">
+											</lightning-input>
+										</div>
+									</td>
+									<td>
+										<div class="slds-align_absolute-center">
+											<lightning-input aria-label="averages" type="number" formatter="currency"
+												variant="label-hidden" value={averagePerformanceBonus} disabled="true">
+											</lightning-input>
+										</div>
+									</td>
+									<td>
+										<div class="slds-align_absolute-center">
+											<lightning-input aria-label="averages" type="number" variant="label-hidden"
+												formatter="currency" value={averageTaxes} disabled="true">
+											</lightning-input>
+										</div>
+									</td>
+									<td>
+										<div class="slds-align_absolute-center">
+											<lightning-input aria-label="averages" type="number" formatter="currency"
+												variant="label-hidden" value={averageOtherDeduction} disabled="true">
+											</lightning-input>
+										</div>
+									</td>
+									<td>
+										<div class="slds-align_absolute-center">
+											<lightning-input aria-label="averages" type="number" variant="label-hidden"
+												formatter="currency" value={averageNetSalary} disabled="true">
+											</lightning-input>
+										</div>
+									</td>
+									<td>
+										<div class="slds-align_absolute-center">
+										</div>
+									</td>
+									<td>
+										<div class="slds-align_absolute-center">
+										</div>
+									</td>
+									<td>
+										<div colspan="2" class="slds-align_absolute-center">
+											<lightning-input aria-label="averages" type="number" variant="label-hidden"
+												formatter="currency" value={averageOtherSalary} disabled="true">
+											</lightning-input>
+										</div>
+									</td>
+									<td>
+										<div class="slds-align_absolute-center">
+										</div>
+									</td>
+								</tr>
+
+								<tr class="tableRow">
+									<td>Eligibility Consideration (%)</td>
+									<td>
+										<div class="slds-align_absolute-center">
+											<lightning-input aria-label="averages" type="percentage" 
+												variant="label-hidden" value={eliWrapObj.eliConsGrossSalMon} disabled="true">
+											</lightning-input>
+										</div>
+									</td>
+									<td>
+										<div class="slds-align_absolute-center">
+											<lightning-input aria-label="averages" type="percentage"
+												variant="label-hidden" value={eliWrapObj.eliConVarComMon__c} disabled="true">
+											</lightning-input>
+										</div>
+									</td>
+									<td>
+										<div class="slds-align_absolute-center">
+											<lightning-input aria-label="averages" type="percentage" 
+												variant="label-hidden" value={eliWrapObj.eliConAnulbenLTA_Mon__c} disabled="true">
+											</lightning-input>
+										</div>
+									</td>
+									<td>
+										<div class="slds-align_absolute-center">
+											<lightning-input aria-label="averages" type="percentage"
+												variant="label-hidden" value={eliWrapObj.eliConPrfBonMon__c} disabled="true">
+											</lightning-input>
+										</div>
+									</td>
+									<td>
+										<div class="slds-align_absolute-center">
+											<lightning-input aria-label="averages" type="percentage" 
+												variant="label-hidden" value={eliWrapObj.eliConTaxMon__c} disabled="true">
+											</lightning-input>
+										</div>
+									</td>
+									<td>
+										<div class="slds-align_absolute-center">
+											<lightning-input aria-label="averages" type="percentage" 
+												variant="label-hidden" value={eliWrapObj.eliConOtrDedMon__c} disabled="true">
+											</lightning-input>
+										</div>
+									</td>
+								</tr>
+								<tr class="tableRow">
+									<td>Eligible income (₹)</td>
+									<td>
+										<div class="slds-align_absolute-center">
+											<lightning-input aria-label="averages" type="number" formatter="currency"
+												variant="label-hidden" value={eliWrapObj.eliIncmGrossSalMon} disabled="true">
+											</lightning-input>
+										</div>
+									</td>
+									<td>
+										<div class="slds-align_absolute-center">
+											<lightning-input aria-label="averages" type="number" formatter="currency"
+												variant="label-hidden" value={eliWrapObj.eliIncmVarComMon__c} disabled="true">
+											</lightning-input>
+										</div>
+									</td>
+									<td>
+										<div class="slds-align_absolute-center">
+											<lightning-input aria-label="averages" type="number" formatter="currency"
+												variant="label-hidden" value={eliWrapObj.eliIncmAnulbenLTA_Mon__c} disabled="true">
+											</lightning-input>
+										</div>
+									</td>
+									<td>
+										<div class="slds-align_absolute-center">
+											<lightning-input aria-label="averages" type="number" formatter="currency"
+												variant="label-hidden" value={eliWrapObj.eliIncmPrfBonMon__c} disabled="true">
+											</lightning-input>
+										</div>
+									</td>
+									<td>
+										<div class="slds-align_absolute-center">
+											<lightning-input aria-label="averages" type="number" formatter="currency"
+												variant="label-hidden" value={eliWrapObj.eliIncmTaxMon__c} disabled="true">
+											</lightning-input>
+										</div>
+									</td>
+									<td>
+										<div class="slds-align_absolute-center">
+											<lightning-input aria-label="averages" type="number" formatter="currency"
+												variant="label-hidden" value={eliWrapObj.eliIncmOtrDedMon__c} disabled="true">
+											</lightning-input>
+										</div>
+									</td>
+								</tr>
+								<tr class="tableRow">
+								
+									<td>Gross Eligible Salary with Bank Credit</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<!-- <td colspan="5" ></td> -->
+									<td>
+										<div class="slds-align_absolute-center">
+											<lightning-input aria-label="averages" type="number" formatter="currency"
+												variant="label-hidden" value={eliWrapObj.grossSalaryWithBank} disabled="true">
+											</lightning-input>
+										</div>
+									</td>
+								</tr>
+								<tr class="tableRow">
+									
+									<td>Net Eligible Salary with Bank Credit</td>
+									<!-- <td colspan="5" ></td> -->
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td>
+										<div class="slds-align_absolute-center">
+											<lightning-input aria-label="averages" type="number" formatter="currency"
+												variant="label-hidden" value={eliWrapObj.netSalaryWithBank} disabled="true">
+											</lightning-input>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</lightning-layout-item>
+			</lightning-layout>
+		</div>
+	</lightning-card>
+</template>

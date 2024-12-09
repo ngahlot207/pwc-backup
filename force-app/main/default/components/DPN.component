@@ -1,0 +1,126 @@
+<apex:component Controller="LoanAgreement" >
+     
+     <html>
+        
+        <head>
+            <style>
+                .table1 tr,td{
+                width:15px;
+                }
+            </style>
+        </head>
+    </html>
+    <body >
+       <apex:outputPanel id="panelHeaderFooter" styleClass="header_right" layout="block">
+        <p > Version: 0502024 </p>
+    </apex:outputPanel>
+        
+        <apex:outputPanel id="panelHeaderFooter1" styleClass="footer_left" layout="block">
+        <p > X-Borrower </p>
+    </apex:outputPanel>
+        <apex:outputPanel id="panelHeaderFooter2" styleClass="footer_right" layout="block">
+        <p > X Co-Borrower(s) </p>
+    </apex:outputPanel>
+       
+        <div style="text-align: right; font-size:12px">
+                {!CurrentDateTime}
+            </div>
+        <div>
+            <h4 style="margin-right:130px;text-align:center; font-family:calibiri;font-weight: bold;font-size:15px">DEMAND PROMISSORY NOTE</h4>
+        </div>
+         <div style="font-family:Times New Roman;font-size:14px">
+             <div style=" font-size: 15px;padding-top:15px;"><b> Rs.{!LoanAmount1} /- </b> <span style="padding-left:400px;"> <b> Place:</b>{!Place}</span></div><br/><br/>
+                  
+             On Demand, I/We, {!ApplicantName}<br/><br/>
+            <b> Jointly and severally</b> promise to pay <b>THE FEDBANK FINANCIAL SERVICES LIMITED</b>, or order, the sum of
+Rupees {!LoanAmount1} /- ({!LoanAmountInWord1} Only)  for value received, {!LoanAmount1}
+together with interest at {!RevisedROI}% below the Floating Reference Rate (FRR) of the Fedbank Financial Services Limited
+as fixed by the Fedbank Financial Services Limited from time to time, which is presently {!RAACROI} % (i.e. Floating
+Reference Rate {!FRR} % minus {!resultRAACRevisedROI} % ) with Monthly rests, for value received.<br/><br/>
+        <b>For and on behalf of the Borrower/s</b>  
+             <div style="padding-left:500px;">
+                <div rowspan="6" class="photo-box1">
+                 
+                            Revenue Stamp
+                            <br/>
+                        </div>  
+             </div>
+             <div style="padding-right:300px;">
+             Signatories of Borrower/s<br/><br/>
+            
+             </div>
+        </div>
+        
+         <div style="page-break-after:always;"></div>
+        <div>
+            <h4 style="margin-right:130px;text-align:center; font-family:calibiri;font-weight: bold;font-size:15px">DEMAND PROMISSORY NOTE</h4>
+        </div>
+         <div style="font-family:Times New Roman;font-size:14px">
+             <div style=" font-size: 15px;padding-top:15px;"><b> Rs.{!LoanAmount1} /- </b> <span style="padding-left:400px;"> <b> Place:</b>{!Place}</span></div><br/><br/>
+                  
+             On Demand, I/We, {!ApplicantName}<br/><br/>
+            <b> Jointly and severally</b> promise to pay <b>THE FEDBANK FINANCIAL SERVICES LIMITED</b>, or order the sum of Rupees {!LoanAmount1} ({!LoanAmountInWord1 } only), together with interest at
+the rate of {!RevisedROI} percent per annum with Monthly rests, for value received.<br/><br/>
+        <b>For and on behalf of the Borrower/s</b>  
+             <div style="padding-left:500px;">
+                <div rowspan="6" class="photo-box1">
+                 
+                            Revenue Stamp
+                            <br/>
+                        </div>  
+             </div>
+             <div style="padding-right:300px;">
+             Signatories of Borrower/s<br/><br/>
+             
+             </div>
+        </div>
+        
+        
+        <div style="page-break-after:always;"></div>
+        <div>
+            <h4 style="margin-right:130px;text-align:center; font-family:calibiri;font-weight: bold;font-size:15px">LETTER OF CONTINUITY FOR DEMAND PROMISSORY NOTE</h4>
+        </div>
+        
+        Date:{!CurrentDate}<br/><br/>
+<b>Fedbank Financial Services Limited</b><br/>
+Unit No.: 1101, 11th Floor, Cignus,<br/>
+Plot No. 71A, Powai, Paspoli,<br/>
+Mumbai – 400 087.<br/><br/>
+Dear Sirs,<br/><br/>
+I/We {!ApplicantName} have executed a Demand Promissory Note for Rs. {!LoanAmount1}/- ({!LoanAmountInWord1} Rupees only
+) dated {!CurrentDate} duly signed and
+delivered by me/us to you as security for the repayment by me/us to Fedbank Financial Services Limited. (“FEDFINA”)
+of any sum now due or which may hereafter be or become due by me/us to FEDFINA by way of loans or advances,
+notwithstanding the fact that the loans or advances or the account, may from time to time be reduced or extinguished
+or the balance in the said account brought to credit, the intention being that the said Demand Promissory Note and
+the security shall be a continuing security for any borrowing by us at any time to FEDFINA.<br/><br/><br/>
+Yours faithfully,<br/><br/><br/>
+        ________(x)<br/><br/><br/>
+        <b>In case of a Company</b><br/><br/>
+        <div style="padding-right:100px;">
+            <div style=" font-size: 15px;"> The Common Seal of ________________________Ltd. has been affixed  <span style="padding-left:60px;">  ]</span></div>
+  			<div style=" font-size: 15px;"> hereunto pursuant to the Resolution of Board of Directors  <span style="padding-left:150px;">  ]</span></div>
+            <div style=" font-size: 15px;"> dated {!CurrentDate} in the presence of___________:  <span style="padding-left:185px;">  ]</span></div>
+            <div style=" font-size: 15px;"> 1._______________________  <span style="padding-left:310px;">  ]Borrower</span></div>
+            <div style=" font-size: 15px;"> 2._______________________  <span style="padding-left:310px;">  ]</span></div><br/><br/>
+            <div style=" font-size: 15px;"> the Director/s have signed these presents in token thereof and  <span style="padding-left:40px;">  ]</span></div>
+            <div style=" font-size: 15px;"> Mr.________________________ Secretary/  <span style="padding-left:145px;">  ]Co-Borrower</span></div>
+            <div style=" font-size: 15px;"> Authorised Person who has signed/countersigned these presents in  <span style="padding-left:10px;">  ]</span></div>
+            <div style=" font-size: 15px;"> token thereof.  <span style="padding-left:325px;">  ]</span></div>
+ 
+        </div>
+        
+        <!--<div style="padding-top:190px;display: flex;justify-content: space-between" >
+                
+                    <div style="text-align:left">
+                        X-Borrower 
+                    </div>
+               <div style="text-align:right;margin-top:-13px">
+                        X Co-Borrower(s) 
+                    </div>
+                    
+                
+            </div>-->
+ 
+        </body>
+</apex:component>

@@ -1,0 +1,73 @@
+<template>
+    <lightning-spinner if:true={showSpinner} alternative-text="Loading" size="small" variant="brand"
+        style="height:30rem;width:60rem;">
+    </lightning-spinner>
+
+    <!-- <template if:true={showLocationGST}> -->
+    <!-- <template if:true={showUI}> -->
+    <!-- <lightning-button variant="success" label="View" data-index={index} title="View Details" onclick={handleSaveForGSTdata}  class="slds-m-left_x-small slds-truncate"></lightning-button>-->
+    <!-- <lightning-combobox style="margin-left: 15px;" label="Month-Year For Location Wise GST" placeholder="Select Month" value={monthNdYearForGSTWise}
+        onchange={handleInputChangeForLoc} options={last18Months} 
+        data-objectname="Applicant_Financial_Summary__c" 
+                    data-fieldname="GST_Month_Year__c" data-field="GST_Month_Year__c"
+        required disabled={disableMode}
+        class="slds-p-left_small"></lightning-combobox> -->
+
+    <template for:each={gstRecsForAllLoca} for:item="record" for:index="index">
+            <div key={record.parentRecord.Id}> 
+    <table>
+        <thead>
+            <tr>
+                <th style=" background-color: #F3F2F2;"></th>
+                <template if:true={record.parentRecord.Applicant_GST__r}>
+               
+                <th style="height: 50px; background-color: #F3F2F2;" colspan="5">Filing Details - (GST NUMBER- {record.parentRecord.Applicant_GST__r.GSTIN__c})</th>
+                </template>
+                            <template if:false={record.parentRecord.Applicant_GST__r}>
+                                <th style="height: 50px; background-color: #F3F2F2;" colspan="3">Filing Details - (GST NUMBER- )</th>
+                            </template>
+            </tr>
+            <tr>
+                <th style=" background-color: #F3F2F2;">SI.no</th>
+                <th style=" background-color: #F3F2F2;">FINANCIAL YEAR</th>
+                <th style=" background-color: #F3F2F2;">TAX PERIOD</th>
+                <th style=" background-color: #F3F2F2;">DUE DATE(MM/DD/YYYY)</th>
+                <th style=" background-color: #F3F2F2;">DATE OF FILING</th>
+                <th style=" background-color: #F3F2F2;">DELAYED DAYS</th>
+            </tr>
+        </thead>
+        <tbody>
+            <template if:true={record.parentRecord.Applicant_Financial_Summary_s__r}>      
+                <template for:each={record.parentRecord.Applicant_Financial_Summary_s__r} for:index="index1" for:item="item1">
+                    <tr key={item1.Id} class="tableRow">
+                        <td style=" background-color: #F3F2F2;"><p>{item1.Index__c}</p></td>
+                        <td style=" background-color: #F3F2F2;">{item1.GST_Month_Year__c}</td>
+                        <td style=" background-color: #F3F2F2;">
+                            <lightning-input style="margin-right: 70px;" type="number" formatter="currency"
+                            value={item1.Gross_Turnover_as_per_GST_excl_taxes__c} placeholder="Enter here" onchange={handleInputChangeForTaxGst}
+                            data-objectname="Applicant_Financial_Summary__c" 
+                            data-fieldname="Gross_Turnover_as_per_GST_excl_taxes__c" data-field="Gross_Turnover_as_per_GST_excl_taxes__c"
+                            variant="label-hidden" access-key={item1.Index__c}
+                             message-when-bad-input="Enter a Valid Input" data-key={item1.key}
+                            min=1 data-id="taxvalue" data-cloumn-index={index1} data-parent-index={index}
+                            message-when-range-underflow="Enter a Valid Input"
+                            required disabled={disableMode}></lightning-input>
+                        </td>
+                        <td style=" background-color: #F3F2F2;">{item1.Percentage_of_Total_Turnover__c}%</td>
+            </tr>
+                </template>
+            </template>
+            <!-- <tr>
+                <th style=" background-color: #F3F2F2;"></th>
+                <th style=" background-color: #F3F2F2;">Total</th>
+                <th style=" background-color: #F3F2F2;">{record.parentRecord.Total_Gross_Turnover__c}</th>
+                <th style=" background-color: #F3F2F2;">{record.parentRecord.Percentage_Total_Gross_Turnover__c}%</th>
+            </tr> -->
+        </tbody>
+
+    </table>
+    </div>
+        </template>
+    <!-- </template> -->
+    <!-- </template> -->
+</template>

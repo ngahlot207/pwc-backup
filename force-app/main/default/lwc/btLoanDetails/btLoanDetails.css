@@ -1,0 +1,25 @@
+label:before {
+    content: '*';
+    color: red;
+  }
+  .tableScroll {
+    width: 100% !important;
+    overflow-x: auto;
+    /* height: 12rem; */
+  }
+  .my-button{
+    /* background-color: red; */
+    color:red;
+    --slds-c-icon-color-foreground:red;
+}
+
+.inputfieldwidth{
+width: -1% !important;
+}
+.marginTop{
+  margin-top: 10px;
+  margin-bottom: -10px
+}
+.width{
+  width: 80%;
+}

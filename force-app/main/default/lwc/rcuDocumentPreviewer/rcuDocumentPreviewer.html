@@ -1,0 +1,36 @@
+<template>
+
+    <lightning-card variant="base">
+      <div slot="title">
+          File Preview
+      </div>
+      <div slot="actions">
+        <lightning-button-icon class="slds-modal__close" title="Close" icon-name="utility:close"
+     onclick={closeModal}></lightning-button-icon>
+
+      </div>
+      <div slot="footer">
+    <lightning-button style="font-size: 10px;" variant="brand" label="Previous" onclick={handlePreviousFileView} title="Previous"
+      class="slds-p-around_xx-small" disabled={disableForPre}></lightning-button>
+    <lightning-button style="font-size: 10px;" variant="brand" label="Next" onclick={handleNextFileView} title="Next"
+      class=" slds-p-around_xx-small" disabled={disableForNext}></lightning-button>
+    <lightning-button style="font-size: 10px;" variant="brand-outline" label="Close" onclick={closeModal} title="Close"
+      class="slds-p-around_xx-small"></lightning-button>
+      </div>
+      <div>
+        <!-- Card Body  -->
+        <div class="slds-card__body slds-card__body_inner" style="margin: 0">
+             
+            <c-multiple-ifram-file-preview record-for-prev={RecordForPrev} cont-doc-type={contDocType}
+              cont-doc-id={contDocId} cv-id={cvId}
+              onclosepreview={handleCloseModalEvent}></c-multiple-ifram-file-preview>
+    
+          </div>
+      </div>
+    </lightning-card>
+
+
+  
+      
+  
+  </template>

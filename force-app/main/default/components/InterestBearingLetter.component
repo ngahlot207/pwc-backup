@@ -1,0 +1,34 @@
+<apex:component Controller="PFDeduction" >
+     
+     <html>
+        
+        <head>
+            <style>
+                .table1 tr,td{
+                width:15px;
+                }
+            </style>
+        </head>
+    </html>
+    <body >
+        <div style="text-align: right; font-size:12px">
+                {!CurrentDateTime}
+            </div>
+
+        <div style="font-family:Times New Roman;font-size:15px">
+            Place: {!Place}<br/>
+Date: {!CurrentDate}<br/><br/>
+To,<br/><br/>
+<b>Fedbank Financial Services Limited</b><br/>
+
+<b>1101,Cignus, Plot No. 71A, Paspoli, Powai,
+
+Mumbai,Maharashtra -400087</b><br/><br/><br/>
+Dear Sir,<br/><br/>
+Sub : Consent on Disbursal<br/><br/>
+<!-- LAK-9343 -->
+We have been sanctioned a Loan Against Property(Residential /Commercial )/Non Residential premises Loan of Rs.{!LoanAmount1}/-({!rupeeInWord}) from Fedbank Financial Services ltd .We are aware that our loan is being disbursed by Fedbank Financial Services ltd based on our request &amp; fulfillment of all the conditions as laid down by the company.<br/><br/>
+We are fully aware that the disbursement of the loan will carry interest from the date of disbursement of the loan as per applicable rate  &amp; I agree  &amp; undertake to pay the same to Fedbank Financial Services ltd unconditionally .We fully acknowledge that only based on our representation and assurances, Fedbank Financial Services ltd has agreed to disburse the loan amount which Fedbank Financial Services ltd would not have done so.We request you to kindly disburse the loan with Pending Document .We also agree &amp; undertake to provide the same to Fedbank Financial Services ltd<br/><br/><br/><br/>.
+Thanking you,        </div>
+    </body>
+    </apex:component>

@@ -1,0 +1,15 @@
+.table-title {
+    font-size: 18px; /* Adjust the font size to your preference */
+    color: #333; /* Change the text color */
+    font-weight: bold; /* Make the text bold */
+    margin-bottom: 7px; /* Add some space below the title */
+    /* Add other CSS styles as needed */
+}
+.customButton:hover {
+    cursor: pointer;
+}
+.accClass
+{
+    --slds-c-accordion-summary-color-background : rgb(243, 243, 243) ;
+    /* --slds-c-accordion-color-border : 0.5rem; */
+}

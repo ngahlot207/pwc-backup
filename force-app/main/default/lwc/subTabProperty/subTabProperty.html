@@ -1,0 +1,137 @@
+<template>
+    <template if:false={reload}>
+        <!-- <lightning-tabset variant="standard" active-tab-value={tabDefaultValue} class="tab-active">
+            <lightning-tab label="Collateral Visit" value="collateralVisit" class="tab" onactive={handleActive} disabled={disableMode}>
+            </lightning-tab>
+             <lightning-tab label="Vetting" value="vetting" class="tab" onactive={handleActive} disabled={disableMode}>
+            </lightning-tab>
+            <lightning-tab label="TSR" value="tsr" class="tab" onactive={handleActive} disabled={disableMode}>
+            </lightning-tab>
+            <lightning-tab label="Legal" value="legal" class="tab" onactive={handleActive} disabled={disableMode}>
+            </lightning-tab>
+            <lightning-tab label="Technical" value="technical" class="tab" onselect={handleSelect} onactive={handleActive} disabled={disableMode}>
+                <c-technical-property-details loan-app-id={loanAppId} record-id={recordId}
+                    applicant-id={applicantId} current-tab-id={currentTabId}
+                    layout-size={layoutSize}
+                    has-edit-access={hasEditAccess} ></c-technical-property-details>
+            </lightning-tab> 
+                <lightning-tab label="Property details" value="prop" class="tab" onactive={handleActive} disabled={disableMode}>
+                    <c-capture-property-details loan-app-id={loanAppId} record-id={recordId}
+                    applicant-id={applicantId} current-tab-id={currentTabId}
+                    layout-size={layoutSize}
+                    has-edit-access={hasEditAccess} ></c-capture-property-details>
+                </lightning-tab>
+        </lightning-tabset> -->
+
+        <lightning-tabset active-tab-value={tabDefaultValue}>
+            <lightning-tab
+                label="Property details"
+                value="one"
+                onactive={handleActive}
+            >
+                <template if:true={showTabOne}>
+                    <c-capture-property-details
+                        loan-app-id={loanAppId}
+                        record-id={recordId}
+                        applicant-id={applicantId}
+                        current-tab-id={currentTabId}
+                        layout-size={layoutSize}
+                        has-edit-access={hasEditAccess}
+                        onrefreshtab={refreshTab}
+                        onpropidentidropdchange={handlePropIdentiDropdown}
+                    ></c-capture-property-details>
+                </template>
+            </lightning-tab>
+
+            <template if:true={ifNoIdenProp}>
+                <lightning-tab
+                    label="Technical"
+                    value="two"
+                    onactive={handleActive}
+                >
+                    <template if:true={showTabTwo}>
+                        <c-technical-property-details
+                            loan-app-id={loanAppId}
+                            record-id={recordId}
+                            applicant-id={applicantId}
+                            current-tab-id={currentTabId}
+                            layout-size={layoutSize}
+                            has-edit-access={disableTechnical}
+                        ></c-technical-property-details>
+                    </template>
+                </lightning-tab>
+                <lightning-tab
+                    label="Legal"
+                    value="three"
+                    onactive={handleActive}
+                >
+                    <template if:true={showTabThree}>
+                        <c-legal-property-details
+                            loan-app-id={loanAppId}
+                            record-id={recordId}
+                            applicant-id={applicantId}
+                            current-tab-id={currentTabId}
+                            layout-size={layoutSize}
+                            has-edit-access={hasEditAccess}
+                            tab-name="Legal"
+                            substage={substage}
+                            stage={stage}
+                        ></c-legal-property-details>
+                    </template>
+                </lightning-tab>
+                <lightning-tab label="TSR" value="four" onactive={handleActive}>
+                  <template if:true={showTabFour}>
+                        <c-legal-property-details
+                            loan-app-id={loanAppId}
+                            record-id={recordId}
+                            applicant-id={applicantId}
+                            current-tab-id={currentTabId}
+                            layout-size={layoutSize}
+                            has-edit-access={hasEditAccess}
+                            tab-name="TSR"
+                            substage={substage}
+                            stage={stage}
+                        ></c-legal-property-details>
+                    </template>
+                </lightning-tab>
+                <lightning-tab
+                    label="Vetting"
+                    value="five"
+                    onactive={handleActive}
+                >
+                <template if:true={showTabFive}>
+                    <c-legal-property-details
+                        loan-app-id={loanAppId}
+                        record-id={recordId}
+                        applicant-id={applicantId}
+                        current-tab-id={currentTabId}
+                        layout-size={layoutSize}
+                        has-edit-access={hasEditAccess}
+                        tab-name="Vetting"
+                        substage={substage}
+                            stage={stage}
+                    ></c-legal-property-details>
+                </template>
+                </lightning-tab>
+                <template if:true={showCV}>
+                    <lightning-tab
+                        label="Collateral Visit"
+                        value="six"
+                        onactive={handleActive}
+                    >
+                        <template if:true={showTabSix}>
+                            <c-capture-collateral-visit
+                                loan-app-id={loanAppId}
+                                record-id={recordId}
+                                applicant-id={applicantId}
+                                current-tab-id={currentTabId}
+                                layout-size={layoutSize}
+                                has-edit-access={hasEditAccess}
+                            ></c-capture-collateral-visit>
+                        </template>
+                    </lightning-tab>
+                </template>
+            </template>
+        </lightning-tabset>
+    </template>
+</template>

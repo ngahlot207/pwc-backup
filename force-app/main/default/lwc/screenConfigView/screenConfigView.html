@@ -1,0 +1,548 @@
+<template>
+    <lightning-card>
+        <div class="">
+            <template lwc:if={metadata}>
+                <template for:each={metadata} for:item="step">
+                    <template if:true={step.RecordForm}>
+                        <lightning-card key={step.index} title={step.stageName}>
+                            <div class="slds-box">
+                                <lightning-record-form data-id={step.usedFor} object-api-name={step.objectApiName}
+                                    record-id={step.recordId} fields={step.fields} onsubmit={handleSubmit}
+                                    onsuccess={handleSuccess} columns={step.columnVar} mode={step.mode}
+                                    record-type-id={step.recordTypeId}>
+                                </lightning-record-form>
+                            </div>
+                        </lightning-card>
+                    </template>
+
+                    <template if:true={step.LoanDetails}>
+                        <lightning-card key={step.index} title={step.stageName}>
+                            <div class="slds-box">
+                                <c-capture-loan-details record-id={step.recordId} is-read-only={step.isReadOnly}
+                                    has-edit-access={hasEditAccess}
+                                    layout-size={step.layoutSize}></c-capture-loan-details>
+                                <!-- <c-config-custom-form record-id={step.recordId} test-id={step.testId}
+                                    configuration={step.configuration}></c-config-custom-form> -->
+                            </div>
+                        </lightning-card>
+                    </template>
+
+                    <template if:true={step.breOutput}>
+                        <div key={step.index}>
+                            <c-capture-b-r-e-response applicant-id={step.applicantId} loan-app-id={step.loanAppId}
+                                has-edit-access={hasEditAccess} layout-size={step.layoutSize}>
+                                ></c-capture-b-r-e-response>
+                        </div>
+                    </template>
+                    <template if:true={step.ShowSubStepper}>
+                        <c-sub-stepper-container key={step.index} loan-app-id={recordId} stepper={step.stepper}
+                            applicant-id={step.applicantId} current-tab-id={currentTabId}
+                            has-edit-access={hasEditAccess}>
+                        </c-sub-stepper-container>
+                    </template>
+                    <template if:true={step.SaveButton}>
+                        <div key={step.index}>
+                            <c-save-btn-component loan-app-id={recordId} stepper={step.stepper}
+                                sub-stepper={step.subStepper} has-edit-access={hasEditAccess}
+                                hide-save-as-draft={step.hideSaveAsDraft} save-btn-label={step.saveBtnLabel}
+                                current-tab-id={currentTabId} show-query-button={step.showQueryButton}
+                                query-screen={step.queryScreen}>
+                            </c-save-btn-component>
+                        </div>
+                    </template>
+                    <template if:true={step.SaveBthGeneric}>
+                        <div key={step.index}>
+                            <c-save-bth-generic button-configuration={step.buttonConfiguration}
+                                has-edit-access={hasEditAccess} hide-save-as-draft={step.hideSaveAsDraft}
+                                current-tab-id={currentTabId}>
+                            </c-save-bth-generic>
+                        </div>
+                    </template>
+                    <template if:true={step.propertyDetails}>
+                        <div key={step.index} title={step.stageName}>
+                            <c-capture-property-details loan-app-id={step.loanAppId} record-id={step.recordId}
+                                applicant-id={step.applicantId} current-tab-id={currentTabId}
+                                layout-size={step.layoutSize}
+                                has-edit-access={hasEditAccess}></c-capture-property-details>
+                        </div>
+                    </template>
+                    <template if:true={step.ddePropertyDetails}>
+                        <div class="slds-box" key={step.index}>
+                            <template if:true={currentTabId}>
+                                <c-sub-tab-property applicant-id={step.applicantId} record-id={step.recordId}
+                                    loan-app-id={step.loanAppId} is-read-only={step.isReadOnly}
+                                    layout-size={step.layoutSize} has-edit-access={hasEditAccess}
+                                    current-tab-id={currentTabId}>
+                                </c-sub-tab-property>
+                            </template>
+                        </div>
+                    </template>
+                    <template if:true={step.stageNotConfigured}>
+                        <div class="slds-box" key={step.index}>
+                            <c-stage-not-configured header={step.header} message={step.message}
+                                has-edit-access={hasEditAccess}>
+                            </c-stage-not-configured>
+                        </div>
+                    </template>
+
+                    <template if:true={step.CaptureApplicantDetails}>
+                        <div class="" key={step.index}>
+                            <template if:true={currentTabId}>
+                                <c-capture-applicant-details loan-app-id={step.loanAppId} record-id={currentTabId}
+                                    layout-size={step.layoutSize} is-read-only={step.isReadOnly}
+                                    has-edit-access={hasEditAccess} stepper-name={step.stepper}>
+                                </c-capture-applicant-details>
+                            </template>
+                            <template if:false={currentTabId}>
+                                <c-capture-applicant-details loan-app-id={step.loanAppId} record-id={step.recordId}
+                                    layout-size={step.layoutSize} is-read-only={step.isReadOnly}
+                                    has-edit-access={hasEditAccess} stepper-name={step.stepper}>
+                                </c-capture-applicant-details>
+                            </template>
+                            <!-- <div class="slds-box">
+                                <c-verify-applicant-details applicant-id={applicantId} loan-app-id={step.loanAppId}
+                                    record-id={recordId} applicant-id-on-tabset={currentTabId}
+                                    has-edit-access={hasEditAccess} layout-size={step.layoutSize}>
+                                </c-verify-applicant-details>
+                            </div> -->
+                        </div>
+
+                    </template>
+
+                    <!-- Bo Details -->
+                    <template if:true={step.CaptureBoDetails}>
+                        <div class="" key={step.index}>
+                            <template if:true={currentTabId}>
+                                <c-capture-bo-details loan-app-id={step.loanAppId} record-id={currentTabId}
+                                    layout-size={step.layoutSize} is-read-only={step.isReadOnly}
+                                    has-edit-access={hasEditAccess} stepper-name={step.stepper}>
+                                </c-capture-bo-details>
+                            </template>
+                            <template if:false={currentTabId}>
+                                <c-capture-bo-details loan-app-id={step.loanAppId} record-id={step.recordId}
+                                    layout-size={step.layoutSize} is-read-only={step.isReadOnly}
+                                    has-edit-access={hasEditAccess} stepper-name={step.stepper}>
+                                </c-capture-bo-details>
+                            </template>
+                            <!-- <div class="slds-box">
+                                <c-verify-applicant-details applicant-id={applicantId} loan-app-id={step.loanAppId}
+                                    record-id={recordId} applicant-id-on-tabset={currentTabId}
+                                    has-edit-access={hasEditAccess} layout-size={step.layoutSize}>
+                                </c-verify-applicant-details>
+                            </div> -->
+                        </div>
+
+                    </template>
+                    <!-- LAK- -->
+                    <template if:true={step.CapturePartnerDirectorDetails}>
+                        <div class="" key={step.index}>
+                            <template if:true={currentTabId}>
+                                <c-capture-partner-director-details loan-app-id={step.loanAppId} record-id={currentTabId}
+                                    layout-size={step.layoutSize} is-read-only={step.isReadOnly}
+                                    has-edit-access={hasEditAccess} stepper-name={step.stepper}>
+                                </c-capture-partner-director-details>
+                            </template>
+                            <template if:false={currentTabId}>
+                                <c-capture-partner-director-details loan-app-id={step.loanAppId} record-id={step.recordId}
+                                    layout-size={step.layoutSize} is-read-only={step.isReadOnly}
+                                    has-edit-access={hasEditAccess} stepper-name={step.stepper}>
+                                </c-capture-partner-director-details>
+                            </template>
+                        </div>
+
+                    </template>
+                     <!-- LAK- -->
+                    <template if:true={step.verifyApplicantDetails}>
+                        <div class="" key={step.index}>
+                            <c-verify-applicant-details applicant-id={step.recordId} loan-app-id={step.loanAppId}
+                                record-id={recordId} applicant-id-on-tabset={step.recordId}
+                                has-edit-access={hasEditAccess} layout-size={step.layoutSize}>
+                            </c-verify-applicant-details>
+                        </div>
+                    </template>
+                    <template if:true={step.MultipleTabsetContainer}>
+                        <div class="slds-box" key={step.index}>
+                            <c-multiple-tabset-container loan-app-id={recordId} applicant-id={step.applicantId}
+                                qry={step.qry} fields-on-tabset={step.fieldsOnTabset}
+                                components-to-render={step.componentsToRender} show-add-record={step.showAddRecord}
+                                add-button-label={step.addButtonLabel} new-tab-label={step.newTabLabel}
+                                newly-added-tab-label={step.newlyAddedTabLabel}
+                                remove-button-label={step.removeButtonLabel}
+                                add-success-message={step.addSuccessMessage}
+                                remove-success-message={step.removeSuccessMessage}
+                                no-records-message={step.noRecordsMessage}
+                                remove-modal-message={step.removeModalMessage} has-edit-access={hasEditAccess}>
+                            </c-multiple-tabset-container>
+                        </div>
+                    </template>
+
+                    <template if:true={step.captureBankingDetails}>
+                        <div key={step.index}>
+                            <c-capture-banking-details applicant-id={currentTabId} loan-app-id={step.loanAppId}
+                                is-read-only={step.isReadOnly} layout-size={step.layoutSize}
+                                has-edit-access={hasEditAccess}>
+                            </c-capture-banking-details>
+                        </div>
+                    </template>
+
+                    <template if:true={step.RegulatoryDetailsCapture}>
+                        <div class="slds-box" key={step.index}>
+                            <c-regulatory-details-capture applicant-id={step.applicantId} loan-app-id={step.loanAppId}
+                                has-edit-access={hasEditAccess} layout-size={step.layoutSize}>
+                            </c-regulatory-details-capture>
+                        </div>
+                    </template>
+                    <template if:true={step.imdDetailsCapture}>
+                        <div class="slds-box" key={step.index}>
+                            <c-capture-imd-details applicant-id={step.applicantId} loan-app-id={step.loanAppId}
+                                is-read-only={step.isReadOnly} layout-size={step.layoutSize}
+                                has-edit-access={hasEditAccess}>
+                            </c-capture-imd-details>
+                        </div>
+                    </template>
+                    <template if:true={step.CaptureEmploymentDetails}>
+                        <div class="slds-box" key={step.index}>
+                            <template if:true={currentTabId}>
+                                <c-capture-employment-details applicant-id={currentTabId} record-id={step.recordId}
+                                    loan-app-id={step.loanAppId} is-read-only={step.isReadOnly}
+                                    has-edit-access={hasEditAccess}>
+                                </c-capture-employment-details>
+                            </template>
+                            <template if:false={currentTabId}>
+                                <c-capture-employment-details applicant-id={step.applicantId} record-id={step.recordId}
+                                    loan-app-id={step.loanAppId} is-read-only={step.isReadOnly}
+                                    has-edit-access={hasEditAccess}>
+                                </c-capture-employment-details>
+                            </template>
+                        </div>
+                    </template>
+                    <template if:true={step.CapturePanAndKycCheck}>
+                        <div class="slds-box" key={step.index}>
+                            <c-capture-pan-and-kyc-check applicant-id={step.applicantId} loan-app-id={step.loanAppId}
+                                product-type={step.productType} stage={step.stage} sub-stage={step.subStage}
+                                document-catagory={step.documentCatagory} layout-size={step.layoutSize}
+                                applicant-id-on-tabset={currentTabId} has-edit-access={hasEditAccess}>
+                            </c-capture-pan-and-kyc-check>
+                        </div>
+                    </template>
+
+                     <!-- ShareHolder Details Added -->
+                     <template if:true={step.ShareholderDetails}>
+                        <div class="slds-box" key={step.index}>
+                            <c-capture-share-holder-details primaryapplicant-id={step.applicantId} loan-app-id={step.loanAppId}
+                                applicant-id-on-tabset={currentTabId} has-edit-access={hasEditAccess}>
+                            </c-capture-share-holder-details>
+                        </div>
+                    </template>
+                    
+                    <template if:true={step.CaptureDocuments}>
+                        <div key={step.index}>
+                            <c-capture-documents applicant-id={step.applicantId} loan-app-id={step.loanAppId}
+                                product-type={step.productType} stage={step.stage} sub-stage={step.subStage}
+                                document-catagory={step.documentCatagory} layout-size={step.layoutSize}
+                                applicant-id-on-tabset={currentTabId} has-edit-access={hasEditAccess}
+                                is-cpa={step.isCPA} stage-name={stageName}>
+                            </c-capture-documents>
+                            <!-- <c-capture-applicant-comments applicant-id={step.applicantId} loan-app-id={step.loanAppId}
+                                 layout-size={step.layoutSize} applicant-id-on-tabset={currentTabId} has-edit-access={hasEditAccess}
+                                is-cpa={step.isCPA}>
+                            </c-capture-applicant-comments> -->
+                        </div>
+                    </template>
+
+                    <template if:true={step.VerifyCoApplicantDetails}>
+                        <div class="slds-box" key={step.index}>
+                            <c-verify-co-applicant-details applicant-id={applicantId} loan-app-id={step.loanAppId}
+                                record-id={recordId} applicant-id-on-tabset={currentTabId}
+                                has-edit-access={hasEditAccess} layout-size={step.layoutSize}>
+                            </c-verify-co-applicant-details>
+                        </div>
+                    </template>
+                    <template if:true={step.CaptureFinancialDetails}>
+                        <div class="slds-box" key={step.index}>
+                            <c-capture-financial-details loan-app-id={step.loanAppId}
+                                applicant-id-on-tabset={currentTabId} has-edit-access={hasEditAccess}
+                                layout-size={step.layoutSize}>
+                            </c-capture-financial-details>
+                        </div>
+                    </template>
+                    <template if:true={step.CaptureIncomeDetails}>
+                        <div class="slds-box" key={step.index}>
+                            <c-capture-income-details loan-app-id={step.loanAppId} applicant-id-on-tabset={currentTabId}
+                                current-appl-tab={currentApplTabId} has-edit-access={hasEditAccess}
+                                layout-size={step.layoutSize}>
+                            </c-capture-income-details>
+                        </div>
+                    </template>
+                    <template if:true={step.InitiatePD}>
+                        <div class="slds-box" key={step.index}>
+                            <c-initiate-p-d loan-app-id={step.loanAppId} applicant-id={currentTabId}
+                                has-edit-access={hasEditAccess} layout-size={step.layoutSize}>
+                            </c-initiate-p-d>
+                        </div>
+                    </template>
+                    <template if:true={step.applHistory}>
+                        <div class="slds-box" key={step.index}>
+                            <c-application-history loan-app-id={step.loanAppId} record-id={step.recordId}
+                                applicant-id={currentTabId} has-edit-access={hasEditAccess}
+                                layout-size={step.layoutSize}>
+                            </c-application-history>
+                        </div>
+                    </template>
+
+                    <template if:true={step.displayWatchOutData}>
+                        <div class="slds-box" key={step.index}>
+                            <c-watch-investor-new loan-app-id={step.loanAppId} has-edit-access={hasEditAccess}>
+                            </c-watch-investor-new>
+                        </div>
+                    </template>
+                    <template if:true={step.displayTrackwizzData}>
+                        <div class="slds-box" key={step.index}>
+                            <c-track-wizz loan-app-id={step.loanAppId} has-edit-access={hasEditAccess}>
+                            </c-track-wizz>
+                        </div>
+                    </template>
+                    <template if:true={step.displayHunterData}>
+                        <div class="slds-box" key={step.index}>
+                            <c-hunter loan-app-id={step.loanAppId} has-edit-access={hasEditAccess}>
+                            </c-hunter>
+                        </div>
+                    </template>
+                    <template if:true={step.displayChangeSummaryData}>
+                        <div class="slds-box" key={step.key}>
+                            <c-change-summary loan-app-id={step.loanAppId} has-edit-access={hasEditAccess}>
+                            </c-change-summary>
+                        </div>
+                    </template>
+                    <template if:true={step.displayCPVVerification}>
+                        <div class="slds-box" key={step.index}>
+                            <c-cpv-verification loan-app-id={step.loanAppId} has-edit-access={hasEditAccess}>
+                            </c-cpv-verification>
+                        </div>
+                    </template>
+                    <template if:true={step.lipDisplay}>
+                        <div class="slds-box" key={step.index}>
+                            <c-lip-verification loan-app-id={step.loanAppId} has-edit-access={hasEditAccess}>
+                            </c-lip-verification>
+                        </div>
+                    </template>
+                    <template if:true={step.litigationCheck}>
+                        <div class="slds-box" key={step.index}>
+                            <c-litigation-check-details applicant-id={currentTabId} loan-app-id={step.loanAppId} has-edit-access={hasEditAccess}>
+                            </c-litigation-check-details>
+                        </div>
+                    </template>
+                    <template if:true={step.displayKycVerificationData}>
+                        <div class="slds-box" key={step.index}>
+                            <c-kyc-verification-details loan-app-id={step.loanAppId} has-edit-access={hasEditAccess}>
+                            </c-kyc-verification-details>
+                        </div>
+                    </template>
+                    <template if:true={step.displayBureauSummary}>
+                        <div class="slds-box" key={step.index}>
+                            <c-bureau-summary loan-app-id={step.loanAppId} has-edit-access={hasEditAccess}>
+                            </c-bureau-summary>
+                        </div>
+                    </template>
+                    <template if:true={step.displayDedupeData}>
+                        <div class="slds-box" key={step.index}>
+                            <c-dedupe-verification record-id={recordId} stage={stageFromHost}
+                                loan-app-id={step.loanAppId} has-edit-access={hasEditAccess}>
+                            </c-dedupe-verification>
+                        </div>
+                    </template>
+
+                    <template if:true={step.customerConfirmation}>
+                        <div class="slds-box" key={step.index}>
+                            <c-customer-confirmation loan-app-id={step.recordId} has-edit-access={hasEditAccess}
+                                layout-size={step.layoutSize}>
+                            </c-customer-confirmation>
+                        </div>
+                    </template>
+                    <template if:true={step.displyEligibility}>
+                        <lightning-card key={step.index} title={step.stageName}>
+                            <div class="slds-box">
+                                <c-capture-eligibility-details loan-app-id={step.loanAppId}
+                                    has-edit-access={hasEditAccess}
+                                    layout-size={step.layoutSize}></c-capture-eligibility-details>
+                            </div>
+                        </lightning-card>
+                    </template>
+                    <template if:true={step.obligationDetails}>
+                        <div class="slds-box" key={step.index}>
+                            <c-obligation-banking-details applicant-id={step.applicantId} loan-app-id={step.loanAppId}
+                                is-read-only={step.isReadOnly} layout-size={step.layoutSize}
+                                has-edit-access={hasEditAccess}>
+                            </c-obligation-banking-details>
+                        </div>
+                    </template>
+                    <template if:true={step.captureRepayment}>
+                        <div class="slds-box" key={step.index}>
+                            <c-capture-repayment-details applicant-id={step.applicantId} loan-app-id={step.loanAppId}
+                                is-read-only={step.isReadOnly} layout-size={step.layoutSize}
+                                has-edit-access={hasEditAccess}>
+                            </c-capture-repayment-details>
+                        </div>
+                    </template>
+
+                    <template if:true={step.uwSummary}>
+                        <div class="slds-box" key={step.index}>
+                            <c-u-w-summary-view applicant-id={step.applicantId} loan-app-id={step.loanAppId}
+                                record-id={step.recordId} is-read-only={step.isReadOnly} layout-size={step.layoutSize}
+                                has-edit-access={hasEditAccess}>
+                            </c-u-w-summary-view>
+                        </div>
+                    </template>
+
+                    <template if:true={step.InsuranceDetail}>
+                        <div class="slds-box" key={step.index}>
+                            <c-insurance-detail record-id={step.recordId} loan-app-id={step.loanAppId}
+                                applicant-id-on-tabset={currentTabId} has-edit-access={hasEditAccess}
+                                layout-size={step.layoutSize}>
+                            </c-insurance-detail>
+                        </div>
+                    </template>
+
+                    <template if:true={step.captureLoanSummaryDetails}>
+                        <div class="slds-box" key={step.index}>
+                            <c-capture-loan-summary-details loan-app-id={step.recordId} has-edit-access={hasEditAccess}
+                                layout-size={step.layoutSize}>
+                            </c-capture-loan-summary-details>
+                        </div>
+                    </template>
+                    <template if:true={step.EligibilityDetails}>
+                        <div class="slds-box" key={step.index}>
+                            <c-capture-eligibility-check-details-component loan-app-id={step.recordId}
+                                has-edit-access={hasEditAccess} layout-size={step.layoutSize}>
+                            </c-capture-eligibility-check-details-component>
+                        </div>
+                    </template>
+                    <template if:true={step.TrancheDetails}>
+                        <div class="slds-box" key={step.index}>
+                            <!-- <c-tranche-disbursement-comp record-id={step.recordId} loan-app-id={step.loanAppId}
+                                has-edit-access={hasEditAccess} layout-size={step.layoutSize}>
+                            </c-tranche-disbursement-comp> -->
+                            <c-capture-disbursement-details record-id={step.recordId} loan-app-id={step.loanAppId}
+                                has-edit-access={hasEditAccess}
+                                layout-size={step.layoutSize}></c-capture-disbursement-details>
+                        </div>
+                    </template>
+
+                    <template if:true={step.isNDC}>
+                        <div class=" slds-box" key={step.index}>
+                            <!-- <c-ndc-details loan-app-id={step.recordId} has-edit-access={hasEditAccess}
+                    layout-size={step.layoutSize}>
+                </c-ndc-details> -->
+                            <c-capture-ndc-details loan-app-id={step.recordId} has-edit-access={hasEditAccess}
+                                layout-size={step.layoutSize}></c-capture-ndc-details>
+                        </div>
+                    </template>
+
+
+
+                    <template if:true={step.approvalTray}>
+                        <div class="slds-box" key={step.index}>
+                            <c-approval-tray record-id={step.recordId} loan-app-id={step.loanAppId}
+                                is-read-only={step.isReadOnly} has-edit-access={hasEditAccess}
+                                layout-size={step.layoutSize}></c-approval-tray>
+                        </div>
+                    </template>
+
+                    <template if:true={step.lodDetails}>
+                        <div class="slds-box" key={step.index}>
+                            <c-capture-l-o-d-details record-id={step.recordId} loan-app-id={step.loanAppId}
+                                is-read-only={step.isReadOnly} has-edit-access={hasEditAccess}
+                                layout-size={step.layoutSize}></c-capture-l-o-d-details>
+                        </div>
+                    </template>
+
+                    <template if:true={step.rcuDisplay}>
+                        <div class="slds-box" key={step.index}>
+                            <c-rcu-details record-id={step.recordId} loan-app-id={step.loanAppId}
+                                is-read-only={step.isReadOnly} has-edit-access={hasEditAccess}
+                                layout-size={step.layoutSize} applicant-id={applicantId} current-tab-id={currentTabId}
+                                rcu-user={step.rcuUser}></c-rcu-details>
+                        </div>
+                    </template>
+
+                    <template if:true={step.occupation}>
+                        <div class="slds-box" key={step.index}>
+                            <c-verify-occupation-details record-id={step.recordId} loan-app-id={step.loanAppId}
+                                is-read-only={step.isReadOnly} has-edit-access={hasEditAccess}
+                                layout-size={step.layoutSize}></c-verify-occupation-details>
+                        </div>
+                    </template>
+
+                    <template if:true={step.apiTriggerHistory}>
+                        <div class="slds-box" key={step.index}>
+                            <c-api-trigger-history record-id={step.recordId} loan-app-id={step.loanAppId}
+                                is-read-only={step.isReadOnly} has-edit-access={hasEditAccess}
+                                layout-size={step.layoutSize}></c-api-trigger-history>
+                        </div>
+                    </template>
+
+                    <template if:true={step.loanTatMatrix}>
+                        <div class="slds-box" key={step.index}>
+                            <c-loan-tat-matrix record-id={step.recordId} loan-app-id={step.loanAppId}
+                                is-read-only={step.isReadOnly} has-edit-access={hasEditAccess}
+                                layout-size={step.layoutSize}></c-loan-tat-matrix>
+                        </div>
+                    </template>
+
+                    <template if:true={step.priceAppr}>
+                        <div class="slds-box" key={step.index}>
+                            <c-capture-pricing-approval-details record-id={step.recordId} loan-app-id={step.loanAppId}
+                                is-read-only={step.isReadOnly} has-edit-access={hasEditAccess}
+                                layout-size={step.layoutSize}></c-capture-pricing-approval-details>
+                        </div>
+                    </template>
+
+                    <template if:true={step.eSignStamp}>
+                        <div class="slds-box" key={step.index}>
+                            <c-merge-pdf loan-app-id={step.recordId} has-edit-access={hasEditAccess}
+                            layout-size={step.layoutSize}></c-merge-pdf>
+                        </div>
+                    </template>
+
+                    <template if:true={step.applRelook}>
+                        <div key={step.index}>
+                            <c-application-relook record-id={step.recordId} loan-app-id={step.loanAppId}
+                                applicant-id={step.applicantId} is-read-only={step.isReadOnly}
+                                has-edit-access={hasEditAccess} layout-size={step.layoutSize}></c-application-relook>
+                        </div>
+                    </template>
+                    <template if:true={step.loanNego}>
+                        <div key={step.index}>
+                            <c-loan-term-negotiation record-id={step.recordId} loan-app-id={step.loanAppId}
+                                is-read-only={step.isReadOnly} has-edit-access={hasEditAccess}
+                                layout-size={step.layoutSize}>
+                            </c-loan-term-negotiation>
+
+                        </div>
+                    </template>
+
+                    <template if:true={step.roiPfCorrect}>
+                        <div key={step.index}>
+                            <c-roi-pf-correction record-id={step.recordId} loan-app-id={step.loanAppId}
+                                is-read-only={step.isReadOnly} has-edit-access={hasEditAccess}
+                                layout-size={step.layoutSize}>
+                            </c-roi-pf-correction>
+
+                        </div>
+                    </template>
+                    
+                    <template if:true={step.referenceDetailCapture}>
+                        <div key={step.index}>
+                            <c-reference-detail-capture record-id={step.recordId} loan-app-id={step.loanAppId}
+                                is-read-only={step.isReadOnly} has-edit-access={hasEditAccess}
+                                layout-size={step.layoutSize}>
+                            </c-reference-detail-capture>
+
+                        </div>
+                    </template>
+
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+</template>

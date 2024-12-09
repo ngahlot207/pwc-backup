@@ -1,0 +1,12 @@
+<template>
+    <lightning-card title="Bulk Upload">
+        <div class="slds-box">
+        <lightning-input type="file" onchange={handleFileInputChange} accept=".csv"></lightning-input>
+        <template if:true={fileName}>
+            <div>{fileName}</div>
+        </template>
+        <lightning-button label="Upload" onclick={handleUpload} disabled={disableUpload}></lightning-button>
+        </div>
+    </lightning-card>
+
+</template>

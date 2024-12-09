@@ -1,0 +1,218 @@
+<template>
+    <lightning-layout multiple-rows="true">
+        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}> 
+            <div>
+                <lightning-input type="text" value={wrapAddressObj.HouseNo__c} label="House/ Flat/ Shop/ Unit No." onchange={inputChangeHandler}
+                required={isRequired} data-fieldname="HouseNo__c" data-objectname="ApplAddr__c" data-type="string" onblur={blurHandler} 
+                disabled={disAddressFlag}
+                ></lightning-input> 
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+            <div>
+                <lightning-input type="text" value={wrapAddressObj.AddrLine1__c} label="Address Line 1" onchange={inputChangeHandler}
+                required={isRequired} data-fieldname="AddrLine1__c" data-objectname="ApplAddr__c" data-type="string" onblur={blurHandler} 
+                disabled={disAddressFlag}></lightning-input> 
+                <!-- pattern="^[a-zA-Z0-9\s.,]*$" --> 
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+            <div>
+                <lightning-input type="text" value={wrapAddressObj.AddrLine2__c} label="Address Line 2" onchange={inputChangeHandler}
+                required={isRequired} data-fieldname="AddrLine2__c" data-objectname="ApplAddr__c" data-type="string" onblur={blurHandler} 
+                disabled={disAddressFlag}></lightning-input> 
+                <!-- pattern="^[a-zA-Z0-9\s.,]*$" -->
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+    <lightning-layout multiple-rows="true">
+        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+            <div>
+                <lightning-input type="text" value={wrapAddressObj.Landmark__c} label="Landmark" onchange={inputChangeHandler} data-type="string" onblur={blurHandler} 
+                data-fieldname="Landmark__c" data-objectname="ApplAddr__c" pattern="^[A-Za-z0-9,]+(?:\s[A-Za-z0-9,.]+)*$" message-when-pattern-mismatch={messageMismatchError}
+                disabled={disAddressFlag}></lightning-input> 
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+            <div>
+                <lightning-input type="text" value={wrapAddressObj.Locality__c} label="Area of Locality" onchange={inputChangeHandler} data-type="string" onblur={blurHandler} 
+                data-fieldname="Locality__c" data-objectname="ApplAddr__c" pattern="^[A-Za-z0-9]+(?:\s[A-Za-z0-9]+)*$" message-when-pattern-mismatch={messageMismatchError}
+                disabled={disAddressFlag} required={isLocationLocalityReq}></lightning-input> 
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                        <div>
+                <c-custom-lookup               
+                    required={isRequired}
+                    label="Pincode"
+                    field-name='Pincode__c'
+                    object-api-name='PincodeMstr__c'
+                    field-api-name='PIN__c' 
+                    selected-record-name={wrapAddressObj.Pincode__c}
+                    selected-record-id={wrapAddressObj.Pincode__c}
+                    filter-condn={filterConditionPin}
+                    onselect={handleValueSelect}
+                    disabled={disAddressFlag}
+                    ></c-custom-lookup>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+    <lightning-layout multiple-rows="true">
+        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+            <div>
+                <c-custom-lookup               
+                    required={isRequired}
+                    label="City"
+                    field-name='City__c' 
+                    object-api-name='LocMstr__c' 
+                    field-api-name='City__c'
+                    selected-record-name={wrapAddressObj.City__c}
+                    selected-record-id={wrapAddressObj.City__c}
+                    onselect={handleValueSelect}
+                    disabled='true'
+                    ></c-custom-lookup>
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+            <div>
+                <c-custom-lookup               
+                    required={isRequired}
+                    label="State/UT"
+                    field-name='State__c'
+                    object-api-name='LocMstr__c'
+                    field-api-name='State__c' 
+                    selected-record-name={wrapAddressObj.State__c}
+                    selected-record-id={wrapAddressObj.State__c}
+                    filter-condn={filterConditionState}
+                    onselect={handleValueSelect}
+                    disabled='true'
+                    ></c-custom-lookup>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+    <lightning-layout multiple-rows="true">
+        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+            <div>
+                <lightning-combobox 
+                    label="Ownership Type" 
+                    data-fieldname="OwnType__c"
+                    value={wrapAddressObj.OwnType__c}
+                    onchange={inputChangeHandler} 
+                    options={ownershipTypeOptions}
+                    data-objectname="ApplAddr__c"
+                    required={isRequired}
+                    disabled={disAddressFlag}
+                    ></lightning-combobox>
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+            <div>
+                <fieldset class="slds-form-element slds-form-element_compound">
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__row">
+                            <div class="slds-size_1-of-2">
+                                <div data-id="divblock-1" class="slds-form-element">
+                                    <div class="slds-form-element__control">
+                                        <lightning-input type="number" data-id="input-01"
+                                            class="yearValidateCls" name="StabAtAddressYr"
+                                            data-fieldname="StabAtAddressYr__c"
+                                            data-objectname="ApplAddr__c"
+                                            value={wrapAddressObj.StabAtAddressYr__c}
+                                            onchange={inputChangeHandler} disabled={disAddressFlag} placeholder="YY"
+                                            label = "Stability at given Address (Years)"
+                                            min=0 max=99 message-when-range-underflow="Please enter positive number" message-when-range-overflow="Please enter between 0 to 99" required={isLocationLocalityReq}>
+                                        </lightning-input>
+                                    </div>
+                                </div> 
+                            </div>
+                            <div class="slds-size_1-of-2">
+                                <div data-id="divblock-2" class="slds-form-element">
+                                    <div class="slds-form-element__control">
+                                        <lightning-input type="number" data-id="input-02"
+                                            class="monthValidateCls" name="StabAtAddressMnth"
+                                            data-fieldname="StabAtAddressMnth__c"
+                                            data-objectname="ApplAddr__c"
+                                            value={wrapAddressObj.StabAtAddressMnth__c}
+                                            onchange={inputChangeHandler} disabled={disAddressFlag} placeholder="MM" 
+                                            label = "Stability at given Address (Months)"
+                                            min=0 max=12 message-when-range-underflow="Please enter positive number" message-when-range-overflow="Please enter between 0 to 12" required={isLocationLocalityReq}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                </fieldset>
+                <!-- <lightning-input type="text" value={wrapAddressObj.AddrStability__c} label="Stability at given Address" onchange={inputChangeHandler}
+                 data-fieldname="AddrStability__c" data-objectname="ApplAddr__c" pattern="^\d{1,2}(?:\sY)?$" message-when-pattern-mismatch={messageMismatchError}
+                 disabled={disAddressFlag} onblur={handleBlur} onfocus={handleFocus}></lightning-input>  -->
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+            <div>
+                <lightning-input type="number" value= {wrapAddressObj.DisFrmSrcBrnh__c} label="Distance From Sourcing Branch(KM)" max-length=3 onchange={inputChangeHandler}
+                data-fieldname="DisFrmSrcBrnh__c" data-objectname="ApplAddr__c" disabled={disAddressFlag}></lightning-input> 
+                <!-- <lightning-input type="number" value= {wrapAddressObj.DisFrmSrcBrnh__c} label="Distance From Sourcing Branch(KM)" onchange={inputChangeHandler}
+                data-fieldname="DisFrmSrcBrnh__c" data-objectname="ApplAddr__c"  pattern="^\d{1,4}(?:\.\d{2})?(?:\sKM)?$" message-when-pattern-mismatch={messageMismatchError}
+                disabled={disAddressFlag} onblur={handleBlur} onfocus={handleFocus}></lightning-input>  -->
+                <span></span>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>  
+    <lightning-layout multiple-rows="true">
+        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+            <div>
+                <lightning-input type="number" value={wrapAddressObj.DisFrmFFBrnh__c} label="Distance From Nearest Fedfina Branch(KM)" onchange={inputChangeHandler}
+                data-fieldname="DisFrmFFBrnh__c" data-objectname="ApplAddr__c" disabled={disAddressFlag} ></lightning-input> 
+                <!-- <lightning-input type="number" value={wrapAddressObj.DisFrmFFBrnh__c} label="Distance From Nearest Fedfina Branch(KM)" onchange={inputChangeHandler}
+                data-fieldname="DisFrmFFBrnh__c" data-objectname="ApplAddr__c" pattern="^\d{1,4}(?:\.\d{2})?(?:\sKM)?$" message-when-pattern-mismatch={messageMismatchError}
+                disabled={disAddressFlag} onblur={handleBlur} onfocus={handleFocus} ></lightning-input>  -->
+            </div>
+        </lightning-layout-item> 
+        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+            <div>
+                <!-- <lightning-input type="text" value={wrapAddressObj.Nearest_Fedfina_Branch__c} label="Nearest Fedfina Branch" onchange={inputChangeHandler} data-type="string" onblur={blurHandler} 
+                data-fieldname="Nearest_Fedfina_Branch__c" data-objectname="ApplAddr__c" pattern="^[A-Za-z]+(?: [A-Za-z]+)*$" message-when-pattern-mismatch={messageMismatchError}
+                disabled={disAddressFlag}></lightning-input>  -->
+                <c-custom-lookup  
+                    label="Nearest Fedfina Branch"          
+                    field-name='Nearest_Fedfina_Branch__c'
+                    object-api-name='BankBrchMstr__c'
+                    field-api-name='Name' 
+                    selected-record-name={wrapAddressObj.Nearest_Fedfina_Branch__c}
+                    selected-record-id={wrapAddressObj.NearestFedBrnchID__c}
+                    onselect={handleValueSelect}
+                    astrik-hide={isNotRequired}
+                    disabled={disAddressFlag}
+                    ></c-custom-lookup>
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item if:false={hideMailAddr} padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+            <div class="slds-p-top_medium">
+                <lightning-input type="checkbox" value={wrapAddressObj.MailAddr__c} label="Mailing Address" onchange={inputChangeHandler} 
+                data-fieldname="MailAddr__c" data-objectname="ApplAddr__c" checked={wrapAddressObj.MailAddr__c}
+                disabled={disAddressFlag}></lightning-input> 
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+
+   
+     <lightning-layout multiple-rows="true">
+        <template if:true={visibltyNegCautionArea}>
+        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+            <div>
+                <lightning-combobox 
+                    label="Negative/ Caution Area" 
+                    data-fieldname="Negative_Caution_Area__c"
+                    value={wrapAddressObj.Negative_Caution_Area__c}
+                    onchange={inputChangeHandler} 
+                    options={cautionAreaOptions}
+                    data-objectname="Negative_Caution_Area__c"
+                    required={isRequiredCautionArea}
+                    disabled={disAddressFlag}
+                    ></lightning-combobox>
+            </div>
+        </lightning-layout-item>
+    </template>
+    </lightning-layout>
+</template>

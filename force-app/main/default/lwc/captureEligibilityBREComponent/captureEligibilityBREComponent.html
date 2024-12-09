@@ -1,0 +1,1012 @@
+<template>
+
+
+    <lightning-accordion active-section-name={activeSection} allow-multiple-sections-open>
+        <lightning-accordion-section name="A" label="Eligibility Details" class="accClass">
+            <lightning-accordion active-section-name={activeSection} allow-multiple-sections-open>
+
+                <!-- LAK-6166 -->
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item class="slds-p-bottom_x-small slds-p-right_x-small">
+                        <div>
+                            <lightning-input
+                            type="datetime"
+                            value={lastBre}
+                            label="Last BRE Run"
+                            disabled
+                          ></lightning-input>
+                        </div>
+                    </lightning-layout-item>
+                    <template if:true={showBREDecision}>
+                    <lightning-layout-item class="slds-p-top_medium slds-p-right_x-small"
+                                          size="3"
+                                          small-device-size="4"
+                                          medium-device-size="4"
+                                          large-device-size="4"
+                                        >
+                        <div>
+                            <lightning-input type="text" value={wrapObjRec.Decision__c} label="BRE Decision" class="slds-p-left_small" disabled></lightning-input>
+                        </div>
+                    </lightning-layout-item>
+                </template>
+                    <lightning-layout-item class="slds-p-top_medium slds-p-left_x-small"
+                                          size="2"
+                                          small-device-size="4"
+                                          medium-device-size="4"
+                                          large-device-size="4"
+                                        >
+                        <div>
+                            <lightning-input
+                            type="text"
+                            value={custProf}
+                            label="Final Customer Profile"
+                            disabled
+                          ></lightning-input>
+                        </div>
+                    </lightning-layout-item>
+                    
+        
+        
+                </lightning-layout>
+
+                <!-- Below section commented for HotFix prod deployment to be uncommented LAK-6471 Start-->
+
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item  class="slds-p-bottom_x-small slds-p-right_x-small">
+                        <div>
+                            <lightning-input type="datetime" 
+                              value={breResponseDateTime} 
+                              label="BRE response Date & Time" 
+                              disabled>
+                            </lightning-input>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item  class="slds-p-top_medium slds-p-right_x-small slds-p-left_x-small"
+                                            size="3"
+                                            small-device-size="4"
+                                            medium-device-size="4"
+                                            large-device-size="4">
+                        <div>
+                            <lightning-input type="text" 
+                              value={AppScorecardResult} 
+                              label="Application Scorecard Result" 
+                              disabled>
+                            </lightning-input>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item  class="slds-p-top_medium slds-p-left_x-small"
+                                            size="2"
+                                            small-device-size="4"
+                                            medium-device-size="4"
+                                            large-device-size="4"
+                                            >
+                                            <div>
+                                                <lightning-textarea value={applScoreRemarkValue} 
+                                                                    label="Application Scorecard Remark" 
+                                                                    disabled>
+                                                </lightning-textarea>
+                                            </div>
+                    </lightning-layout-item>
+            </lightning-layout>
+            <br/>
+            <br/>
+
+            <!-- Above section commented for HotFix prod deployment to be uncommented LAK-6471 Stop-->
+
+                <!-- LAK-6166 -->
+                <lightning-accordion-section name="A" label="Financial Eligibility" class="accClass">
+                    
+                    <div class="datatable-container slds-p-left_medium slds-p-right_xx-large">
+
+                        <table class="datatable">
+
+                            <thead>
+
+
+                                <tr>
+                                    <th style="text-align: left;">Financial Eligibility Calculation</th>
+
+
+                                    <template for:each={wrapObj.eligibilityList} for:item="assesIncmProgm"
+                                        for:index="index">
+                                        <th key={assesIncmProgm.ApplicantId} scope="col">
+                                            <lightning-input aria-label="averages" type="text" variant="label-hidden"
+                                                value={assesIncmProgm.applicantRecord} disabled="true">
+                                            </lightning-input>
+                                        </th>
+                                    </template>
+
+                                    <th style="text-align: left;">Consideration % / Total Amount (₹)</th>
+
+
+                                </tr>
+
+
+                                <template if:true={wrapObj.showAssesmentProgram}>
+                                    <tr>
+                                        <th style="text-align: left;">Borrower wise Assessment Program</th>
+                                        <template for:each={wrapObj.eligibilityList} for:item="assesIncmProgm"
+                                            for:index="index">
+                                            <th key={assesIncmProgm.ApplicantId} scope="col">
+                                                <lightning-input aria-label="averages" type="text"
+                                                    variant="label-hidden" value={assesIncmProgm.assesmentProgram}
+                                                    disabled="true">
+                                                </lightning-input>
+                                            </th>
+                                        </template>
+                                        <th></th>
+                                    </tr>
+                                </template>
+                                <template if:true={wrapObj.showcashFlowAssessedIncome}>
+                                    <tr>
+                                        <th style="text-align: left;">Cash Flow - Assessed income</th>
+                                        <template for:each={wrapObj.eligibilityList} for:item="assesIncm"
+                                            for:index="index">
+                                            <th key={assesIncm.ApplicantId} scope="col">
+                                                <lightning-input type="number" formatter="currency"
+                                                    variant="label-hidden" value={assesIncm.cashFlowAssedIncome}
+                                                    disabled="true">
+                                                </lightning-input>
+                                            </th>
+                                        </template>
+                                        <th>
+                                            <lightning-input type="percentage" variant="label-hidden"
+                                                value={wrapObj.application.cashFlowAssedIncome}  disabled="true">
+                                            </lightning-input>
+                                        </th>
+                                    </tr>
+                                </template>
+                                <template if:true={wrapObj.showBusinessIncome}>
+                                    <tr>
+                                        <th style="text-align: left;">Business income - Regular Income Program (P&L)
+                                        </th>
+                                        <template for:each={wrapObj.eligibilityList} for:item="businessIncm"
+                                            for:index="index">
+                                            <th key={businessIncm.ApplicantId} scope="col">
+                                                <lightning-input type="number" formatter="currency"
+                                                    variant="label-hidden" value={businessIncm.businessIncome}
+                                                    disabled="true">
+                                                </lightning-input>
+                                            </th>
+                                        </template>
+                                        <th> <lightning-input type="percentage" variant="label-hidden"
+                                                value={wrapObj.application.businessIncome}  disabled="true">
+                                            </lightning-input>
+                                        </th>
+                                    </tr>
+                                </template>
+                                <template if:true={wrapObj.showGrossWithBankCredit}>
+                                    <tr>
+                                        <th style="text-align: left;">Gross Eligible Salary with Bank Credit</th>
+                                        <template for:each={wrapObj.eligibilityList} for:item="grossSalaryWBC"
+                                            for:index="index">
+                                            <th key={grossSalaryWBC.ApplicantId} scope="col">
+                                                <lightning-input type="number" formatter="currency"
+                                                    variant="label-hidden" value={grossSalaryWBC.grossSalaryBankCredit}
+                                                    disabled="true">
+                                                </lightning-input>
+                                            </th>
+                                        </template>
+                                        <th>
+                                            <lightning-input type="percentage" variant="label-hidden"
+                                                value={wrapObj.application.grossSalaryBankCredit} disabled="true">
+                                            </lightning-input>
+                                        </th>
+                                    </tr>
+                                </template>
+
+                                <template if:true={wrapObj.showNetWithBankCredit}>
+                                    <tr>
+                                        <th style="text-align: left;">Net Eligible Salary with Bank Credit</th>
+                                        <template for:each={wrapObj.eligibilityList} for:item="netSliSalaryWBC"
+                                            for:index="index">
+                                            <th key={netSliSalaryWBC.ApplicantId} scope="col">
+                                                <lightning-input type="number" formatter="currency"
+                                                    variant="label-hidden" value={netSliSalaryWBC.netSalaryBankCredit}
+                                                    disabled="true">
+                                                </lightning-input>
+                                            </th>
+                                        </template>
+                                        <th>
+                                            <lightning-input type="percentage" variant="label-hidden"
+                                                value={wrapObj.application.netSalaryBankCredit} disabled="true">
+                                            </lightning-input>
+                                        </th>
+                                    </tr>
+                                </template>
+
+                                <template if:true={wrapObj.showCashSalary}>
+                                    <tr>
+                                        <th style="text-align: left;">Cash Salary</th>
+                                        <template for:each={wrapObj.eligibilityList} for:item="cashSalary"
+                                            for:index="index">
+                                            <th key={cashSalary.ApplicantId} scope="col">
+                                                <lightning-input type="number" formatter="currency"
+                                                    variant="label-hidden" value={cashSalary.cashSalary}
+                                                    disabled="true">
+                                                </lightning-input>
+                                            </th>
+                                        </template>
+                                        <th>
+                                            <lightning-input type="percentage" variant="label-hidden"
+                                                value={wrapObj.application.cashSalary} disabled="true">
+                                            </lightning-input>
+                                        </th>
+                                    </tr>
+                                </template>
+                                <template if:true={wrapObj.showRentalWBankCredit}>
+                                    <tr>
+                                        <th style="text-align: left;">Rental bank credit</th>
+                                        <template for:each={wrapObj.eligibilityList} for:item="rentalBnkCredit"
+                                            for:index="index">
+                                            <th key={rentalBnkCredit.ApplicantId} scope="col">
+                                                <lightning-input type="number" formatter="currency"
+                                                    variant="label-hidden" value={rentalBnkCredit.rentalBankCredit}
+                                                    disabled="true">
+                                                </lightning-input>
+                                            </th>
+                                        </template>
+                                        <th>
+                                            <lightning-input type="percentage" variant="label-hidden"
+                                                value={wrapObj.application.rentalBankCredit} disabled="true">
+                                            </lightning-input>
+                                        </th>
+                                    </tr>
+                                </template>
+                                <template if:true={wrapObj.showRentalWNoBankCredit}>
+                                    <tr>
+                                        <th style="text-align: left;">Rental without bank credit</th>
+                                        <template for:each={wrapObj.eligibilityList} for:item="rentalWOBnkCredit"
+                                            for:index="index">
+                                            <th key={rentalWOBnkCredit.ApplicantId} scope="col">
+                                                <lightning-input type="number" formatter="currency"
+                                                    variant="label-hidden"
+                                                    value={rentalWOBnkCredit.rentalWithoutBankCredit} disabled="true">
+                                                </lightning-input>
+                                            </th>
+                                        </template>
+                                        <th>
+                                            <lightning-input type="percentage" variant="label-hidden"
+                                                value={wrapObj.application.rentalWithoutBankCredit} disabled="true">
+                                            </lightning-input>
+                                        </th>
+                                    </tr>
+                                </template>
+                                <template if:true={wrapObj.showPensionIncome}>
+                                    <tr>
+                                        <th style="text-align: left;">Pension Income</th>
+                                        <template for:each={wrapObj.eligibilityList} for:item="pensionIncm"
+                                            for:index="index">
+                                            <th key={pensionIncm.ApplicantId} scope="col">
+                                                <lightning-input type="number" formatter="currency"
+                                                    variant="label-hidden" value={pensionIncm.PensionIncome}
+                                                    disabled="true">
+                                                </lightning-input>
+                                            </th>
+                                        </template>
+                                        <th>
+                                            <lightning-input type="percentage" variant="label-hidden"
+                                                value={wrapObj.application.PensionIncome} disabled="true">
+                                            </lightning-input>
+                                        </th>
+                                    </tr>
+                                </template>
+                                <template if:true={wrapObj.showAgricultureIncome}>
+                                    <tr>
+                                        <th style="text-align: left;">Agriculture Income</th>
+                                        <template for:each={wrapObj.eligibilityList} for:item="agriIncm"
+                                            for:index="index">
+                                            <th key={agriIncm.ApplicantId} scope="col">
+                                                <lightning-input type="number" formatter="currency"
+                                                    variant="label-hidden" value={agriIncm.AgricultureIncome}
+                                                    disabled="true">
+                                                </lightning-input>
+                                            </th>
+                                        </template>
+                                        <th>
+                                            <lightning-input type="percentage" variant="label-hidden"
+                                                value={wrapObj.application.AgricultureIncome} disabled="true">
+                                            </lightning-input>
+                                        </th>
+                                    </tr>
+                                </template>
+                                <template if:true={wrapObj.showOtherIncome}>
+                                    <tr>
+                                        <th style="text-align: left;">Other Income</th>
+                                        <template for:each={wrapObj.eligibilityList} for:item="otherIncm"
+                                            for:index="index">
+                                            <th key={otherIncm.ApplicantId} scope="col">
+                                                <lightning-input type="number" formatter="currency"
+                                                    variant="label-hidden" value={otherIncm.OtherIncome}
+                                                    disabled="true">
+                                                </lightning-input>
+                                            </th>
+                                        </template>
+                                        <th>
+                                            <lightning-input type="percentage" variant="label-hidden"
+                                                value={wrapObj.application.OtherIncome} disabled="true">
+                                            </lightning-input>
+                                        </th>
+                                    </tr>
+                                </template>
+
+
+                                <tr>
+                                    <th style="text-align: left;">Appraised monthly Income (₹) Other than Cash Salary
+                                    </th>
+                                    <template for:each={wrapObj.eligibilityList} for:item="aprslMonthlyIncome"
+                                        for:index="index">
+                                        <th key={aprslMonthlyIncome.ApplicantId} scope="col">
+                                            <lightning-input type="number" formatter="currency" variant="label-hidden"
+                                                value={aprslMonthlyIncome.ApprMonthIncOtherthanCashSalary}
+                                                disabled="true">
+                                            </lightning-input>
+                                        </th>
+                                    </template>
+                                    <th>
+                                        <lightning-input type="number" formatter="currency" variant="label-hidden"
+                                            value={wrapApplData.ApprMonthIncOtherthanCashSalaryAppltn} disabled="true">
+                                        </lightning-input>
+                                    </th>
+                                    
+
+                                </tr>
+
+
+
+                                <tr>
+                                    <th style="text-align: left;">Applicable FOIR (%)</th>
+                                    <template for:each={wrapObj.eligibilityList} for:item="aprslMonthlyIncome"
+                                        for:index="index">
+                                        <th key={aprslMonthlyIncome.ApplicantId} scope="col">
+                                            <lightning-input type="percentage" variant="label-hidden"
+                                                value={aprslMonthlyIncome.ApplFOIR} disabled="true">
+                                            </lightning-input>
+                                        </th>
+                                    </template>
+                                    <th></th>
+
+                                </tr>
+
+
+
+                                <tr>
+                                    <th style="text-align: left;">Applicable EMI to Net Salary (%)</th>
+                                    <template for:each={wrapObj.eligibilityList} for:item="aprslMonthlyIncome"
+                                        for:index="index">
+                                        <th key={aprslMonthlyIncome.ApplicantId} scope="col">
+                                            <lightning-input type="percentage" variant="label-hidden"
+                                                value={aprslMonthlyIncome.ApplEMINetSalary} disabled="true">
+                                            </lightning-input>
+                                        </th>
+                                    </template>
+                                    <th></th>
+
+                                </tr>
+
+                                <tr>
+                                    <th style="text-align: left;">Obligation (₹)</th>
+                                    <template for:each={wrapObj.eligibilityList} for:item="Obligatn" for:index="index">
+                                        <th key={Obligatn.ApplicantId} scope="col">
+                                            <lightning-input type="number" formatter="currency" variant="label-hidden"
+                                                value={Obligatn.obligationAMount} disabled="true">
+                                            </lightning-input>
+                                        </th>
+                                    </template>
+                                    <th>
+                                        <lightning-input type="number" formatter="currency" variant="label-hidden"
+                                            value={sumOfObligation} disabled="true">
+                                        </lightning-input>
+                                    </th>
+                                </tr>
+
+                                <tr>
+                                    <th style="text-align: left;">Max EMI (₹) - Other than Cash Salary</th>
+                                    <template for:each={wrapObj.eligibilityList} for:item="aprslMonthlyIncome"
+                                        for:index="index">
+                                        <th key={aprslMonthlyIncome.ApplicantId} scope="col">
+                                            <lightning-input type="number" formatter="currency" variant="label-hidden"
+                                                value={aprslMonthlyIncome.MaxEMIOtherCashSalary} disabled="true">
+                                            </lightning-input>
+                                        </th>
+                                    </template>
+                                    <th>
+                                        <lightning-input type="number" formatter="currency" variant="label-hidden"
+                                            value={wrapApplData.MaxEMIOtherCashSalaryAppltn} disabled="true">
+                                        </lightning-input>
+                                    </th>
+                                    
+                                </tr>
+
+                                <tr>
+                                    <th style="text-align: left;">Applicable FOIR (%) - Cash Salary</th>
+                                    <template for:each={wrapObj.eligibilityList} for:item="aprslMonthlyIncome"
+                                        for:index="index">
+                                        <th key={aprslMonthlyIncome.ApplicantId} scope="col">
+                                            <lightning-input type="percentage" variant="label-hidden"
+                                                value={aprslMonthlyIncome.ApplFOIRCashSalary} disabled="true">
+                                            </lightning-input>
+                                        </th>
+                                    </template>
+                                    <th></th>
+
+                                </tr>
+
+                                <tr>
+                                    <th style="text-align: left;">Max EMI (₹) - Cash Salary</th>
+                                    <template for:each={wrapObj.eligibilityList} for:item="aprslMonthlyIncome"
+                                        for:index="index">
+                                        <th key={aprslMonthlyIncome.ApplicantId} scope="col">
+                                            <lightning-input type="number" formatter="currency" variant="label-hidden"
+                                                value={aprslMonthlyIncome.MaxEMICashSalary} disabled="true">
+                                            </lightning-input>
+                                        </th>
+                                    </template>
+                                    <th>
+                                        <lightning-input type="number" formatter="currency" variant="label-hidden"
+                                            value={wrapApplData.MaxEMICashSalaryAppltn} disabled="true">
+                                        </lightning-input>
+                                    </th>
+                                    
+                                </tr>
+
+                                <tr>
+                                    <th style="text-align: left;">Eligible tenure in Months</th>
+
+                                    <th colspan={applicantLength}></th>
+                                    <th>
+                                        <lightning-input type="number" variant="label-hidden"
+                                            value={wrapObjRec.Eligible_tenure_in_Months__c} disabled="true">
+                                        </lightning-input>
+                                    </th>
+
+                                </tr>
+
+                                <tr>
+                                    <th style="text-align: left;">RAAC ROI (%)</th>
+
+                                    <th colspan={applicantLength}></th>
+                                    <th>
+                                        <lightning-input type="number" variant="label-hidden"
+                                            value={wrapObjRec.RAACROI__c} disabled="true">
+                                        </lightning-input>
+                                    </th>
+                                </tr>
+
+                                <tr>
+                                    <th style="text-align: left;">Financial Loan Eligibility (₹) Other than cash salary
+                                    </th>
+                                    <th colspan={applicantLength}></th>
+                                    <th>
+                                        <lightning-input type="number" formatter="currency" variant="label-hidden"
+                                            value={wrapObjRec.Financial_Loan_Eligibility_other_cash__c} disabled="true">
+                                        </lightning-input>
+                                    </th>
+                                </tr>
+
+                                <tr>
+                                    <th style="text-align: left;">Financial Loan Eligibility (₹) - cash salary</th>
+                                    <th colspan={applicantLength}></th>
+                                    <th>
+                                        <lightning-input type="number" formatter="currency" variant="label-hidden"
+                                            value={wrapObjRec.FinLoanEligibCashSalary__c} disabled="true">
+                                        </lightning-input>
+                                    </th>
+                                </tr>
+
+                                <tr>
+                                    <th style="text-align: left;">Financial Loan Eligibility (₹) - Total</th>
+                                    <th colspan={applicantLength}></th>
+                                    <th>
+                                        <lightning-input type="number" formatter="currency" variant="label-hidden"
+                                            value={wrapObjRec.FinancialLoanEligibilityTotal__c} disabled="true">
+                                        </lightning-input>
+                                    </th>
+                                </tr>
+
+                                <tr>
+                                    <th style="text-align: left;">Max Financial loan eligibility with deviation (₹)</th>
+                                    <th colspan={applicantLength}></th>
+                                    <th>
+                                        <lightning-input type="number" formatter="currency" variant="label-hidden"
+                                            value={wrapObjRec.MaxFinLnEligblwithDevi__c} disabled="true">
+                                        </lightning-input>
+                                    </th>
+                                </tr>
+
+                                <tr>
+                                    <th style="text-align: left;">Application level Assessment program</th>
+                                    <th colspan={applicantLength}></th>
+                                    <th>
+                                        <lightning-input type="text" variant="label-hidden"
+                                            value={wrapObjRec.Application_level_Assessment_program__c} disabled="true">
+                                        </lightning-input>
+                                    </th>
+                                </tr>
+
+
+
+
+                            </thead>
+
+
+
+                            <tbody>
+
+                            </tbody>
+                        </table>
+
+
+
+
+                    </div>
+                    
+
+                </lightning-accordion-section>
+            </lightning-accordion>
+            <div class="lBreak">
+                <br />
+            </div>
+
+
+            <lightning-accordion active-section-name={activeSection} allow-multiple-sections-open>
+                <lightning-accordion-section name="A" label="Collateral Based eligibility" class="accClass">
+                    <div class="datatable-container slds-p-left_medium slds-p-right_xx-large">
+
+                        <table class="datatable">
+
+                            <thead>
+                                <tr>
+                                    <th style="text-align: left;">Collateral Based eligibility</th>
+
+
+                                    <template for:each={propetyArray} for:item="propindex"
+                                        for:index="index">
+                                        <th scope="col" key={propindex.ApplicantAssetId}>
+                                            <lightning-input type="text" variant="label-hidden"
+                                                value={propindex.propertyDisplayName} disabled="true">
+                                            </lightning-input>
+                                        </th>
+                                    </template>
+
+                                    <th style="text-align: left;">Summation</th>
+
+
+                                </tr>
+
+                                <tr>
+                                    <th style="text-align: left;">Property Address</th>
+                                    <template for:each={propetyArray} for:item="propAdd" for:index="index">
+                                        <th key={propAdd.ApplicantAssetId} scope="col">
+                                            <lightning-input type="text" variant="label-hidden"
+                                                value={propAdd.PropAddrs} disabled="true">
+                                            </lightning-input>
+                                        </th>
+                                    </template>
+                                    <th></th>
+                                </tr>
+
+                                <tr>
+                                    <th style="text-align: left;">Property Type</th>
+                                    <template for:each={propetyArray} for:item="propType" for:index="index">
+                                        <th key={propType.ApplicantAssetId} scope="col">
+                                            <lightning-input type="text" variant="label-hidden"
+                                                value={propType.propertyType} disabled="true">
+                                            </lightning-input>
+                                        </th>
+                                    </template>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: left;">Property Subtype</th>
+                                    <template for:each={propetyArray} for:item="propSubType"
+                                        for:index="index">
+                                        <th key={propSubType.ApplicantAssetId} scope="col">
+                                            <lightning-input type="text" variant="label-hidden"
+                                                value={propSubType.PropSubType} disabled="true">
+                                            </lightning-input>
+                                        </th>
+                                    </template>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: left;">Property Usage</th>
+                                    <template for:each={propetyArray} for:item="propUsage"
+                                        for:index="index">
+                                        <th key={propUsage.ApplicantAssetId} scope="col">
+                                            <lightning-input type="text" variant="label-hidden"
+                                                value={propUsage.PropertyUsage} disabled="true">
+                                            </lightning-input>
+                                        </th>
+                                    </template>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: left;">Property Value (₹ In Lacs)</th>
+                                    <template for:each={propetyArray} for:item="propvalue"
+                                        for:index="index">
+                                        <th key={propvalue.ApplicantAssetId} scope="col">
+                                            <lightning-input type="number" formatter="currency" variant="label-hidden"
+                                                value={propvalue.ApproxValue} disabled="true">
+                                            </lightning-input>
+                                        </th>
+                                    </template>
+                                    <th>
+                                        <lightning-input type="number" formatter="currency" variant="label-hidden"
+                                            value={totalApproxValue} disabled="true">
+                                        </lightning-input>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: left;">LTV applicable for Loan without Insurance (%)</th>
+                                    <template for:each={propetyArray} for:item="LTVapplLnWOIns"
+                                        for:index="index">
+                                        <th key={LTVapplLnWOIns.ApplicantAssetId} scope="col">
+                                            <lightning-input type="percentage" variant="label-hidden"
+                                                value={LTVapplLnWOIns.LTVApplLnWOInsurance} disabled="true">
+                                            </lightning-input>
+                                        </th>
+                                    </template>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: left;">LTV applicable for Loan with Insurance (%)</th>
+                                    <template for:each={propetyArray} for:item="LTVapplLnWIns"
+                                        for:index="index">
+                                        <th key={LTVapplLnWIns.ApplicantAssetId} scope="col">
+                                            <lightning-input type="percentage" variant="label-hidden"
+                                                value={LTVapplLnWIns.LTVApplLnWtInsurance} disabled="true">
+                                            </lightning-input>
+                                        </th>
+                                    </template>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: left;">LTV based Eligibility without insurance (₹)</th>
+                                    <template for:each={propetyArray} for:item="LTVBsdEliWOIns"
+                                        for:index="index">
+                                        <th key={LTVBsdEliWOIns.ApplicantAssetId} scope="col">
+                                            <lightning-input type="number" formatter="currency" variant="label-hidden"
+                                                value={LTVBsdEliWOIns.LTVBsdEliWOIns} disabled="true">
+                                            </lightning-input>
+                                        </th>
+                                    </template>
+                                    <th>
+                                        <lightning-input type="number" formatter="currency" variant="label-hidden"
+                                            value={roundedDownSumObject.LTVBsdEliWOIns} disabled="true">
+                                        </lightning-input>
+                                    </th>
+                                    
+                                </tr>
+                                <tr>
+                                    <th style="text-align: left;">Additional LTV based Eligibility towards insurance (₹)
+                                    </th>
+                                    <template for:each={propetyArray} for:item="addLtBsdLiIns"
+                                        for:index="index">
+                                        <th key={addLtBsdLiIns.ApplicantAssetId} scope="col">
+                                            <lightning-input type="number" formatter="currency" variant="label-hidden"
+                                                value={addLtBsdLiIns.AddLTVBsdEliIns} disabled="true">
+                                            </lightning-input>
+                                        </th>
+                                    </template>
+                                    <th>
+                                        <lightning-input type="number" formatter="currency" variant="label-hidden"
+                                            value={roundedDownSumObject.AddLTVBsdEliIns} disabled="true">
+                                        </lightning-input>
+                                    </th>
+                                    
+                                </tr>
+                                <tr>
+                                    <th style="text-align: left;">Total LTV based Loan Eligibility with insurance (₹)
+                                    </th>
+                                    <template for:each={propetyArray} for:item="totalLtBsdLiIns"
+                                        for:index="index">
+                                        <th key={totalLtBsdLiIns.ApplicantAssetId} scope="col">
+                                            <lightning-input type="number" formatter="currency" variant="label-hidden"
+                                                value={totalLtBsdLiIns.TotlLTVBsdLnEliWIns} disabled="true">
+                                            </lightning-input>
+                                        </th>
+                                    </template>
+                                    <th>
+                                        <lightning-input type="number" formatter="currency" variant="label-hidden"
+                                            value={roundedDownSumObject.TotlLTVBsdLnEliWIns} disabled="true">
+                                        </lightning-input>
+                                    </th>
+                                    
+                                </tr>
+                                <tr>
+                                    <th style="text-align: left;">LTV applicable with deviation (%)</th>
+                                    <template for:each={propetyArray} for:item="ltvApplWDevi"
+                                        for:index="index">
+                                        <th key={ltvApplWDevi.ApplicantAssetId} scope="col">
+                                            <lightning-input type="percentage" variant="label-hidden"
+                                                value={ltvApplWDevi.LTVApplWDeviation} disabled="true">
+                                            </lightning-input>
+                                        </th>
+                                    </template>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: left;">Max collateral loan eligibility with deviation (₹)
+                                    </th>
+                                    <template for:each={propetyArray} for:item="maxColtrlWDevi"
+                                        for:index="index">
+                                        <th key={maxColtrlWDevi.ApplicantAssetId} scope="col">
+                                            <lightning-input type="number" formatter="currency" variant="label-hidden"
+                                                value={maxColtrlWDevi.MaxcoltrlLnEliWDeviation} disabled="true">
+                                            </lightning-input>
+                                        </th>
+                                    </template>
+                                    <th>
+                                        <lightning-input type="number" formatter="currency" variant="label-hidden"
+                                            value={roundedDownSumObject.MaxcoltrlLnEliWDeviation} disabled="true">
+                                        </lightning-input>
+                                    </th>
+                                    
+                                </tr>
+
+                                
+                            </thead>
+
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </lightning-accordion-section>
+            </lightning-accordion>
+            
+
+            <div class="lBreak">
+                <br />
+            </div>
+
+
+            <lightning-accordion active-section-name={activeSection} allow-multiple-sections-open>
+                <lightning-accordion-section name="A" label="Max eligibility" class="accClass">
+                    <div class="datatable-container slds-p-left_medium slds-p-right_xx-large">
+
+                        <table class="datatable">
+
+                            <thead>
+
+                                <tr>
+                                    <th style="text-align: left;">Max BRE Loan eligibility without insurance (₹)</th>
+                                    
+
+                                    <th> <lightning-input type="number" formatter="currency" variant="label-hidden"
+                                            value={wrapObjRec.MaxBreLnEliWoIns__c} disabled="true">
+                                        </lightning-input></th>
+                                </tr>
+
+                                <tr>
+                                    <th style="text-align: left;">Max BRE Loan eligibility with insurance (₹)</th>
+                                    
+                                    <th>
+                                        <lightning-input type="number" formatter="currency" variant="label-hidden"
+                                            value={wrapObjRec.MaxBreLnEliWIns__c} disabled="true">
+                                        </lightning-input>
+                                    </th>
+                                </tr>
+                                
+                                <tr>
+                                    <th style="text-align: left;">Max BRE loan eligibility with deviation (₹)</th>
+                                    
+                                    <th>
+                                        <lightning-input type="number" formatter="currency" variant="label-hidden"
+                                            value={wrapObjRec.MaxBreLnEliWDeviation__c} disabled="true">
+                                        </lightning-input>
+                                    </th>
+                                </tr>
+                                <template if:true={showMaxPlotField}>
+                                <tr>
+                                    <th style="text-align: left;">Max Plot Funding (₹) as per overall eligibility</th>
+                                    
+                                    <th>
+                                        <lightning-input type="number" formatter="currency" variant="label-hidden"
+                                            value={wrapObjRec.MaxPlotFund__c} disabled="true">
+                                        </lightning-input>
+                                    </th>
+                                </tr>
+                            </template>
+
+                                <!-- FedFina Loan Exposure details -->
+                                <tr>
+                                    <th style="text-align: left;">Existing Fedfina Loan Exposure (Same Product) -(₹)
+                                    </th>
+                                    
+                                    <th>
+                                        <lightning-input type="number" formatter="currency" variant="label-hidden"
+                                            value={wrapPropObj.sumFedFinaProdAmt} disabled="true">
+                                        </lightning-input>
+                                    </th>
+                                </tr>
+                                
+                                <tr>
+                                    <th style="text-align: left;">Existing Fedfina Loan Exposure (Total) -(₹)
+                                    </th>
+                                    
+                                    <th>
+                                        <lightning-input type="number" formatter="currency" variant="label-hidden"
+                                            value={wrapPropObj.sumFedFinaExpLnAmt} disabled="true">
+                                        </lightning-input>
+                                    </th>
+                                </tr>
+
+
+                            </thead>
+
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </lightning-accordion-section>
+            </lightning-accordion>
+            <div class="lBreak">
+                <br />
+            </div>
+
+            <lightning-accordion active-section-name={activeSection} allow-multiple-sections-open>
+                <lightning-accordion-section name="A" label="Recommendation" class="accClass">
+                    <div class="datatable-container slds-p-left_medium slds-p-right_xx-large">
+
+                        <table class="datatable">
+
+                            <thead>
+
+                                <tr>
+                                    <th style="text-align: left;">Recommendation</th>
+                                    
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: left;" colspan="1">Loan Amount (₹) without Insurance</th>
+                                    
+                                    <th>
+                                   
+                                        <lightning-input type="number" formatter="currency" min="1" 
+                                            class="insuranceCls" data-name="SanLoanAmt__c" name="SanLoanAmt__c" value={wrapObjRecomendation.SanLoanAmt__c}
+                                            label="Loan Amount (₹) - Without Insurance" step =".01" required onchange={handleInputChange} disabled={readOnlyMode}
+                                            message-when-range-underflow="Value less than allowed range"
+                                            message-when-bad-input ='Enter a Valid Input For Loan Amount'>
+                                        </lightning-input>
+                                    </th>
+                                            
+
+                                </tr>
+                                <tr>
+                                    <th colspan="1" style="text-align: left;">Insurance</th>
+                                    
+                                    <th>
+                                        
+                                        <lightning-input type="number" formatter="currency" min="0" class="insuranceCls" name="InsAmt__c" 
+                                            data-fieldname="InsAmt__c" data-objname="Applicant" data-name="InsAmt__c" 
+                                            value={wrapObjRecomendation.InsAmt__c} label="Insurance Amount" step =".01" required 
+                                            onchange={handleInputChange} disabled={readOnlyMode}
+                                            message-when-range-underflow="Value less than allowed range"
+                                            message-when-bad-input ='Enter a Valid Input For Insurance Amount'>
+                                        </lightning-input>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="1" style="text-align: left;">Loan Amount (₹) with Insurance</th>
+                                    
+                                    <th>
+                                        <lightning-input type="number" formatter="currency" class="insuranceCls"
+                                            name="TotalLoanAmtInclInsurance__c"
+                                            data-fieldname="TotalLoanAmtInclInsurance__c" data-objname="Applicant"
+                                            data-name="TotalLoanAmtInclInsurance__c" value={TotalLoanAmtInclInsurance}
+                                            label="Total Loan amount including insurance (₹)" required
+                                            onchange={handleInputChange} disabled 
+                                            message-when-range-underflow="Enter a Valid Input"
+                                            message-when-bad-input ='Enter a Valid Input For Total Loan amount including insurance '></lightning-input>
+                                    </th>
+                                </tr>
+                                <template if:true={assessmentProgramVisibility}>
+                                    <tr>
+                                        <th colspan="1" style="text-align: left;">Application Level Assessment Program for greater than ₹25 lacs loan</th>
+                                        
+                                        <th>
+                                            <c-custom-lookup required
+                                                label="Application Level Assessment Program for greater than ₹25 lacs loan"
+                                                selected-icon-name="standard:identifier" object-api-name="MasterData__c"
+                                                field-api-name="FinnoneVal__c" selected-fields="FinnoneCode__c"
+                                                selected-record-id={wrapObjRecomendation.Application_Level_Assessment_Program__c} 
+                                                selected-field-name="FinnoneCode__c"
+                                                other-field-api-name="FinnoneCode__c"
+                                                filter-condn={filterCondition} onselect={handleValueSelect}
+                                                disabled={readOnlyMode}></c-custom-lookup>
+                                        </th>
+                                    </tr>
+                                </template>
+                                
+                                <tr>
+                                    <th colspan="1" style="text-align: left;">Tenor (Months)</th>
+                                    
+                                    <th>
+                                       
+
+                                        <lightning-input type="number" min="1" class="insuranceCls" name="Loan_Tenure_Months__c" 
+                                            data-name="Loan_Tenure_Months__c" 
+                                            value={wrapObjRecomendation.Loan_Tenure_Months__c} label="Tenor (Months)" step ="1" required 
+                                            onchange={handleInputChange} disabled={readOnlyMode}
+                                            message-when-range-underflow="Value less than allowed range"
+                                            message-when-bad-input ='Enter a Valid Input For Tenor (Months)'>
+                                        </lightning-input>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="1" style="text-align: left;">Effective ROI</th>
+                                    
+                                    <th>
+                                        
+                                        
+                                        <lightning-input type="number" min="1" class="insuranceCls" name="EffectiveROI__c" 
+                                            data-fieldname="EffectiveROI__c" data-objname="Applicant"
+                                            data-name="EffectiveROI__c" 
+                                            value={wrapObjRecomendation.EffectiveROI} label="Effective ROI" step =".01" required 
+                                            onchange={handleInputChange} disabled={readOnlyMode}
+                                            message-when-range-underflow="Enter a Valid Input"
+                                            message-when-bad-input ='Enter a Valid Input For Effective ROI'>
+                                        </lightning-input>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="1" style="text-align: left;">EMI (₹)</th>
+                                    
+                                    <th> <lightning-input type="number" formatter="currency" value={wrapObjRec.EMI__c}
+                                            label="EMI" disabled></lightning-input></th>
+                                </tr>
+
+                                <tr>
+                                    <th colspan="1" style="text-align: left;">Actual LTV (%)</th>
+                                    
+                                    <th> <lightning-input type="percentage" value={wrapObjRec.Actual_LTV__c}
+                                            label="Actual LTV" disabled></lightning-input></th>
+                                </tr>
+                                <!-- <template if:true={isVisibleCombinedLTV}>
+                                <tr>
+                                    <th colspan="1" style="text-align: left;">Combined LTV (%) (Loan amount including insurance)</th>
+                                    
+                                    <th> <lightning-input type="percentage" value={wrapObjRec.Combined_LTV_And_FOIR_with_Insurance__c}
+                                            label="Combined LTV (%) (Loan amount including insurance)" disabled></lightning-input></th>
+                                </tr>
+                            </template> -->
+                                <tr>
+                                    <th colspan="1" style="text-align: left;">Actual FOIR (%)</th>
+                                    
+                                    <th> <lightning-input type="percentage" value={wrapObjRec.Actual_FOIR__c}
+                                            label="Actual FOIR" disabled></lightning-input></th>
+                                </tr>
+
+                                <tr>
+                                    <th colspan="1" style="text-align: left;">Combined LTV & FOIR (%)</th>
+                                    <!--LAK-8622-->
+                                    <th><lightning-input type="percentage" value={wrapObjRec.Combined_LTV_And_FOIR_with_Insurance__c}
+                                            label="Combined LTV & FOIR" disabled></lightning-input></th>
+                                </tr>
+
+                                <tr>
+                                    <th colspan="1" style="text-align: left;">Total Fedfina Loan Exposure (Including
+                                        proposed loan) -(₹)</th>
+                                    
+                                    <th><lightning-input type="number" formatter="currency" value={TotalFedfinaExp}
+                                            label="Total Fedfina Loan Exposure (Including proposed loan) -(₹)"
+                                            disabled></lightning-input></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </lightning-accordion-section>
+            </lightning-accordion>
+
+        </lightning-accordion-section>
+    </lightning-accordion>
+</template>

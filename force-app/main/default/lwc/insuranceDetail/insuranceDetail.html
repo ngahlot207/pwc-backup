@@ -1,0 +1,1398 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    <template if:true={showAvailableIns}>
+        <lightning-card title="Insurance">
+                        <lightning-layout multiple-rows="true">
+                <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+
+                    <lightning-combobox name="LifeInsurance" label="Life Insurance" value={isLifeInsurance} required
+                        options={optonYN} onchange={handleInsInputChange} disabled={disableMode}></lightning-combobox>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <lightning-combobox name="GeneralInsurance" label="General Insurance" value={isGeneralInsurance}
+                        options={optonYN} onchange={handleInsInputChange} disabled={disableMode}
+                        required></lightning-combobox>
+                </lightning-layout-item>
+
+                <!-- LAK-7454
+                <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <lightning-combobox name="AccidentalInsurance" label="Accidental Insurance" value={isAccidentalInsurance}
+                    options={optonYN} onchange={handleInsInputChange} disabled={disableMode}
+                    required></lightning-combobox>
+                </lightning-layout-item> -->
+
+                <!-- <lightning-layout-item padding="around-small" size="4">
+                <lightning-input label="Insurance Premium to be deducted from Disbursement?" type="number"
+                    value={insPremium} formatter="currency" desabled disabled={disableMode} ></lightning-input>
+            </lightning-layout-item> -->
+                <template lwc:if={applicantInsDetail}>
+                    <template if:true={showRational}>
+
+                        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                            medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+
+                            <lightning-input label="Rational for Insurance Waiver" name='InsRational__c' type="text"
+                                value={applicantInsDetail.InsRational__c} onchange={handleExistingPolicy} required
+                                disabled={disableMode}></lightning-input>
+
+
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                            medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                            <lightning-combobox label="Is there any existing active policies"
+                                value={applicantInsDetail.InsAvailable__c} name="InsAvailable__c" options={optonYN}
+                                onchange={handleExistingPolicy} required disabled={disableMode}></lightning-combobox>
+
+                        </lightning-layout-item>
+                    </template>
+                </template>
+            </lightning-layout>
+        </lightning-card>
+        <template if:true={showExistingPolicy}>
+            <template lwc:if={applicantInsDetail}>
+                <lightning-card title="Existing Insurance Details">
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                            medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                            <lightning-input label="Insurance Company Name" name="InsCompanyName__c" type="text"
+                                value={applicantInsDetail.InsCompanyName__c} onchange={handleExistingPolicy}
+                                disabled={disableMode}></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                            medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                            <lightning-input label="Policy Number" name="InsPolicyNum__c" type="text"
+                                value={applicantInsDetail.InsPolicyNum__c} onchange={handleExistingPolicy}
+                                disabled={disableMode}></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                            medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                            <lightning-input label="Coverage Amount" name="InsCoverageAmount__c" type="number"
+                                value={applicantInsDetail.InsCoverageAmount__c} onchange={handleExistingPolicy}
+                                disabled={disableMode}></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                            medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                            <lightning-input label="Expiry Date" type="date" name="InsExpiryDate__c"
+                                value={applicantInsDetail.InsExpiryDate__c} onchange={handleExistingPolicy}
+                                disabled={disableMode}></lightning-input>
+
+                        </lightning-layout-item>
+
+                    </lightning-layout>
+                </lightning-card>
+            </template>
+        </template>
+
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item size="12">
+                <lightning-accordion active-section-name={activeSection} class="accordion" allow-multiple-sections-open>
+
+                    <template if:true={showLifeInsurance}>
+                        <lightning-accordion-section name="LifeInsurance" label="Life Insurance" class="applicantClass">
+                            <lightning-layout multiple-rows="true">
+                                <lightning-layout-item padding="around-small" size="12"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+                                    <div if:false={showLifeInsurancePartnerDisabled}>
+                                        <lightning-combobox name="LifeInsurancePartner" label="Life Insurance Partner"
+                                            value={lifeInsurancePartnerVal} required options={optonLifeInsurancePartner}
+                                            onchange={handleLifeInsMaster} disabled={disableMode}></lightning-combobox>
+                                    </div>
+                                    <div if:true={showLifeInsurancePartnerDisabled}>
+                                        <lightning-combobox name="LifeInsurancePartner" label="Life Insurance Partner"
+                                            value={lifeInsurancePartnerVal} required options={optonLifeInsurancePartnerDisabled}
+                                            onchange={handleLifeInsMaster} disabled={disableMode}></lightning-combobox>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item padding="around-small" size="12"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+
+                                    <div>
+                                        <lightning-combobox name="MasterPolicyHolder" label="Master Policy Holder"
+                                            value={lifeMasterPolicyHolderVal} options={optonMasterPolicyHolderLife}
+                                            onchange={handleLifeInsMaster} disabled={disableMode}></lightning-combobox>
+                                    </div>
+
+
+
+                                </lightning-layout-item>
+                                <lightning-layout-item padding="around-small" size="12"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+                                    <div>
+
+                                        <lightning-input type="text" name="Master Policy Number"
+                                            value={insMasterPolNoLife} label="Master Policy Number"
+                                            disabled></lightning-input>
+                                    </div>
+
+                                </lightning-layout-item>
+
+                                <lightning-layout-item padding="around-small" size="12"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+                                    <div>
+                                        <lightning-input type="number" label="Sum Assured Amount" name="SumAmount__c"
+                                            value={lifeInsRec.SumAmount__c} formater="currency"
+                                            onchange={inputChangeHandlerLife} disabled={disableMode}
+                                            required></lightning-input>
+                                    </div>
+                                </lightning-layout-item>
+
+                                <lightning-layout-item padding="around-small" size="12"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+                                    <div>
+                                        <lightning-combobox name="SumInsuredType__c" label="Sum Insured Type"
+                                            value={lifeInsRec.SumInsuredType__c} required options={optSumInsuredTypeVal}
+                                            onchange={inputChangeHandlerLife}
+                                            disabled={disableMode}></lightning-combobox>
+                                    </div>
+                                </lightning-layout-item>
+                                <!-- // added under LAK-160 Split story -->
+                                <lightning-layout-item padding="around-small" size="12"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+                                    <div>
+                                        <lightning-combobox name="Plan_Name__c" label="Plan Name"
+                                            value={lifeInsRec.Plan_Name__c} required options={planNameOptions}
+                                            onchange={inputChangeHandlerLife}
+                                            disabled={disableMode}></lightning-combobox>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item padding="around-small" size="12"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+                                    <div>
+                                        <!-- // changed under LAK-160 Split story -->
+                                        <lightning-input type="number" label="Policy Tenure in Months"
+                                            name="PolicyTenute__c" value={lifeInsRec.PolicyTenute__c}
+                                            max={loanTenureInMonths} min='0' onchange={inputChangeHandlerLife}
+                                            disabled={disableMode} required></lightning-input>
+                                    </div>
+                                </lightning-layout-item>
+
+                                <lightning-layout-item padding="around-small" size="12"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+                                    <div>
+                                        <lightning-input type="number" label="Insurance Premium Amount"
+                                            name="PremiumAmount__c" value={lifeInsRec.PremiumAmount__c}
+                                            onchange={inputChangeHandlerLife} disabled={disableMode}
+                                            required></lightning-input>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item padding="around-small" size="12"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+                                    <div>
+                                        <lightning-input type="number" name="Penettration__c" label="Penetration %"
+                                            value={lifeInsRec.Penettration__c} step="0.01"
+                                            onchange={inputChangeHandlerLife} disabled></lightning-input>
+                                    </div>
+                                </lightning-layout-item>
+
+                                <lightning-layout-item padding="around-small" size="12"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+                                    <div>
+                                        <lightning-combobox name="isCoBorrNominee__c"
+                                            label="Is any of the coborrowers also a nominee"
+                                            value={lifeInsRec.isCoBorrNominee__c} required options={optonYN}
+                                            onchange={inputChangeHandlerLife}
+                                            disabled={disableMode}></lightning-combobox>
+                                    </div>
+                                </lightning-layout-item>
+
+
+                            </lightning-layout>
+                            <!-- tablefor available coapplicants start-->
+                            <template if:true={showAddBorrowerLife}>
+                                <template if:true={desktopBoolean}>
+                                    <lightning-layout horizontal-align="center" pull-to-boundary="small"
+                                        vertical-align="start">
+                                        <lightning-layout-item padding="around-small" size="8">
+                                            <br>
+                                            <div class="slds-text-heading_medium">Select Borrower As A Nominee</div>
+
+                                            <table
+                                                class="slds-table slds-table_cell-buffer slds-table_bordered slds-border_left slds-border_right"
+                                                aria-labelledby="element-with-table-label other-element-with-table-label">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Borrower Name</th>
+                                                        <th>Borrower Type</th>
+                                                        <th>Select as Nominee</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    <template for:each={borrowerListLife} for:item="record">
+                                                        <tr key={record.appId} aria-selected="false"
+                                                            class="slds-hint-parent">
+                                                            <template if:true={record.tabName}>
+                                                                <th class="slds-cell_action-mode" scope="row">
+                                                                    <div class="slds-truncate" title={record.tabName}>
+                                                                        {record.tabName}
+                                                                    </div>
+                                                                </th>
+                                                                <th class="slds-cell_action-mode" scope="row">
+                                                                    <div class="slds-truncate" title={record.tabName}>
+                                                                        {record.appTypeLabel}
+                                                                    </div>
+                                                                </th>
+                                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                                    <div class="slds-truncate"
+                                                                        title={record.selectCheckbox}>
+                                                                        <lightning-input variant="label-hidden"
+                                                                            name="LifeIns" data-recordid={record.appId}
+                                                                            type="checkbox"
+                                                                            checked={record.selectCheckbox}
+                                                                            onclick={handleAddBorrowerAsNom}
+                                                                            disabled={disableMode}></lightning-input>
+                                                                    </div>
+                                                                </td>
+                                                            </template>
+                                                        </tr>
+                                                    </template>
+                                                </tbody>
+                                            </table>
+
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </template>
+                                <template if:true={phoneBolean}>
+                                    <template if:true={phoneBolean}>
+                                        <br>
+                                        <div class="slds-text-heading_medium">Select Borrower As A Nominee</div>
+
+
+                                        <div class="slds-m-top_medium slds-m-bottom_x-large">
+
+                                            <template for:each={borrowerListLife} for:item="record">
+                                                <div key={record.appId} class=" lgc-bg">
+                                                    <ul class="slds-has-dividers_bottom-space">
+                                                        <li class="slds-item">
+                                                            <lightning-tile>
+                                                                <dl class="slds-dl_horizontal">
+                                                                    <dt class="slds-dl_horizontal__label">
+                                                                        <p class="slds-truncate" title="Document Type">
+                                                                            <b>Borrower Name : </b>{record.tabName}
+                                                                        </p>
+                                                                    </dt>
+
+                                                                    <dt class="slds-dl_horizontal__label">
+                                                                        <p class="slds-truncate" title="Document Name">
+                                                                            <b>Borrower Type : </b>{record.apptype}
+                                                                        </p>
+                                                                    </dt>
+
+
+                                                                    <dl style="display: flex; align-items: center;">
+                                                                        <dt class="slds-dl_horizontal__label"
+                                                                            style="margin-right: 10px;">
+                                                                            <p class="slds-truncate"
+                                                                                title="Uploaded File name">
+                                                                                <b>Select as Nominee :</b>
+                                                                            </p>
+                                                                        </dt>
+                                                                        <dd
+                                                                            class="slds-dl_horizontal__detail slds-tile__meta">
+                                                                            <p class="slds-truncate">
+                                                                                <lightning-input variant="label-hidden"
+                                                                                    name="LifeIns"
+                                                                                    data-recordid={record.appId}
+                                                                                    type="checkbox"
+                                                                                    checked={record.selectCheckbox}
+                                                                                    onclick={handleAddBorrowerAsNom}
+                                                                                    disabled={disableMode}></lightning-input>
+                                                                            </p>
+                                                                        </dd>
+                                                                    </dl>
+                                                                </dl>
+                                                            </lightning-tile>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </template>
+                                        </div>
+
+
+                                    </template></template>
+                            </template>
+                            <!-- tablefor available coapplicants ends-->
+
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_1-of-1 slds-large-size_8-of-12">
+                                    <!-- Your content here -->
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                                    <div class="slds-text-align_right">
+                                        <lightning-button variant="natural" name='LIfeIns' label=" + ADD Nominee  "
+                                            disabled={disableMode} title="addNominee" onclick={addNomineeClickLife}>
+                                        </lightning-button>
+                                        <!-- disabled={hideInitatePd} -->
+                                    </div>
+                                </div>
+                            </div>
+                            <template if:true={showNomineeListLife}>
+                                <template for:each={nomineeListLife} for:item="nom">
+                                    <template if:false={nom.isDelete}>
+                                        <div class="slds-box" key={nom.id}>
+
+                                            <div class="slds-m-around_medium slds-text-align_right">
+
+                                                <button
+                                                    class="slds-button slds-button_icon slds-button_icon-inverse closeButton"
+                                                    data-value="exampleValue" data-recordid={nom.id} data-instype='Life'
+                                                    onclick={removeNominee}>
+                                                    <lightning-icon icon-name="utility:close" size="small"
+                                                        alternative-text="Delete"></lightning-icon>
+                                                    <span class="slds-assistive-text">Delete</span>
+                                                </button>
+                                            </div>
+
+                                            <lightning-layout multiple-rows="true">
+                                                <lightning-layout-item padding="around-small" size="12"
+                                                    small-device-size={layoutSize.small}
+                                                    medium-device-size={layoutSize.medium}
+                                                    large-device-size={layoutSize.large}>
+
+                                                    <lightning-combobox type="combobox" name="title" value={nom.title}
+                                                        label="Title" data-recordid={nom.id} options={optonTitle}
+                                                        disabled={nom.readOnly}
+                                                        onchange={inputChangeNomineeLife}></lightning-combobox>
+
+                                                </lightning-layout-item>
+                                                <lightning-layout-item padding="around-small" size="12"
+                                                    small-device-size={layoutSize.small}
+                                                    medium-device-size={layoutSize.medium}
+                                                    large-device-size={layoutSize.large}>
+                                                    <lightning-input type="text" name="fName" value={nom.fName}
+                                                        label="First Name and Middle Name" data-recordid={nom.id}
+                                                        disabled={nom.readOnly} onchange={inputChangeNomineeLife}
+                                                        required></lightning-input>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item padding="around-small" size="12"
+                                                    small-device-size={layoutSize.small}
+                                                    medium-device-size={layoutSize.medium}
+                                                    large-device-size={layoutSize.large}>
+                                                    <lightning-input type="text" name="lName" value={nom.lName}
+                                                        label="Last Name" data-recordid={nom.id} disabled={nom.readOnly}
+                                                        onchange={inputChangeNomineeLife} required></lightning-input>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item padding="around-small" size="12"
+                                                    small-device-size={layoutSize.small}
+                                                    medium-device-size={layoutSize.medium}
+                                                    large-device-size={layoutSize.large}>
+
+                                                    <lightning-combobox name="gender" type="combobox" value={nom.gender}
+                                                        label="Gender" data-recordid={nom.id} disabled={nom.readOnly}
+                                                        onchange={inputChangeNomineeLife}
+                                                        options={optonGender}></lightning-combobox>
+
+
+                                                </lightning-layout-item>
+                                                <lightning-layout-item padding="around-small" size="12"
+                                                    small-device-size={layoutSize.small}
+                                                    medium-device-size={layoutSize.medium}
+                                                    large-device-size={layoutSize.large}>
+                                                    <lightning-input type="date" name="dateOfBirth"
+                                                        value={nom.dateOfBirth} label="Date Of Birth"
+                                                        data-recordid={nom.id} disabled={nom.readOnly}
+                                                        onchange={inputChangeNomineeLife} required></lightning-input>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item padding="around-small" size="12"
+                                                    small-device-size={layoutSize.small}
+                                                    medium-device-size={layoutSize.medium}
+                                                    large-device-size={layoutSize.large}>
+
+
+                                                    <template if:true={nom.readOnly}>
+                                                        <lightning-input type="text" name="relation"
+                                                            value={nom.relation} label="Relationship to Life Assured"
+                                                            data-recordid={nom.id} disabled={nom.readOnly}
+                                                            onchange={inputChangeNomineeLife}></lightning-input>
+                                                    </template>
+                                                    <template if:false={nom.readOnly}>
+                                                        <lightning-combobox name="relation"
+                                                            label="Relationship to Life Assured" value={nom.relation}
+                                                            options={relationOptions} data-recordid={nom.id}
+                                                            disabled={nom.readOnly} onchange={inputChangeNomineeLife}
+                                                            required></lightning-combobox>
+                                                    </template>
+
+                                                </lightning-layout-item>
+                                                <lightning-layout-item padding="around-small" size="12"
+                                                    small-device-size={layoutSize.small}
+                                                    medium-device-size={layoutSize.medium}
+                                                    large-device-size={layoutSize.large}>
+                                                    <lightning-input type="text" name="hNo" value={nom.hNo}
+                                                        label="House/Flat" data-recordid={nom.id}
+                                                        disabled={nom.readOnly} onchange={inputChangeNomineeLife}
+                                                        required></lightning-input>
+                                                </lightning-layout-item>
+
+                                                <lightning-layout-item padding="around-small" size="12"
+                                                    small-device-size={layoutSize.small}
+                                                    medium-device-size={layoutSize.medium}
+                                                    large-device-size={layoutSize.large}>
+                                                    <lightning-input type="text" name="street" value={nom.street}
+                                                        label="Street" data-recordid={nom.id} disabled={nom.readOnly}
+                                                        onchange={inputChangeNomineeLife} required></lightning-input>
+
+                                                </lightning-layout-item>
+                                                <lightning-layout-item padding="around-small" size="12"
+                                                    small-device-size={layoutSize.small}
+                                                    medium-device-size={layoutSize.medium}
+                                                    large-device-size={layoutSize.large}>
+
+                                                    <lightning-input type="text" name="area" value={nom.area}
+                                                        label="Area" data-recordid={nom.id} disabled={nom.readOnly}
+                                                        onchange={inputChangeNomineeLife} required></lightning-input>
+
+                                                    <!-- filter-condn={filterConditionPin}    disabled={disAddressFlag}-->
+                                                </lightning-layout-item>
+                                                <lightning-layout-item padding="around-small" size="12"
+                                                    small-device-size={layoutSize.small}
+                                                    medium-device-size={layoutSize.medium}
+                                                    large-device-size={layoutSize.large}>
+                                                    <c-custom-lookup label="Pincode" field-name='pincode'
+                                                        object-api-name='PincodeMstr__c' field-api-name='PIN__c'
+                                                        selected-record-name={nom.pincode} required=true
+                                                        selected-record-id={nom.pincode} data-recordid={nom.id}
+                                                        data-recordtype='life' disabled={nom.readOnly}
+                                                        onselect={handleValueSelect}></c-custom-lookup>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item padding="around-small" size="12"
+                                                    small-device-size={layoutSize.small}
+                                                    medium-device-size={layoutSize.medium}
+                                                    large-device-size={layoutSize.large}>
+                                                    <lightning-input type="text" name="city" value={nom.city}
+                                                        label="City" data-recordid={nom.id} disabled
+                                                        onchange={inputChangeNomineeLife} required></lightning-input>
+
+                                                </lightning-layout-item>
+                                                <lightning-layout-item padding="around-small" size="12"
+                                                    small-device-size={layoutSize.small}
+                                                    medium-device-size={layoutSize.medium}
+                                                    large-device-size={layoutSize.large}>
+                                                    <lightning-input type="text" name="state" value={nom.state}
+                                                        label="State" data-recordid={nom.id} disabled
+                                                        onchange={inputChangeNomineeLife} required></lightning-input>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item padding="around-small" size="12"
+                                                    small-device-size={layoutSize.small}
+                                                    medium-device-size={layoutSize.medium}
+                                                    large-device-size={layoutSize.large}>
+                                                    <lightning-input type="number" name="percent" value={nom.percent}
+                                                        label="Nominee Percentage" data-recordid={nom.id}
+                                                        onchange={inputChangeNomineeLife} disabled={disableMode}
+                                                        required></lightning-input>
+                                                </lightning-layout-item>
+
+
+                                            </lightning-layout>
+                                            <template lwc:if={nom.appointee}>
+
+                                                <div class="slds-box">
+                                                    Appointee
+                                                    <lightning-layout multiple-rows="true">
+                                                        <lightning-layout-item padding="around-small" size="12"
+                                                            small-device-size={layoutSize.small}
+                                                            medium-device-size={layoutSize.medium}
+                                                            large-device-size={layoutSize.large}>
+
+                                                            <lightning-combobox type="combobox" name="title"
+                                                                value={nom.appointee.title} label="Title"
+                                                                data-recordid={nom.id} options={optonTitle}
+                                                                onchange={inputChangeAppointeeLife}
+                                                                disabled={disableMode}></lightning-combobox>
+
+
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item padding="around-small" size="12"
+                                                            small-device-size={layoutSize.small}
+                                                            medium-device-size={layoutSize.medium}
+                                                            large-device-size={layoutSize.large}>
+                                                            <lightning-input type="text" name="fName"
+                                                                value={nom.appointee.fName}
+                                                                label="First Name and Middle Name"
+                                                                data-recordid={nom.id}
+                                                                onchange={inputChangeAppointeeLife} required
+                                                                disabled={disableMode}></lightning-input>
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item padding="around-small" size="12"
+                                                            small-device-size={layoutSize.small}
+                                                            medium-device-size={layoutSize.medium}
+                                                            large-device-size={layoutSize.large}>
+                                                            <lightning-input type="text" name="lName"
+                                                                value={nom.appointee.lName} label="Last Name"
+                                                                data-recordid={nom.id}
+                                                                onchange={inputChangeAppointeeLife} required
+                                                                disabled={disableMode}></lightning-input>
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item padding="around-small" size="12"
+                                                            small-device-size={layoutSize.small}
+                                                            medium-device-size={layoutSize.medium}
+                                                            large-device-size={layoutSize.large}>
+                                                            <lightning-combobox name="gender" type="combobox"
+                                                                value={nom.appointee.gender} label="Gender"
+                                                                data-recordid={nom.id}
+                                                                onchange={inputChangeAppointeeLife}
+                                                                options={optonGender}
+                                                                disabled={disableMode}></lightning-combobox>
+
+
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item padding="around-small" size="12"
+                                                            small-device-size={layoutSize.small}
+                                                            medium-device-size={layoutSize.medium}
+                                                            large-device-size={layoutSize.large}>
+                                                            <lightning-input type="date" name="dateOfBirth"
+                                                                value={nom.appointee.dateOfBirth} label="Date Of Birth"
+                                                                data-recordid={nom.id} max={majorAgeDate}
+                                                                onchange={inputChangeAppointeeLife} required
+                                                                disabled={disableMode}></lightning-input>
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item padding="around-small" size="12"
+                                                            small-device-size={layoutSize.small}
+                                                            medium-device-size={layoutSize.medium}
+                                                            large-device-size={layoutSize.large}>
+                                                            <lightning-combobox name="relation"
+                                                                label="Relationship to Life Assured"
+                                                                value={nom.appointee.relation} options={relationOptions}
+                                                                data-recordid={nom.id}
+                                                                onchange={inputChangeAppointeeLife} required
+                                                                disabled={disableMode}></lightning-combobox>
+
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item padding="around-small" size="12"
+                                                            small-device-size={layoutSize.small}
+                                                            medium-device-size={layoutSize.medium}
+                                                            large-device-size={layoutSize.large}>
+                                                            <lightning-input type="text" name="hNo"
+                                                                value={nom.appointee.hNo} label="House/Flat"
+                                                                data-recordid={nom.id}
+                                                                onchange={inputChangeAppointeeLife} required
+                                                                disabled={disableMode}></lightning-input>
+                                                        </lightning-layout-item>
+
+                                                        <lightning-layout-item padding="around-small" size="12"
+                                                            small-device-size={layoutSize.small}
+                                                            medium-device-size={layoutSize.medium}
+                                                            large-device-size={layoutSize.large}>
+                                                            <lightning-input type="text" name="street"
+                                                                value={nom.appointee.street} label="Street"
+                                                                data-recordid={nom.id}
+                                                                onchange={inputChangeAppointeeLife} required
+                                                                disabled={disableMode}></lightning-input>
+
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item padding="around-small" size="12"
+                                                            small-device-size={layoutSize.small}
+                                                            medium-device-size={layoutSize.medium}
+                                                            large-device-size={layoutSize.large}>
+
+                                                            <lightning-input type="text" name="area"
+                                                                value={nom.appointee.area} label="Area"
+                                                                data-recordid={nom.id}
+                                                                onchange={inputChangeAppointeeLife} required
+                                                                disabled={disableMode}></lightning-input>
+
+                                                            <!-- filter-condn={filterConditionPin}    disabled={disAddressFlag}-->
+                                                        </lightning-layout-item>
+
+                                                        <lightning-layout-item padding="around-small" size="12"
+                                                            small-device-size={layoutSize.small}
+                                                            medium-device-size={layoutSize.medium}
+                                                            large-device-size={layoutSize.large}>
+                                                            <c-custom-lookup label="Pincode" field-name='pincode'
+                                                                object-api-name='PincodeMstr__c' field-api-name='PIN__c'
+                                                                selected-record-name={nom.appointee.pincode}
+                                                                selected-record-id={nom.appointee.pincode}
+                                                                data-recordid={nom.id} data-recordtype='life'
+                                                                data-isappointee='Yes' required=true
+                                                                onselect={handleValueSelect}></c-custom-lookup>
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item padding="around-small" size="12"
+                                                            small-device-size={layoutSize.small}
+                                                            medium-device-size={layoutSize.medium}
+                                                            large-device-size={layoutSize.large}>
+                                                            <lightning-input type="text" name="city"
+                                                                value={nom.appointee.city} label="City"
+                                                                data-recordid={nom.id}
+                                                                onchange={inputChangeAppointeeLife} required
+                                                                disabled></lightning-input>
+
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item padding="around-small" size="12"
+                                                            small-device-size={layoutSize.small}
+                                                            medium-device-size={layoutSize.medium}
+                                                            large-device-size={layoutSize.large}>
+                                                            <lightning-input type="text" name="state"
+                                                                value={nom.appointee.state} label="State"
+                                                                data-recordid={nom.id}
+                                                                onchange={inputChangeAppointeeLife} required
+                                                                disabled></lightning-input>
+
+                                                        </lightning-layout-item>
+
+
+                                                    </lightning-layout>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </template>
+                                </template>
+
+                            </template>
+                            <lightning-layout>
+                                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+
+                                    <template if:false={hideUploadForLife}> </template>
+
+                                    <c-file-upload-custom-comp-ref-id variant="" label="Upload Life Insurance form"
+                                        record-id={lifeInsDocDetId} allowed-fil-format={acceptedFormats}
+                                        file-size-msz={fileUploadMsz} disable-mode={disablepFileUpload}
+                                        allow-multiple={alowMultiple} onpasstoparent={fileUploadFinish}
+                                        hide-attach-button={disableMode}
+                                        onspinnerstatus={spinnerStatus}></c-file-upload-custom-comp-ref-id>
+
+
+                                    <div if:true={hideUploadForLife} class="slds-p-top_x-large">
+
+                                        <lightning-layout multiple-rows="true">
+                                            <lightning-layout-item size="12">
+
+                                                <template for:each={uploadedDocDetailLifelIns} for:item="doc">
+
+                                                    <div key={doc.cdlId}>
+                                                        <lightning-layout multiple-rows="false">
+                                                            <lightning-layout-item size="8">
+                                                                {doc.fileTitle}
+                                                            </lightning-layout-item>
+                                                            <lightning-layout-item padding="around-small" size="4">
+                                                                <div class="pointerClass">
+                                                                    <!-- Other SLDS styles or components may be here -->
+
+                                                                    <!-- Icon with slds-is-link class for interactivity -->
+
+                                                                    <lightning-icon class="custom-button slds-is-link"
+                                                                        name={doc} data-documentid={doc.cdId}
+                                                                        icon-name="action:preview"
+                                                                        alternative-text="preview" size="xx-small"
+                                                                        title="preview"
+                                                                        onclick={filePreview}></lightning-icon>
+
+                                                                    &nbsp;
+                                                                    <lightning-icon if:true={hasEditAccess}
+                                                                        class="custom-button slds-is-link" name={doc}
+                                                                        data-documentid={doc.cdId}
+                                                                        icon-name="utility:delete"
+                                                                        alternative-text="delete" variant="error"
+                                                                        size="small" title="delete"
+                                                                        onclick={deleteFile}></lightning-icon>
+
+
+
+                                                                    <!-- Other SLDS styles or components may be here -->
+                                                                </div>
+
+                                                                <lightning-icon if:false={hasEditAccess}
+                                                                    alternative-text="delete" icon-name='utility:delete'
+                                                                    title="delete" size='small'></lightning-icon>
+
+
+                                                            </lightning-layout-item>
+
+
+
+                                                        </lightning-layout>
+                                                    </div>
+                                                </template>
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+
+                                    </div>
+                                </lightning-layout-item>
+                            </lightning-layout>
+
+                        </lightning-accordion-section>
+                    </template>
+                    <template if:true={showGeneralInsurance}>
+                        <lightning-accordion-section name="General Insurance" label="General Insurance"
+                            class="applicantClass">
+                            <lightning-layout multiple-rows="true">
+                                <lightning-layout-item padding="around-small" size="12"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+                                    <div if:false={showGenInsurancePartnerDisabled}>
+                                        <lightning-combobox name="GeneralInsurancePartner"
+                                            label="General Insurance Partner" value={generalInsurancePartnerVal}
+                                            required options={optonGeneralInsurancePartner}
+                                            onchange={handleGeneralInsMaster}
+                                            disabled={disableMode}></lightning-combobox>
+                                    </div>
+                                    <div if:true={showGenInsurancePartnerDisabled}>
+                                        <lightning-combobox name="GeneralInsurancePartner"
+                                            label="General Insurance Partner" value={generalInsurancePartnerVal}
+                                            required options={optonGeneralInsurancePartnerDisabled}
+                                            disabled={disableMode}></lightning-combobox>
+                                    </div>
+
+                                </lightning-layout-item>
+                                <lightning-layout-item padding="around-small" size="12"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+
+                                    <div>
+                                        <lightning-combobox name="MasterPolicyHolder" label="Master Policy Holder"
+                                            value={generalMasterPolicyHolderVal}
+                                            options={optonMasterPolicyHolderGeneral} onchange={handleGeneralInsMaster}
+                                            disabled={disableMode}></lightning-combobox>
+                                    </div>
+
+
+
+                                </lightning-layout-item>
+                                <lightning-layout-item padding="around-small" size="12"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+                                    <div>
+
+                                        <lightning-input type="text" name="Master Policy Number"
+                                            value={insMasterPolNoGeneral} label="Master Policy Number"
+                                            disabled></lightning-input>
+                                    </div>
+
+                                </lightning-layout-item>
+
+                                <lightning-layout-item padding="around-small" size="12"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+                                    <div>
+                                        <lightning-input type="number" label="Sum Assured Amount" name="SumAmount__c"
+                                            value={generalInsRec.SumAmount__c} formater="currency"
+                                            onchange={inputChangeHandlerGeneral} disabled={disableMode}
+                                            required></lightning-input>
+                                    </div>
+                                </lightning-layout-item>
+
+                                <lightning-layout-item padding="around-small" size="12"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+                                    <div>
+                                        <lightning-combobox name="SumInsuredType__c" label="Sum Insured Type"
+                                            value={generalInsRec.SumInsuredType__c} options={optSumInsuredTypeVal}
+                                            onchange={inputChangeHandlerGeneral}
+                                            disabled={disableMode}></lightning-combobox>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item padding="around-small" size="12"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+                                    <div>
+                                        <lightning-combobox name="Plan_Name__c" label="Plan Name"
+                                            value={generalInsRec.Plan_Name__c} required options={planNameOptions}
+                                            onchange={inputChangeHandlerGeneral}
+                                            disabled={disableMode}></lightning-combobox>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item padding="around-small" size="12"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+                                    <div>
+                                        <lightning-input type="number" label="Policy Tenure in years"
+                                            name="PolicyTenute__c" value={generalInsRec.PolicyTenute__c}
+                                            max={loanTenure} onchange={inputChangeHandlerGeneral} disabled={disableMode}
+                                            required></lightning-input>
+                                    </div>
+                                </lightning-layout-item>
+
+                                <lightning-layout-item padding="around-small" size="12"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+                                    <div>
+                                        <lightning-input type="number" label="Insurance Premium Amount"
+                                            name="PremiumAmount__c" value={generalInsRec.PremiumAmount__c}
+                                            onchange={inputChangeHandlerGeneral} disabled={disableMode}
+                                            required></lightning-input>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item padding="around-small" size="12"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+                                    <div>
+                                        <lightning-input type="number" name="Penettration__c" label="Penetration %"
+                                            value={generalInsRec.Penettration__c} step="0.01"
+                                            onchange={inputChangeHandlerGeneral}
+                                            disabled></lightning-input>
+                                    </div>
+                                </lightning-layout-item>
+
+                                <lightning-layout-item padding="around-small" size="12"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+                                    <div>
+                                        <lightning-combobox name="isCoBorrNominee__c"
+                                            label="Is any of the coborrowers also a nominee"
+                                            value={generalInsRec.isCoBorrNominee__c} required options={optonYN}
+                                            onchange={inputChangeHandlerGeneral}
+                                            disabled={disableMode}></lightning-combobox>
+                                    </div>
+                                </lightning-layout-item>
+
+
+                            </lightning-layout>
+
+                            <!-- tablefor available coapplicants start-->
+                            <template if:true={showAddBorrowerGeneral}>
+                                <template if:true={desktopBoolean}>
+                                    <lightning-layout horizontal-align="center" pull-to-boundary="small"
+                                        vertical-align="start">
+                                        <lightning-layout-item padding="around-small" size="8">
+                                            <br>
+                                            <div class="slds-text-heading_medium">Select Borrower As A Nominee</div>
+
+                                            <table
+                                                class="slds-table slds-table_cell-buffer slds-table_bordered slds-border_left slds-border_right"
+                                                aria-labelledby="element-with-table-label other-element-with-table-label">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Borrower Name</th>
+                                                        <th>Borrower Type</th>
+                                                        <th>Select as Nominee</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    <template for:each={borrowerListGeneral} for:item="record">
+                                                        <tr key={record.appId} aria-selected="false"
+                                                            class="slds-hint-parent">
+                                                            <template if:true={record.tabName}>
+                                                                <th class="slds-cell_action-mode" scope="row">
+                                                                    <div class="slds-truncate" title={record.tabName}>
+                                                                        {record.tabName}
+                                                                    </div>
+                                                                </th>
+                                                                <th class="slds-cell_action-mode" scope="row">
+                                                                    <div class="slds-truncate" title={record.tabName}>
+                                                                        {record.appTypeLabel}
+                                                                    </div>
+                                                                </th>
+                                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                                    <div class="slds-truncate"
+                                                                        title={record.selectCheckbox}>
+                                                                        <lightning-input variant="label-hidden"
+                                                                            name="GeneralIns"
+                                                                            data-recordid={record.appId} type="checkbox"
+                                                                            checked={record.selectCheckbox}
+                                                                            onclick={handleAddBorrowerAsNom}
+                                                                            disabled={disableMode}></lightning-input>
+                                                                    </div>
+                                                                </td>
+                                                            </template>
+                                                        </tr>
+                                                    </template>
+                                                </tbody>
+                                            </table>
+
+                                        </lightning-layout-item>
+                                    </lightning-layout></template>
+                                <template if:true={phoneBolean}>
+                                    <br>
+                                    <div class="slds-text-heading_medium">Select Borrower As A Nominee</div>
+
+
+                                    <div class="slds-m-top_medium slds-m-bottom_x-large">
+
+                                        <template for:each={borrowerListGeneral} for:item="record">
+                                            <div key={record.appId} class=" lgc-bg">
+                                                <ul class="slds-has-dividers_bottom-space">
+                                                    <li class="slds-item">
+                                                        <lightning-tile>
+                                                            <dl class="slds-dl_horizontal">
+                                                                <dt class="slds-dl_horizontal__label">
+                                                                    <p class="slds-truncate" title="Document Type">
+                                                                        <b>Borrower Name : </b>{record.tabName}
+                                                                    </p>
+                                                                </dt>
+
+                                                                <dt class="slds-dl_horizontal__label">
+                                                                    <p class="slds-truncate" title="Document Name">
+                                                                        <b>Borrower Type : </b>{record.apptype}
+                                                                    </p>
+                                                                </dt>
+
+
+                                                                <dl style="display: flex; align-items: center;">
+                                                                    <dt class="slds-dl_horizontal__label"
+                                                                        style="margin-right: 10px;">
+                                                                        <p class="slds-truncate"
+                                                                            title="Uploaded File name">
+                                                                            <b>Select as Nominee :</b>
+                                                                        </p>
+                                                                    </dt>
+                                                                    <dd
+                                                                        class="slds-dl_horizontal__detail slds-tile__meta">
+                                                                        <p class="slds-truncate">
+                                                                            <lightning-input variant="label-hidden"
+                                                                                name="GeneralIns"
+                                                                                data-recordid={record.appId}
+                                                                                type="checkbox"
+                                                                                checked={record.selectCheckbox}
+                                                                                onclick={handleAddBorrowerAsNom}
+                                                                                disabled={disableMode}></lightning-input>
+                                                                        </p>
+                                                                    </dd>
+                                                                </dl>
+                                                            </dl>
+                                                        </lightning-tile>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </template>
+                                    </div>
+
+
+                                </template>
+                            </template>
+                            <!-- tablefor available coapplicants ends-->
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_1-of-1 slds-large-size_8-of-12">
+                                    <!-- Your content here -->
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                                    <div class="slds-text-align_right">
+                                        <lightning-button variant="natural" name='LIfeIns' label=" + ADD Nominee  "
+                                            title="addNominee" onclick={addNomineeClickGeeral} disabled={disableMode}>
+                                        </lightning-button>
+                                        <!-- disabled={hideInitatePd} -->
+                                    </div>
+                                </div>
+                            </div>
+                            <template if:true={showNomineeListGeneral}>
+                                <template for:each={nomineeListGeneral} for:item="nom">
+                                    <template if:false={nom.isDelete}>
+                                        <div class="slds-box" key={nom.id}>
+
+
+
+                                            <div class="slds-m-around_medium slds-text-align_right">
+
+                                                <button
+                                                    class="slds-button slds-button_icon slds-button_icon-inverse closeButton"
+                                                    data-value="exampleValue" data-recordid={nom.id}
+                                                    data-instype='General' onclick={removeNominee}>
+                                                    <lightning-icon icon-name="utility:close" size="small"
+                                                        alternative-text="Delete"></lightning-icon>
+                                                    <span class="slds-assistive-text">Delete</span>
+                                                </button>
+                                            </div>
+
+                                            <lightning-layout multiple-rows="true">
+                                                <lightning-layout-item padding="around-small" size="12"
+                                                    small-device-size={layoutSize.small}
+                                                    medium-device-size={layoutSize.medium}
+                                                    large-device-size={layoutSize.large}>
+
+                                                    <lightning-combobox type="combobox" name="title" value={nom.title}
+                                                        label="Title" data-recordid={nom.id} options={optonTitle}
+                                                        disabled={nom.readOnly}
+                                                        onchange={inputChangeNomineeGeneral}></lightning-combobox>
+
+
+                                                </lightning-layout-item>
+                                                <lightning-layout-item padding="around-small" size="12"
+                                                    small-device-size={layoutSize.small}
+                                                    medium-device-size={layoutSize.medium}
+                                                    large-device-size={layoutSize.large}>
+                                                    <lightning-input type="text" name="fName" value={nom.fName}
+                                                        label="First Name and Middle Name" data-recordid={nom.id}
+                                                        disabled={nom.readOnly} onchange={inputChangeNomineeGeneral}
+                                                        required></lightning-input>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item padding="around-small" size="12"
+                                                    small-device-size={layoutSize.small}
+                                                    medium-device-size={layoutSize.medium}
+                                                    large-device-size={layoutSize.large}>
+                                                    <lightning-input type="text" name="lName" value={nom.lName}
+                                                        label="Last Name" data-recordid={nom.id} disabled={nom.readOnly}
+                                                        onchange={inputChangeNomineeGeneral} required></lightning-input>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item padding="around-small" size="12"
+                                                    small-device-size={layoutSize.small}
+                                                    medium-device-size={layoutSize.medium}
+                                                    large-device-size={layoutSize.large}>
+
+                                                    <lightning-combobox name="gender" type="combobox" value={nom.gender}
+                                                        label="Gender" data-recordid={nom.id}
+                                                        onchange={inputChangeNomineeGeneral} disabled={nom.readOnly}
+                                                        options={optonGender}></lightning-combobox>
+
+
+                                                </lightning-layout-item>
+                                                <lightning-layout-item padding="around-small" size="12"
+                                                    small-device-size={layoutSize.small}
+                                                    medium-device-size={layoutSize.medium}
+                                                    large-device-size={layoutSize.large}>
+                                                    <lightning-input type="date" name="dateOfBirth"
+                                                        value={nom.dateOfBirth} label="Date Of Birth"
+                                                        data-recordid={nom.id} disabled={nom.readOnly}
+                                                        onchange={inputChangeNomineeGeneral} required></lightning-input>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item padding="around-small" size="12"
+                                                    small-device-size={layoutSize.small}
+                                                    medium-device-size={layoutSize.medium}
+                                                    large-device-size={layoutSize.large}>
+
+                                                    <template if:true={nom.readOnly}>
+                                                        <lightning-input type="text" name="relation"
+                                                            value={nom.relation} label="Relationship to Life Assured"
+                                                            data-recordid={nom.id} onchange={inputChangeNomineeGeneral}
+                                                            disabled={nom.readOnly}></lightning-input>
+                                                    </template>
+                                                    <template if:false={nom.readOnly}>
+                                                        <lightning-combobox name="relation"
+                                                            label="Relationship to Life Assured" value={nom.relation}
+                                                            options={relationOptions} data-recordid={nom.id}
+                                                            disabled={nom.readOnly} onchange={inputChangeNomineeGeneral}
+                                                            required></lightning-combobox>
+                                                    </template>
+
+
+                                                </lightning-layout-item>
+                                                <lightning-layout-item padding="around-small" size="12"
+                                                    small-device-size={layoutSize.small}
+                                                    medium-device-size={layoutSize.medium}
+                                                    large-device-size={layoutSize.large}>
+                                                    <lightning-input type="text" name="hNo" value={nom.hNo}
+                                                        label="House/Flat" data-recordid={nom.id}
+                                                        disabled={nom.readOnly} onchange={inputChangeNomineeGeneral}
+                                                        required></lightning-input>
+                                                </lightning-layout-item>
+
+                                                <lightning-layout-item padding="around-small" size="12"
+                                                    small-device-size={layoutSize.small}
+                                                    medium-device-size={layoutSize.medium}
+                                                    large-device-size={layoutSize.large}>
+                                                    <lightning-input type="text" name="street" value={nom.street}
+                                                        label="Street" data-recordid={nom.id} disabled={nom.readOnly}
+                                                        onchange={inputChangeNomineeGeneral} required></lightning-input>
+
+                                                </lightning-layout-item>
+                                                <lightning-layout-item padding="around-small" size="12"
+                                                    small-device-size={layoutSize.small}
+                                                    medium-device-size={layoutSize.medium}
+                                                    large-device-size={layoutSize.large}>
+
+                                                    <lightning-input type="text" name="area" value={nom.area}
+                                                        label="Area" data-recordid={nom.id} disabled={nom.readOnly}
+                                                        onchange={inputChangeNomineeGeneral} required></lightning-input>
+
+                                                    <!-- filter-condn={filterConditionPin}    disabled={disAddressFlag}-->
+                                                </lightning-layout-item>
+                                                <lightning-layout-item padding="around-small" size="12"
+                                                    small-device-size={layoutSize.small}
+                                                    medium-device-size={layoutSize.medium}
+                                                    large-device-size={layoutSize.large}>
+                                                    <c-custom-lookup label="Pincode" field-name='pincode'
+                                                        object-api-name='PincodeMstr__c' field-api-name='PIN__c'
+                                                        selected-record-name={nom.pincode} required=true
+                                                        selected-record-id={nom.pincode} data-recordid={nom.id}
+                                                        data-recordtype='general' disabled={nom.readOnly}
+                                                        onselect={handleValueSelect}></c-custom-lookup>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item padding="around-small" size="12"
+                                                    small-device-size={layoutSize.small}
+                                                    medium-device-size={layoutSize.medium}
+                                                    large-device-size={layoutSize.large}>
+                                                    <lightning-input type="text" name="city" value={nom.city}
+                                                        label="City" data-recordid={nom.id} disabled
+                                                        onchange={inputChangeNomineeGeneral} required></lightning-input>
+
+                                                </lightning-layout-item>
+                                                <lightning-layout-item padding="around-small" size="12"
+                                                    small-device-size={layoutSize.small}
+                                                    medium-device-size={layoutSize.medium}
+                                                    large-device-size={layoutSize.large}>
+                                                    <lightning-input type="text" name="state" value={nom.state}
+                                                        label="State" data-recordid={nom.id} disabled
+                                                        onchange={inputChangeNomineeGeneral} required></lightning-input>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item padding="around-small" size="12"
+                                                    small-device-size={layoutSize.small}
+                                                    medium-device-size={layoutSize.medium}
+                                                    large-device-size={layoutSize.large}>
+                                                    <lightning-input type="number" name="percent" value={nom.percent}
+                                                        label="Nominee Percentage" data-recordid={nom.id}
+                                                        onchange={inputChangeNomineeGeneral} required
+                                                        disabled={disableMode}></lightning-input>
+                                                </lightning-layout-item>
+
+
+                                            </lightning-layout>
+                                            <template lwc:if={nom.appointee}>
+
+                                                <div class="slds-box">
+                                                    Appointee
+                                                    <lightning-layout multiple-rows="true">
+                                                        <lightning-layout-item padding="around-small" size="12"
+                                                            small-device-size={layoutSize.small}
+                                                            medium-device-size={layoutSize.medium}
+                                                            large-device-size={layoutSize.large}>
+
+                                                            <lightning-combobox type="combobox" name="title"
+                                                                value={nom.appointee.title} label="Title"
+                                                                data-recordid={nom.id} options={optonTitle}
+                                                                onchange={inputChangeAppointeeGeneral}
+                                                                disabled={disableMode}></lightning-combobox>
+
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item padding="around-small" size="12"
+                                                            small-device-size={layoutSize.small}
+                                                            medium-device-size={layoutSize.medium}
+                                                            large-device-size={layoutSize.large}>
+                                                            <lightning-input type="text" name="fName"
+                                                                value={nom.appointee.fName}
+                                                                label="First Name and Middle Name"
+                                                                data-recordid={nom.id}
+                                                                onchange={inputChangeAppointeeGeneral} required
+                                                                disabled={disableMode}></lightning-input>
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item padding="around-small" size="12"
+                                                            small-device-size={layoutSize.small}
+                                                            medium-device-size={layoutSize.medium}
+                                                            large-device-size={layoutSize.large}>
+                                                            <lightning-input type="text" name="lName"
+                                                                value={nom.appointee.lName} label="Last Name"
+                                                                data-recordid={nom.id}
+                                                                onchange={inputChangeAppointeeGeneral} required
+                                                                disabled={disableMode}></lightning-input>
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item padding="around-small" size="12"
+                                                            small-device-size={layoutSize.small}
+                                                            medium-device-size={layoutSize.medium}
+                                                            large-device-size={layoutSize.large}>
+                                                            <lightning-combobox name="gender" type="combobox"
+                                                                value={nom.appointee.gender} label="Gender"
+                                                                data-recordid={nom.id}
+                                                                onchange={inputChangeAppointeeGeneral}
+                                                                options={optonGender}
+                                                                disabled={disableMode}></lightning-combobox>
+
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item padding="around-small" size="12"
+                                                            small-device-size={layoutSize.small}
+                                                            medium-device-size={layoutSize.medium}
+                                                            large-device-size={layoutSize.large}>
+                                                            <lightning-input type="date" name="dateOfBirth"
+                                                                value={nom.appointee.dateOfBirth} label="Date Of Birth"
+                                                                data-recordid={nom.id} max={majorAgeDate}
+                                                                onchange={inputChangeAppointeeGeneral} required
+                                                                disabled={disableMode}></lightning-input>
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item padding="around-small" size="12"
+                                                            small-device-size={layoutSize.small}
+                                                            medium-device-size={layoutSize.medium}
+                                                            large-device-size={layoutSize.large}>
+                                                            <lightning-combobox name="relation"
+                                                                label="Relationship to Life Assured"
+                                                                value={nom.appointee.relation} options={relationOptions}
+                                                                data-recordid={nom.id} type="combobox"
+                                                                onchange={inputChangeAppointeeGeneral} required
+                                                                disabled={disableMode}></lightning-combobox>
+
+                                                        </lightning-layout-item>
+
+                                                        <lightning-layout-item padding="around-small" size="12"
+                                                            small-device-size={layoutSize.small}
+                                                            medium-device-size={layoutSize.medium}
+                                                            large-device-size={layoutSize.large}>
+                                                            <lightning-input type="text" name="hNo"
+                                                                value={nom.appointee.hNo} label="House/Flat"
+                                                                data-recordid={nom.id}
+                                                                onchange={inputChangeAppointeeGeneral} required
+                                                                disabled={disableMode}></lightning-input>
+                                                        </lightning-layout-item>
+
+                                                        <lightning-layout-item padding="around-small" size="12"
+                                                            small-device-size={layoutSize.small}
+                                                            medium-device-size={layoutSize.medium}
+                                                            large-device-size={layoutSize.large}>
+                                                            <lightning-input type="text" name="street"
+                                                                value={nom.appointee.street} label="Street"
+                                                                data-recordid={nom.id}
+                                                                onchange={inputChangeAppointeeGeneral} required
+                                                                disabled={disableMode}></lightning-input>
+
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item padding="around-small" size="12"
+                                                            small-device-size={layoutSize.small}
+                                                            medium-device-size={layoutSize.medium}
+                                                            large-device-size={layoutSize.large}>
+
+                                                            <lightning-input type="text" name="area"
+                                                                value={nom.appointee.area} label="Area"
+                                                                data-recordid={nom.id}
+                                                                onchange={inputChangeAppointeeGeneral} required
+                                                                disabled={disableMode}></lightning-input>
+
+                                                            <!-- filter-condn={filterConditionPin}    disabled={disAddressFlag}-->
+                                                        </lightning-layout-item>
+
+                                                        <lightning-layout-item padding="around-small" size="12"
+                                                            small-device-size={layoutSize.small}
+                                                            medium-device-size={layoutSize.medium}
+                                                            large-device-size={layoutSize.large}>
+                                                            <c-custom-lookup label="Pincode" field-name='pincode'
+                                                                object-api-name='PincodeMstr__c' field-api-name='PIN__c'
+                                                                selected-record-name={nom.appointee.pincode}
+                                                                selected-record-id={nom.appointee.pincode}
+                                                                data-recordid={nom.id} data-recordtype='general'
+                                                                data-isappointee='Yes' required=true
+                                                                onselect={handleValueSelect}></c-custom-lookup>
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item padding="around-small" size="12"
+                                                            small-device-size={layoutSize.small}
+                                                            medium-device-size={layoutSize.medium}
+                                                            large-device-size={layoutSize.large}>
+                                                            <lightning-input type="text" name="city"
+                                                                value={nom.appointee.city} label="City"
+                                                                data-recordid={nom.id}
+                                                                onchange={inputChangeAppointeeGeneral} required
+                                                                disabled></lightning-input>
+
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item padding="around-small" size="12"
+                                                            small-device-size={layoutSize.small}
+                                                            medium-device-size={layoutSize.medium}
+                                                            large-device-size={layoutSize.large}>
+                                                            <lightning-input type="text" name="state"
+                                                                value={nom.appointee.state} label="State"
+                                                                data-recordid={nom.id}
+                                                                onchange={inputChangeAppointeeGeneral} required
+                                                                disabled></lightning-input>
+
+                                                        </lightning-layout-item>
+
+                                                    </lightning-layout>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </template>
+                                </template>
+
+                            </template>
+
+                            <lightning-layout>
+                                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+
+                                    <template if:false={hideUploadForGeneral}> </template>
+                                    <c-file-upload-custom-comp-ref-id variant="" label="Upload General Insurance form"
+                                        record-id={generalInsDocDetId} allowed-fil-format={acceptedFormats}
+                                        file-size-msz={fileUploadMsz} disable-mode={disablepFileUpload}
+                                        allow-multiple={alowMultiple} onpasstoparent={fileUploadFinish}
+                                        hide-attach-button={disableMode}
+                                        onspinnerstatus={spinnerStatus}></c-file-upload-custom-comp-ref-id>
+
+                                    <div if:true={hideUploadForGeneral} class="slds-p-top_x-large">
+                                        <lightning-layout multiple-rows="true">
+                                            <lightning-layout-item size="12">
+                                                <template for:each={uploadedDocDetailGeneralIns} for:item="doc">
+                                                    <div key={doc.cdlId}>
+                                                        <lightning-layout multiple-rows="false">
+                                                            <lightning-layout-item size="8">
+                                                                {doc.fileTitle}
+                                                            </lightning-layout-item>
+
+                                                            <lightning-layout-item padding="around-small" size="2">
+                                                                <lightning-icon class="custom-button" name={doc}
+                                                                    data-documentid={doc.cdId}
+                                                                    icon-name="action:preview"
+                                                                    alternative-text="preview" size="xx-small"
+                                                                    title="preview"
+                                                                    onclick={filePreview}></lightning-icon>
+                                                            </lightning-layout-item>
+                                                            <lightning-layout-item padding="around-small" size="2">
+                                                                <lightning-icon class="custom-button " name={doc}
+                                                                    data-documentid={doc.cdId}
+                                                                    icon-name="utility:delete" alternative-text="delete"
+                                                                    variant="error" size="small" title="delete"
+                                                                    onclick={deleteFile}></lightning-icon>
+                                                            </lightning-layout-item>
+                                                        </lightning-layout>
+                                                    </div>
+                                                </template>
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+
+                                    </div>
+                                    <!--  onrefreshdoctable={fromUploadDocsContainer}
+                                    onspinnerstatus={spinnerStatus}  -->
+
+                                </lightning-layout-item>
+                            </lightning-layout>
+
+                        </lightning-accordion-section>
+                    </template>
+                </lightning-accordion>
+            </lightning-layout-item>
+        </lightning-layout>
+    </template>
+
+
+
+
+
+
+
+
+    <template if:true={showModalForFilePre}>
+        <c-i-frame-preview image-type-file-url={imageTypeFileUrl} cont-doc-type={filePrevDet.fileType}
+            cont-doc-id={filePrevDet.cdId} url={url} cv-id={filePrevDet.cvId}
+            onclosepreview={handleCloseModalEvent}></c-i-frame-preview>
+    </template>
+
+    <template if:true={isModalOpen}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="my-modal slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Delete?</h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p style="text-align:center;"><b>{removeModalMessage}</b></p>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_brand" disabled={disablepFileUpload}
+                        onclick={handleRemoveRecord} title="Yes">Yes</button>
+                    <button class="slds-button slds-button_neutral" onclick={closeModal} title="No">No</button>
+                    
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+</template>

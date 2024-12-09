@@ -1,0 +1,81 @@
+<apex:component Controller="LODFormController" access="global">
+     
+     <html>
+        
+        <head>
+            <style>
+                .table1 tr,td{
+                width:15px;
+                }
+            </style>
+        </head>
+    </html>
+    <body >
+         <div style="text-align:right;padding-right:10px">
+                	    <img id="tickbox" src="{!$Resource.FedBankLogo2}" height="40px" width="90px"/>
+                    </div>
+        <br/>
+        <div>
+			<p style="align:left;font-weight: bold">Date: {!CurrentDate}</p>	            
+        </div>
+        <br/>
+        <br/>
+        
+        <div style="font-family:Times New Roman;font-size:12px">
+               
+                Customer Name : <b><u>{!ApplicantName}</u></b> <br/><br/>
+             Customer Address : <b><u>{!ResidenceAddress}</u></b> <br/><br/>
+				Reference : <b><u> List of Documents - Loan Agreement Number {!FinnoneNumber}</u></b>				
+				<br/>
+                
+            </div>
+        <div style="font-family:Times New Roman;font-size:12px">
+                <br/>Dear Sir / Madam, <br/><br/>
+                With reference to the above mentioned Loan Agreement Number <b> <u>{!FinnoneNumber} </u></b> with
+				Fedbank Financial Services Limited we hereby confirm that we are in possession of following
+				documents:
+				<br/>
+                
+            </div>
+         <div style="font-family:Times New Roman;font-size:12px">
+                <br/><b><u>List of Document Submitted:</u></b><br/>              
+                
+            </div>
+        <br/>
+        <div>
+            <table style = "font-family: Verdana, Helvetica, Arial, sans-serif;font-size: 8px;border: 1px solid black;border-collapse: collapse;page-break-inside:avoid;page-break-before:avoid">
+                    <tr>
+                        <th style="width:15%;">Document Name</th>
+                        <th style="width:15%;">Description of the Document</th>
+                        <th style="width:10%;">Original/Photocopy</th>  
+                        
+                        
+                    </tr>
+                    <apex:repeat var="Doc" value="{!DocList}">
+                        <tr>
+                            <td style="width:15%;">{!Doc.DOCName}</td>
+                            <td style="width:15%;">{!Doc.Description}</td>
+                            <td style="width:10%;">{!Doc.OriginalPhoto}</td>
+                            
+                            
+                        </tr>
+                    </apex:repeat>
+                </table>
+        </div>
+        <br/>
+        <div style="font-family:Times New Roman;font-size:12px">
+            <b>This is a system generated document and do not required any signature.</b> <br/><br/>
+            
+								
+				<br/>
+                
+            </div>
+        
+        
+        <apex:outputPanel id="panelHeaderFooter" styleClass="footer_right" layout="block">
+            <p > <b>Registered &amp; Corporate Office:</b> Unit No.1101, 11th Floor, Cignus, Plot No. 71A,Powai, Paspoli, Mumbai - 400 087, Maharashtra<br/>
+                &bull;&nbsp;<b>Tel:</b> 022 68520601 &bull;&nbsp;<b>E-mail:</b> customercare@fedfina.com &bull;&nbsp;<b>web:</b> www.fedfina.com &bull;&nbsp;<b>CIN:</b> L65910MH1995PLC364635
+ </p>
+    </apex:outputPanel>
+    </body>
+</apex:component>

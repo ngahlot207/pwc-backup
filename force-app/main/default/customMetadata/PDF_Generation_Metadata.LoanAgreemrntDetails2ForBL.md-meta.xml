@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>LoanAgreemrntDetails2ForBL</label>
+    <protected>false</protected>
+    <values>
+        <field>Content_Order__c</field>
+        <value xsi:type="xsd:double">3.0</value>
+    </values>
+    <values>
+        <field>Content__c</field>
+        <value xsi:type="xsd:string">&lt;div style=&quot;font-family:Times New Roman;font-size:12px&quot;&gt;
+           , (hereinafter referred to as
+&lt;b&gt;“the Lender”&lt;/b&gt; or &lt;b&gt;“Fedfina”&lt;/b&gt; which expression shall, unless it be repugnant to the context or meaning thereof,
+            be deemed to mean and include its successors, and permitted assigns) of the One part;&lt;br/&gt;&lt;br/&gt;
+&lt;b&gt;And&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;
+The Borrower(s) whose name and address are stated in Schedule hereunder written and include Co -
+Borrower(s) as per the Schedule, hereinafter called &lt;b&gt;“the Borrower”&lt;/b&gt; (which expression shall unless the context
+otherwise requires, include his heirs, executors, administrators, successors, assigns) of the Other Part.&lt;br/&gt;&lt;br/&gt;
+Fedfina and Borrower are hereinafter collectively referred to as &lt;b&gt;‘Parties’&lt;/b&gt; and individually as &lt;b&gt;‘Party’&lt;/b&gt;.&lt;br/&gt;&lt;br/&gt;
+
+At the request of the Borrower, Fedfina has agreed to sanction/grant a Business term Loan and/or Personal
+            term loan facility upto a maximum principal amount as mentioned in the First Schedule hereto (hereinafter
+            referred to as the &apos;Loan&apos;) to the Borrower on the terms and conditions mutually agreed and contained herein
+            for the purpose as mentioned in the Application Form in one lumpsum or in such instalments as Fedfina may
+            deem fit at its sole and absolute discretion &lt;br/&gt;&lt;br/&gt;
+
+NOW THIS AGREEMENT WITNESSETH AS FOLLOWS:&lt;br/&gt;&lt;br/&gt;
+        &lt;/div&gt;&lt;br/&gt;</value>
+    </values>
+    <values>
+        <field>Document_Type__c</field>
+        <value xsi:type="xsd:string">Loan Agreement for BL/PL</value>
+    </values>
+    <values>
+        <field>Page_Number__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Product_Type__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Region_Picklist__c</field>
+        <value xsi:type="xsd:string">Content</value>
+    </values>
+    <values>
+        <field>Static_Resource_Name__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

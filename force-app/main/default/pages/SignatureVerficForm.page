@@ -1,0 +1,93 @@
+<apex:page renderAs="pdf" showHeader="false" applyHtmlTag="false" controller="SignatureVerficationController">
+    <html>
+        <head>
+            <style>
+        .header {
+            background-color: #d1e8ff;
+            text-align: center;
+            font-size: 10px;
+            padding: 5px;
+        }
+        .title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 14px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .content {
+            margin-left: 20px;
+            margin-right: 20px;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .table, .table th, .table td {
+            border: 1px solid black;
+            padding: 5px;
+            text-align: left;
+        }
+        .signature-line {
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .footer {
+            margin-top: 10px;
+        }
+    </style>
+        </head>
+        <body>
+             <div style="text-align: right; font-size:12px">
+                {!CurrentDateTime1}
+            </div>
+           <div class="header">
+        <p>This is a computer-generated document. If a physical document is required, same can be generated and printed – Not mandatory to be printed. Formats can be updated by Fedfina IT team (Format change option).</p>
+    </div>
+
+    <!-- Title Section -->
+    <div class="title">
+        Signature Verification
+    </div>
+
+    <!-- Content Section -->
+    <div class="content">
+        <p>Date: ___________________</p>
+
+        <p>To,</p>
+        <p>The Manager<br/>
+        &lt;Bank Name&gt;<br/>
+        &lt;Bank Branch&gt;</p>
+
+        <p>Sir/Madam,</p>
+
+        <p><b>Subject:</b> Signature Verification</p>
+
+        <p>I/We are having below mentioned account with your Bank. I/We request you to kindly verify the below mentioned signature of the account holder.</p>
+
+        <!-- Account Information Table -->
+        <table class="table">
+            <tr>
+                <th>Name of the Account Holder</th>
+                <td>&lt;Account Holder Name&gt;</td>
+            </tr>
+            <tr>
+                <th>A/c Type</th>
+                <td>Savings/Current/CC/OD</td>
+            </tr>
+            <tr>
+                <th>A/c No</th>
+                <td>&lt;Account Number&gt;</td>
+            </tr>
+        </table>
+
+        <p class="signature-line">Signature of Account Holder: ___________________________</p>
+
+        <p class="footer">Bank’s Authorised Signatory verifying the signature</p>
+    </div> 
+        </body>
+    </html>
+</apex:page>

@@ -1,0 +1,573 @@
+<apex:component controller="DisbursmentMemoController">
+    <html>
+        <body>
+             
+            <table style="width:100%;" border="1">
+                <tr style="border: 0.5px solid black;">
+                    <th >
+                        <img style="height: 35px;align:center;margin-left: 28px;" src="/resource/SanctionLetter_FedBankLogo"/>
+                    </th> 
+                    <th >
+                        <h4 style="margin-right:130px;text-align:right; font-family:calibiri;font-weight: bold;font-size:20px">DISBURSEMENT MEMO</h4>
+                    </th>                   
+                </tr>
+            </table>
+            
+            <p>
+                User:{!currentUserName}<br/>
+                Date Time:{!todaysDate}
+            </p>
+            <apex:outputPanel rendered="{!ProductType}">
+            <table border="1" style="width:100%;">
+                <tr>
+                    <th style="width:15%; font-weight: bold; font-size:12px; background:#d9d9d9;">App Id</th>
+                    <th style="width:25%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['Name']}</th>
+                    <th style="width:15%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Date</th>
+                    <th style="width:45%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['Date']}</th>
+                </tr>
+                <tr>
+                    <th style="width:15%; font-weight: bold; font-size:12px; background:#d9d9d9;">Disbursal Date</th>
+                    <th style="width:25%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['Disbursal Date']}</th>
+                    <th style="width:15%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Product</th>
+                    <th style="width:45%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['Product']}</th>
+                </tr>
+                <tr>
+                    <th style="width:15%; font-weight: bold; font-size:12px; background:#d9d9d9;">Channel Name</th>
+                    <th style="width:25%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['Channel Name']}</th>
+                    <th style="width:15%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Scheme Code</th>
+                    <th style="width:45%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['Scheme Code']}</th>
+                </tr>
+                <tr>
+                    <th style="width:15%; font-weight: bold; font-size:12px; background:#d9d9d9;">PSL</th>
+                    <th style="width:25%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['PSL']}</th>
+                    <th style="width:15%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Linked Loans</th>
+                    <!--th style="width:45%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['Linked Loans']}</th-->
+                    <th style="width:45%; font-weight: 100;  font-size:12px;"><apex:outputText value="{!loanApplicationValues['Linked Loans']}" escape="false" /></th>
+                </tr>
+                <tr>
+                    <th style="width:15%; font-weight: bold; font-size:12px; background:#d9d9d9;">Category</th>
+                    <th style="width:25%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['Category']}</th>
+                    <th style="width:15%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Installment Type</th>
+                    <th style="width:45%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['Installment Type']}</th>
+                </tr>
+                <tr>
+                    <th style="width:15%; font-weight: bold; font-size:12px; background:#d9d9d9;">Line of Business</th>
+                    <th style="width:25%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['Line of Business']}</th>
+                    <th style="width:15%; font-weight: bold;  font-size:12px;background:#d9d9d9;">EMI</th>
+                    <th style="width:45%; font-weight: 100;  font-size:12px;">Rs. {!loanApplicationValues['EMI']}/-</th>
+                </tr>
+                <tr>
+                    <th style="width:15%; font-weight: bold; font-size:12px; background:#d9d9d9;">Spread</th>
+                    <th style="width:25%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['Spread']}</th>
+                    <th style="width:15%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Loan Amount</th>
+                    <th style="width:45%; font-weight: 100;  font-size:12px;">Rs. {!loanApplicationValues['Loan Amount']}/-</th>
+                </tr>
+                <tr>
+                    <th style="width:15%; font-weight: bold; font-size:12px; background:#d9d9d9;">PLR</th>
+                    <th style="width:25%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['PLR']}</th>
+                    <th style="width:15%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Interest Start date</th>
+                    <th style="width:45%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['Interest Date']}</th>
+                </tr>
+                <tr>
+                    <th style="width:15%; font-weight: bold; font-size:12px; background:#d9d9d9;">ROI</th>
+                    <th style="width:25%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['ROI']}%</th>
+                    <th style="width:15%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Tenor</th>
+                    <th style="width:45%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['Tenor']}</th>
+                </tr>
+                
+                <tr>
+                    <th style="width:15%; font-weight: bold; font-size:12px; background:#d9d9d9;">EMI Start Date</th>
+                    <th style="width:25%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['EMI Start Date']}</th>
+                    <th style="width:15%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Disbursement Amount</th>
+                    <th style="width:45%; font-weight: 100;  font-size:12px;">Rs. {!loanApplicationValues['Disbursement Amount']}/-</th>
+                </tr>
+                <tr>
+                    <th style="width:15%; font-weight: bold; font-size:12px; background:#d9d9d9;">LTV with Insurance</th>
+                    <th style="width:25%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['LTV without Insurance']}%</th>
+                    <th style="width:15%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Branch Name</th>
+                    <th style="width:45%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['Branch Name']}</th>
+                </tr>
+                
+            </table>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!NOT(ProductType)}">
+            <table border="1" style="width:100%;">
+                <tr>
+                    <th style="width:15%; font-weight: bold; font-size:12px; background:#d9d9d9;">App Id</th>
+                    <th style="width:25%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['Name']}</th>
+                    <th style="width:15%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Branch Name</th>
+                    <th style="width:45%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['Branch Name']}</th>
+                    
+                </tr>
+                <tr>
+                    <th style="width:15%; font-weight: bold; font-size:12px; background:#d9d9d9;">Disbursal Date</th>
+                    <th style="width:25%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['Disbursal Date']}</th>
+                    <th style="width:15%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Product</th>
+                    <th style="width:45%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['Product']}</th>
+                </tr>
+                <tr>
+                    <th style="width:15%; font-weight: bold; font-size:12px; background:#d9d9d9;">Channel Name</th>
+                    <th style="width:25%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['Channel Name']}</th>
+                    <th style="width:15%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Scheme Code</th>
+                    <th style="width:45%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['Scheme Code']}</th>
+                </tr>
+                <tr>
+                    <th style="width:15%; font-weight: bold; font-size:12px; background:#d9d9d9;">MSME Classification</th>
+                    <th style="width:25%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['MSME']}</th>
+                    <th style="width:15%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Linked Loans</th>
+                    <!--th style="width:45%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['Linked Loans']}</th-->
+                    <th style="width:45%; font-weight: 100;  font-size:12px;"><apex:outputText value="{!loanApplicationValues['Linked Loans']}" escape="false" /></th>
+                </tr>
+                <tr>
+                   
+                    <th style="width:15%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Installment Type</th>
+                    <th style="width:45%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['Installment Type']}</th>
+                    <th style="width:15%; font-weight: bold; font-size:12px; background:#d9d9d9;">Line of Business</th>
+                    <th style="width:25%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['Line of Business']}</th>
+                </tr>
+                <tr>
+                     <th style="width:15%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Loan Amount</th>
+                    <th style="width:45%; font-weight: 100;  font-size:12px;">Rs. {!loanApplicationValues['Loan Amount']}/-</th>
+                    <th style="width:15%; font-weight: bold;  font-size:12px;background:#d9d9d9;">EMI</th>
+                    <th style="width:45%; font-weight: 100;  font-size:12px;">Rs. {!loanApplicationValues['EMI']}/-</th>
+                </tr>
+                <tr>
+                    <th style="width:15%; font-weight: bold; font-size:12px; background:#d9d9d9;">ROI</th>
+                    <th style="width:25%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['ROI']}%</th>
+                    <th style="width:15%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Tenor</th>
+                    <th style="width:45%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['Tenor']}</th>
+                </tr>
+                
+                <apex:outputPanel rendered="{!isFloating}">
+                    <table border="1" style="width:100%;">
+                <tr>
+                    <th style="width:15%; font-weight: bold; font-size:12px; background:#d9d9d9;">Spread</th>
+                    <th style="width:45%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['Spread']}</th>
+                     <th style="width:15%; font-weight: bold; font-size:12px; background:#d9d9d9;">PLR</th>
+                    <th style="width:45%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['PLR']}</th>
+                </tr>
+                    </table>
+                </apex:outputPanel>
+                <table border="1" style="width:100%;">
+                <tr>
+                    <th style="width:15%; font-weight: bold; font-size:12px; background:#d9d9d9;">EMI Start Date</th>
+                    <th style="width:25%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['EMI Start Date']}</th>
+                   
+                    <th style="width:15%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Interest Start date</th>
+                    <th style="width:45%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['Interest Date']}</th>
+                </tr>
+                
+                
+                <tr>
+                    
+                    <th style="width:15%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Disbursement Amount</th>
+                    <th style="width:45%; font-weight: 100;  font-size:12px;">Rs. {!loanApplicationValues['Disbursement Amount']}/-</th>
+                    <th style="width:15%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Topup / Parallel </th>
+                    <th style="width:45%; font-weight: 100;  font-size:12px;">Rs. {!loanApplicationValues['Disbursement Amount']}/-</th>
+                </tr>
+                
+                </table>
+            </table>
+            </apex:outputPanel>
+            <p style="font-size:18px">
+                <b>Customer Details</b>
+            </p>
+            <apex:outputPanel rendered="{!ProductType}">
+            <table border="1" style="width:100%;">
+                <tr>
+                    <th style="width:20%; font-weight: bold; font-size:12px; background:#d9d9d9;">Customer Name</th>
+                    <th style="width:20%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Applicant Type</th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Age</th>
+                    <th style="width:20%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Constitution</th>
+                    <th style="width:30%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Property Owner</th>
+                </tr>
+                
+                <apex:repeat value="{!customerList}" var="cw" >
+                    <tr>
+                        <td style="widtd:20%; font-weight: 100; font-size:12px; ">{!cw.Name}</td>
+                        <td style="widtd:20%; font-weight: 100;  font-size:12px;">{!cw.type}</td>
+                        <td style="widtd:10%; font-weight: 100;  font-size:12px;">{!cw.age}</td>
+                        <td style="widtd:20%; font-weight: 100;  font-size:12px;">{!cw.Constitution}</td>
+                        <td style="widtd:30%; font-weight: 100;  font-size:12px;">{!cw.propertyowner}</td>
+                        
+                    </tr>
+                    
+                </apex:repeat>
+                
+            </table>
+            </apex:outputPanel>
+            
+            <apex:outputPanel rendered="{!NOT(ProductType)}">
+            <table border="1" style="width:100%;">
+                <tr>
+                    <th style="width:20%; font-weight: bold; font-size:12px; background:#d9d9d9;">Customer Name</th>
+                    <th style="width:20%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Applicant Type</th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Age</th>
+                    <th style="width:20%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Constitution</th>
+                    
+                </tr>
+                
+                <apex:repeat value="{!customerList}" var="cw" >
+                    <tr>
+                        <td style="widtd:20%; font-weight: 100; font-size:12px; ">{!cw.Name}</td>
+                        <td style="widtd:20%; font-weight: 100;  font-size:12px;">{!cw.type}</td>
+                        <td style="widtd:10%; font-weight: 100;  font-size:12px;">{!cw.age}</td>
+                        <td style="widtd:20%; font-weight: 100;  font-size:12px;">{!cw.Constitution}</td>
+                        
+                        
+                    </tr>
+                    
+                </apex:repeat>
+                
+            </table>
+            </apex:outputPanel>
+            
+            <p style="font-size:18px">
+                <b>Mailing Address</b>
+            </p>
+            
+            <table border="1" style="width:100%;">
+                <tr>
+                    <th style="width:15%; font-weight: bold; font-size:12px; background:#d9d9d9;">House No</th>
+                    <th style="width:15%; font-weight: bold; font-size:12px; background:#d9d9d9;">Address 1</th>
+                    <th style="width:15%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Address 2</th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">City</th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">State</th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Zip Code</th>
+                    <th style="width:25%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Mobile</th>
+                </tr>
+                <tr>
+                    <td style="widtd:15%; font-weight: 100; font-size:12px; ">{!mailingAddress.HouseNo}</td>
+                    <td style="widtd:15%; font-weight: 100; font-size:12px; ">{!mailingAddress.AddrLine1}</td>
+                    <td style="widtd:15%; font-weight: 100;  font-size:12px;">{!mailingAddress.AddrLine2}</td>
+                    <td style="widtd:10%; font-weight: 100;  font-size:12px;">{!mailingAddress.City}</td>
+                    <td style="widtd:10%; font-weight: 100;  font-size:12px;">{!mailingAddress.State}</td>
+                    <td style="widtd:10%; font-weight: 100;  font-size:12px;">{!mailingAddress.Pincode}</td>
+                    <td style="widtd:25%; font-weight: 100;  font-size:12px;">{!mailingAddress.MobNumber}</td>
+                    
+                    
+                </tr>
+            </table>
+            
+            <p style="font-size:18px">
+                <b>Charge Details</b>
+            </p>
+            <table border="1" style="width:100%;">
+                <!--tr>
+                    <th style="width:20%; font-weight: bold; font-size:12px; background:#d9d9d9;">Processing Fees</th>
+                    <th style="width:80%; font-weight: 100;  font-size:12px;">{!loanApplicationValues['Processing Fees']}</th>
+                </tr>
+                <tr>
+                    <th style="width:20%; font-weight: bold; font-size:12px; background:#d9d9d9;">CERSAI Charges</th>
+                    <th style="width:80%; font-weight: 100;  font-size:12px;">{!chargeDetailsValues['CERSAI Charges']}</th>
+                </tr>
+                <tr>
+                    <th style="width:20%; font-weight: bold; font-size:12px; background:#d9d9d9;">PEMI</th>
+                    <th style="width:80%; font-weight: bold;  font-size:12px;">{!chargeDetailsValues['PEMI']}</th>
+                </tr>
+                <tr>
+                    <th style="width:20%; font-weight: bold; font-size:12px; background:#d9d9d9;">ROC Charges</th>
+                    <th style="width:80%; font-weight: bold;  font-size:12px;">{!chargeDetailsValues['ROC Charges']}</th>
+                </tr>
+                <tr>
+                    <th style="width:20%; font-weight: bold; font-size:12px; background:#d9d9d9;">Short Received to be deducted from Disbursement</th>
+                    <th style="width:80%; font-weight: bold;  font-size:12px;">{!chargeDetailsValues['Short Received']}</th>
+                </tr>
+                <tr>
+                    <th style="width:20%; font-weight: bold; font-size:12px; background:#d9d9d9;">Stamp Duty</th>
+                    <th style="width:80%; font-weight: bold;  font-size:12px;"></th>
+                </tr-->
+                <apex:repeat value="{!loanApplistforCERSAI}" var="lc">
+                    <tr>
+                        <th style="width:20%; font-weight: bold; font-size:12px; background:#d9d9d9;">{!lc.ChargeCodeDesc}</th>
+                        <!--th style="width:80%; font-weight: bold;  font-size:12px;">{!lc.EffeChrgeAmt__c}</th-->
+                        <th style="width:80%; font-weight: bold;  font-size:12px;"><apex:outputText value="{0, number, #,##,###,###}">
+                          <apex:param value="{!lc.EffectiveChargeAmount}" /></apex:outputText></th>
+                    </tr>
+                    
+                </apex:repeat>
+                <apex:outputPanel rendered="{!ProductType}">
+                    <table border="1" style="width:100%;">
+                <tr >
+                    <th  style="width:20%; font-weight: bold; font-size:12px; background:#d9d9d9; " >Total Initial Pay</th>
+                    <th  style="width:80%; font-weight: bold;  font-size:12px;">{!loanApplicationValues['Total Initial Pay']}</th>
+                    
+                </tr>
+                    </table>
+                </apex:outputPanel>
+                <table border="1" style="width:100%;">
+                <tr>
+                    <th style="width:20%; font-weight: bold; font-size:12px; background:#d9d9d9;">Insurance Funded</th>
+                    <th style="width:80%; font-weight: bold;  font-size:12px;">{!chargeDetailsValues['Insurance Funded']}</th>
+                </tr>
+                <tr>
+                    <th style="width:20%; font-weight: bold; font-size:12px; background:#d9d9d9;">Insurance Funded by Customer</th>
+                    <th style="width:80%; font-weight: bold;  font-size:12px;">{!chargeDetailsValues['Insurance Funded by Customer']}</th>
+                </tr>
+                </table>   
+                 
+            </table>
+            
+            <p style="font-size:18px">
+                <b>Disbursement Details</b>
+            </p>
+            <table border="1" style="width:100%;">
+                <tr>
+                    <th style="width:15%; font-weight: bold; font-size:12px; background:#d9d9d9;">Tranche Details</th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Favouring</th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Cheque/Transfer Amount</th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Disbursement Date</th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Bank Account</th>
+                    <th style="width:5%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Payable At</th>
+                    <th style="width:5%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Payment Mode</th>
+                    <!--th style="width:5%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Cheque No/UTR No.</th-->
+                    <th style="width:20%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Cheque Date/Transfer Date</th>
+                </tr>
+                <apex:repeat value="{!disbursmentWrapperList}" var="db" >
+                    <tr>
+                        <td style="widtd:15%; font-weight: 100; font-size:12px; ">{!db.TrancheDetails}</td>
+                        <td style="widtd:10%; font-weight: 100;  font-size:12px;">{!db.Favouring}</td>
+                        <td style="widtd:10%; font-weight: 100;  font-size:12px;">{!db.ChequeTransferAmount}</td>
+                        <td style="widtd:10%; font-weight: 100;  font-size:12px;">{!db.DisbursementDate}</td>
+                        
+                        <td style="widtd:10%; font-weight: 100;  font-size:12px;">{!db.BankAccount}</td>
+                        <td style="widtd:5%; font-weight: 100;  font-size:12px;">{!db.PayableAt}</td>
+                        <td style="widtd:5%; font-weight: 100;  font-size:12px;">{!db.PaymentMode}</td>
+                        <!--td style="widtd:5%; font-weight: 100;  font-size:12px;">{!db.ChequeNo}</td-->
+                        <td style="widtd:20%; font-weight: 100;  font-size:12px;">{!db.ChequeDate}</td>
+                    </tr>
+                </apex:repeat>
+            </table>
+            
+            
+            <p style="font-size:18px">
+                <b>Repayment Bank Details</b>
+            </p>
+            
+            <table border="1" style="width:100%;">
+                <tr>
+                    <th style="width:20%; font-weight: bold; font-size:12px; background:#d9d9d9;">Type of Repayment</th>
+                    <th style="width:20%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Customer Name</th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Bank Name</th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Branch </th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Account Type</th>
+                    <th style="width:30%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Account No</th>
+                </tr>
+                <apex:repeat value="{!repaymentList}" var="rp" >
+                    <tr>
+                        <td style="widtd:20%; font-weight: 100; font-size:12px; ">{!rp.Repayment_Mode__c}</td>
+                        <td style="widtd:20%; font-weight: 100;  font-size:12px;">{!rp.AccHolderName__c}</td>
+                        <td style="widtd:10%; font-weight: 100;  font-size:12px;">{!rp.Bank_Name__c}</td>
+                        <td style="widtd:10%; font-weight: 100;  font-size:12px;">{!rp.Bank_Branch__c}</td>
+                        <td style="widtd:10%; font-weight: 100;  font-size:12px;">{!accountType}</td>
+                        <td style="widtd:30%; font-weight: 100;  font-size:12px;">{!rp.Account_Number__c}</td>
+                    </tr>
+                    
+                </apex:repeat>
+                
+            </table>
+            
+            
+            <p style="font-size:18px">
+                <b>NACH Details</b>
+            </p>
+            
+            <table border="1" style="width:100%;">
+                <tr>
+                    <!--th style="width:15%; font-weight: bold; font-size:12px; background:#d9d9d9;">UMRN</th-->
+                    <th style="width:15%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Debit Account Type</th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">MICR</th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">NACH Amount</th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Frequency</th>
+                    <th style="width:5%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Debit Type</th>
+                    <th style="width:5%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Period From</th>
+                    <th style="width:5%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Period To</th>
+                    <!--th style="width:5%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Until Cancelled</th-->
+                    <!--th style="width:20%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Number of NACH Collected</th-->
+                </tr>
+                <apex:repeat value="{!NACHList}" var="nc" >
+                    <tr>
+                        <!--td style="widtd:15%; font-weight: 100; font-size:12px; ">{!nc.UMRN}</td-->
+                        <td style="widtd:15%; font-weight: 100;  font-size:12px;">{!nc.AccountType}</td>
+                        <td style="widtd:10%; font-weight: 100;  font-size:12px;">{!nc.MICRCode}</td>
+                        <!--td style="widtd:10%; font-weight: 100;  font-size:12px;">{!nc.AmountNumbers}</td-->
+                        <td style="widtd:10%; font-weight: 100;  font-size:12px;"><apex:outputText value="{0, number, #,##,###,###.##}">
+                          <apex:param value="{!nc.AmountNumbers}" /></apex:outputText></td>
+                        <td style="widtd:10%; font-weight: 100;  font-size:12px;">{!nc.Frequency}</td>
+                        <td style="widtd:5%; font-weight: 100;  font-size:12px;">{!nc.DebitType}</td>
+                        <td style="widtd:5%; font-weight: 100;  font-size:12px;">{!nc.FromDate}</td>
+                        <td style="widtd:5%; font-weight: 100;  font-size:12px;">{!nc.ToDate}</td>
+                        <!--td style="widtd:5%; font-weight: 100;  font-size:12px;"></td-->
+                        <!--td style="widtd:20%; font-weight: 100;  font-size:12px;"></td-->
+                    </tr>
+                    
+                </apex:repeat>
+                
+            </table>
+            
+            <p style="font-size:18px;">
+                <b>PDC/SPDC Details</b>
+            </p>
+            
+            <table border="1" style="width:100%;">
+                <tr>
+                    <th style="width:15%; font-weight: bold; font-size:12px; background:#d9d9d9;">Cheque Purpose</th>
+                    <th style="width:15%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Cheque From</th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Cheque To</th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Cheque No.</th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Cheque Amount</th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">PDC BY NAME</th>
+                    <th style="width:30%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Account No</th>
+                </tr>
+                <apex:repeat value="{!PDCList}" var="pd" >
+                    <tr>
+                        <td style="widtd:15%; font-weight: 100; font-size:12px; ">{!pd.ChequePurpose}</td>
+                          <td style="widtd:15%; font-weight: 100;  font-size:12px;">{!pd.ChequeNumberFrom}</td>
+                        <td style="widtd:10%; font-weight: 100;  font-size:12px;">{!pd.ChequeNumberTo}</td>
+                        <td style="widtd:10%; font-weight: 100;  font-size:12px;">{!pd.NoOfCheques}</td>
+                        <!--td style="widtd:10%; font-weight: 100;  font-size:12px;">{!pd.ChequeAmount}</td-->
+                        <td style="widtd:10%; font-weight: 100;  font-size:12px;"><apex:outputText value="{0, number, #,##,###,###.##}">
+                          <apex:param value="{!pd.ChequeAmount}" /></apex:outputText></td>
+                        <td style="widtd:10%; font-weight: 100;  font-size:12px;">{!pd.ApplicantFullName}</td>
+                        <td style="widtd:30%; font-weight: 100;  font-size:12px;">{!pd.AccountNo}</td>
+                        
+                    </tr>
+                    
+                </apex:repeat>
+                
+            </table>
+            <apex:outputPanel rendered="{!ProductType}">
+            <p style="font-size:18px">
+                <b>Details of FI PV</b>
+            </p>
+                <table border="1" style="width:100%;">
+                <tr>
+                    <th style="width:50%; font-weight: bold; font-size:12px; background:#d9d9d9;">Property Address</th>
+                    <th style="width:25%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Property Visit Officer</th>
+                    <th style="width:25%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Property Visit Status</th>
+                </tr>
+                <apex:repeat value="{!caseWrapperList}" var="pd" >
+                    <tr>
+                        <td style="widtd:50%; font-weight: 100; font-size:12px; ">{!pd.PropAddrs}</td>
+                        <td style="widtd:25%; font-weight: 100;  font-size:12px;">{!pd.NameofCredOfficer}</td>
+                        <td style="widtd:25%; font-weight: 100;  font-size:12px;">{!pd.Property_Visit_Final_Status}</td>
+                    </tr>
+                    
+                </apex:repeat>
+                
+            </table>
+            
+            
+            <p style="font-size:18px">
+                <b>PROPERTY COST</b>
+            </p>
+            <table border="1" style="width:100%;">
+                <tr>
+                    <th style="width:30%; font-weight: bold; font-size:12px; background:#d9d9d9;">Property Address</th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Technical Valuation 1</th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Technical Valuation 2</th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Technical Valuation 3</th>
+                    <th style="width:20%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Land Value</th>
+                    <th style="width:20%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Total Property Cost</th>
+                </tr>
+                <apex:repeat value="{!propertyWrapperList}" var="pl" >
+                    <tr>
+                        <td style="widtd:30%; font-weight: 100; font-size:10px; ">{!pl.PropAddr}</td>
+                        <td style="widtd:10%; font-weight: 100;  font-size:12px;">{!pl.technical1}</td>
+                        <td style="widtd:10%; font-weight: 100;  font-size:12px;">{!pl.technical2}</td>
+                        <td style="widtd:10%; font-weight: 100;  font-size:12px;">{!pl.technical3}</td>
+                        <td style="widtd:20%; font-weight: 100;  font-size:12px;">{!pl.LandValue}</td>
+                        <td style="widtd:20%; font-weight: 100;  font-size:12px;">{!pl.AgremValue}</td>
+                    </tr>
+                </apex:repeat>
+                
+                
+                
+            </table>
+            
+            <table border="1" style="width:100%; margin-top:20px;">
+                <tr>
+                    <th style="width:10%; font-weight: bold; font-size:12px; background:#d9d9d9;">Property Address</th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Total estimate as per architect/agreement</th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Registered agreement value</th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Stamp Duty</th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Amenities (As permitted by Policy)</th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Others (Please Specify)</th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Total Valuation amount</th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Valuation(₹) to be taken ahead for calculation </th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">LTV %</th>
+                </tr>
+                <apex:repeat value="{!propertyWrapperList}" var="pt" >
+                    <tr>
+                        
+                        
+                        <td style="width:10%; font-weight: 100; font-size:8px; ">{!pt.PropAddr}</td>
+                        <td style=" font-weight: 100;  font-size:8px;">{!pt.ApproxValue}</td>
+                        <td style=" font-weight: 100;  font-size:8px;">{!pt.AgremValue}</td>
+                        <td style=" font-weight: 100;  font-size:8px;">{!pt.StampDuty}</td>
+                        <td style=" font-weight: 100;  font-size:8px;">{!pt.Amenities}</td>
+                        <td style=" font-weight: 100;  font-size:8px;"></td>
+                        <td style=" font-weight: 100;  font-size:8px;">{!pt.TotalValue}</td>
+                        <td style=" font-weight: 100;  font-size:8px;">{!pt.ValuetoBetaken}</td>
+                        <td style=" font-weight: 100;  font-size:8px;">{!loanApplicationValues['LTV without Insurance']}%</td>
+                    </tr>
+                </apex:repeat>
+            </table>
+            
+             </apex:outputPanel>
+            <!--<p style="font-size:18px">
+                <b>Disbursement Maker</b>
+            </p>
+            <table border="1" style="width:100%;">
+                <tr>
+                    <th style="width:20%; font-weight: bold; font-size:12px; background:#d9d9d9;">Name</th>
+                    <th style="width:80%; font-weight: 100;  font-size:12px;">{!currentUserName}</th>
+                </tr>
+                <tr>
+                    <th style="width:20%; font-weight: bold; font-size:12px; background:#d9d9d9;">Signature</th>
+                    <th style="width:80%; font-weight: bold;  font-size:12px;"></th>
+                </tr>
+            </table>-->
+            
+            <!--<p style="font-size:18px">
+                <b>Disbursement Checker</b>
+            </p>
+            <table border="1" style="width:100%;">
+                <tr>
+                    <th style="width:20%; font-weight: bold; font-size:12px; background:#d9d9d9;">Name</th>
+                    <th style="width:80%; font-weight: bold;  font-size:12px;"></th>
+                </tr>
+                <tr>
+                    <th style="width:20%; font-weight: bold; font-size:12px; background:#d9d9d9;">Signature</th>
+                    <th style="width:80%; font-weight: bold;  font-size:12px;"></th>
+                </tr>
+            </table>-->
+            
+            <p style="font-size:18px">
+                <b>OTC/PDD</b>
+            </p>
+            
+            <table border="1" style="width:100%;">
+                <tr>
+                    <th style="width:20%; font-weight: bold; font-size:12px; background:#d9d9d9;">Document Type</th>
+                    <th style="width:20%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Document Name</th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Document Status</th>
+                    <th style="width:10%; font-weight: bold;  font-size:12px;background:#d9d9d9;">Approval Level </th>
+                    
+                </tr>
+                <apex:repeat value="{!DocList}" var="dl" >
+                    <tr>
+                        <td style="widtd:20%; font-weight: 100; font-size:12px; ">{!dl.Description}</td>
+                        <td style="widtd:20%; font-weight: 100;  font-size:12px;">{!dl.DOCName}</td>
+                        <td style="widtd:10%; font-weight: 100;  font-size:12px;">{!dl.Status}</td>
+                        <td style="widtd:10%; font-weight: 100;  font-size:12px;">{!dl.ApprovalLevel}</td>
+                        
+                    </tr>
+                    
+                </apex:repeat>
+                
+            </table>
+            
+        </body>
+    </html>
+</apex:component>

@@ -1,0 +1,740 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+        <lightning-card>
+                  <lightning-layout multiple-rows="12">
+                    <lightning-layout-item 
+                       
+                    size="12"
+                small-device-size= "12"
+                   medium-device-size="12"
+                   large-device-size="12"
+                  >
+                  <div class="slds-align_absolute-left slds-text-heading_medium slds-p-around_x-small" >Applicant Details</div>  
+                
+                </lightning-layout-item>
+                    <lightning-layout-item lwc:if={accountName}  
+                        size="12"
+                       small-device-size= "12"
+                       medium-device-size="6"
+                       large-device-size="3"
+                      >
+                        <div class="slds-p-around_x-small">
+                          <lightning-input
+                          type="text"
+                          value={accountName}
+                          label="FI Agency"
+                          data-name="AccountId"
+                          required=true
+                          onchange={handleInputChange}
+                          disabled
+                        ></lightning-input>
+                        </div>
+                      </lightning-layout-item>
+                      <lightning-layout-item lwc:else
+                       
+                      size="12"
+                  small-device-size= "12"
+                     medium-device-size="6"
+                     large-device-size="3"
+                    >
+                      <div class="slds-p-around_x-small">
+                        <lightning-input
+                        type="text"
+                        value=""
+                        label="FI Agency"
+                        data-name="AccountId"
+                        required=true
+                        onchange={handleInputChange}
+                        disabled
+                      ></lightning-input>
+                      </div>
+                    </lightning-layout-item>
+                
+                      <lightning-layout-item lwc:if={appName}
+                       
+                        size="12"
+                        small-device-size= "12"
+                       medium-device-size="6"
+                       large-device-size="3"
+                      >
+                        <div class="slds-p-around_x-small">
+                            <lightning-input
+                            type="text"
+                            value={appName}
+                            data-name="Applicant__c"
+                            label="Name"
+                            required="true"
+                            onchange={handleInputChange}
+                            disabled
+                          ></lightning-input>
+                        </div>
+                      </lightning-layout-item>
+                      <lightning-layout-item lwc:else
+                       
+                      size="12"
+                      small-device-size= "12"
+                     medium-device-size="6"
+                     large-device-size="3"
+                    >
+                      <div class="slds-p-around_x-small">
+                          <lightning-input
+                          type="text"
+                          value=""
+                          data-name="Applicant__c"
+                          label="Name"
+                          required="true"
+                          onchange={handleInputChange}
+                          disabled
+                        ></lightning-input>
+                      </div>
+                    </lightning-layout-item>
+                
+                      <lightning-layout-item
+                       
+                        size="12"
+                        small-device-size= "12"
+                       medium-device-size="6"
+                       large-device-size="3"
+                      >
+                        <div class="slds-p-around_x-small">
+                          <lightning-input
+                            type="text"
+                            value={caseWrp.Address_Type__c}
+                            data-name="Address_Type__c"
+                            label="Type of Address"
+                            required="true"
+                            onchange={handleInputChange}
+                            disabled
+                          ></lightning-input>
+                        </div>
+                      </lightning-layout-item>
+                
+                      <lightning-layout-item
+                       
+                        size="12"
+                        small-device-size= "12"
+                       medium-device-size="6"
+                       large-device-size="3"
+                      >
+                        <div class="slds-p-around_x-small">
+                          <lightning-input
+                            type="text"
+                            value={address}
+                            onchange={handleInputChange}
+                            label="Address"
+                            required=true
+                            disabled
+                          ></lightning-input>
+                        </div>
+                      </lightning-layout-item>
+                
+                      <lightning-layout-item
+                       
+                        size="12"
+                        small-device-size= "12"
+                        medium-device-size="6"
+                        large-device-size="3"
+                      >
+                        <div class="slds-p-around_x-small">
+                          <lightning-input
+                            type="tel"
+                            value={appPhone}
+                            onchange={handleInputChange}
+                            data-name="PhoneNoOfBorrower__c"
+                            label="Phone No of Borrower"
+                            disabled
+                          ></lightning-input>
+                        </div>
+                      </lightning-layout-item>
+                
+                      <lightning-layout-item
+                       
+                        size="12"
+                        small-device-size= "12"
+                        medium-device-size="6"
+                        large-device-size="3"
+                      >
+                        <div class="slds-p-around_x-small">
+                          <lightning-input
+                            type="text"
+                            value={caseWrp.Additional_Co_applicant_Guarantor_Name__c}
+                            label="Additional Co-Applicant/Guarantor Name"
+                            data-name="Additional_Co_applicant_Guarantor_Name__c"
+                            disabled
+                          ></lightning-input>
+                        </div>
+                      </lightning-layout-item>
+                
+                      <lightning-layout-item
+                       
+                        size="12"
+                        small-device-size= "12"
+                        medium-device-size="6"
+                        large-device-size="3"
+                      >
+                        <div class="slds-p-around_x-small">
+                          <lightning-input
+                            type="text"
+                            value={caseWrp.Mobile_No__c}
+                            onchange={handleInputChange}
+                            data-name="Mobile_No__c"
+                            label="Mobile No of Borrower"
+                            required=true
+                            disabled
+                          ></lightning-input>
+                        </div>
+                      </lightning-layout-item>
+    
+                    </lightning-layout>
+                  <lightning-layout multiple-rows="12">
+                    <lightning-layout-item 
+                       
+                    size="12"
+                small-device-size= "12"
+                   medium-device-size="12"
+                   large-device-size="12"
+                  >
+                  <div class="slds-align_absolute-left slds-text-heading_medium slds-p-around_x-small">Remarks</div>  
+                
+                    </lightning-layout-item>
+                     
+                      <lightning-layout-item
+                      
+                        size="12"
+                        small-device-size= "12"
+                        medium-device-size="6"
+                        large-device-size="3"
+                      >
+                        <div class="slds-p-around_x-small">
+                          <lightning-input
+                            type="date"
+                            value={dateTimeInitiation}
+                            label="Date of Initiation"
+                            onchange={handleInputChange}
+                            data-name="DateTimeInitiation__c"
+                            required=true
+                            disabled
+                          ></lightning-input>
+                        </div>
+                      </lightning-layout-item>
+                
+                      <lightning-layout-item
+                       
+                        size="12"
+                        small-device-size= "12"
+                        medium-device-size="6"
+                        large-device-size="3"
+                      >
+                        <div class="slds-p-around_x-small">
+                          <lightning-input
+                            type="text"
+                            value={caseWrp.Branch_Name__c}
+                            label="Fedfina Branch Name & Address"
+                            onchange={handleInputChange}
+                            data-name="Branch_Name__c"
+                            required=true
+                            disabled
+                          ></lightning-input>
+                        </div>
+                      </lightning-layout-item>
+                
+                      <lightning-layout-item
+                       
+                        size="12"
+                        small-device-size= "12"
+                        medium-device-size="6"
+                        large-device-size="3"
+                      >
+                        <div class="slds-p-around_x-small">
+                            <lightning-input
+                            type="date"
+                            value={reportDate}
+                            label="Date of Report"
+                            onchange={handleInputChange}
+                            data-name="Date_of_Report__c"
+                            required=true
+                            disabled
+                          ></lightning-input>
+                        </div>
+                      </lightning-layout-item>
+                
+                      <lightning-layout-item
+                        size="12"
+                        small-device-size= "12"
+                        medium-device-size="6"
+                        large-device-size="3"
+                      >
+                        <div class="slds-p-around_x-small">
+                          <lightning-combobox
+                            label="Is the address complete and easily locatable"
+                            value={caseWrp.Is_the_address_complete_and_easily_Trace__c}
+                            options={isAddressAccesOptions}
+                            onchange={handleInputChange}
+                            required=true
+                            data-name="Is_the_address_complete_and_easily_Trace__c"
+                            disabled={enableOverride}
+                          >
+                          </lightning-combobox>
+                      
+                        </div>
+                      </lightning-layout-item>
+                
+                
+                      <lightning-layout-item
+                       
+                        size="12"
+                        small-device-size= "12"
+                        medium-device-size="6"
+                        large-device-size="3"
+                      ><div class="slds-p-around_x-small">
+                      <lightning-input
+                      type="text"
+                      value={caseWrp.Name_of_the_Business_Employer__c}
+                      label="Name of the Business/Employer"
+                      onchange={handleInputChange}
+                      data-name="Name_of_the_Business_Employer__c"
+                      disabled
+                    ></lightning-input>
+                  </div>
+                      </lightning-layout-item>
+                
+            
+                      <lightning-layout-item
+                       
+                        size="12"
+                        small-device-size= "12"
+                        medium-device-size="6"
+                        large-device-size="3"
+                      >
+                      <div class="slds-p-around_x-small">
+                      <lightning-combobox
+                      label="Product Type"
+                      value={caseWrp.Product_Type__c}
+                      options={productTypeOptions}
+                      onchange={handleInputChange}
+                      required=true
+                      data-name="Product_Type__c"
+                      disabled
+                    >
+                    </lightning-combobox>
+                  </div>
+                      </lightning-layout-item>
+                
+                      <lightning-layout-item
+                       
+                        size="12"
+                        small-device-size= "12"
+                        medium-device-size="6"
+                        large-device-size="3"
+                      >
+                        <div class="slds-p-around_x-small">
+                            <lightning-combobox
+                            label="Address Ownership"
+                            value={caseWrp.AddressOwnership__c}
+                            options={addOwnerOptions}
+                            onchange={handleInputChange}
+                            required=true
+                            data-name="AddressOwnership__c"
+                            disabled={enableOverride}
+                          >
+                          </lightning-combobox>
+                        </div>
+                      </lightning-layout-item>
+                
+                      <lightning-layout-item
+                       
+                        size="12"
+                        small-device-size= "12"
+                        medium-device-size="6"
+                        large-device-size="3"
+                      >
+                        <div class="slds-p-around_x-small">
+                          <lightning-combobox
+                          label="Details of the borrower have been Confirmed"
+                          value={caseWrp.Details_of_the_borrowers_have_been_confi__c}
+                          options={borrowerOptions}
+                          onchange={handleInputChange}
+                          required=true
+                          data-name="Details_of_the_borrowers_have_been_confi__c"
+                          disabled={enableOverride}
+                        >
+                        </lightning-combobox>
+                          <!-- <lightning-input
+                            type="text"
+                            label="Details of the borrower have been Confirmed"
+                            data-name="Details_of_the_borrowers_have_been_confi__c"
+                            onchange={handleInputChange}
+                            value={caseWrp.Details_of_the_borrowers_have_been_confi__c}
+                            required=true
+                            disabled={enableOverride}
+                          ></lightning-input> -->
+                        </div>
+                      </lightning-layout-item>
+    
+                
+    
+                      <lightning-layout-item if:true={addType}
+                      size="12"
+                      small-device-size= "12"
+                      medium-device-size="6"
+                      large-device-size="3"
+                    ><div class="slds-p-around_x-small">
+                      <lightning-combobox
+                      label="Marital Status"
+                      value={caseWrp.Martial_Status__c}
+                      options={maritalOptions}
+                      onchange={handleInputChange}
+                      required=true
+                      data-name="Martial_Status__c"
+                      disabled={enableOverride}
+                    >
+                    </lightning-combobox>
+                </div>
+                    </lightning-layout-item>
+    
+    
+                    <lightning-layout-item
+                       
+                    size="12"
+                    small-device-size= "12"
+                    medium-device-size="6"
+                    large-device-size="3"
+                  ><div class="slds-p-around_x-small">
+                  <lightning-combobox
+                  label="Negative Area"
+                  value={caseWrp.Negative_Area__c}
+                  options={negativeAreaOptions}
+                  onchange={handleInputChange}
+                  required=true
+                  data-name="Negative_Area__c"
+                  disabled={enableOverride}
+                >
+                </lightning-combobox>
+              </div>
+                  </lightning-layout-item>
+    
+    
+                      <lightning-layout-item
+                        size="12"
+                        small-device-size= "12"
+                        medium-device-size="6"
+                        large-device-size="3"
+                      ><div class="slds-p-around_x-small">
+                        <lightning-combobox
+                        label="Neighbour Reference Check"
+                        value={caseWrp.Neighbour_Reference_Check__c}
+                        options={neighbourOptions}
+                        onchange={handleInputChange}
+                        required=true
+                        data-name="Neighbour_Reference_Check__c"
+                        disabled={enableOverride}
+                      >
+                      </lightning-combobox>
+                  </div>
+                      </lightning-layout-item>
+                
+                      <lightning-layout-item                
+                        size="12"
+                        small-device-size= "12"
+                        medium-device-size="6"
+                        large-device-size="3"
+                      >
+                        <div class="slds-p-around_x-small">
+                          <lightning-input
+                            type="number"
+                            value={caseWrp.Distance_from_Fedfina_Branch__c}
+                            label="Distance from Fedfina FI Initiated Branch"
+                            data-name="Distance_from_Fedfina_Branch__c"
+                            onchange={handleInputChange}
+                            required=true
+                            min="0"
+                            step="0.02"
+                            disabled={enableOverride}
+                          ></lightning-input>
+                        </div>
+                      </lightning-layout-item>
+                
+                      <lightning-layout-item
+                        size="12"
+                        small-device-size= "12"
+                        medium-device-size="6"
+                        large-device-size="3"
+                      >
+                        <div class="slds-p-around_x-small">
+                            <lightning-combobox
+                            label="Dedupe for Negative Database"
+                            value={caseWrp.Dedupe_for_Negative_Database__c}
+                            options={dedupeOptions}
+                            onchange={handleInputChange}
+                            required=true
+                            data-name="Dedupe_for_Negative_Database__c"
+                            disabled={enableOverride}
+                          >
+                          </lightning-combobox>
+                        </div>
+                      </lightning-layout-item>
+                
+                      <lightning-layout-item if:true={negativeDedupe}
+                    
+                        size="12"
+                        small-device-size= "12"
+                        medium-device-size="6"
+                        large-device-size="3"
+                      >
+                        <div class="slds-p-around_x-small">
+                            <lightning-combobox
+                            label="Negative Database Result"
+                            value={caseWrp.Negative_Database_Result__c}
+                            options={negativeDatabaseOptions}
+                            onchange={handleInputChange}
+                            required=true
+                            data-name="Negative_Database_Result__c"
+                            disabled={enableOverride}
+                          >
+                          </lightning-combobox>
+                        </div>
+                      </lightning-layout-item>
+                
+                      <lightning-layout-item if:true={negDataResult}                
+                        size="12"
+                        small-device-size= "12"
+                        medium-device-size="6"
+                        large-device-size="3"
+                      >
+                        <div class="slds-p-around_x-small">
+                          <lightning-input
+                            type="text"
+                            value={caseWrp.Adverse_Remarks_of_Dedupe__c}
+                            label="Adverse Remarks of Dedupe"
+                            data-name="Adverse_Remarks_of_Dedupe__c"
+                            required=true
+                            pattern="^[a-zA-Z][^$]+" 
+                            onchange={handleInputChange}
+                            disabled={enableOverride}
+                            message-when-pattern-mismatch="Please enter alphabets only"
+                          ></lightning-input>
+                        </div>
+                      </lightning-layout-item>
+                      
+                     
+      
+                  <lightning-layout-item
+               
+                  size="12"
+                  small-device-size= "12"
+                 medium-device-size="6"
+                 large-device-size="3"
+                >
+                  <div class="slds-p-around_x-small">
+                    <lightning-combobox
+                      label="Report Result"
+                      value={caseWrp.ReportResult__c}
+                      options={reportResultOptions}
+                      onchange={handleInputChange}
+                      required=true
+                      data-name="ReportResult__c"
+                      disabled={enableOverride}
+                    >
+                    </lightning-combobox>
+                  </div>
+                </lightning-layout-item>
+      
+      
+                  <lightning-layout-item if:true={negativeResult}  
+                  size="12"
+                  small-device-size= "12"
+                  medium-device-size="6"
+                  large-device-size="3"
+                >
+                  <div class="slds-p-around_x-small">
+                    <lightning-combobox
+                    label="Negative Report Reason"
+                    value={caseWrp.Negative_Report_reason__c}
+                    options={negReportOptions}
+                    onchange={handleInputChange}
+                    data-name="Negative_Report_reason__c"
+                    disabled={enableOverride}
+                    required={negativeResult}
+                  >
+                  </lightning-combobox>  
+                  </div>
+                </lightning-layout-item>
+      
+                <lightning-layout-item 
+                         
+                size="12"
+                small-device-size= "12"
+                medium-device-size="6"
+                large-device-size="3"
+              >
+                <div class="slds-p-around_x-small">
+                    <lightning-textarea
+                    type="text"
+                    value={caseWrp.Remarks_regarding_the_case__c}
+                    label="Remarks regarding the Case"
+                    onchange={handleInputChange}
+                    data-name="Remarks_regarding_the_case__c"
+                    required=true
+                    disabled={enableOverride}
+                    pattern="^[a-zA-Z][^$]+" 
+                    message-when-pattern-mismatch="Please enter alphabets only"
+                  ></lightning-textarea>
+                </div>
+              </lightning-layout-item>
+      
+              <!-- <lightning-layout-item 
+                       
+              size="12"
+              small-device-size= "12"
+              medium-device-size="6"
+              large-device-size="3"
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                  label="Final Status of Field Verification by Underwriter"
+                  value={caseWrp.Final_Status_of_Field_Verification_by_un__c}
+                  options={finalStatusOptions}
+                  onchange={handleInputChange}
+                  data-name="Final_Status_of_Field_Verification_by_un__c"   
+                  disabled={disableForCPA}
+                >
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+      
+            <lightning-layout-item        
+            size="12"
+            small-device-size= "12"
+                       medium-device-size="6"
+                       large-device-size="3"
+          >
+            <div class="slds-p-around_x-small">
+              <lightning-input
+              type="text"
+              value={caseWrp.Mitigant_for_Change_in_Status__c}
+              label="Mitigant for Change in Status"
+              data-name="Mitigant_for_Change_in_Status__c"
+              required={requiredFlag}
+              onchange={handleInputChange}
+             disabled={disableMitigant}
+             pattern="^[a-zA-Z][^$]+" 
+             message-when-pattern-mismatch="Please enter alphabets only"
+            ></lightning-input>
+            
+            </div>
+          </lightning-layout-item> -->
+    
+    
+      
+      
+                    
+                  </lightning-layout-item></lightning-layout>
+             <template if:false={enableOverride}>
+                    <lightning-card>
+                      <c-case-document-upload record-id={recordId} onselect={handleValueSelect}></c-case-document-upload>
+                    </lightning-card>
+                   <lightning-card>
+                    <c-case-upload-photos record-id={recordId} onselect={handleValueSelect}></c-case-upload-photos>
+                   </lightning-card>
+                </template>
+                  
+                  <c-show-case-document case-id={recordId} technical="true" show-delete-icon={showDeleteIcon}></c-show-case-document>
+    
+                  <lightning-accordion active-section-name={activeSection} class="accordion" allow-multiple-sections-open>
+                    <lightning-accordion-section name="A" label="Case Query Details">
+                      <lightning-card >
+                        <!-- UPDATED TABLE  -->
+                        <table
+                          class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered"
+                          aria-label="Example table of Opportunities with vertical borders"
+                        >
+                          <thead>
+                            <tr class="slds-line-height_reset">
+                              <th class="" scope="col">
+                                <div class="slds-truncate" title="Case No">
+                                  Case No
+                                </div>
+                              </th>
+                              <th class="" scope="col">
+                                <div class="slds-truncate" title="Query">
+                                  Query
+                                </div>
+                              </th>
+                              <th class="" scope="col">
+                                <div class="slds-truncate" title="Response">
+                                  Response
+                                </div>
+                              </th>
+                              <th class="" scope="col">
+                                <div class="slds-truncate" title="Status">
+                                  Status</div>
+                              </th>
+                            </tr>
+                          </thead>
+                
+                          <tbody>
+                            <template for:each={caseQryList} for:item="record" for:index="index">
+                              <tr
+                                key={record.Id}
+                                aria-selected="false"
+                                class="slds-hint-parent"
+                              >
+                                <td data-label="Case No">
+                                  <div class="slds-truncate" title="Case No">
+                                    {record.CaseNumber__c}
+                                  </div>
+                                </td>
+                                <template if:true={record.Query__c}>
+                                  <td data-label="Query">
+                                    <div class="slds-truncate" title="Query">
+                                      {record.Query__c}
+                                    </div>
+                                  </td>
+                                </template>
+                                <!-- <template if:true={record.Response__c}> -->
+                                  <td data-label="Response">
+                                    <div class="slds-truncate" title="Response">
+                                      <lightning-input variant="label-hidden" data-record-id={record.Id} data-index={index}
+                                       data-field-name='Response__c' value={record.Response__c} onchange={handleValueChange}
+                                       disabled={record.disableCaseQry}></lightning-input>
+                                     
+                                    </div>
+                                  </td>
+                                <!-- </template> -->
+                                <td data-label="Status">
+                                  <div class="slds-truncate" title="Status">
+                                    <c-dedupe-display-value
+                                    dedupe-rsults-options={caseQrystatusOptions} type="picklist"
+                                    field-value={record.Status__c} object={record}
+                                    field-name="Status__c" index-value={index}
+                                    onpicklistchange={handlePicklistValues}
+                                    is-read-only={record.disableCaseQry}></c-dedupe-display-value>
+                                  </div>
+                                </td>
+                               
+                                </tr
+                            ></template>
+                          </tbody>
+                        </table>
+                      </lightning-card>
+                    
+              </lightning-accordion-section>
+   
+        </lightning-accordion>
+        <div if:false={enableOverride} slot="footer">
+            <lightning-button
+              variant="brand"
+              label="Save"
+              title="Save"
+              data-name="Save"
+              onclick={handleSave}
+              disabled={disableMode}
+            ></lightning-button>    
+      </div>    
+                
+     
+        </lightning-card>
+</template>

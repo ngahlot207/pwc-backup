@@ -1,0 +1,64 @@
+<template>
+    <template if:true={showUploadComp}>
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div if:true={showSpinner}>
+            <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+            </lightning-spinner>
+      </div>
+        <div class="slds-modal__container">
+         <!-- modal header start -->
+           <header class="slds-modal__header">
+              <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={hideModalBox}>
+                 <lightning-icon icon-name="utility:close"
+                    alternative-text="close"
+                    variant="inverse"
+                    size="small" ></lightning-icon>
+                 <span class="slds-assistive-text">Close</span>
+              </button>
+              <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Upload Profit & Loss And Balance Sheet</h2>
+           </header>
+       
+           <!-- modal body start -->
+           <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <lightning-layout multiple-rows="4">
+                    <lightning-layout-item  >
+                    <lightning-input 
+                        type="file" 
+                        label="Attach receipt" 
+                        name="fileUploader"
+                        accept={acceptedFormats}
+                        onchange={handleUploadFinished}>
+                    </lightning-input>
+                    </lightning-layout-item>  
+                </lightning-layout>
+                <template for:each={uploadedFiles} for:item="file" for:index="index">
+                <div key={file.name} class="slds-p-left_medium">
+                    <div class="slds-clearfix">
+                        <div class="slds-float_left" style="margin-right: 10px;">
+                            <p style="background:white; display: inline-block; margin-bottom: 0; font-size: 16px;">{file.name}
+                            </p>
+                        </div>
+                        <div class="slds-float_left">
+                            <lightning-icon icon-name='utility:close' alternative-text='close' size='x-small' title='remove'
+                                onclick={handleFileRemove} data-index={index}></lightning-icon>
+                        </div>
+                    </div>
+                </div>
+            </template>
+           </div>
+ 
+           <!-- modal footer start-->
+           <footer class="slds-modal__footer">
+            <lightning-button variant="brand" class="slds-m-left_x-small" label="Upload" disabled={disabled}  onclick={handleExcelUpload}>
+            </lightning-button>
+              <button class="slds-button slds-button_neutral" onclick={hideModalBox}>Cancel</button>
+           </footer>
+        
+        </div>
+     </section>
+     <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    
+         <!-- <c-download-utility current-block={currentYear} provisional-year={provFinYearSeleValue} provisional-option={provisionalYear} applicant-id={_applicantId} loan-app-id={_loanAppId} has-edit-access={hasEditAccess}></c-download-utility>-->
+        
+</template>

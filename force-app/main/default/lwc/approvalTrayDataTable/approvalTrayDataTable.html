@@ -1,0 +1,839 @@
+<template>
+    <!-- <template lwc:if={desktopBoolean}> -->
+    <lightning-card if:true={showDocTable}>
+        <!-- <div class="slds-card__header slds-grid slds-grid_align-spread"> -->
+        <div>
+            <strong class="custom-title">{tableTitle}</strong>
+            <!-- </div> -->
+        </div><br />
+        <div id="containerDiv" onmousemove={handlemousemove} onmouseup={handlemouseup}
+            ondblclick={handledblclickresizable}
+            class="slds-table_header-fixed_container slds-border_right slds-border_left tableScroll"
+            onscroll={tableOuterDivScrolled}>
+            <div id="tableViewInnerDiv" class="slds-scrollable_y tableViewInnerDiv slds-scrollable">
+                <table
+                    class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout slds-max-medium-table_stacked-horizontal"
+                    onscroll={tableScrolled}>
+                    <thead>
+                        <tr>
+                            <th title="S/No" class="slds-is-resizable dv-dynamic-width fixedWid" scope="col">
+                                <div class="slds-cell-fixed fixedWid">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">S/No</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Document Type /SC" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Document Type /SC</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Document Name/SC Details" class="slds-is-resizable dv-dynamic-width fixedWidthh"
+                                scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Document Name/SC Details</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Critical/Non-critical" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Critical/Non-critical</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Document Status/Reason/Mitigants"
+                                class="slds-is-resizable dv-dynamic-width fixedWidthh" scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Document Status/Reason/Mitigants</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Deviation Level" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Deviation Level</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Document Description" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Document Description</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="View" class="slds-is-resizable dv-dynamic-width fixedWid" scope="col">
+                                <div class="slds-cell-fixed fixedWid">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">View</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Approver Action" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <!-- <span class="slds-truncate">Approver Action</span> -->
+                                        <label id="id-05"> Approver Action</label>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Remarks (Input Text)" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <!-- <span class="slds-truncate">Remarks (Input Text)</span> -->
+                                        <label id="id-01"> Remarks (Input Text)</label>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="dataBodyVal">
+                        <template for:each={displayData} for:item="record" for:index="index">
+                            <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+
+                                <th class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title="S/No">
+                                        {record.incrementedIndex}
+                                    </div>
+                                </th>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.DocTyp__c}>
+                                        {record.DocTyp__c}
+                                    </div>
+                                </td>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.DocSubTyp__c}>
+                                        {record.DocSubTyp__c}
+                                    </div>
+                                </td>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.Criticality__c}>
+                                        {record.Criticality__c}
+                                    </div>
+                                </td>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.DocStatus__c}>
+                                        {record.DocStatus__c}
+                                    </div>
+                                </td>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.DevLvl__c}>
+                                        {record.DevLvl__c}
+                                    </div>
+                                </td>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.Rmrk__c}>
+                                        <!-- {record.Rmrk__c} LAK-8140-->
+                                        <lightning-textarea data-name="Rmrk__c" data-recordid={record.Id}
+                                            variant="label-hidden" label="Name" value={record.Rmrk__c} required disabled
+                                            data-index={index}>
+                                        </lightning-textarea>
+                                    </div>
+                                </td>
+                                <td if:true={record.isDocAvailable} class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title='View'>
+                                        <lightning-icon class="custom-button slds-p-right_xx-small"
+                                            onclick={handleDocumentView} data-recordid={record.Id}
+                                            icon-name="utility:preview" alternative-text="preview" variant="success"
+                                            size="small" title="preview"></lightning-icon>
+                                    </div>
+                                </td>
+                                <td if:false={record.isDocAvailable} class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title='View'>
+                                        <lightning-icon class="custom-button slds-p-right_xx-small" disabled
+                                            data-record-id={record.Id} icon-name="utility:preview"
+                                            alternative-text="preview" size="small" title="preview"></lightning-icon>
+                                    </div>
+                                </td>
+                                <td>
+                                    <c-approval-tray-display-value dedupe-rsults-options={docApprovaActOptins}
+                                        type="picklist" required="true" field-value={record.Appr_Actn__c}
+                                        object={record} field-name="Appr_Actn__c"
+                                        onpicklistchange={handlePicklistValues} is-read-only={record.isDisabledRow}
+                                        index-value={index}></c-approval-tray-display-value>
+
+                                </td>
+
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.AppvdRmrks__c}>
+                                        <lightning-textarea data-name="AppvdRmrks__c" data-recordid={record.Id}
+                                            variant="label-hidden" label="Name" value={record.AppvdRmrks__c}
+                                            onchange={handleChange} required disabled={record.isDisabledRow} data-index={index}>
+                                        </lightning-textarea>
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </lightning-card>
+    <lightning-card if:true={showDivTable} class="slds-p-around_large">
+        <div>
+            <strong class="custom-title">{tableTitle}</strong>
+            <!-- </div> -->
+        </div><br />
+        <div id="containerDivv" onmousemove={handlemousemove} onmouseup={handlemouseup}
+            ondblclick={handledblclickresizable}
+            class="slds-table_header-fixed_container slds-border_right slds-border_left tableScroll"
+            onscroll={tableOuterDivScrolled}>
+            <div id="tableViewInnerDivv" class="slds-scrollable_y tableViewInnerDiv slds-scrollable">
+                <table
+                    class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout slds-max-medium-table_stacked-horizontal"
+                    onscroll={tableScrolled}>
+                    <thead>
+                        <tr>
+                            <th title="S/No" class="slds-is-resizable dv-dynamic-width fixedWid" scope="col">
+                                <div class="slds-cell-fixed fixedWid">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">S/No</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Table Name" class="slds-is-resizable dv-dynamic-width fixedWidt" scope="col">
+                                <div class="slds-cell-fixed fixedWidt">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Table Name</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Disb Deviations/Legal Deviations"
+                                class="slds-is-resizable dv-dynamic-width fixedWidthhh" scope="col">
+                                <div class="slds-cell-fixed fixedWidthhh">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Disb Deviations/Legal Deviations</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Internal Legal Remarks" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Internal Legal Remarks</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Deviation Level" class="slds-is-resizable dv-dynamic-width fixedWidt"
+                                scope="col">
+                                <div class="slds-cell-fixed fixedWidt">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Deviation Level</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Deviation Description" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Deviation Description</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>    
+                            <!--LAK-10231-->   
+                            <th title="Mitigant" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <!-- <span class="slds-truncate">*Mitigant</span> -->
+                                        <label id="id-08">Mitigant</label>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>                     
+                            <th title="Approver Action" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <label id="id-07"> Approver Action</label>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Remarks (Input Text)" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <!-- <span class="slds-truncate">Remarks (Input Text)</span> -->
+                                        <label id="id-02"> Remarks (Input Text)</label>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody class="dataBodyVal">
+                        <template for:each={displayData} for:item="record" for:index="index">
+                            <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+                                <th class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title="S/No">
+                                        {record.incrementedIndex}
+                                    </div>
+                                </th>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.DeviationCategory__c}>
+                                        {record.DeviationCategory__c}
+                                    </div>
+                                </td>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.Devia_Desrp__c}>
+                                        {record.Devia_Desrp__c}
+                                    </div>
+                                </td>
+                               
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.IntLegalRem__c}>
+                                        {record.IntLegalRem__c}
+                                    </div>
+                                </td>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.Req_Apprv_Level__c}>
+                                        {record.Req_Apprv_Level__c}
+                                    </div>
+                                </td>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.DocDesc__c}>
+                                        <!-- {record.DocDesc__c} LAK-8140-->
+                                        <lightning-textarea data-name="DocDesc__c" data-recordid={record.Id}
+                                            variant="label-hidden" label="Name" value={record.DocDesc__c} required
+                                            disabled data-index={index}>
+                                        </lightning-textarea>
+                                    </div>
+                                </td>
+                                <!--LAK-10231-->
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.Mitigation__c}>
+                                        <lightning-textarea data-name="Mitigation__c" variant="label-hidden"
+                                            data-recordid={record.Id} type="text" value={record.Mitigation__c} required
+                                            onchange={handleChange} disabled={disable}
+                                            data-index={index}></lightning-textarea>
+                                    </div>
+                                </td>
+                                <td>
+                                    <c-approval-tray-display-value dedupe-rsults-options={divApprovaActOptins}
+                                        type="picklist" required="true" field-value={record.Appr_Actn__c}
+                                        object={record} field-name="Appr_Actn__c"
+                                        onpicklistchange={handlePicklistValues}
+                                        is-read-only={record.isDisabledRow}></c-approval-tray-display-value>
+
+                                </td>
+
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.Appr_Remarks__c}>
+                                        <lightning-textarea data-name="Appr_Remarks__c" required
+                                            data-recordid={record.Id} variant="label-hidden" label="Name"
+                                            value={record.Appr_Remarks__c} onchange={handleChange} disabled={record.isDisabledRow}
+                                            data-index={index}>
+                                        </lightning-textarea>
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </lightning-card>
+
+    <lightning-card if:true={showDisDivTable} class="slds-p-around_large">
+        <div>
+            <strong class="custom-title">{tableTitle}</strong>
+            <!-- </div> -->
+        </div><br />
+        <div id="containerDivvv" onmousemove={handlemousemove} onmouseup={handlemouseup}
+            ondblclick={handledblclickresizable}
+            class="slds-table_header-fixed_container slds-border_right slds-border_left tableScroll"
+            onscroll={tableOuterDivScrolled}>
+            <div id="tableViewInnerDivvv" class="slds-scrollable_y tableViewInnerDiv slds-scrollable">
+                <table
+                    class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout slds-max-medium-table_stacked-horizontal"
+                    onscroll={tableScrolled}>
+                    <thead>
+                        <tr>
+                            <th title="S/No" class="slds-is-resizable dv-dynamic-width fixedWid" scope="col">
+                                <div class="slds-cell-fixed fixedWid">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">S/No</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Deviation" class="slds-is-resizable dv-dynamic-width fixedWidt" scope="col">
+                                <div class="slds-cell-fixed fixedWidt">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Deviation</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Deviation Description" class="slds-is-resizable dv-dynamic-width fixedWidthh"
+                                scope="col">
+                                <div class="slds-cell-fixed fixedWidthh">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Deviation Description</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Level" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Level</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Mitigant" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <!-- <span class="slds-truncate">*Mitigant</span> -->
+                                        <label id="id-04">Mitigant</label>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Approved By" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Approved By</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Deviation Description" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Deviation Description</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Approver Action" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <label id="id-06"> Approver Action</label>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Remarks (Input Text)" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <!-- <span class="slds-truncate">Remarks (Input Text)</span> -->
+                                        <label id="id-03"> Remarks (Input Text)</label>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Approved Date" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Approved Date</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="dataBodyVal">
+                        <template for:each={displayData} for:item="record" for:index="index">
+                            <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+                                <th class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title="S/No">
+                                        {record.incrementedIndex}
+                                    </div>
+                                </th>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.Deviation__c}>
+                                        {record.Deviation__c}
+                                    </div>
+                                </td>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.Devia_Desrp__c}>
+                                        <!-- {record.Devia_Desrp__c} LAK-8140-->
+                                        <lightning-textarea data-name="Devia_Desrp__c" data-recordid={record.Id}
+                                            variant="label-hidden" label="Name" value={record.Devia_Desrp__c} required
+                                            disabled data-index={index}>
+                                        </lightning-textarea>
+                                    </div>
+                                </td>
+
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.Req_Apprv_Level__c}>   
+                                        {record.Req_Apprv_Level__c}
+                                    </div>
+                                </td>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.Mitigation__c}>
+                                        <lightning-input data-name="Mitigation__c" variant="label-hidden"
+                                            data-recordid={record.Id} type="text" value={record.Mitigation__c} required
+                                            onchange={handleChange} disabled={disable}
+                                            data-index={index}></lightning-input>
+                                    </div>
+                                </td>
+
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.ApprovedByName__c}>
+                                        {record.ApprovedByName__c}
+                                    </div>
+                                </td>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.DocDesc__c}>
+                                        {record.DocDesc__c}
+                                    </div>
+                                </td>
+                                <td>
+                                    <c-approval-tray-display-value dedupe-rsults-options={divApprovaActOptins}
+                                        type="picklist" required="true" field-value={record.Appr_Actn__c}
+                                        object={record} field-name="Appr_Actn__c"
+                                        onpicklistchange={handlePicklistValues}
+                                        is-read-only={record.isDisabledRow}></c-approval-tray-display-value>
+
+                                </td>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.Appr_Remarks__c}>
+                                        <lightning-textarea data-name="Appr_Remarks__c" data-recordid={record.Id}
+                                            variant="label-hidden" label="Name" value={record.Appr_Remarks__c}
+                                            onchange={handleChange} required disabled={record.isDisabledRow} data-index={index}>
+                                        </lightning-textarea>
+                                    </div>
+                                </td>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.Format_App_Date__c}>
+                                        {record.Format_App_Date__c}
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </lightning-card>
+<!--LAK-7446 BIL Approval Tray-->
+    <lightning-card if:true={showSplitDisTable} class="slds-p-around_large">
+        <div>
+            <strong class="custom-title">{tableTitle}</strong>
+            <!-- </div> -->
+        </div><br />
+        <div id="containerDivvvv" onmousemove={handlemousemove} onmouseup={handlemouseup}
+            ondblclick={handledblclickresizable}
+            class="slds-table_header-fixed_container slds-border_right slds-border_left tableScroll"
+            onscroll={tableOuterDivScrolled}>
+            <div id="tableViewInnerDivvvv" class="slds-scrollable_y tableViewInnerDiv slds-scrollable">
+                <table
+                    class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout slds-max-medium-table_stacked-horizontal"
+                    onscroll={tableScrolled}>
+                    <thead>
+                        <tr>
+                            <th title="S/No" class="slds-is-resizable dv-dynamic-width fixedWid" scope="col">
+                                <div class="slds-cell-fixed fixedWid">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">S/No</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Tranche Details" class="slds-is-resizable dv-dynamic-width fixedWidt" scope="col">
+                                <div class="slds-cell-fixed fixedWidt">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Tranche Details</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Split Details" class="slds-is-resizable dv-dynamic-width fixedWidthh"
+                                scope="col">
+                                <div class="slds-cell-fixed fixedWidthh">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Split Details</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Disbursal To" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Disbursal To</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="In Favour off" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">In Favour off</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            
+                            <th title="Payment Mode" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Payment Mode</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Disbursal Date" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Disbursal Date</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Amount" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <label id="id-09">Amount</label>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody class="dataBodyVal">
+                        <template for:each={displayData} for:item="record" for:index="index">
+                            <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+                                <th class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title="S/No">
+                                        {record.incrementedIndex}
+                                    </div>
+                                </th>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.Name}>
+                                        {record.Name}
+                                    </div>
+                                </td>
+                    
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.DisburseRela__r.DisbrDiscription__c}>   
+                                        {record.DisburseRela__r.DisbrDiscription__c}
+                                    </div>
+                                </td>
+
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.Disbur_To__c}>
+                                        {record.Disbur_To__c}
+                                    </div>
+                                </td>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.DocDesc__c}>
+                                        {record.Cheq_Favor_Dets__c}
+                                    </div>
+                                </td>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.Pay_Mode__c}>
+                                        {record.Pay_Mode__c}
+                                    </div>
+                                </td>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.Date_of_Disbur__c}>
+                                        {record.Date_of_Disbur__c}
+                                    </div>
+                                </td>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.Split_Cheque_Amt__c}>
+                                        {record.Split_Cheque_Amt__c}
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </lightning-card>
+
+    <template if:true={showfile}>
+        <!-- <c-multiple-ifram-file-preview cont-doc-type={contDocType} cont-doc-id={contDocId} cv-id={cvId}
+            onclosepreview={handleCloseModalEvent}></c-multiple-ifram-file-preview>
+    </template> -->
+        <c-multi-doc-previewer document-detail-id={documentId} onclosepreview={handleCloseModalEvent}
+            has-document-id={hasDocumentId}> </c-multi-doc-previewer>
+    </template>
+    <!-- </template> -->
+</template>

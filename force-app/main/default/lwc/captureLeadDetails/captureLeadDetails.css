@@ -1,0 +1,78 @@
+.accClass
+{
+    --slds-c-accordion-summary-color-background : rgb(243, 243, 243) ;
+    --slds-c-accordion-color-border : 0.5rem;
+}
+
+.custom-modal__container { 
+    max-width: 60%; 
+    width : 40%;
+    margin: 0 auto; 
+    background-color: white;
+    border-radius: 4px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    padding: 0px; 
+    box-sizing: border-box ;
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+}
+
+.custom-button {
+    color: #4CAF50;
+    text-decoration: #4CAF50;
+    border: #4CAF50;
+    text-align: center;
+    --sds-c-icon-color-foreground-default: #19ed19;
+    size: large;
+    --slds-icon-size-large: 50px;
+}
+
+.white-utility-icon {
+    --sds-c-icon-color-foreground-default: #eff6ef;
+}
+
+.modal-container {
+    height : 200px;
+    max-width: 60%; 
+    width : 40%;
+    margin: 0 auto; 
+    background-color: white;
+    border-radius: 4px; 
+    box-shadow: 0 2px 4px rgba(248, 246, 246, 0.951); 
+    padding: 0px; 
+    box-sizing: border-box ;
+    position: fixed; top: 50%; left: 45%; transform: translate(-50%, -50%);
+}
+
+.slds-modal__container {
+    max-width: 500px;
+    margin: auto;
+}
+
+.slds-modal__header h2 {
+    margin-bottom: 0;
+}
+
+.slds-box {
+    border: 1px solid #dddbda;
+    padding: 0.75rem;
+    border-radius: 0.25rem;
+}
+
+.custom-emi-box {
+    text-align: center; /* Center align the text */
+    color: green;
+    border-color: #19ed19;
+}
+
+.custom-emi-label {
+    color: green; /* Highlight the label with green color */
+    font-weight: bold; /* Optionally, make the label bold */
+    font-size: 1.25rem;
+    margin-top: 0.5rem;
+}
+
+.custom-emi-value {
+    display: block;
+    font-size: 1.25rem; /* Adjust the font size as needed */
+    margin-top: 0.5rem;
+}

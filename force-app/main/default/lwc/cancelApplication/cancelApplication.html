@@ -1,0 +1,36 @@
+<template>
+    <div class="slds-is-relative">
+        <lightning-quick-action-panel header="Cancel Loan Application">
+            <template if:true={showSpinner}>
+                <div class="spinner">
+                    <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                </div>
+            </template>
+            <template if:false={showSpinner}>
+                <lightning-record-edit-form record-id={recordId} object-api-name={objectApiName}
+                    onsuccess={handleSuccess}>
+                    <lightning-input-field style="display:none;" field-name="Status__c"
+                        value="Cancelled"></lightning-input-field>
+                    <abbr title="required" class="slds-required">*</abbr>
+                    <label for="reason1">Cancel Reason</label>
+                    <lightning-input-field field-name="Cancel_Reason__c" id="reason1" variant="label-hidden" required value= ""
+                        onchange={handleValueChange}></lightning-input-field>
+                    <br />
+                    <template if:true={makeReasonRequired}> <abbr title="required"
+                            class="slds-required">*</abbr></template>
+                    <label for="reason2">Additional Comments</label>
+                    <lightning-input-field field-name="Additional_Comments__c" id="reason2" variant="label-hidden"
+                        required={makeReasonRequired} onchange={handleaddCommentValue} value=""></lightning-input-field>
+                    <div style="text-align: end;" class="slds-m-top_large slds-m-bottom_medium">
+                        <footer class="slds-modal__footer">
+                            <lightning-button variant="brand" class="slds-m-left_x-large" label="YES"
+                                type="submit" ></lightning-button>
+                            <lightning-button variant="brand" class="slds-m-left_x-large" label="NO"
+                                onclick={closeAction}></lightning-button>
+                        </footer>
+                    </div>
+                </lightning-record-edit-form>
+            </template>
+        </lightning-quick-action-panel>
+    </div>
+</template>

@@ -1,0 +1,362 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    <!-- <div if:true={notIndvi} class="center-message">
+            BO is Not Applicable
+        </div> -->
+    <template if:true={notIndvi}>
+        <div style="text-align: center;font-size: 15px;font-weight: bold;">{label.Bo_Not_applicable_Label}</div>
+    </template>
+    <template if:false={notIndvi}>
+        <lightning-accordion active-section-name={activeSections} allow-multiple-sections-open>
+            <lightning-accordion-section name="A" label="ShareHolding Details" class="accClass">
+                <!-- <template if:false={notIndvi}> -->
+                    <div class="slds-box slds-theme_default slds-scrollable_x" style="width:200rem">
+            
+                        <div class="slds-float_right">
+                            <lightning-button variant="brand" data-name="Add New" label="Add New" class="slds-m-around_x-small"
+                                onclick={handleAddNew} disabled={isReadOnly}>
+                            </lightning-button>
+                        </div>
+                        <br />
+                        <template if:true={desktopBoolean}>
+                            <table
+                                class="slds-table slds-table_cell-buffer slds-border_right slds-border_left slds-table_bordered slds-table_col-bordered"
+                                aria-label="Example table of Opportunities with vertical borders">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Part of Proposed loan">
+                                                Part of Proposed loan
+                                            </div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="First Name">
+                                                <label id="id-01">First Name</label>
+                                            </div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Last Name">
+                                                <label id="id-02">Last Name</label>
+                                            </div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Applicant Type">
+                                                Applicant Type
+                                            </div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Constitution">
+                                                Constitution
+                                            </div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Relationship">
+                                                <label id="id-03"> Relationship</label>
+                                            </div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Shareholding %">
+                                                <label id="id-04"> Shareholding %</label>
+                                            </div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Beneficial Owner (BO)">
+                                                Beneficial Owner (BO)
+                                            </div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Action">
+                                                Action
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+            
+                                <tbody>
+                                    <template if:true={tableData} for:each={tableData} for:item="record" for:index="index">
+                                        <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+                                            <td data-label="Part of Proposed loan">
+                                                <div class="slds-truncate" title="Part of Proposed loan">{record.PartofProposedLoan}
+                                                </div>
+                                            </td>
+                                            <td if:true={record.isExst} data-label="First Name">
+                                                <div class="slds-truncate" title="First Name">
+                                                    {record.FName__c}
+                                                    <!-- <c-hunter-displayvalue index-value={index} dedupe-rsults-options={nameOptions} type="picklist"
+                                                    required={record.required} field-value={record.FName__c} object={record}
+                                                    field-name="FName__c" onpicklistchange={handlePicklistValues}
+                                                    is-read-only={isReadOnly}></c-hunter-displayvalue> -->
+                                                </div>
+                                            </td>
+                                            <td if:false={record.isExst} data-label="First Name">
+                                                <div class="slds-truncate" title="First Name">
+                                                    <lightning-input type="text" data-name="FName__c" label="First Name"
+                                                        value={record.FName__c} variant="label-hidden" onchange={handlValueChange}
+                                                        data-index={index} required></lightning-input>
+                                                </div>
+                                            </td>
+                                            <td if:true={record.isExst} data-label="Last Name">
+                                                <div class="slds-truncate" title="Last Name">{record.LName__c}
+                                                </div>
+                                            </td>
+                                            <td if:false={record.isExst} data-label="Last Name">
+                                                <div class="slds-truncate" title="Last Name">
+                                                    <lightning-input type="text" data-name="LName__c" label="First Name"
+                                                        value={record.LName__c} variant="label-hidden" onchange={handlValueChange}
+                                                        data-index={index} required></lightning-input>
+                                                </div>
+                                            </td>
+                                            <td data-label="Applicant Type">
+                                                <div class="slds-truncate" title="Applicant Type">{record.ApplType__c}
+                                                </div>
+                                            </td>
+                                            <td data-label="Constitution">
+                                                <div class="slds-truncate" title="Constitution">{record.Constitution__c}
+                                                </div>
+                                            </td>
+                                            <td data-label="Relationship">
+                                                <div class="slds-truncate" title="Relationship">
+                                                    {record.Relationship__c}
+                                                    <!-- <c-hunter-displayvalue index-value={index} dedupe-rsults-options={relationShipOptions} type="picklist"
+                                                    required={record.required} field-value={record.Relationship__c} object={record}
+                                                    field-name="Relationship__c" onpicklistchange={handlePicklistValuesNew}
+                                                    is-read-only={isReadOnly}></c-hunter-displayvalue> -->
+                                                </div>
+                                            </td>
+                                            <td data-label="Address">
+                                                <div class="slds-truncate" title="Shareholding %">
+                                                    <lightning-input type="text" name="Shareholding" label="Shareholding %"
+                                                        value={record.Shareholding} variant="label-hidden" disabled={isReadOnly}
+                                                        onchange={handlChange} data-index={index} onkeypress={handleKeyPress}
+                                                        required></lightning-input>
+                                                </div>
+                                            </td>
+                                            <td data-label="Beneficial Owner (BO)">
+                                                <div class="slds-truncate" title="Beneficial Owner (BO)">{record.isBo}
+                                                </div>
+                                            </td>
+                                            <td data-label="Action">
+                                                <div class="slds-truncate" title="Action">
+                                                    <template lwc:if={record.isDelete}>
+                                                        <lightning-button-icon icon-name="action:delete" alternative-text="Delete"
+                                                            title="Delete" data-index={index} data-id={record.Id}
+                                                            data-relid={record.relationShipId} data-appid={record.Id} onclick={handleDeleteAction}
+                                                            disabled={disableDispatchInputs}>
+                                                        </lightning-button-icon>
+                                                    </template>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+            
+                            </table>
+                        </template>
+                        <template lwc:if={phoneBolean}>
+                            <div class="slds-m-top_medium slds-m-bottom_x-large">
+                                <!-- <h2 class="slds-text-heading_medium slds-m-bottom_medium">
+                                    {title}
+                                </h2> -->
+                                <!-- <template lwc:if={ispankycstep}> -->
+                                <template for:each={tableData} for:item="record" for:index="index">
+                                    <div key={record.Id} class=" lgc-bg">
+                                        <ul class="slds-has-dividers_bottom-space">
+                                            <li class="slds-item">
+                                                <lightning-tile>
+                                                    <dl class="slds-dl_horizontal">
+                                                        <dt class="slds-dl_horizontal__label">
+                                                            <p class="slds-truncate" title="Part of Proposed loan">
+                                                                <b>Part of Proposed loan : </b>{record.PartofProposedLoan}
+                                                            </p>
+                                                        </dt>
+            
+                                                        <dt class="slds-dl_horizontal__label">
+                                                            <p class="slds-truncate" title="First Name">
+                                                                <b>First Name : </b>
+                                                                <template if:true={record.isExst}>
+                                                                    {record.FName__c}
+                                                                </template>
+                                                                <template if:false={record.isExst}>
+                                                                    <div class="slds-truncate" title="First Name">
+                                                                        <lightning-input type="text" data-name="FName__c"
+                                                                            label="First Name" value={record.FName__c}
+                                                                            variant="label-hidden" onchange={handlValueChange}
+                                                                            data-index={index} required></lightning-input>
+                                                                    </div>
+                                                                </template>
+                                                            </p>
+                                                        </dt>
+                                                        <dt class="slds-dl_horizontal__label">
+                                                            <p class="slds-truncate" title="Last Name">
+                                                                <b>Last Name :
+                                                                </b>
+                                                                <template if:true={record.isExst}>
+                                                                    {record.LName__c}
+                                                                </template>
+                                                                <template if:false={record.isExst}>
+                                                                    <div class="slds-truncate" title="Last Name">
+                                                                        <lightning-input type="text" data-name="LName__c"
+                                                                            label="First Name" value={record.LName__c}
+                                                                            variant="label-hidden" onchange={handlValueChange}
+                                                                            data-index={index} required></lightning-input>
+                                                                    </div>
+                                                                </template>
+                                                            </p>
+                                                        </dt>
+                                                        <dt class="slds-dl_horizontal__label">
+                                                            <p class="slds-truncate" title="Applicant Type">
+                                                                <b>Applicant Type :
+                                                                </b>{record.ApplType__c}
+                                                            </p>
+                                                        </dt>
+                                                        <dt class="slds-dl_horizontal__label">
+                                                            <p class="slds-truncate" title="Constitution">
+                                                                <b>Constitution :
+                                                                </b>{record.Constitution__c}
+                                                            </p>
+                                                        </dt>
+                                                        <dt class="slds-dl_horizontal__label">
+                                                            <p class="slds-truncate" title="Relationship">
+                                                                <b>Relationship : </b>
+                                                                {record.Relationship__c}
+                                                            </p>
+                                                        </dt>
+            
+                                                        <dt class="slds-dl_horizontal__label">
+                                                            <p class="slds-truncate" title="Shareholding %">
+                                                                <b>Shareholding % : </b>
+                                                                <lightning-input type="text" name="Shareholding"
+                                                                    label="Shareholding %" value={record.Shareholding}
+                                                                    variant="label-hidden" disabled={isReadOnly}
+                                                                    onchange={handlChange} data-index={index}
+                                                                    onkeypress={handleKeyPress} required></lightning-input>
+                                                            </p>
+                                                        </dt>
+                                                        <dt class="slds-dl_horizontal__label">
+                                                            <p class="slds-truncate" title="Beneficial Owner (BO)">
+                                                                <b>Beneficial Owner (BO) : </b>{record.isBo}
+                                                            </p>
+                                                        </dt>
+                                                        <dl style="display: flex; align-items: center;">
+                                                            <dt class="slds-dl_horizontal__label" style="margin-right: 10px;">
+                                                                <p class="slds-truncate" title="Actions">
+                                                                    <b>Actions :</b>
+                                                                </p>
+                                                            </dt>
+                                                            <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                                                                <p class="slds-truncate">
+                                                                    <template lwc:if={record.isDelete}>
+                                                                        <lightning-button-icon icon-name="action:delete"
+                                                                            alternative-text="Delete" title="Delete"
+                                                                            data-index={index} data-id={record.Id}
+                                                                            data-relid={record.relationShipId}
+                                                                            onclick={handleDeleteAction}
+                                                                            disabled={disableDispatchInputs}>
+                                                                        </lightning-button-icon>
+                                                                    </template>
+                                                                </p>
+                                                            </dd>
+                                                        </dl>
+                                                        <br /><br />
+                                                    </dl>
+                                                </lightning-tile>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+            
+                    </div>
+                <!-- </template> -->
+                </lightning-accordion-section>
+                <lightning-accordion-section if:false={showBo} name="B" label="BO Details" class="accClass ">
+                 <c-bo-table loan-app-id={loanAppId} app-id={appId} is-read-only={isReadOnly}
+                 ></c-bo-table>
+                </lightning-accordion-section>
+                </lightning-accordion>
+       
+    </template>
+   
+
+    <template if:true={showPickList}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="my-modal slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div if:true={showSpinnerNew}>
+                    <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+                    </lightning-spinner>
+                </div>
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeMPickListModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                    <lightning-combobox placeholder="Select Value" data-name="Select Value" value={addNewValue}
+                        onchange={handleInputChange} options={addOptions} label="Select Value"
+                        disabled={isReadOnly}></lightning-combobox>
+                    <template if:true={showExBo}>
+                        <lightning-combobox placeholder="Select Value" data-name="Existing BO" value={selectedBOVal}
+                            onchange={handleInputChangeBo} options={existBoOptions} label="Existing BO"
+                            disabled={disableExBoPick}></lightning-combobox>
+                    </template>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button if:false={hideYesButton} class="slds-button slds-button_brand" onclick={closeModalYes} title="Yes">
+                        Yes
+                    </button>
+                    <button class="slds-button slds-button_neutral" onclick={closeMPickListModal} title="No">
+                        No
+                    </button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <template if:true={showDocumentDispatchDelete}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-align--absolute-center slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModalDeleteDocDis}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-05" class="slds-text-heading_medium slds-hyphenate">
+                        Delete?
+                    </h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-5">
+                    <p style="text-align: center">
+                        <b>{removeModalMessageDocDis}</b>
+                    </p>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_brand" onclick={handleDeleteDocDis} title="Yes">
+                        Yes
+                    </button>
+                    <button class="slds-button slds-button_neutral" onclick={closeModalDeleteDocDis} title="No">
+                        No
+                    </button>
+
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

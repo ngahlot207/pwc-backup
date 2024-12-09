@@ -1,0 +1,20 @@
+<template>
+    <lightning-layout multiple-rows="true">
+        <lightning-layout-item size="12">
+            <div class="slds-p-left_small"> 
+                <b>Lead Management</b>
+            </div> 
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item size="4">
+                    <div class="slds-p-around_small">
+                        <lightning-progress-indicator current-step={currentStage} type="path" variant="base">
+                            <template for:each={steps} for:item="step"> 
+                                <lightning-progress-step label={step.label} value={step.value} key={step.label} size="x-small"></lightning-progress-step>
+                            </template> 
+                        </lightning-progress-indicator>
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

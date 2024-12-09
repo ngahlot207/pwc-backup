@@ -1,0 +1,721 @@
+<apex:component Controller="LoanAgreement" >
+     
+     <html>
+        
+        <head>
+            <style>
+                .table1 tr,td{
+                width:15px;
+                }
+                
+               
+        
+            </style>
+        </head>
+    </html>
+    <body >
+      <!--  <div  class="fixed-header">
+        <P >
+            {!CurrentDateTime}
+            </P> 
+    </div>-->
+        <div style="text-align: right; font-size:12px">
+                {!CurrentDateTime}
+            </div>
+        <apex:outputPanel id="panelHeaderFooter" styleClass="header_right" layout="block">
+        <p > Version: 0502024 </p>
+    </apex:outputPanel>
+        <div  class="form-container">
+            <div  style="padding-bottom:50px" class="form-container1">
+                <img id="logo" src="{!$Resource.FedBankLogo2}" alt="FederalBank Logo" height="200px" width="675px"/>
+        <div>
+            <h4 style="text-align:center; font-family:calibiri;font-weight: bold;font-size:15px;color:#0070C0;padding-top:100px; ">LOAN AGREEMENT - LAP/HL</h4>
+        </div>
+         
+        <table style="font-family: Verdana, Helvetica, Arial, sans-serif;font-size: 8px;border: 1px solid black;border-collapse: collapse;page-break-inside:avoid;page-break-before:avoid">
+                <tr><th class="photo-box">Application Form No. </th>
+                    <td class="photo-box">{!ApplicationFormNo}</td>                    
+                </tr>
+            <tr><th class="photo-box">Name of the Applicant </th>
+                    <td class="photo-box">{!ApplicantName}</td>                    
+                </tr>
+            <tr><th class="photo-box">Address of the Property </th>
+                   <td >   
+                <apex:repeat var="PropertyAddress" value="{!PropertyAddressWrapper}">                        
+                    <apex:outputText value="{!PropertyAddress.AllPropertyAddresswithoutAmount}"><br/></apex:outputText>                                                                            
+                       
+                    </apex:repeat>
+               </td> </tr>
+            <tr><th class="photo-box">Loan Amount </th>
+                <!-- LAK-9345 -->
+                    <td class="photo-box">{!LoanAmount1}</td>                    
+                </tr>
+            <tr><th class="photo-box">Loan Account No. </th>
+                    <td class="photo-box">{!LoanAccountNo}</td>                    
+                </tr>
+        </table><br/><br/>
+       
+        <apex:outputText value="{!mapofContent[1]}" escape="false" />
+                
+                
+                <!-- <p style="margin-top:180px;font-family:Times New Roman;font-size:10px;text-align:center">
+                    Registered &amp; Corporate Office: Unit No.1101, 11th Floor, Cignus, Plot No. 71A,Powai, Paspoli, Mumbai - 400 087, Maharashtra  CIN : L65910MH1995PLC364635
+
+                </p> -->
+            </div></div>
+        <div style="page-break-after:always;"></div>
+         <div>
+            <h4 style="margin-right:130px;text-align:center; font-family:calibiri;font-weight: bold;font-size:15px">LOAN AGREEMENT</h4>
+        </div>
+        
+         <div style="font-family:Times New Roman;font-size:12px">
+            This LOAN AGREEMENT is made at {!Place}, on this {!CurrentDay} day of {!CurrentMonth}, {!CurrentYear} by and between:
+        </div><br/>
+        <apex:outputText value="{!mapofContent[2]}" escape="false" /><div style="font-family:Times New Roman;font-size:12px">{!officeAddress}    </div>     
+        <apex:outputText value="{!mapofContent[3]}" escape="false" />
+        <apex:outputText escape="false" value="{!StaticContent}"/>
+        <div style="font-family:Times New Roman;font-size:14px">
+            IN WITNESS WHEREOF the Parties have executed this Agreement on this {!CurrentDay} day of {!CurrentMonth},
+and the year {!CurrentYear} as mentioned herein below:<br/><br/>
+SIGNED AND DELIVERED by the within named Borrower, Co-Borrowers and Guarantors
+        </div><br/>
+        <div>
+                <table style = "font-family: Verdana, Helvetica, Arial, sans-serif;font-size: 8px;border: 1px solid black;border-collapse: collapse;page-break-inside:avoid;page-break-before:avoid">
+                    <tr>
+                        <th style="width:15%;"> Particulars</th>
+                        <th style="width:10%;">Name</th> 
+                        <th style="width:10%;"> Signature</th>
+                       
+                    </tr>
+                    <apex:repeat var="BorrowerDetail" value="{!borrowerDetailsWrapper}">
+                        <tr>
+                            <td style="width:10%;">{!BorrowerDetail.borrowerType}</td>
+                            <td style="width:15%;"><apex:outputText value="{!BorrowerDetail.applicantListForBorrowerWrapper.FullName__c}"></apex:outputText></td>
+                             <td></td>                                                 
+                        </tr>
+                    </apex:repeat>
+                </table>
+        </div><br/>
+        <div style="page-break-after:always;"></div>
+        <div>
+           <u> <h4 style="margin-right:130px;text-align:center; font-family:calibiri;font-weight: bold;font-size:15px">Schedule to Loan Agreement</h4></u>
+        </div>
+        <div style="font-family:Times New Roman;font-weight: bold;font-size:15px">
+            A) Customer Details
+        </div>
+         <div>
+                <table style = "font-family: Verdana, Helvetica, Arial, sans-serif;font-size: 8px;border: 1px solid black;border-collapse: collapse;page-break-inside:avoid;page-break-before:avoid">
+                    <tr>
+                        <th style="width:15%;"> Name of the Borrower/s</th>
+                        <th style="width:10%;"> Son of/ Daughter of/ Wife of</th> 
+                        <th style="width:10%;"> Age (Yrs) / Date of Incorporation</th>
+                        <th style="width:15%;"> Constitution (Partnership/HUF/Trust/ Pvt.Ltd/Pub.Ltd/Society)</th>
+                        <th style="width:10%;"> Resident Status (Resident Indian/NRI/PIO)</th> 
+                        <th style="width:10%;">Address</th>
+                            
+                       
+                    </tr>
+                    <apex:repeat var="BorrowerDetail" value="{!borrowerDetailsWrapper}">
+                        <tr>                            
+                            <td style="width:15%;"><apex:outputText value="{!BorrowerDetail.applicantListForBorrowerWrapper.FullName__c}"></apex:outputText></td>
+                             <td>{!BorrowerDetail.applicantListForBorrowerWrapper.Relationship__c}</td> 
+                            <td >{!BorrowerDetail.applicantListForBorrowerWrapper.Age__c} {!BorrowerDetail.DOI}</td>
+                            <td style="width:9%;">{!BorrowerDetail.applicantListForBorrowerWrapper.Constitution__c}</td>
+                             <td>{!BorrowerDetail.ResidenceType}</td>
+                             <td>{!BorrowerDetail.AddressOfBorrowers}</td>
+                        </tr>
+                    </apex:repeat>
+                </table>
+        </div><br/><br/>
+        <div style="font-family:Times New Roman;font-weight: bold;font-size:15px">
+            B) Details of Property (IES)
+        </div>
+         <div>
+                <table style = "font-family: Verdana, Helvetica, Arial, sans-serif;font-size: 8px;border: 1px solid black;border-collapse: collapse;page-break-inside:avoid;page-break-before:avoid">
+                    <tr>
+                        <th > S.No.</th>
+                        <th > Particulars</th> 
+                        <th > Document Details</th>
+                       
+                    </tr>
+                   <tr>
+                       		<td>1)</td>
+                            <td>Description of Property</td>
+                       		<td> <apex:repeat var="PropertyAddress" value="{!PropertyAddressWrapper}">                        
+                    <apex:outputText value="{!PropertyAddress.AllPropertyAddress}"><br/></apex:outputText>                                                                            
+                       
+                    </apex:repeat></td>
+                     </tr>
+                    <tr>
+                       		<td>2)</td>
+                            <td>Details of Title Deeds</td>
+                       		<td> <apex:repeat var="Deeds" value="{!DeedsWrapper}">                        
+                    <apex:outputText value="{!Deeds.DetailsforTitleDeeds}"><br/></apex:outputText>                                                                            
+                       
+                    </apex:repeat></td>
+                     </tr>
+                    <tr>
+                       		<td>3)</td>
+                            <td>Additional Security/Collateral</td>
+                       		<td>-</td>
+                     </tr>
+                </table>
+        </div><br/><br/>
+        <apex:outputPanel rendered="{!DisbursalType == 'SINGLE'}">
+         <div style="font-family:Times New Roman;font-weight: bold;font-size:12px">
+            Tranche-1
+        </div>
+         <div style="font-family:Times New Roman;font-weight: bold;font-size:14px">
+           C) LOAN/FACILITY DETAILS
+        </div>
+    	<div>
+                <table style = "font-family: Verdana, Helvetica, Arial, sans-serif;font-size: 8px;border: 1px solid black;border-collapse: collapse;page-break-inside:avoid;page-break-before:avoid">
+                      <tr>
+                       		<td>1)</td>
+                            <td>Application Number</td>
+                       		<td>{!ApplicationFormNo}</td>
+                     </tr>
+                    <tr>
+                       		<td>2)</td>
+                            <td>Type of Loan</td>
+                       		<td>{!TypeOfLoan}</td>
+                     </tr>
+                    <tr>
+                       		<td>3)</td>
+                            <td>Purpose: End Use of Loan</td>
+                       		<td>{!LoanPurpose}</td>
+                     </tr>
+                    <tr>
+                        <td>4)</td>
+                        <td> Loan Amount</td> 
+                        <td> Rs.{!LoanAmount1}/-</td>                       
+                    </tr>
+                    <tr>
+                        <td>5) (a)</td>
+                        <td> Rate of Interest% p.a.(monthly reducing) +interest taxes/statutory levels as applicable</td> 
+                        <td>{!rateTypeFloatingFlag} %</td>                       
+                    </tr>
+                    <tr>
+                        <td> 5) (b)</td>
+                        <td> Processing Fees</td> 
+                        <td> <u> Rs.{!PFAmount}/-</u></td>                       
+                    </tr>
+                    <tr>
+                        <td> 6)</td>
+                        <td> Tenure of Loan</td> 
+                        <td> {!TenureOfLoan} Months (including Moratorium, if any)</td>                       
+                    </tr>
+                    <tr>
+                        <td >7)</td>
+                        <td > Number of EMIs</td> 
+                        <td > {!TenureOfLoan}</td>                       
+                    </tr>
+                    <tr>
+                        <td > 8) (a)</td>
+                        <td > Amount of each EMI</td> 
+                        <td > Rs.{!EMI}/-</td>                       
+                    </tr>
+                    <tr>
+                        <td > 8) (b)</td>
+                        <td > Moratorium Period (if applicable)</td> 
+                        <td > {!moratApplicable}{!MoratPeriod}</td>                       
+                    </tr>
+                    <tr>
+                        <td > 9)</td>
+                        <td > Date of Commencement of Monthly Instalment</td> 
+                        <td > {!FirstEMIDate}</td>                       
+                    </tr>
+                    <tr>
+                        <td > 10) (a)</td>
+                        <td > Due Date of payment of first Monthly Instalment</td> 
+                        <td > {!FirstEMIDate}</td>                       
+                    </tr>
+                    <tr>
+                        <td ><b> 10) (b)</b></td>
+                        <td > Due date of monthly instalment</td> 
+                        <td > {!DueDate}</td>                       
+                    </tr>
+                    <tr>
+                        <td > 11)</td>
+                        <td > Reset</td> 
+                        <td > Monthly</td>                       
+                    </tr>
+                    <tr>
+                        <td > 12)</td>
+                        <td > Mode of Repayment</td> 
+                        <td >{!ModeOfRepayment}</td>                       
+                    </tr>
+                        
+                </table>
+        </div><br/><br/>
+        
+        </apex:outputPanel>
+        
+        <apex:outputPanel rendered="{!DisbursalType == 'MULTIPLE'}">
+            <div style="font-family:Times New Roman;font-weight: bold;font-size:14px">
+           C) LOAN/FACILITY DETAILS
+        </div>
+            <apex:repeat value="{!MultiTrancheWrapper}" var="MTWrapper">
+        <div style="font-family:Times New Roman;font-weight: bold;font-size:12px">
+            
+            {!MTWrapper.MTDescription}
+        </div>
+        
+         
+        
+    	<div>
+                <table style = "font-family: Verdana, Helvetica, Arial, sans-serif;font-size: 8px;border: 1px solid black;border-collapse: collapse;page-break-inside:avoid;page-break-before:avoid">
+                      <tr>
+                       		<td>1)</td>
+                            <td>Application Number</td>
+                       		<td>{!ApplicationFormNo}</td>
+                     </tr>
+                    <tr>
+                       		<td>2)</td>
+                            <td>Type of Loan</td>
+                       		<td>{!TypeOfLoan}</td>
+                     </tr>
+                    <tr>
+                       		<td>3)</td>
+                            <td>Purpose: End Use of Loan</td>
+                       		<td>{!LoanPurpose}</td>
+                     </tr>
+                    <tr>
+                        <td>4)</td>
+                        <td> Loan Amount</td> 
+                        <td> Rs.{!MTWrapper.MTAmount}/-</td>                       
+                    </tr>
+                    <tr>
+                        <td>5) (a)</td>
+                        <td> Rate of Interest% p.a.(monthly reducing) +interest taxes/statutory levels as applicable</td> 
+                        <td> {!rateTypeFloatingFlag} %</td>                       
+                    </tr>
+                    <tr>
+                        <td> 5) (b)</td>
+                        <td> Processing Fees</td> 
+                        <td> Rs.{!PFAmount} /-</td>                       
+                    </tr>
+                    <tr>
+                        <td> 6)</td>
+                        <td> Tenure of Loan</td> 
+                        <td>  {!TenureOfLoan} Months (including Moratorium, if any)</td>                       
+                    </tr>
+                    <tr>
+                        <td >7)</td>
+                        <td > Number of EMIs</td> 
+                        <td > {!TenureOfLoan}</td>                       
+                    </tr>
+                    <tr>
+                        <td > 8) (a)</td>
+                        <td > Amount of each EMI</td> 
+                        <td > Rs.{!EMI}/-</td>                       
+                    </tr>
+                    <tr>
+                        <td > 8) (b)</td>
+                        <td > Moratorium Period (if applicable)</td> 
+                        <td > {!moratApplicable}{!MoratPeriod}</td>                       
+                    </tr>
+                    <tr>
+                        <td > 9)</td>
+                        <td > Date of Commencement of Monthly Instalment</td> 
+                        <td > {!FirstEMIDate}</td>                       
+                    </tr>
+                    <tr>
+                        <td > 10) (a)</td>
+                        <td > Due Date of payment of first Monthly Instalment</td> 
+                        <td > {!FirstEMIDate}</td>                       
+                    </tr>
+                    <tr>
+                        <td ><b> 10) (b)</b></td>
+                        <td > Due date of monthly instalment</td> 
+                        <td > {!DueDate}</td>                       
+                    </tr>
+                    <tr>
+                        <td > 11)</td>
+                        <td > Reset</td> 
+                        <td > Monthly</td>                       
+                    </tr>
+                    <tr>
+                        <td > 12)</td>
+                        <td > Mode of Repayment</td> 
+                        <td > {!ModeOfRepayment}</td>                       
+                    </tr>
+                        
+                </table>
+        </div><br/><br/>
+            </apex:repeat>
+         </apex:outputPanel>
+        <div style="font-family:Times New Roman;font-weight: bold;font-size:14px">
+           D) Schedule of Charges
+        </div>
+    	<div>
+                <table style = "font-family: Verdana, Helvetica, Arial, sans-serif;font-size: 8px;border: 1px solid black;border-collapse: collapse;page-break-inside:avoid;page-break-before:avoid">
+                       <apex:repeat value="{!ChargeWrapperList}" var="chargeWrapper">
+                    	<tr>
+                            			<td >{!chargeWrapper.Index}</td>
+                                        <td >{!chargeWrapper.DecsOfCharge}</td>
+                                        <td >{!chargeWrapper.valueOfCharge}</td>
+                                   
+                    </tr>
+                    </apex:repeat>
+                   <!-- <tr>
+                       		<td>1)</td>
+                            <td>Part Prepayment Charges</td>
+                       		<td>As per Sanction Letter</td>
+                     </tr>
+                    <tr>
+                       		<td>2)</td>
+                            <td>Pre-Payment Charges</td>
+                       		<td>As per Sanction Letter</td>
+                     </tr>
+                   	 <tr>
+                       	<td>3)</td>
+                            <td>Cheque Bounce Charges</td>
+                       		<td>Rs. 750</td>
+                    </tr>
+                       
+                     
+                    <tr>
+                        <td>4)</td>
+                        <td><b>Late Payment Charges</b></td> 
+                        <td> <b>3% per month (inclusive of GST)</b></td>                       
+                    </tr>
+                    <tr>
+                        <td>5) </td>
+                        <td> Repayment Instrument / Cheque Swap Charges</td> 
+                        <td> Rs. 500 + Applicable Taxes</td>                       
+                    </tr>                    
+                    <tr>
+                        <td> 6)</td>
+                        <td> Loan Statement Charges
+(NIL for 1 statement every half yearly)</td> 
+                        <td> Rs. 500 + Applicable Taxes</td>                       
+                    </tr>
+                    <tr>
+                        <td >7)</td>
+                        <td > Loan Reschedulement charges</td> 
+                        <td > 0.50% of loan outstanding + Applicable Taxes</td>                       
+                    </tr>
+                    <tr>
+                        <td > 8)</td>
+                        <td > CERSAI Charges</td> 
+                        <td > Rs. {!Cersai} + Applicable Taxes</td>                       
+                    </tr>
+                    <tr>
+                        <td > 9)</td>
+                        <td >NOC Issuance Charges (NIL for first NOC)</td> 
+                        <td >Rs. 500 + Applicable Taxes</td>                       
+                    </tr>
+                    <tr>
+                        <td > 10)</td>
+                        <td > Document Retrieval Charges (per advice)</td> 
+                        <td > Rs. 500 + Applicable Taxes</td>                       
+                    </tr>
+                    <tr>
+                        <td > 11)</td>
+                        <td > Loan Cancellation Charges</td> 
+                        <td >Rs 2000 + Applicable Taxes plus interest charges from
+disbursement date till cancellation</td>                       
+                    </tr>
+                    <tr>
+                        <td > 12)</td>
+                        <td > Switch Charges (for change in the ROI /
+Rate Type or for change in Margin)</td> 
+                        <td > 1% of the loan outstanding + Applicable Taxes</td>                       
+                    </tr>
+                    <tr>
+                     <td > 13)</td>
+                        <td >Any Other Charge</td> 
+                        <td > As per Actual</td>                       
+                    </tr>   -->
+                </table>
+        </div><br/><br/>
+        
+ <apex:outputText value="{!mapofContent[4]}" escape="false" />
+        
+        <div  style="font-family:Times New Roman;font-size:14px">
+            SIGNED AND DELIVERED <span style="padding-left:205px;">]</span><br/>
+            by the within named Borrower  <span style="padding-left:200px;"> ]</span><br/>
+Shri__________________________________________________ ]<br/>
+Shri__________________________________________________ ]<br/>
+as Sole Proprietor/Proprietress of M/s________________________]<br/>
+<b>[To be used in case the Borrower is a Proprietorship Concern]</b><br/><br/>
+SIGNED AND DELIVERED <span style="padding-left:205px;"> ]</span><br/>
+by the within named Borrower<span style="padding-left:200px;"> ]</span><br/>
+Shri__________________________________________________  ]<br/>
+Shri__________________________________________________  ]<br/>
+<b>Shri__________________________________________________  ]</b><br/>
+<b>Shri__________________________________________________  ]</b><br/>
+<b>[To be used in case the Borrower is an Individual]</b><br/><br/>
+SIGNED AND DELIVERED <span style="padding-left:205px;"> ]</span><br/>
+By the withinnamed Borrower_____________________________  ]<br/>
+in his capacity as karta of_____________________________  HUF ]<br/>
+<b>[To be used in case the Borrower is a Karta of HUF ]</b><br/><br/>
+SIGNED AND DELIVERED <span style="padding-left:220px;"> ]</span><br/>
+by the withinnamed Borrower <span style="padding-left:220px;"> ]</span><br/>
+1)______________________________________________________  ]<br/>
+2)______________________________________________________  ]<br/>
+3)______________________________________________________  ]<br/>
+4)______________________________________________________  ]<br/>
+carrying on the business in the firm name and style of <span style="padding-left:90px;"> ]</span><br/>
+M/s _____________________________________________________]<br/>
+<b>[To be used in case the Borrower is a Partnership firm]</b><br/><br/>
+THE COMMON SEAL of the Ltd. <span style="padding-left:195px;"> ]</span><br/>
+above mentioned Borrower has been hereunto affixed pursuant to the <span style="padding-left:5px;"> ]</span><br/>
+Resolution of its Board of Directors passed in that behalf on <span style="padding-left:55px;"> ]</span><br/>
+the day of 20 in the presence of <span style="padding-left:220px;"> ]</span><br/>
+1) <span style="padding-left:380px;"> ]</span><br/>
+2) <span style="padding-left:380px;"> ]</span><br/>
+Director(s), who have signed these presents and Authorised Person/ <span style="padding-left:35px;"> ]</span><br/>
+Secretary of the Company who has signed/countersigned these <span style="padding-left:60px;"> ]</span><br/>
+Presents in token thereof <span style="padding-left:275px;"> ]</span><br/>
+<b>[To be used in case the Borrower is a Company]</b><br/><br/><br/><br/>
+<b>AND</b><br/>
+SIGNED AND DELIVERED BY <span style="padding-left:200px;"> ]</span><br/>
+The Lender Fedbank Financial Services Limited<br/>
+through its authorised signatory <span style="padding-left:220px;"> ]</span><br/><br/>
+<b>Mr./Ms.___________________________________________________ ]</b><br/>
+<b>(Authorised Signatory for Fedbank Financial Services Limited.)</b>
+        </div>
+        <div style="page-break-after:always;"></div>
+      <!--  <div>
+            <h4 style="margin-right:130px;text-align:center; font-family:calibiri;font-weight: bold;font-size:15px">DEMAND PROMISSORY NOTE</h4>
+        </div>
+         <div style="font-family:Times New Roman;font-size:14px">
+             <div style=" font-size: 15px;padding-top:15px;"><b> Rs.{!LoanAmount} /- </b> <span style="padding-left:400px;"> <b> Place:</b>{!Place}</span></div><br/><br/>
+                  
+             On Demand, I/We,<br/><br/>
+            <b> Jointly and severally</b> promise to pay <b>THE FEDBANK FINANCIAL SERVICES LIMITED</b>, or order, the sum of
+Rupees Only for value received,------
+together with interest at % below the Floating Reference Rate (FRR) of the Fedbank Financial Services Limited
+as fixed by the Fedbank Financial Services Limited from time to time, which is presently----- % (i.e. Floating
+Reference Rate -----% minus % ) with Monthly rests, for value received.<br/><br/>
+        <b>For and on behalf of the Borrower/s</b>  
+             <div style="padding-left:500px;">
+                <div rowspan="6" class="photo-box1">
+                 
+                            Revenue Stamp
+
+
+                            <br/>
+                        </div>  
+             </div>
+             <div style="padding-right:300px;">
+             Signatories of Borrower/s<br/><br/>
+            
+             </div>
+        </div>
+        
+         <div style="page-break-after:always;"></div>
+        <div>
+            <h4 style="margin-right:130px;text-align:center; font-family:calibiri;font-weight: bold;font-size:15px">DEMAND PROMISSORY NOTE</h4>
+        </div>
+         <div style="font-family:Times New Roman;font-size:14px">
+             <div style=" font-size: 15px;padding-top:15px;"><b> Rs.{!LoanAmount} /- </b> <span style="padding-left:400px;"> <b> Place:</b>{!Place}</span></div><br/><br/>
+                  
+             On Demand, I/We,<br/><br/>
+            <b> Jointly and severally</b> promise to pay <b>THE FEDBANK FINANCIAL SERVICES LIMITED</b>, or order the sum of Rupees {!LoanAmount}.only, together with interest at
+the rate of ........... percent per annum with Monthly rests, for value received.<br/><br/>
+        <b>For and on behalf of the Borrower/s</b>  
+             <div style="padding-left:500px;">
+                <div rowspan="6" class="photo-box1">
+                 
+                            Revenue Stamp
+                            <br/>
+                        </div>  
+             </div>
+             <div style="padding-right:300px;">
+             Signatories of Borrower/s<br/><br/>
+             
+             </div>
+        </div>
+        
+        
+        <div style="page-break-after:always;"></div>
+        <div>
+            <h4 style="margin-right:130px;text-align:center; font-family:calibiri;font-weight: bold;font-size:15px">LETTER OF CONTINUITY FOR DEMAND PROMISSORY NOTE</h4>
+        </div>
+        
+        Date:{!CurrentDate}<br/><br/>
+<b>Fedbank Financial Services Limited</b><br/>
+Unit No.: 1101, 11th Floor, Cignus,<br/>
+Plot No. 71A, Powai, Paspoli,<br/>
+Mumbai – 400 087.<br/><br/>
+Dear Sirs,<br/><br/>
+I/We have executed a Demand Promissory Note for Rs. {!LoanAmount}/- (Rupees
+only) dated duly signed and
+delivered by me/us to you as security for the repayment by me/us to Fedbank Financial Services Limited. (“FEDFINA”)
+of any sum now due or which may hereafter be or become due by me/us to FEDFINA by way of loans or advances,
+notwithstanding the fact that the loans or advances or the account, may from time to time be reduced or extinguished
+or the balance in the said account brought to credit, the intention being that the said Demand Promissory Note and
+the security shall be a continuing security for any borrowing by us at any time to FEDFINA.<br/><br/><br/>
+Yours faithfully,<br/><br/><br/>
+        ________(x)<br/><br/><br/>
+        <b>In case of a Company</b><br/><br/>
+        <div style="padding-right:100px;">
+            <div style=" font-size: 15px;"> The Common Seal of Ltd. has been affixed  <span style="padding-left:150px;">  ]</span></div>
+  			<div style=" font-size: 15px;"> hereunto pursuant to the Resolution of Board of Directors  <span style="padding-left:63px;">  ]</span></div>
+            <div style=" font-size: 15px;"> dated {!CurrentDate} in the presence of___________:  <span style="padding-left:135px;">  ]</span></div>
+            <div style=" font-size: 15px;"> 1.____________  <span style="padding-left:310px;">  ]Borrower</span></div>
+            <div style=" font-size: 15px;"> 2.-------------  <span style="padding-left:335px;">  ]</span></div><br/><br/>
+            <div style=" font-size: 15px;"> the Director/s have signed these presents in token thereof and  <span style="padding-left:40px;">  ]</span></div>
+            <div style=" font-size: 15px;"> Mr._____ Secretary/  <span style="padding-left:285px;">  ]Co-Borrower</span></div>
+            <div style=" font-size: 15px;"> Authorised Person who has signed/countersigned these presents in  <span style="padding-left:10px;">  ]</span></div>
+            <div style=" font-size: 15px;"> token thereof.  <span style="padding-left:325px;">  ]</span></div>
+ 
+        </div>-->
+        
+         <div style="page-break-after:always;"></div>
+        <div >
+            <h4 style="margin-right:130px;text-align:center; font-family:calibiri;font-weight: bold;font-size:15px">DECLARATION FOR SIGNING IN VERNACULAR LANGUAGE</h4>
+            
+        </div>
+        <div style="font-family:Times New Roman;font-size:14px" >
+            I, _____________________________  son/wife of
+_____________________________ residing at _____________________________ do hereby
+state and declare on solemn affirmation as under:<br/><br/>
+1. That Mr. /Mrs./Miss _______________________ S/o _______________________ known to me for the ____________________
+last yrs/months and he/she signs in the vernacular. I have seen him signing during the normal course of
+business/transactions.<br/><br/>
+2. That I have read out and explained the contents of the Loan Agreement dated _____________________________ (the “Loan
+Agreement”) and all other documents incidental for availing the Loan (as defined in the Loan Agreement) from
+Fedbank financial Services Limited. by the Borrower in _____________________________ Language (“vernacular
+language”) and he / she / they have confirmed that he / she / they has / have understood the same and have
+agreed to abide by all the terms and conditions of the Loan Agreement and the other documents. Pursuant to the
+same the aforesaid person(s) is / are affixing his / her / their signature(s)/thumb impression(s) as given hereinbelow
+:<br/><br/>
+3. That, I have also informed Mr./Mrs./Miss _____________________________ that, in future Fedbank Financial Services Limited
+shall send all future communication in English Language and Mr./Mrs./Miss _____________________________ will seek the
+assistance of his friend/relative in understanding the averments made in such communication(s) and
+unconditionally authorises, that he/she will not hold Fedbank Financial Services Limited and/or any its
+employees responsible for sending any communication in English language.<br/><br/>
+            Signature/thumb of Borrower/ Applicant<br/><br/><br/>
+            _________________________<br/><br/><br/><br/>
+            _________________________<br/><br/>
+            I confirm that whatever I have stated hereinabove is true and correct to the best of my knowledge and belief.<br/><br/>
+            Signed by Mr. / Ms. _____________________________(the Declarant)<br/><br/>
+            Date: <br/><br/>
+            Place: <br/><br/>
+            <div style="padding-top:270px;display: flex;justify-content: space-between" >
+                
+                    <div style="text-align:left">
+                        X-Borrower 
+                    </div>
+               <div style="text-align:right;margin-top:-13px">
+                        X Co-Borrower(s) 
+                    </div>
+                    
+                
+            </div>
+           
+        </div>
+        
+        <div style="page-break-after:always;"></div>
+        
+     <!--   <div>
+            
+            <h4 style="margin-right:130px;margin-top:50px;text-align:center; font-family:calibiri;font-weight: bold;font-size:15px">DECLARATION</h4>
+            
+        </div>
+         <div style="font-family:Times New Roman;font-size:14px;">
+          
+              
+         
+             
+         Date: {!CurrentDate}<br/>
+            Place: {!Place}<br/><br/>
+             <b>Fedbank Financial Services Limited</b><br/>
+Unit No.: 1101, 11th Floor, Cignus,<br/>
+Plot No. 71A, Powai, Paspoli,<br/>
+Mumbai – 400 087.<br/><br/>
+             Loan Application No.{!ApplicationFormNo}<br/><br/>
+             Loan Account No._____________<br/><br/><br/><br/>
+             Dear Sir,<br/><br/>
+I/WeMr./Mrs./Ms. {!ApplicantName}
+Resident of {!ResidenceAddress}
+, do hereby solemnly affirm and declare as hereunder:-<br/><br/>
+             <apex:outputText value="{!mapofContent[5]}" escape="false" /><br/>
+             
+             Solemnly affirmed at {!CurrentDay} on this day of {!CurrentMonth} {!CurrentYear} .<br/><br/>
+             SCHEDULE (A) - DETAILS OF THE PROPERTY (IES):<br/>
+             <div>
+                <table style = "font-family: Verdana, Helvetica, Arial, sans-serif;font-size: 8px;border: 1px solid black;border-collapse: collapse;page-break-inside:avoid;page-break-before:avoid">
+                      <tr>
+                       		<td>No.</td>
+                            <td>Description of Property(with measurement)</td>                       		
+                     </tr>
+                    <tr>
+                       		<td>  1.  </td>
+                            <td> <apex:repeat var="PropertyAddress" value="{!PropertyAddressWrapper}">                        
+                    <apex:outputText value="{!PropertyAddress.AllPropertyAddress}"><br/></apex:outputText>                                                                            
+                       
+                    </apex:repeat></td>
+                       		
+                     </tr>
+                 </table></div><br/><br/>
+             SCHEDULE (B) - DETAILS OF THE TITLE DEEDS.<br/>
+             <div>
+                <table style = "font-family: Verdana, Helvetica, Arial, sans-serif;font-size: 8px;border: 1px solid black;border-collapse: collapse;page-break-inside:avoid;page-break-before:avoid">
+                      <tr>
+                       		<td>No.</td>
+                            <td>Description</td>                       		
+                     </tr>
+                    <tr>
+                       		<td>   1. </td>
+                            <apex:repeat var="Deeds" value="{!DeedsWrapper}">                        
+                   <td> <apex:outputText value="{!Deeds.DetailsforTitleDeeds}"><br/></apex:outputText>                                                                            
+                       </td>
+                    </apex:repeat> 
+                       		
+                     </tr>
+                 </table></div>
+        </div>
+        
+             
+        <div style="page-break-after:always;"></div>
+        <div>
+            <h4 style="margin-right:130px;text-align:center; font-family:calibiri;font-weight: bold;font-size:15px">POWER OF ATTORNEY</h4>
+                        
+        </div>
+        <div style="font-family:Times New Roman;font-size:14px">
+        THIS POWER OF ATTORNEY granted at this day of {!CurrentDate} by Mr./Ms./M/s {!ApplicantName} ( the “Principal”)
+in favour of M/s Fedbank Financial Services Limited, a company incorporated under the companies Act,1956,
+having its registered office at Alwaye, Mumbai, Maharashtra (hereinafter called the Company) send greetings.(“Fedfina”, which
+            expression shall, unless it be repugnant to the subject or context thereof, include its successors and assigns).<br/><br/>
+            <b>WHEREAS</b><br/><br/>
+            <div style="font-family:Times New Roman;font-size:14px;margin-left: 20px;">
+            1. By a Loan Agreement dated the {!CurrentDay} day of {!CurrentDay}, {!CurrentYear} and entered into
+between {!ApplicantName} (the “Borrower”) {!CoApplicantName}
+(the “Co-Borrower”)
+and interalia Fedbank Financial Services Limited (the “Fedfina”) (the “Loan Agreement”, which expression
+shall include all amendments made thereto from time to time), the Lenders therein have lent and advanced
+or agreed to lend and advance to the borrower a loan not exceeding {!LoanAmount1} (the “Loan”) on
+                the terms and conditions set out in the Loan Agreement.<br/>
+                <apex:outputText escape="false" value="{!StaticContent1}"/>                
+            </div>
+            SCHEDULE<br/>
+             <div>
+                <table style = "font-family: Verdana, Helvetica, Arial, sans-serif;font-size: 8px;border: 1px solid black;border-collapse: collapse;page-break-inside:avoid;page-break-before:avoid">
+                      <tr>
+                       		<td>S No.</td>
+                            <td>Details of assets of the Principal</td>                       		
+                     </tr>
+                    <tr>
+                       		<td>   1. </td>
+                            <td><apex:repeat var="PropertyAddress" value="{!PropertyAddressWrapper}">                        
+                    <apex:outputText value="{!PropertyAddress.AllPropertyAddress}"><br/></apex:outputText>                                                                            
+                       
+                    </apex:repeat> </td>
+                       		
+                     </tr>
+                 </table></div><br/><br/>
+          <b>  IN WITNESS WHEREOF</b> the Principal has caused these presents to be executed on the day, month and year first
+herein above written in the manner hereinafter appearing.<br/><br/>
+SIGNED AND DELIVERED by the<br/>
+Within name Principal, Mr./Ms./M/s {!ApplicantName},<br/><br/>
+In presence of<br/>
+1. Mr./Ms./M/s _________________,<br/><br/>
+2. Mr./Ms./M/s_______________<br/><br/>
+        </div>-->
+    </body>
+</apex:component>

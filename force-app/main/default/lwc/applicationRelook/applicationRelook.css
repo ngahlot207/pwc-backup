@@ -1,0 +1,21 @@
+label:before {
+    content: '*';
+    color: red;
+  }
+
+  .my-button{
+    /* background-color: red; */
+    color:red;
+    --slds-c-icon-color-foreground:red;
+}
+
+.inputfieldwidth{
+width: -1% !important;
+}
+.marginTop{
+  margin-top: 10px;
+  margin-bottom: -10px
+}
+.width{
+  width: 80%;
+}

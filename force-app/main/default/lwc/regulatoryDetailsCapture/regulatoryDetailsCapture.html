@@ -1,0 +1,341 @@
+<template>
+    <template lwc:if={isSpinner}>
+        <div class="exampleHolder">
+            <lightning-spinner alternative-text="Loading" size="medium" style="height:60rem;width:120rem;position:fixed;"></lightning-spinner>
+        </div>
+        </template>
+    <lightning-card title="Regulatory Details" >
+
+            <div class="slds-p-around_small">
+                <lightning-input type="checkbox" value={wrpAppReg.IsUwVerified__c} label="UW Verified" onchange={handleUwCheckbox} disabled={disableUwVeri} checked={wrpAppReg.IsUwVerified__c} ></lightning-input>
+            </div>
+        <lightning-accordion active-section-name={activeSection} allow-multiple-sections-open>
+        <lightning-accordion-section name="A" label="Declaration for Director, Senior Officer of Fedfina or their relative " class="accClass">
+         <lightning-layout multiple-rows="12">
+            <template lwc:if={option1}>
+            <lightning-layout-item  size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <div class="slds-p-around_x-small">
+                    <!-- //value={IsBorowrOrRelFFDirValue} -->
+                    <lightning-combobox
+                        name="borrower"
+                        class="borrowersValue"
+                        label="Is the borrowers, a director (including Chairman/ MD) in Fedfina OR a relative of Fedfina Director OR senior officer at Fedfina OR relative of senior officer at Fedfina? "
+                        value={wrpAppReg.IsBorowrOrRelFFDir__c}
+                        data-name="IsBorowrOrRelFFDir__c"
+                        options={IsBorowrOrRelFFDirOptions}
+                        onchange={HandleValueChange} 
+                        read-only={disableMode}
+                        required={requiredFlag}
+                        disabled={disableMode}>
+                    </lightning-combobox>    
+                </div>
+            </lightning-layout-item>
+            </template>
+
+<!-- adding question for A -->
+<template lwc:if={option2}>
+<lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+    <div class="slds-p-around_x-small">
+        <!-- value={FFDirRelIntrstAsSHValue} -->
+        <lightning-combobox
+            name="borrower"
+            class="borrowersValue"
+            label="In this Company, Fedfina Director or their relative is interested as a major shareholder, director, manager, employee or Guarantor?"
+            
+            value={wrpAppReg.FFDirRelIntrstAsSH__c}
+            data-name="FFDirRelIntrstAsSH__c"
+            options={FFDirRelIntrstAsSHOptions}
+            onchange={HandleValueChange} 
+            read-only={disableMode}
+            required={requiredFlag}
+            disabled={disableMode}>
+        </lightning-combobox>    
+    </div>
+</lightning-layout-item>
+</template>
+
+<template lwc:if={option3}>
+<lightning-layout-item  size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+    <div class="slds-p-around_x-small">
+        <!-- value={FFDirRelIntrstAsPartValue} -->
+        <lightning-combobox
+            name="borrower"
+            class="borrowersValue"
+            label="In this firm, Fedfina Director or their relative is interested as a partner, manager, employee or guarantor?"
+            
+            value={wrpAppReg.FFDirRelIntrstAsPart__c}
+            data-name="FFDirRelIntrstAsPart__c"
+            options={FFDirRelIntrstAsPartOptions}
+            onchange={HandleValueChange} 
+            read-only={disableMode}
+            required={requiredFlag}
+            disabled={disableMode}>
+            
+        </lightning-combobox>    
+    </div>
+</lightning-layout-item>
+</template>
+
+
+        </lightning-layout>
+
+        
+    
+        <!-- <template for:each={ChildReords} for:item="p"> -->
+            <template lwc:if ={isYes}>
+        <!-- <template lwc:if={addRows}>  -->
+        <!-- <template for:each={wrpRegPer} for:item="p" for:index="index"> -->
+            <template for:each={AllChildRecords} for:item="p" for:index="index">
+            <div key={key} >
+                <lightning-layout multiple-rows="12"> 
+        <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+            <div class="slds-p-around_x-small">
+                <!-- <lightning-input type="text" label="Name of Director/ Senior officer" required={requiredFlag} onchange={handleInputChange} class="companyChange" value={p.DirName__c}
+                data-name="DirName__c" disabled={disabledFlag} data-index={index} data-fieldname={Dir}
+                ></lightning-input> -->
+                <!-- pattern="[A-Za-z0-9. ]*" message-when-pattern-mismatch="Please enter a valid Company Name"  -->
+                <lightning-input type="text" label="Name of Director/ Senior officer"  onchange={handleInputChange} class="companyChange" value={p.DirName__c}
+                data-name="DirName__c" disabled={disableMode} required={isDeclartionInputReq} read-only={disableMode} pattern="^[A-Za-z\s]+$" maxlength="20" message-when-pattern-mismatch={messageMismatchError} data-index={index} data-fieldname={Dir}
+                ></lightning-input>
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+            <div class="slds-p-around_x-small">
+                <lightning-input type="text" label="Designation"  onchange={handleInputChange} class="keyManName" value={p.Desgntn__c}
+                data-name="Desgntn__c" disabled={disableMode} required={isDeclartionInputReq} read-only={disableMode} pattern="^[A-Za-z\s]+$" maxlength="20" message-when-pattern-mismatch={messageMismatchError} data-index={index} data-fieldname={Des}></lightning-input>
+            </div>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+            <div class="slds-p-around_x-small">
+                <lightning-input type="text" label="Relationship" onchange={handleInputChange} class="keyManName" value={p.Reltnshp__c}
+                data-name="Reltnshp__c" disabled={disableMode} required={isDeclartionInputReq} read-only={disableMode} pattern="^[A-Za-z\s]+$" maxlength="20" message-when-pattern-mismatch={messageMismatchError} data-index={index} data-fieldname={Rel}></lightning-input>
+            </div>
+        </lightning-layout-item>
+
+        <!-- adding delete icon -->
+
+        <!-- <template iterator:it={AllChildRecords}>
+            <div key={it.value.Id}>
+                <div if:false={it.first} class="list-first">
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+                        <div class="slds-clearfix">
+                    <lightning-icon icon-name='utility:delete' alternative-text='delete' variant='error' class="slds-m-top--large slds-float_left" size='small' title='delete' data-index={index} onclick={deleteRPRecord} read-only={disableMode} disabled={disableMode}></lightning-icon>
+    </div></lightning-layout-item>            
+                </div>
+</div></template> -->
+        <!-- adding logic -->
+        <!-- <template lwc:if={p.isDelete}> -->
+        <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+            <div class="slds-clearfix">
+        <!-- <lightning-icon icon-name='utility:delete' alternative-text='delete' variant='error' class="slds-m-top--large slds-float_left" size='small' title='delete' data-index={index} onclick={deleteRPRecord} read-only={disableMode} disabled={disableMode}></lightning-icon> -->
+        <lightning-button-icon icon-name='utility:delete' alternative-text='delete' variant='error' class="pointerClass custom-css slds-m-top--large slds-float_left" size='small' title='delete' data-index={index} data-name="Delete" onclick={deleteRPRecord} read-only={disableMode} disabled={disableMode}></lightning-button-icon>
+  
+    </div>
+    </lightning-layout-item>
+    <!-- </template> -->
+      <!-- end of icon -->
+
+    </lightning-layout>
+    </div>
+    </template>
+</template>
+ <!-- </template>  -->
+    
+
+<!-- adding button -->
+<lightning-layout>
+<lightning-layout-item size="12">
+<template lwc:if={isYes}>
+    <!-- <div class="slds-p-left_medium">  -->
+
+        <div class="center slds-clearfix">
+
+             <div class="slds-float_right"> 
+    <lightning-button
+    
+    label="Add More"
+   
+    variant="brand"
+    onclick={handleAddDirector}
+    disabled={disableMode}
+    ></lightning-button>
+</div></div>
+    
+</template>
+</lightning-layout-item>
+     </lightning-layout>
+    
+    </lightning-accordion-section> 
+
+    
+
+<!-- ----------------------- -->
+
+
+    <lightning-accordion-section name="B" label="ESG Policy" class="accClass">
+        <lightning-layout multiple-rows="12">
+            <template lwc:if={desktopBoolean}>
+            <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <div class="slds-p-around_x-small">
+                    <!-- value={wrpAppReg.DealngIndstry__c -->
+                    <!-- <lightning-combobox
+                        
+                        label="Customer is dealing in any of the mentioned Industry?"
+                        value={wrpAppReg.DealngIndstry__c}
+                        data-name="DealngIndstry__c"
+                        options={customerProfileOptions}
+                        onchange={HandleValueChange} 
+                        required={requiredFlag}
+                        read-only={disableMode}
+                        >
+                    </lightning-combobox>     -->
+                    
+                    <lightning-input label="Customer is dealing in any of the mentioned Industry?"
+                    type="search"
+                    class="DealngIndstryCls"
+                    onfocus={showPicklistOptions}
+                    onblur={handleInputBlur}
+                    onchange={search}
+                    value={DealingIndustryValue}
+                    data-name="DealngIndstry__c"
+                    required={requiredFlag}
+                        read-only={disableMode}
+                        disabled={disableMode}></lightning-input>
+                    
+
+                    
+                    <div  if:true={searchResults}  onblur={handleBlur} onmousedown={handleDivClick} class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid searchClass"
+                    role="listbox">
+                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                        <template for:each={searchResults} for:item="searchResult">
+                            <li key={searchResult.value} data-value={searchResult.value} role="presentation"
+                            onclick={selectSearchResult} class="slds-listbox__item">
+                            <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                            role="option">
+                            <span class="slds-truncate" title={searchResult.label}>
+                                {searchResult.label}
+                            </span>
+                        </div>
+                        </li>
+                        </template>
+                    </ul>
+                </div>
+               
+                </div>
+            </lightning-layout-item>
+        </template>
+
+        <template lwc:if={phoneBolean}>
+            <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <div class="slds-p-around_x-small">
+                    <!-- value={wrpAppReg.DealngIndstry__c -->
+                    <!-- <lightning-combobox
+                        
+                        label="Customer is dealing in any of the mentioned Industry?"
+                        value={wrpAppReg.DealngIndstry__c}
+                        data-name="DealngIndstry__c"
+                        options={customerProfileOptions}
+                        onchange={HandleValueChange} 
+                        required={requiredFlag}
+                        read-only={disableMode}
+                        >
+                    </lightning-combobox>     -->
+                    
+                    <lightning-input label="Customer is dealing in any of the mentioned Industry?"
+                    type="search"
+                    class="DealngIndstryCls"
+                    onfocus={showPicklistOptions}
+                    onblur={handleInputBlur}
+                    onchange={search}
+                    value={DealingIndustryValue}
+                    data-name="DealngIndstry__c"
+                    required={requiredFlag}
+                        read-only={disableMode}
+                        disabled={disableMode}></lightning-input>
+                    
+
+                    
+                    <div  if:true={searchResults}  onblur={handleBlur} onmousedown={handleDivClick} class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid searchPhoneClass"
+                    role="listbox">
+                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                        <template for:each={searchResults} for:item="searchResult">
+                            <li key={searchResult.value} data-value={searchResult.value} role="presentation"
+                            onclick={selectSearchResult} class="slds-listbox__item">
+                            <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                            role="option">
+                            <span class="slds-truncate" title={searchResult.label}>
+                                {searchResult.label}
+                            </span>
+                        </div>
+                        </li>
+                        </template>
+                    </ul>
+                </div>
+               
+                </div>
+            </lightning-layout-item>
+        </template>
+            <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <div class="slds-p-around_x-small">
+                    <!-- value={discriminationValue} -->
+                    <lightning-combobox
+                        
+                        label="Is there any discrimination basis Gender, Caste, Religion, Race or any other characteristics (ESG guideline)?"
+                        value={wrpAppReg.CharDiscrmtn__c}
+                        data-name="CharDiscrmtn__c"
+                        options={discriminationOptions}
+                        onchange={HandleValueChange} 
+                        read-only={disableMode}
+                        required={requiredFlag}
+                        disabled={disableMode}>
+                    </lightning-combobox>    
+                </div>
+            </lightning-layout-item>
+        
+        <template lwc:if={iseligibility}>
+        <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+            <div class="slds-p-around_x-small">
+                <lightning-input type="text" label="Eligible for Funding under ESG Policy Norms Or Not?" read-only={disableMode} onchange={HandleValueChange} class="keyManName" value={wrpAppReg.FundInESGPol__c}
+                data-name="FundInESGPol__c" required={requiredFlag} disabled="true"></lightning-input>
+            </div>
+        </lightning-layout-item>
+         </template>
+    </lightning-layout>
+
+    
+    
+    </lightning-accordion-section> 
+
+    <!-- Adding MSME child -->
+    <template lwc:if={childComponent}>
+    <lightning-accordion-section name="C" label="Final Industry" class="accClass">        
+        <template lwc:if={loanAppId}>
+          
+            <c-msme-check loan-app-id={loanAppId}></c-msme-check>
+        </template>
+        
+    </lightning-accordion-section>
+        
+    </template>
+    </lightning-accordion>
+    
+    <!-- spinner -->
+    
+
+<!-- next button -->
+
+
+                         <!-- <lightning-button
+                                class="slds-align_absolute-center"
+                                label="Next"
+                                variant="brand"
+                                onclick={handleSave}
+                               
+                            ></lightning-button>  -->
+                            
+</lightning-card>
+
+</template>
+
+<!-- adding MSME -->

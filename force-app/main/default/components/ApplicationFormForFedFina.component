@@ -1,0 +1,35 @@
+<apex:component >
+    <div id="FedFina_Form" style="font-size:8px; padding-top: 4px; border-style: solid;">
+        <table id="umrn_Date" style="width: 100%;">
+            <tr>
+                <td style="width: 40%; text-align: left; padding-left: 0.5px">
+                   <table style="width: 100%;">
+                            <tr>
+                                <td style=" padding-bottom: 10px;padding-top: 10px; width: 50%; text-align: center; font-size: 10px;">Application No.</td>
+                                <td style="padding-top:10px;padding-bottom: 10px;width: 50%; text-align: center; font-size: 10px;"></td>
+                            </tr>
+                            <tr>
+                                <td style="padding-top: 5px; padding-bottom: 5px;width: 50%; text-align: center; font-size: 10px;">Date Of Application</td>
+                                <td style="padding-top: 5px;padding-bottom: 5px;width: 50%; text-align: center; font-size: 10px;"></td>
+                            </tr>
+                            <tr>
+                                <td style="padding-top: 5px;padding-bottom: 5px;width: 50%; text-align: center; font-size: 10px;">Product</td>
+                                <td style="padding-top: 5px;padding-bottom: 5px;width: 50%; text-align: center; font-size: 10px;"></td>
+                            </tr>
+                        </table>
+                   
+                </td>
+                <td class="noBorder" style="width: 35%; text-align: bottom; font-size: 12px; padding-left: 10px; padding-top: 50px; padding-bottom: 2px;">
+                    <b>SECURED LOAN APPLICATION FORM</b>
+                </td>
+                <td class="noBorder" style="width: 25%; text-align: center; padding-left: 0.5px; vertical-align: top; padding-top: 20px">
+                    <div style="padding-right: 5px; margin-top: 2px;">
+                        <img id="tickbox" src="{!$Resource.FederalBank_Logo}" height="40px" width="100px"/>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        
+        
+    </div>
+</apex:component>

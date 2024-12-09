@@ -1,0 +1,256 @@
+<template>
+
+
+  
+  <c-case-upload-photos record-id={recordId} onselect={handleValueSelect}></c-case-upload-photos>
+  <!-- <template if:false={hideComponent}> -->
+<br/>
+
+    <template lwc:if={desktopBoolean}>
+        <lightning-card title="Uploaded Photos">
+          <div id="containerDiv" onmousemove={handlemousemove} onmouseup={handlemouseup}
+             ondblclick={handledblclickresizable}
+             class="slds-table_header-fixed_container slds-border_right slds-border_left tableScroll"
+             onscroll={tableOuterDivScrolled}>
+                <div id="tableViewInnerDiv" class="slds-scrollable_y tableViewInnerDiv slds-scrollable">
+                    <table class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout slds-max-medium-table_stacked-horizontal" onscroll={tableScrolled}>
+                      <thead>
+                        <tr>
+                          <th title="Document Type" class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                            <div class="slds-cell-fixed fixedWidth">
+                            <a class="slds-th__action slds-text-link--reset">
+                              <span class="slds-truncate">Document Type</span>
+                            </a>
+                            <div class="slds-resizable">
+                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                    <span class="slds-resizable__divider"></span>
+                                </span>
+                            </div>
+                            </div>
+                          </th>
+                          <th title="Document Name" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                            <div class="slds-cell-fixed fixedWidth">
+                            <a class="slds-th__action slds-text-link--reset">
+                              <span class="slds-truncate">Document Name</span>
+                            </a>
+                            <div class="slds-resizable">
+                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                    <span class="slds-resizable__divider"></span>
+                                </span>
+                            </div>
+                            </div>
+                          </th>
+                          <th title="File Type" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                            <div class="slds-cell-fixed fixedWidth">
+                            <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                              <span class="slds-truncate">File Type</span>
+                            </a>
+                            <div class="slds-resizable">
+                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                    <span class="slds-resizable__divider"></span>
+                                </span>
+                            </div>
+                            </div>
+                          </th>
+                          <th title="Actions" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                            <div class="slds-cell-fixed fixedWidth">
+                            <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                              <span class="slds-truncate">Actions</span>
+                            </a>
+                            <div class="slds-resizable">
+                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                    <span class="slds-resizable__divider"></span>
+                                </span>
+                            </div>
+                            </div>
+                          </th>
+
+
+                          <th class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                            <div class="slds-cell-fixed fixedWidth">
+                            <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                              <span class="slds-truncate"></span>
+                            </a>
+                            <div class="slds-resizable">
+                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                    <span class="slds-resizable__divider"></span>
+                                </span>
+                            </div>
+                            </div>
+                          </th>
+                        </tr>
+                      </thead>
+                     <tbody>
+
+              <template for:each={lstAllFiles} for:item="fileIterator">
+                <tr key={fileIterator.cDId} aria-selected="false" class="slds-hint-parent">
+                  <th class="slds-cell_action-mode" scope="row">
+                    <div class="slds-truncate" title={fileIterator.docDetType}>
+                      {fileIterator.docDetType}
+                    </div>
+                  </th>
+                  <td class="slds-cell_action-mode" role="gridcell">
+                    <div class="slds-truncate" title={fileIterator.docDetName}>
+                      {fileIterator.docDetName}
+                    </div>
+                  </td>
+                  <td class="slds-cell_action-mode" role="gridcell">
+                    <div class="slds-truncate" title={fileIterator.cDFileType}>
+                      {fileIterator.cDFileType}
+                    </div>
+                  </td>
+                  <td>
+                    <div>
+                      <template if:false={fileIterator.cdlId}>
+                        <lightning-icon class="custom-button slds-p-right_xx-small " disabled={modeDis}
+                          data-documentid={fileIterator.docId} icon-name="utility:preview" alternative-text="preview"
+                          size="small" title="preview"></lightning-icon>
+                      </template>
+                      <template if:true={fileIterator.cdlId}>
+                        <lightning-icon class="custom-button slds-p-right_xx-small " onclick={handleDocumentView}
+                          data-cv-id={fileIterator.cvId} data-type={fileIterator.cDFileType} data-id={fileIterator.cDId}
+                          data-documentid={fileIterator.docId} icon-name="utility:preview" alternative-text="preview"
+                          variant="success" size="small" title="preview"></lightning-icon>
+                      </template>
+
+                      <template if:true={fileIterator.docId}>
+                      <lightning-icon class="custom-button slds-p-right_xx-small " data-file-iterator={fileIterator}
+                      onclick={handleDocumentDelete} name={fileIterator.docId} data-documentid={fileIterator.docId}
+                      data-id={fileIterator.cDId} data-cdlid={fileIterator.cdlId} icon-name="utility:delete"
+                      alternative-text="delete" variant="error" size="small" title="delete"
+                      ></lightning-icon>
+                     </template>
+
+
+                    </div>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
+    </div>
+  </lightning-card>
+  </template>
+
+
+
+
+  <template lwc:if={phoneBolean}>
+    <div class="slds-m-top_medium slds-m-bottom_x-large">
+      <h2 class="slds-text-heading_medium slds-m-bottom_medium">
+        Uploaded Files
+      </h2>
+      <template for:each={lstAllFiles} for:item="fileIterator">
+        <div key={fileIterator.docId} class="slds-p-around_medium lgc-bg">
+          <ul class="slds-has-dividers_bottom-space">
+            <li class="slds-item">
+              <lightning-tile>
+                <dl class="slds-dl_horizontal">
+                  <dt class="slds-dl_horizontal__label">
+                    <p class="slds-truncate" title="Document Type">
+                      Document Type :
+                    </p>
+                  </dt>
+                  <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                    <p class="slds-truncate">{fileIterator.docDetType}</p>
+                  </dd>
+                  <dt class="slds-dl_horizontal__label">
+                    <p class="slds-truncate" title="Document Name">
+                      Document Name :
+                    </p>
+                  </dt>
+                  <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                    <p class="slds-truncate">{fileIterator.docDetName}</p>
+                  </dd>
+                  <dt class="slds-dl_horizontal__label">
+                    <p class="slds-truncate" title="Uploaded File name">
+                      File Type :
+                    </p>
+                  </dt>
+
+                  <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                    <p class="slds-truncate">{fileIterator.cDFileType}</p>
+                  </dd>
+
+                  
+                 
+                  <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                    <p class="slds-truncate">
+                      <template if:false={fileIterator.cdlId}>
+                        <lightning-icon class="slds-p-right_medium custom-button" disabled={modeDis}
+                          data-documentid={fileIterator.docId} icon-name="utility:preview" alternative-text="preview"
+                          size="small" title="preview"></lightning-icon>
+                      </template>
+                      <template if:true={fileIterator.cdlId}>
+                        <lightning-icon class="slds-p-right_medium custom-button" onclick={handleDocumentView}
+                          data-cv-id={fileIterator.cvId} data-type={fileIterator.cDFileType} data-id={fileIterator.cDId}
+                          data-documentid={fileIterator.docId} icon-name="utility:preview" alternative-text="preview"
+                          variant="success" size="small" title="preview"></lightning-icon>
+                      </template>
+                      <template if:true={fileIterator.docId}>
+                      <lightning-icon class="custom-button slds-p-right_xx-small " data-file-iterator={fileIterator}
+                      onclick={handleDocumentDelete} name={fileIterator.docId} data-documentid={fileIterator.docId}
+                      data-id={fileIterator.cDId} data-cdlid={fileIterator.cdlId} icon-name="utility:delete"
+                      alternative-text="delete" variant="error" size="small" title="delete"
+                      ></lightning-icon>
+                    </template>
+                    </p>
+                  </dd>
+                  <br /><br />
+                </dl>
+              </lightning-tile>
+            </li>
+          </ul>
+        </div>
+      </template>
+    </div>
+  </template>
+
+
+
+  <template if:true={isModalOpen}>
+    <!-- Modal/Popup Box LWC starts here -->
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+      aria-describedby="modal-content-id-1" class="slds-align--absolute-center slds-modal slds-fade-in-open">
+      <div class="slds-modal__container">
+        <!-- Modal/Popup Box LWC header here -->
+        <header class="slds-modal__header">
+          <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+            onclick={closeModal}>
+            <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+              size="small"></lightning-icon>
+            <span class="slds-assistive-text">Close</span>
+          </button>
+          <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Delete?</h2>
+        </header>
+        <!-- Modal/Popup Box LWC body starts here -->
+        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+          <p style="text-align:center;"><b>{removeModalMessage}</b></p>
+        </div>
+        <!-- Modal/Popup Box LWC footer starts here -->
+        <footer class="slds-modal__footer">
+          <button class="slds-button slds-button_neutral" onclick={closeModal} title="No">No</button>
+          <button class="slds-button slds-button_brand" data-documentid={docIdToDelete} data-cdlid={cdlIdToDelete}
+            onclick={handleRemoveRecord} title="Yes">Yes</button>
+        </footer>
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+  </template>
+
+
+
+
+
+  <template if:true={showModalForFilePre}>
+
+    <c-multi-doc-previewer document-detail-id={documentDetailId} onclosepreview={handleCloseModalEvent}
+    has-document-id={hasDocumentId}> </c-multi-doc-previewer>
+
+    <!-- <c-multiple-ifram-file-preview  con-doc-id={documentDetailId}  onclosepreview={handleCloseModalEvent}></c-multiple-ifram-file-preview> -->
+
+    <!-- <c-i-frame-preview image-type-file-url={imageTypeFileUrl} cont-doc-type={contDocType} cont-doc-id={contDocId}
+      url={url} cv-id={cvId} onclosepreview={handleCloseModalEvent}></c-i-frame-preview> -->
+  </template>
+  </template>

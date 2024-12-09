@@ -1,0 +1,8 @@
+.custom-css {
+    --lwc-squareIconMediumContentAlt:1.3rem;
+    --slds-c-icon-color-foreground:green; 
+}
+.custom-css1 {
+    --lwc-squareIconMediumContentAlt:1.3rem;
+    --slds-c-icon-color-foreground:red; 
+}

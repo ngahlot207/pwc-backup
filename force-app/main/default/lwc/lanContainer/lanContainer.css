@@ -1,0 +1,20 @@
+.slds-topLayer {
+    position: -webkit-sticky; /* For Safari */
+        position: sticky;
+        top: 0;
+        z-index: 1000; /* Ensure it stays on top of other content */
+        background-color: white; /* Match your background color */
+        width: 100%; /* Ensure it spans the full width */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  }
+
+
+  .slds-page-header {
+    position: -webkit-sticky; /* For Safari */
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Ensure it stays on top of other content */
+    background-color: white; /* Match your background color */
+    width: 100%; /* Ensure it spans the full width */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for better visibility */
+}

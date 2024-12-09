@@ -1,0 +1,34 @@
+<template>
+    <template if:true={ValidUser}>
+    <div class="slds-is-relative" >
+        <lightning-quick-action-panel header="Change RM">
+            <template if:true={showSpinnerModal}>
+                <div class="spinner">
+                    <lightning-spinner alternative-text="Loading" variant="brand" size="medium"></lightning-spinner>
+                </div>
+            </template>
+            <template if:false={showSpinnerModal}>
+                <!-- <div class="slds-text-align_center slds-text-heading_small"><p>Do you want to Return ?</p></div> -->
+                <div style="padding-bottom: 150px;" class="slds-modal__content slds-p-around_medium" id="modal-content-id-4">
+                    <c-custom-lookup field-name="Employee__r.Name" selected-icon-name="standard:identifier"
+                    object-api-name="TeamHierarchy__c" field-api-name="Employee__r.Name"
+                    selected-record-id={lookupId}
+                    selected-fields="EmpBrch__r.Name, EmpBrch__r.BrchCode__c"
+                    selected-record-name="Name" onselect={handleLookupFieldChange} filter-condn={filterCondn}
+                    index={index} read-only={disableMode} disabled={disableMode}
+                    required=true  key-id="Employee__c"></c-custom-lookup>
+                </div>
+
+                <div style="text-align: end;" class="slds-m-top_large slds-m-bottom_medium">
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick={noBtn} title="No">No</button>
+                    <button class="slds-button slds-button_brand" onclick={handleYES} title="Yes">Yes</button>
+
+                    </footer>
+                </div>
+
+            </template>
+        </lightning-quick-action-panel>
+    </div>
+</template>
+</template>

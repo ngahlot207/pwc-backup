@@ -1,0 +1,86 @@
+<template>
+    <div class="datatable-container slds-p-left_medium slds-p-right_xx-large">
+        <table >
+            <tr>
+                <th  >{applName}</th>
+                <template for:each={wrapPropObj.applFinanacialObj} for:item="profitLoss" for:index="index">
+                    <th scope="col" key={profitLoss.index}>{profitLoss.FinancialYearFor__c}</th>
+                </template>
+                <!-- <th>{privousYear}</th> -->
+                <th>Average</th>
+                <th>Eligibility (%)</th>
+                <th>Eligible Income(Rs)</th>
+            </tr>
+            <tr>
+                <th>Profit Before Tax</th>
+                <template for:each={wrapPropObj.applFinanacialObj} for:item="profitLoss" for:index="index">
+                    <th scope="col" key={profitLoss.index}>{profitLoss.Profit_Before_Tax__c}</th>
+                </template>
+                <th>{averagesOfProfitLoss.Profit_Before_Tax__c}</th>
+
+                <th scope="col" >{eliWrapObj.eliPercentageProfBTax}</th>
+                <th scope="col" >{eliWrapObj.eliIncomeProfBTax}</th>
+            </tr>
+            <tr>
+                <th>Depreciation </th>
+                <template for:each={wrapPropObj.applFinanacialObj} for:item="profitLoss" for:index="index">
+                    <th scope="col" key={profitLoss.index}>{profitLoss.Depreciation__c}</th>
+                </template>
+                <th>{averagesOfProfitLoss.Depreciation__c}</th>
+
+                <th scope="col" >{eliWrapObj.eliPercentageDepr}</th>
+                <th scope="col" >{eliWrapObj.eliIncomeDepr}</th>
+            </tr>
+            <tr>
+                <th>Interest on Partner's Capital & Renumeration Income </th>
+                <template for:each={wrapPropObj.applFinanacialObj} for:item="profitLoss" for:index="index">
+                    <th scope="col" key={profitLoss.index}>{profitLoss.Interest_on_Partner_Capital__c}</th>
+                </template>
+                <th>{averagesOfProfitLoss.Interest_on_Partner_Capital__c}</th>
+
+                <th scope="col" >{eliWrapObj.eliPercentageInsCap }</th>
+                <th scope="col" >{eliWrapObj.eliIncomeInsCap}</th>
+            </tr>
+            <tr>
+                <th>Interest on Loan</th>
+                <template for:each={wrapPropObj.applFinanacialObj} for:item="profitLoss" for:index="index">
+                    <th scope="col" key={profitLoss.index}>{profitLoss.Interest_on_Term_Loans__c}</th>
+                </template>
+                <th>{averagesOfProfitLoss.Interest_on_Term_Loans__c}</th>
+
+                <th scope="col" >{eliWrapObj.eliPercentageInsLn}</th>
+                <th scope="col" >{eliWrapObj.eliIncomeInsLn}</th>
+            </tr>
+            <tr>
+                <th>Tax</th>
+                <template for:each={wrapPropObj.applFinanacialObj} for:item="profitLoss" for:index="index">
+                    <th scope="col" key={profitLoss.index}>{profitLoss.Taxes__c}</th>
+                </template>
+                <th>{averagesOfProfitLoss.Taxes__c}</th>
+                <th scope="col" >{eliWrapObj.eliPercentageTax}</th>
+                <th scope="col" >{eliWrapObj.eliIncomeTax}</th>
+               
+            </tr>
+            <tr>
+                <th>Annual Business income - Regular Income Program (P&L) - ₹</th>
+                <template for:each={totalAnnualBaseIncm} for:item="profitLoss" for:index="index">
+                    <th scope="col" key={profitLoss.index}>{profitLoss}</th>
+                </template>
+                <th>{totalAvrgAnnualBaseIncm}</th>
+                <th></th>
+                <th>{eliWrapObj.eliIncomeRegIncmPrgm}</th>
+            </tr>
+            <tr>
+                <th>Monthly Business income - Regular Income Program (P&L) - ₹</th>
+                <th colspan={monthlyBusinessIncomeRowSpace}></th>
+            
+               
+               <th>{eliWrapObj.eliIncomeMonthBussIncmPrgm}</th>
+            </tr>
+
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+</template>

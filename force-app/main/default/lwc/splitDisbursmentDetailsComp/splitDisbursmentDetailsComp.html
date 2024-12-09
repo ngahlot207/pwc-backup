@@ -1,0 +1,431 @@
+<template>
+    <template if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading" size="large" variant="brand"
+            style="position: fixed;"></lightning-spinner>
+    </template>
+    <template if:false={showTableVisbl}>
+        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                        <lightning-combobox label="Disbursed To" value={splitDisbWrapObj.Disbur_To__c}
+                            options={disburToOption} onchange={inputChangeHandler} data-name="Disbur_To__c"
+                            data-index={index} disabled required>
+                        </lightning-combobox>
+                    </div>
+                </lightning-layout-item>
+
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                        <lightning-combobox label="Payment to" value={splitDisbWrapObj.Payment_to__c}
+                            options={payToOption} onchange={inputChangeHandler} data-name="Payment_to__c"
+                            data-index={index} disabled={disableMode} required>
+                        </lightning-combobox>
+                    </div>
+                </lightning-layout-item>
+
+                <template if:true={showInsPartner}>
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                        medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                        <!-- <template lwc:if={wrapAddressObj.Prop_Sub_TyId__c}> -->
+                        <div class="slds-p-around_x-small">
+                            <c-custom-lookup label="Insurance Partner" field-name='InsurancePartner__c'
+                                object-api-name='MasterData__c' field-api-name='Name' disabled={disableMode} selected-fields='Ins_Bene_Acc_No__c, Insurnace_IFSC__c'
+                                selected-record-name={splitDisbWrapObj.InsurancePartner__c} index={index} required="true"
+                                selected-record-id={splitDisbWrapObj.InsurancePartner__c} filter-condn={filterCondnInsPartner}
+                                onselect={handleValueSelect}></c-custom-lookup>
+                        </div>
+
+                    </lightning-layout-item>
+                </template>
+
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="number" formatter="currency" label="Split Cheque Amount"
+                            value={splitDisbWrapObj.Split_Cheque_Amt__c} onchange={inputChangeHandler}
+                            data-name="Split_Cheque_Amt__c" data-index={index} required="true"
+                            disabled={disableMode} step="0.01"></lightning-input>
+                    </div>
+                </lightning-layout-item>
+
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="Date" label="Date of Disbursement" placeholder="dd-mmm-yyyy" 
+                            value={splitDisbWrapObj.Date_of_Disbur__c} onchange={inputChangeHandler}
+                            data-name="Date_of_Disbur__c" data-index={index} disabled required="true"></lightning-input>
+                    </div>
+                </lightning-layout-item>
+
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="text" data-type="string" value={splitDisbWrapObj.Custo_Name__c}
+                            label="Customer Name" disabled onchange={inputChangeHandler} required={isRequired}
+                            data-name="Custo_Name__c" data-index={index}></lightning-input>
+                    </div>
+                </lightning-layout-item>
+
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                        <lightning-combobox label="Payment Mode" value={splitDisbWrapObj.Pay_Mode__c}
+                            options={payModeOption} onchange={inputChangeHandler} data-name="Pay_Mode__c"
+                            data-index={index} disabled={disableMode} required="true">
+                        </lightning-combobox>
+                    </div>
+                </lightning-layout-item>
+
+
+                <template if:true={fundTransMode}>
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                        medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                        <div class="slds-p-around_x-small">
+                            <lightning-combobox label="Fund Transfer Mode" value={splitDisbWrapObj.Fund_Transf_Mode__c}
+                                options={fundTransModeOption} onchange={inputChangeHandler} required={isReqForFundTrans}
+                                data-name="Fund_Transf_Mode__c" data-index={index} disabled={disableMode}>
+                            </lightning-combobox>
+                        </div>
+                    </lightning-layout-item>
+                </template>
+
+                
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="text" data-type="string" value={splitDisbWrapObj.Cheq_Favor_Dets__c}
+                            label="Favoring Account Name" onchange={inputChangeHandler} required={isReqChequeDetails} 
+                            data-name="Cheq_Favor_Dets__c" data-index={index} disabled={isDisbBankDet}></lightning-input>
+                    </div>
+                </lightning-layout-item>
+               
+
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="text" data-type="string" label="Favoring Account Number"
+                            onchange={inputChangeHandler} value={splitDisbWrapObj.Cheq_Favor_Acc_No__c} required={reqFavringAccNumber}
+                            data-name="Cheq_Favor_Acc_No__c" data-index={index} disabled={isDisbBankDet}
+                            message-when-bad-input="Enter a Valid Input"
+                            pattern="[0-9]{9,20}"
+                            message-when-pattern-mismatch="Enter a Valid Input"
+                            field-level-help="Enter a numeric account number between 9 to 20 digits"
+						    ></lightning-input>
+                    </div>
+                    <!-- required={notReqForInsPartn} -->
+                </lightning-layout-item>
+
+                <!-- <template if:true={fundTransMode}> -->
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                        medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                        <div class="slds-p-around_x-small">
+                            <lightning-input type="text" data-type="string" value={splitDisbWrapObj.IFSC_Detail__c}
+                                label="IFSC Detail" onchange={inputChangeHandler} required={requiredIFSCDetails} disabled={isDisbBankDet}
+                                data-name="IFSC_Detail__c" data-index={index}
+                                pattern="^[A-Z]{4}[0-9]{1}[A-Z0-9]{6}$"></lightning-input>
+                                <!-- disabled={isDisbBankDet} -->
+                        </div>
+                    </lightning-layout-item>
+                <!-- </template> -->
+
+
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <!-- <template lwc:if={wrapAddressObj.Prop_Sub_TyId__c}> -->
+                    <div class="slds-p-around_x-small">
+                        <c-custom-lookup label="Fedbank Account Name" field-name='Fedbank_Acc_Nm__c'
+                            object-api-name='MasterData__c' field-api-name='Name' disabled={disableMode}
+                            selected-record-name={splitDisbWrapObj.Fedbank_Acc_Nm__c} index={index} required="true"
+                            selected-record-id={splitDisbWrapObj.CashBankAccountId__c} filter-condn={filterCondnChannel}
+                            onselect={handleValueSelect}></c-custom-lookup>
+                    </div>
+
+                </lightning-layout-item>
+
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <div class="slds-p-around_x-small">
+                    <lightning-input type="text" data-type="string" value={splitDisbWrapObj.Fedbank_Acc_No__c}
+                        label="Fedbank Account Number" onchange={inputChangeHandler} required={isRequired}
+                        data-name="Fedbank_Acc_No__c" data-index={index} disabled></lightning-input>
+                </div>
+            </lightning-layout-item>
+
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                        <lightning-input type="Date" label="Effective Date" min={todaysDate} value={splitDisbWrapObj.Effec_Date__c} placeholder="dd-mmm-yyyy" 
+                            onchange={inputChangeHandler} data-name="Effec_Date__c" disabled required 
+                            data-index={index}></lightning-input>
+                    </div>
+                </lightning-layout-item>
+
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                        <c-custom-lookup required="true" label="Payable At" field-name='Payable_At__c'
+                            object-api-name='LocMstr__c' field-api-name='City__c' index={index}
+                            selected-record-name={splitDisbWrapObj.Payable_At__c} 
+                            selected-record-id={splitDisbWrapObj.Pay_City_Id__c} onselect={handleValueSelect}
+                            disabled></c-custom-lookup>
+
+                    </div>
+                </lightning-layout-item>
+
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <div class="slds-p-around_x-small">
+                    <lightning-input type="Date" value={splitDisbWrapObj.Cheq_DD_Date__c} min={todaysDate} label="Cheque / DD Date" placeholder="dd-mmm-yyyy"  
+                        onchange={inputChangeHandler} data-name="Cheq_DD_Date__c" required={isReqChequeDetails} disabled={disbDDDetails}
+                        data-index={index}></lightning-input>
+                </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <div class="slds-p-around_x-small">
+                    <lightning-input type="text" data-type="string" value={splitDisbWrapObj.Cheq_DD_No__c}
+                        label="Cheque / DD No" onchange={inputChangeHandler} required={isReqChequeDetails}
+                        data-name="Cheq_DD_No__c" data-index={index} disabled={disbDDDetails}></lightning-input>
+                </div>
+            </lightning-layout-item>
+
+
+                  <!-- <template if:true={initiPennDropBu}> -->
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                        medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                        <div class="slds-p-around_x-small">
+                            <lightning-combobox label="Penny Drop Name Status" options={pennyDropStaOption}
+                                value={splitDisbWrapObj.Penny_Drop_Nm_Sta__c} onchange={inputChangeHandler}
+                                data-name="Penny_Drop_Nm_Sta__c" data-index={index} disabled>
+                            </lightning-combobox>
+                        </div>
+                    </lightning-layout-item>
+                <!-- </template> -->
+
+                <!-- <template if:true={initiPennDropBu}> -->
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                        medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                        <div class="slds-p-around_x-small">
+                            <lightning-input type="text" data-type="string" label="Beneficiary Name of Penny Drop"
+                                onchange={inputChangeHandler} value={splitDisbWrapObj.Benef_Nm_of_Penny_Drop__c}
+                                required={isRequired} data-name="Benef_Nm_of_Penny_Drop__c"
+                                data-index={index} disabled></lightning-input>
+                        </div>
+                    </lightning-layout-item>
+                <!-- </template> -->
+
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <div class="slds-p-around_x-small">
+                    <lightning-input type="text" data-type="string" label="Remarks" onchange={inputChangeHandler}
+                        value={splitDisbWrapObj.Remarks__c} required={isRequired} data-name="Remarks__c"
+                        data-index={index} disabled={disableMode}></lightning-input>
+                </div>
+            </lightning-layout-item>
+
+
+                <template if:true={initiPennDropButton}>             
+                    <lightning-layout-item size="12"
+                    small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium}
+                    large-device-size={layoutSize.large}
+                    padding="horizontal-small"  style="margin-top: 31px;">                     
+                 <lightning-button label="Initiate Penny Drop" icon-name="utility:add"
+                                    name="Initiate Penny Drop" onclick={intiatePennyDrop} 
+                                    disabled={disableInitPenDropButtn} data-recordid={splitDisbWrapObj.Id}
+                                    data-index={index}></lightning-button>                       
+                       
+                    </lightning-layout-item>
+                </template>
+
+            </lightning-layout>
+        </div>
+    </template>
+
+    <template if:true={showTableVisbl}>
+
+        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+            <div class="slds-m-top_large slds-p-left-x_small">
+                <lightning-card title="Split Disbursement Details" label="Split Disbursement Details">
+                    <div class="datatable-container slds-p-left_small slds-p-right_xx-small">
+                        <table
+                            class="datatable slds-table_bordered slds-table_col-bordered slds-border_right slds-border_left">
+                            <tr>
+                                <th class="slds-border_bottom" scope="col" style="width: 30px;">
+                                    <div class="slds-m-around_small slds-align_absolute-left" title="Sr No">Sr. No.
+                                    </div>
+                                </th>
+
+                                <th class="slds-border_bottom" scope="col" style="width: 145px;">
+                                    <div class="slds-m-around_x-small slds-align_absolute-left" title="Customer Name">
+                                        <abbr class="slds-required" title="required">*
+                                        </abbr>Customer Name
+                                    </div>
+                                </th>
+
+
+                                <th class="slds-border_bottom" scope="col" style="width: 145px;">
+                                    <div class="slds-m-around_x-small slds-align_absolute-left" title="Disbursal Date">
+                                        <abbr class="slds-required" title="required">*
+                                        </abbr>Disbursal Date
+                                    </div>
+                                </th>
+
+                                <th class="slds-border_bottom" scope="col" style="width: 145px;">
+                                    <div class="slds-m-around_x-small slds-align_absolute-left" title="Disbursed To">
+                                        <abbr class="slds-required" title="required">*
+                                        </abbr>Disbursed To
+                                    </div>
+                                </th>
+
+                                <th class="slds-border_bottom" scope="col" style="width: 120px;">
+                                    <div class="slds-m-around_x-small" title="action">Split Cheque Amount</div>
+                                </th>
+
+                                <th class="slds-border_bottom" scope="col" style="width: 145px;">
+                                    <div class="slds-m-around_small" title="Remarks">Remarks</div>
+                                </th>
+
+                                <th class="slds-border_bottom" scope="col" style="width: 120px;">
+                                    <div class="slds-m-around_x-small" title="action">Action</div>
+                                </th>
+
+                            </tr>
+
+                            <template iterator:it={splitDisbursDetailArr} for:index="index">
+                                <tr key={it.value.Index__c}>
+                                    <td class="slds-border_bottom">
+                                        <div class="slds-p-left_small" title="Sr No" access-key={it.value.Index__c}
+                                            data-id={it.value.Index__c} onchange={handleSerialNumberChange}>
+                                            {it.value.Index__c}</div>
+                                    </td>
+
+                                    <td class="slds-border_bottom">
+                                        <div class="slds-m-around_xx-small">
+                                            <lightning-input type="text" value={it.value.Custo_Name__c}
+                                                onchange={inputChangeHandler} access-key={it.value.Index__c}
+                                                data-id={it.value.Index__c} data-fieldname="Custo_Name__c"
+                                                variant="label-hidden" disabled></lightning-input>
+                                        </div>
+                                    </td>
+
+                                    <td class="slds-border_bottom">
+                                        <div class="slds-m-around_xx-small">
+                                            <lightning-input type="date" value={dateOfDisbursement}
+                                                onchange={inputChangeHandler} access-key={it.value.Index__c} placeholder="dd-mmm-yyyy"  
+                                                data-id={it.value.Index__c} data-objectname="Disbursement__c"
+                                                data-fieldname="Date_of_Disbur__c" variant="label-hidden"
+                                                options={disburStatOption} disabled></lightning-input>
+                                        </div>
+                                    </td>
+
+                                    <td class="slds-border_bottom">
+                                        <div class="slds-m-around_xx-small">
+                                            <lightning-combobox type="text" value={it.value.Disbur_To__c}
+                                                onchange={inputChangeHandler} access-key={it.value.Index__c}
+                                                data-id={it.value.Index__c} data-objectname="Disbursement__c"
+                                                data-fieldname="Disbur_To__c" variant="label-hidden" required
+                                                options={disburToOption} disabled></lightning-combobox>
+                                        </div>
+                                    </td>
+
+                                    <td class="slds-border_bottom">
+                                        <div class="slds-m-around_xx-small">
+                                            <lightning-input type="text" value={it.value.Split_Cheque_Amt__c}
+                                                onchange={inputChangeHandler} access-key={it.value.Index__c}
+                                                data-id={it.value.Index__c} data-objectname="Disbursement__c"
+                                                data-fieldname="Split_Cheque_Amt__c" variant="label-hidden"
+                                                disabled></lightning-input>
+                                        </div>
+                                    </td>
+
+                                    <td class="slds-border_bottom">
+                                        <div class="slds-m-around_xx-small">
+                                            <lightning-input type="text" value={it.value.Remarks__c}
+                                                onchange={inputChangeHandler} access-key={it.value.Index__c}
+                                                data-id={it.value.Index__c} data-objectname="Disbursement__c"
+                                                data-fieldname="Remarks__c" variant="label-hidden"
+                                                disabled></lightning-input>
+                                        </div>
+                                    </td>
+
+                                    <td class="slds-border_bottom">
+                                        <div class="slds-m-around_xx-small">
+                                            <div key={it.value.Index__c}
+                                                class="list-last slds-m-around_xx-small slds-align_absolute-center">
+                                                <lightning-button access-key={it.value.Index__c}
+                                                    alternative-text="Split Disbursement" variant="brand"
+                                                    data-id={it.value.Index__c} disbursmentid={it.value.Id}
+                                                    onclick={viewSplitDisbHandler} 
+                                                    label="View/Edit" title="View/Edit">
+                                                </lightning-button>
+
+                                                <div key={it.value.Index__c} lwc:if={it.last}
+                                                    class="list-last slds-m-around_xx-small slds-p-left_small ">
+                                                    <lightning-button access-key={it.value.Index__c}
+                                                        alternative-text="Delete" title="Delete" variant="destructive"
+                                                        data-id={it.value.Index__c} label="Delete"
+                                                        onclick={deleteHandler} disabled={disableMode}>
+                                                    </lightning-button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                        </table>
+                        <template if:true={showDeleteConfirmation}>
+                            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading" aria-modal="true"
+                                aria-describedby="modal-content-id-2" class="slds-modal slds-fade-in-open">
+                                <div class="slds-modal__container rationaleWidth">
+                                    <header class="slds-modal__header">
+                                        <button
+                                            class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                                            title="Close" onclick={hideModalBox}>
+                                            <lightning-icon icon-name="utility:close" alternative-text="close"
+                                                variant="inverse" size="small"></lightning-icon>
+                                            <span class="slds-assistive-text">Close</span>
+                                        </button>
+                                        <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Delete
+                                            Confirmation</h2>
+                                    </header>
+
+                                    <div class="slds-modal__content slds-p-around_medium div-center"
+                                        id="modal-content-id-3">
+                                        <strong>Do you want to delete Split Disbursement Details ?</strong>
+                                    </div>
+
+                                    <footer class="slds-modal__footer">
+                                        <lightning-button class="slds-p-horizontal_x-small" variant="brand" label="Yes"
+                                            title="Delete" onclick={handleConfirmDelete}></lightning-button>
+                                        <lightning-button class="slds-p-horizontal_x-small" variant="destructive"
+                                            label="No" title="cancel" onclick={handleCancelDelete}>
+                                        </lightning-button>
+                                    </footer>
+
+                                </div>
+                            </section>
+                            <div class="slds-backdrop slds-backdrop_open"></div>
+                        </template>
+                        <lightning-layout>
+
+                            <div class="slds-p-left_small slds-p-top_medium">
+                                <lightning-button label="Create Split Disbursement" variant="brand-outline"
+                                    icon-name="utility:add" onclick={addSpltDisbursmntHandler}
+                                    disabled={disableMode}></lightning-button>
+                            </div>
+
+                        </lightning-layout>
+                    </div>
+                </lightning-card>
+            </div>
+
+
+        </div>
+    </template>
+
+</template>

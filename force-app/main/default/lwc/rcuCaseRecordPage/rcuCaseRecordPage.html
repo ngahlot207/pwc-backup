@@ -1,0 +1,30 @@
+<template>
+    <lightning-card title="Case Details" icon-name="standard:case">
+        <!-- Grid layout to divide the form into two sections -->
+        <div class="slds-grid slds-wrap">
+            <!-- Left Section: Custom Fields -->
+            <div class="slds-col slds-size_1-of-2">
+                <lightning-record-view-form record-id={recordId} object-api-name="Case">
+                    <lightning-output-field field-name="Loan_Application__c"></lightning-output-field>
+                    <lightning-output-field field-name="LANStatus__c"></lightning-output-field>
+                    <lightning-output-field field-name="Main_Applicant_Name__c"></lightning-output-field>
+                    <lightning-output-field field-name="Product_Type__c"></lightning-output-field>
+                    <lightning-output-field field-name="Branch_City__c"></lightning-output-field>
+                    <lightning-output-field field-name="CaseNumber__c"></lightning-output-field>
+                </lightning-record-view-form>
+            </div>
+
+            <!-- Right Section: Standard Fields -->
+            <div class="slds-col slds-size_1-of-2">
+                <lightning-record-view-form record-id={recordId} object-api-name="Case">
+                    <lightning-output-field field-name="DateTimeInitiation__c"></lightning-output-field>
+                    <lightning-output-field field-name="CaseType__c"></lightning-output-field>
+                    <lightning-output-field field-name="RCUCaseStatus__c"></lightning-output-field>
+                    <lightning-output-field field-name="Remarks_regarding_the_case__c"></lightning-output-field>
+                    <lightning-output-field field-name="Final_RCU_status_Reason__c"></lightning-output-field>
+                    <lightning-output-field field-name="CaseTAT__c"></lightning-output-field>
+                </lightning-record-view-form>
+            </div>
+        </div>
+    </lightning-card>
+</template>

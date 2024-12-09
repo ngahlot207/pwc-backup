@@ -1,0 +1,674 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Demo_RecordType</fullName>
+    <active>true</active>
+    <description>This recordtype is for Testing purpose</description>
+    <label>Demo RecordType</label>
+    <picklistValues>
+        <picklist>AgencyDocStatus__c</picklist>
+        <values>
+            <fullName>Fraud</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Negative</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Positive</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Refer</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Appr_Actn__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Catgry__c</picklist>
+        <values>
+            <fullName>OTC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PDD</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PRE</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Criticality__c</picklist>
+        <values>
+            <fullName>Critical</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Non-critical</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>DocCatgry__c</picklist>
+        <values>
+            <fullName>Additional Post Sanction Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Application Form</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BT Draft</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Banking Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Beneficial Owner Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bureau Report</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CAM Report</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Case Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Collateral Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Collateral Visit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Constitution wise Mandatory documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DPN Document</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Disbursement Memo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Financial Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IMD Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Income Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Insurance documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>KYC Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LOD</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Loan Obligation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mandatory Post Sanction Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NACH Form</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PAN Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Perfios Report</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Personal Discussion</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pricing Approval Document</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Probe42 Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Property Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Relook Document</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sanction Condition Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sanction Letter</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>System Generated Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Term Sheet</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Verification Documents</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>DocStatus__c</picklist>
+        <values>
+            <fullName>Completed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OTC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PDD</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Received</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Waiver</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>DocTyp__c</picklist>
+        <values>
+            <fullName>Aadhaar Consent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Aadhaar Consent Letter</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Additional documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Address Proof</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Address Proof %28Residential%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Application Form</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Audit Report %28with schedules%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BT Draft</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bank Statement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bureau Report</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CAM Report</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CPV Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CPV Photos</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Charge Creation Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cheque</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Collateral Visit Photographs</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Company Document</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Company Report</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Constitution wise Mandatory KYC documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Constitution wise Mandatory documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DD</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DOB Proof</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Disbursal Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Disbursement Memo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Financials - P%26L and BL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Form 16</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Form 26 AS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Form 60</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GST Returns</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>General Insurance documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ITR Computation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Identity Proof</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Income Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Income Tax Returns</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Increments%2F Appraisal Letter</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Interest waiver</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LIP Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LIP Photos</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LLP Document</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LLP Report</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LOD</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Legal Photos</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Legal Verification</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Life Insurance documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manual Sanction</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NACH Form</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Non Individual Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Occupation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other Banking %26 Repayment Docs</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other Income Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Own house %2F office ownership proof</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PAN</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PD Photographs</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Payslip</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Perfios Report</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Photograph</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Physical Consent Proof</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pricing Approval Document</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Principal Place of Business - Address Proof</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Property Documents - Additional</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Property Documents - Common</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Property Papers</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Qualification proof</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RCU Photos</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RCU Verification</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Registered office - Address Proof</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Relationship proof</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Relook Document</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rental Income Proof</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Repayment Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Residence Address proof - Deemed OVD</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Residence Address proof - OVD</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sanction Letter</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sanction Letter of OD%2F CC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sign Proof</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Signature Verification Proof</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>System Sanction</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TSR Photos</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TSR Verification</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Technical Photos</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Technical Verification Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Term Sheet</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Vetting Photos</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Vetting Verification</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>File_Type__c</picklist>
+        <values>
+            <fullName>Scanned Docs</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ePDF</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>NDCDataEntry__c</picklist>
+        <values>
+            <fullName>Completed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In Progress</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>OriDoc__c</picklist>
+        <values>
+            <fullName>Certified</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Copy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Original</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>PhyFileRec__c</picklist>
+        <values>
+            <fullName>Query</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Received</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>RCUFileStatus__c</picklist>
+        <values>
+            <fullName>Hold</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sampled</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Screened</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Waived</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>VendorVerification__c</picklist>
+        <values>
+            <fullName>Fetched directly from source</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Successfully Processed through Finfort</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Successfully Processed through Namaste Credit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Successfully Processed through Perfios</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Verified successfully through API</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

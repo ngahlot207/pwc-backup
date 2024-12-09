@@ -1,0 +1,12 @@
+<template>
+    <lightning-card>
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item padding="around-medium" size="6" small-device-size="12" medium-device-size="8"
+                large-device-size="8">
+        <lightning-input type="file" label="Attach receipt" name="fileUploader" accept={acceptedFormats}
+            onchange={handleUploadFinished}>
+        </lightning-input>
+            </lightning-layout-item>
+            </lightning-layout>
+</lightning-card>
+</template>

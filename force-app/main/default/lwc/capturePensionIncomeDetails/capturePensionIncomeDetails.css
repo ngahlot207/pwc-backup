@@ -1,0 +1,52 @@
+.datatable th {
+
+    background-color: hsl(0, 20%, 97%);
+
+    font-weight: bold;
+
+}
+.color{
+    background-color: hsl(0, 20%, 97%);
+
+    font-weight: bold;
+}
+.bordr{
+    border:none;
+   }
+
+
+
+.lineBreak{
+
+    background-color: hsl(0, 20%, 97%) !important;
+    border:none !important;
+}
+
+.custom-button:hover {
+    cursor: pointer;
+}
+
+.datatable {
+
+    width: 62%;
+
+    border-collapse: collapse;
+
+}
+
+.datatable-container {
+
+    width: 80%;
+
+    /* overflow-x: auto; */
+
+}
+.slds-m-around_xx-small {
+    margin: 0.150rem; /* Adjust the value as needed */
+}
+
+/* 
+.custom-row-height {
+    height: 50px;  Adjust the height value as needed
+}
+*/

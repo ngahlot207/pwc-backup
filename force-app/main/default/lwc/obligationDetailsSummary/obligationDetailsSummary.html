@@ -1,0 +1,227 @@
+<template>
+    <lightning-card title="Active Obligation Details (Other than GL and credit cards)">
+       
+                <div class="slds-p-around_medium">
+                <br/>
+                    <div class="slds-box">
+                        <div class="slds-scrollable">
+                        
+                        <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                            <thead>
+                                <tr class="slds-text-title_bold slds-text-color_weak">
+                                    
+                                    <th class="slds-text-color_inverse slds-cell-fixed" scope="col">Borrower Name</th>
+                                    <th scope="col">Financier</th>
+                                    <th scope="col">Loan Type</th>
+                                    <th scope="col">Loan Amount</th>
+                                    <th scope="col">Loan Tenure</th>
+                                    <th scope="col">EMI paid</th>
+                                    <th scope="col">EMI</th>
+                                    <template if:true={isBlPl}>
+                                       <th scope="col">
+                                          Disbursal Date
+                                       </th>
+                                    </template>
+                                    <th scope="col">Current O/s</th>
+                                    <th scope="col">EMI debit A/c</th>
+                                    <th scope="col">Obligation Amount</th>
+                                    <th scope="col">Bounce in last 12 months</th>
+                                    <th scope="col">Remark</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template iterator:it={listObligationDetails}>
+                              <tr key={it.value.Id}>
+                                 
+                                 <td scope="row" class="slds-text-title_bold slds-text-color_weak slds-cell-fixed">
+                                    {it.value.Applicant__r.FullName__c}
+                                 </td>
+                                 <td>
+                                    {it.value.FinancierName__c}
+                                 </td>
+                                 <td>
+                                    {it.value.NatureOfLoan__c}
+                                 </td>
+                                 <td>
+                                    {it.value.LoanAmount__c}
+                                 </td>
+                                 <td>
+                                    {it.value.Tenure__c}
+                                 </td>
+                                 <td>
+                                    {it.value.NoEMIPaid__c}
+                                 </td>
+                                 <td>
+                                    {it.value.EMI__c}
+                                 </td>
+                                 <template if:true={isBlPl}>
+                                    <td>
+                                       {it.value.DisbursalDate__c}
+                                    </td>
+                                 </template>
+                                 <td>
+                                    {it.value.CurrentOs__c}
+                                    
+                                 </td>
+                                 <td>
+                                    {it.value.EMISource__c}
+                                 </td>
+                                 <td>
+                                   {it.value.ConsiderObligation__c}
+                                 </td>
+                                 <td>
+                                    {it.value.BounceInLast12Months__c}
+                                 </td>
+                                 <td>
+                                    {it.value.Remarks__c}
+                                 </td>
+                                 
+                                
+                             </tr>
+                             
+                            </template>
+                            <tr>
+                                <td scope="row" class="slds-text-title_bold slds-text-color_weak slds-cell-fixed">
+                                    Total
+                                </td>
+                                <td>
+                                    
+                                 </td>
+                                 <td>
+                                    
+                                 </td>
+                                 <td>
+                                   
+                                 </td>
+                                 <td>
+                                   
+                                 </td>
+                                 <td>
+                                   
+                                 </td>
+                                 <td>
+                                    
+                                 </td>
+                                 <template if:true={isBlPl}>
+                                    <td>
+                                    
+                                    </td>
+                                 </template>
+                                 
+                                 <td>
+                                    {totalCurrentOs}
+                                    
+                                 </td>
+                                 <td>
+                                   
+                                 </td>
+                                 <td>
+                                    {totalObligentAmount}
+                                 </td>
+                                 <td>
+                                    
+                                 </td>
+                                 <td>
+                                    
+                                 </td>
+                                 </tr>
+                             
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                </div>
+           
+       
+       
+    </lightning-card>
+
+    <lightning-card title="Bureau Summary">
+       
+        <div class="slds-p-around_medium">
+        <br/>
+            <div class="slds-box">
+                <div class="slds-scrollable">
+               
+                <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                    <thead>
+                        <tr class="slds-text-title_bold slds-text-color_weak">
+                            
+                            <th class="slds-text-color_inverse slds-cell-fixed" scope="col">Borrower Name</th>
+                            <th scope="col">Total No of Live loans</th>
+                            <th scope="col">Total Live loan exposure</th>
+                            <th scope="col">Total Live Mortgage loan exposure</th>
+                            <th scope="col">Total Live Unsecured loan exposure</th>
+                            <th scope="col">Total Credit Card Outstanding</th>
+                            <th scope="col">Total Live Loan Overdue</th>
+                            <th scope="col">Total Live Credit Card Overdue</th>
+                            <th scope="col">Max current DPD of all Live Facilities</th>
+                            <th scope="col">Max DPD in last 12 months of all Live Facilities</th>
+                            <!-- <th scope="col">Total Mortgage Enquiries in last 30 days</th> -->
+                            <th scope="col">Total Unsecured Enquiries in last 30 days</th>
+                            <th scope="col">Total Mortgage Enquiries in last 30 days</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template iterator:it={listObligationDetailsBureau}>
+                      <tr key={it.value.Id}>
+                         
+                         <td scope="row" class="slds-text-title_bold slds-text-color_weak slds-cell-fixed">
+                            {it.value.Applicant__r.FullName__c}
+                         </td>
+                         <td>
+                            {it.value.Totalliveloan__c}
+                         </td>
+                         <td>
+                            {it.value.Totalloanexposure__c}
+                         </td>
+                         <td>
+                           {it.value.Totalsecuredloan__c}
+                         </td>
+                         <td>
+                            {it.value.Totalunsecuredloan__c}
+                         </td>
+                         <td>
+                            {it.value.Totalcreditcardoutstanding__c}  
+                         </td>
+                         <td>
+                            {it.value.Totaloanoverdue__c}
+                         </td>
+                         <td>
+                            {it.value.Totalcreditcardoverdue__c}
+                         </td>
+                         <td>
+                            {it.value.MaxcurrentDPDLiveFacilities__c}
+                            
+                         </td>
+                         <td>
+                           {it.value.MaxDPDlast12months__c}
+                         </td>
+                         
+                         <td>
+                           {it.value.TotalEnquirieslast30day__c}
+                            
+                         </td>
+                         <td>
+                           {it.value.TotalMortgageEnqlst30days__c}
+                            
+                         </td>
+                        
+                         
+                        
+                     </tr>
+                     
+                    </template>
+                    
+                     
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+   
+
+
+</lightning-card>
+</template>

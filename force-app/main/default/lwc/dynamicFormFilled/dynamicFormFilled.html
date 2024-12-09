@@ -1,0 +1,101 @@
+<template>
+    <template if:true={isText}>
+        <lightning-input type="text" label={pdQuestion.quesTitle} name={pdQuestion} value={uppercaseValue}
+            required={pdQuestion.isReqPortal} onchange={handleInputChange} disabled={isDisabled}
+            pattern={pattern}></lightning-input>
+    </template>
+    <template if:true={isFile}>
+        <c-dynamic-file-upload-for-p-d has-edit-access={hasEditAccess} layout-size={layoutSize} pd-question={pdQuestion}
+            onpasstoparent={fromChildComp} disabled={isDisabled}></c-dynamic-file-upload-for-p-d>
+    </template>
+    <template if:true={isEmail}>
+        <lightning-input type="email" label={pdQuestion.quesTitle} name={pdQuestion} value={uppercaseValue}
+            required={pdQuestion.isReqPortal} onchange={handleInputChange} disabled={isDisabled}></lightning-input>
+    </template>
+    <template if:true={isTextarea}>
+        <lightning-textarea name={pdQuestion} label={pdQuestion.quesTitle} value={uppercaseValue}
+            required={pdQuestion.isReqPortal} onchange={handleInputChange} disabled={isDisabled}></lightning-textarea>
+    </template>
+    <template if:true={isDate}>
+        <lightning-input type="date" name={pdQuestion} label={pdQuestion.quesTitle} value={pdQuestion.quesResp}
+            min={minDateVal} max={maxDateVal} required={pdQuestion.isReqPortal} onchange={handleInputChange}
+            disabled={isDisabled}></lightning-input>
+    </template>
+    <template if:true={isDateTime}>
+
+        <lightning-input type="datetime" name={pdQuestion} label={pdQuestion.quesTitle} value={dateTimeVal}
+            min={minDateVal} max={maxDateVal} required={pdQuestion.isReqPortal} onchange={handleInputChange}
+            disabled={isDisabled}></lightning-input>
+    </template>
+    <template if:true={isNumber}>
+        <lightning-input type="number" name={pdQuestion} label={pdQuestion.quesTitle} value={pdQuestion.quesResp}
+            min={minimumVal} max={maximumVal} required={pdQuestion.isReqPortal} onchange={handleInputChange}
+            step={stepVal} disabled={isDisabled}></lightning-input>
+    </template>
+    <template if:true={isNumberDecimal}>
+        <lightning-input type="number" name={pdQuestion} label={pdQuestion.quesTitle} value={pdQuestion.quesResp}
+            min={minimumVal} max={maximumVal} required={pdQuestion.isReqPortal} onchange={handleInputChange}
+            step={stepVal} disabled={isDisabled}></lightning-input>
+    </template>
+    <template if:true={isCurrency}>
+        <lightning-input type="number" name={pdQuestion} label={pdQuestion.quesTitle} value={pdQuestion.quesResp}
+            formatter="currency" required={pdQuestion.isReqPortal} onchange={handleInputChange} step={stepVal}
+            disabled={isDisabled}></lightning-input>
+    </template>
+
+    <template if:true={isPhone}>
+        <lightning-input type="tel" name={pdQuestion} label={pdQuestion.quesTitle} value={pdQuestion.quesResp}
+            required={pdQuestion.isReqPortal} onchange={handleInputChange} disabled={isDisabled}
+            pattern={pattern}></lightning-input>
+    </template>
+    <template if:true={isPicklist}>
+        <lightning-combobox name={pdQuestion} label={pdQuestion.quesTitle} value={pdQuestion.quesResp}
+            required={pdQuestion.isReqPortal} options={pickListOptions} onchange={handleInputChange}
+            disabled={isDisabled}></lightning-combobox>
+    </template>
+    <template if:true={isLink}>
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col">
+                <span>{pdQuestion.quesTitle}</span>
+            </div>
+            <div class="slds-col">
+                <span>
+
+                    <lightning-formatted-url value={pdQuestion.quesResp} tooltip={pdQuestion.quesTitle}
+                        label="Please click to start" target="_blank"></lightning-formatted-url>
+                </span>
+            </div>
+        </div>
+    </template>
+
+    <template if:true={isMultiLookup}>
+        <c-multi-select-lookup-component required={pdQuestion.isReqPortal} label={pdQuestion.quesTitle}
+            selected-icon-name={questionconfig.selectedIconName} object-api-name={questionconfig.objectName}
+            field-api-name={questionconfig.fieldName} selected-fields={questionconfig.selectrdField}
+            selected-record-id={pdQuestion.quesResp} onselect={handleLookupFieldChange}
+            filter-condn={questionconfig.filterCdn} key-id={questionconfig.keyId}
+            multi-select-options={pdQuestion.multiSelectOptions}
+            has-edit-access={hasEditAccess}></c-multi-select-lookup-component>
+        <!--  <c-multi-select-lookup-component required=true label="Name of Employee/s accompanying for the PD"
+            selected-icon-name="standard:identifier" object-api-name="TeamHierarchy__c"
+            field-api-name="Employee__r.Name" selected-fields="Name" selected-record-id={lookupId}
+            onselect={handleLookupFieldChange} filter-condn="EmpRole__c='UW'"
+            key-id="Employee__c"></c-multi-select-lookup-component> -->
+    </template>
+
+    <template if:true={isReference}>
+        <c-reference-det-for-p-d-component has-edit-access={hasEditAccess} layout-size={layoutSize}
+            onpasstoparent={fromChildComp} pd-question={pdQuestion}>
+        </c-reference-det-for-p-d-component>
+
+        <!-- =========
+        <c-dynamic-record-edit-form has-edit-access={hasEditAccess} layout-size={layoutSize}
+            onpasstoparent={fromChildComp} pd-question={pdQuestion}>
+
+        </c-dynamic-record-edit-form> -->
+    </template>
+    <template if:true={isTable}>
+        <c-dynamic-data-table-for-p-d has-edit-access={hasEditAccess} layout-size={layoutSize} pd-question={pdQuestion}
+            onpasstoparent={fromChildComp}></c-dynamic-data-table-for-p-d>
+    </template>
+</template>

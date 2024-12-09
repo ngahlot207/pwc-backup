@@ -1,0 +1,335 @@
+<apex:component Controller="SanctionLetterForBLAndPLController" >
+    <html>
+        
+        <head>
+            <style>
+                .table1 tr,td{
+                width:15px;
+                }
+            </style>
+        </head>
+        
+        <body >
+            
+            <!--apex:outputText value="{!mapofContent[1]}" escape="false" /-->
+            
+            <div style="padding-top: 3cm;">
+               
+            </div>
+            <!--apex:outputText value="{!mapofContent[2]}" escape="false" /-->
+            
+          
+           
+            <apex:outputPanel id="panelHeaderFooterRight" styleClass="header_center" layout="block">
+        <img src="{!$Resource.FedBankLogo2}" alt="Federal Bank Logo" 
+                 style="width: 200px; height: auto; padding-top: 20px; padding-bottom: 30px" />
+                
+    </apex:outputPanel>
+            <apex:outputPanel id="panelHeaderFooterRight1" styleClass="footer_left" layout="block">
+                <hr style=" border: 1px solid #000; padding-bottom: -200px;"/>
+ <p style="font-size:15px"><b>FEDBANK FINANCIAL SERVICES LIMITED</b></p>
+            <p style="font-size:15px">Corporate office: Unit No.1101, 11<sup>th</sup> Floor, Cygnus, Plot No. 71A, Powai, Mumbai – 400087 |</p>
+            <p style="font-size:15px">CIN: L65910MH1995PLC364635</p>
+            <p style="font-size:13px">Web site: <a class="link" href="http://www.fedfina.com" target="_blank">www.fedfina.com</a> 
+                Email: customercare@fedfina.com Customer care: 7418128882 and +91 08069291313
+            </p>        
+    </apex:outputPanel>
+            <h4 style="text-align:center; font-family:Times New Roman;font-weight: bold;margin-top:-130px;font-size:24px">{!header}</h4>
+            <p style="align:left;font-weight: bold">Date : {!CurrentDateTime} <br/><br/><br/> To<br/>
+                {!allApplicantsNames}<br/>
+                Address: {!houseNo}, {!addressLine1} {!addressLine2}, {!landMark}, {!cityPincode}, {!state}.<br/>
+                Contact No.  - {!mobileNumber}<br/>
+            
+            </p>
+            <!--<div style="font-family:Times New Roman;font-size:12px">
+                <apex:outputText value="{!houseNo}" escape="false"></apex:outputText>
+                <apex:outputText value="{!addressLine1}" escape="false"></apex:outputText>
+                <apex:outputText value="{!addressLine2}" escape="false"></apex:outputText>
+                <apex:outputText value="{!landMark}" escape="false"></apex:outputText>
+                {!cityPincode}<br/>
+                {!state}<br/>
+                Contact No.  - {!mobileNumber}<br/>
+            </div>-->
+            <div style="font-family:Times New Roman;font-size:15px">
+               <!-- <br/>Dear Sir / Madam, <br/>-->
+                <span style="text-decoration: underline;"><b>Sub: Sanction Letter for your {!product} Application Form No : {!loanNumber}</b></span><br/>
+                <p style="font-family:Times New Roman;font-size:15px">
+                Greetings from Fedbank Financial Services Limited (‘Fedfina’). It gives us great pleasure in welcoming you to Fedfina Family. We thank you for choosing Fedbank Financial Services Limited {!product} for your business purpose. 
+                    <br/><br/>
+				We are pleased to inform you that your loan application has been sanctioned as per the terms and conditions mentioned below:
+
+                </p>
+            </div>
+            <br/> 
+            
+            <table style = "font-family: Verdana, Helvetica, Arial, sans-serif;font-size: 8px;border: 1px solid black;border-collapse: collapse;page-break-inside:avoid;page-break-before:avoid">
+                      
+                    <tr>
+                       		<td>1)</td>
+                            <td>Type of Loan</td>
+                       		<td>{!product}</td>
+                     </tr>
+                    <tr>
+                       		<td>2)</td>
+                            <td>Primary Borrower Names</td>
+                       		<td>{!allApplicantsNames}</td>
+                     </tr>
+                    <tr>
+                        <td>3)</td>
+                        <td> Loan Amount</td> 
+                        <td> Rs.{!LoanAmount}/-</td>                       
+                    </tr>
+            		<tr>
+                        <td>4)</td>
+                        <td> Insurance Premium</td> 
+                        <td> Rs.{!insurancePremium}/-</td>                       
+                    </tr>
+            		<tr>
+                        <td>5)</td>
+                        <td> Loan Amount Including Insurance</td> 
+                        <td> Rs.{!loanAmountSanctioned}/-</td>                       
+                    </tr>
+            <tr>
+                        <td>6)</td>
+                        <td> EMI</td> 
+                        <td> Rs.{!amountofEachEMI}/-</td>                       
+                    </tr>
+                    <tr>
+                        <td>7)</td>
+                        <td> Rate of Interest% p.a.</td> 
+                        <td>{!roi} %</td>                       
+                    </tr>
+            <tr>
+                        <td>8)</td>
+                        <td> Tenure of Loan(In Months)</td> 
+                        <td>{!termofFacility}</td>                       
+                    </tr>
+                    <tr>
+                        <td> 9)</td>
+                        <td> Processing Fees</td> 
+                        <td> <u> Rs.{!processingFee}/-</u></td>                       
+                    </tr>
+                    <tr>
+                        <td> 10)</td>
+                        <td> Re-payment cycle date</td> 
+                        <td> 2nd of each month</td>                       
+                    </tr>
+                    <tr>
+                        <td >10)</td>
+                        <td > Re-payment Mode</td> 
+                        <td > </td>                       
+                    </tr>
+                    <tr>
+                        <td > 11)</td>
+                        <td > First EMI Date</td> 
+                        <td > </td>                       
+                    </tr>
+                    <tr>
+                        <td > 12)</td>
+                        <td > Late Payment charges</td> 
+                        <td > 3% per month+GST</td>                       
+                    </tr>
+                    <tr>
+                        <td > 13)</td>
+                        <td > Part pre-payment charges</td> 
+                        <td > Part pre-payment charges not allowed</td>                       
+                    </tr>
+                    <tr>
+                        <td > 14)</td>
+                        <td > Full Payment charges</td> 
+                        <td > Loan 12 &lt; Month EMI repayment Vintage: 6% + applicable taxes on outstanding Principal <br/>
+							Loan 12 &gt;= Month EMI repayment Vintage: 4% + applicable taxes on outstanding Principal</td>                       
+                    </tr>
+                  </table>
+            <div style="font-family:Times New Roman;font-size:12px">
+                The aforesaid sanction Letter is valid for a period of 30 days from the date of its issuance. 
+                <p style="font-family:Times New Roman;font-size:15px;text-decoration: underline;"><b>Sanction conditions:</b></p>
+                <apex:repeat var="cod" value="{!conditionList}">
+                • {!cod.condition} {!cod.remark} <br/>
+                </apex:repeat>
+                	
+                <br/>
+                
+            </div>
+            <!--table style="width:100%; border:0;">
+                <tr style=" border:0;">
+                	<td style=" border:0; vertical-align:top; ">
+                        <p style="text-align:left;">{!borrowerName}<br/>Borrower Signature__________</p>
+                    </td>
+                    <td  style=" border:0; vertical-align:top;">
+                         <apex:repeat var="coid" value="{!coApplicantIds}">
+                             <p style="text-align:right; padding-bottom:10px;">{!coid}<br/>Co-Borrowers Signature_____________</p>
+                    </apex:repeat>
+                    </td>
+                </tr>
+                 
+                
+            </table-->
+
+            
+            <div style="font-family:Times New Roman;font-size:15px; display:inline-block;width:100%;">
+                <!--<apex:outputText value="{!mapofContent[5]}" escape="false" />-->
+                <p style="font-size:18px">Your Relationship manager Mr/Ms {!RmName} will assist you with all your requirements pertaining to the above facility. You can reach him/her on email id _______ and contact no {!contactRM}.</p>
+                <p style="font-size:18px">You are requested to execute and submit to us the following documents before disbursement of the loan:<br/><br/><br/>
+					a.	Signed Loan Agreement<br/>
+                    b.	End Use Letter<br/>
+                    c.	Duly filled and signed NACH mandate slips/ENACH for designated repayment bank account held by you or PDC (in case NACH/ENACH is not applicable) <br/>
+                    d.	Disbursal Request Form (DRF) <br/>
+                    e.	Any other documents/ letter that may be required by us.</p>
+                
+                
+               <!-- Authorised Signatory
+                I/We accept the terms and conditions/charges mentioned.<br/>
+               <div style=" display:inline-block;width:100%;">
+                   
+                    <div style="float:left;width:50%;">
+                <apex:repeat var="odd" value="{!oddList}">              
+                    {!odd.serialNumber}. Name : {!odd.name}<br/>&nbsp;&nbsp;&nbsp;&nbsp;Signature :<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;Place : {!branchName}<br/>&nbsp;&nbsp;&nbsp;&nbsp;Date : {!CurrentDate}<br/><br/>
+                </apex:repeat></div>
+                
+                <div style="float:left;width:50%;">
+                <apex:repeat var="even" value="{!evenList}">
+                {!even.serialNumber}. Name : {!even.name}<br/>&nbsp;&nbsp;&nbsp;&nbsp;Signature :<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;Place : {!branchName}<br/>&nbsp;&nbsp;&nbsp;&nbsp;Date : {!CurrentDate}<br/><br/>
+                </apex:repeat></div>
+                </div>-->
+                <p style="font-family:Times New Roman;font-size:15px;"><b>Other conditions:</b></p>
+                <p style="font-size:15px">a)	You will continue to carry on your present business and shall not make any material change in or close down your existing business without our prior written consent.<br/>
+                b)	If in future for any reason whatsoever, the expected repayment amount is not in line, it will constitute an event of default and the shortfall shall be made good in the form of acceptable cash/DD/NEFT/ NACH/ Cheque/UPI as and when required.<br/>
+                c)	If you wish to shift your place of business/ residence, later on you will be required to give us prior written intimation which will be required to be acknowledged by us, else this action will be considered as intentional attempt to default the loan repayment commitment to Fedfina.<br/>
+                d)	Loan proceeds financed by us shall be utilized solely for the purpose it is being sanctioned and not for other purpose.<br/>
+                e)	The Facility may be recalled at any time during the term of the Loan at Fedfina’s sole discretion, if you have carried out any acts, omission which is prejudicial to the business interests of Fedfina. <br/>
+                f)	Execution of Loan Agreement and other documents between you and Fedbank Financial Services Ltd as per Fedfina’s policy and format.<br/>
+                g)	Any statement made by you or on your behalf in your application or otherwise is incorrect, incomplete or misleading will lead to cancellation / recall of this loan.<br/>
+                h)	We would like to inform you that issuance of this sanction letter should not guarantee the loan disbursement which will be done at the sole discretion of Fedfina.<br/>
+                i)	Please note that this sanction letter is a summary of the indicative major terms only. It shall neither constitute an offer nor a contract.<br/>
+                j)	The obligations contained in the {!product} agreement, sanction Letter and Repayment schedule shall survive in the event of conflict or inconsistency between the business loan agreement and general terms and conditions.<br/><br/>
+                
+                We look forward to a long lasting relationship with you.<br/><br/>
+                
+                Thanking you,<br/><br/>
+                    
+                    Yours sincerely,<br/>
+					For Fedbank Financial Services Ltd
+
+                </p>
+                <p style="font-family:Times New Roman;font-size:15px;"><b>Authorised Signatory:</b></p>
+                <p style="font-size:18px"> I/We accept the terms and conditions/charges mentioned.</p>
+                 <table border="1"  style="border-collapse: collapse; width: 100%; font-size: 5">
+                <tbody>
+                    <tr style="font-size: 5">
+                        <td style="width: 30%">Name</td>
+                        <td style="width: 30%">Type</td>
+                        <td style="width: 30%">Signature</td>
+                    </tr>
+                    <apex:repeat value="{!applicantList}" var="applicantWrapper">
+                    
+                        <tr style="font-size: 5; height: 100px" >
+                        <td>{!applicantWrapper.FullName__c}</td>
+                        <td>{!applicantWrapper.ApplType__c}</td>
+                            <td></td>
+                    </tr>
+                    </apex:repeat>
+                </tbody>
+            </table>
+                <div style=" padding-top: 20px; display:inline-block;width:100%;">
+                   
+                    <div style="float:left;width:50%;">
+                        Place: {!cityPincode}  
+                </div>
+                <div style="float:left;width:50%;">
+                    Date: {!CurrentDate}
+               </div>
+                </div>
+                <p style="font-family:Times New Roman;font-size:15px;text-decoration: underline;"><b>Important points to be remembered:</b></p>
+                <ul style="list-style-type: disc;margin-left: 20px;">
+                    <li>The breakup between principal and interest shall be covered in the repayment schedule. Repayment schedule shall be shared post disbursement.</li>
+                	<li>I/We understand that Company has adopted Interest Rate policy broadly outlining the interest rate model taking into account relevant factors such as cost of funds, margins and risk premium etc. and determine the rate of interest to be charged for loans and advances and the company’s approach of risk gradation in this regard for its lending business. The rate of interest and the approach for gradation of risk and rationale for charging different rate of interest to different categories of borrowers has been disclosed and uploaded on the company website <a href="https://www.fedfina.com/" target="_blank" class="link">https://www.fedfina.com/</a></li>
+                    <li>All the facilities granted by Fedfina to a Borrower shall be treated as Non-Performing Asset (‘NPA’) and not the particular facility or part thereof which has become irregular. Loan accounts classified as NPA shall be upgraded as “standard” asset only when entire arrears of interest and principal are paid by the Borrower.</li>
+                    <li>Fedfina shall classify the account/s as special mention accounts (SMA) or Non-performing Asset (NPA) categories as mentioned hereunder.</li>
+                </ul>
+        		<p style="font-family:Times New Roman;font-size:15px;">For example, if the due date for payment in an account is March 31, 2024.</p>
+                <table style="width:80%;margin-left: auto; margin-right: auto; margin-top:30px;margin-bottom:30px;">
+                <tr>
+                <th style="width:10%; font-weight: bold; text-align:center;" colspan="3">Asset Classification</th>
+                </tr>
+                
+                <tr>
+                <th style="width:20%; font-weight: bold; text-align:center;">SMA/NPA</th>
+                <th style="width:60%; font-weight: bold;">Basis for classification – Principal or interest payment or any other amount wholly or partly overdue</th>
+                <th style="width:20%; font-weight: bold;">Dates of asset classification</th>
+                </tr>
+                
+                <tr>
+                <th style="width:20%; font-weight: 100; text-align:center;">SMA 0</th>
+                <th style="width:60%; font-weight: 100;">Up to 30 days</th>
+                <th style="width:20%; font-weight: 100;">March 31, 2021</th>
+                </tr>
+                
+                <tr>
+                <th style="width:20%; font-weight: 100; text-align:center;">SMA 1</th>
+                <th style="width:60%; font-weight: 100;">More than 30 days and up to 60 days</th>
+                <th style="width:20%; font-weight: 100;">April 30, 2021</th>
+                </tr>
+                <tr>
+                <th style="width:20%; font-weight: 100; text-align:center;">SMA 2</th>
+                <th style="width:60%; font-weight: 100;">More than 60 days and up to 89 days</th>
+                <th style="width:20%; font-weight: 100;">May 30, 2021</th>
+                </tr>
+                <tr>
+                <th style="width:20%; font-weight: 100; text-align:center;">NPA</th>
+                <th style="width:60%; font-weight: 100;">90 days or above</th>
+                <th style="width:20%; font-weight: 100;">June 28, 2021</th>
+                </tr>
+                </table>
+                <p style="font-size:12px">
+                Asset classification shall be done by Fedfina as part of day-end process for the relevant date and the asset classification date shall be the calendar date for which the day end process is run.
+                </p>
+            </div>
+            
+            <!--<div  style="width:100%;">
+                <table class="table1">
+                    <tr>
+                        <th style="width:10%; font-weight: bold; " colspan="3">Description of Charges</th>
+                    </tr>
+                    
+                    <tr>
+                        <th style="width:5%; font-weight: 100; text-align:center;">1</th>
+                        <th style="width:30%; font-weight: 100;">Processing fees</th>
+                        <th style="width:65%; font-weight: 100;">{!processingFeeforDescription}% of loan amount + Applicable Taxes</th>
+                    </tr>
+                    <apex:repeat value="{!ChargeWrapperList}" var="chargeWrapper">
+                    	<tr>
+                            			<td style="width:5%; font-weight: 100; text-align:center;">{!chargeWrapper.Index}</td>
+                                        <td style="width:30%; font-weight: 100;">{!chargeWrapper.DecsOfCharge}</td>
+                                        <td style="width:65%; font-weight: 100;">{!chargeWrapper.valueOfCharge}</td>
+                                    </tr>
+                    
+                    </apex:repeat>
+                </table>
+                
+                
+            <apex:outputText value="{!mapofContent[8]}" escape="false" /> 
+            <apex:outputPanel rendered="{!showFloatingRate}">  
+            	<apex:outputText value="{!mapofContent[9]}" escape="false" />
+            </apex:outputPanel>
+            </div>
+            <div style="font-family:Times New Roman;font-size:12px; display:inline-block;width:100%;">
+               
+               <div style=" display:inline-block;width:100%;">
+                   
+                    <div style="float:left;width:50%;">
+                <apex:repeat var="odd" value="{!oddList}">              
+                    {!odd.serialNumber}. Name : {!odd.name}<br/>&nbsp;&nbsp;&nbsp;&nbsp;Signature :<br/>&nbsp;&nbsp;&nbsp;&nbsp;<br/><br/>
+                </apex:repeat></div>
+                
+                <div style="float:left;width:50%;">
+                <apex:repeat var="even" value="{!evenList}">
+                {!even.serialNumber}. Name : {!even.name}<br/>&nbsp;&nbsp;&nbsp;&nbsp;Signature :<br/>&nbsp;&nbsp;&nbsp;&nbsp;<br/><br/>
+                </apex:repeat></div>
+                </div>
+               
+            </div>-->
+          </body>
+        
+    </html>
+</apex:component>

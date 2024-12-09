@@ -1,0 +1,89 @@
+<!-- <template>
+
+    <lightning-card title="EMI Calculator" class="slds-card_small slds-float_center">
+        <div class="slds-backdrop slds-backdrop_open">
+        </div>
+        <div class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header" style="width:400px;">
+                    <h2 class="slds-text-heading_medium">EMI Calculator</h2>
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={handleCloseClick}>
+                        <lightning-icon icon-name="utility:close" size="small" class="white-utility-icon"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                </div>
+                <div class="slds-modal__content slds-p-around_small" style="width:400px;height:300px">
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item size="12">
+                             Place your EMI calculator content here 
+                             Example: 
+                            <lightning-input label="Declared Monthly Income (₹)" type="number" formatter="currency" message-when-bad-input="Enter a Valid Input." required></lightning-input>
+
+                            <lightning-input label="Declared Monthly Obligation (₹)" type="number" formatter="currency" message-when-bad-input="Enter a Valid Input." required></lightning-input>
+                        </lightning-layout-item>
+                
+                </lightning-layout>
+                <div class="slds-m-top_small slds-m-bottom_medium slds-p-left_medium slds-text-align_center">
+                    <div class="slds-clearfix">
+                        <div class="slds-float_center">
+                            <div class="slds-modal__footer" style="background-color: rgb(218, 218, 218)">
+                                <lightning-button label="Calculate EMI" onclick={openCalculator} class="slds-m-around_x-small"></lightning-button>
+                                <lightning-button label="Reset" onclick={openCalculator} class="slds-m-around_x-small"></lightning-button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </lightning-card>
+</template> -->
+
+
+<template>
+    <!-- <div class="modal-container"> -->
+<section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open">
+    <div class="slds-modal__container">
+        <lightning-layout >
+            <lightning-layout-item size="12">
+                <div class="slds-float_middle">
+        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={handleCloseClick}>
+            <lightning-icon icon-name="utility:close" size="small" class="white-utility-icon"></lightning-icon>
+            <!-- <span class="slds-assistive-text">Close</span> -->
+        </button>
+    </div>
+        </lightning-layout-item></lightning-layout>
+    <div class="slds-modal__content slds-p-around_small" style="width:400px;" >
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item size="12">
+    <div class="slds-modal__header">
+    <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate" tabindex="-1">EMI Calculator</h1>
+    </div>
+    </lightning-layout-item></lightning-layout></div>
+    <div class="slds-modal__content slds-p-around_small" style="width:400px;">
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item size="12">
+                 <!-- Place your EMI calculator content here 
+                 Example:  -->
+                <lightning-input label="Declared Monthly Income (₹)" type="number" formatter="currency" message-when-bad-input="Enter a Valid Input." value={declredMontlyIncVal} onchange={handleValueChange} name="declMonthInc" required></lightning-input>
+
+                <lightning-input label="Declared Monthly Obligation (₹)" type="number" formatter="currency" message-when-bad-input="Enter a Valid Input." value={declredMontlyOblVal} onchange={handleValueChange} name="declMonthObl" required></lightning-input>
+            <!-- </lightning-layout-item> -->
+    </lightning-layout-item></lightning-layout></div>
+    <!-- </lightning-layout> -->
+    
+    <div class="slds-modal__content slds-p-around_small" style="width:400px;">
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item size="12">
+    <div class="slds-modal__footer">
+        <div class="slds-float_center">
+        <lightning-button label="Calculate EMI" onclick={calculateEMI} class="slds-m-around_x-small"></lightning-button>
+        <lightning-button label="Reset" onclick={resetValues} class="slds-m-around_x-small"></lightning-button>
+    </div>
+    </div>
+    </lightning-layout-item></lightning-layout></div>
+    </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+<!-- </div> -->
+    </template>

@@ -1,0 +1,23 @@
+.accClass
+{
+    --slds-c-accordion-summary-color-background : rgb(243, 243, 243) ;
+    --slds-c-accordion-color-border : 0.5rem;
+}
+.slds-modal__container{
+	width: 70% !important;
+	max-width: 23% !important;
+}
+.custom-button:hover {
+    cursor: pointer;
+}
+
+.myClass{
+    --slds-c-accordion-heading-font-size : 20px;
+    --slds-c-accordion-summary-color-background: red;
+    --slds-c-accordion-color-border : red;
+}
+
+.applicantClass{
+    --slds-c-accordion-summary-color-background : rgb(243, 243, 243) ;
+    --slds-c-accordion-color-border : 0.5rem;
+}

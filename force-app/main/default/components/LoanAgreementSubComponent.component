@@ -1,0 +1,147 @@
+<apex:component Controller="LoanAgreement" >
+     
+     <html>
+        
+        <head>
+            <style>
+                .table1 tr,td{
+                width:15px;
+                }
+                
+               
+        
+            </style>
+        </head>
+    </html>
+    <body >
+       <!-- <div  class="fixed-header">
+        <P style="font-size:12px">
+            Property Owner
+            </P> 
+    </div>-->
+       <!-- <apex:outputPanel id="panelHeaderFooter" styleClass="bottom-left" layout="block">
+        <P style="width: 100px; height: auto; padding-top: 10px; padding-bottom: 10px">
+            Property Owner
+            </P> 
+                  
+    </apex:outputPanel>-->
+        <apex:outputPanel id="panelHeaderFooter" styleClass="footer_right" layout="block">
+        <p > Property Owner </p>
+    </apex:outputPanel>
+         <div>
+            
+            <h4 style="margin-right:130px;margin-top:50px;text-align:center; font-family:calibiri;font-weight: bold;font-size:15px">DECLARATION</h4>
+            
+        </div>
+         <div style="font-family:Times New Roman;font-size:14px">
+          <!--   <div style=" bottom: 0; width: 100%; text-align: right;">
+                 <p style="font-size: 15px;">
+                Property Owner
+            </p>
+             </div>-->
+              
+         
+             
+         Date: {!CurrentDate}<br/>
+            Place: {!Place}<br/><br/>
+             <b>Fedbank Financial Services Limited</b><br/>
+Unit No.: 1101, 11th Floor, Cignus,<br/>
+Plot No. 71A, Powai, Paspoli,<br/>
+Mumbai – 400 087.<br/><br/>
+             Loan Application No.{!ApplicationFormNo}<br/><br/>
+             Loan Account No._____________<br/><br/><br/><br/>
+             Dear Sir,<br/><br/>
+I/WeMr./Mrs./Ms. {!ApplicantName}
+Resident of {!ResidenceAddress}
+, do hereby solemnly affirm and declare as hereunder:-<br/><br/>
+             <apex:outputText value="{!mapofContent[5]}" escape="false" /><br/>
+             
+             Solemnly affirmed at {!CurrentDay} on this day of {!CurrentMonth} {!CurrentYear} .<br/><br/>
+             SCHEDULE (A) - DETAILS OF THE PROPERTY (IES):<br/>
+             <div>
+                <table style = "font-family: Verdana, Helvetica, Arial, sans-serif;font-size: 8px;border: 1px solid black;border-collapse: collapse;page-break-inside:avoid;page-break-before:avoid">
+                      <tr>
+                       		<td>No.</td>
+                            <td>Description of Property(with measurement)</td>                       		
+                     </tr>
+                    <tr>
+                       		<td>  1.  </td>
+                            <td> <apex:repeat var="PropertyAddress" value="{!PropertyAddressWrapper}">                        
+                    <apex:outputText value="{!PropertyAddress.AllPropertyAddress}"><br/></apex:outputText>                                                                            
+                       
+                    </apex:repeat></td>
+                       		
+                     </tr>
+                 </table></div><br/><br/>
+             SCHEDULE (B) - DETAILS OF THE TITLE DEEDS.<br/>
+             <div>
+                <table style = "font-family: Verdana, Helvetica, Arial, sans-serif;font-size: 8px;border: 1px solid black;border-collapse: collapse;page-break-inside:avoid;page-break-before:avoid">
+                      <tr>
+                       		<td>No.</td>
+                            <td>Description</td>                       		
+                     </tr>
+                    <tr>
+                       		<td>   1. </td>
+                           <td> <apex:repeat var="Deeds" value="{!DeedsWrapper}">                        
+                    <apex:outputText value="{!Deeds.DetailsforTitleDeeds}"><br/></apex:outputText>                                                                            
+                     </apex:repeat>   </td>
+                    
+                       		
+                     </tr>
+                 </table></div>
+        </div>
+        <!-- <div style="padding-top:270px;display: flex;justify-content: space-between" >                
+                    <div style="text-align:right">
+                        Property Owner 
+                    </div>           
+                  
+            </div>-->
+             
+        <div style="page-break-after:always;"></div>
+        <div>
+            <h4 style="margin-right:130px;text-align:center; font-family:calibiri;font-weight: bold;font-size:15px">POWER OF ATTORNEY</h4>
+                        
+        </div>
+        <div style="font-family:Times New Roman;font-size:14px">
+            THIS POWER OF ATTORNEY granted at {!LoanCity}/{!LoanBranch} on this day of {!CurrentDate} by {!ApplicantTitle} {!ApplicantName} ( the “Principal”)
+in favour of M/s Fedbank Financial Services Limited, a company incorporated under the companies Act,1956,
+having its registered office at Mumbai, Maharashtra (hereinafter called the Company) send greetings.(“Fedfina”, which
+            expression shall, unless it be repugnant to the subject or context thereof, include its successors and assigns).<br/><br/>
+            <b>WHEREAS</b><br/><br/>
+            <div style="font-family:Times New Roman;font-size:14px;margin-left: 20px;">
+            1. By a Loan Agreement dated the {!CurrentDay}th day of {!CurrentMonthNumber}th Month, {!CurrentYear} and entered into
+between {!ApplicantName} (the “Borrower”) {!CoApplicantName}
+(the “Co-Borrower”)
+and interalia Fedbank Financial Services Limited (the “Fedfina”) (the “Loan Agreement”, which expression
+shall include all amendments made thereto from time to time), the Lenders therein have lent and advanced
+or agreed to lend and advance to the borrower a loan not exceeding {!LoanAmount1} (the “Loan”) on
+                the terms and conditions set out in the Loan Agreement.<br/>
+                <apex:outputText escape="false" value="{!StaticContent1}"/>                
+            </div>
+            SCHEDULE<br/>
+             <div>
+                <table style = "font-family: Verdana, Helvetica, Arial, sans-serif;font-size: 8px;border: 1px solid black;border-collapse: collapse;page-break-inside:avoid;page-break-before:avoid">
+                      <tr>
+                       		<td>S No.</td>
+                            <td>Details of assets of the Principal</td>                       		
+                     </tr>
+                    <tr>
+                       		<td>   1. </td>
+                            <td><apex:repeat var="PropertyAddress" value="{!PropertyAddressWrapper}">                        
+                    <apex:outputText value="{!PropertyAddress.AllPropertyAddress}"><br/></apex:outputText>                                                                            
+                       
+                    </apex:repeat> </td>
+                       		
+                     </tr>
+                 </table></div><br/><br/>
+          <b>  IN WITNESS WHEREOF</b> the Principal has caused these presents to be executed on the day, month and year first
+herein above written in the manner hereinafter appearing.<br/><br/>
+SIGNED AND DELIVERED by the<br/>
+Within name Principal, Mr./Ms./M/s {!ApplicantName},<br/><br/>
+In presence of<br/>
+1. Mr./Ms./M/s _________________,<br/><br/>
+2. Mr./Ms./M/s_______________<br/><br/>
+        </div>
+        </body>
+    
+</apex:component>

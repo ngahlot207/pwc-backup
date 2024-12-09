@@ -1,0 +1,158 @@
+<template>
+ 
+     <div class="container slds-scrollable_x">
+            <h3>Banking Details</h3>
+            <br>
+            <table class="slds-table slds-table_bordered slds-p-around_medium slds-scrollable_x">
+                <col>
+                <colgroup span="2"></colgroup>
+                <colgroup span="2"></colgroup>
+                <tr>
+                  <th style="background-color: #F3F2F2;width: 10%;" colspan="1" scope="colgroup">Particular</th>
+                  <th style="background-color: #F3F2F2;width: 15%;" colspan="2" scope="colgroup">  Value Summation of Debits and credits </th>
+                  <th style="background-color: #F3F2F2;width: 15%;" colspan="2" scope="colgroup">   Count of Debits and credits  </th>
+                  <th style="background-color: #F3F2F2;width: 10%;" rowspan="2">I/W Ret (#) <span style="color: red;"> *</span></th>
+                  <th style="background-color: #F3F2F2;width: 8%;" rowspan="2">O/W Ret (#) <span style="color: red;"> *</span></th>
+                  <th style="background-color: #F3F2F2;width: 8%;" rowspan="2">Stop Pymt (#) <span style="color: red;"> *</span></th>
+                  <th style="background-color: #F3F2F2;width: 8%;" rowspan="2">Min Bal Charges <span style="color: red;"> *</span></th>                        
+                  <th style="background-color: #F3F2F2;width: 16%; padding: 0 260px 0 260px" colspan="7" scope="colgroup">Balance at Specific Date In Month  </th>
+                  <th style="background-color: #F3F2F2;width: 5%;" rowspan="2">Average Bank Balance</th>
+                  <template if:true={ConsiAbbDisMode}>
+                      <th style="background-color: #F3F2F2;width: 5%;" rowspan="2">Average Daily Bank Balance<span style="color: red;"> *</span></th>
+                  </template>
+                  <template if:false={ConsiAbbDisMode}>
+                    <th style="background-color: #F3F2F2;width: 5%;" rowspan="2">Average Daily Bank Balance</th>
+                </template>
+                  
+                  <!--<th style="background-color: #F3F2F2;width: 5%;" rowspan="2">Consider ABB Program <span style="color: red;"> *</span></th>-->
+                  <template if:true={_accountTypeCcNdOd}>
+                    <th style="background-color: #F3F2F2;width: 5%; padding: 0 20px" rowspan="2">Monthly Limit <span style="color: red;"> *</span></th>
+                    <th style="background-color: #F3F2F2;width: 5%;" rowspan="2">Utilization %</th>
+                 </template>
+                </tr>
+                <tr>
+                  <th style="background-color: #F3F2F2; " scope="col">Months</th>
+                  <th style="background-color: #F3F2F2;" scope="col">Debits <span style="color: red;"> *</span></th>
+                  <th style="background-color: #F3F2F2;" scope="col">Credits <span style="color: red;"> *</span></th>
+                  <th style="background-color: #F3F2F2;" scope="col">Debits <span style="color: red;"> *</span></th>
+                  <th style="background-color: #F3F2F2;" scope="col">Credits <span style="color: red;"> *</span></th>
+                  <th style="background-color: #F3F2F2; text-align: center!important; " scope="col">1st <span style="color: red;">*</span></th>
+                  <th style="background-color: #F3F2F2; text-align: center!important;" scope="col">5th <span style="color: red;">*</span></th>
+                  <th style="background-color: #F3F2F2; text-align: center!important;" scope="col">10th <span style="color: red;">*</span></th>
+                  <th style="background-color: #F3F2F2; text-align: center!important;"  scope="col">15th <span style="color: red;">*</span></th>
+                  <th style="background-color: #F3F2F2;text-align: center!important;" scope="col">20th <span style="color: red;"> *</span></th>
+                  <th style="background-color: #F3F2F2; text-align: center!important;" scope="col">25th <span style="color: red;"> *</span></th>
+                  <th style="background-color: #F3F2F2; text-align: center!important;" scope="col">Monthend <span style="color: red;"> *</span></th>
+                </tr>
+                <template for:each={_foreditableTableData} for:item="fileIterator" for:index="index">
+                    <tr data-row-index={index} onclick={handleRowClick} key={fileIterator.Id} aria-selected="false" class="slds-hint-parent">
+                        <th style="background-color: #F3F2F2;" scope="row">{fileIterator.Month__c}-{fileIterator.Year__c}</th>
+                        <!-- #F3F2F2; -->
+                        <td><lightning-input class="input-text-align_right" data-index={index} 
+                          type="number" formatter="currency" step="0.01" value={fileIterator.ValueSummationDebit__c} 
+                          onchange={handleInputChange} data-id={fileIterator.Id} data-field="ValueSummationDebit__c" 
+                          disabled={disableMode} required="true" variant="label-hidden"></lightning-input></td>
+                        <td><lightning-input class="input-text-align_right" data-index={index} type="number" formatter="currency" step="0.01" value={fileIterator.ValueSummationCredit__c} onchange={handleInputChange} data-id={fileIterator.Id} data-field="ValueSummationCredit__c" disabled={disableMode} required="true" variant="label-hidden" ></lightning-input></td>
+                        <td><lightning-input class="input-text-align_right" data-index={index} type="number" value={fileIterator.CountofDebit__c} onchange={handleInputChange} data-id={fileIterator.Id} data-field="CountofDebit__c" disabled={disableMode} required="true" variant="label-hidden"></lightning-input></td>
+                        <td><lightning-input class="input-text-align_right" data-index={index} type="number" value={fileIterator.CountofCredit__c} onchange={handleInputChange} data-id={fileIterator.Id} data-field="CountofCredit__c" disabled={disableMode} required="true" variant="label-hidden"></lightning-input></td>
+                        <td><lightning-input class="input-text-align_right" data-index={index} type="number" value={fileIterator.InwardReturnsCount__c} onchange={handleInputChange} data-id={fileIterator.Id} data-field="InwardReturnsCount__c" disabled={disableMode} required="true" variant="label-hidden"></lightning-input></td>
+                        <td><lightning-input class="input-text-align_right" data-index={index} type="number" value={fileIterator.OutwardReturnsCount__c} onchange={handleInputChange} data-id={fileIterator.Id} data-field="OutwardReturnsCount__c" disabled={disableMode} required="true" variant="label-hidden"></lightning-input></td>
+                        <td><lightning-input class="input-text-align_right" data-index={index} type="number" value={fileIterator.StopPaymentCount__c} onchange={handleInputChange} data-id={fileIterator.Id} data-field="StopPaymentCount__c" disabled={disableMode} required="true" variant="label-hidden"></lightning-input></td>
+                        <td><lightning-combobox class="comboboxwidth" dropdown-alignment="auto" data-row-index={index} value={fileIterator.MinBalanceCharges__c} options={options} onchange={handleInputChange} data-id={fileIterator.Id} data-field="MinBalanceCharges__c" disabled={disableMode} required="true" variant="label-hidden"></lightning-combobox></td>
+                        <td><lightning-input class="input-text-align_right" data-index={index} type="number" formatter="currency" step="0.01" value={fileIterator.BalanceAt_1st__c} onchange={handleInputChange} data-id={fileIterator.Id} data-field="BalanceAt_1st__c" disabled={disableMode} required="true" variant="label-hidden"></lightning-input></td>
+                        <td><lightning-input class="input-text-align_right" data-index={index} type="number" formatter="currency" step="0.01" value={fileIterator.BalanceAt_5th__c} onchange={handleInputChange} data-id={fileIterator.Id} data-field="BalanceAt_5th__c" disabled={disableMode} required="true" variant="label-hidden"></lightning-input></td>
+                        <td><lightning-input class="input-text-align_right" data-index={index} type="number" formatter="currency" step="0.01" value={fileIterator.BalanceAt_10th__c} onchange={handleInputChange} data-id={fileIterator.Id} data-field="BalanceAt_10th__c" disabled={disableMode} required="true" variant="label-hidden"></lightning-input></td>
+                        <td><lightning-input class="input-text-align_right" data-index={index} type="number" formatter="currency" step="0.01" value={fileIterator.BalanceAt_15th__c} onchange={handleInputChange} data-id={fileIterator.Id} data-field="BalanceAt_15th__c" disabled={disableMode} required="true" variant="label-hidden"></lightning-input></td>
+                        <td><lightning-input class="input-text-align_right" data-index={index} type="number" formatter="currency" step="0.01" value={fileIterator.BalanceAt_20th__c} onchange={handleInputChange} data-id={fileIterator.Id} data-field="BalanceAt_20th__c" disabled={disableMode} required="true" variant="label-hidden"></lightning-input></td>
+                        <td><lightning-input class="input-text-align_right" data-index={index} type="number" formatter="currency" step="0.01" value={fileIterator.BalanceAt_25th__c} onchange={handleInputChange} data-id={fileIterator.Id} data-field="BalanceAt_25th__c" disabled={disableMode} required="true" variant="label-hidden"></lightning-input></td>
+                        <td><lightning-input class="input-text-align_right" data-index={index} type="number" formatter="currency" step="0.01" value={fileIterator.Monthend__c} onchange={handleInputChange} data-id={fileIterator.Id} data-field="Monthend__c" disabled={disableMode} required="true" variant="label-hidden"></lightning-input></td>
+                        <td><lightning-input class="input-text-align_right" type="number" formatter="currency" step="0" value={fileIterator.AverageBankBalance__c} onblur={handleInputChange}  disabled></lightning-input></td>
+                       <td><lightning-input class="input-text-align_right" data-index={index} type="number" formatter="currency" step="0.01" value={fileIterator.Average_Daily_Bank_Balance__c} onblur={handleInputChange} data-id={fileIterator.Id} data-field="Average_Daily_Bank_Balance__c" disabled={disableMode} required={ConsiAbbDisMode} variant="label-hidden"></lightning-input></td>
+                        <!-- <td>{fileIterator.AverageBankBalance__c}</td>-->
+                        <template if:true={_accountTypeCcNdOd}>
+                          <td><lightning-input class="input-text-align_right" data-index={index} type="number" formatter="currency" step="0.01" value={fileIterator.MonthlyLimit__c} onblur={handleInputChange} data-id={fileIterator.Id} data-field="MonthlyLimit__c" disabled={disabledForAvLimit} required="true" variant="label-hidden"></lightning-input></td>
+                          <td>{fileIterator.Utilization__c}%</td>
+                        </template>
+                      </tr>
+                      
+    
+                </template>
+                <tr style="background-color: #F3F2F2;">
+                    <th style="background-color: #F3F2F2;" scope="row">Total</th>
+                    <td style="background-color: #F3F2F2;"><lightning-input  class="input-text-align_right myClass" type="number" formatter="currency" step="0" value={totalAfterChangesSummationDebit} onblur={handleInputChange}  disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input  class="input-text-align_right" type="number" formatter="currency" step="0" value={totalAfterChangesSummationCredit} onblur={handleInputChange}  disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number"  value={totalAfterChangesCountofDebit} onblur={handleInputChange}  disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number" value={totalAfterChangesCountofCredit} onblur={handleInputChange}  disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number"  value={totalAfterChangesInwardReturnsCount} onblur={handleInputChange}  disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number" value={totalAfterChangesOutwardReturnsCount} onblur={handleInputChange}  disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number"  value={totalAfterChangesStopPaymentCount} onblur={handleInputChange}  disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="text" value={finalOfMiniAver} onblur={handleInputChange}  disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number" formatter="currency" step="0" value={totalAfterChangesBalanceAt_1st} onblur={handleInputChange}  disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number" formatter="currency" step="0" value={totalAfterChangesBalanceAt_5th__c} onblur={handleInputChange}  disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number" formatter="currency" step="0"  value={totalAfterChangesBalanceAt_10th} onblur={handleInputChange}  disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number" formatter="currency" step="0" value={totalAfterChangesBalanceAt_15th} onblur={handleInputChange}  disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number" formatter="currency" step="0" value={totalAfterChangesBalanceAt_20th} onblur={handleInputChange}  disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number" formatter="currency" step="0" value={totalAfterChangesBalanceAt_25th} onblur={handleInputChange}  disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number" formatter="currency" step="0" value={totalAfterChangesMonthEnd} onblur={handleInputChange}  disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number" formatter="currency" step="0" value={totalAfterChangesAverageBankBalance} onblur={handleInputChange}   disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number" formatter="currency" step="0" value={totalAfterChangesDailyBala} onblur={handleInputChange}   disabled></lightning-input></td>
+                   <!-- <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number" formatter="currency" step="0" value={totalAfterChangesAbbCon} onblur={handleInputChange}   disabled></lightning-input></td>-->
+                    <template if:true={_accountTypeCcNdOd}>
+                      <!--<td><lightning-input type="number" formatter="currency" step="0.01" value={totalOfMonthLimit} onblur={handleInputChange}  disabled></lightning-input></td>-->
+                      <td style="background-color: #F3F2F2;"></td>
+                      <td style="background-color: #F3F2F2;">{averageOfUtilization}%</td>
+                    </template>
+                  </tr>
+                  <tr style="background-color: #F3F2F2;">
+                    <th style="background-color: #F3F2F2;" scope="row">Average</th>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number" formatter="currency" step="0" value={averageAfterChangesSummationDebit} onblur={handleInputChange}  disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number" formatter="currency" step="0" value={averageAfterChangesSummationCredit} onblur={handleInputChange}  disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number"  value={averageAfterChangesCountofDebit} onblur={handleInputChange}  disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number" value={averageAfterChangesCountofCredit} onblur={handleInputChange}  disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number"  value={averageAfterChangesInwardReturnsCount} onblur={handleInputChange}  disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number" value={averageAfterChangesOutwardReturnsCount} onblur={handleInputChange}  disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number"  value={averageAfterChangesStopPaymentCount} onblur={handleInputChange}  disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="text" value={finalOfMiniAver} onblur={handleInputChange}  disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number" formatter="currency" step="0" value={averageAfterChangesBalanceAt_1st} onblur={handleInputChange}  disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number" formatter="currency" step="0" value={averageAfterChangesBalanceAt_5th__c} onblur={handleInputChange}  disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number" formatter="currency" step="0"  value={averageAfterChangesBalanceAt_10th} onblur={handleInputChange}  disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number" formatter="currency" step="0" value={averageAfterChangesBalanceAt_15th} onblur={handleInputChange}  disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number" formatter="currency" step="0" value={averageAfterChangesBalanceAt_20th} onblur={handleInputChange}  disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number" formatter="currency" step="0" value={averageAfterChangesBalanceAt_25th} onblur={handleInputChange}  disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number" formatter="currency" step="0" value={averageAfterChangesMonthEnd} onblur={handleInputChange}  disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number" formatter="currency" step="0" value={averageAfterchangeAverageBankBalance} onblur={handleInputChange}  disabled></lightning-input></td>
+                    <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number" formatter="currency" step="0" value={averageAfterchangeDailyBala} onblur={handleInputChange}  disabled></lightning-input></td>
+                  <template if:true={_accountTypeCcNdOd}>
+                      <td style="background-color: #F3F2F2;"><lightning-input class="input-text-align_right" type="number" formatter="currency" step="0" value={monthlyLimit} onblur={handleInputChange}  disabled></lightning-input></td>
+                    
+                    </template>
+
+
+
+                    <!--<td>{averageAfterChangesSummationDebit}</td>
+                    <td>{averageAfterChangesSummationCredit}</td>
+                    <td>{averageAfterChangesCountofDebit}</td>
+                    <td>{averageAfterChangesCountofCredit}</td>
+                    <td>{averageAfterChangesInwardReturnsCount}</td>
+                    <td>{averageAfterChangesOutwardReturnsCount}</td>
+                    <td>{averageAfterChangesStopPaymentCount}</td>
+                    <td>{finalOfMiniAver}</td>
+                    <td>{averageAfterChangesBalanceAt_1st}</td>
+                    <td>{averageAfterChangesBalanceAt_5th__c}</td>
+                    <td>{averageAfterChangesBalanceAt_10th}</td>
+                    <td>{averageAfterChangesBalanceAt_15th}</td>
+                    <td>{averageAfterChangesBalanceAt_20th}</td>
+                    <td>{averageAfterChangesBalanceAt_25th}</td>
+                    <td>{averageAfterchangeAverageBankBalance}</td>
+                    <template if:true={_accountTypeCcNdOd}>
+                      <td>{monthlyLimit}</td>
+                    </template> -->
+                  </tr>
+                 
+                
+                
+              </table>
+            </div>
+        
+
+</template>

@@ -1,0 +1,185 @@
+<template>
+    <lightning-spinner if:true={showSpinner} alternative-text="Loading" size="medium"></lightning-spinner>
+    <lightning-layout multiple-rows="true">
+        <lightning-layout-item size="12" margin="around-small">
+            <lightning-accordion active-section-name={activeSection} class="accordion" allow-multiple-sections-open>
+                <lightning-accordion-section name="A" label="BO Details" class="applicantClass">
+                    <lightning-layout multiple-rows="true">
+
+                        <lightning-layout-item class="slds-p-around_x-small" size="12"
+                            small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                            large-device-size={layoutSize.large}>
+                            <div>
+                                <lightning-input type="text" value={wrapObj.FullName__c} label="Name (Individual)"
+                                    data-fieldname="FullName__c" data-objectname="Applicant__c"
+                                    disabled></lightning-input>
+                            </div>
+                        </lightning-layout-item>
+
+
+                        <lightning-layout-item class="slds-p-around_x-small" size="12"
+                            small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                            large-device-size={layoutSize.large}>
+                            <div>
+                                <lightning-input type="text" value={wrapObj.Relationship__c} label="Relationship"
+                                    data-fieldname="Relationship__c" data-objectname="Applicant__c"
+                                    disabled></lightning-input>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item class="slds-p-around_x-small" size="12"
+                            small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                            large-device-size={layoutSize.large}>
+                            <div>
+                                <lightning-input type="text" value={wrapObj.PAN__c} label="PAN/ Form 60"
+                                    data-fieldname="PAN__c" data-objectname="Applicant__c" disabled></lightning-input>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item class="slds-p-around_x-small" size="12"
+                            small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                            large-device-size={layoutSize.large}>
+                            <div>
+                                <lightning-input type="text" value={identityProofType} label="Identity Proof"
+                                    data-fieldname="PAN__c" data-objectname="Applicant__c" disabled></lightning-input>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item class="slds-p-around_x-small" size="12"
+                            small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                            large-device-size={layoutSize.large}>
+                            <div>
+                                <lightning-input type="text" value={identityProofNumber} label="ID No"
+                                    data-fieldname="PAN__c" data-objectname="Applicant__c" disabled></lightning-input>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item class="slds-p-around_x-small" size="12"
+                            small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                            large-device-size={layoutSize.large}>
+                            <div>
+                                <lightning-input placeholder="DD-MMM-YYYY" type="date" value={wrapObj.DOB__c}
+                                    label="Date Of Birth" onchange={inputChangeHandler}
+                                    required={conditionallyRequiredIndividual} data-fieldname="DOB__c"
+                                    data-objectname="Applicant__c" disabled={isOCREditDOB}></lightning-input>
+                                <template lwc:if={is_dobError}>
+                                    <p class="slds-text-color_error">{dobErrorMessage}</p>
+                                </template>
+                            </div>
+                        </lightning-layout-item>
+                        <!-- <template lwc:if={handleFathersName}> -->
+                        <lightning-layout-item class="slds-p-around_x-small" size="12"
+                            small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                            large-device-size={layoutSize.large}>
+                            <div>
+                                <lightning-input type="text" value={wrapObj.Father_Name__c} label="Father's Name"
+                                    onchange={inputChangeHandler} required={reqIndiviDetails}
+                                    data-fieldname="Father_Name__c" data-objectname="Applicant__c"
+                                    pattern="^[A-Za-z _]*[A-Za-z][A-Za-z _]*$"
+                                    message-when-pattern-mismatch={messageMismatchError} disabled={isOCREditFatherName}
+                                    data-fieldtype="string" onblur={blurHandler}></lightning-input>
+                            </div>
+                        </lightning-layout-item>
+                        <!-- </template> -->
+                        <!-- <template lwc:if={handleSpouseName}> -->
+                        <lightning-layout-item class="slds-p-around_x-small" size="12"
+                            small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                            large-device-size={layoutSize.large}>
+                            <div>
+                                <lightning-input type="text" value={wrapObj.SpName__c} label="Spouse Name"
+                                    onchange={inputChangeHandler} required={reqIndiviDetails} data-fieldname="SpName__c"
+                                    data-objectname="Applicant__c" pattern="^[A-Za-z _]*[A-Za-z][A-Za-z _]*$"
+                                    message-when-pattern-mismatch={messageMismatchError} disabled={isReadOnly}
+                                    data-fieldtype="string" onblur={blurHandler}></lightning-input>
+                            </div>
+                        </lightning-layout-item>
+                        <!-- </template> -->
+                        <lightning-layout-item class="slds-p-around_x-small" size="12"
+                            small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                            large-device-size={layoutSize.large}>
+                            <div>
+                                <lightning-input type="text" value={wrapObj.MthrMdnName__c} label="Mother's Maiden Name"
+                                    onchange={inputChangeHandler} required={reqIndiviDetails}
+                                    data-fieldname="MthrMdnName__c" data-objectname="Applicant__c"
+                                    pattern="^[A-Za-z _]*[A-Za-z][A-Za-z _]*$"
+                                    message-when-pattern-mismatch={messageMismatchError} disabled={isReadOnly}
+                                    data-fieldtype="string" onblur={blurHandler}></lightning-input>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item class="slds-p-around_x-small" size="12"
+                            small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                            large-device-size={layoutSize.large}>
+                            <div>
+                                <lightning-combobox label="Nationality" data-objectname="Applicant__c"
+                                    data-fieldname="Nationality__c" value={wrapObj.Nationality__c}
+                                    onchange={inputChangeHandler} options={nationalityOptions}
+                                    required={conditionallyRequiredNationality}
+                                    disabled={isReadOnly}></lightning-combobox>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item class="slds-p-around_x-small" size="12"
+                            small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                            large-device-size={layoutSize.large}>
+                            <div>
+                                <lightning-combobox label="Politically Exposed Person" data-objectname="Applicant__c"
+                                    data-fieldname="Politically_Exposed_Person__c"
+                                    value={wrapObj.Politically_Exposed_Person__c} onchange={inputChangeHandler}
+                                    options={policExpPersonOptions} disabled={isReadOnly} required></lightning-combobox>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item class="slds-p-around_x-small" size="12"
+                            small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                            large-device-size={layoutSize.large}>
+                            <div>
+                                <lightning-input type="tel" value={wrapObj.MobNumber__c} label="Mobile Number"
+                                    onchange={inputChangeHandler} required data-fieldname="MobNumber__c"
+                                    data-objectname="Applicant__c" pattern="^[6-9]\d{9}$"
+                                    message-when-pattern-mismatch={messageMismatchError}
+                                    disabled={isReadOnly}></lightning-input>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item class="slds-p-around_x-small" size="12"
+                            small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                            large-device-size={layoutSize.large}>
+                            <div>
+                                <lightning-input type="text" value={wrapObj.UCID__c} label="UCID"
+                                    onchange={inputChangeHandler} data-fieldname="UCID__c"
+                                    data-objectname="Applicant__c" disabled data-fieldtype="string"></lightning-input>
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </lightning-accordion-section>
+                <lightning-accordion-section name="B" label="Address Details" class="applicantClass">
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item class="slds-p-around_x-small" size="12"
+                            small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                            large-device-size={layoutSize.large}>
+                            <strong>Address Details</strong>
+                            <div>
+                                <lightning-combobox label="Type of Address" value={addressValue} options={options}
+                                    disabled variant="label-hidden"></lightning-combobox>
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </lightning-accordion-section>
+
+                <!-- <lightning-accordion-section name="B" label="Bo Address Details" class="applicantClass"> -->
+                <!-- <template lwc:if={is_Open_Res_add}> -->
+                <lightning-accordion active-section-name={activeSectionName} allow-multiple-sections-open>
+                    <lightning-accordion-section name="Res_Add" label="Residence Address" class="applicantClass">
+                        <!-- <div class="slds-clearfix">
+                                <lightning-button-icon onclick={deleteResidenceRecord}
+                                    class="slds-m-top_small slds-float_right pointerClass custom-css"
+                                    icon-name='utility:delete' alternative-text='delete' variant='error' size='small'
+                                    title='delete' disabled={disableMode}></lightning-button-icon>
+                            </div> -->
+                        <c-capture-applicant-address-details onhandle={handleChildResidenceData}
+                            onmailaddcheck={handleResidenceMailingAdd} child-data={residenceAddress}
+                            add-type-section="Residence Address" layout-size={layoutSize} is-required={isResReq}
+                            has-edit-access={hasEditAccess} is-required-check={applType} showerror={showerror}
+                            loan-app-id={loanAppId} consent-type={consentType}
+                            product-type={productType} hide-mail-addr= "true"></c-capture-applicant-address-details>
+                    </lightning-accordion-section>
+                </lightning-accordion>
+                <!-- </template> -->
+                <!-- </lightning-accordion-section> -->
+            </lightning-accordion>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

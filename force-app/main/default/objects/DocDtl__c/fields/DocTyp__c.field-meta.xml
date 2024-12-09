@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DocTyp__c</fullName>
+    <externalId>false</externalId>
+    <label>Document Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Additional documents</fullName>
+                <default>false</default>
+                <label>Additional documents</label>
+            </value>
+            <value>
+                <fullName>Address Proof</fullName>
+                <default>false</default>
+                <label>Address Proof</label>
+            </value>
+            <value>
+                <fullName>Address Proof (Residential)</fullName>
+                <default>false</default>
+                <label>Address Proof (Residential)</label>
+            </value>
+            <value>
+                <fullName>Audit Report (with schedules)</fullName>
+                <default>false</default>
+                <label>Audit Report (with schedules)</label>
+            </value>
+            <value>
+                <fullName>Bank Statement</fullName>
+                <default>false</default>
+                <label>Bank Statement</label>
+            </value>
+            <value>
+                <fullName>Bureau Report</fullName>
+                <default>false</default>
+                <label>Bureau Report</label>
+            </value>
+            <value>
+                <fullName>CAM Report</fullName>
+                <default>false</default>
+                <label>CAM Report</label>
+            </value>
+            <value>
+                <fullName>Charge Creation Documents</fullName>
+                <default>false</default>
+                <label>Charge Creation Documents</label>
+            </value>
+            <value>
+                <fullName>Cheque</fullName>
+                <default>false</default>
+                <label>Cheque</label>
+            </value>
+            <value>
+                <fullName>Collateral Visit Photographs</fullName>
+                <default>false</default>
+                <label>Collateral Visit Photographs</label>
+            </value>
+            <value>
+                <fullName>Constitution wise Mandatory documents</fullName>
+                <default>false</default>
+                <label>Constitution wise Mandatory documents</label>
+            </value>
+            <value>
+                <fullName>Constitution wise Mandatory KYC documents</fullName>
+                <default>false</default>
+                <label>Constitution wise Mandatory KYC documents</label>
+            </value>
+            <value>
+                <fullName>CPV Documents</fullName>
+                <default>false</default>
+                <label>CPV Documents</label>
+            </value>
+            <value>
+                <fullName>CPV Photos</fullName>
+                <default>false</default>
+                <label>CPV Photos</label>
+            </value>
+            <value>
+                <fullName>DD</fullName>
+                <default>false</default>
+                <label>DD</label>
+            </value>
+            <value>
+                <fullName>Disbursal Documents</fullName>
+                <default>false</default>
+                <label>Disbursal Documents</label>
+            </value>
+            <value>
+                <fullName>Disbursement Memo</fullName>
+                <default>false</default>
+                <label>Disbursement Memo</label>
+            </value>
+            <value>
+                <fullName>DOB Proof</fullName>
+                <default>false</default>
+                <label>DOB Proof</label>
+            </value>
+            <value>
+                <fullName>Financials - P&amp;L and BL</fullName>
+                <default>false</default>
+                <label>Financials - P&amp;L and BL</label>
+            </value>
+            <value>
+                <fullName>Form 16</fullName>
+                <default>false</default>
+                <label>Form 16</label>
+            </value>
+            <value>
+                <fullName>Form 26 AS</fullName>
+                <default>false</default>
+                <label>Form 26 AS</label>
+            </value>
+            <value>
+                <fullName>Form 60</fullName>
+                <default>false</default>
+                <label>Form 60</label>
+            </value>
+            <value>
+                <fullName>General Insurance documents</fullName>
+                <default>false</default>
+                <label>General Insurance documents</label>
+            </value>
+            <value>
+                <fullName>GST Returns</fullName>
+                <default>false</default>
+                <label>GST Returns</label>
+            </value>
+            <value>
+                <fullName>Identity Proof</fullName>
+                <default>false</default>
+                <label>Identity Proof</label>
+            </value>
+            <value>
+                <fullName>Income Tax Returns</fullName>
+                <default>false</default>
+                <label>Income Tax Returns</label>
+            </value>
+            <value>
+                <fullName>Increments/ Appraisal Letter</fullName>
+                <default>false</default>
+                <label>Increments/ Appraisal Letter</label>
+            </value>
+            <value>
+                <fullName>ITR Computation</fullName>
+                <default>false</default>
+                <label>ITR Computation</label>
+            </value>
+            <value>
+                <fullName>Legal Verification</fullName>
+                <default>false</default>
+                <label>Legal Verification</label>
+            </value>
+            <value>
+                <fullName>Life Insurance documents</fullName>
+                <default>false</default>
+                <label>Life Insurance documents</label>
+            </value>
+            <value>
+                <fullName>Manual Sanction</fullName>
+                <default>false</default>
+                <label>Manual Sanction</label>
+            </value>
+            <value>
+                <fullName>NACH Form</fullName>
+                <default>false</default>
+                <label>NACH Form</label>
+            </value>
+            <value>
+                <fullName>Non Individual Documents</fullName>
+                <default>false</default>
+                <label>Non Individual Documents</label>
+            </value>
+            <value>
+                <fullName>Other Documents</fullName>
+                <default>false</default>
+                <label>Other Documents</label>
+            </value>
+            <value>
+                <fullName>Other Income Documents</fullName>
+                <default>false</default>
+                <label>Other Income Documents</label>
+            </value>
+            <value>
+                <fullName>Own house / office ownership proof</fullName>
+                <default>false</default>
+                <label>Own house / office ownership proof</label>
+            </value>
+            <value>
+                <fullName>PAN</fullName>
+                <default>false</default>
+                <label>PAN</label>
+            </value>
+            <value>
+                <fullName>Payslip</fullName>
+                <default>false</default>
+                <label>Payslip</label>
+            </value>
+            <value>
+                <fullName>PD Photographs</fullName>
+                <default>false</default>
+                <label>PD Photographs</label>
+            </value>
+            <value>
+                <fullName>Photograph</fullName>
+                <default>false</default>
+                <label>Photograph</label>
+            </value>
+            <value>
+                <fullName>Physical Consent Proof</fullName>
+                <default>false</default>
+                <label>Physical Consent Proof</label>
+            </value>
+            <value>
+                <fullName>Pricing Approval Document</fullName>
+                <default>false</default>
+                <label>Pricing Approval Document</label>
+            </value>
+            <value>
+                <fullName>Principal Place of Business - Address Proof</fullName>
+                <default>false</default>
+                <label>Principal Place of Business - Address Proof</label>
+            </value>
+            <value>
+                <fullName>Property Documents - Additional</fullName>
+                <default>false</default>
+                <label>Property Documents - Additional</label>
+            </value>
+            <value>
+                <fullName>Property Documents - Common</fullName>
+                <default>false</default>
+                <label>Property Documents - Common</label>
+            </value>
+            <value>
+                <fullName>Property Papers</fullName>
+                <default>false</default>
+                <label>Property Papers</label>
+            </value>
+            <value>
+                <fullName>Qualification proof</fullName>
+                <default>false</default>
+                <label>Qualification proof</label>
+            </value>
+            <value>
+                <fullName>RCU Verification</fullName>
+                <default>false</default>
+                <label>RCU Verification</label>
+            </value>
+            <value>
+                <fullName>Registered office - Address Proof</fullName>
+                <default>false</default>
+                <label>Registered office - Address Proof</label>
+            </value>
+            <value>
+                <fullName>Relationship proof</fullName>
+                <default>false</default>
+                <label>Relationship proof</label>
+            </value>
+            <value>
+                <fullName>Rental Income Proof</fullName>
+                <default>false</default>
+                <label>Rental Income Proof</label>
+            </value>
+            <value>
+                <fullName>Repayment Documents</fullName>
+                <default>false</default>
+                <label>Repayment Documents</label>
+            </value>
+            <value>
+                <fullName>Residence Address proof - Deemed OVD</fullName>
+                <default>false</default>
+                <label>Residence Address proof - Deemed OVD</label>
+            </value>
+            <value>
+                <fullName>Residence Address proof - OVD</fullName>
+                <default>false</default>
+                <label>Residence Address proof - OVD</label>
+            </value>
+            <value>
+                <fullName>Sanction Letter</fullName>
+                <default>false</default>
+                <label>Sanction Letter</label>
+            </value>
+            <value>
+                <fullName>Sanction Letter of OD/ CC</fullName>
+                <default>false</default>
+                <label>Sanction Letter of OD/ CC</label>
+            </value>
+            <value>
+                <fullName>Sign Proof</fullName>
+                <default>false</default>
+                <label>Sign Proof</label>
+            </value>
+            <value>
+                <fullName>System Sanction</fullName>
+                <default>false</default>
+                <label>System Sanction</label>
+            </value>
+            <value>
+                <fullName>Technical Photos</fullName>
+                <default>false</default>
+                <label>Technical Photos</label>
+            </value>
+            <value>
+                <fullName>Technical Verification Documents</fullName>
+                <default>false</default>
+                <label>Technical Verification Documents</label>
+            </value>
+            <value>
+                <fullName>TSR Verification</fullName>
+                <default>false</default>
+                <label>TSR Verification</label>
+            </value>
+            <value>
+                <fullName>Perfios Report</fullName>
+                <default>false</default>
+                <label>Perfios Report</label>
+            </value>
+            <value>
+                <fullName>Signature Verification Proof</fullName>
+                <default>false</default>
+                <label>Signature Verification Proof</label>
+            </value>
+            <value>
+                <fullName>Vetting Verification</fullName>
+                <default>false</default>
+                <label>Vetting Verification</label>
+            </value>
+            <value>
+                <fullName>Occupation</fullName>
+                <default>false</default>
+                <label>Occupation</label>
+            </value>
+            <value>
+                <fullName>Application Form</fullName>
+                <default>false</default>
+                <label>Application Form</label>
+            </value>
+            <value>
+                <fullName>Aadhaar Consent</fullName>
+                <default>false</default>
+                <label>Aadhaar Consent</label>
+            </value>
+            <value>
+                <fullName>Income Documents</fullName>
+                <default>false</default>
+                <label>Income Documents</label>
+            </value>
+            <value>
+                <fullName>Other Banking &amp; Repayment Docs</fullName>
+                <default>false</default>
+                <label>Other Banking &amp; Repayment Docs</label>
+            </value>
+            <value>
+                <fullName>Interest waiver</fullName>
+                <default>false</default>
+                <label>Interest waiver</label>
+            </value>
+            <value>
+                <fullName>TSR Photos</fullName>
+                <default>false</default>
+                <label>TSR Photos</label>
+            </value>
+            <value>
+                <fullName>Vetting Photos</fullName>
+                <default>false</default>
+                <label>Vetting Photos</label>
+            </value>
+            <value>
+                <fullName>LIP Documents</fullName>
+                <default>false</default>
+                <label>LIP Documents</label>
+            </value>
+            <value>
+                <fullName>LIP Photos</fullName>
+                <default>false</default>
+                <label>LIP Photos</label>
+            </value>
+            <value>
+                <fullName>LOD</fullName>
+                <default>false</default>
+                <label>LOD</label>
+            </value>
+            <value>
+                <fullName>Legal Photos</fullName>
+                <default>false</default>
+                <label>Legal Photos</label>
+            </value>
+            <value>
+                <fullName>Relook Document</fullName>
+                <default>false</default>
+                <label>Relook Document</label>
+            </value>
+            <value>
+                <fullName>Aadhaar Consent Letter</fullName>
+                <default>false</default>
+                <label>Aadhaar Consent Letter</label>
+            </value>
+            <value>
+                <fullName>Term Sheet</fullName>
+                <default>false</default>
+                <label>Term Sheet</label>
+            </value>
+            <value>
+                <fullName>RCU Photos</fullName>
+                <default>false</default>
+                <label>RCU Photos</label>
+            </value>
+            <value>
+                <fullName>LLP Document</fullName>
+                <default>false</default>
+                <label>LLP Document</label>
+            </value>
+            <value>
+                <fullName>Company Document</fullName>
+                <default>false</default>
+                <label>Company Document</label>
+            </value>
+            <value>
+                <fullName>LLP Report</fullName>
+                <default>false</default>
+                <label>LLP Report</label>
+            </value>
+            <value>
+                <fullName>Company Report</fullName>
+                <default>false</default>
+                <label>Company Report</label>
+            </value>
+            <value>
+                <fullName>KFS Document</fullName>
+                <default>false</default>
+                <label>KFS Document</label>
+            </value>
+            <value>
+                <fullName>BT Draft</fullName>
+                <default>false</default>
+                <label>BT Draft</label>
+            </value>
+            <value>
+                <fullName>DPN Document</fullName>
+                <default>false</default>
+                <label>DPN Document</label>
+            </value>
+            <value>
+                <fullName>Stamped Loan Agreement</fullName>
+                <default>false</default>
+                <label>Stamped Loan Agreement</label>
+            </value>
+            <value>
+                <fullName>Loan Agreement &amp; Related Annexure</fullName>
+                <default>false</default>
+                <label>Loan Agreement &amp; Related Annexure</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

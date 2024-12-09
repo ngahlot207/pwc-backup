@@ -1,0 +1,16 @@
+<template>
+    <h2> <b>Application History</b></h2>
+    <template if:true={accList}>
+        <lightning-datatable data={accList} columns={updatedColumns} key-field="Id" hide-checkbox-column>
+        </lightning-datatable>
+    </template>
+    <template if:true={error}>
+        {error}
+    </template>
+    <!-- <lightning-accordion active-section-name={activeSections} allow-multiple-sections-open>
+    <lightning-accordion-section name="A" label="API History">
+        <c-api-trigger-history loan-app-id={loanAppId} record-id={recordId}
+                        applicant-id={currentTabId}></c-api-trigger-history>
+    </lightning-accordion-section>
+</lightning-accordion> -->
+</template>

@@ -1,0 +1,625 @@
+<template>
+    <div class="slds-is-relative">
+        <lightning-quick-action-panel header="CKYC Report">
+
+            <div class="table-container slds-scrollable_y">
+                <table border="1" class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_col-bordered">
+
+                    <thead>
+                        <tr>
+                            <!-- Render dynamic headers -->
+                            <template lwc:if={ckycData}>
+                                <template for:each={columns} for:item="column">
+                                    <th key={column.label}>{column.label}</th>
+                                </template>
+                            </template>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template lwc:if={ckycData}>
+                            <template for:each={ckycData} for:item="record">
+                                <tr key={record.TRANSACTIONID}>
+                                    <td data-label="PARENTCOMPANY">
+                                        <div class="slds-truncate">{record.PARENTCOMPANY}</div>
+                                    </td>
+                                    <td data-label="TRANSACTIONID">
+                                        <div class="slds-truncate">{record.TRANSACTIONID}</div>
+                                    </td>
+                                    <td data-label="SOURCESYSTEMNAME">
+                                        <div class="slds-truncate">{record.SOURCESYSTEMNAME}</div>
+                                    </td>
+                                    <td data-label="SOURCESYSTEMCUSTOMERCODE">
+                                        <div class="slds-truncate">{record.SOURCESYSTEMCUSTOMERCODE}</div>
+                                    </td>
+                                    <td data-label="SOURCESYSTEMCUSTOMERCREATIONDATE">
+                                        <div class="slds-truncate">{record.SOURCESYSTEMCUSTOMERCREATIONDATE}</div>
+                                    </td>
+                                    <td data-label="ISSMALLCUSTOMER">
+                                        <div class="slds-truncate">{record.ISSMALLCUSTOMER}</div>
+                                    </td>
+                                    <td data-label="EKYCOTPBASED">
+                                        <div class="slds-truncate">{record.EKYCOTPBASED}</div>
+                                    </td>
+                                    <td data-label="RECORDIDENTIFIER">
+                                        <div class="slds-truncate">{record.RECORDIDENTIFIER}</div>
+                                    </td>
+                                    <td data-label="SEGMENTS">
+                                        <div class="slds-truncate">{record.SEGMENTS}</div>
+                                    </td>
+                                    <td data-label="SEGMENTSTARTDATE">
+                                        <div class="slds-truncate">{record.SEGMENTSTARTDATE}</div>
+                                    </td>
+                                    <td data-label="PRODUCTSEGMENTS">
+                                        <div class="slds-truncate">{record.PRODUCTSEGMENTS}</div>
+                                    </td>
+                                    <td data-label="CUSTOMERSTATUS">
+                                        <div class="slds-truncate">{record.CUSTOMERSTATUS}</div>
+                                    </td>
+                                    <td data-label="CUSTOMERSTATUSEFFECTIVEDATE">
+                                        <div class="slds-truncate">{record.CUSTOMERSTATUSEFFECTIVEDATE}</div>
+                                    </td>
+                                    <td data-label="RELATEDPARTYSTATUS">
+                                        <div class="slds-truncate">{record.RELATEDPARTYSTATUS}</div>
+                                    </td>
+                                    <td data-label="RELATEDPARTYSTATUSEFFECTIVEDATE">
+                                        <div class="slds-truncate">{record.RELATEDPARTYSTATUSEFFECTIVEDATE}</div>
+                                    </td>
+                                    <td data-label="CUSTOMERTYPE">
+                                        <div class="slds-truncate">{record.CUSTOMERTYPE}</div>
+                                    </td>
+                                    <td data-label="CUSTOMERSUBTYPE">
+                                        <div class="slds-truncate">{record.CUSTOMERSUBTYPE}</div>
+                                    </td>
+                                    <td data-label="Prefix">
+                                        <div class="slds-truncate">{record.Prefix}</div>
+                                    </td>
+                                    <td data-label="FirstName">
+                                        <div class="slds-truncate">{record.FirstName}</div>
+                                    </td>
+                                    <td data-label="MiddleName">
+                                        <div class="slds-truncate">{record.MiddleNames}</div>
+                                    </td>
+                                    <td data-label="LastName">
+                                        <div class="slds-truncate">{record.LastName}</div>
+                                    </td>
+                                    <td data-label="MAIDENPREFIX">
+                                        <div class="slds-truncate">{record.MAIDENPREFIX}</div>
+                                    </td>
+                                    <td data-label="MAIDENFIRSTNAME">
+                                        <div class="slds-truncate">{record.MAIDENFIRSTNAME}</div>
+                                    </td>
+                                    <td data-label="MAIDENMIDDLENAME">
+                                        <div class="slds-truncate">{record.MAIDENMIDDLENAME}</div>
+                                    </td>
+                                    <td data-label="MAIDENLASTNAME">
+                                        <div class="slds-truncate">{record.MAIDENLASTNAME}</div>
+                                    </td>
+                                    <td data-label="FatherPrefix">
+                                        <div class="slds-truncate">{record.FatherPrefix}</div>
+                                    </td>
+                                    <td data-label="FatherFirstName">
+                                        <div class="slds-truncate">{record.FatherFirstName}</div>
+                                    </td>
+                                    <td data-label="FatherMiddleName">
+                                        <div class="slds-truncate">{record.FatherMiddleName}</div>
+                                    </td>
+                                    <td data-label="FatherLastName">
+                                        <div class="slds-truncate">{record.FatherLastName}</div>
+                                    </td>
+                                    <td data-label="SPOUSEPREFIX">
+                                        <div class="slds-truncate">{record.SPOUSEPREFIX}</div>
+                                    </td>
+                                    <td data-label="SPOUSEFIRSTNAME">
+                                        <div class="slds-truncate">{record.SPOUSEFIRSTNAME}</div>
+                                    </td>
+                                    <td data-label="SPOUSEMIDDLENAME">
+                                        <div class="slds-truncate">{record.SPOUSEMIDDLENAME}</div>
+                                    </td>
+                                    <td data-label="SPOUSELASTNAME">
+                                        <div class="slds-truncate">{record.SPOUSELASTNAME}</div>
+                                    </td>
+                                    <td data-label="MOTHERPREFIX">
+                                        <div class="slds-truncate">{record.MOTHERPREFIX}</div>
+                                    </td>
+                                    <td data-label="MOTHERFIRSTNAME">
+                                        <div class="slds-truncate">{record.MOTHERFIRSTNAME}</div>
+                                    </td>
+                                    <td data-label="MotherMiddleName">
+                                        <div class="slds-truncate">{record.MotherMiddleName}</div>
+                                    </td>
+                                    <td data-label="MotherLastName">
+                                        <div class="slds-truncate">{record.MotherLastName}</div>
+                                    </td>
+                                    <td data-label="GENDER">
+                                        <div class="slds-truncate">{record.GENDER}</div>
+                                    </td>
+                                    <td data-label="MARITALSTATUS">
+                                        <div class="slds-truncate">{record.MARITALSTATUS}</div>
+                                    </td>
+                                    <td data-label="Citizenship">
+                                        <div class="slds-truncate">{record.Citizenship}</div>
+                                    </td>
+                                    <td data-label="COUNTRYOFRESIDENCE">
+                                        <div class="slds-truncate">{record.COUNTRYOFRESIDENCE}</div>
+                                    </td>
+                                    <td data-label="OCCUPATIONTYPE">
+                                        <div class="slds-truncate">{record.OCCUPATIONTYPE}</div>
+                                    </td>
+                                    <td data-label="ACTIVITYSECTOR">
+                                        <div class="slds-truncate">{record.ACTIVITYSECTOR}</div>
+                                    </td>
+                                    <td data-label="NATUREOFBUSINESS">
+                                        <div class="slds-truncate">{record.NATUREOFBUSINESS}</div>
+                                    </td>
+                                    <td data-label="NATUREOFBUSINESSOTHER">
+                                        <div class="slds-truncate">{record.NATUREOFBUSINESSOTHER}</div>
+                                    </td>
+                                    <td data-label="DATEOFBIRTH">
+                                        <div class="slds-truncate">{record.DATEOFBIRTH}</div>
+                                    </td>
+                                    <td data-label="WORKEMAIL">
+                                        <div class="slds-truncate">{record.WORKEMAIL}</div>
+                                    </td>
+                                    <td data-label="PERSONALEMAIL">
+                                        <div class="slds-truncate">{record.PERSONALEMAIL}</div>
+                                    </td>
+                                    <td data-label="KYCDateOfDeclaration">
+                                        <div class="slds-truncate">{record.KYCDateOfDeclaration}</div>
+                                    </td>
+                                    <td data-label="KYCPLACEOFDECLARATION">
+                                        <div class="slds-truncate">{record.KYCPLACEOFDECLARATION}</div>
+                                    </td>
+                                    <td data-label="KYCVERIFICATIONDATE">
+                                        <div class="slds-truncate">{record.KYCVERIFICATIONDATE}</div>
+                                    </td>
+                                    <td data-label="KYCEMPLOYEENAME">
+                                        <div class="slds-truncate">{record.KYCEMPLOYEENAME}</div>
+                                    </td>
+                                    <td data-label="KYCEMPLOYEEDESIGNATION">
+                                        <div class="slds-truncate">{record.KYCEMPLOYEEDESIGNATION}</div>
+                                    </td>
+                                    <td data-label="KYCVERIFICATIONBRANCH">
+                                        <div class="slds-truncate">{record.KYCVERIFICATIONBRANCH}</div>
+                                    </td>
+                                    <td data-label="KYCEMPLOYEECODE">
+                                        <div class="slds-truncate">{record.KYCEMPLOYEECODE}</div>
+                                    </td>
+                                    <td data-label="PERMANENTCKYCADDRESSTYPE">
+                                        <div class="slds-truncate">{record.PERMANENTCKYCADDRESSTYPE}</div>
+                                    </td>
+                                    <td data-label="PLOTNOSURVEYNOHOUSEFLATNO">
+                                        <div class="slds-truncate">{record.PLOTNOSURVEYNOHOUSEFLATNO}</div>
+                                    </td>
+                                    <td data-label="PERMANENTADDRESSCOUNTRY">
+                                        <div class="slds-truncate">{record.PERMANENTADDRESSCOUNTRY}</div>
+                                    </td>
+                                    <td data-label="PERMANENTADDRESSPINCODE">
+                                        <div class="slds-truncate">{record.PERMANENTADDRESSPINCODE}</div>
+                                    </td>
+                                    <td data-label="PERMANENTADDRESSLINE1">
+                                        <div class="slds-truncate">{record.PERMANENTADDRESSLINE1}</div>
+                                    </td>
+                                    <td data-label="PERMANENTADDRESSLINE2">
+                                        <div class="slds-truncate">{record.PERMANENTADDRESSLINE2}</div>
+                                    </td>
+                                    <td data-label="PERMANENTADDRESSLINE3">
+                                        <div class="slds-truncate">{record.PERMANENTADDRESSLINE3}</div>
+                                    </td>
+                                    <td data-label="PERMANENTADDRESSDISTRICT">
+                                        <div class="slds-truncate">{record.PERMANENTADDRESSDISTRICT}</div>
+                                    </td>
+                                    <td data-label="PERMANENTADDRESSCITY">
+                                        <div class="slds-truncate">{record.PERMANENTADDRESSCITY}</div>
+                                    </td>
+                                    <td data-label="PERMANENTADDRESSSTATE">
+                                        <div class="slds-truncate">{record.PERMANENTADDRESSSTATE}</div>
+                                    </td>
+                                    <td data-label="PERMANENTADDRESSPROOF">
+                                        <div class="slds-truncate">{record.PERMANENTADDRESSPROOF}</div>
+                                    </td>
+                                    <td data-label="CORRESPONDENCEADDRESSCOUNTRY">
+                                        <div class="slds-truncate">{record.CORRESPONDENCEADDRESSCOUNTRY}</div>
+                                    </td>
+                                    <td data-label="CORRESPONDENCEADDRESSPINCODE">
+                                        <div class="slds-truncate">{record.CORRESPONDENCEADDRESSPINCODE}</div>
+                                    </td>
+                                    <td data-label="CORRESPONDENCEADDRESSLINE1">
+                                        <div class="slds-truncate">{record.CORRESPONDENCEADDRESSLINE1}</div>
+                                    </td>
+                                    <td data-label="CORRESPONDENCEADDRESSLINE2">
+                                        <div class="slds-truncate">{record.CORRESPONDENCEADDRESSLINE2}</div>
+                                    </td>
+                                    <td data-label="CORRESPONDENCEADDRESSLINE3">
+                                        <div class="slds-truncate">{record.CORRESPONDENCEADDRESSLINE3}</div>
+                                    </td>
+                                    <td data-label="CORRESPONDENCEADDRESSDISTRICT">
+                                        <div class="slds-truncate">{record.CORRESPONDENCEADDRESSDISTRICT}</div>
+                                    </td>
+                                    <td data-label="CORRESPONDENCEADDRESSCITY">
+                                        <div class="slds-truncate">{record.CORRESPONDENCEADDRESSCITY}</div>
+                                    </td>
+                                    <td data-label="CORRESPONDENCEADDRESSSTATE">
+                                        <div class="slds-truncate">{record.CORRESPONDENCEADDRESSSTATE}</div>
+                                    </td>
+                                    <td data-label="CORRESPONDENCEADDRESSPROOF">
+                                        <div class="slds-truncate">{record.CORRESPONDENCEADDRESSPROOF}</div>
+                                    </td>
+                                    <td data-label="WORKADDRESSCOUNTRY">
+                                        <div class="slds-truncate">{record.WORKADDRESSCOUNTRY}</div>
+                                    </td>
+                                    <td data-label="WORKADDRESSPINCODE">
+                                        <div class="slds-truncate">{record.WORKADDRESSPINCODE}</div>
+                                    </td>
+                                    <td data-label="WORKADDRESSLINE1">
+                                        <div class="slds-truncate">{record.WORKADDRESSLINE1}</div>
+                                    </td>
+                                    <td data-label="WORKADDRESSLINE2">
+                                        <div class="slds-truncate">{record.WORKADDRESSLINE2}</div>
+                                    </td>
+                                    <td data-label="WORKADDRESSLINE3">
+                                        <div class="slds-truncate">{record.WORKADDRESSLINE3}</div>
+                                    </td>
+                                    <td data-label="WORKADDRESSDISTRICT">
+                                        <div class="slds-truncate">{record.WORKADDRESSDISTRICT}</div>
+                                    </td>
+                                    <td data-label="WORKADDRESSCITY">
+                                        <div class="slds-truncate">{record.WORKADDRESSCITY}</div>
+                                    </td>
+                                    <td data-label="WORKADDRESSSTATE">
+                                        <div class="slds-truncate">{record.WORKADDRESSSTATE}</div>
+                                    </td>
+                                    <td data-label="COUNTRYOFBIRTH">
+                                        <div class="slds-truncate">{record.COUNTRYOFBIRTH}</div>
+                                    </td>
+                                    <td data-label="BIRTHCITY">
+                                        <div class="slds-truncate">{record.BIRTHCITY}</div>
+                                    </td>
+                                    <td data-label="TAXRESIDENCYCOUNTRY">
+                                        <div class="slds-truncate">{record.TAXRESIDENCYCOUNTRY}</div>
+                                    </td>
+                                    <td data-label="TAXIDENTIFICATIONNUMBER">
+                                        <div class="slds-truncate">{record.TAXIDENTIFICATIONNUMBER}</div>
+                                    </td>
+                                    <td data-label="TAXRESIDENCYADDRESSCOUNTRY">
+                                        <div class="slds-truncate">{record.TAXRESIDENCYADDRESSCOUNTRY}</div>
+                                    </td>
+                                    <td data-label="TAXRESIDENCYADDRESSLINE1">
+                                        <div class="slds-truncate">{record.TAXRESIDENCYADDRESSLINE1}</div>
+                                    </td>
+                                    <td data-label="TAXRESIDENCYADDRESSLINE2">
+                                        <div class="slds-truncate">{record.TAXRESIDENCYADDRESSLINE2}</div>
+                                    </td>
+                                    <td data-label="TAXRESIDENCYADDRESSLINE3">
+                                        <div class="slds-truncate">{record.TAXRESIDENCYADDRESSLINE3}</div>
+                                    </td>
+                                    <td data-label="TAXRESIDENCYADDRESSPINCODE">
+                                        <div class="slds-truncate">{record.TAXRESIDENCYADDRESSPINCODE}</div>
+                                    </td>
+                                    <td data-label="TAXRESIDENCYADDRESSDISTRICT">
+                                        <div class="slds-truncate">{record.TAXRESIDENCYADDRESSDISTRICT}</div>
+                                    </td>
+                                    <td data-label="TAXRESIDENCYADDRESSCITY">
+                                        <div class="slds-truncate">{record.TAXRESIDENCYADDRESSCITY}</div>
+                                    </td>
+                                    <td data-label="TAXRESIDENCYADDRESSSTATE">
+                                        <div class="slds-truncate">{record.TAXRESIDENCYADDRESSSTATE}</div>
+                                    </td>
+                                    <td data-label="DESKPERSONALISDCODE">
+                                        <div class="slds-truncate">{record.DESKPERSONALISDCODE}</div>
+                                    </td>
+                                    <td data-label="DESKPERSONALSTDCODE">
+                                        <div class="slds-truncate">{record.DESKPERSONALSTDCODE}</div>
+                                    </td>
+                                    <td data-label="DESKPERSONALTELEPHONENUMBER">
+                                        <div class="slds-truncate">{record.DESKPERSONALTELEPHONENUMBER}</div>
+                                    </td>
+                                    <td data-label="DESKWORKISDCODE">
+                                        <div class="slds-truncate">{record.DESKWORKISDCODE}</div>
+                                    </td>
+                                    <td data-label="DESKWORKSTDCODE">
+                                        <div class="slds-truncate">{record.DESKWORKSTDCODE}</div>
+                                    </td>
+                                    <td data-label="DESKWORKTELEPHONENUMBER">
+                                        <div class="slds-truncate">{record.DESKWORKTELEPHONENUMBER}</div>
+                                    </td>
+                                    <td data-label="WORKMOBILEISD">
+                                        <div class="slds-truncate">{record.WORKMOBILEISD}</div>
+                                    </td>
+                                    <td data-label="WORKMOBILENUMBER">
+                                        <div class="slds-truncate">{record.WORKMOBILENUMBER}</div>
+                                    </td>
+                                    <td data-label="PERSONALMOBILEISD">
+                                        <div class="slds-truncate">{record.PERSONALMOBILEISD}</div>
+                                    </td>
+                                    <td data-label="PERSONALMOBILENUMBER">
+                                        <div class="slds-truncate">{record.PERSONALMOBILENUMBER}</div>
+                                    </td>
+                                    <td data-label="CKYCID">
+                                        <div class="slds-truncate">{record.CKYCID}</div>
+                                    </td>
+                                    <td data-label="PASSPORTISSUECOUNTRY">
+                                        <div class="slds-truncate">{record.PASSPORTISSUECOUNTRY}</div>
+                                    </td>
+                                    <td data-label="PASSPORTNUMBER">
+                                        <div class="slds-truncate">{record.PASSPORTNUMBER}</div>
+                                    </td>
+                                    <td data-label="PASSPORTEXPIRYDATE">
+                                        <div class="slds-truncate">{record.PASSPORTEXPIRYDATE}</div>
+                                    </td>
+                                    <td data-label="VOTERIDCARD">
+                                        <div class="slds-truncate">{record.VOTERIDCARD}</div>
+                                    </td>
+                                    <td data-label="PAN">
+                                        <div class="slds-truncate">{record.PAN}</div>
+                                    </td>
+                                    <td data-label="DRIVINGLICENSENUMBER">
+                                        <div class="slds-truncate">{record.DRIVINGLICENSENUMBER}</div>
+                                    </td>
+                                    <td data-label="DRIVINGLICENSEEXPIRYDATE">
+                                        <div class="slds-truncate">{record.DRIVINGLICENSEEXPIRYDATE}</div>
+                                    </td>
+                                    <td data-label="AADHAAR">
+                                        <div class="slds-truncate">{record.AADHAAR}</div>
+                                    </td>
+                                    <td data-label="AADHAARVAULTREFERENCENUMBER">
+                                        <div class="slds-truncate">{record.AADHAARVAULTREFERENCENUMBER}</div>
+                                    </td>
+                                    <td data-label="AADHAARTOKEN">
+                                        <div class="slds-truncate">{record.AADHAARTOKEN}</div>
+                                    </td>
+                                    <td data-label="AADHAARVIRTUALID">
+                                        <div class="slds-truncate">{record.AADHAARVIRTUALID}</div>
+                                    </td>
+                                    <td data-label="NREGA">
+                                        <div class="slds-truncate">{record.NREGA}</div>
+                                    </td>
+                                    <td data-label="CKYCPOIOTHERCENTRALGOVTID">
+                                        <div class="slds-truncate">{record.CKYCPOIOTHERCENTRALGOVTID}</div>
+                                    </td>
+                                    <td data-label="CKYCPOIS01IDNUMBER">
+                                        <div class="slds-truncate">{record.CKYCPOIS01IDNUMBER}</div>
+                                    </td>
+                                    <td data-label="CKYCPOIS02IDNUMBER">
+                                        <div class="slds-truncate">{record.CKYCPOIS02IDNUMBER}</div>
+                                    </td>
+                                    <td data-label="NATIONALID">
+                                        <div class="slds-truncate">{record.NATIONALID}</div>
+                                    </td>
+                                    <td data-label="TAXIDLOCAL">
+                                        <div class="slds-truncate">{record.TAXIDLOCAL}</div>
+                                    </td>
+                                    <td data-label="COMPANYREGISTRATIONNUMBER">
+                                        <div class="slds-truncate">{record.COMPANYREGISTRATIONNUMBER}</div>
+                                    </td>
+                                    <td data-label="COMPANYREGISTRATIONCOUNTRY">
+                                        <div class="slds-truncate">{record.COMPANYREGISTRATIONCOUNTRY}</div>
+                                    </td>
+                                    <td data-label="GIIN">
+                                        <div class="slds-truncate">{record.GIIN}</div>
+                                    </td>
+                                    <td data-label="OTHERSIND">
+                                        <div class="slds-truncate">{record.OTHERSIND}</div>
+                                    </td>
+                                    <td data-label="OTHERSNONIND">
+                                        <div class="slds-truncate">{record.OTHERSNONIND}</div>
+                                    </td>
+                                    <td data-label="PROOFOFIDSUBMITTED">
+                                        <div class="slds-truncate">{record.PROOFOFIDSUBMITTED}</div>
+                                    </td>
+                                    <td data-label="MINOR">
+                                        <div class="slds-truncate">{record.MINOR}</div>
+                                    </td>
+                                    <td data-label="ApplicationRefNumber">
+                                        <div class="slds-truncate">{record.ApplicationRefNumber}</div>
+                                    </td>
+                                    <td data-label="HOLDERFORIMAGES">
+                                        <div class="slds-truncate">{record.HOLDERFORIMAGES}</div>
+                                    </td>
+                                    <td data-label="INTERMEDIARYCODE">
+                                        <div class="slds-truncate">{record.INTERMEDIARYCODE}</div>
+                                    </td>
+                                    <td data-label="LISTED">
+                                        <div class="slds-truncate">{record.LISTED}</div>
+                                    </td>
+                                    <td data-label="INDUSTRY">
+                                        <div class="slds-truncate">{record.INDUSTRY}</div>
+                                    </td>
+                                    <td data-label="NATIONALITY">
+                                        <div class="slds-truncate">{record.NATIONALITY}</div>
+                                    </td>
+                                    <td data-label="COUNTRYOFOPERATION">
+                                        <div class="slds-truncate">{record.COUNTRYOFOPERATION}</div>
+                                    </td>
+                                    <td data-label="REGULATORYAMLRISK">
+                                        <div class="slds-truncate">{record.REGULATORYAMLRISK}</div>
+                                    </td>
+                                    <td data-label="REGAMLSPECIALCATEGORY">
+                                        <div class="slds-truncate">{record.REGAMLSPECIALCATEGORY}</div>
+                                    </td>
+                                    <td data-label="REGAMLSPECIALCATEGORYSTARTDATE">
+                                        <div class="slds-truncate">{record.REGAMLSPECIALCATEGORYSTARTDATE}</div>
+                                    </td>
+                                    <td data-label="REGAMLSPECIALCATEGORYENDDATE">
+                                        <div class="slds-truncate">{record.REGAMLSPECIALCATEGORYENDDATE}</div>
+                                    </td>
+                                    <td data-label="LASTRISKREVIEWDATE">
+                                        <div class="slds-truncate">{record.LASTRISKREVIEWDATE}</div>
+                                    </td>
+                                    <td data-label="NEXTRISKREVIEWDATE">
+                                        <div class="slds-truncate">{record.NEXTRISKREVIEWDATE}</div>
+                                    </td>
+                                    <td data-label="INCOMERANGE">
+                                        <div class="slds-truncate">{record.INCOMERANGE}</div>
+                                    </td>
+                                    <td data-label="EXACTINCOME">
+                                        <div class="slds-truncate">{record.EXACTINCOME}</div>
+                                    </td>
+                                    <td data-label="INCOMECURRENCY">
+                                        <div class="slds-truncate">{record.INCOMECURRENCY}</div>
+                                    </td>
+                                    <td data-label="INCOMEEFFECTIVEDATE">
+                                        <div class="slds-truncate">{record.INCOMEEFFECTIVEDATE}</div>
+                                    </td>
+                                    <td data-label="INCOMEDESCRIPTION">
+                                        <div class="slds-truncate">{record.INCOMEDESCRIPTION}</div>
+                                    </td>
+                                    <td data-label="INCOMEPROOF">
+                                        <div class="slds-truncate">{record.INCOMEPROOF}</div>
+                                    </td>
+                                    <td data-label="EXACTNETWORTH">
+                                        <div class="slds-truncate">{record.EXACTNETWORTH}</div>
+                                    </td>
+                                    <td data-label="NETWORTHCURRENCY">
+                                        <div class="slds-truncate">{record.NETWORTHCURRENCY}</div>
+                                    </td>
+                                    <td data-label="NETWORTHEFFECTIVEDATE">
+                                        <div class="slds-truncate">{record.NETWORTHEFFECTIVEDATE}</div>
+                                    </td>
+                                    <td data-label="NETWORTHDESCRIPTION">
+                                        <div class="slds-truncate">{record.NETWORTHDESCRIPTION}</div>
+                                    </td>
+                                    <td data-label="NETWORTHPROOF">
+                                        <div class="slds-truncate">{record.NETWORTHPROOF}</div>
+                                    </td>
+                                    <td data-label="PEP">
+                                        <div class="slds-truncate">{record.PEP}</div>
+                                    </td>
+                                    <td data-label="PEPCLASSIFICATION">
+                                        <div class="slds-truncate">{record.PEPCLASSIFICATION}</div>
+                                    </td>
+                                    <td data-label="ADVERSEMEDIA">
+                                        <div class="slds-truncate">{record.ADVERSEMEDIA}</div>
+                                    </td>
+                                    <td data-label="ADVERSEMEDIACLASSIFICATION">
+                                        <div class="slds-truncate">{record.ADVERSEMEDIACLASSIFICATION}</div>
+                                    </td>
+                                    <td data-label="ADVERSEMEDIADETAILS">
+                                        <div class="slds-truncate">{record.ADVERSEMEDIADETAILS}</div>
+                                    </td>
+                                    <td data-label="INSIDERINFORMATION">
+                                        <div class="slds-truncate">{record.INSIDERINFORMATION}</div>
+                                    </td>
+                                    <td data-label="TAGS">
+                                        <div class="slds-truncate">{record.TAGS}</div>
+                                    </td>
+                                    <td data-label="FAMILYCODE">
+                                        <div class="slds-truncate">{record.FAMILYCODE}</div>
+                                    </td>
+                                    <td data-label="CHANNEL">
+                                        <div class="slds-truncate">{record.CHANNEL}</div>
+                                    </td>
+                                    <td data-label="LINKS">
+                                        <div class="slds-truncate">{record.LINKS}</div>
+                                    </td>
+                                    <td data-label="REPUTATIONCLASSIFICATION">
+                                        <div class="slds-truncate">{record.REPUTATIONCLASSIFICATION}</div>
+                                    </td>
+                                    <td data-label="IUPARTYTYPE">
+                                        <div class="slds-truncate">{record.IUPARTYTYPE}</div>
+                                    </td>
+                                    <td data-label="PROPERTYOWNERFLAG">
+                                        <div class="slds-truncate">{record.PROPERTYOWNERFLAG}</div>
+                                    </td>
+                                    <td data-label="CONTACTPERSONFIRSTNAME">
+                                        <div class="slds-truncate">{record.CONTACTPERSONFIRSTNAME}</div>
+                                    </td>
+                                    <td data-label="CONTACTPERSONMIDDLENAME">
+                                        <div class="slds-truncate">{record.CONTACTPERSONMIDDLENAME}</div>
+                                    </td>
+                                    <td data-label="CONTACTPERSONLASTNAME">
+                                        <div class="slds-truncate">{record.CONTACTPERSONLASTNAME}</div>
+                                    </td>
+                                    <td data-label="CONTACTPERSONDESIGNATION">
+                                        <div class="slds-truncate">{record.CONTACTPERSONDESIGNATION}</div>
+                                    </td>
+                                    <td data-label="CONTACTPERSONMOBILEISD">
+                                        <div class="slds-truncate">{record.CONTACTPERSONMOBILEISD}</div>
+                                    </td>
+                                    <td data-label="CONTACTPERSONMOBILENO">
+                                        <div class="slds-truncate">{record.CONTACTPERSONMOBILENO}</div>
+                                    </td>
+                                    <td data-label="CONTACTPERSONMOBILEISD2">
+                                        <div class="slds-truncate">{record.CONTACTPERSONMOBILEISD2}</div>
+                                    </td>
+                                    <td data-label="CONTACTPERSONMOBILENO2">
+                                        <div class="slds-truncate">{record.CONTACTPERSONMOBILENO2}</div>
+                                    </td>
+                                    <td data-label="CONTACTPERSONEMAILID1">
+                                        <div class="slds-truncate">{record.CONTACTPERSONEMAILID1}</div>
+                                    </td>
+                                    <td data-label="CONTACTPERSONEMAILID2">
+                                        <div class="slds-truncate">{record.CONTACTPERSONEMAILID2}</div>
+                                    </td>
+                                    <td data-label="RMUSERCODE">
+                                        <div class="slds-truncate">{record.RMUSERCODE}</div>
+                                    </td>
+                                    <td data-label="RMTYPE">
+                                        <div class="slds-truncate">{record.RMTYPE}</div>
+                                    </td>
+                                    <td data-label="RMFROMDATE">
+                                        <div class="slds-truncate">{record.RMFROMDATE}</div>
+                                    </td>
+                                    <td data-label="EDUCATIONALQUALIFICATION">
+                                        <div class="slds-truncate">{record.EDUCATIONALQUALIFICATION}</div>
+                                    </td>
+                                    <td data-label="DESIGNATIONOTHERS">
+                                        <div class="slds-truncate">{record.DESIGNATIONOTHERS}</div>
+                                    </td>
+                                    <td data-label="EMPLOYERNAME">
+                                        <div class="slds-truncate">{record.EMPLOYERNAME}</div>
+                                    </td>
+                                    <td data-label="EMPLOYERADDRESS">
+                                        <div class="slds-truncate">{record.EMPLOYERADDRESS}</div>
+                                    </td>
+                                    <td data-label="EMPLOYERLISTED">
+                                        <div class="slds-truncate">{record.EMPLOYERLISTED}</div>
+                                    </td>
+                                    <td data-label="EMPLOYERORGANISATIONTYPE">
+                                        <div class="slds-truncate">{record.EMPLOYERORGANISATIONTYPE}</div>
+                                    </td>
+                                    <td data-label="CURRENTEMPLOYMENTINYEARS">
+                                        <div class="slds-truncate">{record.CURRENTEMPLOYMENTINYEARS}</div>
+                                    </td>
+                                    <td data-label="MODULEAPPLICABLE">
+                                        <div class="slds-truncate">{record.MODULEAPPLICABLE}</div>
+                                    </td>
+                                    <td data-label="NPRLETTER">
+                                        <div class="slds-truncate">{record.NPRLETTER}</div>
+                                    </td>
+                                    <td data-label="KYCATTESTATIONTYPE">
+                                        <div class="slds-truncate">{record.KYCATTESTATIONTYPE}</div>
+                                    </td>
+                                    <td data-label="FORMSIXTY">
+                                        <div class="slds-truncate">{record.FORMSIXTY}</div>
+                                    </td>
+                                    <td data-label="COMMENCEMENTDATE">
+                                        <div class="slds-truncate">{record.COMMENCEMENTDATE}</div>
+                                    </td>
+                                    <td data-label="PERMANENTADDRESSPROOFOTHERSVALUE">
+                                        <div class="slds-truncate">{record.PERMANENTADDRESSPROOFOTHERSVALUE}</div>
+                                    </td>
+                                    <td data-label="DIN">
+                                        <div class="slds-truncate">{record.DIN}</div>
+                                    </td>
+                                    <td data-label="CIN">
+                                        <div class="slds-truncate">{record.CIN}</div>
+                                    </td>
+                                    <td data-label="RELATEDPERSONCOUNTFORCKYC">
+                                        <div class="slds-truncate">{record.RELATEDPERSONCOUNTFORCKYC}</div>
+                                    </td>
+                                    <td data-label="LAN">
+                                        <div class="slds-truncate">{record.LAN}</div>
+                                    </td>
+                                </tr>
+                            </template>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+            <footer class="slds-modal__footer custom-modal-footer">
+                <lightning-button variant="brand-outline" class="slds-m-left_x-large" label="Download Report"
+                    icon-name="utility:download" onclick={handleDownloadClick}></lightning-button>
+            </footer>
+        </lightning-quick-action-panel>
+    </div>
+</template>

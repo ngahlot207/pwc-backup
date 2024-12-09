@@ -1,0 +1,166 @@
+<apex:page controller="BillDeskController" showHeader="false" action="{!handleResponse}">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Transaction Status</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh; 
+                background-color: #f4f4f4;
+            }
+            .container {
+                background-color: white;
+                padding: 20px;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+                text-align: center;
+                width: 90%; 
+                max-width: 800px; 
+                margin: 20px auto; 
+            }
+            h1 {
+                color: green;
+                font-size: 24px; 
+                margin-bottom: 20px;
+            }
+            .transaction-info {
+                margin-bottom: 20px;
+            }
+            table {
+                width: 100%; 
+                border-collapse: collapse;
+                margin: 0 auto;
+                font-size: 16px; 
+            }
+            table, th, td {
+                border: 1px solid black;
+            }
+            th, td {
+                padding: 10px; 
+                text-align: left;
+            }
+            th {
+                background-color: #f2f2f2;
+            }
+           
+            .footer {
+                margin-top: 20px;
+            }
+            .footer a {
+                text-decoration: none;
+                color: blue;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <img id="logo" src="{!$Resource.FedBankLogo2}" alt="FederalBank Logo" width="150px"/>
+            <p>{!header}</p>
+            
+            <!-- Pre request Tabel-->
+            <apex:outputPanel rendered="{!NOT(ISBLANK(recordId))}">
+                <h1>Transaction Details</h1>
+                <div class="transaction-info">
+                    <table>
+                        <tr>
+                            <th>Customer Name</th>
+                            <td>{!customerName}</td>
+                        </tr>
+                        <tr>
+                            <th>Loan Application</th>
+                            <td>{!loanAccountNo}</td>
+                        </tr>
+                        <tr>
+                            <th>Total Payable Amount</th>
+                            <td>{!totalPayableAmount}</td>
+                        </tr>
+                    </table>
+                </div>
+                <form id="sdklaunch" action="{!paymentUrl}" method="POST">
+                    <input type="hidden" name="bdorderid" value="{!bdorderid}"/>
+                    <input type="hidden" name="merchantid" value="{!merchantid}"/>
+                    <input type="hidden" name="rdata" value="{!rdata}"/>
+                    
+                    <button style="width:200px; height:50px;background:#0176D3;color:white" type="submit">Complete Your Payment</button>
+                </form>
+            </apex:outputPanel>
+            
+            <!-- Pre request Error-->
+            <apex:outputPanel rendered="{!NOT(ISBLANK(sfdcError))}">
+                <h1>{!sfdcError}</h1>
+            </apex:outputPanel>
+            
+            <!-- Default Error-->
+            <apex:outputPanel rendered="{!ISBLANK(errorMess) && ISBLANK(orderId) && ISBLANK(recordId)}">
+                <h1>Some Thing Went Wrong!</h1>
+            </apex:outputPanel>
+            
+            <!-- Response Error Tabel-->
+            <apex:outputPanel rendered="{!NOT(ISBLANK(errorMess))}">
+                <h1 style="color:red;">{!statusDesc}</h1>
+                <div class="transaction-info">
+                    <table>
+                        <tr>
+                            <th>Status</th>
+                            <td>Failed</td>
+                        </tr>
+                        <tr>
+                            <th>Reason</th>
+                            <td>{!errorMess}</td>
+                        </tr>
+                    </table>
+                </div>
+            </apex:outputPanel>
+
+            <!-- Response Success Tabel-->
+            <apex:outputPanel rendered="{!NOT(ISBLANK(orderId))}">
+                <h1>{!statusDesc}</h1>
+                <div class="transaction-info">
+                    <table>
+                        <tr>
+                            <th>Payment Mode</th>
+                            <td>{!paymentMethod}</td>
+                        </tr>
+                        <tr>
+                            <th>Order Id</th>
+                            <td>{!orderId}</td>
+                        </tr>
+                        <tr>
+                            <th>Transaction ID</th>
+                            <td>{!transactionId}</td>
+                        </tr>
+                        <tr>
+                            <th>Status</th>
+                            <td>{!status}</td>
+                        </tr>
+                        <tr>
+                            <th>Transaction Date</th>
+                            <td>{!transactionDate}</td>
+                        </tr>
+                        <tr>
+                            <th>Customer Name</th>
+                            <td>{!customerName}</td>
+                        </tr>
+                        <tr>
+                            <th>Loan Account No.</th>
+                            <td>{!loanAccountNo}</td>
+                        </tr>
+                        <tr>
+                            <th>Amount</th>
+                            <td>Rs.{!amount}</td>
+                        </tr>
+                    </table>
+                </div>
+            </apex:outputPanel>
+            
+            <div class="footer">
+                <p>{!footer} <a href="{!tcLink}">Click</a></p>
+            </div>
+        </div>
+    </body>
+</apex:page>

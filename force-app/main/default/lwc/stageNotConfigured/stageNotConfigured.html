@@ -1,0 +1,13 @@
+<template>
+    <lightning-card title={header}>
+        <template lwc:if={message}>
+            {message}
+        </template>
+        <template lwc:if={imgLink}>
+            <div class="slds-align_absolute-center">
+                <img src={imgLink} alt="">
+            </div>
+
+        </template>
+    </lightning-card>
+</template>

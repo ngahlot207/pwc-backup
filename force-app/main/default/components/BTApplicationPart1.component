@@ -1,0 +1,134 @@
+<apex:component Controller="BTApplicationPart1">
+    <div id="FedFina_Form" style="font-size:8px; padding-top: 4px; border-style: solid;">
+        <div style="font-family:Times New Roman;font-size:14px">
+                Application No. : <u>{!FinnoneNumber}</u> <span style="padding-left:400px;">
+            Date : <u>{!CurrentDate}</u> </span>			
+            <br/><br/>
+                
+             <apex:repeat var="BorrowerDetail" value="{!borrowerDetailsWrapper}">
+                        
+                            Name of {!BorrowerDetail.borrowerType}: &nbsp;
+                 <apex:outputText value="{!BorrowerDetail.applicantListForBorrowerWrapper.FullName__c}"></apex:outputText>
+                 <div style="text-align: right;padding-right: 100px;">Owner &nbsp;&nbsp;Yes/No </div>                                                       
+                       
+            </apex:repeat><br/>
+            <div style="text-align: center;font-family:Times New Roman;font-size:14px"> Details of the existing Loan</div>
+            Name of housing finance company / Bank / NBFC :____________________<br/>
+            </div>
+        
+        <div style="font-family:Times New Roman;font-size:14px">
+        <div id="Loan Type" > 
+            <span tyle="padding-left:6px;font-size:14px">Loan Type:</span>           
+            <!-- <span style="padding-left:4px;font-size:8px"><img src="{!$Resource.Blank_Check_box}" height="10px" width="10px" style="margin-bottom:-1px;margin-left:1%;margin-right:1px;"/>Mthly</span><img src="{!Resource.Blank_Check_box}" height="8.5px"/> -->
+            <span style="padding-left:6px;font-size:14px"><img src="{!$Resource.Blank_Check_box}" height="10px" width="10px" style="margin-bottom:-1px;"/>Home Loan</span>
+            <span style="padding-left:6px;font-size:14px"><img src="{!$Resource.Blank_Check_box}" height="10px" width="10px" style="margin-bottom:-1px;"/>NRI Loan</span>
+            <span style="padding-left:6px;font-size:14px"><img src="{!$Resource.Blank_Check_box}" height="10px" width="10px" style="margin-bottom:-1px;"/>Land Loan</span>
+            <span style="padding-left:6px;font-size:14px"><img src="{!$Resource.Blank_Check_box}" height="10px" width="10px" style="margin-bottom:-1px;"/>Office premises Loan</span>
+            <span style="padding-left:6px;font-size:14px"><img src="{!$Resource.Blank_Check_box}" height="10px" width="10px" style="margin-bottom:-1px;"/>any other ______</span>
+           </div>
+        </div>
+        <div style="font-family:Times New Roman;font-size:14px">
+        <div id="Disbursement Type" > 
+            <span >Disbursement Type :</span>           
+            <!-- <span style="padding-left:4px;font-size:8px"><img src="{!$Resource.Blank_Check_box}" height="10px" width="10px" style="margin-bottom:-1px;margin-left:1%;margin-right:1px;"/>Mthly</span><img src="{!Resource.Blank_Check_box}" height="8.5px"/> -->
+            <span style="padding-left:6px;font-size:14px"><img src="{!$Resource.Blank_Check_box}" height="10px" width="10px" style="margin-bottom:-1px;"/>Full disbursement</span>
+            <span style="padding-left:6px;font-size:14px"><img src="{!$Resource.Blank_Check_box}" height="10px" width="10px" style="margin-bottom:-1px;"/>Part disbursement</span>
+           </div>
+        </div>
+        <div style="font-family:Times New Roman;font-size:14px">
+        In case of full disbursement dates of<br/>
+        1st disbursement&nbsp;&nbsp;
+2nd disbursement&nbsp;&nbsp;
+3rd disbursement&nbsp;&nbsp;
+            <hr style=" border: 1px solid #000; margin-top: 10px;"/>
+           
+         <table style="border-collapse: collapse;font-family:Times New Roman;font-size:14px">
+                    <tr>
+                        <td style="border: none;">Loan amount availed : Rs.________________________</td>
+                        <td style="border: none;">O/S principal : Rs..________________________</td>  
+                                                
+                    </tr>
+              <tr>
+                        <td style="border: none;">Term :_____Years _____Months</td>
+                        <td style="border: none;">Balance term : ____Years ____Months</td>  
+                                                
+                    </tr>
+             <tr>
+                        <td style="border: none;">EMI : Rs.</td>
+                        <td style="border: none;">Cost of property ( sale agreement ) : Rs.</td>  
+                                                
+                    </tr>
+            </table>
+            <hr style=" border: 1px solid #000; margin-top: 10px;"/>
+            Complete address of the property :<br/>
+            ( hereinafter referred to as ‘ the said Property ‘)<br/><br/>
+            <table style="border-collapse: collapse;font-family:Times New Roman;font-size:14px">
+                    <tr>
+                        <td style="border: none;">City :</td>
+                        <td style="border: none;">Pin :</td>                                                  
+                    </tr>
+                <tr>
+                        <td style="border: none;">Nearest Landmark :</td>
+                </tr>
+            </table>
+<hr style=" border: 1px solid #000; margin-top: 10px;"/>
+            property is:____________<br/>
+            Type of Property :___________<br/>
+            Age of Property : _____________ years<br/>
+            Status :___________<br/>
+            <table style="border-collapse: collapse;font-family:Times New Roman;font-size:14px">
+                    <tr>
+                        <td style="border: none;">Land / Plot area : ___________</td>
+                        <td style="border: none;">Built –up Area : _____________</td>                                                  
+                    </tr>
+            </table>
+            <br/>
+            Property is :__________<br/>
+            <table style="border-collapse: collapse;font-family:Times New Roman;font-size:14px">
+                    <tr>
+                        <td style="border: none;">Expected time of completion :___________</td>
+                        <td style="border: none;">Builder and Project : _____________</td>                                                  
+                    </tr>
+            </table>
+            <br/>
+            <hr style=" border: 1px solid #000; margin-top: 10px;"/>
+            Balance Transfer Loan Request<br/>
+            Loan amount required : Rs.___________<br/>
+( Principal Rs.__________ + Prepayment Charges Rs._______ )
+            <div id="Team" > 
+            <span >Team :</span>           
+            <!-- <span style="padding-left:4px;font-size:8px"><img src="{!$Resource.Blank_Check_box}" height="10px" width="10px" style="margin-bottom:-1px;margin-left:1%;margin-right:1px;"/>Mthly</span><img src="{!Resource.Blank_Check_box}" height="8.5px"/> -->
+            <span style="padding-left:6px;font-size:14px"><img src="{!$Resource.Blank_Check_box}" height="10px" width="10px" style="margin-bottom:-1px;"/>Balance Team</span>
+            <span style="padding-left:6px;font-size:14px"><img src="{!$Resource.Blank_Check_box}" height="10px" width="10px" style="margin-bottom:-1px;"/>Reduction in term years</span>
+           </div>
+            
+            <div id="EMI" > 
+            <span >EMI :</span>           
+            <!-- <span style="padding-left:4px;font-size:8px"><img src="{!$Resource.Blank_Check_box}" height="10px" width="10px" style="margin-bottom:-1px;margin-left:1%;margin-right:1px;"/>Mthly</span><img src="{!Resource.Blank_Check_box}" height="8.5px"/> -->
+            <span style="padding-left:6px;font-size:14px"><img src="{!$Resource.Blank_Check_box}" height="10px" width="10px" style="margin-bottom:-1px;"/>Existing EMI</span>
+            <span style="padding-left:6px;font-size:14px"><img src="{!$Resource.Blank_Check_box}" height="10px" width="10px" style="margin-bottom:-1px;"/>Decrease in EMI Rs.</span>
+           <span style="padding-left:6px;font-size:14px"><img src="{!$Resource.Blank_Check_box}" height="10px" width="10px" style="margin-bottom:-1px;"/>Increase in EMI Rs.</span>
+           
+            </div>
+            <hr style=" border: 1px solid #000; margin-top: 10px;"/>
+            
+            I/We , the co-applicants hererin, are the sole/only owners of the said Property.<br/>
+            I/We declare that I/We have taken the following loan (s) against the said property :<br/>
+Company / Bank ____________________Loan A/c Number ___________________
+             <hr style=" border: 1px solid #000; margin-top: 10px;"/>
+            I/We hereby declare and undertake that the above are the only loan (s) taken by me/us against the said property.<br/>
+
+I/We hereby declare that apart from the aforesaid charge (s), no other charge / mortgage / encumbrance exists on the said Property in favor of any other person / institution and that all the documents / consents / approvals in relation to the said property are in the possession of _________________or me /us and with no other person / statutory body / authority/institution.
+        </div>      
+    
+    </div>
+    <div style="font-family:Times New Roman;font-size:14px">
+                <br/><b>Signatures of all Applicants/Co-Applicants</b><br/>              
+                
+            </div>
+    
+    <br/>
+    <br/>
+    
+    
+</apex:component>

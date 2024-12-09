@@ -1,0 +1,24 @@
+<template>
+
+  <div if:true={showSpinner}>
+    <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+    </lightning-spinner>
+</div>
+          <template if:true={caseFlag}>
+         
+            <lightning-card title="Upload Report">
+            <p style="text-align:center">
+
+              <c-upload-docs-reusable-component loan-app-id={loanAppId} applicant-id={applicantId}
+              doc-name={docName} doc-type={docType} disabled={disableFileUpload} doc-category={catValue}
+              onrefreshdoctable={handleUploadDoc} onspinnerstatus={spinnerStatus}
+              convert-to-single-image={convertToSingleImage}
+              document-detai-id={DocumentDetaiId} onchangefiles={parentFileChange} hide-attach-button={hideAttachButton} disable-mode={disableAgency}></c-upload-docs-reusable-component>
+
+            <!-- <c-upload-docs-container allowed-fil-format={allowedFilFormat} doc-category="Case Documents" doc-type={docType} doc-name={docName} applicant-id={applicantId} loan-app-id={loanAppId}
+            onrefreshdoctable={handleUploadDoc} file-size-msz={fileSizeMsz} disable-mode={disableAgency}></c-upload-docs-container> -->
+            </p>
+          </lightning-card>
+        </template>
+        
+</template>

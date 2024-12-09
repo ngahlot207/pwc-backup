@@ -1,0 +1,17 @@
+.datatable th {
+    background-color: hsl(0, 20%, 97%);
+    font-weight: bold;
+}
+
+.columnHeader{
+    min-width: 10rem;
+}
+
+.tableRow{
+	background-color: hsl(0, 20%, 97%);
+    font-weight: bold;
+}
+
+lightning-input {
+      display : none !important;
+}

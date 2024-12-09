@@ -1,0 +1,358 @@
+<template>
+    <!-- <template if:true={isLoanSummaryDetails}> -->
+    <lightning-card title="Loan Summary">
+        <lightning-layout multiple-rows="true">
+            <!-- Applicant Object Data -->
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+                <div class="slds-p-around_x-small">
+
+                    <lightning-input type="input" class="loanSummaryCls" value={primaryApplName}
+                        label="Applicant Details" disabled></lightning-input>
+                </div>
+            </lightning-layout-item>
+
+
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+                <div class="slds-p-around_x-small">
+
+                    <lightning-input type="input" class="loanSummaryCls" value={CommaSeparatesCoappl}
+                        label="Co-Applicant Details" disabled></lightning-input>
+                </div>
+            </lightning-layout-item>
+
+
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+                <div class="slds-p-around_x-small">
+                    <lightning-input type="input" class="loanSummaryCls" value="--" label="Eligibility Criteria"
+                        disabled></lightning-input>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+
+        <!-- Loan Application Data -->
+        <lightning-layout multiple-rows="true">
+            <!-- /// -->
+            <!-- /// -->
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+                <div class="slds-p-around_x-small">
+
+                    <lightning-input type="input" class="loanSummaryCls" value={totalLoanAmountSanc}
+                        label="Total Loan Amount Sanctioned" disabled></lightning-input>
+                </div>
+            </lightning-layout-item>
+
+
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+                <div class="slds-p-around_x-small">
+
+                    <lightning-input type="input" class="loanSummaryCls" value={maxLoanAmntWOIns}
+                        label="Sanctioned Loan Amount WithOut Insurance" disabled></lightning-input>
+                </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+                <div class="slds-p-around_x-small">
+
+                    <lightning-input type="input" class="loanSummaryCls" value={maxInsPremium}
+                        label="Insurane Premium Amount" disabled></lightning-input>
+                </div>
+            </lightning-layout-item>
+            <!--  -->
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+                <div class="slds-p-around_x-small">
+
+                    <lightning-input type="input" class="loanSummaryCls" value={maxLoanAmtSanc}
+                        label="Maximum Loan Amount Sanctioned" disabled></lightning-input>
+                </div>
+            </lightning-layout-item>
+
+
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+                <div class="slds-p-around_x-small">
+
+                    <lightning-input type="input" class="loanSummaryCls" value={maxLoanAmtSancWoIns}
+                        label="Maximum Loan Amount WithOut Insurance" disabled></lightning-input>
+
+                </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+                <div class="slds-p-around_x-small">
+
+                    <lightning-input type="input" class="loanSummaryCls" value={maxInsPremiumSanc}
+                        label="Maximum Insurance Premium" disabled></lightning-input>
+                </div>
+            </lightning-layout-item>
+
+
+
+
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+                <div class="slds-p-around_x-small">
+
+                    <lightning-input type="input" class="loanSummaryCls" value={appvedTenure}
+                        label="Approved Tenure (Months)" disabled></lightning-input>
+                </div>
+            </lightning-layout-item>
+
+
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+                <div class="slds-p-around_x-small">
+                    <lightning-combobox data-fieldname="ReqInterestType__c" data-objname="LoanAppl__c"
+                        class="loanSummaryCls" label="Interest Type" value={insterestType} options={interestTypeOptions}
+                        disabled>
+                    </lightning-combobox>
+                    <!-- <lightning-input type="input" class="loanSummaryCls" value={insterestType} label="Interest Type"
+                        disabled></lightning-input> -->
+                </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+                <div class="slds-p-around_x-small">
+
+                    <lightning-input type="input" class="loanSummaryCls" value={EffectiveROI} label="Effective ROI %"
+                        disabled></lightning-input>
+                </div>
+            </lightning-layout-item>
+            <!-- a -->
+            <!-- b-->
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+                <div class="slds-p-around_x-small">
+
+                    <lightning-input type="input" class="loanSummaryCls" value={PFAmount} label="PF"
+                        disabled></lightning-input>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+                <div class="slds-p-around_x-small">
+
+                    <lightning-input type="input" class="loanSummaryCls" value={propsedEMILoan}
+                        label="EMI Of Proposed Loan" disabled></lightning-input>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+                <div class="slds-p-around_x-small">
+
+                    <lightning-input type="input" class="loanSummaryCls" value={RepaymentMode} label="Repayment Type"
+                        disabled></lightning-input>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+                <div class="slds-p-around_x-small">
+
+                    <lightning-input type="input" class="loanSummaryCls" value={repayACHolderName}
+                        label="Repayment A/c Primary HOlder Name" disabled></lightning-input>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+                <div class="slds-p-around_x-small">
+
+                    <lightning-input type="input" class="loanSummaryCls" value={repayACBankName}
+                        label="Repayment Account Bank Name" disabled></lightning-input>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+                <div class="slds-p-around_x-small">
+
+                    <lightning-input type="input" class="loanSummaryCls" value={repayACNumber}
+                        label="Repayment A/c Number" disabled></lightning-input>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+                <div class="slds-p-around_x-small">
+
+                    <lightning-input type="input" class="loanSummaryCls" value={ENACHPossibleRepayAC}
+                        label="ENACH Possible On Repayment A/c" disabled></lightning-input>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+                <div class="slds-p-around_x-small">
+
+                    <lightning-input type="input" class="loanSummaryCls" value={NACHPossible} label="NACH Possible"
+                        disabled></lightning-input>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+                <div class="slds-p-around_x-small">
+
+                    <lightning-input type="input" class="loanSummaryCls" value={ApprovedFOIR} label="Approved FOIR %"
+                        disabled></lightning-input>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+                <div class="slds-p-around_x-small">
+
+                    <lightning-input type="input" class="loanSummaryCls" value={ApprovedLTV} label="Approved LTV %"
+                        disabled></lightning-input>
+                </div>
+            </lightning-layout-item>
+            <!-- b -->
+
+        </lightning-layout>
+
+        <!-- <lightning-layout multiple-rows="true">
+
+            <template for:each={sanctionCondtnDataArray} for:item="item" for:index="index">
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="4" key={item.Id}>
+                <div class="slds-p-around_x-small">
+
+                    <lightning-input type="input" class="loanSummaryCls" value={item.Condition__c}
+                    label='condition'   disabled></lightning-input>
+                </div>
+            </lightning-layout-item>
+        </template>
+
+        </lightning-layout>
+
+        <lightning-layout multiple-rows="true">
+
+            <template for:each={daviationDataArray} for:item="item" for:index="index">
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="4" key={item.Id}>
+                <div class="slds-p-around_x-small">
+
+                    <lightning-input type="comment" class="loanSummaryCls" value={item.Devia_Desrp__c}
+                    label='Deviation'   disabled></lightning-input>
+                </div>
+            </lightning-layout-item>
+        </template>
+
+        </lightning-layout> -->
+
+
+        <!-- Condition object  -->
+        <lightning-card title="Sanction Condition">
+
+        </lightning-card>
+        <lightning-layout multiple-rows="true">
+
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="9">
+
+                <div class="datatable-container slds-p-left_medium slds-p-right_xx-large">
+                    <table class="datatable">
+                        <thead>
+                            <tr>
+                                <th class="centered-content">Condition</th>
+                                <th class="centered-content">Remarks</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- <template for:each={sanctionCondtnDataArray} for:item="item">
+                        <tr key={item.Id}>
+                            <template if:true={item.Condition__c}>
+                                <td class="centered-content">{item.Condition__c}</td>
+                            </template>
+                            <template if:true={item.Remarks__c}>
+                                <td class="centered-content">{item.Remarks__c}</td>
+                            </template>
+                        </tr>
+                    </template> -->
+                            <template for:each={sanctionCondtnDataArray} for:item="item">
+                                <tr key={item.Id}>
+                                    <td class="centered-content">{item.Condition__c}</td>
+                                    <td class="centered-content">{item.Remarks__c}</td>
+
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+        <!-- Deviation object -->
+        <lightning-card title="Deviation">
+
+        </lightning-card>
+        <lightning-layout multiple-rows="true">
+
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="9">
+
+                <div class="datatable-container slds-p-left_medium slds-p-right_xx-large">
+                    <table class="datatable">
+                        <thead>
+                            <tr>
+                                <th class="centered-content">Deviation</th>
+                                <th class="centered-content">Remarks</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={daviationDataArray} for:item="item">
+                                <tr key={item.Id}>
+                                    <td class="centered-content">{item.Devia_Desrp__c}</td>
+                                    <td class="centered-content">{item.Appr_Remarks__c}</td>
+
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+        <!-- Property Owner And Address Details -->
+         <!-- LAK-7458 -->
+         <template if:true={ProductWiseVisibility}>
+        <lightning-card title=" Property Details">
+
+        </lightning-card>
+        
+        <lightning-layout multiple-rows="true">
+
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="9">
+
+                <div class="datatable-container slds-p-left_medium slds-p-right_xx-large">
+                    <table class="datatable">
+                        <thead>
+                            <tr>
+                                <th class="centered-content">Property Owner</th>
+                                <th class="centered-content">Property Address</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={propertDataArray} for:item="item">
+                                <tr key={item.Id}>
+                                    <td class="centered-content">{item.Prop_Owners__c}</td>
+                                    <td class="centered-content">{item.PropAddrs__c}</td>
+
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+    </template>
+        <!--  -->
+
+
+        <lightning-layout multiple-rows="true">
+            <!-- Applicant Object Data -->
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+                <div class="slds-p-around_x-small">
+
+                    <lightning-input type="input" class="loanSummaryCls" value={employeeLevel}
+                        label="Final Approval Level" disabled></lightning-input>
+                </div>
+            </lightning-layout-item>
+
+
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+                <div class="slds-p-around_x-small">
+
+                    <lightning-input type="date" class="loanSummaryCls" value={approvalDteUW} label="Approval Date"
+                        disabled></lightning-input>
+                </div>
+            </lightning-layout-item>
+
+
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+                <div class="slds-p-around_x-small">
+                    <lightning-input type="date" class="loanSummaryCls" value={ApprovedValidTill}
+                        label="Approval Valid Till" disabled></lightning-input>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card>
+    <!-- </template> -->
+</template>

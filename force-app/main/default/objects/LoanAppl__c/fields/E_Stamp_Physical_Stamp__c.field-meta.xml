@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>E_Stamp_Physical_Stamp__c</fullName>
+    <externalId>false</externalId>
+    <label>E-Stamp/Physical Stamp</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>E-stamp</fullName>
+                <default>false</default>
+                <label>E-stamp</label>
+            </value>
+            <value>
+                <fullName>Physical Stamp</fullName>
+                <default>false</default>
+                <label>Physical Stamp</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

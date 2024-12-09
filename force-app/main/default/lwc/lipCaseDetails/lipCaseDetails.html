@@ -1,0 +1,1978 @@
+<template>
+    <div if:true={showSpinner}>
+      <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+      </lightning-spinner>
+  </div>
+      <lightning-card if:true={showCpvfi}>
+
+
+        <lightning-layout multiple-rows="12">
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="12"
+              large-device-size="12"
+            >
+            <div class="slds-align_absolute-left slds-text-heading_medium slds-p-around_x-small" >Applicant Details</div> 
+            </lightning-layout-item>
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="3"
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="text"
+                  value={appId}
+                  label="Application ID"
+                  data-name=""
+                  required="true"
+                  onchange={handleInputChange}
+                  disabled
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+      
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="3"
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                  value={prodType}
+                  label="Product"
+                  options={prodOptions}
+                  onchange={handleInputChange}
+                  data-name=""
+                  required="true"
+                  disabled
+                >
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+      
+      
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="3"
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="text"
+                  value={caseWrp.FlatNo__c}
+                  label="House/ Flat/ Shop/ Unit No./ Plot No"
+                  data-name=""
+                  required="true"
+                  onchange={handleInputChange}
+                  disabled
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+      
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="3"
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="text"
+                  value={caseWrp.Address_Line_1__c}
+                  label="Address Line 1"
+                  data-name=""
+                  required="true"
+                  onchange={handleInputChange}
+                  disabled
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+      
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="3"
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="text"
+                  value={caseWrp.Address_Line_2__c}
+                  label="Address Line 2"
+                  data-name=""
+                  required="true"
+                  onchange={handleInputChange}
+                  disabled
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+      
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="3"
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="text"
+                  value={caseWrp.Landmark__c}
+                  label="Landmark"
+                  data-name=""
+                  onchange={handleInputChange}
+                  disabled
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+      
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="3"
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="text"
+                  value={caseWrp.Area_of_Locality__c}
+                  label="Area / Locality"
+                  data-name=""
+                  onchange={handleInputChange}
+                  disabled
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+      
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="3"
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="text"
+                  value={caseWrp.City__c}
+                  label="City"
+                  data-name=""
+                  required="true"
+                  onchange={handleInputChange}
+                  disabled
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+      
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="3"
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="text"
+                  value={caseWrp.State__c}
+                  label="State"
+                  data-name=""
+                  required="true"
+                  onchange={handleInputChange}
+                  disabled
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+      
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="3"
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="text"
+                  value="INDIA"
+                  label="Country"
+                  data-name=""
+                  required="true"
+                  onchange={handleInputChange}
+                  disabled
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+      
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="3"
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="text"
+                  value={caseWrp.Pincode__c}
+                  label="Pincode"
+                  data-name=""
+                  required="true"
+                  onchange={handleInputChange}
+                  disabled
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+      
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="3"
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="text"
+                  value={loanAmount}
+                  onchange={handleInputChange}
+                  data-name=""
+                  label="Loan Amount"
+                  required="true"
+                  disabled
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+      
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="3"
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="text"
+                  value={mainApp}
+                  data-name=""
+                  label="Main Applicant Name"
+                  required="true"
+                  onchange={handleInputChange}
+                  disabled
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+
+
+            <lightning-layout-item
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="3"
+          >
+            <div class="slds-p-around_x-small">
+              <lightning-input
+                type="text"
+                value={appMob}
+                onchange={handleInputChange}
+                data-name=""
+                label="Mobile No of Borrower"
+                required="true"
+                disabled
+              ></lightning-input>
+            </div>
+          </lightning-layout-item>
+
+
+          <lightning-layout-item
+        size="12"
+        small-device-size="12"
+        medium-device-size="6"
+        large-device-size="3"
+      >
+        <div class="slds-p-around_x-small">
+          <lightning-input
+            type="tel"
+            value={appPhone}
+            onchange={handleInputChange}
+            data-name=""
+            label="Phone No of Borrower"
+            disabled
+          ></lightning-input>
+        </div>
+      </lightning-layout-item>
+      
+          </lightning-layout>
+        
+        
+        
+        <lightning-layout multiple-rows="12">
+                  <lightning-layout-item 
+                     
+                  size="12"
+              small-device-size= "12"
+                 medium-device-size="12"
+                 large-device-size="12"
+                >
+                <div class="slds-align_absolute-left slds-text-heading_medium slds-p-around_x-small">Remarks</div>  
+              
+                  </lightning-layout-item>
+                   
+                    <lightning-layout-item
+                    
+                      size="12"
+                      small-device-size= "12"
+                      medium-device-size="6"
+                      large-device-size="3"
+                    >
+                      <div class="slds-p-around_x-small">
+                        <lightning-input
+                          type="date"
+                          value={dateTimeInitiation}
+                          label="Date of Initiation"
+                          onchange={handleInputChange}
+                          data-name="DateTimeInitiation__c"
+                          required=true
+                          disabled
+                        ></lightning-input>
+                      </div>
+                    </lightning-layout-item>
+              
+                    <lightning-layout-item
+                     
+                      size="12"
+                      small-device-size= "12"
+                      medium-device-size="6"
+                      large-device-size="3"
+                    >
+                      <div class="slds-p-around_x-small">
+                        <lightning-input
+                          type="text"
+                          value={caseWrp.Branch_Name__c}
+                          label="Fedfina Branch Name & Address"
+                          onchange={handleInputChange}
+                          data-name="Branch_Name__c"
+                          required=true
+                          disabled
+                        ></lightning-input>
+                      </div>
+                    </lightning-layout-item>
+              
+                    <lightning-layout-item
+                     
+                      size="12"
+                      small-device-size= "12"
+                      medium-device-size="6"
+                      large-device-size="3"
+                    >
+                      <div class="slds-p-around_x-small">
+                          <lightning-input
+                          type="date"
+                          value={reportDate}
+                          label="Date of Report"
+                          onchange={handleInputChange}
+                          data-name="Date_of_Report__c"
+                          required=true
+                          disabled
+                        ></lightning-input>
+                      </div>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item
+                     
+                    size="12"
+                    small-device-size= "12"
+                    medium-device-size="6"
+                    large-device-size="3"
+                  >
+                    <div class="slds-p-around_x-small">
+                        <lightning-input
+                        type="number" formatter="currency"
+                        value={caseWrp.Assessed_Turnover_Annual_In_Lacs__c}
+                        label="Assessed Turnover - Annual (In Lacs)"
+                        onchange={handleInputChange}
+                        data-name="Assessed_Turnover_Annual_In_Lacs__c"
+                        required=true
+                        min="0"
+                        disabled={enableOverride}
+                      ></lightning-input>
+                    </div>
+                  </lightning-layout-item>
+
+                  <lightning-layout-item
+                     
+                  size="12"
+                  small-device-size= "12"
+                  medium-device-size="6"
+                  large-device-size="3"
+                >
+                  <div class="slds-p-around_x-small">
+                      <lightning-input
+                      type="number" formatter="currency"
+                      value={caseWrp.Assessed_PAT_Annual_In_Lacs__c}
+                      label="Assessed PAT -Annual (In Lacs)"
+                      onchange={handleInputChange}
+                      data-name="Assessed_PAT_Annual_In_Lacs__c"
+                      required=true
+                      min="0"
+                      disabled={enableOverride}
+                    ></lightning-input>
+                  </div>
+                </lightning-layout-item>
+              
+
+              
+              
+            
+                    <lightning-layout-item if:true={negDataResult}                
+                      size="12"
+                      small-device-size= "12"
+                      medium-device-size="6"
+                      large-device-size="3"
+                    >
+                      <div class="slds-p-around_x-small">
+                        <lightning-input
+                          type="text"
+                          value={caseWrp.Adverse_Remarks_of_Dedupe__c}
+                          label="Adverse Remarks of Dedupe"
+                          data-name="Adverse_Remarks_of_Dedupe__c"
+                          required=true
+                          pattern="^[a-zA-Z][^$]+" 
+                          onchange={handleInputChange}
+                          disabled={enableOverride}
+                          message-when-pattern-mismatch="Please enter alphabets only"
+                        ></lightning-input>
+                      </div>
+                    </lightning-layout-item>
+
+    
+                <lightning-layout-item
+             
+                size="12"
+                small-device-size= "12"
+               medium-device-size="6"
+               large-device-size="3"
+              >
+                <div class="slds-p-around_x-small">
+                  <lightning-combobox
+                    label="Report Result"
+                    value={caseWrp.ReportResult__c}
+                    options={reportResultOptions}
+                    onchange={handleInputChange}
+                    required=true
+                    data-name="ReportResult__c"
+                    disabled={enableOverride}
+                  >
+                  </lightning-combobox>
+                </div>
+              </lightning-layout-item>
+    
+    
+                <lightning-layout-item 
+                       
+                size="12"
+                small-device-size= "12"
+                medium-device-size="6"
+                large-device-size="3"
+              >
+                <div class="slds-p-around_x-small">
+                  <lightning-combobox
+                  label="Negative Report Reason"
+                  value={caseWrp.Negative_Report_reason__c}
+                  options={negReportOptions}
+                  onchange={handleInputChange}
+                  data-name="Negative_Report_reason__c"
+                  disabled={enableNegativeReport}
+                  required={negativeResult}
+                >
+                </lightning-combobox>  
+                </div>
+              </lightning-layout-item>
+
+              <lightning-layout-item 
+                       
+              size="12"
+              small-device-size= "12"
+              medium-device-size="6"
+              large-device-size="3"
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                label="Vendor Status"
+                value={caseWrp.Status}
+                options={statusOptions}
+                onchange={handleInputChange}
+                data-name="Status"
+                disabled={enableOverride}
+                required=true
+              >
+              </lightning-combobox>  
+              </div>
+            </lightning-layout-item>
+    
+              <lightning-layout-item 
+                       
+              size="12"
+              small-device-size= "12"
+              medium-device-size="6"
+              large-device-size="3"
+            >
+              <div class="slds-p-around_x-small">
+                  <lightning-textarea
+                  type="text"
+                  value={caseWrp.Remarks_regarding_the_case__c}
+                  label="Remarks regarding the Case"
+                  onchange={handleInputChange}
+                  data-name="Remarks_regarding_the_case__c"
+                  required=true
+                  disabled={enableOverride}
+                  pattern="^[a-zA-Z][^$]+" 
+                  message-when-pattern-mismatch="Please enter alphabets only"
+                ></lightning-textarea>
+              </div>
+            </lightning-layout-item>
+    
+            <lightning-layout-item 
+                     
+            size="12"
+            small-device-size= "12"
+            medium-device-size="6"
+            large-device-size="3"
+          >
+            <div class="slds-p-around_x-small">
+              <lightning-combobox
+                label="Final Status of Field Verification by Underwriter"
+                value={caseWrp.Final_Status_of_Field_Verification_by_un__c}
+                options={finalStatusOptions}
+                onchange={handleInputChange}
+                data-name="Final_Status_of_Field_Verification_by_un__c"   
+                disabled={disableForCPA}
+              >
+              </lightning-combobox>
+            </div>
+          </lightning-layout-item>
+    
+  
+        <lightning-layout-item 
+                       
+        size="12"
+        small-device-size= "12"
+        medium-device-size="6"
+        large-device-size="3"
+      >
+        <div class="slds-p-around_x-small">
+          <lightning-input
+          label="Override By FedFina"
+          type="checkbox"
+          checked={caseWrp.OverrideByFedFina__c}
+          data-name="OverrideByFedFina__c"
+          onclick={handleInputChange} 
+          disabled={disabled}></lightning-input>
+        </div>
+      </lightning-layout-item>
+    
+    
+                  
+                </lightning-layout-item></lightning-layout>
+                
+                <template if:false={enableDocUpload}>
+                  <lightning-card>
+                    <c-case-document-upload record-id={caseId} onselect={handleValueSelect}></c-case-document-upload>
+                  </lightning-card>
+                  
+                 <lightning-card>
+                  <c-case-upload-photos record-id={caseId} onselect={handleValueSelect}></c-case-upload-photos>
+                 </lightning-card>
+                </template>
+                
+                <c-show-case-document case-id={caseId}></c-show-case-document>
+  
+                <lightning-accordion active-section-name={activeSection} class="accordion" allow-multiple-sections-open>
+                  <lightning-accordion-section name="A" label="Case Query Details">
+                    <lightning-card >
+                      <!-- UPDATED TABLE  -->
+                      <table
+                        class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered"
+                        aria-label="Example table of Opportunities with vertical borders"
+                      >
+                        <thead>
+                          <tr class="slds-line-height_reset">
+                            <th class="" scope="col">
+                              <div class="slds-truncate" title="Case No">
+                                Case No
+                              </div>
+                            </th>
+                            <th class="" scope="col">
+                              <div class="slds-truncate" title="Query">
+                                Query
+                              </div>
+                            </th>
+                            <th class="" scope="col">
+                              <div class="slds-truncate" title="Response">
+                                Response
+                              </div>
+                            </th>
+                            <th class="" scope="col">
+                              <div class="slds-truncate" title="Status">
+                                Status</div>
+                            </th>
+                          </tr>
+                        </thead>
+              
+                        <tbody>
+                          <template for:each={caseQryList} for:item="record" for:index="index">
+                            <tr
+                              key={record.Id}
+                              aria-selected="false"
+                              class="slds-hint-parent"
+                            >
+                              <td data-label="Case No">
+                                <div class="slds-truncate" title="Case No">
+                                  {record.CaseNumber__c}
+                                </div>
+                              </td>
+                              <template if:true={record.Query__c}>
+                                <td data-label="Query">
+                                  <div class="slds-truncate" title="Query">
+                                    {record.Query__c}
+                                  </div>
+                                </td>
+                              </template>
+                              <!-- <template if:true={record.Response__c}> -->
+                                <td data-label="Response">
+                                  <div class="slds-truncate" title="Response">
+                                    <lightning-input variant="label-hidden" data-record-id={record.Id} data-index={index}
+                                     data-field-name='Response__c' value={record.Response__c} onchange={handleValueChange}
+                                     disabled={record.disableCaseQry}></lightning-input>
+                                   
+                                  </div>
+                                </td>
+                              <!-- </template> -->
+                              <td data-label="Status">
+                                <div class="slds-truncate" title="Status">
+                                  <c-dedupe-display-value
+                                  dedupe-rsults-options={caseQrystatusOptions} type="picklist"
+                                  field-value={record.Status__c} object={record}
+                                  field-name="Status__c" index-value={index}
+                                  onpicklistchange={handlePicklistValues}
+                                  is-read-only={record.disableCaseQry}></c-dedupe-display-value>
+                                </div>
+                              </td>
+                             
+                              </tr
+                          ></template>
+                        </tbody>
+                      </table>
+                    </lightning-card>
+                    <!-- <div style="height: 200px; width: 1000px;">
+                        <lightning-datatable data={caseQryList} columns={updatedColumns} key-field="Id" min-column-width="80"
+                         onsave={handleSaveDataTable} draft-values={draftValues} hide-checkbox-column>
+                        </lightning-datatable>
+                    </div> -->
+            </lightning-accordion-section>
+  <!-- 
+            <lightning-accordion-section name="B" label="Attach Document to Case">
+              <div style="height: 400px; width: 1000px;">
+                  <lightning-datatable data={caseDocList} columns={caseDocColumns} key-field="Id" min-column-width="80"
+                  onrowselection={handleRowSelected}>
+                  </lightning-datatable>
+              </div>
+  
+              <div class="slds-clearfix">
+                <lightning-button
+                class="slds-float_left slds-p-around_x-small"
+                  label="Attach Document"
+                  variant="brand-outline"
+                  onclick={handleAttch}
+                  icon-name='utility:attach'
+                ></lightning-button>
+              </div>
+      </lightning-accordion-section> -->
+      
+      </lightning-accordion>
+               
+              
+    <!-- <div class="slds-clearfix">
+        <lightning-button
+        class="slds-float_right slds-p-around_x-small"
+          label="Download Document"
+          variant="brand-outline"
+          onclick={handleDownload}
+          icon-name='utility:download'
+        ></lightning-button>
+      </div> -->
+      </lightning-card>
+    
+      <lightning-card if:true={showTechincal}>
+       
+        <lightning-layout multiple-rows="12">
+          <lightning-layout-item 
+             
+          size="12"
+      small-device-size= "12"
+         medium-device-size="12"
+         large-device-size="12"
+        >
+        <div class="slds-align_absolute-left slds-text-heading_medium slds-p-around_x-small" >Property Details</div>  
+      
+      </lightning-layout-item>
+          <lightning-layout-item 
+             
+              size="12"
+          small-device-size= "12"
+             medium-device-size="6"
+             large-device-size="3"
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                  label="Plot is non agricultural"
+                  value={caseWrp.Plot_is_non_agricultural__c}
+                  options={propAgriOptions}
+                  onchange={handleInputChange}
+                  required=true
+                  data-name="Plot_is_non_agricultural__c"
+                  disabled={enableOverride}
+                >
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+  
+            <lightning-layout-item
+             
+            size="12"
+            small-device-size= "12"
+            medium-device-size="6"
+            large-device-size="3"
+          >
+            <div class="slds-p-around_x-small">
+              <lightning-input
+                type="number"
+                value={caseWrp.Approx_Age_of_Property_in_Years__c}
+                onchange={handleInputChange}
+                data-name="Approx_Age_of_Property_in_Years__c"
+                label="Approx. Age of Property - in Years"
+                required=true
+                min="0"
+                step=0
+                disabled={enableOverride}
+              ></lightning-input>
+            </div>
+          </lightning-layout-item>
+  
+  
+      
+            <lightning-layout-item
+             
+              size="12"
+              small-device-size= "12"
+             medium-device-size="6"
+             large-device-size="3"
+            >
+              <div class="slds-p-around_x-small">
+                  <lightning-input
+                  type="number"
+                  value={caseWrp.Residual_Age_in_Years__c}
+                  data-name="Residual_Age_in_Years__c"
+                  label="Residual Age - in Years"
+                  required="true"
+                  min="0"
+                  step=0
+                  onchange={handleInputChange}
+                  disabled={enableOverride}
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+      
+            <lightning-layout-item
+             
+              size="12"
+              small-device-size= "12"
+             medium-device-size="6"
+             large-device-size="3"
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-combobox
+                  label="Approved Plan/ OC available"
+                  value={caseWrp.Approved_Plan_OC_available__c}
+                  options={approveLayoutOptions}
+                  onchange={handleInputChange}
+                  required=true
+                  data-name="Approved_Plan_OC_available__c"
+                  disabled={enableOverride}
+                >
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+  
+            <lightning-layout-item
+             
+            size="12"
+            small-device-size= "12"
+           medium-device-size="6"
+           large-device-size="3"
+          >
+            <div class="slds-p-around_x-small">
+              <lightning-input
+                type="number"
+                value={caseWrp.Land_Area_Sq_Ft__c}
+                onchange={handleInputChange}
+                label="Land Area (Sq Ft)"
+                data-name="Land_Area_Sq_Ft__c"
+                required=true
+                min="0"
+                step=0.01
+                disabled={enableOverride}
+              ></lightning-input>
+            </div>
+          </lightning-layout-item>
+  
+          <lightning-layout-item
+             
+          size="12"
+          small-device-size= "12"
+         medium-device-size="6"
+         large-device-size="3"
+        >
+          <div class="slds-p-around_x-small">
+            <lightning-input
+              type="number"
+              value={caseWrp.Property_Built_up_area_Sq_Ft__c}
+              onchange={handleInputChange}
+              label="Property Built up area (Sq Ft)"
+              data-name="Property_Built_up_area_Sq_Ft__c"
+              required=true
+              min="1"
+              step=0.02
+              disabled={enableOverride}
+            ></lightning-input>
+          </div>
+        </lightning-layout-item>
+  
+        <lightning-layout-item
+             
+        size="12"
+        small-device-size= "12"
+       medium-device-size="6"
+       large-device-size="3"
+      >
+        <div class="slds-p-around_x-small">
+          <lightning-input
+            type="number"
+            value={caseWrp.Land_Valuation_in_Rs__c}
+            onchange={handleInputChange}
+            label="Land Valuation (in Rs.)"
+            data-name="Land_Valuation_in_Rs__c"
+            required=true
+            min="0"
+            step="0.02"
+            disabled={enableOverride}
+          ></lightning-input>
+        </div>
+      </lightning-layout-item>
+      
+            <lightning-layout-item
+             
+              size="12"
+              small-device-size= "12"
+             medium-device-size="6"
+             large-device-size="3"
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="number"
+                  value={caseWrp.Built_up_area_Valuation_In_Rs__c}
+                  onchange={handleInputChange}
+                  label="Built up area Valuation (In Rs)"
+                  data-name="Built_up_area_Valuation_In_Rs__c"
+                  required=true
+                  min="1"
+                  step="0.02"
+                  disabled={enableOverride}
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+  
+            <lightning-layout-item
+             
+            size="12"
+            small-device-size= "12"
+            medium-device-size="6"
+            large-device-size="3"
+          >
+            <div class="slds-p-around_x-small">
+              <lightning-input
+                type="number"
+                value={totalLandValue}
+                label="Total Valuation"
+                data-name="Total_Valuation_Land_Valuation_B__c"
+                required=true
+                min="1"
+                step="0.02"
+                disabled
+              ></lightning-input>
+            </div>
+          </lightning-layout-item>
+      
+            <lightning-layout-item
+             
+              size="12"
+              small-device-size= "12"
+              medium-device-size="6"
+              large-device-size="3"
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  type="number"
+                  value={caseWrp.Property_Reconstruction_Cost__c}
+                  onchange={handleInputChange}
+                  data-name="Property_Reconstruction_Cost__c"
+                  label="Property Reconstruction Cost"
+                  required=true
+                  min="1"
+                  step="0.02"
+                  disabled={enableOverride}
+                ></lightning-input>
+              </div>
+            </lightning-layout-item>
+      
+           
+            <lightning-layout-item                
+            size="12"
+            small-device-size= "12"
+            medium-device-size="6"
+            large-device-size="3"
+          >
+            <div class="slds-p-around_x-small">
+              <lightning-input
+                type="number"
+                value={caseWrp.Distance_from_Fedfina_Branch__c}
+                label="Distance from Fedfina branch (Kms)"
+                data-name="Distance_from_Fedfina_Branch__c"
+                onchange={handleInputChange}
+                required=true
+                min="1"
+                step="0.02"
+                disabled={enableOverride}
+              ></lightning-input>
+            </div>
+          </lightning-layout-item>
+  
+          
+          <lightning-layout-item
+             
+          size="12"
+          small-device-size= "12"
+         medium-device-size="6"
+         large-device-size="3"
+        >
+          <div class="slds-p-around_x-small">
+            <lightning-combobox
+              label="Property usage as per Valuer"
+              value={caseWrp.PropertyUsage__c}
+              options={propUsageOptions}
+              onchange={handleInputChange}
+              required=true
+              data-name="PropertyUsage__c"
+              disabled={enableOverride}
+            >
+            </lightning-combobox>
+          </div>
+        </lightning-layout-item>
+  
+        <lightning-layout-item                
+        size="12"
+        small-device-size= "12"
+        medium-device-size="6"
+        large-device-size="3"
+      >
+        <div class="slds-p-around_x-small">
+          <lightning-input
+            type="number"
+            value={caseWrp.Stage_of_Construction__c}
+            label="Stage of Construction %"
+            data-name="Stage_of_Construction__c"
+            onchange={handleInputChange}
+            required=true
+            formatter="percent-fixed"
+            min="0"
+            max="100"
+            disabled={enableOverride}
+          ></lightning-input>
+        </div>
+      </lightning-layout-item>
+  
+      <lightning-layout-item                
+      size="12"
+      small-device-size= "12"
+      medium-device-size="6"
+      large-device-size="3"
+    >
+      <div class="slds-p-around_x-small">
+        <lightning-input
+          type="number"
+          value={caseWrp.Recommended_by_Technical_Valuer__c}
+          label="% Recommended by Valuer"
+          data-name="Recommended_by_Technical_Valuer__c"
+          onchange={handleInputChange}
+          required=true
+          formatter="percent-fixed"
+          min="0"
+          max="100"
+          disabled={enableOverride}
+        ></lightning-input>
+      </div>
+    </lightning-layout-item>
+  
+
+           
+  <lightning-layout-item 
+               
+  size="12"
+  small-device-size= "12"
+  medium-device-size="6"
+  large-device-size="3"
+  >
+  <div class="slds-p-around_x-small">
+      <lightning-textarea
+      type="text"
+      value={caseWrp.Remarks_regarding_the_case__c}
+      label="Remarks regarding the Case "
+      onchange={handleInputChange}
+      data-name="Remarks_regarding_the_case__c"
+      required=true
+      pattern="^[a-zA-Z][^$]+" 
+      disabled={enableOverride}
+      message-when-pattern-mismatch="Please enter alphabets only"
+    ></lightning-textarea>
+  </div>
+  </lightning-layout-item>
+  
+  
+  <lightning-layout-item 
+                       
+        size="12"
+        small-device-size= "12"
+        medium-device-size="6"
+        large-device-size="3"
+      >
+        <div class="slds-p-around_x-small">
+          <lightning-input
+          label="Override By FedFina"
+          type="checkbox"
+          checked={caseWrp.OverrideByFedFina__c}
+          data-name="OverrideByFedFina__c"
+          onclick={handleInputChange} 
+          disabled={disabled}></lightning-input>
+        </div>
+      </lightning-layout-item>
+  
+  
+          </lightning-layout>
+  
+          <template if:false={enableDocUpload}>
+            <lightning-card>
+              <c-case-document-upload record-id={caseId} onselect={handleValueSelect}></c-case-document-upload>
+            </lightning-card>
+           <lightning-card>
+            <c-case-upload-photos record-id={caseId} onselect={handleValueSelect}></c-case-upload-photos>
+           </lightning-card>
+          </template>
+         
+            <c-show-case-document case-id={caseId} technical="true"></c-show-case-document>
+            <!-- show-delete-icon={showDelete} -->
+         
+        <lightning-accordion active-section-name={activeSection} class="accordion" allow-multiple-sections-open>
+          <lightning-accordion-section name="A" label="Case Query Details">
+            <lightning-card >
+              <!-- UPDATED TABLE  -->
+              <table
+                class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered"
+                aria-label="Example table of Opportunities with vertical borders"
+              >
+                <thead>
+                  <tr class="slds-line-height_reset">
+                    <th class="" scope="col">
+                      <div class="slds-truncate" title="Case No">
+                        Case No
+                      </div>
+                    </th>
+                    <th class="" scope="col">
+                      <div class="slds-truncate" title="Query">
+                        Query
+                      </div>
+                    </th>
+                    <th class="" scope="col">
+                      <div class="slds-truncate" title="Response">
+                        Response
+                      </div>
+                    </th>
+                    <th class="" scope="col">
+                      <div class="slds-truncate" title="Status">
+                        Status</div>
+                    </th>
+                  </tr>
+                </thead>
+      
+                <tbody>
+                  <template for:each={caseQryList} for:item="record" for:index="index">
+                    <tr
+                      key={record.Id}
+                      aria-selected="false"
+                      class="slds-hint-parent"
+                    >
+                      <td data-label="Case No">
+                        <div class="slds-truncate" title="Case No">
+                          {record.CaseNumber__c}
+                        </div>
+                      </td>
+                      <template if:true={record.Query__c}>
+                        <td data-label="Query">
+                          <div class="slds-truncate" title="Query">
+                            {record.Query__c}
+                          </div>
+                        </td>
+                      </template>
+                      <!-- <template if:true={record.Response__c}> -->
+                        <td data-label="Response">
+                          <div class="slds-truncate" title="Response">
+                            <lightning-input variant="label-hidden" data-record-id={record.Id} data-index={index}
+                             data-field-name='Response__c' value={record.Response__c} onchange={handleValueChange}
+                             disabled={record.disableCaseQry}></lightning-input>
+                           
+                          </div>
+                        </td>
+                      <!-- </template> -->
+                      <td data-label="Status">
+                        <div class="slds-truncate" title="Status">
+                          <c-dedupe-display-value
+                          dedupe-rsults-options={caseQrystatusOptions} type="picklist"
+                          field-value={record.Status__c} object={record}
+                          field-name="Status__c" index-value={index}
+                          onpicklistchange={handlePicklistValues}
+                          is-read-only={record.disableCaseQry}></c-dedupe-display-value>
+                        </div>
+                      </td>
+                     
+                      </tr
+                  ></template>
+                </tbody>
+              </table>
+            </lightning-card>
+           
+            
+            <lightning-accordion-section name="B" label="Attach Document to Case">
+              <div style="height: 200px; width: 1000px;">
+                  <lightning-datatable data={caseDocList} columns={caseDocColumns} key-field="Id" min-column-width="80"
+                  onrowselection={handleRowSelected}>
+                  </lightning-datatable>
+              </div>
+  
+              <div class="slds-clearfix">
+                <lightning-button
+                class="slds-float_left slds-p-around_x-small"
+                  label="Attach Document"
+                  variant="brand-outline"
+                  onclick={handleAttch}
+                  icon-name='utility:attach'
+                  disabled={disabled}
+                ></lightning-button>
+              </div>
+      </lightning-accordion-section>
+     
+      <lightning-accordion-section name="C" label="Case Comment">
+        <div style="height: 200px; width: 1000px">
+          <lightning-datatable
+            data={commentQryList}
+            columns={commentsColumns}
+            key-field="Id"
+            min-column-width="80"
+            onsave={handleSaveDataTable}
+            draft-values={draftValues}
+            hide-checkbox-column
+          >
+          </lightning-datatable>
+        </div>
+  
+       
+  </lightning-accordion-section>
+  
+  <!-- <c-uploded-document-display applicant-id={caseId} loan-app-id={loanAppId} mode="false"
+                          capture-all-documents="true" disable-remarks={disableRemarks}
+                          is-read-only={isReadOnly} category="Property Papers"
+                          hide-upload-button={hildUplButton} has-edit-access={hasEditAccess}></c-uploded-document-display> -->
+  
+    </lightning-accordion-section>
+  
+    <!-- <lightning-accordion-section name="B" label="Attach Document to Case">
+      <div style="height: 400px; width: 1000px;">
+          <lightning-datatable data={caseDocList} columns={caseDocColumns} key-field="Id" min-column-width="80"
+          onrowselection={handleRowSelected}>
+          </lightning-datatable>
+      </div>
+  
+      <div class="slds-clearfix">
+        <lightning-button
+        class="slds-float_left slds-p-around_x-small"
+          label="Attach Document"
+          variant="brand-outline"
+          onclick={handleAttch}
+          icon-name='utility:attach'
+        ></lightning-button>
+      </div>
+  </lightning-accordion-section> -->
+  
+  </lightning-accordion>
+       
+        <!-- <c-multi-doc-previewer document-detail-id={documentDetailId} onclosepreview={handleCloseModalEvent}
+        has-document-id={hasDocumentId}> </c-multi-doc-previewer> -->
+  <!-- <div class="slds-clearfix">
+  <lightning-button
+  class="slds-float_right slds-p-around_x-small"
+  label="Download Document"
+  variant="brand-outline"
+  onclick={handleDownload}
+  icon-name='utility:download'
+  ></lightning-button>
+  </div> -->
+  </lightning-card>
+   
+  <lightning-card if:true={showTSR}>
+       
+    <lightning-layout multiple-rows="12">
+      <lightning-layout-item 
+         
+      size="12"
+      small-device-size= "12"
+     medium-device-size="12"
+     large-device-size="12"
+    >
+    <div class="slds-align_absolute-left slds-text-heading_medium slds-p-around_x-small" >Property Details</div>  
+  
+  </lightning-layout-item>
+  
+    <lightning-layout-item
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="3"
+          >
+            <div class="slds-p-around_x-small">
+              <lightning-input
+                type="text"
+                value={loanNumber}
+                label="Loan Application No"
+                data-name="LAN__c"
+                required="true"
+                disabled
+              ></lightning-input>
+            </div>
+          </lightning-layout-item>
+  
+  
+  
+  
+      <lightning-layout-item
+      size="12"
+      small-device-size="12"
+      medium-device-size="6"
+      large-device-size="3"
+    >
+      <div class="slds-p-around_x-small">
+        <lightning-input
+          type="text"
+          value={propOwners}
+          data-name=""
+          label="Property Owner Name as per Legal Agency"
+          required="true"
+          onchange={handleInputChange}
+          disabled
+        ></lightning-input>
+      </div>
+    </lightning-layout-item>
+  
+  
+    <lightning-layout-item
+    size="12"
+    small-device-size="12"
+    medium-device-size="6"
+    large-device-size="3"
+  >
+    <div class="slds-p-around_x-small">
+      <lightning-textarea
+        type="text"
+        value={caseWrp.DetailsSearchReport__c}
+        data-name="DetailsSearchReport__c"
+        label="Details as per Search Report"
+        required="true"
+        onchange={handleInputChange}
+        disabled={disabled}
+      ></lightning-textarea>
+    </div>
+  </lightning-layout-item>
+  
+
+  
+  
+  
+  <!-- <lightning-layout-item
+   
+    size="12"
+    small-device-size= "12"
+   medium-device-size="6"
+   large-device-size="3"
+  >
+    <div class="slds-p-around_x-small">
+      <lightning-combobox
+        label="TSR Verification"
+        value={caseWrp.TSRVerification__c}
+        options={tsrVerOptions}
+        onchange={handleInputChange}
+        required=true
+        data-name="TSRVerification__c"
+        disabled={enableOverride}
+      >
+      </lightning-combobox>
+    </div>
+  </lightning-layout-item> -->
+  
+  <lightning-layout-item
+   
+  size="12"
+  small-device-size= "12"
+  medium-device-size="6"
+  large-device-size="3"
+  >
+  <div class="slds-p-around_x-small">
+    <lightning-combobox
+      label="Is the title Clear & marketable"
+      value={caseWrp.IsTheTitleClearNdMarketable__c}
+      options={titleOptions}
+      onchange={handleInputChange}
+      required=true
+      data-name="IsTheTitleClearNdMarketable__c"
+      disabled
+    >
+    </lightning-combobox>
+  </div>
+  </lightning-layout-item>
+  
+    <lightning-layout-item if:true={showFinalStatus}
+    size="12"
+    small-device-size="12"
+    medium-device-size="6"
+    large-device-size="3"
+  >
+    <div class="slds-p-around_x-small">
+      <lightning-textarea
+        type="text"
+        value={caseWrp.Final_Remarks__c}
+        data-name="Final_Remarks__c"
+        label="Final Remarks"
+        required="true"
+        onchange={handleInputChange}
+        disabled
+      ></lightning-textarea>
+    </div>
+  </lightning-layout-item>
+  
+    <lightning-layout-item if:true={showQryDesc}
+    size="12"
+    small-device-size="12"
+    medium-device-size="6"
+    large-device-size="3"
+  >
+    <div class="slds-p-around_x-small">
+      <lightning-textarea
+        type="text"
+        value={caseWrp.Query_description__c}
+        data-name="Query_description__c"
+        label="Query description"
+        required="true"
+        onchange={handleInputChange}
+        disabled
+      ></lightning-textarea>
+    </div>
+  </lightning-layout-item>
+  
+  <lightning-layout-item 
+   size="12"
+   small-device-size="12"
+   medium-device-size="6"
+   large-device-size="3"
+  >
+  <div class="slds-p-around_x-small">
+    <lightning-textarea
+      type="text"
+      value={caseWrp.QueryRevert__c}
+      data-name="QueryRevert__c"
+      label="Query Revert"
+      onchange={handleInputChange}
+      disabled={disabled}
+    ></lightning-textarea>
+  </div>
+  </lightning-layout-item>
+       
+  <lightning-layout-item      
+   size="12"
+   small-device-size= "12"
+   medium-device-size="6"
+   large-device-size="3"
+  >
+  <div class="slds-p-around_x-small">
+  <lightning-textarea
+    type="text"
+    value={caseWrp.Remarks_regarding_the_case__c}
+    label="Remarks regarding the Case "
+    onchange={handleInputChange}
+    data-name="Remarks_regarding_the_case__c"
+    required=true
+    pattern="^[a-zA-Z][^$]+" 
+    disabled={disabled}
+    message-when-pattern-mismatch="Please enter alphabets only"
+  ></lightning-textarea>
+  </div>
+  </lightning-layout-item>
+  
+  
+  <lightning-layout-item            
+    size="12"
+    small-device-size= "12"
+    medium-device-size="6"
+    large-device-size="3"
+  >
+    <div class="slds-p-around_x-small">
+      <lightning-combobox
+      label="Final Status of TSR report from Hub Legal Manager"
+      value={caseWrp.FinalStatusTSRReportFromHLM__c}
+      options={finalStatusHLMOptions}
+      onchange={handleInputChange}
+      required=true
+      data-name="FinalStatusTSRReportFromHLM__c"
+      disabled={disabled}
+    >
+    </lightning-combobox>
+    </div>
+  </lightning-layout-item>
+  
+  <lightning-layout-item            
+    size="12"
+    small-device-size= "12"
+    medium-device-size="6"
+    large-device-size="3"
+  >
+    <div class="slds-p-around_x-small">
+      <lightning-combobox
+      label="Final Status of TSR"
+      value={caseWrp.FinalStatusOfTSR__c}
+      options={finalStatusTSROptions}
+      onchange={handleInputChange}
+      required=true
+      data-name="FinalStatusOfTSR__c"
+      disabled={disabled}
+    >
+    </lightning-combobox>
+    </div>
+  </lightning-layout-item>
+  
+  
+      </lightning-layout>
+  
+      <template if:false={enableDocUpload}>
+        <lightning-card>
+          <c-case-document-upload record-id={caseId} onselect={handleValueSelect}></c-case-document-upload>
+        </lightning-card>
+       <lightning-card>
+        <c-case-upload-photos record-id={caseId} onselect={handleValueSelect}></c-case-upload-photos>
+       </lightning-card>
+      </template>
+     
+        <c-show-case-document case-id={caseId} technical="true"></c-show-case-document>
+        <!-- show-delete-icon={showDelete} -->
+     
+    <lightning-accordion active-section-name={activeSection} class="accordion" allow-multiple-sections-open>
+      <lightning-accordion-section name="A" label="Case Query Details">
+        <lightning-card >
+          <!-- UPDATED TABLE  -->
+          <table
+            class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered"
+            aria-label="Example table of Opportunities with vertical borders"
+          >
+            <thead>
+              <tr class="slds-line-height_reset">
+                <th class="" scope="col">
+                  <div class="slds-truncate" title="Case No">
+                    Case No
+                  </div>
+                </th>
+                <th class="" scope="col">
+                  <div class="slds-truncate" title="Query">
+                    Query
+                  </div>
+                </th>
+                <th class="" scope="col">
+                  <div class="slds-truncate" title="Response">
+                    Response
+                  </div>
+                </th>
+                <th class="" scope="col">
+                  <div class="slds-truncate" title="Status">
+                    Status</div>
+                </th>
+              </tr>
+            </thead>
+  
+            <tbody>
+              <template for:each={caseQryList} for:item="record" for:index="index">
+                <tr
+                  key={record.Id}
+                  aria-selected="false"
+                  class="slds-hint-parent"
+                >
+                  <td data-label="Case No">
+                    <div class="slds-truncate" title="Case No">
+                      {record.CaseNumber__c}
+                    </div>
+                  </td>
+                  <template if:true={record.Query__c}>
+                    <td data-label="Query">
+                      <div class="slds-truncate" title="Query">
+                        {record.Query__c}
+                      </div>
+                    </td>
+                  </template>
+                  <!-- <template if:true={record.Response__c}> -->
+                    <td data-label="Response">
+                      <div class="slds-truncate" title="Response">
+                        <lightning-input variant="label-hidden" data-record-id={record.Id} data-index={index}
+                         data-field-name='Response__c' value={record.Response__c} onchange={handleValueChange}
+                         disabled={record.disableCaseQry}></lightning-input>
+                       
+                      </div>
+                    </td>
+                  <!-- </template> -->
+                  <td data-label="Status">
+                    <div class="slds-truncate" title="Status">
+                      <c-dedupe-display-value
+                      dedupe-rsults-options={caseQrystatusOptions} type="picklist"
+                      field-value={record.Status__c} object={record}
+                      field-name="Status__c" index-value={index}
+                      onpicklistchange={handlePicklistValues}
+                      is-read-only={record.disableCaseQry}></c-dedupe-display-value>
+                    </div>
+                  </td>
+                 
+                  </tr
+              ></template>
+            </tbody>
+          </table>
+        </lightning-card>
+       
+        
+        <lightning-accordion-section name="B" label="Attach Document to Case">
+          <div style="height: 200px; width: 1000px;">
+              <lightning-datatable data={caseDocList} columns={caseDocColumns} key-field="Id" min-column-width="80"
+              onrowselection={handleRowSelected}>
+              </lightning-datatable>
+          </div>
+  
+          <div class="slds-clearfix">
+            <lightning-button
+            class="slds-float_left slds-p-around_x-small"
+              label="Attach Document"
+              variant="brand-outline"
+              onclick={handleAttch}
+              icon-name='utility:attach'
+              disabled={disabled}
+            ></lightning-button>
+          </div>
+  </lightning-accordion-section>
+  
+  <lightning-accordion-section name="C" label="Case Comment">
+    <div style="height: 200px; width: 1000px">
+      <lightning-datatable
+        data={commentQryList}
+        columns={commentsColumns}
+        key-field="Id"
+        min-column-width="80"
+        onsave={handleSaveDataTable}
+        draft-values={draftValues}
+        hide-checkbox-column
+      >
+      </lightning-datatable>
+    </div>
+  
+   
+  </lightning-accordion-section>
+  
+  <!-- <c-uploded-document-display applicant-id={caseId} loan-app-id={loanAppId} mode="false"
+          capture-all-documents="true" disable-remarks={disableRemarks}
+          is-read-only={isReadOnly} category="Property Papers"
+          hide-upload-button={hildUplButton} has-edit-access={hasEditAccess}></c-uploded-document-display> -->
+  
+  </lightning-accordion-section>
+  
+  <!-- <lightning-accordion-section name="B" label="Attach Document to Case">
+  <div style="height: 400px; width: 1000px;">
+      <lightning-datatable data={caseDocList} columns={caseDocColumns} key-field="Id" min-column-width="80"
+      onrowselection={handleRowSelected}>
+      </lightning-datatable>
+  </div>
+  
+  <div class="slds-clearfix">
+    <lightning-button
+    class="slds-float_left slds-p-around_x-small"
+      label="Attach Document"
+      variant="brand-outline"
+      onclick={handleAttch}
+      icon-name='utility:attach'
+    ></lightning-button>
+  </div>
+  </lightning-accordion-section> -->
+  
+  </lightning-accordion>
+   
+    <!-- <c-multi-doc-previewer document-detail-id={documentDetailId} onclosepreview={handleCloseModalEvent}
+    has-document-id={hasDocumentId}> </c-multi-doc-previewer> -->
+  <!-- <div class="slds-clearfix">
+  <lightning-button
+  class="slds-float_right slds-p-around_x-small"
+  label="Download Document"
+  variant="brand-outline"
+  onclick={handleDownload}
+  icon-name='utility:download'
+  ></lightning-button>
+  </div> -->
+  </lightning-card>
+  
+  <lightning-card if:true={showVetting}>
+       
+    <lightning-layout multiple-rows="12">
+      <lightning-layout-item 
+         
+      size="12"
+      small-device-size= "12"
+     medium-device-size="12"
+     large-device-size="12"
+    >
+    <div class="slds-align_absolute-left slds-text-heading_medium slds-p-around_x-small" >Property Details</div>  
+  
+  </lightning-layout-item>
+  
+    <lightning-layout-item
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="3"
+          >
+            <div class="slds-p-around_x-small">
+              <lightning-input
+                type="text"
+                value={loanNumber}
+                label="Loan Application No"
+                data-name="LAN__c"
+                required="true"
+                disabled
+              ></lightning-input>
+            </div>
+          </lightning-layout-item>
+    
+        <lightning-layout-item
+         
+          size="12"
+          small-device-size= "12"
+         medium-device-size="6"
+         large-device-size="3"
+        >
+          <div class="slds-p-around_x-small">
+            <lightning-combobox
+              label="Vetting Verification"
+              value={caseWrp.TSRVerification__c}
+              options={tsrVerOptions}
+              onchange={handleInputChange}
+              required=true
+              data-name="TSRVerification__c"
+              disabled={enableOverride}
+            >
+            </lightning-combobox>
+          </div>
+        </lightning-layout-item>
+  
+        <lightning-layout-item
+         
+        size="12"
+        small-device-size= "12"
+       medium-device-size="6"
+       large-device-size="3"
+      >
+        <div class="slds-p-around_x-small">
+          <lightning-combobox
+            label="Is the title Clear & marketable"
+            value={caseWrp.IsTheTitleClearNdMarketable__c}
+            options={titleOptions}
+            onchange={handleInputChange}
+            required=true
+            data-name="IsTheTitleClearNdMarketable__c"
+            disabled={enableOverride}
+          >
+          </lightning-combobox>
+        </div>
+      </lightning-layout-item>
+  
+  
+      <lightning-layout-item
+      size="12"
+      small-device-size="12"
+      medium-device-size="6"
+      large-device-size="3"
+    >
+      <div class="slds-p-around_x-small">
+        <lightning-input
+          type="text"
+          value={propOwners}
+          data-name=""
+          label="Property Owner Name as per Legal Agency"
+          required="true"
+          onchange={handleInputChange}
+          disabled
+        ></lightning-input>
+      </div>
+    </lightning-layout-item>
+  
+  
+    <lightning-layout-item
+    size="12"
+    small-device-size="12"
+    medium-device-size="6"
+    large-device-size="3"
+  >
+    <div class="slds-p-around_x-small">
+      <lightning-textarea
+        type="text"
+        value={caseWrp.DetailsSearchReport__c}
+        data-name="DetailsSearchReport__c"
+        label="Details as per Search Report"
+        required="true"
+        onchange={handleInputChange}
+        disabled={enableOverride}
+      ></lightning-textarea>
+    </div>
+  </lightning-layout-item>
+  
+  
+    <lightning-layout-item if:true={showFinalStatus}
+    size="12"
+    small-device-size="12"
+    medium-device-size="6"
+    large-device-size="3"
+  >
+    <div class="slds-p-around_x-small">
+      <lightning-textarea
+        type="text"
+        value={caseWrp.Final_Remarks__c}
+        data-name="Final_Remarks__c"
+        label="Final Remarks"
+        required="true"
+        onchange={handleInputChange}
+        disabled={enableOverride}
+      ></lightning-textarea>
+    </div>
+  </lightning-layout-item>
+  
+    <lightning-layout-item if:true={showQryDesc}
+    size="12"
+    small-device-size="12"
+    medium-device-size="6"
+    large-device-size="3"
+  >
+    <div class="slds-p-around_x-small">
+      <lightning-textarea
+        type="text"
+        value={caseWrp.Query_description__c}
+        data-name="Query_description__c"
+        label="Query description"
+        required="true"
+        onchange={handleInputChange}
+        disabled={enableOverride}
+      ></lightning-textarea>
+    </div>
+  </lightning-layout-item>
+  
+      
+       
+  <lightning-layout-item      
+   size="12"
+   small-device-size= "12"
+   medium-device-size="6"
+   large-device-size="3"
+  >
+  <div class="slds-p-around_x-small">
+  <lightning-textarea
+    type="text"
+    value={caseWrp.Remarks_regarding_the_case__c}
+    label="Remarks regarding the Case "
+    onchange={handleInputChange}
+    data-name="Remarks_regarding_the_case__c"
+    required=true
+    pattern="^[a-zA-Z][^$]+" 
+    disabled={enableOverride}
+    message-when-pattern-mismatch="Please enter alphabets only"
+  ></lightning-textarea>
+  </div>
+  </lightning-layout-item>
+  
+  
+  <lightning-layout-item            
+    size="12"
+    small-device-size= "12"
+    medium-device-size="6"
+    large-device-size="3"
+  >
+    <div class="slds-p-around_x-small">
+      <lightning-input
+      label="Override By FedFina"
+      type="checkbox"
+      checked={caseWrp.OverrideByFedFina__c}
+      data-name="OverrideByFedFina__c"
+      onclick={handleInputChange} 
+      disabled={disabled}></lightning-input>
+    </div>
+  </lightning-layout-item>
+  
+  
+      </lightning-layout>
+  
+      <template if:false={enableDocUpload}>
+        <lightning-card>
+          <c-case-document-upload record-id={caseId} onselect={handleValueSelect}></c-case-document-upload>
+        </lightning-card>
+       <lightning-card>
+        <c-case-upload-photos record-id={caseId} onselect={handleValueSelect}></c-case-upload-photos>
+       </lightning-card>
+      </template>
+     
+        <c-show-case-document case-id={caseId} technical="true"></c-show-case-document>
+        <!-- show-delete-icon={showDelete} -->
+     
+    <lightning-accordion active-section-name={activeSection} class="accordion" allow-multiple-sections-open>
+      <lightning-accordion-section name="A" label="Case Query Details">
+        <lightning-card >
+          <!-- UPDATED TABLE  -->
+          <table
+            class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered"
+            aria-label="Example table of Opportunities with vertical borders"
+          >
+            <thead>
+              <tr class="slds-line-height_reset">
+                <th class="" scope="col">
+                  <div class="slds-truncate" title="Case No">
+                    Case No
+                  </div>
+                </th>
+                <th class="" scope="col">
+                  <div class="slds-truncate" title="Query">
+                    Query
+                  </div>
+                </th>
+                <th class="" scope="col">
+                  <div class="slds-truncate" title="Response">
+                    Response
+                  </div>
+                </th>
+                <th class="" scope="col">
+                  <div class="slds-truncate" title="Status">
+                    Status</div>
+                </th>
+              </tr>
+            </thead>
+  
+            <tbody>
+              <template for:each={caseQryList} for:item="record" for:index="index">
+                <tr
+                  key={record.Id}
+                  aria-selected="false"
+                  class="slds-hint-parent"
+                >
+                  <td data-label="Case No">
+                    <div class="slds-truncate" title="Case No">
+                      {record.CaseNumber__c}
+                    </div>
+                  </td>
+                  <template if:true={record.Query__c}>
+                    <td data-label="Query">
+                      <div class="slds-truncate" title="Query">
+                        {record.Query__c}
+                      </div>
+                    </td>
+                  </template>
+                  <!-- <template if:true={record.Response__c}> -->
+                    <td data-label="Response">
+                      <div class="slds-truncate" title="Response">
+                        <lightning-input variant="label-hidden" data-record-id={record.Id} data-index={index}
+                         data-field-name='Response__c' value={record.Response__c} onchange={handleValueChange}
+                         disabled={record.disableCaseQry}></lightning-input>
+                       
+                      </div>
+                    </td>
+                  <!-- </template> -->
+                  <td data-label="Status">
+                    <div class="slds-truncate" title="Status">
+                      <c-dedupe-display-value
+                      dedupe-rsults-options={caseQrystatusOptions} type="picklist"
+                      field-value={record.Status__c} object={record}
+                      field-name="Status__c" index-value={index}
+                      onpicklistchange={handlePicklistValues}
+                      is-read-only={record.disableCaseQry}></c-dedupe-display-value>
+                    </div>
+                  </td>
+                 
+                  </tr
+              ></template>
+            </tbody>
+          </table>
+        </lightning-card>
+       
+        
+        <lightning-accordion-section name="B" label="Attach Document to Case">
+          <div style="height: 200px; width: 1000px;">
+              <lightning-datatable data={caseDocList} columns={caseDocColumns} key-field="Id" min-column-width="80"
+              onrowselection={handleRowSelected}>
+              </lightning-datatable>
+          </div>
+  
+          <div class="slds-clearfix">
+            <lightning-button
+            class="slds-float_left slds-p-around_x-small"
+              label="Attach Document"
+              variant="brand-outline"
+              onclick={handleAttch}
+              icon-name='utility:attach'
+              disabled={disabled}
+            ></lightning-button>
+          </div>
+  </lightning-accordion-section>
+  
+  <lightning-accordion-section name="C" label="Case Comment">
+    <div style="height: 200px; width: 1000px">
+      <lightning-datatable
+        data={commentQryList}
+        columns={commentsColumns}
+        key-field="Id"
+        min-column-width="80"
+        onsave={handleSaveDataTable}
+        draft-values={draftValues}
+        hide-checkbox-column
+      >
+      </lightning-datatable>
+    </div>
+  
+   
+  </lightning-accordion-section>
+  
+  
+  </lightning-accordion-section>
+  
+
+  
+  </lightning-accordion>
+
+  </lightning-card>
+    </template>

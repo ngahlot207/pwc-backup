@@ -1,0 +1,129 @@
+<template>
+    <!--  <div if:true={showSpinner}>
+          <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+          </lightning-spinner>
+      </div>
+      <lightning-card >
+          <c-dynamic-datatable params-data={params}></c-dynamic-datatable>
+      </lightning-card>-->
+  
+      
+          <lightning-card title="Borrower Details">
+             
+              <div class="slds-p-around_medium">
+              <br/>
+                  <div class="slds-box">
+                      <div class="slds-scrollable">
+                      
+                      <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                          <thead>
+                              <tr class="slds-text-title_bold slds-text-color_weak">
+                                  
+                                  <th scope="col">Borrower Name</th>
+                                  <th scope="col">Customer Segment</th>
+                                  <th scope="col">DOB</th>
+                                  <th scope="col">Gender</th>
+                                  <th scope="col">PAN</th>
+                                  <th scope="col">Id Proof Type</th>
+                                  <th scope="col">Id Number</th>
+                                  <th scope="col">Father Name</th>
+                                  <th scope="col">Relationship with Applicant</th>
+                                  <th scope="col">Decision Date</th>
+                                  
+          
+                              </tr>
+                          </thead>
+                          <tbody>
+                              
+                            <tr>
+                               
+                               <td scope="row">
+                                  {borrwerName}
+                               </td>
+                               <td>
+                                  {customerSegment}
+                               </td>
+                               <td>
+                                  {dob}
+                               </td>
+                               <td>
+                                  {gender}
+                               </td>
+                               <td>
+                                  {pan}
+                               </td>
+                               <td>
+                                  {idprof}
+                               </td>
+                               <td>
+                                  {idtype}
+                               </td>
+                               <td>
+                                  {fatherName}
+                               </td>
+                               <td>
+                                  {relationwithAppl}
+                               </td>
+                               <!-- <td>
+                                  {it.value.financialBorrowerWrapper}
+                               </td> -->
+                              
+                               
+                              
+                           </tr>
+                           
+                          
+                          
+                          </tbody>
+                      </table>
+                  </div>
+                  </div>
+              </div>
+          
+          
+          
+          </lightning-card>
+    
+
+
+          <lightning-card title="Borrower Address Details">
+            <br/>
+                <div class="slds-box">
+                    <div class="slds-scrollable">
+                    
+                    <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                        <thead>
+                            <tr class="slds-text-title_bold slds-text-color_weak">
+                                
+                                <th scope="col">Address Type</th>
+                                <th scope="col">Address</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                           <template for:each={conslodiateparentRecords} for:item="record">
+                          <tr key={record.Id} class="record"> 
+                             
+                             <td scope="row">
+                              {record.AddrTyp__c}
+                             </td>
+                             <td>
+                                {record.consolidatedAddress}
+                             </td>
+                            
+                         </tr>
+                         
+                        </template>
+                        
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+        
+        
+        
+        </lightning-card>
+  
+  
+  </template>

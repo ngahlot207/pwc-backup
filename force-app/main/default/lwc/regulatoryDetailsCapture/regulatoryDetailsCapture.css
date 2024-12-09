@@ -1,0 +1,28 @@
+.accClass
+{
+    --slds-c-accordion-summary-color-background : rgb(243, 243, 243) ;
+    --slds-c-accordion-color-border : 0.5rem;
+}
+
+.searchClass
+{
+    
+    width: 97%;
+}
+.searchPhoneClass
+{
+    
+    width: 90%;
+}
+
+.pointerClass{
+    cursor: pointer;
+}
+.custom-css {
+    --lwc-squareIconMediumContentAlt:1.25rem;
+    --slds-c-icon-color-foreground:rgba(202, 8, 8, 0.934);
+}
+
+/* .slds-dropdown_fluid{
+    width:97%;
+} */

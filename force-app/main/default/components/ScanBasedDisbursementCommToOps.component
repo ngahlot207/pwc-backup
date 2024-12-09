@@ -1,0 +1,44 @@
+<apex:component controller="ScanBasedDisbursementCommunication" access="global">
+    
+    <apex:attribute name="docDisId" type="String" description="Document Dispatch Id" assignTo="{!DocDisPatchId}" access="global"/>
+  
+ <html>
+        <body>
+           
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>SFDC Lead ID</th>
+                        <th>Finnone App ID</th>
+                        <th>Finnone LAN No</th>
+                        <th>Customer Name</th>
+                        <th>Document Details / line item</th>
+                        <th>Ops Query remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <apex:repeat var="opsQueryResult" value="{!DocumentDispatchDtl}">
+                        <tr>
+                            <td style="text-align:center">{!opsQueryResult.loanAppNo}</td>
+                            <td style="text-align:center">{!opsQueryResult.FinnoneAppID}</td>
+                           <td style="text-align:center">
+                                   {!opsQueryResult.FinnoneLANNo}                          
+                            </td>
+                            <td style="text-align:center">
+                                {!opsQueryResult.CustomerName}     
+                            </td>
+                            
+                             <td style="text-align:center">
+                                {!opsQueryResult.DocumentDtl}     
+                            </td>
+                              <td style="text-align:center">
+                                {!opsQueryResult.OpsQueryremarks}     
+                            </td>
+                        </tr>
+                    </apex:repeat>
+                </tbody>
+            </table>
+                  
+        </body>
+    </html>     
+</apex:component>

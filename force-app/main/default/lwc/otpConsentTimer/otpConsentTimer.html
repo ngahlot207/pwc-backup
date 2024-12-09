@@ -1,0 +1,15 @@
+<template>
+    <lightning-layout multiple-rows>
+           <!-- <lightning-layout-item size="12">
+               <lightning-input type="number" value={optEntered} label="Enter OTP" class="enterotp"></lightning-input>
+           </lightning-layout-item> -->
+           <lightning-layout-item size="1" class="slds-p-around_small slds-align_absolute-center">   
+               <b>{otpTimerValue}</b>
+               
+           </lightning-layout-item>
+           <div if:true={isTimeLeftZero}>
+            <lightning-button class="slds-p-around_small slds-align_absolute-center" label="Resend OTP" onclick={handleResend}></lightning-button>
+           </div>
+   </lightning-layout>
+
+</template>

@@ -1,0 +1,30 @@
+<template>
+    <!-- <lightning-card title="Create Account and Attach File">
+        <div class="slds-m-around_medium">
+            <lightning-input type="file" label="Upload File" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg" onchange={handleFileChange}></lightning-input>
+            <lightning-button label="Create Account and Attach File" onclick={createAccountAndAttachFile} variant="brand"></lightning-button>
+            <lightning-button label="View File" onclick={viewFile} icon-name="utility:view" icon-position="right" variant="neutral"></lightning-button>
+        </div>
+        <template if:true={fileUrl}>
+            <div class="slds-m-around_medium">
+                <iframe src={fileUrl} width="100%" height="600px"></iframe>
+            </div>
+        </template>
+    </lightning-card> -->
+    <lightning-card title="Image Uploader">
+        <div class="slds-m-around_medium">
+            <lightning-input type="file" accept="image/*" label="Upload an Image" onchange={handleImageChange}></lightning-input>
+            <!-- <lightning-button label="View" size="small" variant="neutral"
+ onclick={handleDocumentView}  icon-name="utility:view" icon-position="left" class="viewButton"></lightning-button> -->
+ <lightning-button-icon icon-name='utility:preview' alternative-text='preview' icon-position="right"   onclick={handleDocumentView} size='small' title='preview'></lightning-button-icon>
+ <lightning-button label="Create Account and Attach File" onclick={uploadFile} variant="brand"></lightning-button>
+            <template if:true={imageUrlview}>
+                <div class="slds-m-top_medium">
+                    <h2>Uploaded Image:</h2>
+                    <img src={imageUrl} alt="Uploaded Image" />
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+   
+</template>

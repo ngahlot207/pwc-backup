@@ -1,0 +1,349 @@
+<template>
+  
+    <lightning-card title="Loan Details Summary"><br />
+      <lightning-record-view-form
+        record-id={recordId}
+        object-api-name={objectApiName}
+      >
+        <div class="slds-box">
+          
+          <lightning-layout multiple-rows="12">
+  
+  
+              <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <div class="slds-form-element slds-form-element_horizontal">
+                <span class="slds-form-element__label">Application ID</span>
+                <div class="slds-form-element__control">
+                  <lightning-formatted-text
+                    class="slds-form-element__static"
+                    value={applicationId}
+                  ></lightning-formatted-text>
+                </div>
+              </div>
+            </lightning-layout-item>
+  
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <div class="slds-form-element slds-form-element_horizontal">
+                <span class="slds-form-element__label">Stage</span>
+                <div class="slds-form-element__control">
+                  <lightning-formatted-text
+                    class="slds-form-element__static"
+                    value={stag}
+                  ></lightning-formatted-text>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <!--  value={listOfLoanDetailsSummary.loginDate} -->
+            <lightning-layout-item
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="4"
+          >
+            <div class="slds-form-element slds-form-element_horizontal">
+              <span class="slds-form-element__label">Sub Stage</span>
+              <div class="slds-form-element__control">
+                <lightning-formatted-text
+                  class="slds-form-element__static"
+                  value={subStat}
+                ></lightning-formatted-text>
+              </div>
+            </div>
+          </lightning-layout-item>
+
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <lightning-output-field
+                field-name="BrchName__c"
+              ></lightning-output-field>
+            </lightning-layout-item>
+          
+  
+            <lightning-layout-item
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="4"
+          >
+            <div class="slds-form-element slds-form-element_horizontal">
+              <span class="slds-form-element__label">Status</span>
+              <div class="slds-form-element__control">
+                <lightning-formatted-text
+                  class="slds-form-element__static"
+                  value={staus}
+                ></lightning-formatted-text>
+              </div>
+            </div>
+          </lightning-layout-item>
+
+          <lightning-layout-item
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="4"
+          >
+            <div class="slds-form-element slds-form-element_horizontal">
+              <span class="slds-form-element__label">Login Date</span>
+              <div class="slds-form-element__control">
+                <lightning-formatted-text
+                  class="slds-form-element__static"
+                  value={loginDate}
+                ></lightning-formatted-text>
+              </div>
+            </div>
+          </lightning-layout-item>
+  
+  
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+            
+              <lightning-output-field
+                field-name="Product__c"
+              ></lightning-output-field>
+            </lightning-layout-item>
+            
+  
+  
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <div class="slds-form-element slds-form-element_horizontal">
+                <span class="slds-form-element__label">City</span>
+                <div class="slds-form-element__control">
+                  <lightning-formatted-text
+                    class="slds-form-element__static"
+                    value={city}
+                  ></lightning-formatted-text>
+                </div>
+              </div>
+            </lightning-layout-item>
+             
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <div class="slds-form-element slds-form-element_horizontal">
+                <span class="slds-form-element__label">State</span>
+                <div class="slds-form-element__control">
+                  <lightning-formatted-text
+                    class="slds-form-element__static"
+                    value={stae}
+                  ></lightning-formatted-text>
+                </div>
+              </div>
+            </lightning-layout-item>
+  
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <div class="slds-form-element slds-form-element_horizontal">
+                <span class="slds-form-element__label">Product</span>
+                <div class="slds-form-element__control">
+                  <lightning-formatted-text
+                    class="slds-form-element__static"
+                    value={product}
+                  ></lightning-formatted-text>
+                </div>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <div class="slds-form-element slds-form-element_horizontal">
+                <span class="slds-form-element__label">Product Sub Type</span>
+                <div class="slds-form-element__control">
+                  <lightning-formatted-text
+                    class="slds-form-element__static"
+                    value={prodtSubTyp}
+                  ></lightning-formatted-text>
+                </div>
+              </div>
+            </lightning-layout-item>
+  
+          
+            <lightning-layout-item
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="4"
+          >
+            <div class="slds-form-element slds-form-element_horizontal">
+              <span class="slds-form-element__label">Scheme</span>
+              <div class="slds-form-element__control">
+                <lightning-formatted-text
+                  class="slds-form-element__static"
+                  value={listOfLoanDetailsSummary.schemeName}
+                ></lightning-formatted-text>
+              </div>
+            </div>
+          </lightning-layout-item>
+  
+          <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <div class="slds-form-element slds-form-element_horizontal">
+                <span class="slds-form-element__label">Loan Purpose/End Date</span>
+                <div class="slds-form-element__control">
+                  <lightning-formatted-text
+                    class="slds-form-element__static"
+                    value={loanPurpose}
+                  ></lightning-formatted-text>
+                </div>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <div class="slds-form-element slds-form-element_horizontal">
+                <span class="slds-form-element__label">BBH Name</span>
+                <div class="slds-form-element__control">
+                  <lightning-formatted-text
+                    class="slds-form-element__static"
+                    value={listOfLoanDetailsSummary.empNameBBH}
+                  ></lightning-formatted-text>
+                </div>
+              </div>
+            </lightning-layout-item>
+
+             
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <div class="slds-form-element slds-form-element_horizontal">
+                <span class="slds-form-element__label">RM/SM Name</span>
+                <div class="slds-form-element__control">
+                  <lightning-formatted-text
+                    class="slds-form-element__static"
+                    value={listOfLoanDetailsSummary.nameRMSM}
+                  ></lightning-formatted-text>
+                </div>
+              </div>
+            </lightning-layout-item>
+
+
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <lightning-output-field
+                field-name="ChannelCode__c"
+              ></lightning-output-field>
+            </lightning-layout-item>
+  
+            
+  
+            <lightning-layout-item
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="4"
+          >
+            <div class="slds-form-element slds-form-element_horizontal">
+              <span class="slds-form-element__label">Channel Name</span>
+              <div class="slds-form-element__control">
+                <lightning-formatted-text
+                  class="slds-form-element__static"
+                  value={listOfLoanDetailsSummary.ChannelRName}
+                ></lightning-formatted-text>
+              </div>
+            </div>
+          </lightning-layout-item>
+  
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <div class="slds-form-element slds-form-element_horizontal">
+                <span class="slds-form-element__label">Total Loan Amount including Insurance</span>
+                <div class="slds-form-element__control">
+                  <lightning-output-field
+              field-name="TotalLoanAmtInclInsurance__c" variant="label-hidden"
+            ></lightning-output-field>
+                </div>
+              </div>
+            </lightning-layout-item>
+           
+            <lightning-layout-item
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="4"
+          >
+            <div class="slds-form-element slds-form-element_horizontal">
+              <span class="slds-form-element__label">Decision Date</span>
+              <div class="slds-form-element__control">
+                <lightning-formatted-text
+                  class="slds-form-element__static"
+                  value={decDate}
+                ></lightning-formatted-text>
+              </div>
+            </div>
+          </lightning-layout-item>
+          <lightning-layout-item
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="4"
+          >
+            <div class="slds-form-element slds-form-element_horizontal">
+              <span class="slds-form-element__label">Disbursement Date</span>
+              <div class="slds-form-element__control">
+                <lightning-formatted-text
+                  class="slds-form-element__static"
+                  value={disDate}
+                ></lightning-formatted-text>
+              </div>
+            </div>
+          </lightning-layout-item>
+
+          </lightning-layout>
+          
+        </div>
+      </lightning-record-view-form>
+    </lightning-card>
+  
+  </template>

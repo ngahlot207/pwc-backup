@@ -1,0 +1,53 @@
+<apex:page renderAs="pdf" showHeader="false" applyHtmlTag="false">
+    <head>
+        <style>
+            @page { 
+            @bottom-right {
+            content:"Page " counter(page) " of " counter(pages) ;
+            font-size:12px;
+            }
+            
+            }
+            body{
+            bottom: 50px;
+            }      
+            table
+            {
+            display: table;
+            table-layout:fixed;
+            width: 100%;
+            }
+            th {
+            border:1px solid;   
+            padding:2px; 
+            margin-left : 0px;
+            }
+            tr{
+            display: grid;
+            table-layout:fixed; 
+            width: 100%;
+            }
+            td {
+            border:1px solid black;  
+            padding:2px; 
+            margin-left : 0px;
+            word-wrap: break-word;
+            overflow: hidden;
+            }
+            .footer {
+            position: fixed;
+            left: 0;
+            bottom: -6px;
+            width: 100%;
+            text-align: center;
+            height:20px;
+            }
+        </style>
+        <script>
+        </script>
+    </head>
+    
+    <!--<c:PLCamReportForm /> -->
+    <c:BLandPLCamReportForm />
+    
+</apex:page>

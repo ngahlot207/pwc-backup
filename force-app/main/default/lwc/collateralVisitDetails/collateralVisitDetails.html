@@ -1,0 +1,276 @@
+<template>
+    <lightning-card title="Collateral Visit">
+       
+                <div class="slds-p-around_medium">
+                <br/>
+                    <div class="slds-box">
+                        <div class="slds-scrollable">
+                        
+                        <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                            <thead>
+                                <tr class="slds-text-title_bold slds-text-color_weak">
+                                    
+                                    <th class="slds-text-color_inverse slds-cell-fixed" scope="col">Property Address</th>
+                                    <th scope="col">Property Owner</th>
+                                    <th scope="col">Nature of Property</th>
+                                    <th scope="col">Property Type</th>
+                                    <th scope="col">Property Sub Type</th>
+                                    <th scope="col">Property Usage</th>
+                                    <th scope="col">Approx. Age of Property in-Years</th>
+                                    <th scope="col">Residual Age - in Years</th>
+                                    <th scope="col">Land Area (Sq Ft)</th>
+                                    <th scope="col">Property Built Area (Sq Ft)</th>
+                                    <th scope="col">Porperty in Negative Area</th>
+                                    <th scope="col">Multi Tenanted (YES/NO)-Tenant Nos.</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template iterator:it={listCollateralDetails}>
+                              <tr key={it.value.Id}>
+                                 
+                                 <td scope="row" class="slds-text-title_bold slds-text-color_weak slds-cell-fixed">
+                                    <div class="slds-cell-wrap">
+                                    {it.value.PropAddrs__c}
+                                    </div>
+                                 </td>
+                                 <td>
+                                    {it.value.Prop_Owners__c}
+                                 </td>
+                                 <td>
+                                    {it.value.NatureofProp__c}
+                                 </td>
+                                 <td>
+                                    {it.value.PropType__c}
+                                 </td>
+                                 <td>
+                                    {it.value.PropSubType__c}
+                                 </td>
+                                 <td>
+                                    {it.value.Property_Usage__c}
+                                 </td>
+                                 <td>
+                                    {it.value.Approx_Age_of_Prop__c}
+                                    
+                                 </td>
+                                 <td>
+                                    {it.value.Resi_Age__c}
+                                 </td>
+                                 <td>
+                                    {it.value.Land_Area__c}
+                                    
+                                 </td>
+                                 <td>
+                                    {it.value.Prop_Bui_up_ar__c}
+                                 </td>
+                                 <td>
+                                    {it.value.Negative_Caution_Area__c}
+                                 </td>
+                                 <template if:true={multiTenantFlag}>
+                                 <td>
+                                    {it.value.Is_the_property_Multi_Tenanted__c}-{it.value.No_of_Tenants__c}
+                                 </td>
+                              </template>
+                              <template if:false={multiTenantFlag}>
+                                 <td>
+                                    {it.value.Is_the_property_Multi_Tenanted__c}
+                                 </td>
+                              </template>
+                                
+                             </tr>
+                             
+                            </template>
+                            
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                </div>
+           
+       
+       
+    </lightning-card>
+
+    <lightning-card title="Collateral Verification Details">
+       
+      <div class="slds-p-around_medium">
+      <br/>
+          <div class="slds-box">
+              <div class="slds-scrollable">
+              
+              <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                  <thead>
+                      <tr class="slds-text-title_bold slds-text-color_weak">
+                          <th class="slds-text-color_inverse slds-cell-fixed" scope="col">Property Address</th>
+                          <th scope="col">Property Visit Status</th>
+                          <th scope="col">Property Visit Officer</th>
+                          <th scope="col">Legal Status</th>
+                          <th scope="col">Title Search Status</th>
+                          <th scope="col">Technical 1 MV</th>
+                          <th scope="col">Technical 2 MV</th>
+                          <th scope="col">Technical 3 MV</th>
+                          <th scope="col">Valuation as per policy norms</th>
+                          <th scope="col">Valuation to be taken ahead for calculation</th>
+                          <th scope="col">Distance from Fedfina Branch</th>
+                          <th scope="col">Demolition Risk</th>
+                          
+
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <template iterator:it={listCollateralVerificationDetails}>
+                    <tr key={it.value.Id}>
+                       
+                       <td scope="row" class="slds-text-title_bold slds-text-color_weak slds-cell-fixed">
+                        <div class="slds-cell-wrap">
+                        {it.value.lstOfApplicantAssetsWrapp.PropAddrs__c}
+                        </div>
+                       </td>
+                       <template if:true={it.value.visitCase}>
+                       <td >
+                        {it.value.visitCase.Property_Visit_Final_Status__c}
+                     </td>
+                      </template>
+                      <template if:false={it.value.visitCase}>
+                        <td >
+                        
+                      </td>
+                       </template>
+                      <template if:true={it.value.visitCase}>
+                        
+                        <td >
+                           {it.value.visitCase.Assigned_To__r.Name}
+                        </td>
+                     </template>
+                     <template if:false={it.value.visitCase}>
+                        <td >
+                        
+                      </td>
+                       </template>
+                        <template if:true={it.value.legalCase}>
+                        <td >
+                           {it.value.legalCase.ReportResult__c}
+                        </td>
+                     </template>
+                     <template if:false={it.value.legalCase}>
+                        <td >
+                          
+                        </td>
+                     </template>
+                     <template if:true={it.value.tsrCase}>
+                        <td >
+                           {it.value.tsrCase.ReportResult__c}
+                        </td>
+                     </template>
+                     <template if:false={it.value.tsrCase}>
+                        <td >
+                           
+                        </td>
+                     </template>
+
+                       <td>
+                          {it.value.totalValuation1}
+                       </td>
+                       <td>
+                          {it.value.totalValuation2}
+                       </td>
+                       <td>
+                          {it.value.totalValuation3}
+                       </td>
+                       <template if:true={it.value.lstOfApplicantAssetsWrapp}>
+                        <td >
+                           {it.value.lstOfApplicantAssetsWrapp.Valuation_as_per_policy_norms__c}
+                        </td>
+                       </template>
+                       <template if:false={it.value.lstOfApplicantAssetsWrapp}>
+                        <td >
+                       
+                        </td>
+                       </template>
+                       <template if:true={it.value.lstOfApplicantAssetsWrapp}>
+                        <td>
+                           {it.value.lstOfApplicantAssetsWrapp.ValuationToBeTakenAheadForCalculation__c}
+                        </td>
+                       </template>
+                       <template if:false={it.value.lstOfApplicantAssetsWrapp}>
+                        <td>
+                          
+                        </td>
+                       </template>
+                       <template if:true={it.value.lstOfApplicantAssetsWrapp}>
+                        <td >
+                           {it.value.lstOfApplicantAssetsWrapp.DistFrmNearBrch__c}
+                        </td>
+                        </template>
+                        <template if:false={it.value.lstOfApplicantAssetsWrapp}>
+                           <td>
+                             
+                           </td>
+                          </template>
+                        <td >
+
+                        </td>
+                       
+                       
+                      
+                   </tr>
+                   
+                  </template>
+                  
+                  </tbody>
+              </table>
+          </div>
+          </div>
+      </div>
+ 
+
+
+</lightning-card>
+
+
+<lightning-card title="">
+       
+   <div class="slds-p-around_medium">
+   <br/>
+       <div class="slds-box">
+           <div class="slds-scrollable">
+           
+           <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+               <thead>
+                   <tr class="slds-text-title_bold slds-text-color_weak">
+                       
+                       <th class="slds-text-color_inverse slds-cell-fixed" scope="col">Property Address</th>
+                       <th scope="col">Comments On Collateral</th>
+                      
+
+                   </tr>
+               </thead>
+               <tbody>
+                   <template iterator:it={listCollateralDetails}>
+                 <tr key={it.value.Id}>
+                    
+                    <td scope="row" class="slds-text-title_bold slds-text-color_weak slds-cell-fixed">
+                     <div class="slds-cell-wrap">
+                       {it.value.PropAddrs__c}
+                       </div>
+                    </td>
+                    <td>
+                       {it.value.Comments_on_Collateral__c}
+                    </td>
+                    
+                   
+                </tr>
+                
+               </template>
+               
+               </tbody>
+           </table>
+       </div>
+       </div>
+   </div>
+
+
+
+</lightning-card>
+  
+</template>

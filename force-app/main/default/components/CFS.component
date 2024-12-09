@@ -1,0 +1,103 @@
+<apex:component Controller="CFSController" >
+    
+    <html>
+        
+        <head>
+            <style>
+                .table1 tr,td{
+                width:15px;
+                }
+            </style>
+        </head>
+    </html>
+    <body >
+        <div  class="form-container">
+         <div>
+            <h4 style="text-align:center; font-family:calibiri;font-weight: bold;font-size:15px; ">Cheques Submission Forms (CSF)</h4>
+        </div>
+        
+        <div style=" font-size:12px">
+                Date : {!CurrentDateTime}
+            </div><br/>
+        
+        <div style="font-family:Times New Roman;font-size:15px">
+            To,<br/>
+Fedbank Financial Services Ltd<br/>
+Kanakia Wall Street, A-Wing,<br/>
+5th Floor, Unit No.501/502/511/512<br/>
+Andheri – Kurla Road,<br/>
+Chakala, Andheri East,<br/>
+Mumbai, Maharashtra – 400 093<br/><br/>
+Loan Application No. <u>{!ApplicationFormNo}</u><br/>
+Loan Account No. <u>{!LoanAccountNo}</u><br/><br/>
+Dear,<br/><br/>
+Sub : Post Dated Cheques towards repayment of my Loan Against Property of Rs.
+<u>{!LoanAmount}</u> for Rs.<u>{!EMI}</u> (EMI) in the name of FEDBANK FINANCIAL SERVICES
+            LIMITED.<br/><br/>
+ Please find enclosed crossed Post-dated cheques drawn in favour of Fedbank Financial
+Services Ltd. bearing the following particular being submitted towards repayment of my
+Captioned loan availed from your company bearing above mentioned account number. <br/><br/>          
+        </div>
+            
+            <table border="1"  >
+            <tr style="font-size: 15px;">
+                <th style="font-weight: bold;">Sr.No</th>
+                <td style="font-weight: bold;" colspan="2" >Date of cheques</td>
+                <td style="font-weight: bold;" colspan="2">Cheque numbers</td>
+                <td style="font-weight: bold;">No.of cheques</td>
+                <td style="font-weight: bold;">Bank and Branch</td>
+                <td style="font-weight: bold;">Purpose (EMI)</td>
+                <td style="font-weight: bold;">Amount of each cheques</td>
+            </tr>
+                <tr style="font-size: 15px;">
+                <th style="font-weight: bold;"></th>
+                <td style="font-weight: bold">From</td>
+                <td style="font-weight: bold;">To</td>
+                <td style="font-weight: bold;">From</td>
+                <td style="font-weight: bold;">To</td>
+                <td style="font-weight: bold;"></td>
+                <td style="font-weight: bold;"></td>
+                    <td style="font-weight: bold;"></td>
+                <td style="font-weight: bold;"></td>
+            </tr>
+            <apex:repeat value="{!RepaymentWrapper}" var="applicantWrapper">
+                                	<tr style="width: 100%; text-align: center">
+                                        <td style="width: 5%;" colspan="1">{!applicantWrapper.SNo}</td>
+                                        <td style="width: 18%;" colspan="1"></td>
+                                        <td style="width: 18%;" colspan="1"></td>
+                                        <td style="width: 19%;" colspan="1">{!applicantWrapper.ChequeFrom}</td>
+                                        <td style="width: 20%;" >{!applicantWrapper.ChequeTo}</td>
+                                        <td style="width: 20%;" >{!applicantWrapper.NoofCheque}</td>
+                                        <td style="width: 20%;" >{!applicantWrapper.BankandBranch}</td>
+                                        <td style="width: 20%;" >{!applicantWrapper.Purpose}</td>
+                                        <td style="width: 20%;" >{!applicantWrapper.AmountofEachCheque}</td>
+                                  	</tr>
+                                </apex:repeat>
+            </table><br/><br/>
+        <div style="font-family:Times New Roman;font-size:15px">
+        I/We agree that the Post dated cheques are given in satisfaction of the debt due and
+payable by me/us to the company in terms of the Loan. I declare that I have not given any
+cheques to company, other than the ones mentioned above.
+        </div><br/><br/>
+         <table style="border-collapse: collapse;font-family:Times New Roman;font-size:50px">
+                    
+                 <tr>
+                        <td style="border: none;font-family:Times New Roman;font-size:15px;text-align: left; width: 50%;"> {!ApplicantName}</td>
+                     
+                     <!-- <td style="border: none;font-family:Times New Roman;font-size:15px;text-align: left; width: 50%;"> {!COApplicantName}</td>  -->
+                          <td style="border: none;font-family:Times New Roman;font-size:15px;text-align: Center; width: 50%;">   
+                <apex:repeat var="CoApplicant" value="{!CoApplicantName}">                        
+                    <apex:outputText value="{!CoApplicant}"><br/></apex:outputText>                                                                            
+                       
+                    </apex:repeat>
+               </td>                       
+                 </tr><br/>
+             <tr>
+                        <td style="border: none;font-family:Times New Roman;font-size:15px">1. Borrower</td>
+                        <td style="border: none;text-align: center;font-family:Times New Roman;font-size:15px">2. Co Borrower </td>  
+                                                
+                 </tr><br/><br/>
+        </table>
+        </div>
+        </body>
+</apex:component>

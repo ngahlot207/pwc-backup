@@ -1,0 +1,392 @@
+<template>
+    <template if:true={showSpinner}>  
+        <lightning-spinner alternative-text="Loading" size="large"  variant="brand" style="position: fixed;"></lightning-spinner>
+    </template>
+
+
+    <!--Disbursement Memo Section-->
+
+    <lightning-layout multiple-rows="12">
+        <lightning-layout-item padding="around-small" size="12" margin="around-small">
+            <lightning-accordion active-section-name={activeSection} class="accordion" allow-multiple-sections-open>
+                <lightning-accordion-section name="A" label="Disbursement Memos" class="applicantClass">
+
+                    <div  class="slds-p-around_medium">
+                    <lightning-button variant="brand" name="Generate Disbursement Memo" label="Generate Disbursement Memo"
+                        onclick={generateDocumentHandler} disabled={disbDisbMemo}>
+                    </lightning-button>
+                    <lightning-helptext content={genDM}></lightning-helptext></div>
+
+                    <template if:true={showDocList}>
+                        <c-uploded-document-display title="Disbursement Memos" type={disbursementMemoType}
+                            sub-type={disbursementMemoSubType} category={disbursementMemoCategory}
+                            loan-app-id={_loanAppId} applicant-id={loanPrimaryApplicant}
+                            mode="false" disable-remarks="false" is-read-only=true capture-all-documents="false"
+                            disabled="false" is-cpa="false" hide-mark-for-error="true" hide-availiable-in-file="true"
+                            hide-upload-button="true">
+                        </c-uploded-document-display>
+                    </template>
+                </lightning-accordion-section>
+            </lightning-accordion>
+        </lightning-layout-item>
+    </lightning-layout>
+
+    <template if:true={loanApplicationData}>
+        <lightning-layout multiple-rows="12">
+            <lightning-layout-item padding="around-small" size="12" margin="around-small">
+                <lightning-accordion active-section-name={activeSection} class="accordion" allow-multiple-sections-open>
+                    <lightning-accordion-section name="D" label="Loan Application & Disbursement Details" class="applicantClass">
+                        <lightning-layout multiple-rows="true">
+                            <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                                medium-device-size={layoutSize.medium} large-device-size="3">
+                                <div class="slds-p-around_x-small">
+                                    <lightning-combobox label="Product" value={loanApplicationData.Product__c}
+                                        options={productOptions} onchange={handleInputChange} disabled data-name="Product__c">
+                                    </lightning-combobox>
+                                </div>
+                            </lightning-layout-item>
+    
+                            <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                                medium-device-size={layoutSize.medium} large-device-size="3">
+                                <div class="slds-p-around_x-small">
+                                    <lightning-input type="text" data-type="string" value={loanApplicantName}
+                                        label="Applicant Name" disabled onchange={handleInputChange} data-name="Appl_Name__c">
+                                    </lightning-input>
+                                </div>
+                            </lightning-layout-item>
+    
+                            <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                                medium-device-size={layoutSize.medium} large-device-size="3">
+                                <div class="slds-p-around_x-small">
+                                    <lightning-input type="text" data-type="string" value={loanApplicationData.Loan_Tenure_Months__c}
+                                        label="Loan Tenure (Months)" disabled onchange={handleInputChange} data-name="Loan_Tenure_Months__c">
+                                    </lightning-input>
+                                </div>
+                            </lightning-layout-item>
+    
+                            <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                                medium-device-size={layoutSize.medium} large-device-size="3">
+                                <div class="slds-p-around_x-small">
+                                    <lightning-input type="text" data-type="string" value={loanApplicationData.SchmCode__c} label="Scheme" disabled 
+                                        data-name="SchmCode__c">
+                                    </lightning-input>
+                                </div>
+                            </lightning-layout-item>
+    
+                            <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} 
+                                large-device-size="3">
+                                <div class="slds-p-around_x-small">
+                                    <lightning-input type="number" formatter="currency" value={loanApplicationData.TotalLoanAmountIncCharges__c}
+                                        label="Loan Disbursal Amount" disabled data-name="TotalLoanAmountIncCharges__c">
+                                    </lightning-input>
+                                    <div class="error-message" if:true={showError}>{dynamicErrorMessage}</div>
+                                </div>
+                            </lightning-layout-item>
+    
+                            <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+                                <div class="slds-p-around_x-small">
+                                    <lightning-input type="number" formatter="currency" value={loanApplicationData.PendingDisbursalAmount__c}
+                                        label="Pending Loan Disbursal Amount" disabled data-name="PendingDisbursalAmount__c">
+                                    </lightning-input>
+                                </div>
+                            </lightning-layout-item>
+                        
+    
+                            <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="3">
+                                <div class="slds-p-around_x-small">
+                                    <lightning-combobox
+                                        label="Disbursal Type"
+                                        value={loanApplicationData.DisbursalType__c}
+                                        options={disbTypeOptions}
+                                        onchange={inputChangeHandler} data-objectname="LoanAppl__c"
+                                        required data-name="DisbursalType__c"
+                                        disabled={disableMode}>
+                                    </lightning-combobox>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+
+                        <template if:true={disbursementTableUIVisibilty}>
+                            <template if:true={showDisburDetTable}> 
+                                <div class="slds-m-top_large slds-p-left-x_small">
+                                    <lightning-card title="Disbursement Details" label="Disbursement Details"> 
+                                        <div>
+                                            <div class="datatable-container slds-p-left_small slds-p-right_xx-small">
+                                                <table class="datatable slds-table_bordered slds-table_col-bordered slds-border_right slds-border_left">
+                                                    <tr>
+                                                        <th class="slds-border_bottom" scope="col">
+                                                            <div class="slds-m-around_small slds-align_absolute-left" title="Sr No">Sr. No.</div>
+                                                        </th>
+                        
+                                                        <th class="slds-border_bottom" scope="col">
+                                                            <div class="slds-m-around_x-small slds-align_absolute-left" title=""><abbr class="slds-required" title="required">* 
+                                                                </abbr>Amount
+                                                            </div>
+                                                        </th>
+        
+                                                        <th class="slds-border_bottom" scope="col">
+                                                            <div class="slds-m-around_x-small slds-align_absolute-left" title=""><abbr class="slds-required" title="required">* 
+                                                                </abbr>Disbursal To</div>
+                                                        </th>
+        
+                                                        <template if:true={showPrincipleFields}>
+                                                            <th class="slds-border_bottom" scope="col">
+                                                                <div class="slds-m-around_x-small slds-align_absolute-left" title=""><abbr class="slds-required" title="required">* 
+                                                                    </abbr>Principle Recovery On</div>
+                                                            </th>
+                                                        
+                                                            <th class="slds-border_bottom" scope="col">
+                                                                <div class="slds-m-around_x-small slds-align_absolute-left" title="">Principle Start Date (mm/dd/yyyy)</div>
+                                                            </th>
+                                                        </template>
+        
+                                                        
+                                                        <th class="slds-border_bottom" scope="col">
+                                                            <div class="slds-m-around_x-small slds-align_absolute-left" title=""><abbr class="slds-required" title="required">* 
+                                                                </abbr>Date of Disbursement (mm/dd/yyyy)</div>
+                                                        </th>
+        
+                                                        <th class="slds-border_bottom" scope="col">
+                                                            <div class="slds-m-around_x-small slds-align_absolute-left" title="">Disbursal Status</div>
+                                                        </th>
+        
+                                                        <th class="slds-border_bottom" scope="col">
+                                                            <div class="slds-m-around_x-small slds-align_absolute-left" 
+                                                                title=""><abbr class="slds-required" title="required">* 
+                                                                </abbr>Description</div>
+                                                        </th>
+                                                        <th class="slds-border_bottom" scope="col">
+                                                            <div class="slds-m-around_small slds-align_absolute-left" title="">Split Disbursement(s)</div>
+                                                        </th>
+                                                        <template if:true={showInitiateTranchButton}>
+                                                            <th class="slds-border_bottom" scope="col">
+                                                                <div class="slds-m-around_small slds-align_absolute-left" title="">Disburse?</div>
+                                                            </th>
+                                                        </template>
+                                                        <th class="slds-border_bottom" scope="col">
+                                                            <div class="slds-m-around_small slds-align_absolute-left" title="">Action</div>
+                                                        </th>
+                                                        
+                                                    </tr>
+                        
+                                                    <template iterator:it={disbursmentData} for:index="index">
+                                                        <template if:true={it.value.showOnUI}>
+                                                            <tr key={it.value.Index__c}>
+                                                                <td class="slds-border_bottom" style="width: 70px;">
+                                                                    <div class="slds-p-left_small" title="Sr No" access-key={it.value.Index__c} data-id={it.value.Index__c}>
+                                                                        {it.value.Index__c}
+                                                                    </div>
+                                                                </td>
+                                                                
+                                                                <td class="slds-border_bottom">
+                                                                    <div class="slds-m-around_xx-small" >
+                                                                        <lightning-input type="number" value={it.value.Total_Disb_Amt__c}
+                                                                            onchange={inputChangeHandler} access-key={it.value.Index__c}
+                                                                            data-id={it.value.Index__c} placeholder="Enter Here"
+                                                                            data-objectname="Disbursement__c"
+                                                                            data-fieldname="Total_Disb_Amt__c" variant="label-hidden"
+                                                                            formatter="currency"
+                                                                            message-when-bad-input="Enter a Valid Input" min=0
+                                                                            message-when-range-underflow="Enter a Valid Input" required 
+                                                                            disabled={disableMode}
+                                                                            step="0.01">
+                                                                        </lightning-input>
+                                                                    </div>
+                                                                </td>
+            
+                                                                <td class="slds-border_bottom">  
+                                                                    <div class="slds-p-around_x-small" >
+                                                                        <lightning-combobox 
+                                                                            type="text" value={it.value.Disbur_To__c}
+                                                                            onchange={inputChangeHandler} access-key={it.value.Index__c}
+                                                                            data-id={it.value.Index__c} 
+                                                                            data-objectname="Disbursement__c"
+                                                                            data-fieldname="Disbur_To__c" variant="label-hidden"
+                                                                            options={disburToOptForDisb} 
+                                                                            required>
+                                                                        </lightning-combobox>
+                                                                    </div>
+                                                                </td>
+            
+                                                                <template if:true={showPrincipleFields}>
+                                                                    <td class="slds-border_bottom">
+                                                                        <div class="slds-m-around_xx-small" >
+                                                                            <lightning-combobox type="text" value={it.value.Princ_Rec_on__c}
+                                                                                onchange={inputChangeHandler} access-key={it.value.Index__c}
+                                                                                data-id={it.value.Index__c} 
+                                                                                data-objectname="Disbursement__c"
+                                                                                data-fieldname="Princ_Rec_on__c" variant="label-hidden"
+                                                                                options={princRecOptions}
+                                                                                disabled={disableMode} 
+                                                                                required>
+                                                                            </lightning-combobox>
+                                                                        </div>
+                                                                    </td>
+            
+                                                            
+                                                                    <td class="slds-border_bottom">
+                                                                        <div class="slds-m-around_xx-small" >
+                                                                            <lightning-input type="date" value={it.value.Princ_Start_Date__c}
+                                                                                onchange={inputChangeHandler} access-key={it.value.Index__c}
+                                                                                data-id={it.value.Index__c} placeholder="mm//dd/yyyy" date-style="short" 
+                                                                                data-objectname="Disbursement__c"
+                                                                                data-fieldname="Princ_Start_Date__c" variant="label-hidden"
+                                                                                disabled style="margin-top: -2%;"></lightning-input>
+                                                                        </div>
+                                                                    </td>
+                                                                </template>
+            
+                                                                <td class="slds-border_bottom">
+                                                                    <div class="slds-m-around_xx-small" >
+                                                                        <lightning-input type="date" value={it.value.Date_of_Disbur__c}
+                                                                            onchange={inputChangeHandler} access-key={it.value.Index__c}
+                                                                            data-id={it.value.Index__c} placeholder="mm//dd/yyyy" date-style="short" 
+                                                                            data-objectname="Disbursement__c" required 
+                                                                            data-fieldname="Date_of_Disbur__c" variant="label-hidden"
+                                                                            disabled={disableMode} style="margin-top: -2%;"></lightning-input>
+                                                                    </div>
+                                                                </td>
+            
+                                                                <td class="slds-border_bottom">
+                                                                    <div class="slds-m-around_xx-small" >
+                                                                        <lightning-combobox type="text" value={it.value.Disbur_Status__c}
+                                                                            onchange={inputChangeHandler} access-key={it.value.Index__c}
+                                                                            data-id={it.value.Index__c} 
+                                                                            data-objectname="Disbursement__c"
+                                                                            data-fieldname="Disbur_Status__c" variant="label-hidden"
+                                                                            options={disburStatOptions} disabled
+                                                                            ></lightning-combobox>
+                                                                    </div>
+                                                                </td>
+            
+                                                                <td class="slds-border_bottom">
+                                                                    <div class="slds-m-around_xx-small" >
+                                                                        <lightning-input type="text" value={it.value.DisbrDiscription__c}
+                                                                            onchange={inputChangeHandler} access-key={it.value.Index__c}
+                                                                            data-id={it.value.Index__c} 
+                                                                            data-objectname="Disbursement__c"
+                                                                            data-fieldname="DisbrDiscription__c" variant="label-hidden" 
+                                                                            required disabled>
+                                                                        </lightning-input>
+                                                                    </div>
+                                                                </td>
+        
+                                                                <td class="slds-border_bottom">
+                                                                    <div class="slds-m-around_xx-small slds-align_absolute-center" >
+                                                                        <template if:true={it.value.Total_Disb_Amt__c}>
+                                                                            <lightning-button-icon access-key={it.value.Index__c} icon-name="utility:preview"
+                                                                                alternative-text="View/Edit" title="View/Edit" size="large"
+                                                                                data-id={it.value.Index__c} data-disbursmentid={it.value.Id} 
+                                                                                onclick={splitDisbursmentHandler} disabled={disableSplitButton}>
+                                                                            </lightning-button-icon>
+                                                                        </template>
+                                                                    </div>
+                                                                </td>
+        
+                                                                <template if:true={showInitiateTranchButton}>
+                                                                    <td class="slds-border_bottom">
+                                                                        <div class="slds-m-around_xx-small slds-align_absolute-center" >
+                                                                            <template if:true={showInitiateTranchButton}>
+                                                                                <template if:false={it.first}>
+                                                                                    <lightning-button access-key={it.value.Index__c} 
+                                                                                        alternative-text="Initiate" title="Initiate"
+                                                                                        data-id={it.value.Index__c} 
+                                                                                        label="Initiate"
+                                                                                        onclick={editHandler} disabled={disableSplitButton}>
+                                                                                    </lightning-button>
+                                                                                </template>
+                                                                            </template>
+                                                                            
+                                                                        </div>
+                                                                    </td>
+                                                                </template>
+                                                                
+        
+                                                                <td class="slds-border_bottom">
+                                                                    <div class="slds-m-around_xx-small slds-align_absolute-center" >
+                                                                        <template if:true={deleteAction}>
+                                                                            <template lwc:if={it.last}>                               
+                                                                                <lightning-button-icon access-key={it.value.Index__c} icon-name="utility:delete"
+                                                                                    alternative-text="Delete" title="Delete" variant="error" size="large"
+                                                                                    data-id={it.value.Index__c} onclick={deleteHandler} disabled={disableMode} >
+                                                                                </lightning-button-icon>
+                                                                            </template>
+                                                                        </template>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </template>
+                                                    </template>
+                                                </table>
+                                                <lightning-layout>
+                                                    <div class="slds-p-left_small slds-p-top_medium">
+                                                        <lightning-button  label="Create Disbursement" variant="brand-outline" icon-name="utility:add" 
+                                                            onclick={addTrancheHandler} disabled={disblCreateTranButton}></lightning-button>
+                                                    </div>
+                                                </lightning-layout>
+                                            </div>    
+                                        </div>
+                                    </lightning-card>
+                                </div>
+                            </template>
+                        </template>
+                    </lightning-accordion-section>
+                </lightning-accordion>
+            </lightning-layout-item>
+        </lightning-layout>
+    </template>
+
+    <template if:true={showSplitDisbursModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_medium">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={hideModalBox}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"><b>View/Create/Edit Split Disbursement</b></h2>
+                </header>
+
+                <c-split-disbursment-details-comp layout-size={layoutSize} has-edit-access={hasEditAccess} loan-app-id={_loanAppId}
+                    disbursment-id={parentDisbursmentId} loan-application-data={loanApplicationData} onhandle={handleChildData} 
+                    disbursed-data={disbursedData}>
+                </c-split-disbursment-details-comp>
+        
+                <footer class="slds-modal__footer">
+                    <div class="slds-float_left">
+                        <button class="slds-button slds-button_outline-brand" onclick={backButtonHandler}>Back</button>                
+                    </div>
+                    <button class="slds-button slds-button_brand" onclick={handleSplitDisbSave} disabled={disabledFlag}>Save</button>
+                    <button class="slds-button slds-button_destructive" onclick={hideModalBox}>Cancel</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <template if:true={showDeleteConfirmation}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading"
+            aria-modal="true" aria-describedby="modal-content-id-2"
+            class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container rationaleWidth">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={handleCancelDelete}>
+                        <lightning-icon icon-name="utility:close"   alternative-text="close" variant="inverse" size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Delete Confirmation</h2>
+                </header>
+
+                <div class="slds-modal__content slds-p-around_medium div-center" id="modal-content-id-2" style="text-align: center;">
+                    <strong>Do you want to delete Disbursement Details ?</strong>
+                </div>
+
+                <footer class="slds-modal__footer">
+                    <lightning-button class="slds-p-horizontal_x-small" variant="brand" label="Yes" title="DELETE" onclick={handleConfirmDelete}></lightning-button>
+                    <lightning-button class="slds-p-horizontal_x-small" variant="destructive" label="No" title="CANCEL" onclick={handleCancelDelete}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

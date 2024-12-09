@@ -1,0 +1,3 @@
+<apex:page controller="PreviewContentVersionCTR">
+    <apex:iframe src="data:application/pdf;base64,{!versionData}" height="700px"/>
+</apex:page>

@@ -1,0 +1,401 @@
+<template>
+  <lightning-spinner if:true={showSpinner} alternative-text="Loading" size="medium" style="height:60rem;width:120rem;position:fixed;"></lightning-spinner>
+    
+    <lightning-card title="PDC" >
+
+      <!-- <lightning-layout multiple-rows="12">
+        <lightning-layout-item  size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+          <div class="slds-p-around_x-small"> -->
+            <div class="slds-col slds-size_1-of-5">
+      <lightning-input placeholder="DD/MM/YYYY" type="date" label="Pending Cheques will be collected on" onchange={handleChequeChange}  value={pendingChequeValue}
+                      data-name="Pending_Cheque__c" disabled={disableMode} required={requiredFlag} read-only={disableMode} pattern="^[0-9\s]+$" message-when-pattern-mismatch={messageMismatchError}  data-fieldname={Pending_Cheque__c}></lightning-input>
+       </div>
+                    <!-- </lightning-layout-item>
+                    </lightning-layout>        -->
+        <!-- <div id="containerDiv" onmousemove={handlemousemove} onmouseup={handlemouseup}
+           ondblclick={handledblclickresizable}
+           class="slds-table_header-fixed_container slds-border_right slds-border_left tableScroll"
+           onscroll={tableOuterDivScrolled}>
+              <div id="tableViewInnerDiv" class="slds-scrollable_y tableViewInnerDiv slds-scrollable">
+                  <table class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout slds-max-medium-table_stacked-horizontal" onscroll={tableScrolled}>
+                    
+                     
+                    <thead>
+                      <tr>
+                        <th title="Delete" class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                            <div class="slds-cell-fixed fixedWidth">
+                            <a class="slds-th__action slds-text-link--reset">
+                              <span class="slds-truncate">Delete</span>
+                            </a>
+                            <div class="slds-resizable">
+                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                    <span class="slds-resizable__divider"></span>
+                                </span>
+                            </div>
+                            </div>
+                          </th>
+                        <th title="Cheque Number from" class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                          <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset">
+                            <span class="slds-truncate">Cheque Number from</span>
+                          </a>
+                          <div class="slds-resizable">
+                              <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                  <span class="slds-resizable__divider"></span>
+                              </span>
+                          </div>
+                          </div>
+                        </th>
+                        <th title="Cheque Number to" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                          <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset">
+                            <span class="slds-truncate">Cheque Number to</span>
+                          </a>
+                          <div class="slds-resizable">
+                              <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                  <span class="slds-resizable__divider"></span>
+                              </span>
+                          </div>
+                          </div>
+                        </th>
+                        <th title="No. of cheques" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                          <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                            <span class="slds-truncate">No. of cheques</span>
+                          </a>
+                          <div class="slds-resizable">
+                              <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                  <span class="slds-resizable__divider"></span>
+                              </span>
+                          </div>
+                          </div>
+                        </th>
+                        <th title="MICR Code" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                          <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                            <span class="slds-truncate">MICR Code</span>
+                          </a>
+                          <div class="slds-resizable">
+                              <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                  <span class="slds-resizable__divider"></span>
+                              </span>
+                          </div>
+                          </div>
+                        </th>
+                        
+                          <th title="Bank Name" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                              <div class="slds-cell-fixed fixedWidth">
+                              <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                <span class="slds-truncate">Bank Name</span>
+                              </a>
+                              <div class="slds-resizable">
+                                  <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                      <span class="slds-resizable__divider"></span>
+                                  </span>
+                              </div>
+                              </div>
+                            </th>
+      
+                            
+                            
+                            <th title="Bank Branch" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                              <div class="slds-cell-fixed fixedWidth">
+                              <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                <span class="slds-truncate">Bank Branch</span>
+                              </a>
+                              <div class="slds-resizable">
+                                  <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                      <span class="slds-resizable__divider"></span>
+                                  </span>
+                              </div>
+                              </div>
+                            </th>
+                        
+                        
+                          <th title="PDC By Name" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                            <div class="slds-cell-fixed fixedWidth">
+                            <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                              <span class="slds-truncate">PDC By Name</span>
+                            </a>
+                            <div class="slds-resizable">
+                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                    <span class="slds-resizable__divider"></span>
+                                </span>
+                            </div>
+                            </div>
+                          </th>
+                        
+                        
+                            <th title="IFSC Code" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                              <div class="slds-cell-fixed fixedWidth">
+                              <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                <span class="slds-truncate">IFSC Code</span>
+                              </a>
+                              <div class="slds-resizable">
+                                  <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                      <span class="slds-resizable__divider"></span>
+                                  </span>
+                              </div>
+                              </div>
+                            </th>
+                            <th title="Customer A/C Number" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                              <div class="slds-cell-fixed fixedWidth">
+                              <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                <span class="slds-truncate">Customer A/C Number</span>
+                                </a>
+                              <div class="slds-resizable">
+                                  <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                      <span class="slds-resizable__divider"></span>
+                                  </span>
+                              </div>
+                              </div>
+                            </th>
+                          
+                          
+                            <th title="Cheque Purpose" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                              <div class="slds-cell-fixed fixedWidth">
+                              <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                <span class="slds-truncate">Cheque Purpose</span>
+                              </a>
+                              <div class="slds-resizable">
+                                  <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                      <span class="slds-resizable__divider"></span>
+                                  </span>
+                              </div>
+                              </div>
+                            </th>
+    
+                            <th title="Cheque Amount" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                              <div class="slds-cell-fixed fixedWidth">
+                              <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                <span class="slds-truncate">Cheque Amount</span>
+                              </a>
+                              <div class="slds-resizable">
+                                  <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                      <span class="slds-resizable__divider"></span>
+                                  </span>
+                              </div>
+                              </div>
+                            </th>
+    
+                            <th title="Cheque Available for EMI TILL" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                              <div class="slds-cell-fixed fixedWidth">
+                              <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                <span class="slds-truncate">Cheque Available for EMI TILL</span>
+                              </a>
+                              <div class="slds-resizable">
+                                  <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                      <span class="slds-resizable__divider"></span>
+                                  </span>
+                              </div>
+                              </div>
+                            </th>
+                            <th title="Pending Cheques will be collected on" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                                  <span class="slds-truncate">Pending Cheques will be collected on</span>
+                                </a>
+                                <div class="slds-resizable">
+                                    <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                        <span class="slds-resizable__divider"></span>
+                                    </span>
+                                </div>
+                                </div>
+                              </th>
+                        
+                        
+                      </tr>
+                    </thead> -->
+                    <div class="container slds-scrollable tableMinHeight" >
+                      <table class="slds-table slds-table_bordered slds-p-around_medium ">
+                          <thead>
+                              <tr>
+                              <th style="background-color: #F3F2F2;width: 10%;" scope="col">Delete</th>
+                             
+                              <th style="background-color: #F3F2F2;width: 10%;  padding: 0 50px;" scope="col"> Cheque Number from </th>
+                              <th style="background-color: #F3F2F2;width: 10%;  padding: 0 50px;" scope="col">Cheque Number to</th>
+                              <th style="background-color: #F3F2F2;width: 10%;  padding: 0 50px;" scope="col">No. of cheques</th>
+                              <th style="background-color: #F3F2F2;width: 10%;  padding: 0 50px;" scope="col">MICR Code</th>
+                              <th style="background-color: #F3F2F2;width: 10%; padding: 0 50px" scope="col">Bank Name</th>                        
+                              <th style="background-color: #F3F2F2;width: 10%; padding: 0 50px" scope="col">Bank Branch </th>
+                              <th style="background-color: #F3F2F2;width: 10%; padding: 0 50px" scope="col">PDC By Name</th>
+                              <th style="background-color: #F3F2F2;width: 10%;padding: 0 50px" scope="col">IFSC Code</th>
+                              <th style="background-color: #F3F2F2;width: 10%; padding: 0 50px" scope="col">  Customer A/C Number</th>
+                              <th style="background-color: #F3F2F2;width: 10%; padding: 0 50px" scope="col"> Cheque Purpose </th>
+                              <th style="background-color: #F3F2F2;width: 10%; padding: 0 40px" scope="col"><label id="id-01">Cheque Amount</label></th>
+                              <th style="background-color: #F3F2F2;width: 10%; padding: 0 40px" scope="col">Cheque Available for EMI TILL</th>
+                              <!-- <th style="background-color: #F3F2F2;width: 10%; padding: 0 40px" scope="col">Pending Cheques will be collected on</th> -->
+                              
+                              </tr>
+                          </thead>
+          <tbody>
+            <template for:each={AllPDCRecords} for:item="PDCIterator" for:index="index">
+              <tr key={PDCIterator.cDId} aria-selected="false" class="slds-hint-parent">
+
+                <td style="background-color: #F3F2F2; " scope="row">                   
+                  
+                        <!-- <lightning-button variant="destructive" label="Delete" data-index={index} data-name="Delete" title="Delete" onclick={handleDelete} read-only={disableMode} disabled={disableMode} class="slds-m-left_x-small"></lightning-button> -->
+                        <!-- <lightning-icon icon-name='utility:delete'  alternative-text='delete' variant='error' data-name="Delete" class="slds-m-top--large slds-float_left" size='small' title='delete' data-index={index} onclick={handleDelete}  disabled={disableMode}></lightning-icon>
+     -->
+     <lightning-button-icon icon-name='utility:delete'  alternative-text='delete' variant='error' data-name="Delete" class=" pointerClass custom-css slds-m-top--large slds-float_left" size='small' title='delete' data-index={index} onclick={handleDelete}  disabled={disableMode}></lightning-button-icon>
+    
+                  </td>
+
+                  <td style="background-color: #F3F2F2;" scope="row">
+                    <lightning-input type="text"  onblur={handleInputChange}  value={PDCIterator.Cheque_Number_From__c}
+                data-name="Cheque_Number_From__c" data-id="chequeFrom" disabled={disableMode} required={requiredFlag} read-only={disableMode} pattern="^[0-9\s]+$" message-when-pattern-mismatch={messageMismatchError} data-index={index} data-fieldname={Cheque_Number_From__c}></lightning-input>
+            
+                  
+                </td>
+                <td style="background-color: #F3F2F2;" scope="row">
+                  <!-- <div class="slds-truncate" title="PAN">PAN</div> -->
+                 
+                    <lightning-input type="text"  onblur={handleInputChange}  value={PDCIterator.Cheque_Number_To__c}
+                data-name="Cheque_Number_To__c"  data-id="chequeTo" disabled={disableMode} required={requiredFlag} read-only={disableMode} pattern="^[0-9\s]+$" message-when-pattern-mismatch={messageMismatchError} data-index={index} data-fieldname={Cheque_Number_To__c}></lightning-input>
+            
+                  
+                </td>
+                <td style="background-color: #F3F2F2;" scope="row">
+                  
+                    <lightning-input type="text"  onchange={handleInputChange}  value={PDCIterator.No_of_Cheques__c}
+                    data-name="No_of_Cheques__c" disabled="true" required={requiredFlag} read-only={disableMode} pattern="^[0-9\s]+$" message-when-pattern-mismatch={messageMismatchError} data-index={index} data-fieldname={No_of_Cheques__c}></lightning-input>
+                
+                  
+                </td>
+                <td style="background-color: #F3F2F2; padding: 0 50px" scope="row">                  
+                 {PDCIterator.MICR_Code__c}                 
+                </td>
+      
+                <td style="background-color: #F3F2F2;" scope="row">                  
+                    {PDCIterator.Bank_Name__c}
+                
+                </td>
+                <td style="background-color: #F3F2F2; padding: 0 50px" scope="row">                  
+                    {PDCIterator.Bank_Branch__c}
+                 
+                </td>
+      
+                <td style="background-color: #F3F2F2; padding: 0 50px" scope="row">
+                  
+                    {PDCIterator.PDCbyName}
+                 
+                </td>
+                <td style="background-color: #F3F2F2; padding: 0 50px" scope="row">
+                 
+                    {PDCIterator.IFSC_Code__c}
+                 
+                </td>
+    
+                
+                <td style="background-color: #F3F2F2; padding: 0 50px" scope="row">
+                  
+                    {PDCIterator.Account_Number__c}
+              
+                </td>
+                <td style="background-color: #F3F2F2; padding: 0 50px" scope="row">
+                  {PDCIterator.Cheque_Purpose_PDC__c}
+                    <!-- <select name="Cheque_Purpose__c	"  value={PDCIterator.Cheque_Purpose__c} data-name="Cheque_Purpose__c" class="slds-select" data-index={index} data-field="Cheque_Purpose__c" onchange={handleInputChange}>
+                        <template for:each={ChequePurposeOptions} for:item="opt">
+                           <option key={opt.value} value={opt.value}>{opt.label}</option> 
+                        </template>
+                    </select>  -->
+                
+                  <!-- <lightning-combobox
+                                                    
+                                                    name="Cheque_Purpose__c"                                                                                                                                              
+                                                    value={PDCIterator.Cheque_Purpose__c}                                                    
+                                                    data-name="Cheque_Purpose__c"
+                                                    options={ChequePurposeOptions}
+                                                    data-index={index}
+                                                    data-field="Cheque_Purpose__c"
+                                                    onchange={handleInputChange}
+                                                    read-only={disableMode} 
+                                                    disabled={disableMode}>
+                                                </lightning-combobox> -->
+                </td>
+                <td style="background-color: #F3F2F2;" scope="row">
+                  
+                    <lightning-input type="text" onchange={handleInputChange}  value={PDCIterator.Cheque_Amount__c}
+                    data-name="Cheque_Amount__c" disabled={disableMode} read-only={disableMode} pattern="^[0-9\s]+$" message-when-pattern-mismatch={messageMismatchError} data-index={index} data-fieldname={Cheque_Amount__c} required={required} 
+                    variant="label-hidden"></lightning-input>
+                
+                 
+                </td>
+                <td style="background-color: #F3F2F2; padding-left:50px " scope="row">
+                  
+                    <lightning-formatted-date-time  placeholder="DD/MM/YYYY" type="date" value={PDCIterator.Cheque_Available_EMI__c} data-name="Cheque_Available_EMI__c" onchange={handleInputChange} data-field="Cheque_Available_EMI__c"  data-index={index} data-fieldname={Cheque_Available_EMI__c} read-only=true disabled=true></lightning-formatted-date-time>
+                 
+                </td>
+                
+                <!-- <td style="background-color: #F3F2F2;" scope="row">
+                   
+                      <lightning-input type="text" onchange={handleInputChange}  value={PDCIterator.Pending_Cheque__c}
+                      data-name="Pending_Cheque__c" disabled={disableMode} required={requiredFlag} read-only={disableMode} pattern="^[0-9\s]+$" message-when-pattern-mismatch={messageMismatchError} data-index={index} data-fieldname={Pending_Cheque__c}></lightning-input>
+                  
+                  
+                  </td> -->
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </div>
+     
+<lightning-layout>
+    <lightning-layout-item size="12">
+   
+        <div class="center slds-clearfix">
+    <div class="slds-float_right"> 
+        <lightning-button
+        label="Add Row"       
+        variant="brand"
+        onclick={handlePDCAddRow}
+        disabled={disableMode}
+        read-only={disableMode}
+        ></lightning-button>
+    </div></div>        
+  
+    </lightning-layout-item>
+         </lightning-layout>
+
+  
+    
+       
+          <c-repayment-mode-s-p-d-c loan-app-id={loanAppId} has-edit-access={hasEditAccess} ontospdcrecords={spdcrecords}></c-repayment-mode-s-p-d-c>
+
+          
+    
+</lightning-card>
+
+     
+<!-- modal for record delete -->
+<template if:true={isModalOpen}>
+  <!-- Modal/Popup Box LWC starts here -->
+  <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+    aria-describedby="modal-content-id-1" class="my-modal slds-modal slds-fade-in-open">
+    <div class="slds-modal__container">
+      <!-- Modal/Popup Box LWC header here -->
+      <header class="slds-modal__header">
+        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+          onclick={isCloseModal}>
+          <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+            size="small"></lightning-icon>
+          <span class="slds-assistive-text">Close</span>
+        </button>
+        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Delete?</h2>
+      </header>
+      <!-- Modal/Popup Box LWC body starts here -->
+      <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+        <p style="text-align:center;"><b>{removeModalMessage}</b></p>
+      </div>
+      <!-- Modal/Popup Box LWC footer starts here -->
+      <footer class="slds-modal__footer">
+        <button class="slds-button slds-button_brand" 
+          onclick={handleRemoveRecord} title="Yes">Yes</button>
+        <button class="slds-button slds-button_neutral" onclick={isCloseModal} title="No">No</button>
+      </footer>
+    </div>
+  </section>
+  <div class="slds-backdrop slds-backdrop_open"></div>
+</template>
+                            
+</template>

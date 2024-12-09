@@ -1,0 +1,895 @@
+<template>
+  <!-- <template if:true={isLoading}>
+    <div class="">
+      <lightning-spinner alternative-text="Loading" size="large" variant="brand"></lightning-spinner>
+    </div>
+  </template> -->
+  <div class="slds-hide">
+		<iframe src={vfUrl}></iframe>
+	</div>
+
+  <lightning-spinner if:true={showSpinner} alternative-text="Loading" size="large" variant="brand" style="height:60rem;width:120rem;">
+  </lightning-spinner>
+
+  
+
+  <template if:true={showLatestYearSelectionOption}>
+    <lightning-layout multiple-rows="false">
+      <lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="8" large-device-size="4">
+        <div>
+          <lightning-combobox label="Latest year for which ITR is available" placeholder="Select"
+            options={latestYearITROptions} value={latestYearOptionValue} onchange={inputChangeHandler} disabled={disableMode} required>
+          </lightning-combobox>
+        </div>
+      </lightning-layout-item>
+
+      <template if:true={financialDocUploadVisibility}>
+        <lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="8" large-device-size="4">
+          <div>
+            <lightning-combobox label="Provisional Financials Available?" placeholder="Select" value={provisionalFinancialSelection} onchange={inputChangeHandlerProvisional} options={provisionalFinancialOptions} disabled={disableMode}>
+            </lightning-combobox>
+        </div>
+        </lightning-layout-item>
+
+        <template if:true={provisionalFinancialYearSelection}>
+          <lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="8" large-device-size="4">
+              <div>
+                  <lightning-combobox label="Provisional Financials Year" placeholder="Select" value={provisionalFinancialYearSelectionValue}
+                  onchange={inputChangeHandlerYear} options={provisionalFinancialYearOptions} required disabled={disableMode}>
+              </lightning-combobox>
+              </div>
+          </lightning-layout-item>
+        </template>
+
+        <lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="8" large-device-size="4">
+          <div>
+            <lightning-combobox label="Document Type" placeholder="Select" options={documentTypeOptions} value={documentTypeValue} disabled></lightning-combobox>
+          </div>
+        </lightning-layout-item>
+        <lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="8" large-device-size="4">
+          <div>
+            <lightning-combobox label="Document Name" placeholder="Select Document" field-level-help={helpTextFinancialDoc} options={documentNameOptions} value={documentNameValue} onchange={documentNameChangeHandler} disabled={disableMode}></lightning-combobox>
+          </div>
+        </lightning-layout-item>
+
+        <template if:true={isPassFieldsVisible}>
+        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="4">
+          <lightning-combobox label="Is Document Password Protected ?" data-objectname="DocDtl__c" data-fieldname="Is_Document_Password_Protected__c"
+                   value={isDocPassProtected} options={IsPassReqOptions} onchange={passwordChangeHandler} disabled={disableMode} dropdown-alignment="left" required >
+          </lightning-combobox>
+       </lightning-layout-item> 
+     
+       <template if:true={showPasswordField}>
+          <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="4">
+             <lightning-input  type="text" label="Password" name="Password" 
+             data-objectname="DocDtl__c" value={documntPassword} 
+             onchange={passwordChangeHandler} disabled={disableMode} data-fieldname="DocPass__c" ></lightning-input>
+          </lightning-layout-item>    
+    </template>  </template>
+    <template if:true={showProfitAndLoss} >
+      <template if:true={showBalanceSheet}>
+    <lightning-layout-item style="    margin-left: 40%; margin-top: 20px; margin-bottom: -20px;" size="7" flexibility="fixed" padding="horizontal-small" class="slds-text-align_right">
+      
+      <lightning-button   class="slds-float--right slds-m-around--small" style="font-size: 10px;" label="Download Profit & Loss And Balance Sheet" title="Download Profit & Loss And Balance Sheet" onclick={handleDownExcelOfFinan} variant="brand" disabled={disableMode} > </lightning-button>
+      <lightning-button   class="slds-float--right slds-m-around--small" style="font-size: 10px;" label="Upload Profit & Loss And Balance Sheet" title="Manual Profit & Loss And Balance Sheet Upload" onclick={handleUploadExcelSheet} variant="brand" disabled={disableMode} > </lightning-button>
+  
+    </lightning-layout-item>
+  </template>
+  </template>
+
+
+        <template if:true={showFinancialDocUploadSection}>     
+          <lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="8" large-device-size="4">
+              <c-upload-docs-reusable-component loan-app-id={loanAppId} applicant-id={applicantIdOnTabset}
+                doc-name={documentNameValue} doc-type={documentTypeValue} disabled={disableDocumentUpload} disable-mode={disableDocumentUpload} 
+                doc-category={financialDocCategory} onrefreshdoctable={docUploadRespHandler} onspinnerstatus={spinnerStatus} 
+                document-detai-id={selectedDocDetailIdFinancial} convert-to-single-image={convertToSingleImage}>
+          </c-upload-docs-reusable-component>      
+          </lightning-layout-item>
+          
+          <lightning-layout-item size="12" small-device-size="12" medium-device-size="8" large-device-size="4" style="padding-left: 20px;padding-bottom: 50px;margin-top: 18px;">
+            <lightning-input label="Available in File" name="availableInFile" type="checkbox"
+              checked={availableInFileFin} onchange={handleAvailableChangeFin} disabled={disableAvialbleInFileFin}>
+          </lightning-input>
+          </lightning-layout-item>
+        </template>
+
+  
+        <br/><br/>
+        <div><br/>
+        </div>
+
+        <template if:true={financialFileDataPresent}>
+          <lightning-card title="Uploaded Files" style="background-color:darkgrey; margin-top: 40px;">
+            <table aria-multiselectable="true" class="slds-table slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols" role="grid" aria-label="">
+              <thead>
+                <tr class="slds-line-height_reset">
+          
+                  <th aria-label="Document Type" aria-sort="none"
+                    class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+                    <a class="slds-th__action slds-text-link_reset" href="#" role="button" tabindex="0">
+                      <span class="slds-assistive-text">Sort by: </span>
+                      <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                        <span class="slds-truncate" title="Document Name">Document Type</span>
+                        <span class="slds-icon_container slds-icon-utility-arrowdown">
+                          <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                          </svg>
+                        </span>
+                      </div>
+                    </a>
+                    <div class="slds-resizable">
+                      <input type="range" aria-label="Document Type column width"
+                        class="slds-resizable__input slds-assistive-text" max="1000" min="20"
+                        tabindex="0" />
+                      <span class="slds-resizable__handle">
+                        <span class="slds-resizable__divider dividerPosition"></span>
+                      </span>
+                    </div>
+                  </th>
+
+                  <th aria-label="Document Name" aria-sort="none"
+                    class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+                    <a class="slds-th__action slds-text-link_reset" href="#" role="button" tabindex="0">
+                      <span class="slds-assistive-text">Sort by: </span>
+                      <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                        <span class="slds-truncate" title="Document Name">Document Name</span>
+                        <span class="slds-icon_container slds-icon-utility-arrowdown">
+                          <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                          </svg>
+                        </span>
+                      </div>
+                    </a>
+                    <div class="slds-resizable">
+                      <input type="range" aria-label="Document Name column width"
+                        class="slds-resizable__input slds-assistive-text" max="1000" min="20"
+                        tabindex="0" />
+                      <span class="slds-resizable__handle">
+                        <span class="slds-resizable__divider dividerPosition"></span>
+                      </span>
+                    </div>
+                  </th>
+
+                  <th aria-label="Document Name" aria-sort="none"
+                    class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+                    <a class="slds-th__action slds-text-link_reset" href="#" role="button" tabindex="0">
+                      <span class="slds-assistive-text">Sort by: </span>
+                      <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                        <span class="slds-truncate" title="Document Name">Available In File</span>
+                        <span class="slds-icon_container slds-icon-utility-arrowdown">
+                          <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                          </svg>
+                        </span>
+                      </div>
+                    </a>
+                    <div class="slds-resizable">
+                      <input type="range" aria-label="Document Name column width"
+                        class="slds-resizable__input slds-assistive-text" max="1000" min="20"
+                        tabindex="0" />
+                      <span class="slds-resizable__handle">
+                        <span class="slds-resizable__divider dividerPosition"></span>
+                      </span>
+                    </div>
+                  </th>
+
+                  <th aria-label="Document Name" aria-sort="none"
+                    class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+                    <a class="slds-th__action slds-text-link_reset" href="#" role="button" tabindex="0">
+                      <span class="slds-assistive-text">Sort by: </span>
+                      <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                        <span class="slds-truncate" title="Document Name">Created Date</span>
+                        <span class="slds-icon_container slds-icon-utility-arrowdown">
+                          <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                          </svg>
+                        </span>
+                      </div>
+                    </a>
+                    <div class="slds-resizable">
+                      <input type="range" aria-label="File Name column width"
+                        class="slds-resizable__input slds-assistive-text" max="1000" min="20"
+                        tabindex="0" />
+                      <span class="slds-resizable__handle">
+                        <span class="slds-resizable__divider dividerPosition"></span>
+                      </span>
+                    </div>
+                  </th>
+    
+                  <th aria-label="Actions" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode"
+                    scope="col">
+                    <a class="slds-th__action slds-text-link_reset" href="#" role="button" tabindex="0">
+                      <span class="slds-assistive-text">Sort by: </span>
+                      <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                        <span class="slds-truncate" title="Actions">Actions</span>
+                        <span class="slds-icon_container slds-icon-utility-arrowdown">
+                          <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                          </svg>
+                        </span>
+                      </div>
+                    </a>
+                    <div class="slds-resizable">
+                      <input type="range" aria-label="Actions column width" class="slds-resizable__input slds-assistive-text" max="1000" min="20" tabindex="0" />
+                      <span class="slds-resizable__handle">
+                        <span class="slds-resizable__divider dividerPosition"></span>
+                      </span>
+                    </div>
+                  </th>
+                  <!-- LAK-117 START -->
+                  <th aria-label="Fetch" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode"
+                  scope="col">
+                  <a class="slds-th__action slds-text-link_reset" href="#" role="button" tabindex="0">
+                    <span class="slds-assistive-text">Sort by: </span>
+                    <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                      <!-- <span class="slds-truncate" title="Fetch Details">Fetch Details</span> -->
+                      <span class="slds-icon_container slds-icon-utility-arrowdown">
+                        <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+                          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                        </svg>
+                      </span>
+                    </div>
+                  </a>
+                  <div class="slds-resizable">
+                    <input type="range" aria-label="Actions column width" class="slds-resizable__input slds-assistive-text" max="1000" min="20" tabindex="0" />
+                    <span class="slds-resizable__handle">
+                      <span class="slds-resizable__divider dividerPosition"></span>
+                    </span>
+                  </div>
+                </th>
+                   <!-- LAK-117 END -->
+                </tr>
+              </thead>
+              <tbody>
+                <template for:each={filesListFinancial} for:item="fileIterator">
+                  <tr key={fileIterator.ContentDocumentId} aria-selected="false" class="slds-hint-parent">
+  
+                    <td class="slds-cell_action-mode" role="gridcell">
+                      <div class="slds-truncate" title={fileIterator.incomeDocumentName}>
+                        {fileIterator.incomeDocumentName}
+                      </div>
+                    </td>
+
+                    <td class="slds-cell_action-mode" role="gridcell">
+                      <div class="slds-truncate" title={fileIterator.incomeDocumentType}>
+                        {fileIterator.incomeDocumentType}
+                      </div>
+                    </td>
+                    <td class="slds-cell_action-mode" role="gridcell">
+                      <div class="slds-truncate" title={fileIterator.FileAvailable}>
+                        <template if:true={fileIterator.isAvailableInFileDisabled}>
+                          <lightning-input variant="label-hidden" type="checkbox" disabled
+                            checked={fileIterator.FileAvailable} data-id="checkbox"></lightning-input>
+                        </template>
+                        <template if:false={fileIterator.isAvailableInFileDisabled}>
+                          <lightning-input variant="label-hidden" type="checkbox" data-docid={fileIterator.docId}
+															checked={fileIterator.FileAvailable} data-id="checkbox" onchange={changeCheckBox}></lightning-input>
+                        </template>
+                      </div>
+                    </td>
+                    <td class="slds-cell_action-mode" role="gridcell">
+                      <div class="slds-truncate" title={fileIterator.CreatedDate}>
+                        {fileIterator.CreatedDate}
+                      </div>
+                    </td>
+      
+                    <td>
+                      <div>
+                        <template if:false={fileIterator.ContentDocumentLinkId}>
+                          <lightning-icon class="custom-button slds-p-right_xx-small" disabled="true" data-documentid={fileIterator.docId}
+                            icon-name="utility:preview" alternative-text="preview" size="small" title="preview"></lightning-icon>
+                        </template>
+                        <template if:true={fileIterator.ContentDocumentLinkId}>
+                          <lightning-icon class="custom-button slds-p-right_xx-small" onclick={handleDocumentViewPreview} data-cv-id={fileIterator.ContentVersionId}
+                            data-type={fileIterator.fileExtension} data-id={fileIterator.ContentDocumentId}
+                            data-documentid={fileIterator.docId} icon-name="utility:preview" alternative-text="preview" variant="success" size="small"
+                            title="preview"></lightning-icon>
+                        </template>
+      
+                        <template if:false={deleteIconDisabled}>
+                          <lightning-icon class="custom-button slds-p-right_xx-small" data-file-iterator={fileIterator} data-parentsection="Financial" onclick={handleDocumentDelete}
+                            name={fileIterator.docId} data-documentid={fileIterator.docId} data-id={fileIterator.ContentDocumentId} data-cdlid={fileIterator.ContentDocumentLinkId}
+                            icon-name="utility:delete" alternative-text="delete" variant="error" size="small" title="delete" disabled={deleteIconDisabled}>
+                          </lightning-icon>
+                        </template>
+                      </div>
+                    </td>
+
+                    <!-- LAK-117 -->
+                    <td class="slds-cell_action-mode" role="gridcell">
+                      <div class="slds-truncate">
+                        <lightning-button label="Fetch" icon-name="utility:connected_apps" variant="brand" disabled={disableFetchITR}></lightning-button>
+                      </div>
+                    </td>
+                     <!-- LAK-117 -->
+                  </tr>
+                </template> 
+              </tbody>
+            </table>
+          </lightning-card>
+        </template>
+
+        <div><br/><br/></div>
+
+      </template>
+    </lightning-layout>
+  </template>
+  
+
+
+  <template if:true={isEligibleToView}>    
+
+    <lightning-tabset>
+      
+     <!-- This block is for the ITR tab-->
+      <template if:true={showITR}>
+        <lightning-tab label="ITR" onactive={handleActiveTab}>
+          <lightning-layout multiple-rows>
+            <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+            medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+              <h1><strong>ITR Finance Details</strong></h1>
+            </lightning-layout-item>
+            <!-- style="padding-left: 230px;" -->
+            <lightning-layout-item  padding="around-small" size="12" small-device-size={layoutSize.small}
+            medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+              <lightning-button label="Fetch ITR" icon-name="utility:connected_apps" variant="brand" onclick={handleFetchITR} disabled={disableFetchITR}></lightning-button>
+            </lightning-layout-item>
+            <!-- disabled={disableFetchITR} -->
+            <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+            medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+              <lightning-combobox variant="label-hidden" value={uploadOptionValue} options={uploadOptions} onchange={handleITROnChange} disabled={disableUploadOptions}></lightning-combobox>
+            </lightning-layout-item>
+          </lightning-layout>
+        </lightning-tab>   
+      </template> 
+
+      <template if:true={showProfitAndLoss} >
+        <lightning-tab label="Profit & Loss" title="Profit & Loss" onactive={handleActiveTab} disabled={disableUploadOptions}>
+          <c-capture-profit-and-loss-details onparentapplicantupdate={handleParentUpdate} current-block={latestYearOptionValue} provisional-year={provisionalFinancialYearSelectionValue} provisional-option={provisionalFinancialSelection} applicant-id={applicantIdOnTabset} loan-app-id={loanAppId} has-edit-access={hasEditAccess} record-type-id={ProfitLossRecordTypeId} ></c-capture-profit-and-loss-details>
+        </lightning-tab>
+        <!-- LAK-8115 -->
+        <lightning-tab label="Consolidated Profit & Loss" title="Consolidated Profit & Loss" onactive={handleActiveTab} disabled={disableUploadOptions}>
+          <c-show-consolidate-profitand-loss-data onparentapplicantupdate={handleParentUpdate} current-block={latestYearOptionValue} provisional-year={provisionalFinancialYearSelectionValue} provisional-option={provisionalFinancialSelection} applicant-id={applicantIdOnTabset} loan-app-id={loanAppId} has-edit-access={hasEditAccess} record-type-id={ProfitLossRecordTypeId} ></c-show-consolidate-profitand-loss-data>
+        </lightning-tab>
+      </template>
+
+      <!-- This block is for the Balance Sheet tab-->
+      <template if:true={showBalanceSheet}>
+        <lightning-tab label="Balance Sheet" title="Balance Sheet" onactive={handleActiveTab}>
+          <c-capture-balance-sheet-details onparentapplicantupdate={handleParentUpdate} current-block={latestYearOptionValue} provisional-year={provisionalFinancialYearSelectionValue} provisional-option={provisionalFinancialSelection} applicant-id={applicantIdOnTabset} loan-app-id={loanAppId} has-edit-access={hasEditAccess}></c-capture-balance-sheet-details>
+        </lightning-tab>
+        <!-- LAK-8115 -->
+        <lightning-tab label="Consolidated Balance Sheet" title="Consolidated Balance Sheet" onactive={handleActiveTab}>
+          <c-show-consolidate-balance-sheet onparentapplicantupdate={handleParentUpdate} current-block={latestYearOptionValue} provisional-year={provisionalFinancialYearSelectionValue} provisional-option={provisionalFinancialSelection} applicant-id={applicantIdOnTabset} loan-app-id={loanAppId} has-edit-access={hasEditAccess}></c-show-consolidate-balance-sheet>
+        </lightning-tab>
+      </template>
+
+      <!-- This block is for the GST tab-->
+      <template if:true={showGST}> 
+        <lightning-tab label="GST" onactive={handleActiveTab}>   
+          <lightning-layout multiple-rows>
+            <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+            medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+
+            </lightning-layout-item>
+            <lightning-layout-item style="padding-left: 230px;" padding="around-small" size="12" small-device-size={layoutSize.small}
+            medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+              <lightning-button label="Fetch GST" icon-name="utility:connected_apps" variant="brand" onclick={handleFetchGST} disabled={disableFetchGST}></lightning-button>
+
+
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+            medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+              <lightning-combobox variant="label-hidden" value={uploadOptionValue} options={uploadOptions} onchange={handleGSTOnChange} disabled={disableUploadOptions}></lightning-combobox>
+            </lightning-layout-item>
+          </lightning-layout>
+
+
+          <template if:true={showGSTFields}>
+            <c-capture-financial-g-s-t-details
+            has-edit-access={hasEditAccess}
+            loan-app-id={loanAppId} appl-id={applicantIdOnTabset} date-file={dateFile} ></c-capture-financial-g-s-t-details>
+          </template>
+
+
+
+          <!--  -->
+          
+
+          <!-- <lightning-tabset>
+            <template if:true={applGST} for:each={applGST} for:item="record" for:index="index">
+                <div if:true={record.parentRecord} key={record.parentRecord.Id}>
+                    <template if:true={record.parentRecord.GSTIN__c}>
+                        <lightning-tab label={record.parentRecord.GSTIN__c}>
+                          <c-location-wise-g-s-t-table-data gst-recs-for-all-loca={applGST} gst-tab-name={record.parentRecord.GSTIN__c}></c-location-wise-g-s-t-table-data>
+                        </lightning-tab>
+                    </template></div></template>
+        </lightning-tabset>-->
+        
+        </lightning-tab>   
+      </template> 
+
+      <!-- This block is for the Financial Ratios tab-->
+      <template if:true={showFinancialRatio}>
+        <lightning-tab label="Financial Ratio" title="Financial Ratio" onactive={handleActiveTab}>
+          <c-financial-statements  record-id={applicantIdOnTabset} active-financial-tab={currentTabName} has-edit-access={hasEditAccess}></c-financial-statements>
+        </lightning-tab>
+      </template>
+
+
+    </lightning-tabset>
+
+        <!-- Show Modal Popup-->
+        
+        
+      <div if:true={showModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+          class="slds-modal slds-fade-in-open slds-modal_xsmall">
+          <div class="slds-modal__container">
+
+            <lightning-spinner if:true={showSpinner} alternative-text="Loading" size="large" variant="brand" style="height:60rem;width:120rem;">
+            </lightning-spinner>
+
+            <header class="slds-modal__header">
+              <lightning-button-icon icon-name="utility:close" alternative-text="Close" variant="bare-inverse" 
+                class="slds-modal__close" onclick={handleCancelPopUp} size="large"></lightning-button-icon>
+              <h2 id="modal-heading-01" class="slds-modal__title">{popupHeaderName}</h2>
+            </header>
+            <!-- Modal body -->
+            <div class="slds-modal__content slds-p-around_medium">
+              <template if:true={showITRincDoc}>
+                <!-- class="slds-size_3-of-4" -->
+                <lightning-combobox   name="ITR Income Documents" label="Income Documents"
+                    value={incomeValue} placeholder="Select Income Document" options={picklistValues} onchange={handleDocumentsTypeChange}
+                    field-level-help={helpText}
+                    required>
+                </lightning-combobox>
+
+                <template if:true={isPassFieldsVisibleForITR}>
+               
+                  <lightning-combobox 
+                  label="Is Document Password Protected ?" 
+                  data-objectname="DocDtl__c" data-fieldname="Is_Document_Password_Protected__c"
+                  value={isDocPassProtectedITR} options={IsPassReqOptions} 
+                  onchange={passwordChangeHandlerITR} disabled={disableMode} 
+                   required >
+                  </lightning-combobox>
+             
+             
+               <template if:true={showPasswordFieldITR}>
+                     <lightning-input 
+                      type="text" label="Password" name="Password" 
+                     data-objectname="DocDtl__c" value={documentPasswordITR} 
+                     onchange={passwordChangeHandlerITR} 
+                     disabled={disableMode}
+                      data-fieldname="DocPass__c" ></lightning-input>
+             </template>  </template>
+              
+              </template>
+              <template if:true={showGSTincDoc}>
+                  <template if:true={gstinValue}>
+                    <!-- Picklist field -->
+                    <lightning-combobox class="slds-size_3-of-4"
+                      label="GSTIN"
+                      placeholder="-Select-"
+                      value={gstPicklistValue}
+                      options={gstPicklistOptions}
+                      onchange={handlePicklistChange}
+                      required>
+                    </lightning-combobox>
+                  </template>
+                  
+                  <template if:false={gstinValue}>
+                    <lightning-input
+                      class="slds-size_3-of-4"
+                      label="GSTIN"
+                      value={gstTextFieldValue}  
+                      data-id="gstTextInput"
+                      onchange={handleTextFieldChange} required>
+                    </lightning-input>
+                  </template>
+                
+                  <lightning-combobox class="slds-size_3-of-4"
+                      name="GST Income Documents"
+                      label="Income Documents"
+                      value={incomeValue}
+                      placeholder="Select Income Document"
+                      options={GSTIncomePicklistValues.data.values}
+                      field-level-help={helpText}
+                      onchange={handleDocumentsTypeChange}
+                      required>
+                  </lightning-combobox>
+
+                  <template if:true={isPassFieldsVisibleForITR}>      
+                    <lightning-combobox class="slds-size_3-of-4"
+                    label="Is Document Password Protected ?" 
+                    data-objectname="DocDtl__c" data-fieldname="Is_Document_Password_Protected__c"
+                    value={isDocPassProtectedITR} options={IsPassReqOptions} 
+                    onchange={passwordChangeHandlerITR} disabled={disableMode} 
+                     required >
+                    </lightning-combobox>
+                             
+                 <template if:true={showPasswordFieldITR}>
+                       <lightning-input class="slds-size_3-of-4"
+                        type="text" label="Password" name="Password" 
+                       data-objectname="DocDtl__c" value={documentPasswordITR} 
+                       onchange={passwordChangeHandlerITR} 
+                       disabled={disableMode}
+                        data-fieldname="DocPass__c" ></lightning-input>
+               </template>  </template>
+
+              </template>
+
+            
+          <template if:true={showITRDocUpload}>
+          		<div class="slds-m-top_large">
+                <lightning-layout multiple-rows="false">
+                  <lightning-layout-item size="12" small-device-size="12" medium-device-size="8" large-device-size="4">
+                    <lightning-input label="Available in File" name="availableInFileITR" type="checkbox"
+                        checked={availableInFileITR} onchange={handleAvailableChangeITR} disabled={disableAvialbleInFileITR}>
+                    </lightning-input>
+                  </lightning-layout-item>
+                  <lightning-layout-item size="12" small-device-size="12" medium-device-size="8" large-device-size="8">
+                    <c-upload-docs-reusable-component loan-app-id={loanAppId} applicant-id={applicantIdOnTabset}
+                      doc-name={incomeValue} doc-type={itrDocTypevalue} doc-category={financialDocCategory} disabled={disableITRDocumentUpload} 
+                      disable-mode={disableDocumentUpload} onrefreshdoctable={handleITRDocUploadResp} onspinnerstatus={itrSpinnerStatus} 
+                      document-detai-id={selectedDocDetailIdITR} convert-to-single-image={convertToSingleImage}>
+                    </c-upload-docs-reusable-component>
+                  </lightning-layout-item>
+                </lightning-layout>              
+            </div>
+        </template>
+
+        <template if:true={showGSTDocUpload}>
+          <div class="slds-m-top_large">   
+            <lightning-layout multiple-rows="false">
+              <lightning-layout-item size="12" small-device-size="12" medium-device-size="8" large-device-size="4">
+                <lightning-input label="Available in File" name="availableInFileGST" type="checkbox"
+                    checked={availableInFileGST} onchange={handleAvailableChangeGST} disabled={disableAvialbleInFileGST}>
+                </lightning-input>
+              </lightning-layout-item>
+              <lightning-layout-item size="12" small-device-size="12" medium-device-size="8" large-device-size="8">
+                <c-upload-docs-reusable-component loan-app-id={loanAppId} applicant-id={applicantIdOnTabset}
+                  doc-name={incomeValue} doc-type={gstDocTypevalue} doc-category={financialDocCategory} disabled={disableGSTDocumentUpload} 
+                  disable-mode={disableGSTDocumentUpload} onrefreshdoctable={handleGSTDocUploadResp} onspinnerstatus={GSTspinnerStatus} 
+                  document-detai-id={selectedDocDetailIdGST} convert-to-single-image={convertToSingleImage}>
+                </c-upload-docs-reusable-component>
+              </lightning-layout-item>
+            </lightning-layout>
+          </div>
+        </template>
+        </div>
+           
+        
+        <!-- Modal footer -->
+            <footer class="slds-modal__footer">
+              <lightning-button label="Cancel" variant="neutral" onclick={handleCancelPopUp}></lightning-button>
+            </footer>
+          </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+      </div>
+
+  
+      <!-- Data table -->
+      <template if:true={showFileSection}>
+        <!-- <lightning-spinner if:true={showSpinner} alternative-text="Loading" size="medium" style="position: fixed;"></lightning-spinner> -->
+        <lightning-card title="">
+          <table aria-multiselectable="true" class="slds-table slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols" role="grid" aria-label="Example advanced table of Opportunities in actionable mode">
+            <thead>
+              <tr class="slds-line-height_reset">
+                <th aria-label="Income Document" aria-sort="none"
+                  class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+                  <a class="slds-th__action slds-text-link_reset" href="#" role="button" tabindex="0">
+                    <span class="slds-assistive-text">Sort by: </span>
+                    <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                      <span class="slds-truncate" title="Document Type">Document Type</span>
+                      <span class="slds-icon_container slds-icon-utility-arrowdown">
+                        <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+                          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                        </svg>
+                      </span>
+                    </div>
+                  </a>
+                  <div class="slds-resizable">
+                    <input type="range" aria-label="Income Document column width"
+                      class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-533" max="1000" min="20"
+                      tabindex="0" />
+                    <span class="slds-resizable__handle">
+                      <span class="slds-resizable__divider dividerPosition"></span>
+                    </span>
+                  </div>
+                </th>
+                <th aria-label="Document Name" aria-sort="none"
+                  class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+                  <a class="slds-th__action slds-text-link_reset" href="#" role="button" tabindex="0">
+                    <span class="slds-assistive-text">Sort by: </span>
+                    <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                      <span class="slds-truncate" title="Document Name">Document Name</span>
+                      <span class="slds-icon_container slds-icon-utility-arrowdown">
+                        <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+                          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                        </svg>
+                      </span>
+                    </div>
+                  </a>
+                  <div class="slds-resizable">
+                    <input type="range" aria-label="Document Name column width"
+                      class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-534" max="1000" min="20"
+                      tabindex="0" />
+                    <span class="slds-resizable__handle">
+                      <span class="slds-resizable__divider dividerPosition"></span>
+                    </span>
+                  </div>
+                </th>
+
+                <th aria-label="Document Name" aria-sort="none"
+                    class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+                    <a class="slds-th__action slds-text-link_reset" href="#" role="button" tabindex="0">
+                      <span class="slds-assistive-text">Sort by: </span>
+                      <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                        <span class="slds-truncate" title="Document Name">Available In File</span>
+                        <span class="slds-icon_container slds-icon-utility-arrowdown">
+                          <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                          </svg>
+                        </span>
+                      </div>
+                    </a>
+                    <div class="slds-resizable">
+                      <input type="range" aria-label="Document Name column width"
+                        class="slds-resizable__input slds-assistive-text" max="1000" min="20"
+                        tabindex="0" />
+                      <span class="slds-resizable__handle">
+                        <span class="slds-resizable__divider dividerPosition"></span>
+                      </span>
+                    </div>
+                  </th>
+    
+                <th aria-label="Created Date" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode"
+                  scope="col">
+                  <a class="slds-th__action slds-text-link_reset" href="#" role="button" tabindex="0">
+                    <span class="slds-assistive-text">Sort by: </span>
+                    <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                      <span class="slds-truncate" title="Created Date">Created Date</span>
+                      <span class="slds-icon_container slds-icon-utility-arrowdown">
+                        <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+                          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                        </svg>
+                      </span>
+                    </div>
+                  </a>
+                  <div class="slds-resizable">
+                    <input type="range" aria-label="File Type column width"
+                      class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-542" max="1000" min="20"
+                      tabindex="0" />
+                    <span class="slds-resizable__handle">
+                      <span class="slds-resizable__divider dividerPosition"></span>
+                    </span>
+                  </div>
+                </th>
+                <th aria-label="Actions" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode"
+                  scope="col">
+                  <a class="slds-th__action slds-text-link_reset" href="#" role="button" tabindex="0">
+                    <span class="slds-assistive-text">Sort by: </span>
+                    <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                      <span class="slds-truncate" title="Actions">Actions</span>
+                      <span class="slds-icon_container slds-icon-utility-arrowdown">
+                        <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+                          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                        </svg>
+                      </span>
+                    </div>
+                  </a>
+                  <div class="slds-resizable">
+                    <input type="range" aria-label="Actions column width" class="slds-resizable__input slds-assistive-text"
+                      id="cell-resize-handle-541" max="1000" min="20" tabindex="0" />
+                    <span class="slds-resizable__handle">
+                      <span class="slds-resizable__divider dividerPosition"></span>
+                    </span>
+                  </div>
+                </th>
+
+                <!-- LAK-117 -->
+                <template if:true={showGSTincDoc}>
+                <th aria-label="Fetch" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode"
+                scope="col">
+                <a class="slds-th__action slds-text-link_reset" href="#" role="button" tabindex="0">
+                  <span class="slds-assistive-text">Sort by: </span>
+                  <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                    <!-- <span class="slds-truncate" title="Fetch">Fetch</span> -->
+                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                      <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                      </svg>
+                    </span>
+                  </div>
+                </a>
+                <div class="slds-resizable">
+                  <input type="range" aria-label="Actions column width" class="slds-resizable__input slds-assistive-text"
+                    id="cell-resize-handle-540" max="1000" min="20" tabindex="0" />
+                  <span class="slds-resizable__handle">
+                    <span class="slds-resizable__divider dividerPosition"></span>
+                  </span>
+                </div>
+              </th>
+            </template>
+                 <!-- LAK-117 -->
+    
+              </tr>
+            </thead>
+            <tbody>
+              <template for:each={filesList} for:item="fileIterator">
+                <tr key={fileIterator.ContentDocumentId} aria-selected="false" class="slds-hint-parent">
+                  <th class="slds-cell_action-mode" scope="row">
+                    <div class="slds-truncate" title={fileIterator.fileType}>
+                      {fileIterator.fileType}
+                    </div>
+                  </th>
+                  <td class="slds-cell_action-mode" role="gridcell">
+                    <div class="slds-truncate" title={fileIterator.incomeDocumentType}>
+                      {fileIterator.incomeDocumentType}
+                    </div>
+                  </td>
+                  <td class="slds-cell_action-mode" role="gridcell">
+                    <div class="slds-truncate" title={fileIterator.FileAvailable}>
+                      <template if:true={fileIterator.isAvailableInFileDisabled}>
+                        <lightning-input variant="label-hidden" type="checkbox" disabled
+                          checked={fileIterator.FileAvailable} data-id="checkbox"></lightning-input>
+                      </template>
+                      <template if:false={fileIterator.isAvailableInFileDisabled}>
+                        <lightning-input variant="label-hidden" type="checkbox" data-docid={fileIterator.docId}
+                            checked={fileIterator.FileAvailable} data-id="checkbox" onchange={changeCheckBox}></lightning-input>
+                      </template>                      
+                    </div>
+                  </td>
+    
+                  <td class="slds-cell_action-mode" role="gridcell">
+                    <div class="slds-truncate" title={fileIterator.CreatedDate}>
+                      {fileIterator.CreatedDate}
+                    </div>
+                  </td>
+                  <td>
+                    <div>
+                      <template if:false={fileIterator.ContentDocumentLinkId}>
+                        <lightning-icon class="custom-button slds-p-right_xx-small" disabled="true" data-documentid={fileIterator.docId}
+                          icon-name="utility:preview" alternative-text="preview" size="small" title="preview"></lightning-icon>
+                      </template>
+                      <template if:true={fileIterator.ContentDocumentLinkId}>
+                        <lightning-icon class="custom-button slds-p-right_xx-small" onclick={handleDocumentViewPreview} data-cv-id={fileIterator.ContentVersionId}
+                          data-type={fileIterator.fileExtension} data-id={fileIterator.ContentDocumentId}
+                          data-documentid={fileIterator.docId} icon-name="utility:preview" alternative-text="preview" variant="success" size="small"
+                          title="preview"></lightning-icon>
+                      </template>
+
+                      <template if:false={deleteIconDisabled}>
+                        <template if:true={showITRincDoc}>
+                          <lightning-icon class="custom-button slds-p-right_xx-small" data-file-iterator={fileIterator} data-parentsection="ITR" onclick={handleDocumentDelete}
+                            name={fileIterator.docId} data-documentid={fileIterator.docId} data-id={fileIterator.ContentDocumentId} data-cdlid={fileIterator.ContentDocumentLinkId}
+                            icon-name="utility:delete" alternative-text="delete" variant="error" size="small" title="delete" disabled={deleteIconDisabled}>
+                          </lightning-icon>
+                        </template>
+                        <template if:true={showGSTincDoc}>
+                          <lightning-icon class="custom-button slds-p-right_xx-small" data-file-iterator={fileIterator} data-parentsection="GST" onclick={handleDocumentDelete}
+                            name={fileIterator.docId} data-documentid={fileIterator.docId} data-id={fileIterator.ContentDocumentId} data-cdlid={fileIterator.ContentDocumentLinkId}
+                            icon-name="utility:delete" alternative-text="delete" variant="error" size="small" title="delete" disabled={deleteIconDisabled}>
+                          </lightning-icon>
+                        </template>
+                        <!-- LAK-9890 -->
+                         <!-- <template if:false={isReadOnly}> -->
+													<!-- <template if:false={hideUploadButton}> -->
+														<template if:false={fileIterator.ContentDocumentId}>
+															<lightning-icon class="custom-button slds-p-right_xx-small"
+																icon-name="utility:upload"
+																data-documentid={fileIterator.docId}
+																alternative-text="upload" variant="success" size="small"
+																disabled={disabled} title="upload"
+																onclick={handleFileUpload}></lightning-icon>
+                                </template>
+														<!-- </template> -->
+													<!-- </template> -->
+                           <!-- LAK-9890 -END-->
+                      </template>
+                    </div>
+                  </td>
+                  <template if:true={showGSTincDoc}>
+                  <td class="slds-cell_action-mode" role="gridcell">
+                    <div class="slds-truncate">
+                      <lightning-button label="Fetch" icon-name="utility:connected_apps" variant="brand" disabled={disableFetchITR}></lightning-button>
+                    </div>
+                  </td>
+                </template>
+                </tr>
+              </template> 
+            </tbody>
+          </table>
+        </lightning-card>
+      </template>
+  </template>
+
+
+  <template if:false={showLatestYearSelectionOption}>
+    <template if:true={isApplicant}>
+        <div style="text-align: center;font-size: 15px;font-weight: bold;">Applicant not eligible for adding Financial Details.</div>
+    </template>
+    <template if:false={isApplicant}>
+        <div style="text-align: center;font-size: 15px;font-weight: bold;">Co-Applicant not eligible for adding Financial Details.</div>
+    </template>
+</template>
+
+  <template if:true={isDeleteModalOpen}>
+    <!-- Modal/Popup Box LWC starts here -->
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+      aria-describedby="modal-content-id-1" class="my-modal slds-modal slds-fade-in-open">
+      <div class="slds-modal__container">
+        <!-- Modal/Popup Box LWC header here -->
+        <header class="slds-modal__header">
+          <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+            onclick={closeModalDelete}>
+            <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+              size="small"></lightning-icon>
+            <span class="slds-assistive-text">Close</span>
+          </button>
+          <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Delete?</h2>
+        </header>
+        <!-- Modal/Popup Box LWC body starts here -->
+        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+          <p style="text-align:center;"><b>{removeModalMessage}</b></p>
+        </div>
+        <!-- Modal/Popup Box LWC footer starts here -->
+        <footer class="slds-modal__footer">
+          <button class="slds-button slds-button_brand" data-documentid={docIdToDelete} data-cdlid={cdlIdToDelete}
+            onclick={handleRemoveRecord} title="Yes">Yes</button>
+            <button class="slds-button slds-button_neutral" onclick={closeModalDelete} title="No">No</button>
+        </footer>
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+  </template>
+
+  <template if:true={showModalForFilePre}>
+		<c-multi-doc-previewer document-detail-id={documentDetailIdPreview} onclosepreview={handleCloseModalEvent} has-document-id={hasDocumentId}> </c-multi-doc-previewer>
+	</template>
+  <template if:true={showUploadComp}>
+		<c-financial-sheet-upload-nd-download current-block={latestYearOptionValue} provisional-option={provisionalFinancialSelection} current-year={currentYear} privous-year={privousYear} provisional-year={provisionalFinancialYearSelectionValue} prov-fin-year-sele-value={provisionalFinancialYearSelectionValue} show-upload-comp={openPopuP} applicant-id={applicantIdOnTabset} loan-app-id={loanAppId} layout-size={layoutSize} ontoclosepopup={hideModalBox} ></c-financial-sheet-upload-nd-download> 
+	</template>
+
+  <!-- Open Upload Model  LAK-9890-->
+
+  <template if:true={showUploadModal}>
+		<!-- Modal/Popup Box LWC starts here -->
+		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+			aria-describedby="modal-content-id-1" class="my-modal slds-modal slds-fade-in-open">
+			<div class="slds-modal__container">
+				<!-- Modal/Popup Box LWC header here -->
+				<header class="slds-modal__header">
+					<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+						title="Close" onclick={closeUploadModal}>
+						<lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+							size="small"></lightning-icon>
+						<span class="slds-assistive-text">Close</span>
+					</button>
+					<h2 id="modal-heading-03" class="slds-text-heading_medium slds-hyphenate">
+						Upload File
+					</h2>
+				</header>
+				<!-- Modal/Popup Box LWC body starts here -->
+				<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+
+					<c-upload-docs-reusable-component document-detai-id={documentId}
+						onrefreshdoctable={handleUploadFinished}></c-upload-docs-reusable-component>
+				</div>
+				<!-- Modal/Popup Box LWC footer starts here -->
+				<footer class="slds-modal__footer">
+					<button class="slds-button slds-button_neutral" onclick={closeUploadModal} title="No">
+						No
+					</button>
+
+				</footer>
+			</div>
+		</section>
+		<div class="slds-backdrop slds-backdrop_open"></div>
+	</template>
+  <!-- LAK-9890 END -->
+</template>

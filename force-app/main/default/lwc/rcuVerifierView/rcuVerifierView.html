@@ -1,0 +1,402 @@
+<template>
+    <lightning-accordion active-section-name={activeSection} allow-multiple-sections-open>
+        <lightning-accordion-section name="A" label="Loan Details Summary ">
+            <lightning-card title="">
+                <lightning-record-view-form
+                  record-id={recordId}
+                  object-api-name={objectApiName}
+                >
+                    
+                    <lightning-layout multiple-rows="12">
+            
+                        <lightning-layout-item
+                        size="12"
+                        small-device-size="12"
+                        medium-device-size="12"
+                        large-device-size="3"
+                      >
+                      <div class="slds-p-around_x-small">   <lightning-input label="Application ID"  
+                      type="text" disabled
+                      value={applicationId}>
+                    </lightning-input></div>
+                        <!-- <div class="slds-form-element slds-form-element_horizontal">
+                          <span class="slds-form-element__label">Application ID</span>
+                          <div class="slds-form-element__control">
+                            <lightning-formatted-text
+                              class="slds-form-element__static"
+                              value={applicationId}
+                            ></lightning-formatted-text>
+                          </div>
+                        </div> -->
+                      </lightning-layout-item>
+            
+                      <lightning-layout-item
+                        size="12"
+                        small-device-size="12"
+                        medium-device-size="12"
+                        large-device-size="3"
+                      >
+                      <lightning-input label="Login Date"  
+                      type="date" disabled
+                      value={loginDate}>
+                    </lightning-input>
+                        <!-- <div class="slds-form-element slds-form-element_horizontal">
+                          <span class="slds-form-element__label">Login Date</span>
+                          <div class="slds-form-element__control">
+                            <lightning-formatted-text
+                              class="slds-form-element__static"
+                              value={loginDate}
+                            ></lightning-formatted-text>
+                          </div>
+                        </div> -->
+                      </lightning-layout-item>
+          
+                      <lightning-layout-item
+                        size="12"
+                        small-device-size="12"
+                        medium-device-size="12"
+                        large-device-size="3"
+                      >
+                      <div class="slds-p-around_x-small"> <lightning-input label="Branch Name"  
+                      type="text" disabled
+                      value={branchName}>
+                    </lightning-input></div>
+
+                      <!-- <div class="slds-form-element slds-form-element_horizontal">
+                        <span class="slds-form-element__label">Branch Name</span>
+                        <div class="slds-form-element__control">
+                          <lightning-formatted-text
+                            class="slds-form-element__static"
+                            value={branchName}
+                          ></lightning-formatted-text>
+                        </div>
+                      </div> -->
+                      </lightning-layout-item>
+                    
+                      <lightning-layout-item
+                      size="12"
+                      small-device-size="12"
+                      medium-device-size="12"
+                      large-device-size="3"
+                    >
+                    <div class="slds-p-around_x-small">    <lightning-input label="City"  
+                    type="text" disabled
+                    value={city}>
+                  </lightning-input></div>
+
+                      <!-- <div class="slds-form-element slds-form-element_horizontal">
+                        <span class="slds-form-element__label">City</span>
+                        <div class="slds-form-element__control">
+                          <lightning-formatted-text
+                            class="slds-form-element__static"
+                            value={city}
+                          ></lightning-formatted-text>
+                        </div>
+                      </div> -->
+                    </lightning-layout-item>    
+            
+                      <lightning-layout-item
+                        size="12"
+                        small-device-size="12"
+                        medium-device-size="12"
+                        large-device-size="3"
+                      >
+                      <div class="slds-p-around_x-small"> <lightning-input label="Product"  
+                      type="text" disabled
+                      value={product}>
+                    </lightning-input></div>
+                      
+                      <!-- <div class="slds-form-element slds-form-element_horizontal">
+                        <span class="slds-form-element__label">Product</span>
+                        <div class="slds-form-element__control">
+                          <lightning-formatted-text
+                            class="slds-form-element__static"
+                            value={product}
+                          ></lightning-formatted-text>
+                        </div>
+                      </div> -->
+                      </lightning-layout-item>        
+                      
+                      <lightning-layout-item
+                        size="12"
+                        small-device-size="12"
+                        medium-device-size="12"
+                        large-device-size="3"
+                      >
+                      <div class="slds-p-around_x-small">   <lightning-input label="Scheme"  
+                      type="text" disabled
+                      value={schemeCode}>
+                    </lightning-input></div>
+
+                        <!-- <div class="slds-form-element slds-form-element_horizontal">
+                          <span class="slds-form-element__label">Scheme</span>
+                          <div class="slds-form-element__control">
+                            <lightning-formatted-text
+                              class="slds-form-element__static"
+                              value={schemeCode}
+                            ></lightning-formatted-text>
+                          </div>
+                        </div> -->
+                      </lightning-layout-item>
+            
+                      <lightning-layout-item
+                        size="12"
+                        small-device-size="12"
+                        medium-device-size="12"
+                        large-device-size="3"
+                      >
+                      <div class="slds-p-around_x-small">   <lightning-input label="BBH Name"  
+                      type="text" disabled
+                      value={loanDetailsSummaryList.empNameBBH}>
+                    </lightning-input></div>
+                      
+                        <!-- <div class="slds-form-element slds-form-element_horizontal">
+                          <span class="slds-form-element__label">BBH Name</span>
+                          <div class="slds-form-element__control">
+                            <lightning-formatted-text
+                              class="slds-form-element__static"
+                              value={loanDetailsSummaryList.empNameBBH}
+                            ></lightning-formatted-text>
+                          </div>
+                        </div> -->
+                      </lightning-layout-item>
+            
+                      <lightning-layout-item
+                        size="12"
+                        small-device-size="12"
+                        medium-device-size="12"
+                        large-device-size="3"
+                      >
+                      <div class="slds-p-around_x-small"> <lightning-input label="RM/SM Name"  
+                      type="text" disabled
+                      value={rMName}>
+                    </lightning-input></div>
+
+                        <!-- <div class="slds-form-element slds-form-element_horizontal">
+                          <span class="slds-form-element__label">RM/SM Name</span>
+                          <div class="slds-form-element__control">
+                            <lightning-formatted-text
+                              class="slds-form-element__static"
+                              value={rMName}
+                            ></lightning-formatted-text>
+                          </div>
+                        </div> -->
+                      </lightning-layout-item>    
+            
+                      <lightning-layout-item
+                        size="12"
+                        small-device-size="12"
+                        medium-device-size="12"
+                        large-device-size="3"
+                      >
+
+                      <div class="slds-p-around_x-small">  <lightning-input label="Channel Code"  
+                      type="text" disabled
+                      value={channelCode}>
+                    </lightning-input></div>
+
+                      <!-- <div class="slds-form-element slds-form-element_horizontal">
+                        <span class="slds-form-element__label">Channel Code</span>
+                        <div class="slds-form-element__control">
+                          <lightning-formatted-text
+                            class="slds-form-element__static"
+                            value={channelCode}
+                          ></lightning-formatted-text>
+                        </div>
+                      </div> -->
+                      </lightning-layout-item>
+                    
+                    <lightning-layout-item
+                        size="12"
+                        small-device-size="12"
+                        medium-device-size="12"
+                        large-device-size="3"
+                      >
+                      <div class="slds-p-around_x-small">    <lightning-input label="Channel Name"  
+                      type="text" disabled
+                      value={channelName}>
+                    </lightning-input></div>
+
+                        <!-- <div class="slds-form-element slds-form-element_horizontal">
+                          <span class="slds-form-element__label">Channel Name</span>
+                          <div class="slds-form-element__control">
+                            <lightning-formatted-text
+                              class="slds-form-element__static"
+                              value={channelName}
+                            ></lightning-formatted-text>
+                          </div>
+                        </div> -->
+                      </lightning-layout-item>
+        
+            
+                      <lightning-layout-item
+                      size="12"
+                      small-device-size="12"
+                      medium-device-size="12"
+                      large-device-size="3"
+                    >
+                    <div class="slds-p-around_x-small"> <lightning-input label="Loan Tenure (Months)"  
+                    type="text" disabled
+                    value={loanTenure}>
+                  </lightning-input></div>
+
+                      <!-- <div class="slds-form-element slds-form-element_horizontal">
+                        <span class="slds-form-element__label">Loan Tenure (Months)</span>
+                        <div class="slds-form-element__control">
+                          <lightning-output-field
+                          field-name="ReqTenInMonths__c" variant="label-hidden"
+                        ></lightning-output-field>
+                        </div>
+                      </div> -->
+                    </lightning-layout-item>
+          
+                    <lightning-layout-item
+                      size="12"
+                      small-device-size="12"
+                      medium-device-size="12"
+                      large-device-size="3"
+                    >
+
+                    <div class="slds-p-around_x-small"><lightning-input label="Effective ROI (%)"  
+                    type="text" disabled
+                    value={effectiveROI}>
+                  </lightning-input></div>
+
+                      <!-- <div class="slds-form-element slds-form-element_horizontal">
+                        <span class="slds-form-element__label">Effective ROI (%)</span>
+                        <div class="slds-form-element__control">
+                          <lightning-output-field
+                          field-name="EffectiveROI__c" variant="label-hidden"
+                        ></lightning-output-field>
+                        </div>
+                      </div> -->
+                    </lightning-layout-item>
+        
+                    <lightning-layout-item
+                    size="12"
+                    small-device-size="12"
+                    medium-device-size="12"
+                    large-device-size="3"
+                  >
+                  <div class="slds-p-around_x-small"> <lightning-input label="Total loan amount including insurance"  
+                  type="text" disabled
+                  value={totalLoanAnt}>
+                </lightning-input></div>
+
+                    <!-- <div class="slds-form-element slds-form-element_horizontal">
+                      <span class="slds-form-element__label">Total loan amount including insurance</span>
+                      <div class="slds-form-element__control">
+                        <lightning-output-field
+                        field-name="TotalLoanAmtInclInsurance__c" variant="label-hidden"
+                      ></lightning-output-field>
+                      </div>
+                    </div> -->
+                  </lightning-layout-item>
+        
+                    </lightning-layout>
+                    
+        
+                </lightning-record-view-form>
+            </lightning-card>
+        </lightning-accordion-section>
+
+        <lightning-accordion-section name="B" label="Borrower Details" >
+
+        <lightning-datatable
+          data={listBorrowerDetails}
+          columns={borrowerColumns}
+          key-field="Id"
+          min-column-width="200"
+          hide-checkbox-column="true"
+        > </lightning-datatable>
+      
+        </lightning-accordion-section>
+
+        <lightning-accordion-section name="C" label="Borrower Address Details" >
+
+          <lightning-datatable
+          data={addrDetails}
+          columns={borrowColumns}
+          key-field="Id"
+          min-column-width="200"
+          hide-checkbox-column="true"
+        >
+        </lightning-datatable>
+
+      </lightning-accordion-section>
+
+
+    <lightning-accordion-section name="D" label="KYC Verification Details">
+       
+      <lightning-datatable
+      data={kycVerifData}
+      columns={kycVerColumns}
+      key-field="Id"
+      min-column-width="200"
+      hide-checkbox-column="true"
+    >
+    </lightning-datatable>
+
+      </lightning-accordion-section>
+    
+    <lightning-accordion-section name="E" label="Financial Borrower Employments">
+
+
+      <lightning-datatable
+      data={financeBorrowerList}
+      columns={financeBorrowColumns}
+      key-field="Id"
+      min-column-width="200"
+      hide-checkbox-column="true"
+    >
+    </lightning-datatable>
+
+
+      </lightning-accordion-section>
+
+
+    <lightning-accordion-section name="F" label="CIBIL Buereau Summary" >
+      <lightning-datatable
+      data={buereauList}
+      columns={cibilSummColumns}
+      key-field="Id"
+      min-column-width="200"
+      hide-checkbox-column="true"
+    >
+    </lightning-datatable>
+
+    </lightning-accordion-section>
+
+
+    <lightning-accordion-section name="G" label="Property Details Summary">
+
+      <lightning-datatable
+      data={propertyDetailsList}
+      columns={propDetColumns}
+      key-field="Id"
+      min-column-width="200"
+      hide-checkbox-column="true"
+    >
+    </lightning-datatable>
+
+   
+      </lightning-accordion-section>
+    </lightning-accordion>
+    <lightning-layout multiple-rows="12">
+      <lightning-layout-item
+      size="12"
+      small-device-size=12
+      medium-device-size=6
+      large-device-size=4
+    >
+      <div class="slds-p-around_x-small">
+        <lightning-input
+          type="text"
+          value={hunterStatus}
+          label="Hunter Status"
+          disabled
+        ></lightning-input>
+      </div>
+      </lightning-layout-item>
+      </lightning-layout>
+</template>

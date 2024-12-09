@@ -1,0 +1,35 @@
+@isTest
+private class BureauCommercialPdfQueueableTest {
+
+    @isTest
+    static void testQueueableExecution() {
+        // Set up test data
+        List<Integer> pdfValues = new List<Integer>{123456, 22345, 39876}; 
+       	LoanAppl__c loan = TestDataFactory.createLoanApplication(true);
+        loan.Product__c='Home Loan';
+        update loan;
+        
+		 Applicant__c Applicant=TestDataFactory.createSingleApplicant(true,loan.id);
+        Bureau__c Bureau=TestDataFactory.BureauData(true,loan.id,Applicant.Id);
+        
+        DocMstr__c docMstr=TestDataFactory.DocumentMasterData(true);
+        docMstr.Prod__c='Home Loan';
+        docMstr.Catgry__c='Bureau Report';
+        docMstr.DocTyp__c='Bureau Report';
+        update docMstr;
+        
+        DocDtl__c doc = new DocDtl__c();
+                    doc.Appl__c=Applicant.Id;
+                    doc.LAN__c=Bureau.LoanApp__c;
+                    doc.DocMstr__c=docMstr.Id;
+                    doc.DocCatgry__c='Bureau Report';
+                    doc.DocTyp__c='Bureau Report';
+                    doc.DocSubTyp__c='Bureau Report';
+                    Insert doc;
+        // Enqueue the queueable job
+        Test.startTest();
+        System.enqueueJob(new BureauCommercialPdfQueueable(pdfValues, Applicant.Id));
+        Test.stopTest();
+
+            }
+}

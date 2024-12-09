@@ -1,0 +1,29 @@
+lightning-button.load-application {
+	--sds-c-button-brand-color-background: green;
+    --sds-c-button-text-color: black;
+}
+
+lightning-button.close-lead {
+	--sds-c-button-brand-color-background: red;
+    --sds-c-button-text-color: black;
+}
+
+.verticleline{
+    border-left: 2px solid rgb(163 171 163);
+  height: 170px;
+}
+.horizantalline{
+    width:50%;text-align:left;margin-left:0
+}
+.btn-container {
+    display: flex; 
+    justify-content: flex-end; 
+}
+.move-right {
+    margin-left: 18px;
+}
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

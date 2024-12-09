@@ -1,0 +1,11 @@
+<template>
+    <lightning-dual-listbox
+        name="selectRecords"
+        label="Select Records"
+        source-label="Available Records"
+        selected-label="Selected Records"
+        options={recordOptions}
+        value={selectedValues}
+        onchange={handleSelection}
+    ></lightning-dual-listbox>
+</template>

@@ -1,0 +1,388 @@
+<template>
+    <template if:true={showUi}>
+      <div class="container slds-scrollable_x">
+        <h3>Top 10 Suppliers</h3>
+        <br>
+        <table class="slds-table slds-table_bordered slds-p-around_small slds-scrollable_x">
+          <tr>
+            <th style="background-color: #F3F2F2;width: 10%;" >Sr No</th>
+            <th style="background-color: #F3F2F2;width: 12%;" >Party</th>
+            <th style="background-color: #F3F2F2;width: 12%;" >Amount</th>
+            <th style="background-color: #F3F2F2;width: 10%;" >Count</th>
+          </tr>
+          <template for:each={listOfTop10Customers} for:item="fileIterator" for:index="index">
+            <tr key={fileIterator.Index1} aria-selected="false" class="slds-hint-parent">
+              <th style="background-color: #F3F2F2;" scope="row">{fileIterator.Index1}</th>
+              <th  scope="row">{fileIterator.Party__c}</th>
+              <th  scope="row">{fileIterator.Amount__c}</th>
+              <th  scope="row">{fileIterator.Count__c}</th>
+           </tr>
+                
+
+          </template>
+         </table>
+      </div>
+      <div class="container slds-scrollable_x">
+        <h3>Top 10 Customers</h3>
+        <br>
+        <table class="slds-table slds-table_bordered slds-p-around_small slds-scrollable_x">
+         
+            <tr>
+              <th style="background-color: #F3F2F2;width: 10%;" >Sr No</th>
+              <th style="background-color: #F3F2F2;width: 12%;" >Party</th>
+              <th style="background-color: #F3F2F2;width: 12%;" >Amount</th>
+              <th style="background-color: #F3F2F2;width: 10%;" >Count</th>
+            </tr>
+         
+          <template for:each={listOfTop10Supp} for:item="fileIterator" for:index="index">
+            <tr key={fileIterator.Index1} aria-selected="false" class="slds-hint-parent">
+              <th style="background-color: #F3F2F2;" scope="row">{fileIterator.Index1}</th>
+              <th scope="row">{fileIterator.Party__c}</th>
+              <th  scope="row">{fileIterator.Amount__c}</th>
+              <th  scope="row">{fileIterator.Count__c}</th>
+           </tr>
+          </template>
+         </table>
+      </div>
+      <template if:true={showTableForCC}>
+        
+    <div class="container slds-scrollable_x">
+        <h3>Combined Banking (OD/CC)</h3>
+        <br>
+        <table class="slds-table slds-table_bordered slds-p-around_small slds-scrollable_x">
+            <col>
+            <colgroup span="2"></colgroup>
+            <colgroup span="2"></colgroup>
+            <tr>
+              <th style="background-color: #F3F2F2;width: 10%;" colspan="1" scope="colgroup">Particular</th>
+              <th style="background-color: #F3F2F2;width: 12%;" colspan="2" scope="colgroup">Value Summation</th>
+              <th style="background-color: #F3F2F2;width: 12%;" colspan="2" scope="colgroup">Count</th>
+              <th style="background-color: #F3F2F2;width: 10%;" rowspan="2">I/W Ret (#)</th>
+              <th style="background-color: #F3F2F2;width: 10%;" rowspan="2">O/W Ret (#)</th>
+              <th style="background-color: #F3F2F2;width: 10%;" rowspan="2">Stop Pymt (#)</th>
+              <th style="background-color: #F3F2F2;width: 10%;" rowspan="2">Min Bal Charges</th>                        
+              <th style="background-color: #F3F2F2;width: 16%;" colspan="7" scope="colgroup">Balance at Specific Date In Month (Summation of  CA/SB banking)</th>
+              <th style="background-color: #F3F2F2;width: 7%;" rowspan="2">Average Bank Balance</th>
+              <th style="background-color: #F3F2F2;width: 7%;" rowspan="2">Average Daily Bank Balance</th>
+              <th style="background-color: #F3F2F2;width: 7%;" rowspan="2">Consider ABB Program</th>
+              <th style="background-color: #F3F2F2;width: 7%;" rowspan="2">Monthly Limit</th>
+              <th style="background-color: #F3F2F2;width: 7%;" rowspan="2">Utilization %</th>
+            </tr>
+            <tr>
+              <th style="background-color: #F3F2F2;" scope="col">Months</th>
+              <th style="background-color: #F3F2F2;" scope="col">Debits</th>
+              <th style="background-color: #F3F2F2;" scope="col">Credits</th>
+              <th style="background-color: #F3F2F2;" scope="col">Debits</th>
+              <th style="background-color: #F3F2F2;" scope="col">Credits</th>
+              <th style="background-color: #F3F2F2; text-align: center!important;" scope="col">1st</th>
+              <th style="background-color: #F3F2F2; text-align: center!important;" scope="col">5th</th>
+              <th style="background-color: #F3F2F2; text-align: center!important;" scope="col">10th</th>
+              <th style="background-color: #F3F2F2; text-align: center!important;" scope="col">15th</th>
+              <th style="background-color: #F3F2F2; text-align: center!important;" scope="col">20th</th>
+              <th style="background-color: #F3F2F2;text-align: center!important;" scope="col">25th</th>
+              <th style="background-color: #F3F2F2;text-align: center!important;" scope="col">Monthend</th>
+            </tr>
+            <template for:each={listOfOverDraftCcAdd} for:item="fileIterator" for:index="index">
+                <tr key={fileIterator.monthYear} aria-selected="false" class="slds-hint-parent">
+                    <th style="background-color: #F3F2F2;" scope="row">{fileIterator.monthYear}</th>
+                   
+                    <td>{fileIterator.sumValueSummationDebit}</td>
+                    <td>{fileIterator.sumValueSummationCredit}</td>
+                    <td>{fileIterator.sumChangesCountofDebit}</td>
+                    <td>{fileIterator.sumChangesCountofCredit}</td>
+                    <td>{fileIterator.sumInwardReturnsCount}</td>
+                    <td>{fileIterator.sumOutwardReturnsCount}</td>
+                    <td>{fileIterator.sumChangesStopPaymentCount}</td>
+                    <td>{fileIterator.sumcheckMiniChan}</td>
+                    <td>{fileIterator.sumChangesBalanceAt_1st}</td>
+                    <td>{fileIterator.sumChangesBalanceAt_5th__c}</td>
+                    <td>{fileIterator.sumChangesBalanceAt_10th}</td>
+                    <td>{fileIterator.sumChangesBalanceAt_15th}</td>
+                    <td>{fileIterator.sumChangesBalanceAt_20th}</td>
+                    <td>{fileIterator.sumChangesBalanceAt_25th}</td>
+                    <td>{fileIterator.sumMonthEnd}</td>
+                     <td>{fileIterator.sumChangesAverageBankBalance}</td>
+                     <td>{fileIterator.sumDailyBalan}</td>
+                     <td>{fileIterator.sumValueAbbPro}</td>
+                     <td>{fileIterator.sumMonthlyLimit}</td>
+                     <td>{fileIterator.Utilization}%</td>
+                  </tr>
+                  
+
+            </template>
+            <tr style="background-color: #F3F2F2;">
+                <th style="background-color: #F3F2F2;" scope="row">Total</th>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.totalValueSummationDebit}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.totalValueSummationCredit}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.totalCountofDebit}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.totalCountofCredit}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.totalInwardReturnsCount}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.totalOutwardReturnsCount}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.totalStopPaymentCount}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.finalOfMinibalanceChar}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.totalBalanceAt_1st}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.totalBalanceAt_5th__c}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.totalBalanceAt_10th}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.totalBalanceAt_15th}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.totalBalanceAt_20th}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.totalBalanceAt_25th}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.totalMonthEnd}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.totalAverageBankBalance}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.TotalDailyBala}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.totalForConAbbPro}</td>
+               <!--<td>{calForTotalAndAverageODC.totalValueMonLimit}</td>-->
+              <td style="background-color: #F3F2F2;"></td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.averageOfUtilization}%</td>
+                
+              </tr>
+              <tr style="background-color: #F3F2F2;">
+                <th style="background-color: #F3F2F2;" scope="row">Average</th>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.averageValueSummationDebit}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.averageValueSummationCredit}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.averageCountofDebit}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.averageCountofCredit}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.averageInwardReturnsCount}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.averageOutwardReturnsCount}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.averageStopPaymentCount}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.finalOfMinibalanceChar}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.averageBalanceAt_1st}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.averageBalanceAt_5th__c}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.averageBalanceAt_10th}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.averageBalanceAt_15th}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.averageBalanceAt_20th}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.averageBalanceAt_25th}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.AvermonthEnd}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.averageAverageBankBalance}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.AverDailyBala}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.averForConAbbPro}</td>
+                <td style="background-color: #F3F2F2;">{calForTotalAndAverageODC.averageMonLimit}</td>
+              </tr>
+<!--for Business Transactions wala part-->
+              <tr>
+                <th style="background-color: #F3F2F2;" scope="row">Business Transactions</th>
+                <td>{calForTotalAndAverageODC.totalValueSummationDebit}</td>
+                <td>{calForTotalAndAverageODC.totalValueSummationCredit}</td>
+                <td colspan="2" scope="colgroup">BTO for 12months</td>
+                <td colspan="2" scope="colgroup">Annualised BTO for 6Months</td>
+                
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+
+              <tr>
+                <th style="background-color: #F3F2F2;" scope="row">Top Line as per Financial</th>
+                <td>{BusTransRowsCal.TopLineAsPerFin}</td>
+                <td></td>
+                <td colspan="2" scope="colgroup">{BusTransRowsCal.BTOfor12Month}%</td>
+                <td colspan="2" scope="colgroup">{BusTransRowsCal.BTOfor6Month}%</td>
+                
+                <td colspan="1" scope="colgroup">I/W Return Ratio</td>
+                <td>{BusTransRowsCal.IandWReturnRatio}%</td>
+                <td colspan="1" scope="colgroup">O/W Return Ratio</td>
+                <td>{BusTransRowsCal.OandWReturnRatio}%</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+
+
+              <tr>
+                <th colspan="3" scope="colgroup" style="background-color: #F3F2F2;" >BTO basis latest GST Turnover</th>
+                <td colspan="2" scope="colgroup"></td>
+                <td colspan="2" scope="colgroup"></td>
+                
+                <td colspan="1" scope="colgroup">{colHeadForDD}</td>
+                <td>{sixMonthTotalCCndOd.allTotalForbal}</td>
+                <td colspan="1" scope="colgroup">6M Average Balance</td>
+                <td>{sixMonthTotalCCndOd.SixMonTotalForbal}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+             
+            
+            
+          </table>
+        </div>
+    </template>
+        <template if:true={showtableforSav}>
+          <div class="container slds-scrollable_x">
+            <h3>Combined Banking (CASA)</h3>
+            <br>
+            <table class="slds-table slds-table_bordered slds-p-around_small slds-scrollable_x">
+                <col>
+                <colgroup span="2"></colgroup>
+                <colgroup span="2"></colgroup>
+                <tr>
+                  <th style="background-color: #F3F2F2;width: 10%;" colspan="1" scope="colgroup">Particular</th>
+                  <th style="background-color: #F3F2F2;width: 12%;" colspan="2" scope="colgroup">Value Summation</th>
+                  <th style="background-color: #F3F2F2;width: 12%;" colspan="2" scope="colgroup">Count</th>
+                  <th style="background-color: #F3F2F2;width: 10%;" rowspan="2">I/W Ret (#)</th>
+              <th style="background-color: #F3F2F2;width: 10%;" rowspan="2">O/W Ret (#)</th>
+              <th style="background-color: #F3F2F2;width: 10%;" rowspan="2">Stop Pymt (#)</th>
+              <th style="background-color: #F3F2F2;width: 10%;" rowspan="2">Min Bal Charges</th>                       
+                  <th style="background-color: #F3F2F2;width: 16%;" colspan="7" scope="colgroup">Balance at Specific Date In Month (Summation of  CA/SB banking)</th>
+                  <th style="background-color: #F3F2F2;width: 7%;" rowspan="2">Average Bank Balance</th>
+                  <th style="background-color: #F3F2F2;width: 7%;" rowspan="2">Average Daily Bank Balance</th>
+                  <th style="background-color: #F3F2F2;width: 7%;" rowspan="2">Consider ABB Program</th>
+                </tr>
+                <tr>
+                  <th style="background-color: #F3F2F2;" scope="col">Months</th>
+                  <th style="background-color: #F3F2F2;" scope="col">Debits</th>
+                  <th style="background-color: #F3F2F2;" scope="col">Credits</th>
+                  <th style="background-color: #F3F2F2;" scope="col">Debits</th>
+                  <th style="background-color: #F3F2F2;" scope="col">Credits</th>
+                  <th style="background-color: #F3F2F2;" scope="col">1st</th>
+                  <th style="background-color: #F3F2F2;" scope="col">5th</th>
+                  <th style="background-color: #F3F2F2;" scope="col">10th</th>
+                  <th style="background-color: #F3F2F2;" scope="col">15th</th>
+                  <th style="background-color: #F3F2F2;" scope="col">20th</th>
+                  <th style="background-color: #F3F2F2;" scope="col">25th</th>
+                  <th style="background-color: #F3F2F2;text-align: center!important;" scope="col">Monthend</th>
+                </tr>
+                <template for:each={listOfSvinJointCaAdd} for:item="fileIterator" for:index="index">
+                    <tr key={fileIterator.monthYear} aria-selected="false" class="slds-hint-parent">
+                        <th style="background-color: #F3F2F2;" scope="row">{fileIterator.monthYear}</th>
+                      
+                        <td>{fileIterator.sumValueSummationDebit}</td>
+                        <td>{fileIterator.sumValueSummationCredit}</td>
+                        <td>{fileIterator.sumChangesCountofDebit}</td>
+                        <td>{fileIterator.sumChangesCountofCredit}</td>
+                        <td>{fileIterator.sumInwardReturnsCount}</td>
+                        <td>{fileIterator.sumOutwardReturnsCount}</td>
+                        <td>{fileIterator.sumChangesStopPaymentCount}</td>
+                        <td>{fileIterator.sumcheckMiniChan}</td>
+                        <td>{fileIterator.sumChangesBalanceAt_1st}</td>
+                        <td>{fileIterator.sumChangesBalanceAt_5th__c}</td>
+                        <td>{fileIterator.sumChangesBalanceAt_10th}</td>
+                        <td>{fileIterator.sumChangesBalanceAt_15th}</td>
+                        <td>{fileIterator.sumChangesBalanceAt_20th}</td>
+                        <td>{fileIterator.sumChangesBalanceAt_25th}</td>
+                        <td>{fileIterator.sumMonthEnd}</td>
+                        <td>{fileIterator.sumChangesAverageBankBalance}</td>
+                        <td>{fileIterator.sumDailyBalan}</td>
+                        <td>{fileIterator.sumValueAbbPro}</td>
+                      </tr>
+                      
+    
+                </template>
+                <tr style="background-color: #F3F2F2;">
+                    <th style="background-color: #F3F2F2;" scope="row">Total</th>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.totalValueSummationDebit}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.totalValueSummationCredit}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.totalCountofDebit}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.totalCountofCredit}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.totalInwardReturnsCount}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.totalOutwardReturnsCount}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.totalStopPaymentCount}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.finalOfMinibalanceChar}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.totalBalanceAt_1st}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.totalBalanceAt_5th__c}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.totalBalanceAt_10th}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.totalBalanceAt_15th}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.totalBalanceAt_20th}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.totalBalanceAt_25th}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.totalMonthEnd}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.totalAverageBankBalance}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.TotalDailyBala}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.totalForConAbbPro}</td>
+                  </tr>
+                  <tr style="background-color: #F3F2F2;">
+                    <th style="background-color: #F3F2F2;" scope="row">Average</th>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.averageValueSummationDebit}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.averageValueSummationCredit}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.averageCountofDebit}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.averageCountofCredit}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.averageInwardReturnsCount}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.averageOutwardReturnsCount}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.averageStopPaymentCount}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.finalOfMinibalanceChar}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.averageBalanceAt_1st}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.averageBalanceAt_5th__c}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.averageBalanceAt_10th}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.averageBalanceAt_15th}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.averageBalanceAt_20th}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.averageBalanceAt_25th}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.AvermonthEnd}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.averageAverageBankBalance}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.AverDailyBala}</td>
+                    <td style="background-color: #F3F2F2;">{calForTotalAndAverageSav.averForConAbbPro}</td>
+                  </tr>
+
+                  <!--for Business Transactions wala part-->
+              <tr>
+                <th style="background-color: #F3F2F2;" scope="row">Business Transactions</th>
+                <td>{calForTotalAndAverageSav.totalValueSummationDebit}</td>
+                <td>{calForTotalAndAverageSav.totalValueSummationCredit}</td>
+                <td colspan="2" scope="colgroup">BTO for 12months</td>
+                <td colspan="2" scope="colgroup">Annualised BTO for 6Months</td>
+                
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+
+              <tr>
+                <th style="background-color: #F3F2F2;" scope="row">Top Line as per Financial</th>
+                <td>{BusTransRowsCalforSav.TopLineAsPerFin}</td>
+                <td></td>
+                <td colspan="2" scope="colgroup">{BusTransRowsCalforSav.BTOfor12Month}%</td>
+                <td colspan="2" scope="colgroup">{BusTransRowsCalforSav.BTOfor6Month}%</td>
+                <td colspan="1" scope="colgroup">I/W Return Ratio</td>
+                <td>{BusTransRowsCalforSav.IandWReturnRatio}%</td>
+                <td colspan="1" scope="colgroup">O/W Return Ratio</td>
+                <td>{BusTransRowsCalforSav.OandWReturnRatio}%</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+
+
+              <tr>
+                <th colspan="3" scope="colgroup" style="background-color: #F3F2F2;" >BTO basis latest GST Turnover</th>
+                <td colspan="2" scope="colgroup"></td>
+                <td colspan="2" scope="colgroup"></td>
+                
+                <td colspan="1" scope="colgroup">{colHeadForSav}</td>
+                <td>{sixMonthTotalSavNDjoint.allTotalForbal}</td>
+                <td colspan="1" scope="colgroup">6M Average Balance</td>
+                <td>{sixMonthTotalSavNDjoint.SixMonTotalForbal}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+                
+                
+                
+              </table>
+            </div>
+        </template>
+        </template>
+</template>

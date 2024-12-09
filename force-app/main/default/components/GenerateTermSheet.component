@@ -1,0 +1,152 @@
+<apex:component Controller="GenerateTermSheetController">
+    <apex:attribute name="myRecordId" type="String" description="Record ID" assignTo="{!recordId}" />
+    <html>
+        
+        <head>
+            
+            <style>
+                .table1 tr,td{
+                width:15px;
+                }
+            </style>
+        </head>
+        
+        <body>
+            <div style="padding-top: 3cm;"> </div>
+            
+            <!-- CurrentDate-->
+            <div style="text-align: right; font-size:12px">
+                <apex:outputText value="{0,date,MMM dd, yyyy} {1,time,h:mm a}">
+                    <apex:param value="{!localDateTime}" />
+                    <apex:param value="{!localDateTime}" />
+                </apex:outputText>
+            </div>
+            
+            <h4 style="text-align:center; font-family:Times New Roman;font-weight: bold;margin-top:-15px;font-size:24px">Term Sheet</h4>
+            
+            <!-- Applicant Names-->
+            <p style="align:left;font-weight: bold">
+                {!sanctionDate} <br/>
+                {!applicantsNames}
+            </p>
+            
+            <!-- Address Details-->
+            <div style="font-family:Times New Roman;font-size:12px">
+                <apex:outputText value="{!mainApplicantAddress.HouseNo__c}" escape="false"></apex:outputText><br/>
+                <apex:outputText value="{!mainApplicantAddress.AddrLine1__c}" escape="false"></apex:outputText><br/>
+                <apex:outputText value="{!mainApplicantAddress.AddrLine2__c}" escape="false"></apex:outputText><br/>
+                <apex:outputText value="{!mainApplicantAddress.Landmark__c}" escape="false"></apex:outputText><br/>
+                <apex:outputText value="{!mainApplicantAddress.City__c}" escape="false"></apex:outputText><br/>
+                <apex:outputText value="{!mainApplicantAddress.State__c}" escape="false"></apex:outputText><br/>
+                Contact No.  - {!mainApplicant.MobNumber__c}<br/>
+            </div>
+            
+            <!-- Subject-->
+            <div style="font-family:Times New Roman;font-size:12px">
+                <br/>Dear Sir / Madam, <br/><br/>
+                <b>Sub: Term Sheet for Loan Facility vide Application Form No : {!mainApplicant.LoanAppln__r.Name}</b><br/><br/>
+                <apex:outputText value="{!mapofContent[1]}" escape="false" />
+            </div><br/>
+            
+            <!-- Table-->
+            <table class="table1">
+                
+                <tr>
+                    <th style="width:30%; font-weight: 100;  ">&nbsp;Type of Facility</th>
+                    <td  style="width:70%; font-weight: 100;  ">&nbsp;{!typeofFacility}</td>
+                </tr>
+                
+                <tr>
+                    <th style="width:30%; font-weight: 100;  ">&nbsp;Total Loan Amount Sanctioned</th> <!-- ₹-->
+                    <!-- Commenting Due to LAK-9940 
+                     <td  style="width:70%; font-weight: 100;  ">&nbsp;Rs. {!loanAppData.TotalLoanAmtInclInsurance__c}/-</td>-->
+                    
+                    <!--LAK-9940 Start -->
+                    <td style="width:70%; font-weight: 100;">&nbsp;Rs. 
+                        <apex:outputText value="{0,number,#,##,###}">
+                            <apex:param value="{!loanAppData.TotalLoanAmtInclInsurance__c}" />
+                        </apex:outputText>/-
+                    </td>
+                    <!--LAK-9940 End -->
+                </tr>
+                
+                <tr>
+                    <th style="width:30%; font-weight: 100;  ">&nbsp;Term of Facility (in months)</th>
+                    <td style="width:70%; font-weight: 100;">&nbsp;{!loanAppData.Loan_Tenure_Months__c} Months</td>
+                </tr>
+                
+                <tr>
+                    <th style="width:30%; font-weight: 100;">&nbsp;Type of Interest</th>
+                    <td style="width:70%; font-weight: 100;">&nbsp;{!typeofInterest}</td>
+                </tr>
+                
+                <tr>
+                    <th style="width:30%; font-weight: 100;">&nbsp;Interest Rate (%)</th>
+                    <td style="width:70%; font-weight: 100;">&nbsp;{!loanAppData.EffectiveROI__c}% p.a. or as applicable at the time of disbursement</td>
+                </tr>
+                
+                <tr>
+                    <th style="width:30%; font-weight: 100;">&nbsp;EMI</th><!-- ₹-->
+                    <td style="width:70%; font-weight: 100;">&nbsp;{!loanAppData.EMIIcludingInsurance__c}</td>
+                </tr>
+                
+                <tr>
+                    <th style="width:30%; font-weight: 100;">&nbsp;Security</th><!-- ₹-->
+                    <!--<td style="width:70%; font-weight: 100;">&nbsp;{!loanAppData.EMIIcludingInsurance__c}</td>-->
+                    <td  style="width:70%; font-weight: 100;"><apex:outputText value="{!security}" escape="false" /></td>
+                </tr>
+                
+                <tr>
+                    <th style="width:30%; font-weight: 100;">Insurance Premium</th><!-- ₹-->
+                    <!--Commenting Due to LAK-9940 
+                       <td style="width:70%; font-weight: 100;">&nbsp;Rs. {!loanAppData.InsAmt__c}/-</td>-->
+                    
+                    <!--LAK-9940 Start -->
+                    <td style="width:70%; font-weight: 100;">&nbsp;Rs. 
+                        <apex:outputText value="{0,number,#,##,###}">
+                            <apex:param value="{!loanAppData.InsAmt__c}" />
+                        </apex:outputText>/-
+                    </td>
+                    <!--LAK-9940 End -->
+                </tr>
+                
+            </table><br/>
+            
+            <div style="font-family:Times New Roman;font-size:12px">
+                <apex:outputText value="{!mapofContent[2]}" escape="false" />
+            </div>
+            
+            <!-- Sanction Conditions-->
+            <div style="font-family:Times New Roman;font-size:12px">
+                <apex:repeat var="cod" value="{!sancon}">
+                    • {!cod.Condition__c} {!cod.Remarks__c} <br/>
+                </apex:repeat>
+            </div><br/>
+            
+            <!--Regards-->
+            <div style="font-family:Times New Roman;font-size:12px; display:inline-block;width:100%;">
+                <apex:outputText value="{!mapofContent[3]}" escape="false" />
+            </div><br/><br/><br/><br/>
+            
+            <!-- Description of Charges-->
+            <table class="table1">
+                <tr>
+                    <th style="width:10%; font-weight: bold; " colspan="3">Description of Charges</th>
+                </tr>
+                
+                <tr>
+                    <th style="width:5%; font-weight: 100; text-align:center;">1</th>
+                    <th style="width:30%; font-weight: 100;">Processing fees</th>
+                    <th style="width:65%; font-weight: 100;">{!processingFeeforDescription}% of loan amount + Applicable Taxes</th>
+                </tr>
+                <apex:outputText value="{!descriptionContent}" escape="false" />
+            </table>
+            
+            <!-- Important Information-->
+            <apex:outputText value="{!mapofContent[6]}" escape="false" />
+            
+        </body>
+        
+        
+    </html>
+</apex:component>

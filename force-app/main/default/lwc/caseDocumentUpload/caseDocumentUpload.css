@@ -1,0 +1,12 @@
+.modal-footer {
+    
+  padding: 0% 4% 4% 0%;
+}
+  .modal-header {
+    padding: 15px 2px;
+    background-color: #ececec;
+    color: black;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+  }

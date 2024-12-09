@@ -1,0 +1,218 @@
+<template>
+
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    <lightning-card variant="base">
+        <div slot="title">
+            Reference Details
+        </div>
+
+
+        <div slot="actions">
+
+            <lightning-button label="Add Reference" onclick={handleAddRef} disabled={isDisabled}></lightning-button>
+
+        </div>
+        <div slot="footer">
+
+
+        </div>
+        <div class="slds-box">
+            <template for:each={refData} for:item="ref">
+                <lightning-card key={ref.Id} variant="narrow" title={ref.title}>
+                    <div if:true={ref.showDelete} slot="actions">
+                        <button class="slds-button slds-button_icon slds-button_icon-inverse closeButton"
+                            data-recordid={ref.tempId} onclick={handleRemoveRef} disabled={isDisabled}>
+                            <lightning-icon icon-name="utility:close" size="small"
+                                alternative-text="Remove Reference"></lightning-icon>
+                            <span class="slds-assistive-text">Delete</span>
+                        </button>
+                    </div>
+                    <div class="slds-box">
+                        <lightning-layout multiple-rows="true" class="slds-p-bottom_medium">
+                            <lightning-layout-item size="12" padding="horizontal-small"
+                                small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                large-device-size={layoutSize.large}>
+
+                                <lightning-input type="text" name="FName__c" label="Name" value={ref.FName__c}
+                                    pattern="^[A-Za-z]+( [A-Za-z]+)*$" maxlength="50" data-recordid={ref.tempId}
+                                    onchange={handleInputChangeRef} required={refRequired} disabled={isDisabled}
+                                    message-when-too-long="Length should not exceed 50 Charactor"
+                                    message-when-pattern-mismatch="Only Alphabetical Characters are allowed">
+                                </lightning-input>
+
+
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" padding="horizontal-small"
+                                small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                large-device-size={layoutSize.large}>
+                                <lightning-input type="tel" name="ContactNo__c" label="Mobile Number"
+                                    pattern="[6,7,8,9]{1}[0-9]{9}" value={ref.ContactNo__c} data-recordid={ref.tempId}
+                                    onchange={handleInputChangeRef} required={refRequired} disabled={isDisabled}
+                                    message-when-pattern-mismatch="Please enter a Valid Mobile Number">
+                                </lightning-input>
+
+
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" padding="horizontal-small"
+                                small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                large-device-size={layoutSize.large}>
+
+
+                                <lightning-combobox label="Relationship with Applicant" value={ref.RelationWthApp__c}
+                                    name="RelationWthApp__c" options={relationOpt} data-recordid={ref.tempId}
+                                    onchange={handleInputChangeRef} required={refRequired} disabled={isDisabled}>
+                                </lightning-combobox>
+
+                            </lightning-layout-item>
+                            <template if:true={ref.otherRelation}>
+                                <lightning-layout-item size="12" padding="horizontal-small"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+
+                                    <lightning-input type="text" name="OtherRelation__c" label="Other Relation"
+                                        value={ref.OtherRelation__c} pattern="^[A-Za-z]+( [A-Za-z]+)?$" maxlength="100"
+                                        data-recordid={ref.tempId} onchange={handleInputChangeRef} required
+                                        disabled={isDisabled}
+                                        message-when-too-long="Length should not exceed 50 Charactor"
+                                        message-when-pattern-mismatch="Only Charactors are allowed">
+                                    </lightning-input>
+
+
+                                </lightning-layout-item>
+                            </template>
+
+                            <lightning-layout-item size="12" padding="horizontal-small"
+                                small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                large-device-size={layoutSize.large}>
+
+                                <lightning-input type="text" name="HouseNo__c" label="House/Flat/Shop/Unit no."
+                                    value={ref.HouseNo__c} data-recordid={ref.tempId} onchange={handleInputChangeRef}
+                                    disabled={isDisabled} required={isRequired}>
+                                </lightning-input>
+
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" padding="horizontal-small"
+                                small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                large-device-size={layoutSize.large}>
+
+                                <lightning-input type="text" name="AddrLine1__c" label="Address Line 1"
+                                    value={ref.AddrLine1__c} data-recordid={ref.tempId} onchange={handleInputChangeRef}
+                                    required={refRequired} disabled={isDisabled}>
+                                </lightning-input>
+
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" padding="horizontal-small"
+                                small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                large-device-size={layoutSize.large}>
+
+                                <lightning-input type="text" name="AddrLine2__c" label="Address Line 2"
+                                    value={ref.AddrLine2__c} data-recordid={ref.tempId} onchange={handleInputChangeRef}
+                                    required={refRequired} disabled={isDisabled}>
+                                </lightning-input>
+
+                            </lightning-layout-item>
+                            <!--Landmark changes-->
+                            <lightning-layout-item size="12" padding="horizontal-small"
+                                small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                large-device-size={layoutSize.large}>
+
+                                <lightning-input type="text" name="Landmark__c" label="Landmark"
+                                    value={ref.Landmark__c} data-recordid={ref.tempId} onchange={handleInputChangeRef}
+                                    required={refRequired} disabled={isDisabled}>
+                                </lightning-input>
+
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" padding="horizontal-small"
+                                small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                large-device-size={layoutSize.large}>
+
+                                <lightning-input type="text" name="Locality__c" label="Area of Locality"
+                                    value={ref.Locality__c} data-recordid={ref.tempId} onchange={handleInputChangeRef}
+                                    required={refRequired} disabled={isDisabled}>
+                                </lightning-input>
+
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" padding="horizontal-small"
+                                small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                large-device-size={layoutSize.large}>
+
+
+
+                                <c-custom-lookup label="Pincode" field-name='pincode' object-api-name='PincodeMstr__c'
+                                    field-api-name='PIN__c' selected-record-name={ref.Pincode__c}
+                                    selected-record-id={ref.Pincode__c} data-recordid={ref.tempId}
+                                    disabled={disAddressFlag} required={isRequired}
+                                    onselect={handleValueSelect}></c-custom-lookup>
+
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" padding="horizontal-small"
+                                small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                large-device-size={layoutSize.large}>
+
+                                <c-custom-lookup required={isRequired} label="City" field-name='City__c'
+                                    object-api-name='LocMstr__c' field-api-name='City__c'
+                                    selected-record-name={ref.City__c} selected-record-id={ref.City__c}
+                                    onselect={handleValueSelect} disabled='true'></c-custom-lookup>
+
+
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" padding="horizontal-small"
+                                small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                large-device-size={layoutSize.large}>
+
+                                <c-custom-lookup required={isRequired} label="State/UT" field-name='State__c'
+                                    object-api-name='LocMstr__c' field-api-name='State__c'
+                                    selected-record-name={ref.State__c} selected-record-id={ref.State__c}
+                                    onselect={handleValueSelect} disabled='true'></c-custom-lookup>
+
+
+                            </lightning-layout-item>
+
+                        </lightning-layout>
+                    </div>
+                </lightning-card>
+            </template>
+        </div>
+
+
+    </lightning-card>
+
+    <template if:true={showDeleteConfirmation}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container rationaleWidth">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={hideModalBox}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Delete
+                        Confirmation</h2>
+                </header>
+
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1" 
+     style="display: flex; justify-content: center; align-items: center; text-align: center;">
+    <strong>Do you want to delete Reference Details</strong>
+    </div>
+
+           
+
+                <footer class="slds-modal__footer">
+                    <lightning-button class="slds-p-horizontal_x-small" variant="brand" label="Yes" title="Delete"
+                        onclick={handleConfirmDelete} disabled={isDisabled}></lightning-button>
+                    <lightning-button class="slds-p-horizontal_x-small" variant="destructive" label="No" title="cancel"
+                        onclick={handleCancelDelete}>
+                    </lightning-button>
+                </footer>
+
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+</template>

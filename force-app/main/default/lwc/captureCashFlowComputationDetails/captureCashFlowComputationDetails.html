@@ -1,0 +1,291 @@
+<template>
+    <lightning-spinner if:true={showSpinner} alternative-text="Loading" size="medium" style="position: fixed;"></lightning-spinner>
+    <lightning-card>
+        <!-- <span style="color: red"><strong>{label.CashFlow_InputZero_ErrorMessage}</strong></span> -->
+        <span style="color: red; font-size: 18px; text-align: center; display: block;">
+            <strong>{label.CashFlow_Value_Population_Msg}</strong>
+        </span>
+        <lightning-layout multiple-rows="true">
+            
+            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+                <div class="slds-p-around_x-small">
+                    <lightning-combobox  name="natureOfBusiness"
+                        label="Nature of business" value={natureOfBusinessValues}
+                        options={natureOfBusinessOptions} 
+                        onchange={handlenatureOfBusinessChange}
+                        data-name="Nature_Of_Business_of_Applicant__c" disabled >
+                    </lightning-combobox>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+
+        <div if:true={displayCashflowComputationLayout}>
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="9">
+                    <div class="datatable-container slds-p-left_medium slds-p-right_xx-large">
+                        <table class="datatable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <abbr class="slds-required" title="required">* </abbr>Remarks</th>
+                                    <th colspan="3">
+                                        <lightning-input type="text" variant="label-hidden"
+                                            label="RemarksOfOperatingActivity" onchange={handleDaysAndIncomeChange}
+                                            value={remarksOfOperatingActivityValue} name="name"
+                                            placeholder="Enter Remarks here" required data-name="Cash_Flow_Remarks__c" disabled={isReadOnly}></lightning-input>
+                                    </th>
+                                    <th>Amount</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="4">OPERATING ACTIVITY RECEIPTS</th>
+                                    <th>
+                                        <lightning-input type="number" formatter="currency" variant="label-hidden" onchange={handleDaysAndIncomeChange} name="name" value={totalInflowAmount}
+                                            disabled  data-name="Operating_Activity_Receipts__c">
+                                        </lightning-input>  
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Revenue from Operations</th>
+                                </tr>
+                                <tr>
+                                    <th>Frequency</th>
+                                    <th> Daily </th>
+                                    <th>Days Working</th>
+                                    <th>Monthly</th>
+                                    <th></th>
+                                </tr>
+                                <template if:true={tradingOrManufacturingCondition}>
+                                    <tr>
+                                        <th>Normal Days Sales/Receipts</th>
+                                        <th>
+                                            <lightning-input type="number" formatter="currency" variant="label-hidden" label="a" onchange={handleDaysAndIncomeChange} name="name"
+                                                value={dailyIncomeForNormalDays} data-name="Normal_Days_sales_Receipts_Daily__c" disabled>
+                                            </lightning-input>
+                                        </th>
+                                        <th>
+                                            <lightning-input type="number" variant="label-hidden" label="b" onchange={handleDaysAndIncomeChange}
+                                                value={noOfWorkingDaysForNormalDays} name="name" data-name="Normal_Days_sales_Days_Working__c" disabled>
+                                            </lightning-input>
+                                        </th>
+                                        <th>
+                                            <lightning-input type="number" formatter="currency" variant="label-hidden" onchange={handleDaysAndIncomeChange} name="name" value={normalDaysTotalMonthly}
+                                                disabled  data-name="Normal_Days_sales_Receipts_Monthly__c">
+                                            </lightning-input>   
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <th>Peak Days Sales/Receipts</th>
+                                        <th>
+                                            <lightning-input type="number" formatter="currency" variant="label-hidden" label="c"
+                                                onchange={handleDaysAndIncomeChange} value={dailyIncomeForPeakDays}
+                                                name="name" data-name="Peak_Days_sales_Receipts_Daily__c" disabled >
+                                            </lightning-input>
+                                        </th>
+                                        <th>
+                                            <lightning-input type="number" variant="label-hidden" label="d"
+                                                onchange={handleDaysAndIncomeChange} value={noOfWorkingDaysForPeakDays}
+                                                name="name" data-name="Peak_Days_sales_Receipts_Days_Working__c" disabled >
+                                            </lightning-input>
+                                        </th>
+                                        <th>
+                                            <lightning-input type="number" formatter="currency" variant="label-hidden" onchange={handleDaysAndIncomeChange} name="name" value={PeakDaysTotalMonthly}
+                                                disabled  data-name=" Peak_Days_sales_Receipts_Receipts_Monthl__c">
+                                            </lightning-input>  
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </template>
+                                <template if:true={serviceCondition}>
+                                    <tr>
+                                        <th>Receipts per day</th>
+                                        <th>
+                                            <lightning-input type="number" formatter="currency" variant="label-hidden" label="serviceReceiptIncomeField"
+                                                onchange={handleDaysAndIncomeChange} name="name" 
+                                                value={dailyIncomeserviceDays} data-name="ReceiptsPerDayDaily__c" disabled >
+                                            </lightning-input>
+                                        </th>
+                                        <th>
+                                            <lightning-input type="number" variant="label-hidden" label="serviceReceiptDaysField"
+                                                onchange={handleDaysAndIncomeChange} value={noOfWorkingDaysForserviceDays} name="name"
+                                                 data-name="ReceiptsPerDayDaysWorking__c" disabled >
+                                            </lightning-input>
+                                        </th>
+                                        <th>
+                                            <lightning-input type="number" formatter="currency" variant="label-hidden" label="a" onchange={handleDaysAndIncomeChange} name="name"
+                                                value={serviceDaysTotalMonthly} disabled  data-name="ReceiptsPerDayMonthly__c"></lightning-input>  
+                                            </th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <th>Others</th>
+                                        <th>
+                                            <lightning-input type="number" formatter="currency" variant="label-hidden" label="serviceOthersIncomeField"
+                                                onchange={handleDaysAndIncomeChange} value={dailyIncomeForServiceOthersDays} name="name" 
+                                                 data-name="OtherDayDaily__c" disabled >
+                                            </lightning-input>
+                                        </th>
+                                        <th>
+                                            <lightning-input type="number" variant="label-hidden" label="serviceOthersDaysField"
+                                                onchange={handleDaysAndIncomeChange} value={noOfWorkingForserviceOthersDays} name="name" 
+                                                 data-name="OthersDaysWorking__c" disabled >
+                                            </lightning-input>
+                                        </th>
+                                        <th>
+                                            <lightning-input type="number" formatter="currency" variant="label-hidden" onchange={handleDaysAndIncomeChange} name="name"
+                                                value={OthersServiceDaysTotalMonthly} disabled  data-name="OthersDayMonthly__c">
+                                            </lightning-input>  
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </template>
+                                <tr>
+                                    <th>Monthly Sales/Receipts </th>
+                                    <th> </th>
+                                    <th>
+                                        <lightning-input type="number" variant="label-hidden" onchange={handleDaysAndIncomeChange} name="name" value={MonthlyTotalDays} disabled ></lightning-input>  
+                                        </th>
+                                    <th>
+                                        <lightning-input type="number" formatter="currency" variant="label-hidden" onchange={handleDaysAndIncomeChange} name="name" 
+                                            value={monthlyTotalIncome} disabled ></lightning-input>   
+                                        </th>
+                                    <th> </th>
+                                </tr>
+                                <tr>
+                                    <th>Services Revenue</th>
+                                    <th colspan="2">
+                                        <lightning-input type="number" formatter="currency" variant="label-hidden" label="e"
+                                            onchange={handleDaysAndIncomeChange} value={ServicesRevenueTotal} name="name" 
+                                             data-name="ServicesRevenueMonthly__c" disabled >
+                                        </lightning-input>
+                                    </th>
+                                    <th>
+                                        <lightning-input type="number" formatter="currency" variant="label-hidden" onchange={handleDaysAndIncomeChange} name="name"
+                                            value={ServicesRevenueTotal} disabled  data-name="ServicesRevenueMonthly__c" >
+                                        </lightning-input>   
+                                    </th>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <th>Other Revenue</th>
+                                    <th colspan="2">
+                                        <lightning-input type="number" formatter="currency" variant="label-hidden" label="f"
+                                            onchange={handleDaysAndIncomeChange} value={OtherRevenueTotal} name="name"
+                                             data-name="OtherRevenueMonthly__c" disabled ></lightning-input>
+                                    </th>
+                                    <th>
+                                        <lightning-input type="number" formatter="currency" variant="label-hidden"  onchange={handleDaysAndIncomeChange} name="name" value={OtherRevenueTotal}
+                                            disabled  data-name="OtherRevenueMonthly__c " ></lightning-input>  
+                                    </th>
+                                    <th></th>
+                                </tr>
+                                <template if:true={isOtherRevenueAvailabe}>
+                                    <tr>
+                                        <th><abbr class="slds-required" title="required">* 
+                                        </abbr>Remarks</th>
+                                        <th colspan="3">
+                                            <lightning-input type="text" variant="label-hidden"
+                                                label="otherRevenueRemarks" onchange={handleDaysAndIncomeChange} value={otherRevenueRemarkvalue} name="name"
+                                                placeholder="Enter Remarks here" required data-name="Remark__c" disabled={isReadOnly}>
+                                            </lightning-input>
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </template>
+                                <tr>
+                                    <th colspan="3">Total Inflow from Operations ( 1+ 2)</th>
+                                    <th> 
+                                        <lightning-input type="number" formatter="currency" variant="label-hidden" onchange={handleDaysAndIncomeChange} name="name"
+                                            value={totalInflowAmount} disabled  data-name="Total_Inflow_From_Operations__c "></lightning-input>   
+                                         </th>
+                                    <th></th>
+                                </tr>
+                                <!-- second datatable -->
+                                <tr>
+                                    <th class="lineBreak">
+                                        <div><br /></div>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="4">COST OF MATERIALS</th>
+                                    <th>
+                                        <lightning-input type="number" formatter="currency" variant="label-hidden" onchange={handleDaysAndIncomeChange} name="name" 
+                                            value={totalCostOfMATERIALS} disabled >
+                                        </lightning-input>  
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Monthly Purchases (Avg)</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th>
+                                        <lightning-input type="number" formatter="currency" variant="label-hidden" label="g"
+                                            onchange={handleDaysAndIncomeChange} value={totalCostOfMATERIALS}
+                                            name="name"  data-name="Monthly_Purchases_Cost_Of_Materials__c" disabled >
+                                        </lightning-input>
+                                    </th>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <th class="lineBreak">
+                                        <div><br /></div>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Remarks</th>
+                                    <th colspan="3">
+                                    </th>
+                                    <th>Amount</th>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <th colspan="3">DETAILS OF EXPENSES</th>
+                                    <th>
+                                        <lightning-input type="number" formatter="currency" variant="label-hidden" onchange={handleDaysAndIncomeChange} name="name" value={totalDetailsOfExpenses}
+                                            disabled  data-name="Total_Expense_of_operations_Or_Business__c">
+                                        </lightning-input>  
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3">Total Expenses of Operations/Business</th>
+                                    <th>
+                                        <lightning-input type="number" formatter="currency" variant="label-hidden" label="h" onchange={handleDaysAndIncomeChange} value={totalDetailsOfExpenses} name="name" 
+                                            data-name="Total_Expense_of_operations_Or_Business__c" disabled >
+                                        </lightning-input>
+                                    </th>
+                                    <th></th>
+                                </tr>
+                               
+                                <tr>
+                                    <th class="lineBreak">
+                                        <div><br /></div>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3"></th>
+                                    <th>NET CASH PROFIT/LOSS</th>
+                                    <th>
+                                        <lightning-input type="number" formatter="currency" variant="label-hidden" onchange={handleDaysAndIncomeChange} name="name" value={netCashProfitOrLoss} disabled >
+
+                                        </lightning-input>        
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3"></th>
+                                    <th>APPROXIMATE MARGIN IN THE BUSINESS (%)</th>
+                                    <th>
+                                        <lightning-input type="percent" variant="label-hidden" onchange={handleDaysAndIncomeChange} name="name" 
+                                            value={approxMarginINBsness} disabled >
+                                        </lightning-input>  
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+    </lightning-card>
+</template>

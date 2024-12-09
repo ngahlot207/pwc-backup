@@ -1,0 +1,79 @@
+<template>
+
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    <lightning-card>
+        <div class="slds-clearfix">
+            <div class="slds-float_right">
+                <lightning-button variant="brand" class="slds-p-right_large" icon-name="action:fallback"
+                    label="Re-Initiate" onclick={handleIntialization}></lightning-button>
+            </div>
+        </div>
+        <!-- </div> -->
+        <c-dynamic-datatable params-data={params}></c-dynamic-datatable>
+    </lightning-card>
+
+    <template if:true={isModalOpen}>
+
+        <c-re-initiate loan-app-id={loanAppId} onfireevent={handleCustomEvent}></c-re-initiate>
+        <!-- Modal/Popup Box LWC starts here -->
+
+        <!-- <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="my-modal slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Select Applicant for
+                        Re-Initiate</h2>
+                </header>
+               
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+        
+                    <table
+                        class="slds-table slds-table_cell-buffer slds-table_bordered slds-border_left slds-border_right"
+                        aria-labelledby="element-with-table-label other-element-with-table-label">
+                        <thead>
+                            <tr>
+                                <th>Applicant Name</th>
+                                <th>Select Applicant</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={appRecordsData} for:item="record">
+                                <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+                                    <th class="slds-cell_action-mode" scope="row">
+                                        <div class="slds-truncate" title={record.Name}>
+                                            {record.TabName__c}
+                                        </div>
+                                    </th>
+                                    <td class="slds-cell_action-mode" role="gridcell">
+                                        <div class="slds-truncate" title={record.selectCheckbox}>
+                                            <lightning-input variant="label-hidden" data-recordid={record.Id}
+                                                type="checkbox" checked={record.selectCheckbox}
+                                                onclick={handleClick}></lightning-input>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeModal} title="No">No</button>
+                    <button class="slds-button slds-button_brand" onclick={handleReIntialization}
+                        title="Yes">Yes</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div> -->
+    </template>
+</template>

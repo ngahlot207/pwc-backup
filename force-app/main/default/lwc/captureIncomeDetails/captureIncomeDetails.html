@@ -1,0 +1,397 @@
+<template>
+    <lightning-spinner if:true={showSpinner} alternative-text="Loading" size="medium" style="position: fixed;"></lightning-spinner>
+    <template if:true={isEligibleToView}>
+        <lightning-card title="Income Type">
+            <lightning-layout multiple-rows="true">
+                <!-- <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.medium}>
+                    <strong>Income Type</strong> -->
+                <!-- <lightning-layout-item> -->
+
+                    
+                    <lightning-layout-item style="    margin-left: 40%; margin-top: 20px; margin-bottom: -30px;" size="7" flexibility="fixed" padding="horizontal-small" class="slds-text-align_right">
+                        <lightning-button   class="slds-float--right slds-m-around--small" style="font-size: 10px;" label="View Consolidated View" title="View Consolidated View" onclick={handleViewDetails} variant="brand" > </lightning-button>
+                    </lightning-layout-item>
+                     <br><br> 
+
+                    <lightning-combobox style="width:40%" name="incomeType" label="Income Type"
+                        options={displayPicklist} value={incomeTypeValue} onchange={handleChange} required
+                        disabled={incomeTypeDisable}></lightning-combobox>
+                <!-- </lightning-layout-item> -->
+                <br><br>
+
+                <!--  -->
+                    <!-- <lightning-layout-item> -->
+                <!--  -->
+            <!-- </lightning-layout> -->
+            <template if:false={hideConsolidateView}>
+            <!-- <lightning-layout multiple-rows="true"> -->
+                <lightning-layout-item padding="around-small" size="12">
+                    <template if:true={incomeTypeArray}>
+                        <template for:each={incomeTypeArray} for:item="incomeType">
+                            <template if:true={incomeType.Rental_woBanking}>
+                                <div class="slds-p-horizontal_medium" key={incomeType.uniqueId}>
+                                    <lightning-accordion active-section-name={incomeType.key}
+                                        allow-multiple-sections-open>
+                                        <lightning-accordion-section name={incomeType.key}
+                                            label="Rental With No Bank Credit" class="accordionClass">
+                                            <div class="slds-clearfix">
+                                                <lightning-button-icon onclick={deleteHandler}
+                                                    class="slds-m-top_small slds-float_right pointerClass "
+                                                    icon-name='utility:delete' alternative-text='delete' title='delete'
+                                                    disabled={disableMode} data-sectionid="Rental_woBanking"
+                                                    data-applicantid={_applicantIdOnTabset} size="large" variant="bare"
+                                                    >
+                                                </lightning-button-icon>
+                                                <!-- <lightning-icon icon-name='utility:delete' alternative-text='delete' variant="error"
+                                                    class="slds-m-top_small slds-float_right pointerClass" size='small' title='delete'
+                                                     data-sectionid="Rental_woBanking" data-applicantid={_applicantIdOnTabset}
+                                                    onclick={deleteHandler} disabled="true" ></lightning-icon>  -->
+                                            </div>
+                                            <c-capture-rental-income-without-banking loan-app-id={loanAppId}
+                                                applicant-id={_applicantIdOnTabset} layout-size={layoutSize}
+                                                has-edit-access={hasEditAccess}
+                                                is-selected={incomeType.Rental_woBanking}
+                                                record-type-name={Rental_woBankingRecordTypeId}
+                                                data-uniqueid={incomeType.uniqueId}>
+                                            </c-capture-rental-income-without-banking>
+                                        </lightning-accordion-section>
+                                    </lightning-accordion>
+                                </div>
+                            </template>
+
+                            <template if:true={incomeType.RentalwBank}>
+                                <div class="slds-p-horizontal_medium" key={incomeType.uniqueId}>
+                                    <lightning-accordion active-section-name={incomeType.key}
+                                        allow-multiple-sections-open>
+                                        <lightning-accordion-section name={incomeType.key}
+                                            label="Rental Credits In Banking" class="accordionClass">
+                                            <div class="slds-clearfix">
+                                                <lightning-button-icon onclick={deleteHandler}
+                                                    class="slds-m-top_small slds-float_right pointerClass"
+                                                    icon-name='utility:delete' alternative-text='delete' size="large"
+                                                    variant="bare" title='delete' disabled={disableMode}
+                                                    data-sectionid="RentalwBank"
+                                                    data-applicantid={_applicantIdOnTabset}>
+                                                </lightning-button-icon>
+                                                <!-- <lightning-icon icon-name='utility:delete' alternative-text='delete' variant='error'
+                                                    class="slds-m-top_small slds-float_right pointerClass" size='small' title='delete' data-sectionid="RentalwBank" data-applicantid={_applicantIdOnTabset}
+                                                    onclick={deleteHandler} disabled={disableMode}></lightning-icon> -->
+                                            </div>
+                                            <c-capture-rental-income-details loan-app-id={loanAppId}
+                                                applicant-id={_applicantIdOnTabset} layout-size={layoutSize}
+                                                has-edit-access={hasEditAccess}
+                                                is-selected={incomeType.Rental_woBanking}
+                                                record-type-name={RentalwBankTypeId}
+                                                data-uniqueid={incomeType.uniqueId}>
+                                            </c-capture-rental-income-details>
+                                        </lightning-accordion-section>
+                                    </lightning-accordion>
+                                </div>
+                            </template>
+
+                            <template if:true={incomeType.CashSal}>
+                                <div class="slds-p-horizontal_medium" key={incomeType.uniqueId}>
+                                    <lightning-accordion active-section-name={incomeType.key}
+                                        allow-multiple-sections-open>
+                                        <lightning-accordion-section name={incomeType.key} label="Cash Salary"
+                                            class="accordionClass">
+                                            <div class="slds-clearfix">
+                                                <lightning-button-icon onclick={deleteHandler}
+                                                    class="slds-m-top_small slds-float_right pointerClass"
+                                                    icon-name='utility:delete' alternative-text='delete' size="large"
+                                                    variant="bare" title='delete' disabled={disableMode}
+                                                    data-sectionid="CashSal"
+                                                    data-applicantid={_applicantIdOnTabset}></lightning-button-icon>
+                                                <!-- <lightning-icon icon-name='utility:delete' alternative-text='delete' variant='error'
+                                                    class="slds-m-top_small slds-float_right pointerClass" size='small' title='delete' data-sectionid="CashSal" data-applicantid={_applicantIdOnTabset}
+                                                    onclick={deleteHandler} disabled={disableMode}></lightning-icon> -->
+                                            </div>
+                                            <c-capture-salary-income loan-app-id={loanAppId}
+                                                applicant-id={_applicantIdOnTabset} layout-size={layoutSize}
+                                                has-edit-access={hasEditAccess} is-selected={incomeType.CashSal}
+                                                data-uniqueid={incomeType.uniqueId} record-type-name={CashSalRecordTypeId}>
+                                            </c-capture-salary-income>
+                                        </lightning-accordion-section>
+                                    </lightning-accordion>
+
+                                </div>
+                            </template>
+
+                            <template if:true={incomeType.Cashflow_Map}>
+
+                                <div class="slds-p-horizontal_medium" key={incomeType.uniqueId}>
+                                    <lightning-accordion active-section-name={incomeType.key}
+                                        allow-multiple-sections-open>
+                                        <lightning-accordion-section name={incomeType.key} label="Cash Flow Computation"
+                                            class="accordionClass">
+                                            <div class="slds-clearfix">
+                                                <lightning-button-icon onclick={deleteHandler}
+                                                    class="slds-m-top_small slds-float_right pointerClass"
+                                                    icon-name='utility:delete' alternative-text='delete' size="large"
+                                                    variant="bare" title='delete' disabled
+                                                    data-sectionid="Cashflow_Map"
+                                                    data-applicantid={_applicantIdOnTabset}>
+                                                </lightning-button-icon>
+                                                <!-- <lightning-icon icon-name='utility:delete' alternative-text='delete' variant='error'
+                                                    class="slds-m-top_small slds-float_right pointerClass" size='small' title='delete' data-sectionid="Cashflow_Map" data-applicantid={_applicantIdOnTabset}
+                                                    onclick={deleteHandler} disabled={disableMode}></lightning-icon> -->
+                                            </div>
+                                            <c-capture-cash-flow-computation-details loan-app-id={loanAppId}
+                                                applicant-id={_applicantIdOnTabset} has-edit-access={hasEditAccess}
+                                                layout-size={layoutSize} is-selected={incomeType.Cashflow_Map}
+                                                record-type-name={CashflowRecordTypeId}
+                                                data-uniqueid={incomeType.uniqueId}></c-capture-cash-flow-computation-details>
+                                        </lightning-accordion-section>
+                                    </lightning-accordion>
+
+                                </div>
+                            </template>
+
+                            <template if:true={incomeType.AgriIncome}>
+                                <div class="slds-p-horizontal_medium" key={incomeType.uniqueId}>
+                                    <lightning-accordion active-section-name={incomeType.key}
+                                        allow-multiple-sections-open>
+                                        <lightning-accordion-section name={incomeType.key} label="Agricultural Income"
+                                            class="accordionClass">
+                                            <div class="slds-clearfix">
+                                                <lightning-button-icon onclick={deleteHandler}
+                                                    class="slds-m-top_small slds-float_right pointerClass"
+                                                    icon-name='utility:delete' alternative-text='delete' size="large"
+                                                    variant="bare" title='delete' disabled={disableMode}
+                                                    data-sectionid="AgriIncome"
+                                                    data-applicantid={_applicantIdOnTabset}></lightning-button-icon>
+                                                <!-- <lightning-icon icon-name='utility:delete' alternative-text='delete' variant='error'
+                                                    class="slds-m-top_small slds-float_right pointerClass" size='small' title='delete' data-sectionid="AgriIncome" data-applicantid={_applicantIdOnTabset}
+                                                    onclick={deleteHandler} disabled={disableMode}></lightning-icon> -->
+
+                                            </div>
+                                            <c-capture-agriculture-income-details loan-app-id={loanAppId}
+                                                applicant-id={_applicantIdOnTabset} has-edit-access={hasEditAccess}
+                                                layout-size={layoutSize} is-selected={incomeType.AgriIncome}
+                                                record-type-name={AgriIncomeRecordTypeId}
+                                                data-uniqueid={incomeType.uniqueId}></c-capture-agriculture-income-details>
+                                        </lightning-accordion-section>
+                                    </lightning-accordion>
+                                </div>
+                            </template>
+
+                            <template if:true={incomeType.BankCrSal}>
+                                <div class="slds-p-horizontal_medium" key={incomeType.uniqueId}>
+                                    <lightning-accordion active-section-name={incomeType.key}
+                                        allow-multiple-sections-open>
+                                        <lightning-accordion-section name={incomeType.key}
+                                            label="Salary With Bank Credit" class="accordionClass">
+                                            <div class="slds-clearfix">
+                                                <!-- <lightning-icon icon-name='utility:delete' alternative-text='delete' variant='error'
+                                                    class="slds-m-top_small slds-float_right pointerClass" size='small' title='delete' data-sectionid="BankCrSal" data-applicantid={_applicantIdOnTabset}
+                                                    onclick={deleteHandler} disabled={disableMode}></lightning-icon> -->
+                                                <lightning-button-icon onclick={deleteHandler}
+                                                    class="slds-m-top_small slds-float_right pointerClass"
+                                                    icon-name='utility:delete' alternative-text='delete' size="large"
+                                                    variant="bare" title='delete' disabled={disableMode}
+                                                    data-sectionid="BankCrSal"
+                                                    data-applicantid={_applicantIdOnTabset}></lightning-button-icon>
+                                            </div>
+                                            <c-capture-bank-credit-salary loan-app-id={loanAppId}
+                                                applicant-id={_applicantIdOnTabset} layout-size={layoutSize}
+                                                has-edit-access={hasEditAccess} is-selected={incomeType.BankCrSal}
+                                                data-uniqueid={incomeType.uniqueId}  record-type-name={BankCrSalRecordTypeId}></c-capture-bank-credit-salary>
+                                        </lightning-accordion-section>
+                                    </lightning-accordion>
+
+                                </div>
+                            </template>
+
+                            <template if:true={incomeType.Pension}>
+                                <div class="slds-p-horizontal_medium" key={incomeType.uniqueId}>
+                                    <lightning-accordion active-section-name={incomeType.key}
+                                        allow-multiple-sections-open>
+                                        <lightning-accordion-section name={incomeType.key} label="Pension Income"
+                                            class="accordionClass">
+                                            <div class="slds-clearfix">
+                                                <lightning-button-icon onclick={deleteHandler}
+                                                    class="slds-m-top_small slds-float_right pointerClass"
+                                                    icon-name='utility:delete' alternative-text='delete' size="large"
+                                                    variant="bare" title='delete' disabled={disableMode}
+                                                    data-sectionid="Pension"
+                                                    data-applicantid={_applicantIdOnTabset}></lightning-button-icon>
+                                                <!-- <lightning-icon icon-name='utility:delete' alternative-text='delete' variant='error'
+                                                    class="slds-m-top_small slds-float_right pointerClass" size='small' title='delete' data-sectionid="Pension" data-applicantid={_applicantIdOnTabset}
+                                                    onclick={deleteHandler} disabled={disableMode}></lightning-icon> -->
+                                            </div>
+                                            <c-capture-pension-income-details loan-app-id={loanAppId}
+                                                applicant-id={_applicantIdOnTabset} has-edit-access={hasEditAccess}
+                                                layout-size={layoutSize} is-selected={incomeType.Pension}
+                                                record-type-name={PensionRecordTypeId}
+                                                data-uniqueid={incomeType.uniqueId}>
+                                            </c-capture-pension-income-details>
+                                        </lightning-accordion-section>
+                                    </lightning-accordion>
+                                </div>
+                            </template>
+
+                            <template if:true={incomeType.Other_Income}>
+                                <div class="slds-p-horizontal_medium" key={incomeType.uniqueId}>
+                                    <lightning-accordion active-section-name={incomeType.key}
+                                        allow-multiple-sections-open>
+                                        <lightning-accordion-section name={incomeType.key} label="Other Income"
+                                            class="accordionClass">
+                                            <div class="slds-clearfix">
+                                                <!-- <lightning-icon icon-name='utility:delete' alternative-text='delete' variant='error'
+                                                    class="slds-m-top_small slds-float_right pointerClass" size='small' title='delete' data-sectionid="Other_Income" data-applicantid={_applicantIdOnTabset}
+                                                    onclick={deleteHandler} disabled={disableMode}></lightning-icon> -->
+                                                <lightning-button-icon onclick={deleteHandler}
+                                                    class="slds-m-top_small slds-float_right pointerClass"
+                                                    icon-name='utility:delete' alternative-text='delete' size="large"
+                                                    variant="bare" title='delete' disabled={disableMode}
+                                                    data-sectionid="Other_Income"
+                                                    data-applicantid={_applicantIdOnTabset}></lightning-button-icon>
+                                            </div>
+                                            <c-capture-other-income-details loan-app-id={loanAppId}
+                                                applicant-id={_applicantIdOnTabset} has-edit-access={hasEditAccess}
+                                                layout-size={layoutSize} is-selected={incomeType.Other_Income}
+                                                record-type-name={Other_IncomeRecordTypeId}
+                                                data-uniqueid={incomeType.uniqueId}>
+                                            </c-capture-other-income-details>
+                                        </lightning-accordion-section>
+                                    </lightning-accordion>
+                                </div>
+                            </template>
+
+
+                            <!--  -->
+
+                            <template if:true={incomeType.Other_Income_Annual}>
+                                <div class="slds-p-horizontal_medium" key={incomeType.uniqueId}>
+                                    <lightning-accordion active-section-name={incomeType.key}
+                                        allow-multiple-sections-open>
+                                        <lightning-accordion-section name={incomeType.key} label="Other Income - Annual"
+                                            class="accordionClass">
+                                            <div class="slds-clearfix">
+                                                <!-- <lightning-icon icon-name='utility:delete' alternative-text='delete' variant='error'
+                                                    class="slds-m-top_small slds-float_right pointerClass" size='small' title='delete' data-sectionid="Other_Income" data-applicantid={_applicantIdOnTabset}
+                                                    onclick={deleteHandler} disabled={disableMode}></lightning-icon> -->
+                                                <lightning-button-icon onclick={deleteHandler}
+                                                    class="slds-m-top_small slds-float_right pointerClass"
+                                                    icon-name='utility:delete' alternative-text='delete' size="large"
+                                                    variant="bare" title='delete' disabled={disableMode}
+                                                    data-sectionid="Other_Income_Annual"
+                                                    data-applicantid={_applicantIdOnTabset}></lightning-button-icon>
+                                            </div>
+                                            <c-capture-other-income-annual-details loan-app-id={loanAppId}
+                                                applicant-id={_applicantIdOnTabset} has-edit-access={hasEditAccess}
+                                                layout-size={layoutSize} is-selected={incomeType.Other_Income_Annual}
+                                                record-type-name={Other_IncomeAnnualRecordTypeId}
+                                                data-uniqueid={incomeType.uniqueId}>
+                                            </c-capture-other-income-annual-details>
+                                        </lightning-accordion-section>
+                                    </lightning-accordion>
+                                </div>
+                            </template>
+
+                            <template if:true={incomeType.Consulting_Income}>
+                                <div class="slds-p-horizontal_medium" key={incomeType.uniqueId}>
+                                    <lightning-accordion active-section-name={incomeType.key}
+                                        allow-multiple-sections-open>
+                                        <lightning-accordion-section name={incomeType.key} label="Consulting Income"
+                                            class="accordionClass">
+                                            <div class="slds-clearfix">
+                                                <!-- <lightning-icon icon-name='utility:delete' alternative-text='delete' variant='error'
+                                                    class="slds-m-top_small slds-float_right pointerClass" size='small' title='delete' data-sectionid="Other_Income" data-applicantid={_applicantIdOnTabset}
+                                                    onclick={deleteHandler} disabled={disableMode}></lightning-icon> -->
+                                                <lightning-button-icon onclick={deleteHandler}
+                                                    class="slds-m-top_small slds-float_right pointerClass"
+                                                    icon-name='utility:delete' alternative-text='delete' size="large"
+                                                    variant="bare" title='delete' disabled={disableMode}
+                                                    data-sectionid="Consulting_Income"
+                                                    data-applicantid={_applicantIdOnTabset}></lightning-button-icon>
+                                            </div>
+                                            <c-capture-consulting-income loan-app-id={loanAppId}
+                                                applicant-id={_applicantIdOnTabset} has-edit-access={hasEditAccess}
+                                                layout-size={layoutSize} is-selected={incomeType.Consulting_Income}
+                                                record-type-name={consultingIncomeRecordTypeId}
+                                                data-uniqueid={incomeType.uniqueId}>
+                                            </c-capture-consulting-income>
+                                        </lightning-accordion-section>
+                                    </lightning-accordion>
+                                </div>
+                            </template>
+                            <!--  -->
+
+
+                        </template>
+                    </template>
+                </lightning-layout-item>
+                </template>
+        </lightning-layout>
+
+    </lightning-card>
+
+    </template>
+
+
+    
+    <!-- <lightning-layout> -->
+        <template if:true={hideConsolidateView}>
+            <c-consolidated-view-of-income-details loan-app-id={loanAppId} applicant-id-on-tabset={applicantIdOnTabset}
+             has-edit-access=false
+            ></c-consolidated-view-of-income-details>
+        </template>
+    <!-- </lightning-layout> -->
+
+    <!-- Logic added for delete confirmation pop up message DG -->
+    <template if:true={showDeleteConfirmation}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container rationaleWidth">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={hideModalBox}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Delete
+                        Confirmation</h2>
+                </header>
+
+                <div class="slds-modal__content slds-p-around_medium div-center" id="modal-content-id-1">
+                    <strong>Do You Want to Delete Income Details?</strong>
+                </div>
+
+                <footer class="slds-modal__footer">
+                    <lightning-button class="slds-p-horizontal_x-small" variant="brand" label="Yes"
+                        onclick={handleConfirmDelete}></lightning-button>
+                    <lightning-button class="slds-p-horizontal_x-small slds-button slds-button_neutral"  label="No"
+                        onclick={handleCancelDelete}>
+                    </lightning-button>
+                </footer>
+
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+
+    <template if:false={isEligibleToView}>
+        <template if:true={isApplicant}>
+            <div style="text-align: center;font-size: 15px;font-weight: bold;">Applicant not eligible for adding Income
+                Details.</div>
+        </template>
+        <template if:false={isApplicant}>
+            <div style="text-align: center;font-size: 15px;font-weight: bold;">Co-Applicant not eligible for adding
+                Income Details.</div>
+        </template>
+    </template>
+
+    
+    <br/>
+    <br/>
+
+    <div>
+        <c-lip-verification loan-app-id={loanAppId} applicant-id-on-tabset={_applicantIdOnTabset} has-edit-access={hasEditAccess}>
+        </c-lip-verification>
+    </div>
+
+</template>

@@ -1,0 +1,50 @@
+.deviation-description {
+    width: 350px;
+}
+
+.apprByCustomWidth{
+    width: 150px;
+}
+.deviation {
+    width: 60px;
+}
+/* .mitigant-width{
+    width: 100px;
+} */
+
+.level {
+    width: 50px;
+}
+
+.level-column {
+    padding-right: 15px;
+}
+
+.customComboBox {
+    width: 300px;
+}
+
+.height-deviation {
+    height: 300px;
+    overflow-y: auto;
+}
+
+.custom-dropdown {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+/* .spinnerHost {
+    position: relative;
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+} */
+
+.custom-combobox-container {
+    width: 200px;
+}
+
+.fixed-width-textarea {
+    width: 170px;
+}

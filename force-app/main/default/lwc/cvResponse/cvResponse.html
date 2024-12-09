@@ -1,0 +1,129 @@
+<template>
+    <!-- <br> child component
+
+    <template for:each={cvResp} for:item="cvr">
+        {cvr.quesTitle}<br key={cvr.respId}>
+
+    </template> -->
+
+    <lightning-layout multiple-rows="true">
+        <lightning-layout-item
+            padding="around-small"
+            size="12"
+            small-device-size={layoutSize.small}
+            medium-device-size={layoutSize.medium}
+            large-device-size={layoutSize.large}
+        >
+            <lightning-input
+                type="text"
+                label="Name of Credit Officer"
+                value={currentUserName}
+                disabled
+            ></lightning-input>
+        </lightning-layout-item>
+
+        <lightning-layout-item
+            padding="around-small"
+            size="12"
+            small-device-size={layoutSize.small}
+            medium-device-size={layoutSize.medium}
+            large-device-size={layoutSize.large}
+        >
+            <lightning-input
+                type="date"
+                label="Scheduled Date of Visit"
+                value={visitDate}
+                disabled
+                onchange={handleInputChange}
+            ></lightning-input>
+        </lightning-layout-item>
+    </lightning-layout>
+
+    <template lwc:if={cvResponceList}>
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item
+                padding="around-small"
+                size="12"
+                margin="around-small"
+            >
+                <lightning-accordion
+                    active-section-name="CV"
+                    class="accordion"
+                    allow-multiple-sections-open
+                >
+                    <template for:each={cvResponceList} for:item="cvr">
+                        <lightning-accordion-section
+                            name={cvr.sectionTitle}
+                            label={cvr.sectionTitle}
+                            class="applicantClass"
+                            key={cvr.sectionTitle}
+                        >
+                            <lightning-layout multiple-rows="true">
+                                <template
+                                    for:each={cvr.questions}
+                                    for:item="cvQues"
+                                >
+                                    <template if:true={cvQues.displayQues}>
+                                        <lightning-layout-item
+                                            padding="around-small"
+                                            size="6"
+                                            key={cvQues.quesId}
+                                        >
+                                            <c-dynamic-form-filled
+                                                pd-question={cvQues}
+                                                has-edit-access={hasEditAccess}
+                                                onpasstoparent={fromChildComp}
+                                                layout-size={layoutSize}
+                                            ></c-dynamic-form-filled>
+                                        </lightning-layout-item>
+                                    </template>
+                                    <!-- <template if:false={cvQues.quesConfig}>
+                                        <lightning-layout-item padding="around-small" size="6" key={cvQues.quesId}>
+                                            <c-dynamic-form-filled pd-question={cvQues} has-edit-access={hasEditAccess}
+                                                onpasstoparent={fromChildComp}
+                                                layout-size={layoutSize}></c-dynamic-form-filled>
+
+                                        </lightning-layout-item>
+                                    </template> -->
+                                </template>
+                            </lightning-layout>
+                        </lightning-accordion-section>
+                    </template>
+                </lightning-accordion>
+            </lightning-layout-item>
+        </lightning-layout></template
+    >
+    <template if:true={isModalOpen}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="my-modal slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Submit CV ? </h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p style="text-align:center;"><b>{submitModelMessage}</b></p>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                
+                <footer class="slds-modal__footer" >
+                    <template if:true={showFooterButtons}>
+                    <button class="slds-button slds-button_brand"  onclick={handleSubmitCV}
+                    title="Yes">Yes</button>
+                <button class="slds-button slds-button_neutral" onclick={closeModal} title="No">No</button>
+                
+                </template>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

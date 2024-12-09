@@ -1,0 +1,256 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    <template if:true={desktopBoolean}>
+        <lightning-card>
+            <!-- UPDATED TABLE  -->
+            <div class="slds-box slds-theme_default slds-scrollable_x" style="width:200rem">
+                <table
+                    class="slds-table slds-table_cell-buffer slds-border_right slds-border_left slds-table_bordered slds-table_col-bordered"
+                    aria-label="Example table of Opportunities with vertical borders">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Name (Individual)">
+                                    Name (Individual)
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Relationship">
+                                    <label id="id-01">Relationship</label>
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="PAN/ Form 60">
+                                    <label id="id-02">PAN/ Form 60</label>
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Identity Proof">
+                                    Identity Proof
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="ID No">
+                                    ID No
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="DOB">
+                                    <label id="id-03"> DOB</label>
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Father / Spouse name">
+                                    <label id="id-04"> Father / Spouse name</label>
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Mother's name">
+                                    Mother's name
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Address">
+                                    Address
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Nationality">
+                                    Nationality
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Politically Exposed Person (PEP)">
+                                    Politically Exposed Person (PEP)
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Mobile no">
+                                    Mobile no
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="UCID">
+                                    UCID
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <template if:true={appData} for:each={appData} for:item="record" for:index="index">
+                            <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+                                <td data-label="Name (Individual)">
+                                    <div class="slds-truncate" title="Name (Individual)">
+                                        {record.FullName__c}
+                                    </div>
+                                </td>
+                                <td data-label="Relationship">
+                                    <div class="slds-truncate" title="Relationship">
+                                        {record.Relationship__c}
+                                    </div>
+                                </td>
+                                <td data-label="PAN/ Form 60">
+                                    <div class="slds-truncate" title="PAN/ Form 60">
+                                        {record.PAN__c}
+                                    </div>
+                                </td>
+                                <td data-label="Identity Proof">
+                                    <div class="slds-truncate" title="Identity Proof">
+                                        {record.idProofType}
+                                    </div>
+                                </td>
+                                <td data-label="ID No">
+                                    <div class="slds-truncate" title="ID No">
+                                        {record.idProofNumber}
+                                    </div>
+                                </td>
+                                <td data-label="DOB">
+                                    <div class="slds-truncate" title="DOB">
+                                        {record.DOB__c}
+                                    </div>
+                                </td>
+                                <td data-label="Father / Spouse name">
+                                    <div class="slds-truncate" title="Father / Spouse name">
+                                        {record.Father_Name__c}
+                                    </div>
+                                </td>
+                                <td data-label="Mother's name">
+                                    <div class="slds-truncate" title="Mother's name">
+                                        {record.MthrMdnName__c}
+                                    </div>
+                                </td>
+                                <td data-label="Address">
+                                    <div class="slds-truncate" title="Address">
+                                        {record.applicantAddress}
+                                    </div>
+                                </td>
+                                <td data-label="Nationality">
+                                    <div class="slds-truncate" title="Nationality">
+                                        {record.Nationality__c}
+                                    </div>
+                                </td>
+                                <td data-label="Politically Exposed Person (PEP)">
+                                    <div class="slds-truncate" title="Politically Exposed Person (PEP)">
+                                        {record.Politically_Exposed_Person__c}
+                                    </div>
+                                </td>
+                                <td data-label="Mobile no">
+                                    <div class="slds-truncate" title="Mobile no">
+                                        {record.MobNumber__c}
+                                    </div>
+                                </td>
+                                <td data-label="UCID">
+                                    <div class="slds-truncate" title="UCID">
+                                        {record.UCID__c}
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </lightning-card>
+
+    </template>
+
+    <template lwc:if={phoneBolean}>
+        <div class="slds-m-top_medium slds-m-bottom_x-large">
+            <!-- <h2 class="slds-text-heading_medium slds-m-bottom_medium">
+            {title}
+        </h2> -->
+            <!-- <template lwc:if={ispankycstep}> -->
+            <template for:each={appData} for:item="record" for:index="index">
+                <div key={record.Id} class=" lgc-bg">
+                    <ul class="slds-has-dividers_bottom-space">
+                        <li class="slds-item">
+                            <lightning-tile>
+                                <dl class="slds-dl_horizontal">
+                                    <dt class="slds-dl_horizontal__label">
+                                        <p class="slds-truncate" title="Name (Individual)">
+                                            <b>Name (Individual) : </b>{record.FullName__c}
+                                        </p>
+                                    </dt>
+                                    <dt class="slds-dl_horizontal__label">
+                                        <p class="slds-truncate" title="Relationship">
+                                            <b>Relationship : </b>{record.Relationship__c}
+                                        </p>
+                                    </dt>
+                                    <dt class="slds-dl_horizontal__label">
+                                        <p class="slds-truncate" title="PAN/ Form 60">
+                                            <b>PAN/ Form 60 : </b>{record.PAN__c}
+                                        </p>
+                                    </dt>
+                                    <dt class="slds-dl_horizontal__label">
+                                        <p class="slds-truncate" title="Identity Proof">
+                                            <b>Identity Proof : </b>
+                                            {record.idProofType}
+                                        </p>
+                                    </dt>
+                                    <dt class="slds-dl_horizontal__label">
+                                        <p class="slds-truncate" title="ID No">
+                                            <b>ID No : </b>
+                                            {record.idProofNumber}
+                                        </p>
+                                    </dt>
+                                    <dt class="slds-dl_horizontal__label">
+                                        <p class="slds-truncate" title="DOB">
+                                            <b>DOB : </b>
+                                            {record.DOB__c}
+                                        </p>
+                                    </dt>
+                                    <dt class="slds-dl_horizontal__label">
+                                        <p class="slds-truncate" title="Father / Spouse name">
+                                            <b>Father / Spouse name : </b>
+                                            {record.Father_Name__c}
+                                        </p>
+                                    </dt>
+                                    <dt class="slds-dl_horizontal__label">
+                                        <p class="slds-truncate" title="Mother's name">
+                                            <b>Mother's name : </b>
+                                            {record.MthrMdnName__c}
+                                        </p>
+                                    </dt>
+                                    <dt class="slds-dl_horizontal__label">
+                                        <p class="slds-truncate" title="Address">
+                                            <b>Address : </b>
+                                            {record.applicantAddress}
+                                        </p>
+                                    </dt>
+                                    <dt class="slds-dl_horizontal__label">
+                                        <p class="slds-truncate" title="Nationality">
+                                            <b>Nationality : </b>
+                                            {record.Nationality__c}
+                                        </p>
+                                    </dt>
+                                    <dt class="slds-dl_horizontal__label">
+                                        <p class="slds-truncate" title="Politically Exposed Person (PEP)">
+                                            <b>Politically Exposed Person (PEP) : </b>
+                                            {record.Politically_Exposed_Person__c}
+                                        </p>
+                                    </dt>
+                                    <dt class="slds-dl_horizontal__label">
+                                        <p class="slds-truncate" title="Mobile no">
+                                            <b>Mobile no : </b>
+                                            {record.MobNumber__c}
+                                        </p>
+                                    </dt>
+                                    <dt class="slds-dl_horizontal__label">
+                                        <p class="slds-truncate" title="UCID">
+                                            <b>UCID : </b>
+                                            {record.UCID__c}
+                                        </p>
+                                    </dt>
+                                    <br /><br />
+                                </dl>
+                            </lightning-tile>
+                        </li>
+                    </ul>
+                </div>
+            </template>
+        </div>
+    </template>
+</template>

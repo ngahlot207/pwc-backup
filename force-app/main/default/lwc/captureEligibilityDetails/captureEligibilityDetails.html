@@ -1,0 +1,11 @@
+<template>
+    <lightning-spinner if:true={showSpinner} alternative-text="Loading" size="medium" style="height:60rem;width:120rem;position:fixed;"></lightning-spinner>
+    <c-capture-eligibility-b-r-e-component loan-id={loanAppId} has-edit-access ={hasEditAccess}></c-capture-eligibility-b-r-e-component>
+
+    <c-capture-sanction-details record-id={loanAppId} has-edit-access ={hasEditAccess}></c-capture-sanction-details>
+    <c-deviation-component record-id={loanAppId} has-edit-access ={hasEditAccess}></c-deviation-component>
+    <template if:true={showDecision}>
+
+    <c-uw-decision record-id={loanAppId} has-edit-access ={hasEditAccess}></c-uw-decision>
+    </template> 
+</template>

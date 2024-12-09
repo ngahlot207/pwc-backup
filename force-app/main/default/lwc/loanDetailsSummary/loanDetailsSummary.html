@@ -1,0 +1,795 @@
+<template>
+  
+    <lightning-card title="Loan Details Summary"><br />
+      <lightning-record-view-form
+        record-id={recordId}
+        object-api-name={objectApiName}
+      >
+        <div class="slds-box">
+          
+          <lightning-layout multiple-rows="12">
+  
+  
+              <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <div class="slds-form-element slds-form-element_horizontal">
+                <span class="slds-form-element__label">Application ID</span>
+                <div class="slds-form-element__control">
+                  <lightning-formatted-text
+                    class="slds-form-element__static"
+                    value={applicationId}
+                  ></lightning-formatted-text>
+                </div>
+              </div>
+            </lightning-layout-item>
+  
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <div class="slds-form-element slds-form-element_horizontal">
+                <span class="slds-form-element__label">Login Date</span>
+                <div class="slds-form-element__control">
+                  <lightning-formatted-text
+                    class="slds-form-element__static"
+                    value={loginDate}
+                  ></lightning-formatted-text>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <!--  value={listOfLoanDetailsSummary.loginDate} -->
+
+<!--LAK-7316 BIL - UW Summary-->
+            <lightning-layout-item if:false={isBLorPL}
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="4"
+          >
+            <div class="slds-form-element slds-form-element_horizontal">
+              <span class="slds-form-element__label">IMD Status</span>
+              <div class="slds-form-element__control">
+                <lightning-formatted-text
+                  class="slds-form-element__static"
+                  value={listOfLoanDetailsSummary.imdStatus}
+                ></lightning-formatted-text>
+              </div>
+            </div>
+          </lightning-layout-item>
+
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <lightning-output-field
+                field-name="BrchName__c"
+              ></lightning-output-field>
+            </lightning-layout-item>
+          
+  
+            <lightning-layout-item
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="4"
+          >
+            <div class="slds-form-element slds-form-element_horizontal">
+              <span class="slds-form-element__label">City</span>
+              <div class="slds-form-element__control">
+                <lightning-formatted-text
+                  class="slds-form-element__static"
+                  value={listOfLoanDetailsSummary.branchCity}
+                ></lightning-formatted-text>
+              </div>
+            </div>
+          </lightning-layout-item>
+
+          <lightning-layout-item
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="4"
+          >
+            <div class="slds-form-element slds-form-element_horizontal">
+              <span class="slds-form-element__label">State</span>
+              <div class="slds-form-element__control">
+                <lightning-formatted-text
+                  class="slds-form-element__static"
+                  value={listOfLoanDetailsSummary.branchState}
+                ></lightning-formatted-text>
+              </div>
+            </div>
+          </lightning-layout-item>
+  
+  
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+            
+              <lightning-output-field
+                field-name="Product__c"
+              ></lightning-output-field>
+            </lightning-layout-item>
+            
+            
+            
+            <!-- <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <div class="slds-form-element slds-form-element_horizontal">
+                <span class="slds-form-element__label">Scheme</span>
+                <div class="slds-form-element__control">
+                  <lightning-formatted-text
+                    class="slds-form-element__static"
+                    value={listOfLoanDetailsSummary.schemeName}
+                  ></lightning-formatted-text>
+                </div>
+              </div>
+            </lightning-layout-item> -->
+
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <div class="slds-form-element slds-form-element_horizontal">
+                <span class="slds-form-element__label">Scheme</span>
+                <div class="slds-form-element__control">
+                  <lightning-formatted-text
+                    class="slds-form-element__static"
+                    value={schemeDescription}
+                  ></lightning-formatted-text>
+                </div>
+              </div>
+            </lightning-layout-item>
+  
+  
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <div class="slds-form-element slds-form-element_horizontal">
+                <span class="slds-form-element__label">Loan Purpose/End Use</span>
+                <div class="slds-form-element__control">
+                  <lightning-formatted-text
+                    class="slds-form-element__static"
+                    value={loanPurpose}
+                  ></lightning-formatted-text>
+                </div>
+              </div>
+            </lightning-layout-item>
+             
+            <!-- <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <div class="slds-form-element slds-form-element_horizontal">
+                <span class="slds-form-element__label">BBH Name</span>
+                <div class="slds-form-element__control">
+                  <lightning-formatted-text
+                    class="slds-form-element__static"
+                    value={listOfLoanDetailsSummary.empNameBBH}
+                  ></lightning-formatted-text>
+                </div>
+              </div>
+            </lightning-layout-item> -->
+  
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <div class="slds-form-element slds-form-element_horizontal">
+                <span class="slds-form-element__label">RM Name</span>
+                <div class="slds-form-element__control">
+                  <lightning-formatted-text
+                    class="slds-form-element__static"
+                    value={listOfLoanDetailsSummary.nameRMSM}
+                  ></lightning-formatted-text>
+                </div>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <div class="slds-form-element slds-form-element_horizontal">
+                <span class="slds-form-element__label">SM/ASM Name</span>
+                <div class="slds-form-element__control">
+                  <lightning-formatted-text
+                    class="slds-form-element__static"
+                    value={smName}
+                  ></lightning-formatted-text>
+                </div>
+              </div>
+            </lightning-layout-item>
+
+
+<!--LAK-7316 BIL - UW Summary-->
+
+            <lightning-layout-item if:false={isBLorPL}
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <div class="slds-form-element slds-form-element_horizontal">
+                <span class="slds-form-element__label">Application Level assesment program</span>
+                <div class="slds-form-element__control">
+                  <lightning-formatted-text
+                    class="slds-form-element__static"
+                    value={appLvlAssmPro}
+                  ></lightning-formatted-text>
+                </div>
+              </div>
+            </lightning-layout-item>
+  
+  
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <lightning-output-field
+                field-name="ChannelCode__c"
+              ></lightning-output-field>
+            </lightning-layout-item>
+          
+          <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <div class="slds-form-element slds-form-element_horizontal">
+                <span class="slds-form-element__label">Channel Name</span>
+                <div class="slds-form-element__control">
+                  <lightning-formatted-text
+                    class="slds-form-element__static"
+                    value={listOfLoanDetailsSummary.ChannelRName}
+                  ></lightning-formatted-text>
+                </div>
+              </div>
+            </lightning-layout-item>
+  
+          <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <div class="slds-form-element slds-form-element_horizontal">
+                <span class="slds-form-element__label">Securitisation Check</span>
+                <div class="slds-form-element__control">
+                  <lightning-formatted-text
+                    class="slds-form-element__static"
+                    value={listOfLoanDetailsSummary.securitisationCheck}
+                  ></lightning-formatted-text>
+                </div>
+              </div>
+            </lightning-layout-item>
+
+<!--LAK-7316 BIL - UW Summary-->
+
+            <lightning-layout-item if:true={isBLorPL}
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <div class="slds-form-element slds-form-element_horizontal">
+                <span class="slds-form-element__label">Requested Loan Amount (₹)</span>
+                <div class="slds-form-element__control">
+                  <lightning-output-field
+              field-name="ReqLoanAmt__c" variant="label-hidden"
+            ></lightning-output-field>
+                </div>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item if:true={isBLorPL}
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <div class="slds-form-element slds-form-element_horizontal">
+                <span class="slds-form-element__label">Requested Loan Tenure (Months)</span>
+                <div class="slds-form-element__control">
+                  <lightning-output-field
+              field-name="ReqTenInMonths__c" variant="label-hidden"
+            ></lightning-output-field>
+                </div>
+              </div>
+            </lightning-layout-item>
+
+            
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <div class="slds-form-element slds-form-element_horizontal">
+                <span class="slds-form-element__label">Sanctioned Loan Amount (₹) - Without Insurance</span>
+                <div class="slds-form-element__control">
+                  <!-- <lightning-formatted-text
+                    class="slds-form-element__static"
+                    value={sanctionLoanAmt}
+                  ></lightning-formatted-text> -->
+                  <lightning-output-field
+              field-name="SanLoanAmt__c" variant="label-hidden"
+            ></lightning-output-field>
+                </div>
+              </div>
+            </lightning-layout-item>
+
+             
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <div class="slds-form-element slds-form-element_horizontal">
+                <span class="slds-form-element__label"> Insurance Amount(₹)</span>
+                <div class="slds-form-element__control">
+                  <lightning-output-field
+              field-name="InsAmt__c" variant="label-hidden"
+            ></lightning-output-field>
+                </div>
+              </div>
+            </lightning-layout-item>
+
+
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <div class="slds-form-element slds-form-element_horizontal">
+                <span class="slds-form-element__label">Total loan amount including insurance</span>
+                <div class="slds-form-element__control">
+                  <lightning-output-field
+              field-name="TotalLoanAmtInclInsurance__c" variant="label-hidden"
+            ></lightning-output-field>
+                </div>
+              </div>
+            </lightning-layout-item>
+  
+            
+  
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <div class="slds-form-element slds-form-element_horizontal">
+                <span class="slds-form-element__label">Sanctioned Loan Tenure (Months)</span>
+                <div class="slds-form-element__control">
+                  <lightning-output-field
+              field-name="Loan_Tenure_Months__c" variant="label-hidden"
+            ></lightning-output-field>
+                </div>
+              </div>
+            </lightning-layout-item>
+<!--LAK-7316 BIL - UW Summary-->
+
+            <lightning-layout-item if:true={isBLorPL}
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="4"
+          >
+            <div class="slds-form-element slds-form-element_horizontal">
+              <span class="slds-form-element__label">Existing Other Product (Y/N)</span>
+              <div class="slds-form-element__control">
+                <lightning-formatted-text
+                  class="slds-form-element__static"
+                  value={listOfLoanDetailsSummary.existingOtherProduct}
+                ></lightning-formatted-text>
+              </div>
+            </div>
+          </lightning-layout-item>
+
+          <lightning-layout-item if:true={isBLorPL}
+          size="12"
+          small-device-size="12"
+          medium-device-size="6"
+          large-device-size="4"
+        >
+          <div class="slds-form-element slds-form-element_horizontal">
+            <span class="slds-form-element__label">Existing BL Product (Y/N)</span>
+            <div class="slds-form-element__control">
+              <lightning-formatted-text
+                class="slds-form-element__static"
+                value={listOfLoanDetailsSummary.existingBLProduct}
+              ></lightning-formatted-text>
+            </div>
+          </div>
+        </lightning-layout-item>
+  
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <div class="slds-form-element slds-form-element_horizontal">
+                <span class="slds-form-element__label">Effective ROI (%)</span>
+                <div class="slds-form-element__control">
+                  <lightning-output-field
+              field-name="EffectiveROI__c" variant="label-hidden"
+            ></lightning-output-field>
+                </div>
+              </div>
+            </lightning-layout-item>
+           
+            <lightning-layout-item
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="4"
+          >
+            <div class="slds-form-element slds-form-element_horizontal">
+              <span class="slds-form-element__label">EMI - (Loan amount including insurance)</span>
+              <div class="slds-form-element__control">
+                <lightning-output-field
+            field-name="EMIIcludingInsurance__c" variant="label-hidden"
+          ></lightning-output-field>
+              </div>
+            </div>
+          </lightning-layout-item>
+          <lightning-layout-item
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="4"
+          >
+            <div class="slds-form-element slds-form-element_horizontal">
+              <span class="slds-form-element__label">FOIR (%) (Loan amount including insurance)</span>
+              <div class="slds-form-element__control">
+                <lightning-formatted-number
+                  class="slds-form-element__static"
+                  value={listOfLoanDetailsSummary.FOIRLoanAmountInsurance}
+                ></lightning-formatted-number>
+              </div>
+            </div>
+          </lightning-layout-item>
+          <!--LAK-125 Drop 2 start-->
+          <lightning-layout-item
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="4"
+          >
+            <div class="slds-form-element slds-form-element_horizontal">
+              <span class="slds-form-element__label">FOIR (%) as per Income Method (Loan amount including insurance)</span>
+              <div class="slds-form-element__control">
+                <lightning-formatted-number
+                  class="slds-form-element__static"
+                  value={listOfLoanDetailsSummary.FOIRLoanAmountInsurance}
+                ></lightning-formatted-number>
+              </div>
+            </div>
+          </lightning-layout-item>
+          <!--LAK-125 Drop 2 end-->
+
+          <lightning-layout-item
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="4"
+          >
+            <div class="slds-form-element slds-form-element_horizontal">
+              <span class="slds-form-element__label">LTV (%) (Loan amount including insurance)</span>
+              <div class="slds-form-element__control">
+                <lightning-formatted-number
+                  class="slds-form-element__static"
+                  value={listOfLoanDetailsSummary.LTVInsurance}
+                ></lightning-formatted-number>
+              </div>
+            </div>
+          </lightning-layout-item>
+
+            <lightning-layout-item
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="4"
+          >
+            <div class="slds-form-element slds-form-element_horizontal">
+              <span class="slds-form-element__label">Linked Loans</span>
+              <div class="slds-form-element__control">
+                <lightning-formatted-text
+                  class="slds-form-element__static"
+                  value={listOfLoanDetailsSummary.strLinkedLoans}
+                ></lightning-formatted-text>
+              </div>
+            </div>
+          </lightning-layout-item>
+
+          <lightning-layout-item
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="4"
+          >
+            <div class="slds-form-element slds-form-element_horizontal">
+              <span class="slds-form-element__label">Total FedFina Exposure (₹)</span>
+              <div class="slds-form-element__control">
+                <lightning-formatted-number
+                  class="slds-form-element__static"
+                  value={listOfLoanDetailsSummary.TotalFedfinaExposure}
+                ></lightning-formatted-number>
+              </div>
+            </div>
+          </lightning-layout-item>
+          <!-- <template if:true={isVisibleCombinedLTV}> -->
+          <lightning-layout-item
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="4"
+          >
+            <div class="slds-form-element slds-form-element_horizontal">
+              <span class="slds-form-element__label">Combined LTV (%) (Loan amount including insurance)</span>
+              <div class="slds-form-element__control">
+                <lightning-formatted-number
+                  class="slds-form-element__static"
+                  value={listOfLoanDetailsSummary.CombinedLTV}
+                ></lightning-formatted-number>
+              </div>
+            </div>
+          </lightning-layout-item>
+        <!-- </template> -->
+
+<!--LAK-7316 BIL - UW Summary-->
+
+          <lightning-layout-item if:false={isBLorPL}
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="4"
+          >
+            <div class="slds-form-element slds-form-element_horizontal">
+              <span class="slds-form-element__label">Application level Property Type</span>
+              <div class="slds-form-element__control">
+                <lightning-formatted-text
+                  class="slds-form-element__static"
+                  value={listOfLoanDetailsSummary.applPropertyType}
+                ></lightning-formatted-text>
+              </div>
+            </div>
+          </lightning-layout-item>
+
+<!--LAK-7316 BIL - UW Summary-->
+
+          <lightning-layout-item if:false={isBLorPL}
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="4"
+          >
+            <div class="slds-form-element slds-form-element_horizontal">
+              <span class="slds-form-element__label">Application level Property Sub - Type</span>
+              <div class="slds-form-element__control">
+                <lightning-formatted-text
+                  class="slds-form-element__static"
+                  value={listOfLoanDetailsSummary.maxValueSubProperty}
+                ></lightning-formatted-text>
+              </div>
+            </div>
+          </lightning-layout-item>
+
+<!--LAK-7316 BIL - UW Summary-->
+          <lightning-layout-item if:false={isBLorPL}
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="4"
+          >
+            <div class="slds-form-element slds-form-element_horizontal">
+              <span class="slds-form-element__label">Application level Property Usage</span>
+              <div class="slds-form-element__control">
+                <lightning-formatted-text
+                  class="slds-form-element__static"
+                  value={listOfLoanDetailsSummary.PropertyUsage}
+                ></lightning-formatted-text>
+              </div>
+            </div>
+          </lightning-layout-item>
+
+
+          <lightning-layout-item
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="4"
+          >
+            <div class="slds-form-element slds-form-element_horizontal">
+              <span class="slds-form-element__label">Nature of Business</span>
+              <div class="slds-form-element__control">
+                <lightning-formatted-text
+                  class="slds-form-element__static"
+                  value={listOfLoanDetailsSummary.natureOfBusinessIndv}
+                ></lightning-formatted-text>
+              </div>
+            </div>
+          </lightning-layout-item>
+
+<!--LAK-7316 BIL - UW Summary-->
+          
+          <lightning-layout-item if:true={isBLorPL}
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="4"
+          >
+            <div class="slds-form-element slds-form-element_horizontal">
+              <span class="slds-form-element__label">Business Vintage(Yrs)</span>
+              <div class="slds-form-element__control">
+                <lightning-formatted-number
+                  class="slds-form-element__static"
+                  value={listOfLoanDetailsSummary.businessVintage}
+                ></lightning-formatted-number>
+              </div>
+            </div>
+          </lightning-layout-item>
+
+          <lightning-layout-item
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="4"
+          >
+            <div class="slds-form-element slds-form-element_horizontal">
+              <span class="slds-form-element__label">Loan To Director/Senior Officer or their relative</span>
+              <div class="slds-form-element__control">
+                <lightning-formatted-text
+                  class="slds-form-element__static"
+                  value={listOfLoanDetailsSummary.loanToRelativeCheck}
+                ></lightning-formatted-text>
+              </div>
+            </div>
+          </lightning-layout-item>
+
+<!--LAK-7316 BIL - UW Summary-->
+
+          <lightning-layout-item if:true={isBLorPL}
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="4"
+          >
+            <div class="slds-form-element slds-form-element_horizontal">
+              <span class="slds-form-element__label">Investment in Plant and Machinery</span>
+              <div class="slds-form-element__control">
+                <lightning-formatted-number
+                  class="slds-form-element__static"
+                  value={investmentInPlant}
+                ></lightning-formatted-number>
+              </div>
+            </div>
+          </lightning-layout-item>
+
+          <lightning-layout-item if:true={isBLorPL}
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="4"
+          >
+            <div class="slds-form-element slds-form-element_horizontal">
+              <span class="slds-form-element__label">Any Discrimination basis gender /Caste/Religion /Race (ESG Guidelines)</span>
+              <div class="slds-form-element__control">
+                <lightning-formatted-text
+                  class="slds-form-element__static"
+                  value={discrimination}
+                ></lightning-formatted-text>
+              </div>
+            </div>
+          </lightning-layout-item>
+
+          <lightning-layout-item
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="4"
+          >
+            <div class="slds-form-element slds-form-element_horizontal">
+              <span class="slds-form-element__label">ESG Negative Industry</span>
+              <div class="slds-form-element__control">
+                <lightning-formatted-text
+                  class="slds-form-element__static"
+                  value={listOfLoanDetailsSummary.ESGNegative}
+                ></lightning-formatted-text>
+              </div>
+            </div>
+          </lightning-layout-item>
+
+          <lightning-layout-item
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="4"
+          >
+            <div class="slds-form-element slds-form-element_horizontal">
+              <span class="slds-form-element__label">Main Applicant "MSME categorisation"</span>
+              <div class="slds-form-element__control">
+                <lightning-formatted-text
+                  class="slds-form-element__static"
+                  value={listOfLoanDetailsSummary.MSMEcategorisation}
+                ></lightning-formatted-text>
+              </div>
+            </div>
+          </lightning-layout-item>
+
+          <lightning-layout-item
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="4"
+          >
+            <div class="slds-form-element slds-form-element_horizontal">
+              <span class="slds-form-element__label">URC/UAC NUMBER </span>
+              <div class="slds-form-element__control">
+                <lightning-formatted-text
+                  class="slds-form-element__static"
+                  value={listOfLoanDetailsSummary.urcUacNumber}
+                ></lightning-formatted-text>
+              </div>
+            </div>
+          </lightning-layout-item>
+
+           
+  
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="4"
+            >
+              <div class="slds-form-element slds-form-element_horizontal">
+                <span class="slds-form-element__label">BT Financier</span>
+                <div class="slds-form-element__control">
+                  <lightning-formatted-text
+                  class="slds-form-element__static"
+                  value={listOfLoanDetailsSummary.BTFinancier}
+                ></lightning-formatted-text>
+                </div>
+              </div>
+            </lightning-layout-item>
+  
+          </lightning-layout>
+          
+        </div>
+      </lightning-record-view-form>
+    </lightning-card>
+  
+  </template>

@@ -1,0 +1,336 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+
+    <!-- <lightning-button label="Clone Loan Appliation" variant='brand' onclick={handleCloneLoanApp}
+        disabled={isReadOnly}></lightning-button> -->
+    <!-- </template> -->
+    <lightning-card>
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item size="12" padding="horizontal-small" small-device-size="12" medium-device-size="8"
+                large-device-size="6">
+                <lightning-input type="text" data-name="Loan Application or Finnone Number"
+                    label="Loan Application or Finnone Loan Number" value={loanNumber} disabled={isReadOnly}
+                    onchange={handleValueChange}></lightning-input>
+
+                <template if:true={showloanAppNotFound}>
+                    <div class="slds-text-color_error slds-m-top_small">
+                        <p>Loan Application Not Found. Please check the number and try again.</p>
+                    </div>
+                </template>
+            </lightning-layout-item>
+            <template if:true={showRemFields}>
+                <lightning-layout-item size="12" padding="horizontal-small" small-device-size="12"
+                    medium-device-size="8" large-device-size="6">
+                    <lightning-input if:true={loanData.Applicant__c} type="text" data-name="Customer Name"
+                        label="Customer Name" value={loanData.Applicant__r.TabName__c} disabled></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" padding="horizontal-small" small-device-size="12"
+                    medium-device-size="8" large-device-size="6">
+                    <lightning-input type="text" data-name="Product" label="Product" value={loanData.Product__c}
+                        disabled></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" padding="horizontal-small" small-device-size="12"
+                    medium-device-size="8" large-device-size="6">
+                    <lightning-input if:true={loanData.RMSMName__c} type="text" data-name="RM Name" label="RM Name"
+                        value={loanData.RMSMName__r.Name} disabled></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" padding="horizontal-small" small-device-size="12"
+                    medium-device-size="8" large-device-size="6">
+                    <lightning-input type="text" data-name="Status" label="Status" value={loanData.Status__c}
+                        disabled></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" padding="horizontal-small" small-device-size="12"
+                    medium-device-size="8" large-device-size="6">
+                    <lightning-input type="text" data-name="Loan Stage" label="Loan Stage" value={loanData.Stage__c}
+                        disabled></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" padding="horizontal-small" small-device-size="12"
+                    medium-device-size="8" large-device-size="6">
+                    <lightning-input type="text" data-name="Loan Sub Stage" label="Loan Sub Stage"
+                        value={loanData.SubStage__c} disabled></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item if:true={showRemFields} size="12" padding="horizontal-small"
+                    small-device-size="12" medium-device-size="8" large-device-size="6">
+                    <c-custom-lookup required="true" label="Select RM User" selected-icon-name="standard:identifier"
+                        object-api-name="TeamHierarchy__c" field-api-name="Employee__r.Name" selected-fields="Name"
+                        selected-record-id={lookupId} selected-record-name={selectedDsaRm}
+                        onselect={handleLookupFieldChange} filter-condn={filterConditionForLookup} key-id="Employee__c"
+                        disabled={isReadOnly}>
+                    </c-custom-lookup>
+                </lightning-layout-item>
+
+                <lightning-layout-item if:true={showRemFields} size="12" padding="horizontal-small"
+                    small-device-size="12" medium-device-size="8" large-device-size="6">
+                    <lightning-combobox placeholder="Select Value" data-name="Branch" label="Branch"
+                        options={picklistOptions} value={branchValue} onchange={handleChange}
+                        disabled={enableBranch}></lightning-combobox>
+                </lightning-layout-item>
+
+                <lightning-layout-item if:true={showRemFields} size="12" padding="horizontal-small"
+                    small-device-size="12" medium-device-size="8" large-device-size="6">
+                    <lightning-combobox placeholder="Select Value" data-name="Product" label="Product"
+                        options={prodOptions} value={productValue} onchange={handleChange}
+                        disabled={enableProduct}></lightning-combobox>
+                </lightning-layout-item>
+
+                <lightning-layout-item if:true={showRemFields} size="12" padding="horizontal-small"
+                    small-device-size="12" medium-device-size="8" large-device-size="6">
+                    <lightning-combobox placeholder="Select Value" data-name="Clone Reason" label="Clone Reason"
+                        options={cloneReaOptions} value={cloneResValue} onchange={handleChange}
+                        disabled={isReadOnly}></lightning-combobox>
+                </lightning-layout-item>
+
+                <lightning-layout-item if:true={showRemFields} size="12" padding="horizontal-small"
+                    small-device-size="12" medium-device-size="8" large-device-size="2">
+                    <div class="checkbox-wrapper slds-m-top_large">
+                        <lightning-input if:true={isCreatedDateGreaterThan30Days} type="checkbox" data-name="Financials"
+                            label="Financials" checked={finaCheckedValue} disabled={isReadOnly}
+                            onchange={handleCheckChange}></lightning-input>
+                    </div>
+                </lightning-layout-item>
+
+                <lightning-layout-item if:true={showRemFields} size="12" padding="horizontal-small"
+                    small-device-size="12" medium-device-size="8" large-device-size="2">
+                    <div class="checkbox-wrapper slds-m-top_large">
+                        <lightning-input if:true={isCreatedDateGreaterThan30Days} type="checkbox" data-name="Banking"
+                            label="Banking" checked={bankingCheckedValue} disabled={isReadOnly}
+                            onchange={handleCheckChange}></lightning-input>
+                    </div>
+                </lightning-layout-item>
+
+                <lightning-layout-item if:true={showRemFields} size="12" padding="horizontal-small"
+                    small-device-size="12" medium-device-size="8" large-device-size="2">
+                    <div class="checkbox-wrapper slds-m-top_large">
+                        <lightning-input if:true={isCreatedDateGreaterThan30Days} type="checkbox" data-name="Income"
+                            label="Income" checked={incomeCheckedValue} disabled={isReadOnly}
+                            onchange={handleCheckChange}></lightning-input>
+                    </div>
+                </lightning-layout-item>
+
+                <br />
+                <div class="slds-m-top_medium slds-p-horizontal_small">
+                    <lightning-button variant="success" label="Clone Loan Application" title="Clone Loan Application"
+                        onclick={handleCloneLoanApplication} class="slds-m-right_small"></lightning-button>
+                    <!-- <lightning-button variant="success" label="No" onclick={handleNoButton}></lightning-button> -->
+                </div>
+            </template>
+        </lightning-layout>
+    </lightning-card>
+
+
+
+
+    <!-- <template if:true={showModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-align--absolute-center slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div if:true={showSpinner}>
+                    <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+                    </lightning-spinner>
+                </div>
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+                    onclick={closeModal}>
+                    <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                        size="small"></lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item size="12" padding="horizontal-small" small-device-size="12"
+                            medium-device-size="8" large-device-size="6">
+                            <lightning-input type="text" data-name='Loan Application or Finnone Number'
+                                label="Loan Application or Finnone Number" value={loanNumber} disabled={isReadOnly}
+                                onchange={handleValueChange}></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item if:true={showloanAppNotFound} size="12" padding="horizontal-small"
+                            small-device-size="12" medium-device-size="8" large-device-size="6">
+                            <lightning-card>
+                                <div class="slds-p-around_medium">
+                                    <h2 class="slds-text-color_error">Loan Application Not Found</h2>
+                                    <p>Please check the number and try again.</p>
+                                </div>
+                            </lightning-card>
+                        </lightning-layout-item>
+                        <lightning-layout-item if:true={showRemFields} size="12" padding="horizontal-small"
+                            small-device-size="12" medium-device-size="8" large-device-size="6">
+                            <c-custom-lookup required=true label="select RM user"
+                                selected-icon-name="standard:identifier" object-api-name="TeamHierarchy__c"
+                                field-api-name="Employee__r.Name" selected-fields="Name" selected-record-id={lookupId}
+                                onselect={handleLookupFieldChange} filter-condn={filterConditionForLookup}
+                                key-id="Employee__c" disabled={isReadOnly}>
+                            </c-custom-lookup>
+                        </lightning-layout-item>
+                        <lightning-layout-item if:true={showRemFields} size="12" padding="horizontal-small"
+                            small-device-size="12" medium-device-size="8" large-device-size="6">
+                            <c-custom-lookup required=true label="Branch" selected-icon-name="standard:identifier"
+                                object-api-name="LocBrchJn__c" field-api-name="Branch__r.Name"
+                                selected-record-name={selectDSABranch} selected-record-id={locationBranJnId}
+                                onselect={handleBranchChange} filter-condn={filterConditionForBranc}
+                                disabled={isReadOnly}>
+                            </c-custom-lookup>
+                        </lightning-layout-item>
+                        <lightning-layout-item if:true={showRemFields} size="12" padding="horizontal-small"
+                            small-device-size="12" medium-device-size="8" large-device-size="6">
+                            <lightning-combobox placeholder="Select Value" data-name="Product" label="Product"
+                                options={prodOptions} value={productValue} onchange={handleChange}
+                                disabled={isReadOnly}></lightning-combobox>
+                        </lightning-layout-item>
+                        <lightning-layout-item if:true={showRemFields} size="12" padding="horizontal-small"
+                            small-device-size="12" medium-device-size="8" large-device-size="6">
+                            <lightning-combobox placeholder="Select Value" data-name="Clone Reason" label="Clone Reason"
+                                options={cloneReaOptions} value={cloneResValue} onchange={handleChange}
+                                disabled={isReadOnly}></lightning-combobox>
+                        </lightning-layout-item>
+                        <lightning-layout-item if:true={showRemFields} size="12" padding="horizontal-small"
+                            small-device-size="12" medium-device-size="8" large-device-size="6">
+                            <div class="checkbox-wrapper">
+                                <lightning-input if:true={isCreatedDateGreaterThan30Days} type="checkbox"
+                                    data-name='Financials' label="Financials" checked={finaCheckedValue}
+                                    disabled={isReadOnly} onchange={handleCheckChange}></lightning-input>
+                            </div>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item if:true={showRemFields} size="12" padding="horizontal-small"
+                            small-device-size="12" medium-device-size="8" large-device-size="6">
+                            <div class="checkbox-wrapper">
+                                <lightning-input if:true={isCreatedDateGreaterThan30Days} type="checkbox"
+                                    data-name='Banking' label="Banking" checked={bankingCheckedValue}
+                                    disabled={isReadOnly} onchange={handleCheckChange}></lightning-input>
+                            </div>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item if:true={showRemFields} size="12" padding="horizontal-small"
+                            small-device-size="12" medium-device-size="8" large-device-size="6">
+                            <div class="checkbox-wrapper">
+                                <lightning-input if:true={isCreatedDateGreaterThan30Days} type="checkbox"
+                                    data-name='Income' label="Income" checked={incomeCheckedValue} disabled={isReadOnly}
+                                    onchange={handleCheckChange}></lightning-input>
+                            </div>
+                        </lightning-layout-item>
+
+                    </lightning-layout>
+                    <br /><br />
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick={closeModal} title="No">No</button>
+                        <button class="slds-button slds-button_brand" onclick={handleCloneLoanApplication}
+                            title="Yes">Clone Loan
+                            Application</button>
+                    </footer>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+
+    </template> -->
+
+
+
+
+    <template if:true={caseInpro}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-align--absolute-center slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+
+                <!-- Modal/Popup Box LWC header here -->
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+                    onclick={closeCaseModal}>
+                    <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                        size="small"></lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                    <!-- <p style="text-align:center;"><b>{removeModalMessage}</b></p> -->
+                    <div class="slds-text-align_center slds-text-heading_small">
+                        <strong class="slds-text-color_warning">
+                            Verifications are in progress on this loan. Do you still want to clone the application
+                            ({recordTypeNameString})
+                            <!-- <template for:each={recordTypeName} for:item="type">
+                                <span key={type}>{type}</span>,
+                            </template>
+                            ) -->
+                        </strong>
+                    </div>
+                    <!-- Modal/Popup Box LWC footer starts here -->
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick={closeCaseModal} title="No">No</button>
+                        <button class="slds-button slds-button_brand" onclick={handleCaseModal} title="Yes">Yes</button>
+                    </footer>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+
+    </template>
+
+
+
+    <template if:false={allowClone}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-align--absolute-center slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+
+                <!-- Modal/Popup Box LWC header here -->
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+                    onclick={closeFalseModal}>
+                    <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                        size="small"></lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3">
+                    <!-- <p style="text-align:center;"><b>{removeModalMessage}</b></p> -->
+                    <div class="slds-text-align_center slds-text-heading_small">
+                        <strong class="slds-text-color_error">
+                            You are not allowed to clone the loan application
+                        </strong>
+                    </div>
+                    <!-- Modal/Popup Box LWC footer starts here -->
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick={closeFalseModal} title="No">No</button>
+                        <!-- <button class="slds-button slds-button_brand" onclick={handleCaseModal} title="Yes">Yes</button> -->
+                    </footer>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+
+    </template>
+
+
+
+    <template if:true={showMsg}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-align--absolute-center slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+
+                <!-- Modal/Popup Box LWC header here -->
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+                    onclick={closeSuccssModal}>
+                    <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                        size="small"></lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-4">
+                    <!-- <p style="text-align:center;"><b>{removeModalMessage}</b></p> -->
+                    <div class="slds-text-align_center slds-text-heading_small">
+                        <strong class="slds-text-color_success">
+                            Cloning of Loan Application is In Progress.&nbsp;New Loan Application Number is&nbsp;
+                            <a href={loanAppUrl} target="_blank" style="text-decoration: underline;">{loanAppLink}</a>
+                        </strong>
+                    </div>
+                    <!-- Modal/Popup Box LWC footer starts here -->
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick={closeSuccssModal}
+                            title="No">No</button>
+                        <!-- <button class="slds-button slds-button_brand" onclick={handleCaseModal} title="Yes">Yes</button> -->
+                    </footer>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+
+    </template>
+
+</template>

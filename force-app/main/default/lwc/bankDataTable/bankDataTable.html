@@ -1,0 +1,791 @@
+<template>
+
+  <div if:true={showSpinner}>
+    <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+    </lightning-spinner>
+  </div>
+    <template style="padding-top:1000px" lwc:if={desktopBoolean}>
+      
+        <table aria-multiselectable="true"
+            class="slds-table slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols" role="grid"
+            aria-label="Example advanced table of Opportunities in actionable mode">
+            <thead>
+                <tr class="slds-line-height_reset">
+                    <th style="text-align: center" aria-label="Bank Name" aria-sort="none"
+                        class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+                        <a class="slds-th__action slds-text-link_reset" role="button" tabindex="0">
+                            <span class="slds-assistive-text">Sort by: </span>
+                            <div class="slds-grid slds-grid_vertical-align-left slds-has-flexi-truncate " >
+                            <span class="slds-truncate slds-align_absolute-left" title="Bank Name">Bank Name</span>
+                            <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon " aria-hidden="true">
+                                </svg>
+                            </span>
+                            </div>
+                        </a>
+                        <div class="slds-resizable">
+                            <input type="range" aria-label="Bank Name column width"
+                            class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-533" max="1000" min="20"
+                            tabindex="0" />
+                            <span class="slds-resizable__handle">
+                            <span class="slds-resizable__divider dividerPosition"></span>
+                            </span>
+                        </div>
+                        </th>
+<th aria-label="Account Type" aria-sort="none"
+                        class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+                        <a class="slds-th__action slds-text-link_reset" role="button" tabindex="0">
+                            <span class="slds-assistive-text">Sort by: </span>
+                            <div class="slds-grid slds-grid_vertical-align-left slds-has-flexi-truncate">
+                            <span class="slds-truncate slds-align_absolute-left" title="Account Type">Account Type</span>
+                            <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon " aria-hidden="true">
+                                </svg>
+                            </span>
+                            </div>
+                        </a>
+                        <div class="slds-resizable">
+                            <input type="range" aria-label="Account Type column width"
+                            class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-534" max="1000" min="20"
+                            tabindex="0" />
+                            <span class="slds-resizable__handle">
+                            <span class="slds-resizable__divider dividerPosition"></span>
+                            </span>
+                        </div>
+                        </th>
+                        <th aria-label="Document Name" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode"
+                        scope="col">
+                        <a class="slds-th__action slds-text-link_reset"  role="button" tabindex="0">
+                            <span class="slds-assistive-text">Sort by: </span>
+                            <div class="slds-grid slds-grid_vertical-align-left slds-has-flexi-truncate">
+                            <span class="slds-truncate slds-align_absolute-left" title="Document Name">Document Name</span>
+                            <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon " aria-hidden="true">
+                                </svg>
+                            </span>
+                            </div>
+                        </a>
+                        <div class="slds-resizable">
+                            <input type="range" aria-label="Document Name column width"
+                            class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-542" max="1000" min="20"
+                            tabindex="0" />
+                            <span class="slds-resizable__handle">
+                            <span class="slds-resizable__divider dividerPosition"></span>
+                            </span>
+                        </div>
+                        </th>
+                        <th aria-label="File Type" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode"
+                        scope="col">
+                        <a class="slds-th__action slds-text-link_reset"  role="button" tabindex="0">
+                            <span class="slds-assistive-text">Sort by: </span>
+                            <div class="slds-grid slds-grid_vertical-align-left slds-has-flexi-truncate">
+                            <span class="slds-truncate slds-align_absolute-left" title="File Type">File Type</span>
+                            <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon " aria-hidden="true">
+                                
+                                </svg>
+                            </span>
+                            </div>
+                        </a>
+                        <div class="slds-resizable">
+                            <input type="range" aria-label="File Type column width"
+                            class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-543" max="700" min="20"
+                            tabindex="0" />
+                            <span class="slds-resizable__handle">
+                            <span class="slds-resizable__divider dividerPosition"></span>
+                            </span>
+                        </div>
+                        </th>
+                        
+                        <th aria-label="Is This Salary Account" aria-sort="none"
+                        class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col" if:true={showSalaryAccount}>
+                        <a class="slds-th__action slds-text-link_reset" role="button" tabindex="0">
+                          <span class="slds-assistive-text">Sort by: </span>
+                          <div class="slds-grid slds-grid_vertical-align-left slds-has-flexi-truncate">
+                            <span class="slds-truncate slds-align_absolute-left" title="Is This Salary Account">Is This Salary Account</span>
+                            <span class="slds-icon_container slds-icon-utility-arrowdown">
+                              <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon " aria-hidden="true">
+                              
+                              </svg>
+                            </span>
+                          </div>
+                        </a>
+                        <div class="slds-resizable">
+                          <input type="range" required aria-label="is This Salary Account File column width"
+                            class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-539" max="1000" min="20"
+                            tabindex="0" />
+                          <span class="slds-resizable__handle">
+                            <span class="slds-resizable__divider dividerPosition"></span>
+                          </span>
+                        </div>
+                      </th>
+                      
+                        <th aria-label="Perfios Status" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode"
+                            scope="col">
+                            <a class="slds-th__action slds-text-link_reset"  role="button" tabindex="0">
+                                <span class="slds-assistive-text">Sort by: </span>
+                                <div class="slds-grid slds-grid_vertical-align-left slds-has-flexi-truncate">
+                                <span class="slds-truncate slds-align_absolute-left" title="View">Perfios Status</span>
+                                <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                    <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon " aria-hidden="true">
+                                    
+                                    </svg>
+                                </span>
+                                </div>
+                            </a>
+                            <div class="slds-resizable">
+                                <input type="range" aria-label="File Type column width"
+                                class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-547" max="1000" min="20"
+                                tabindex="0" />
+                                <span class="slds-resizable__handle">
+                                <span class="slds-resizable__divider dividerPosition"></span>
+                                </span>
+                            </div>
+                            </th>
+
+                            <th style="width: 200px; text-align: center;" aria-label="Error Message Perfios" aria-sort="none"
+                                class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+                                <a class="slds-th__action slds-text-link_reset" role="button" tabindex="0">
+                                    <span class="slds-assistive-text">Sort by: </span>
+                                    <div class="slds-grid slds-grid_vertical-align-left slds-has-flexi-truncate">
+                                        <span class="slds-truncate slds-align_absolute-left" title="Error Message Perfios">Error Message Perfios</span>
+                                        <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                            <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </a>
+                                <div class="slds-resizable">
+                                    <input type="range" aria-label="Error Message Perfios column width"
+                                          class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-5388" max="1000" min="20"
+                                          tabindex="0"/>
+                                    <span class="slds-resizable__handle">
+                                        <span class="slds-resizable__divider dividerPosition"></span>
+                                    </span>
+                                </div>
+                            </th>
+                            <template if:true={showAndIntegrationCol}>
+                          <th aria-label="View" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode"
+                            scope="col">
+                            <a class="slds-th__action slds-text-link_reset"  role="button" tabindex="0">
+                                <span class="slds-assistive-text">Sort by: </span>
+                                <div class="slds-grid slds-grid_vertical-align-left slds-has-flexi-truncate">
+                                <span class="slds-truncate slds-align_absolute-left" title="View">View</span>
+                                <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                    <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon " aria-hidden="true">
+                                    
+                                    </svg>
+                                </span>
+                                </div>
+                            </a>
+                            <div class="slds-resizable">
+                                <input type="range" aria-label="File Type column width"
+                                class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-545" max="1000" min="20"
+                                tabindex="0" />
+                                <span class="slds-resizable__handle">
+                                <span class="slds-resizable__divider dividerPosition"></span>
+                                </span>
+                            </div>
+                            </th>
+                            </template>
+                            <th aria-label="Integration" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode"
+                            scope="col">
+                            <a class="slds-th__action slds-text-link_reset"  role="button" tabindex="0">
+                                <span class="slds-assistive-text">Sort by: </span>
+                                <div class="slds-grid slds-grid_vertical-align-left slds-has-flexi-truncate">
+                                <span class="slds-truncate slds-align_absolute-left " title="Integration">Integration</span>
+                                <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                    <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon " aria-hidden="true">
+                                    
+                                    </svg>
+                                </span>
+                                </div>
+                            </a>
+                            <div class="slds-resizable">
+                                <input type="range" aria-label="File Type column width"
+                                class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-546" max="1000" min="20"
+                                tabindex="0" />
+                                <span class="slds-resizable__handle">
+                                <span class="slds-resizable__divider dividerPosition"></span>
+                                </span>
+                            </div>
+                            </th> 
+                          <th aria-label="Actions" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode"
+                        scope="col">
+                            <a class="slds-th__action slds-text-link_reset"  role="button" tabindex="0">
+                                <span class="slds-assistive-text">Sort by: </span>
+                                <div class="slds-grid slds-grid_vertical-align-left slds-has-flexi-truncate">
+                                <span class="slds-truncate slds-align_absolute-left" title="Actions">Actions</span>
+                                <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                    <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon " aria-hidden="true">
+                                  
+                                    </svg>
+                                </span>
+                                </div>
+                            </a>
+                            <div class="slds-resizable">
+                                <input type="range" aria-label="Actions column width" class="slds-resizable__input slds-assistive-text"
+                                id="cell-resize-handle-540" max="1000" min="20" tabindex="0" />
+                                <span class="slds-resizable__handle">
+                                <span class="slds-resizable__divider dividerPosition"></span>
+                                </span>
+                            </div>
+                      </th>
+
+                      <th aria-label="File Upload" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode"
+                        scope="col">
+                            <a class="slds-th__action slds-text-link_reset"  role="button" tabindex="0">
+                                <span class="slds-assistive-text">Sort by: </span>
+                                <div class="slds-grid slds-grid_vertical-align-left slds-has-flexi-truncate">
+                                <span class="slds-truncate slds-align_absolute-left" title="File Upload">File Upload</span>
+                                <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                    <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon " aria-hidden="true">
+                                  
+                                    </svg>
+                                </span>
+                                </div>
+                            </a>
+                            <div class="slds-resizable">
+                                <input type="range" aria-label="Actions column width" class="slds-resizable__input slds-assistive-text"
+                                id="cell-resize-handle-549" max="1000" min="20" tabindex="0" />
+                                <span class="slds-resizable__handle">
+                                <span class="slds-resizable__divider dividerPosition"></span>
+                                </span>
+                            </div>
+                      </th>
+                      <template if:true={showAndIntegrationCol}>
+                      <th aria-label="Download File" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode"
+                        scope="col">
+                            <a class="slds-th__action slds-text-link_reset"  role="button" tabindex="0">
+                                <span class="slds-assistive-text">Sort by: </span>
+                                <div class="slds-grid slds-grid_vertical-align-left slds-has-flexi-truncate">
+                                <span class="slds-truncate slds-align_absolute-left" title="Download File">Download Perfios File</span>
+                                <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                    <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon " aria-hidden="true">
+                                  
+                                    </svg>
+                                </span>
+                                </div>
+                            </a>
+                            <div class="slds-resizable">
+                                <input type="range" aria-label="Actions column width" class="slds-resizable__input slds-assistive-text"
+                                id="cell-resize-handle-541" max="1000" min="20" tabindex="0" />
+                                <span class="slds-resizable__handle">
+                                <span class="slds-resizable__divider dividerPosition"></span>
+                                </span>
+                            </div>
+                      </th>
+                    </template>
+                </tr>
+            </thead>
+            <tbody>
+              
+              <template for:each={_childData} for:item="fileIterator" for:index="index">
+                <tr key={fileIterator.Id} aria-selected="false" class="slds-hint-parent">
+                  <th class="slds-cell_action-mode" scope="row">
+                    <div class="slds-truncate" title={fileIterator.SFDC_Bank_Master_Name__c}>
+                      {fileIterator.SFDC_Bank_Master_Name__c}
+                    
+                    </div>
+                  </th>
+                 <td class="slds-cell_action-mode" role="gridcell">
+                  
+                    <div class="slds-truncate" title={fileIterator.AccountType__c}>{fileIterator.AccountType__c}</div>
+                  </td>
+                  <td class="slds-cell_action-mode" role="gridcell">
+                    <div class="slds-truncate" title={fileIterator.AllDocumentNames__c}>{fileIterator.AllDocumentNames__c}</div>
+                  </td>
+                  
+                  <td class="slds-cell_action-mode" role="gridcell">
+                    <div class="slds-truncate" title={fileIterator.FileType__c}>{fileIterator.FileType__c}</div>
+                  </td>
+                  <td class="slds-cell_action-mode" role="gridcell" if:true={showSalaryAccount}>
+                    <div class="slds-truncate" title={fileIterator.SalaryAccount__c}></div>
+                    <div class="slds-truncate slds-text-align_center" title="isThisSalaryAcc">
+                        
+                          <lightning-input variant="label-hidden" type="checkbox"  checked={fileIterator.SalaryAccount__c}
+                            data-id="checkbox" onchange={handleInputChange} data-index={index} disabled={disableMode}></lightning-input>
+                        
+                        
+                    </div>
+                  </td>
+                  
+                    <td class="slds-cell_action-mode" role="gridcell">
+                      
+                      <div class="slds-truncate" title={fileIterator.Initiate_Perfios_Status__c}>{fileIterator.Initiate_Perfios_Status__c}</div>
+                    </td>
+                    <td class="" >
+                      <lightning-textarea rows="1" visibility="1" class="" value={fileIterator.IntegrationErrorMessage__c}  disabled="true"  ></lightning-textarea>
+                    
+                    </td>
+                    <template if:true={showAndIntegrationCol}>
+                    <td ><lightning-button variant="success" label="View" data-index={index} title="View Details" onclick={handleShowAllDetails}  class="slds-m-left_x-small slds-truncate"></lightning-button></td>
+                  </template>
+                    <td >
+                      <template if:true={showAndIntegrationCol}>
+                      <lightning-button style="font-size: 12px;"  variant="success" label="Initiate Perfios" data-index={index} title="Initiate Perfios" onclick={handleForIntegration} class="slds-m-left_x-small slds-truncate" data-id={fileIterator.Id} disabled={fileIterator.isCanDis}></lightning-button><br/><br/>
+                    </template>
+                      <lightning-button style="font-size: 10px; padding-top: 1px;"  variant="success" label="Fetch Statement" data-index={index} title="Fetch Statement" onclick={handleForFetchStatement} class="slds-m-left_x-small slds-truncate" data-id={fileIterator.Id} disabled={fileIterator.FetchDis}></lightning-button>
+                    </td>
+                
+                  <td>
+                    <div class="slds-text-align_left">
+                          <lightning-button-icon class="custom-button slds-p-right_xx-small custom-css" onclick={handleDocumentView} data-index={index}  
+                          icon-name='utility:preview' alternative-text='preview' variant='success' size='small'
+                          title='preview' disabled={fileIterator.isFileDis}></lightning-button-icon>
+                          
+                            
+                              <lightning-button-icon icon-name="utility:delete"  data-index={index} variant="border-filled" onclick={handleDocumentDelete}  alternative-text="Delete" size='small'  class="slds-m-left_xx-small custom-css1"   title="Delete" disabled={disableMode}></lightning-button-icon>
+                    </div>
+                  </td>
+                  <td>
+                    
+                    <div class="slds-text-align_left">
+                      <lightning-button-icon class="custom-button slds-p-right_xx-small custom-css" onclick={handleFileUpload} data-index={index}  
+                      icon-name='utility:upload' alternative-text='Add Files' size='small'
+                          title='Add Files' disabled={fileIterator.UploadDis} variant='success' ></lightning-button-icon>
+                          
+                    </div>
+                  </td>
+                  <template if:true={showAndIntegrationCol}>
+                    <td ><lightning-button  style="font-size: 11px;" variant="success" label="Download File" data-index={index} title="Download File" onclick={handlePerfiosDownloadFile}  class="slds-m-left_x-small slds-truncate" disabled={downloadFileDis} ></lightning-button></td>
+                  </template>
+                  </tr>
+              </template>
+    
+            </tbody>
+          </table>
+
+         <!-- <div id="containerDiv" onmousemove={handlemousemove} onmouseup={handlemouseup}
+          ondblclick={handledblclickresizable}
+          class="slds-table_header-fixed_container slds-border_right slds-border_left tableScroll"
+          onscroll={tableOuterDivScrolled}>
+          <div id="tableViewInnerDiv" class="slds-scrollable_y tableViewInnerDiv slds-scrollable">
+              <table
+                  class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout slds-max-medium-table_stacked-horizontal"
+                  onscroll={tableScrolled}>
+                  <thead>
+                      <tr>
+                          
+                          <th title="Bank Name" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                              scope="col">
+                              <div class="slds-cell-fixed fixedWidth">
+                                  <a class="slds-th__action slds-text-link--reset">
+                                      <span class="slds-truncate">Bank Name</span>
+                                  </a>
+                                  <div class="slds-resizable">
+                                      <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                          <span class="slds-resizable__divider"></span>
+                                      </span>
+                                  </div>
+                              </div>
+                          </th>
+                          <th title="Account Type" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                              scope="col">
+                              <div class="slds-cell-fixed fixedWidth">
+                                  <a class="slds-th__action slds-text-link--reset" href="#" role="button"
+                                      tabindex="0">
+                                      <span class="slds-truncate">Account Type</span>
+                                  </a>
+                                  <div class="slds-resizable">
+                                      <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                          <span class="slds-resizable__divider"></span>
+                                      </span>
+                                  </div>
+                              </div>
+                          </th>
+                          <th title="Document Name" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                              scope="col">
+                              <div class="slds-cell-fixed fixedWidth">
+                                  <a class="slds-th__action slds-text-link--reset" href="#" role="button"
+                                      tabindex="0">
+                                      <span class="slds-truncate">Document Name</span>
+                                  </a>
+                                  <div class="slds-resizable">
+                                      <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                          <span class="slds-resizable__divider"></span>
+                                      </span>
+                                  </div>
+                              </div>
+                          </th>
+
+                          <th title="File Type" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                          scope="col">
+                          <div class="slds-cell-fixed fixedWidth">
+                              <a class="slds-th__action slds-text-link--reset" href="#" role="button"
+                                  tabindex="0">
+                                  <span class="slds-truncate">File Type</span>
+                              </a>
+                              <div class="slds-resizable">
+                                  <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                      <span class="slds-resizable__divider"></span>
+                                  </span>
+                              </div>
+                          </div>
+                      </th>
+
+                          <th title="Is This Salary Account" if:true={showSalaryAccount} class="slds-is-resizable dv-dynamic-width fixedWidth"
+                          scope="col">
+                          <div class="slds-cell-fixed fixedWidth">
+                              <a class="slds-th__action slds-text-link--reset" href="#" role="button"
+                                  tabindex="0">
+                                  <span class="slds-truncate">Is This Salary Account</span>
+                              </a>
+                              <div class="slds-resizable">
+                                  <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                      <span class="slds-resizable__divider"></span>
+                                  </span>
+                              </div>
+                          </div>
+                      </th>
+                      <template if:true={showAndIntegrationCol}>
+                          <th title="Perfios Status" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                              scope="col">
+                              <div class="slds-cell-fixed fixedWidth">
+                                  <a class="slds-th__action slds-text-link--reset" href="#" role="button"
+                                      tabindex="0">
+                                      <span class="slds-truncate">Perfios Status</span>
+                                  </a>
+                                  <div class="slds-resizable">
+                                      <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                          <span class="slds-resizable__divider"></span>
+                                      </span>
+                                  </div>
+                              </div>
+                          </th>
+
+                          <th title="Error Message Perfios" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                              scope="col">
+                              <div class="slds-cell-fixed fixedWidth">
+                                  <a class="slds-th__action slds-text-link--reset" href="#" role="button"
+                                      tabindex="0">
+                                      <span class="slds-truncate">Error Message Perfios</span>
+                                  </a>
+                                  <div class="slds-resizable">
+                                      <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                          <span class="slds-resizable__divider"></span>
+                                      </span>
+                                  </div>
+                              </div>
+                          </th>
+                        
+
+                      <th title="View" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                      scope="col">
+                      <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button"
+                              tabindex="0">
+                              <span class="slds-truncate">View</span>
+                          </a>
+                          <div class="slds-resizable">
+                              <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                  <span class="slds-resizable__divider"></span>
+                              </span>
+                          </div>
+                      </div>
+                  </th>
+
+                          <th title="Integration" class="slds-is-resizable dv-dynamic-width fixedWidthForActions"
+                              scope="col"  style="width:350px;">
+                              <div class="slds-cell-fixed fixedWidthForActions" style="width:350px;">
+                                  <a class="slds-th__action slds-text-link--reset" href="#" role="button"
+                                      tabindex="0">
+                                      <span class="slds-truncate">Integration</span>
+                                  </a>
+                                  <div class="slds-resizable">
+                                      <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                          <span class="slds-resizable__divider"></span>
+                                      </span>
+                                  </div>
+                              </div>
+                          </th>
+                        </template>
+                          <th title="Actions" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                          scope="col">
+                          <div class="slds-cell-fixed fixedWidth">
+                              <a class="slds-th__action slds-text-link--reset" href="#" role="button"
+                                  tabindex="0">
+                                  <span class="slds-truncate">Actions</span>
+                              </a>
+                              <div class="slds-resizable">
+                                  <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                      <span class="slds-resizable__divider"></span>
+                                  </span>
+                              </div>
+                          </div>
+                      </th>
+
+                      <th title="File Upload" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                      scope="col">
+                      <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button"
+                              tabindex="0">
+                              <span class="slds-truncate">File Upload</span>
+                          </a>
+                          <div class="slds-resizable">
+                              <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                  <span class="slds-resizable__divider"></span>
+                              </span>
+                          </div>
+                      </div>
+                  </th>
+
+                  <th title="Download Perfios File" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                  scope="col">
+                  <div class="slds-cell-fixed fixedWidth">
+                      <a class="slds-th__action slds-text-link--reset" href="#" role="button"
+                          tabindex="0">
+                          <span class="slds-truncate">Download Perfios File</span>
+                      </a>
+                      <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                          </span>
+                      </div>
+                  </div>
+              </th>        
+                      </tr>
+                  </thead>
+                  <tbody>
+                    <template for:each={_childData} for:item="fileIterator" for:index="index">
+                      <tr key={fileIterator.Id} aria-selected="false" class="slds-hint-parent">
+                        <th class="slds-cell_action-mode" scope="row">
+                          <div class="slds-truncate" title={fileIterator.SFDC_Bank_Master_Name__c}>
+                            {fileIterator.SFDC_Bank_Master_Name__c}
+                          
+                          </div>
+                        </th>
+                       <td class="slds-cell_action-mode" role="gridcell">
+                        
+                          <div class="slds-truncate" title={fileIterator.AccountType__c}>{fileIterator.AccountType__c}</div>
+                        </td>
+                        <td class="slds-cell_action-mode" role="gridcell">
+                          <div class="slds-truncate" title={fileIterator.AllDocumentNames__c}>{fileIterator.AllDocumentNames__c}</div>
+                        </td>
+                        
+                        <td class="slds-cell_action-mode" role="gridcell">
+                          <div class="slds-truncate" title={fileIterator.FileType__c}>{fileIterator.FileType__c}</div>
+                        </td>
+                        <td class="slds-cell_action-mode" role="gridcell" if:true={showSalaryAccount}>
+                          <div class="slds-truncate" title={fileIterator.SalaryAccount__c}></div>
+                          <div class="slds-truncate slds-text-align_center" title="isThisSalaryAcc">
+                              
+                                <lightning-input variant="label-hidden" type="checkbox"  checked={fileIterator.SalaryAccount__c}
+                                  data-id="checkbox" onchange={handleInputChange} data-index={index} disabled={disableMode}></lightning-input>
+                              
+                              
+                          </div>
+                        </td>
+                        <template if:true={showAndIntegrationCol}>
+                          <td class="slds-cell_action-mode" role="gridcell">
+                            
+                            <div class="slds-truncate" title={fileIterator.Initiate_Perfios_Status__c}>{fileIterator.Initiate_Perfios_Status__c}</div>
+                          </td>
+                          <td class="" >
+                            <lightning-textarea rows="1" visibility="1" class="" value={fileIterator.IntegrationErrorMessage__c}  disabled="true"  ></lightning-textarea>
+                          
+                          </td>
+                          <td ><lightning-button variant="success" label="View" data-index={index} title="View Details" onclick={handleShowAllDetails}  class="slds-m-left_x-small slds-truncate"></lightning-button></td>
+                          <td ><lightning-button style="font-size: 12px;"  variant="success" label="Initiate Perfios" data-index={index} title="Initiate Perfios" onclick={handleForIntegration} class="slds-m-left_x-small slds-truncate" data-id={fileIterator.Id} disabled={fileIterator.isCanDis}></lightning-button><br/><br/>
+                            <lightning-button style="font-size: 10px; padding-top: 1px;"  variant="success" label="Fetch Statement" data-index={index} title="Fetch Statement" onclick={handleForFetchStatement} class="slds-m-left_x-small slds-truncate" data-id={fileIterator.Id} disabled={fileIterator.FetchDis}></lightning-button>
+                          </td>
+                      </template>
+                        <td>
+                          <div class="slds-text-align_left">
+                                <lightning-button-icon class="custom-button slds-p-right_xx-small custom-css" onclick={handleDocumentView} data-index={index}  
+                                icon-name='utility:preview' alternative-text='preview' variant='success' size='small'
+                                title='preview' disabled={fileIterator.isFileDis}></lightning-button-icon>
+                                
+                                  
+                                    <lightning-button-icon icon-name="utility:delete"  data-index={index} variant="border-filled" onclick={handleDocumentDelete}  alternative-text="Delete" size='small'  class="slds-m-left_xx-small custom-css1"   title="Delete" disabled={disableMode}></lightning-button-icon>
+      
+                                  
+                          </div>
+                        </td>
+                        <td>
+                          
+                          <div class="slds-text-align_left">
+                            <lightning-button-icon class="custom-button slds-p-right_xx-small custom-css" onclick={handleFileUpload} data-index={index}  
+                            icon-name='utility:upload' alternative-text='Add Files' size='small'
+                                title='Add Files' disabled={fileIterator.UploadDis} variant='success' ></lightning-button-icon>
+                                
+                          </div>
+                        </td>
+                        <template if:true={showAndIntegrationCol}>
+                          <td ><lightning-button  style="font-size: 11px;" variant="success" label="Download File" data-index={index} title="Download File" onclick={handlePerfiosDownloadFile}  class="slds-m-left_x-small slds-truncate" disabled={downloadFileDis} ></lightning-button></td>
+                        </template>
+                        </tr>                      </template>
+                  </tbody>
+              </table>
+          </div>
+      </div>-->
+      </template>
+
+      <template lwc:if={phoneBolean}>
+
+        <div class="slds-m-top_medium slds-m-bottom_x-large">
+          <template for:each={_childData} for:item="fileIterator" for:index="index">
+            <div key={fileIterator.docId} class="slds-p-around_medium lgc-bg">
+              <ul class="slds-has-dividers_bottom-space">
+                <li class="slds-item">
+                  <lightning-tile>
+                    <dl class="slds-dl_horizontal">
+                     
+                      <dt class="slds-dl_horizontal__label">
+                        <p  title="Bank Name">
+                          <b>Bank Name : </b>{fileIterator.SFDC_Bank_Master_Name__c}
+                          
+                        </p>
+                      </dt>
+                      <dt class="slds-dl_horizontal__label">
+                        <p  title="Account Type">
+                          <b>Account Type : </b>{fileIterator.AccountType__c}
+                          
+                        </p>
+                      </dt>
+                      
+                      <dt class="slds-dl_horizontal__label">
+                        <p class="slds-truncate" title="Document Name">
+                          <b>Document Name : </b>{fileIterator.AllDocumentNames__c}
+                          
+                        </p>
+                      </dt>
+                     
+                      <dt class="slds-dl_horizontal__label">
+                        <p class="slds-truncate" title="File Type">
+                          <b>File Type : </b>{fileIterator.FileType__c}
+                          
+                        </p>
+                      </dt>
+                     
+                      <dt class="slds-dl_horizontal__label" if:true={showSalaryAccount}>
+                        <p class="slds-truncate" title="isThisSalaryAcc">
+                         
+                          <b>Is This Salary Account : </b><lightning-input variant="label-hidden" type="checkbox"  checked={fileIterator.SalaryAccount__c}
+                          data-id="checkbox" onchange={handleInputChange} data-index={index}></lightning-input>
+                        </p>
+                      </dt>
+                      
+                      
+                      <dd class="slds-dl_horizontal__detail slds-tile__meta">
+
+                        <div if:true={showSpinner}>
+                          <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+                          </lightning-spinner>
+                        </div>
+                        <lightning-button-icon class="custom-button slds-p-right_xx-small custom-css" onclick={handleDocumentView} data-index={index}  
+                          icon-name='utility:preview' alternative-text='preview' variant='success' size='small'
+                          title='preview' disabled={fileIterator.isFileDis}></lightning-button-icon>
+                          <lightning-button-icon icon-name="utility:delete"  data-index={index} variant="border-filled" onclick={handleDocumentDelete}  alternative-text="Delete" size='small'  class="slds-m-left_xx-small custom-css1"   title="Delete" disabled={disableMode}></lightning-button-icon>
+                          <lightning-button-icon class="custom-button slds-p-right_xx-small custom-css" onclick={handleFileUpload} data-index={index}  
+                      icon-name='utility:upload' alternative-text='Add Files' size='small'
+                          title='Add Files' disabled={disableMode} variant='success' ></lightning-button-icon>
+                          
+                      </dd>
+                      <br /><br />
+                    </dl>
+                  </lightning-tile>
+                </li>
+              </ul>
+            </div>
+          </template>
+        </div>
+      </template>
+      
+      <template if:true={showModalForFilePre}> 
+        <c-multi-doc-previewer document-detail-id={documentDetailId} onclosepreview={handleCloseModalEvent} cont-vers-data-list={contVersDataList} has-document-id={hasDocumentId}> </c-multi-doc-previewer> 
+       
+      </template>
+      <template if:true={toShowappliBankData}> 
+        <c-show-all-bank-details layout-size={layoutSize} cust-profile={_custProfile} to-edit-all-details={toEditAllDetails} applicant-bnk-id={_applicantBnkId} 
+        loan-applicant-id={loanApplicantId} to-show-all-details={toShowAllDetails}
+         applicant-record-id={applicantRecoId} login-acce-date={loginAcceDate} 
+         file-acceptance-date={fileAcceptanceDate} all-appli-bnk-recs={_childData}
+          stage-of-loan-app={_stageOfLoanApp} req-loan-amount={reqLoanAmount} 
+          assessed-inc-app={assessedIncApp} has-edit-access={hasEditAccess} 
+          ontorefreshapex={toRefreshApex} bank-credit-flag={bankCreditFlag}></c-show-all-bank-details> 
+      </template>
+      <template if:true={isModalOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+          aria-describedby="modal-content-id-1" class="my-modal slds-modal slds-fade-in-open">
+          <div class="slds-modal__container">
+            <header class="slds-modal__header">
+              <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+                onclick={isCloseModal}>
+                <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                  size="small"></lightning-icon>
+                <span class="slds-assistive-text">Close</span>
+              </button>
+              <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Delete?</h2>
+            </header>
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+              <p style="text-align:center;"><b>{removeModalMessage}</b></p>
+            </div>
+             <footer class="slds-modal__footer">
+              <button class="slds-button slds-button_brand" data-documentid={docIdToDelete} data-cdlid={cdlIdToDelete}
+              onclick={handleRemoveRecord} title="Yes">Yes</button>
+              <button class="slds-button slds-button_neutral" onclick={isCloseModal} title="No">No</button>
+             
+            </footer>
+          </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+      </template>
+    <template if:true={openFileUploadModel}> 
+        <section
+        role="dialog"
+        tabindex="-1"
+        aria-labelledby="modal-heading-01"
+        aria-modal="true"
+        aria-describedby="modal-content-id-1"
+        class="slds-modal slds-fade-in-open"
+      >
+        <div class="slds-modal__container" style="min-width:80% !important;">
+         
+          <header class="slds-modal__header">
+            <lightning-button-icon
+              class="slds-modal__close"
+              title="Close"
+              icon-name="utility:close"
+              icon-class="slds-button_icon-inverse"
+              onclick={closeModal}
+            ></lightning-button-icon>
+    
+            <h2 id="id-of-modalheader-h2" class="slds-text-heading_large">
+              File Upload
+            </h2>
+          </header>
+         
+          <div class="slds-modal__content" id="modal-content-id-2">
+           
+                <article class="slds-card">
+                  <div
+                    class="slds-card__body slds-card__body_inner"
+                    style="margin: 0"
+                  >
+                  <c-upload-docs-reusable-component loan-app-id={loanApplicantId} applicant-id={_applicantRecId}
+                  doc-name={docName} doc-type={docType} disable-mode={disableFileUpload} doc-category={docCategory}
+                  onrefreshdoctable={fromUploadDocsContainer} 
+                  convert-to-single-image={convertToSingleImage} allowed-fil-format={allowedFilFormat}
+                  hide-attach-button={hideAttachButton} onchangefiles={parentFileChange} file-type-error={fileTypeError} 
+                  max-file-size={MAX_FILE_SIZE} document-detai-id={documentDetaiId}  file-size-msz={fileSizeMsz}></c-upload-docs-reusable-component>
+                </div>
+            </article>
+         
+      </div>
+      
+      <footer class="slds-modal__footer">
+        <lightning-button
+          variant="brand-outline"
+          label="Close"
+          onclick={closeModal}
+          title="Close"
+          class="slds-m-left_xx-large"
+        ></lightning-button>
+      </footer>
+    </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+        
+      </template>
+</template>

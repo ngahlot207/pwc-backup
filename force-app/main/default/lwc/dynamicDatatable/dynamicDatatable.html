@@ -1,0 +1,141 @@
+<template>
+
+    <template lwc:if={desktopBoolean}>
+        <template lwc:if={columnConfig}>
+            <!-- title={columnConfig.tableTitle}  class="slds-p-around_large" -->
+            <lightning-card>
+                <div id="containerDiv" onmousemove={handlemousemove} onmouseup={handlemouseup}
+                    ondblclick={handledblclickresizable}
+                    class="slds-table_header-fixed_container slds-border_right slds-border_left tableScroll"
+                    onscroll={tableOuterDivScrolled}>
+                    <div id="tableViewInnerDiv" class="slds-scrollable_y tableViewInnerDiv slds-scrollable"
+                        onscroll={tableScrolled}>
+                        <table
+                            class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout slds-max-medium-table_stacked-horizontal">
+                            <thead>
+                                <tr>
+                                    <template for:each={columnConfig.lstDataTableColumns} for:item="col">
+                                        <th key={col.fieldName} title={col.fieldName}
+                                            class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                            <div class="slds-cell-fixed fixedWidth">
+                                                <a class="slds-th__action slds-text-link--reset">
+                                                    <span class="slds-truncate">{col.label}</span>
+                                                </a>
+                                                <div class="slds-resizable">
+                                                    <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                        <span class="slds-resizable__divider"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </th>
+                                    </template>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={tableData} for:item="record">
+                                    <tr key={record.id} class="slds-hint-parent">
+                                        <template for:each={columnConfig.lstDataTableColumns} for:item="col"
+                                            for:index="index">
+                                            <td key={col.fieldName} data-label={col.label}>
+                                                <div class="slds-truncate">
+                                                    <c-dynamic-datatable-display-value object={record}
+                                                        field-name={col.fieldName} type={col.type} label={col.label}
+                                                        editable={col.Editable} onpreview={handleDocumentView}></c-dynamic-datatable-display-value>
+                                                </div>
+                                            </td>
+                                        </template>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- <table aria-multiselectable="true"
+                class="slds-table slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols" role="grid"
+                aria-label="Example advanced table of Opportunities in actionable mode">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <template for:each={columnConfig.lstDataTableColumns} for:item="col">
+                            <th key={col.fieldName} aria-label="Document Type" aria-sort="none"
+                                class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+                                <a class="slds-th__action slds-text-link_reset" href="#" role="button" tabindex="0">
+                                    <span class="slds-assistive-text">Sort by: </span>
+                                    <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                        <span class="slds-truncate" title={col.fieldName}>{col.label}</span>
+                                        <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                            <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon"
+                                                aria-hidden="true">
+                                                <use
+                                                    xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown">
+                                                </use>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </a>
+                                <div class="slds-resizable">
+                                    <input type="range" aria-label="column width"
+                                        class="slds-resizable__input slds-assistive-text" max="1000" min="20"
+                                        tabindex="0" />
+                                    <span class="slds-resizable__handle">
+                                        <span class="slds-resizable__divider dividerPosition"></span>
+                                    </span>
+                                </div>
+                            </th>
+                        </template>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={tableData} for:item="record">
+                        <tr key={record.id} class="slds-hint-parent">
+                            <template for:each={columnConfig.lstDataTableColumns} for:item="col" for:index="index">
+                                <td key={col.fieldName} data-label={col.label}>
+                                    <div class="slds-truncate">
+                                        <c-dynamic-datatable-display-value object={record} field-name={col.fieldName}
+                                            type={col.type}></c-dynamic-datatable-display-value>
+                                    </div>
+                                </td>
+                            </template>
+                        </tr>
+                    </template>
+                </tbody>
+            </table> -->
+            </lightning-card>
+        </template>
+    </template>
+
+    <template lwc:if={phoneBolean}>
+        <template lwc:if={columnConfig}>
+            <lightning-card class="slds-p-around_large" title={columnConfig.tableTitle}><br />
+                <template for:each={tableData} for:item="item">
+                    <ul key={item.Id} class="slds-has-dividers_bottom-space">
+                        <li class="slds-item">
+                            <lightning-tile href="/path/to/somewhere">
+                                <dl class="slds-dl_horizontal">
+                                    <template for:each={columnConfig.lstDataTableColumns} for:item="col">
+                                        <dt key={col.fieldName} class="slds-dl_horizontal__label">
+                                            <p class="slds-truncate" title={col.label}>{col.label} :</p>
+                                        </dt>
+                                        <dd key={col.fieldName} class="slds-dl_horizontal__detail slds-tile__meta">
+                                            <p class="slds-truncate">
+                                                <c-dynamic-datatable-display-value object={record}
+                                                    field-name={col.fieldName} type={col.type}
+                                                    editable={col.Editable} onpreview={handleDocumentView}></c-dynamic-datatable-display-value>
+                                            </p>
+                                        </dd>
+                                    </template>
+                                </dl>
+                            </lightning-tile>
+                        </li>
+                    </ul>
+                </template>
+            </lightning-card>
+        </template>
+    </template>
+    <template if:true={showModalForFilePre}>
+		<!--<c-i-frame-preview image-type-file-url={imageTypeFileUrl} cont-doc-type={contDocType} cont-doc-id={contDocId}
+			url={url} cv-id={cvId} onclosepreview={handleCloseModalEvent}></c-i-frame-preview>-->
+		<c-multi-doc-previewer document-detail-id={documentDetailId} onclosepreview={handleCloseModalEvent}
+			has-document-id={hasDocumentId}> </c-multi-doc-previewer>
+	</template>
+</template>

@@ -1,0 +1,11 @@
+.tableScroll {
+    width: 100% !important;
+    overflow-x: auto;
+    /* height: 12rem; */
+  }
+  .fixedWidth{
+    width: 12rem;
+  }
+  .custom-button:hover {
+    cursor: pointer;
+}

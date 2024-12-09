@@ -1,0 +1,366 @@
+<template>
+
+    <lightning-card variant="base">
+        <div slot="title">
+            Loan Term Negotiation
+        </div>
+
+
+        <div slot="actions">
+            <template if:true={isRmUser}>
+                <lightning-button label="Initiate Loan Term Negotiation" name="Ltn" onclick={handleButtonClickLoanTerm}
+                    disabled={disableInitiation}></lightning-button>
+            </template>
+            <template if:true={isUwUser}>
+                <template if:false={disableClaim}>
+                    <lightning-button label="Claim Loan Term Negotiation" name="Ltn"
+                        onclick={handleClaimButtonClickLoanTerm} disabled={disableClaim}></lightning-button>
+                </template>
+
+            </template>
+        </div>
+        <div slot="footer">
+
+
+        </div>
+        <div>
+
+            <template if:true={showAvailabeAppl}>
+                <lightning-card variant="base">
+                    <div slot="title">
+                        Application History
+                    </div>
+                    <div slot="actions">
+
+                    </div>
+                    <div slot="footer">
+
+                    </div>
+                    <div>
+                        <!-- Card Body  -->
+                        <div class="slds-modal__content slds-p-around_medium scroller" id="modal-content-id-9">
+                            <table
+                                class="slds-table slds-table_cell-buffer slds-table_bordered slds-border_left slds-border_right"
+                                aria-labelledby="element-with-table-label other-element-with-table-label">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Relook Initiation Date">
+                                                Term Negotiation Initiation Date
+                                            </div>
+                                        </th>
+
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Loan Appeal No">Loan Appeal No</div>
+                                        </th>
+
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title=" Assigned UW Name">
+                                                Assigned UW Name
+                                            </div>
+                                        </th>
+
+                                        <!-- <th class="" scope="col">
+                                            <div class="slds-truncate" title="Comments">Comments</div>
+                                        </th> -->
+
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Status">
+                                                Status
+                                            </div>
+                                        </th>
+
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Actions">View</div>
+                                        </th>
+                                        <!-- <template if:true={isUwUser}>
+                                            <th class="" scope="col">
+                                                <div class="slds-truncate" title="Approve">Approve</div>
+                                            </th>
+                                            <th class="" scope="col">
+                                                <div class="slds-truncate" title="Submit">Reject</div>
+                                            </th>
+                                        </template> -->
+
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <template for:each={loanTermData} for:item="record">
+                                        <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+                                            <td data-label="Relook Initiation Date">
+                                                <div class="slds-truncate" title="Relook Initiation Date">
+                                                    <lightning-formatted-date-time value={record.CreatedDate}
+                                                        year="numeric" month="numeric" day="numeric" hour="2-digit"
+                                                        minute="2-digit"></lightning-formatted-date-time>
+
+                                                </div>
+                                            </td>
+
+                                            <td data-label="Loan Appeal No">
+                                                <div class="slds-truncate" title="Loan Appeal No">
+                                                    {record.Name}
+                                                </div>
+                                            </td>
+
+
+                                            <td data-label="Assigned UW Name">
+                                                <div class="slds-truncate" title="Assigned UW Name">
+                                                    {record.OwnerName}
+                                                </div>
+                                            </td>
+
+
+                                            <!-- <td data-label="Comments">
+                                                <lightning-textarea name="approvalcomment" value={record.Comments}
+                                                    data-id={record.Id} onchange={handleCommentChangeUw}
+                                                    disabled={record.DisableAppRej} required></lightning-textarea>
+
+                                            </td> -->
+
+                                            <td data-label="Status">
+                                                <div class="slds-truncate" title="Status">
+                                                    {record.Status}
+                                                </div>
+                                            </td>
+
+                                            <td data-label="Action">
+                                                <div class="slds-truncate" title="View">
+
+                                                    <lightning-button variant="success" label="View" data-id={record.Id}
+                                                        title="View" onclick={handleView}
+                                                        class="slds-m-left_x-small"></lightning-button>
+
+                                                </div>
+                                            </td>
+                                            <!-- <template if:true={isUwUser}>
+                                                <td data-label="Action">
+                                                    <div class="slds-truncate " title="Action">
+                                                        <lightning-button variant="Approve" label="Approve"
+                                                            data-id={record.Id} title="View" onclick={handleSumitUw}
+                                                            disabled={record.DisableAppRej}
+                                                            class="slds-m-left_x-small"></lightning-button>
+
+
+                                                    </div>
+                                                </td>
+                                                <td data-label="Submit">
+                                                    <div class="slds-truncate" title="Submit">
+
+                                                        <lightning-button variant="Reject" label="Reject"
+                                                            data-id={record.Id} title="View" onclick={handleSumitUw}
+                                                            disabled={record.DisableAppRej}
+                                                            class="slds-m-left_x-small"></lightning-button>
+
+                                                    </div>
+                                                </td>
+                                            </template> -->
+
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <template if:true={viewTableReport}>
+                            <c-multi-doc-previewer document-detail-id={documentDetailId}
+                                onclosepreview={handleCloseModalEvent} has-document-id={hasDocumentId}>
+                            </c-multi-doc-previewer>
+                        </template>
+                    </div>
+                </lightning-card>
+            </template>
+
+
+            <template if:true={loanAppealItems}>
+                <lightning-card>
+                    <!-- UPDATED TABLE  -->
+                    <div class="slds-modal__content slds-p-around_medium scroller">
+                        <table
+                            class="slds-table slds-table_cell-buffer slds-table_bordered slds-border_left slds-border_right"
+                            aria-labelledby="element-with-table-label other-element-with-table-label">
+                            <!-- <div class=" slds-theme_default scroller" style="width:400rem">
+                        <table
+                            class="slds-table slds-table_cell-buffer slds-border_right slds-border_left slds-table_bordered slds-table_col-bordered"
+                            aria-label="Example table of Opportunities with vertical borders"> -->
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Field">
+                                            Field
+                                        </div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Value">
+                                            Value
+                                        </div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title=" Sales response">
+                                            Sales response
+                                        </div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Sales comment">
+                                            Sales comment
+                                        </div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title=" Uw response">
+                                            Uw response
+                                        </div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title=" Uw comments">
+                                            Uw comments
+                                        </div>
+                                    </th>
+
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <template if:true={loanAppealItems} for:each={loanAppealItems} for:item="record">
+                                    <tr key={record.tempId} aria-selected="false" class="slds-hint-parent">
+                                        <td scope="col">
+                                            <div> {record.Field}</div>
+                                        </td>
+                                        <td scope="col" style="text-wrap: balance;">
+
+                                            <div> {record.DataEntry}</div>
+                                        </td>
+
+                                        <!-- <td data-label="Field">
+                                            <div class="slds-truncate" title="Field" style="text-wrap: balance;">
+                                                {record.Field}</div>
+                                        </td>
+                                        <td data-label="Value">
+                                            <div class="slds-truncate" title="Value" style="text-wrap: balance;">
+                                                {record.DataEntry}</div>
+                                        </td> -->
+                                        <td data-label="Sales Decision">
+                                            <lightning-combobox name="SalesDecision" value={record.SalesDecision}
+                                                data-id={record.tempId} options={YNoption} onchange={handleChange}
+                                                disabled={record.ViewOnlyRm}></lightning-combobox>
+
+                                        </td>
+                                        <td data-label="Sales Comment">
+                                            <div class="slds-truncate" title="Sales Comment">
+                                                <lightning-textarea name="SalesComment" value={record.SalesComment}
+                                                    data-id={record.tempId} onchange={handleCommentChange}
+                                                    disabled={record.ViewOnlyRm}
+                                                    required={record.SalesCommReq}></lightning-textarea>
+
+                                            </div>
+                                        </td>
+                                        <td data-label="Uw Decision">
+                                            <lightning-combobox name="UwDecision" value={record.UwDecision}
+                                                data-id={record.tempId} options={UwYNoption}
+                                                disabled={record.ViewOnlyUw} onchange={handleChange}
+                                                required></lightning-combobox>
+                                        </td>
+                                        <td data-label="Uw Comment">
+
+                                            <div class="slds-truncate" title="Uw Comment">
+                                                <lightning-textarea name="UwComment" value={record.UwComment}
+                                                    data-id={record.tempId} onchange={handleCommentChange}
+                                                    disabled={record.ViewOnlyUw} required></lightning-textarea>
+                                            </div>
+                                        </td>
+
+
+                                    </tr>
+
+                                </template>
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+
+
+
+                    <!-- OLD TABLE TO REMOVE -->
+                </lightning-card>
+                <div if:true={showUploadsection} class="slds-box">
+
+                    <c-capture-document-resuable has-edit-access='true' negotiation-initiated={negotiationInitiated}
+                        product-type={applicantRecs.LoanAppln__r.Product__c} applicant-id={applicantId}
+                        loan-app-id={loanAppId} layout-size={layoutSize} onfileupload={fileAdded}
+                        doc-type-option={docTypeOptions} document-catagory={docCatagory}></c-capture-document-resuable>
+                </div>
+                <!-- <c-capture-documents applicant-id={applicantRecs.Id} loan-app-id={loanAppId}
+                    product-type={applicantRecs.LoanAppln__r.Product__c} stage='Post Sanction' sub-stage='Data Entry'
+                    document-catagory={docCatagory} layout-size={layoutSize} applicant-id-on-tabset={applicantRecs.Id}
+                    has-edit-access='true' is-cpa='false' stage-name='Post Sanction'>
+                </c-capture-documents> -->
+
+
+
+                <div class="slds-clearfix">
+                    <lightning-button variant="brand" class="slds-float_right slds-p-around_x-small" label="Submit"
+                        disabled={disableSubmit} onclick={handleSaveLms}>
+                    </lightning-button>
+                </div>
+                <!-- <div if:true={ShowApprove} class="slds-clearfix">
+                    <lightning-button variant="Approve" label="Approve" data-id={record.Id} title="View"
+                        onclick={handleSumitUw} disabled={record.DisableAppRej}
+                        class="slds-m-left_x-small"></lightning-button>
+                </div>
+                <div if:true={ShowReject} class="slds-clearfix">
+                    <lightning-button variant="Reject" label="Reject" data-id={record.Id} title="View"
+                        onclick={handleSumitUw} disabled={record.DisableAppRej}
+                        class="slds-m-left_x-small"></lightning-button>
+                </div> -->
+
+
+
+            </template>
+
+
+
+
+
+
+        </div>
+    </lightning-card>
+
+
+
+
+    <template lwc:if={showSpinner}>
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </template>
+    <template if:true={showLoanTermModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Do you want to appeal for
+                        change in loan parameters</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button label="YES" variant="brand" onclick={handleSubmit}></lightning-button>
+                    <lightning-button label="NO" class="slds-var-m-left_x-small"
+                        onclick={closeModal}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+
+
+</template>

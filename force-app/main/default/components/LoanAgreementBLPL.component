@@ -1,0 +1,883 @@
+<apex:component Controller="LoanAgreementBLPLController" >
+     
+     <html>
+        
+        <head>
+            <style>
+                .table1 tr,td{
+                width:15px;
+                }
+                
+               
+        
+            </style>
+        </head>
+    </html>
+    <body >
+      <!--  <div  class="fixed-header">
+        <P >
+            {!CurrentDateTime}
+            </P> 
+    </div>-->
+        <div style="text-align: right; font-size:12px">
+                {!CurrentDateTime}
+            </div>
+        <apex:outputPanel id="panelHeaderFooter" styleClass="header_right" layout="block">
+        <p > Version: 0502024 </p>
+    </apex:outputPanel>
+        <div  class="form-container">
+            <div  style="padding-bottom:50px" class="form-container1">
+                <img id="logo" src="{!$Resource.FedBankLogo2}" alt="FederalBank Logo" height="200px" width="675px"/>
+        <div>
+            <h4 style="text-align:center; font-family:calibiri;font-weight: bold;font-size:15px;color:#0070C0;padding-top:100px; ">UNSECURED LOAN AGREEMENT</h4>
+        </div>
+         
+        <table style="font-family: Verdana, Helvetica, Arial, sans-serif;font-size: 8px;border: 1px solid black;border-collapse: collapse;page-break-inside:avoid;page-break-before:avoid">
+                <tr><th class="photo-box">Application Form No. </th>
+                    <td class="photo-box">{!ApplicationFormNo}</td>                    
+                </tr>
+            <tr><th class="photo-box">Name of the Applicant </th>
+                    <td class="photo-box">{!ApplicantName}</td>                    
+                </tr>
+            <tr><th class="photo-box">Product Type </th>
+                   <td >   
+                <apex:outputText value="{!TypeOfLoan}"></apex:outputText>                                                                            
+                       
+               </td> </tr>
+            <tr><th class="photo-box">Loan Amount </th>
+                <!-- LAK-9345 -->
+                    <td class="photo-box">{!LoanAmount1}</td>                    
+                </tr>
+            <tr><th class="photo-box">Loan Account No. </th>
+                    <td class="photo-box">{!LoanAccountNo}</td>                    
+                </tr>
+        </table><br/><br/>
+       
+        <apex:outputText value="{!mapofContent[1]}" escape="false" />
+                
+                
+                <!-- <p style="margin-top:180px;font-family:Times New Roman;font-size:10px;text-align:center">
+                    Registered &amp; Corporate Office: Unit No.1101, 11th Floor, Cignus, Plot No. 71A,Powai, Paspoli, Mumbai - 400 087, Maharashtra  CIN : L65910MH1995PLC364635
+
+                </p> -->
+            </div></div>
+         <div style="page-break-after:always;"></div>
+                <div class="header">
+                MOST IMPORTANT TERMS AND CONDITIONS (‘MITC’)
+            </div>
+        
+            <!-- Information Section -->
+            <div class="info-section">
+                <div ><span class="label-box">CUSTOMER COPY</span>  <span class="label">Application No. : <apex:outputText value="{!ApplicationFormNo}"></apex:outputText> </span></div>
+            </div>
+        
+            <!-- Content Section -->
+            <div class="content">
+                I/We refer to my/our aforesaid Loan Application submitted by me/us to Fedbank Financial Services Limited (‘Fedfina’).
+                I/We have been provided the following information/terms applicable to my/our Loan Application, and I/We have read and 
+                understood and agree with the same and have accordingly signed this MITC.
+            </div>
+         <div class="acknowledgment-section">
+        I/We acknowledge that:
+        <ol>
+            <li>Loan amount shall be used only for the purpose as stated in the Loan Application and not for any speculative or nefarious purpose.</li>
+            <li>Disbursement of the loan is at the sole discretion of Fedfina and subject to submission of necessary documents and execution of documents as informed by Fedfina.</li>
+            <li>I/We have not made any payment in cash/bearer cheque or kind along with or in connection with the Loan Application.</li>
+            <li>All fees and charges levied shall be non-refundable.</li>
+            <li>If there is any default in repayment, Fedfina shall be entitled to levy return charges and other penal charges along with applicable taxes for the delayed/late payment.</li>
+            <li>During the tenure of the Loan, if the Borrower(s) shift their bank account from which monthly instalment is debited, the Borrower(s) shall immediately swap the repayment account upon payment of applicable charges.</li>
+            <li>The Borrower(s) have opted for the Life / General insurance and based on the instructions of the Borrower(s), Premium has been deducted from the Loan amount. Fedfina has tied up with Insurance company for the borrower’s benefit.</li>
+            <li>The Borrower(s) have not made any payment in cash/bearer cheque or kind along with or in connection with the application form to avail loan.</li>
+        </ol>
+    </div>
+        <table style = "font-family: Verdana, Helvetica, Arial, sans-serif;font-size: 8px;border: 1px solid black;border-collapse: collapse;page-break-inside:avoid;page-break-before:avoid">
+                      
+                    <tr>
+                       		<td>1)</td>
+                            <td>Type of Loan</td>
+                       		<td>{!TypeOfLoan}</td>
+                     </tr>
+                    <tr>
+                       		<td>2)</td>
+                            <td>Primary Borrower Name</td>
+                       		<td>{!ApplicantName}</td>
+                     </tr>
+                    <tr>
+                        <td>3)</td>
+                        <td> Loan Amount</td> 
+                        <td> Rs.{!LoanAmount}/-</td>                       
+                    </tr>
+            		<tr>
+                        <td>4)</td>
+                        <td> Insurance Premium</td> 
+                        <td> Rs.{!InusraceAmount}/-</td>                       
+                    </tr>
+            		<tr>
+                        <td>5)</td>
+                        <td> Loan Amount Including Insurance</td> 
+                        <td> Rs.{!LoanAmountInWord1}/-</td>                       
+                    </tr>
+            <tr>
+                        <td>6)</td>
+                        <td> EMI</td> 
+                        <td> Rs.{!EMI}/-</td>                       
+                    </tr>
+                    <tr>
+                        <td>7)</td>
+                        <td> Rate of Interest% p.a.</td> 
+                        <td>{!rateTypeFloatingFlag} %</td>                       
+                    </tr>
+            <tr>
+                        <td>8)</td>
+                        <td> Tenure of Loan(In Months)</td> 
+                        <td>{!TenureOfLoan}</td>                       
+                    </tr>
+                    <tr>
+                        <td> 9)</td>
+                        <td> Processing Fees</td> 
+                        <td> <u> Rs.{!PFAmount}/-</u></td>                       
+                    </tr>
+                    <tr>
+                        <td> 10)</td>
+                        <td> Re-payment cycle date</td> 
+                        <td> 2nd of each month</td>                       
+                    </tr>
+                    <tr>
+                        <td >10)</td>
+                        <td > Re-payment Mode</td> 
+                        <td > {!ModeOfRepayment}</td>                       
+                    </tr>
+                    <tr>
+                        <td > 11)</td>
+                        <td > First EMI Date</td> 
+                        <td > {!FirstEMIDate}</td>                       
+                    </tr>
+                    <tr>
+                        <td > 12)</td>
+                        <td > Late Payment charges</td> 
+                        <td > 3% per month+GST</td>                       
+                    </tr>
+                    <tr>
+                        <td > 13)</td>
+                        <td > Part pre-payment charges</td> 
+                        <td > Part pre-payment charges not allowed</td>                       
+                    </tr>
+                    <tr>
+                        <td > 14)</td>
+                        <td > Full Payment charges</td> 
+                        <td > Loan 12 &lt; Month EMI repayment Vintage: 6% + applicable taxes on outstanding Principal <br/>
+							Loan 12 &gt;= Month EMI repayment Vintage: 4% + applicable taxes on outstanding Principal</td>                       
+                    </tr>
+                   <!-- <tr>
+                        <td ><b> 10) (b)</b></td>
+                        <td > Due date of monthly instalment</td> 
+                        <td > {!DueDate}</td>                       
+                    </tr>
+                    <tr>
+                        <td > 11)</td>
+                        <td > Reset</td> 
+                        <td > Monthly</td>                       
+                    </tr>
+                    <tr>
+                        <td > 12)</td>
+                        <td > Mode of Repayment</td> 
+                        <td >{!ModeOfRepayment}</td>                       
+                    </tr>-->
+                        
+                </table>
+        <br/>
+         
+        <table border="1"  style="border-collapse: collapse; width: 100%; font-size: 5; padding-top:10px">
+                <tbody>
+                    <tr style="font-size: 5">
+                        <td style="width: 30%">Name</td>
+                        <td style="width: 30%">Type</td>
+                        <td style="width: 30%">Signature</td>
+                    </tr>
+                    <apex:repeat value="{!applicantList}" var="applicantWrapper">
+                    
+                        <tr style="font-size: 5" >
+                        <td>{!applicantWrapper.FullName__c}</td>
+                        <td>{!applicantWrapper.ApplType__c}</td>
+                            <td></td>
+                    </tr>
+                    </apex:repeat>
+                </tbody>
+            </table>
+                
+                <br/>
+                Date: {!CurrentDate}   Place: {!Place}
+        
+        <div style="page-break-after:always;"></div>
+                <div class="header">
+                MOST IMPORTANT TERMS AND CONDITIONS (‘MITC’)
+            </div>
+        
+            <!-- Information Section -->
+            <div class="info-section">
+                <div ><span class="label-box">OFFICE COPY </span>  <span class="label">Application No. : <apex:outputText value="{!ApplicationFormNo}"></apex:outputText> </span></div>
+            </div>
+        
+            <!-- Content Section -->
+            <div class="content">
+                I/We refer to my/our aforesaid Loan Application submitted by me/us to Fedbank Financial Services Limited (‘Fedfina’).
+                I/We have been provided the following information/terms applicable to my/our Loan Application, and I/We have read and 
+                understood and agree with the same and have accordingly signed this MITC.
+            </div>
+         <div class="acknowledgment-section">
+        I/We acknowledge that:
+        <ol>
+            <li>Loan amount shall be used only for the purpose as stated in the Loan Application and not for any speculative or nefarious purpose.</li>
+            <li>Disbursement of the loan is at the sole discretion of Fedfina and subject to submission of necessary documents and execution of documents as informed by Fedfina.</li>
+            <li>I/We have not made any payment in cash/bearer cheque or kind along with or in connection with the Loan Application.</li>
+            <li>All fees and charges levied shall be non-refundable.</li>
+            <li>If there is any default in repayment, Fedfina shall be entitled to levy return charges and other penal charges along with applicable taxes for the delayed/late payment.</li>
+            <li>During the tenure of the Loan, if the Borrower(s) shift their bank account from which monthly instalment is debited, the Borrower(s) shall immediately swap the repayment account upon payment of applicable charges.</li>
+            <li>The Borrower(s) have opted for the Life / General insurance and based on the instructions of the Borrower(s), Premium has been deducted from the Loan amount. Fedfina has tied up with Insurance company for the borrower’s benefit.</li>
+            <li>The Borrower(s) have not made any payment in cash/bearer cheque or kind along with or in connection with the application form to avail loan.</li>
+        </ol>
+    </div>
+        <table style = "font-family: Verdana, Helvetica, Arial, sans-serif;font-size: 8px;border: 1px solid black;border-collapse: collapse;page-break-inside:avoid;page-break-before:avoid">
+                      
+                    <tr>
+                       		<td>1)</td>
+                            <td>Type of Loan</td>
+                       		<td>{!TypeOfLoan}</td>
+                     </tr>
+                    <tr>
+                       		<td>2)</td>
+                            <td>Primary Borrower Name</td>
+                       		<td>{!ApplicantName}</td>
+                     </tr>
+                    <tr>
+                        <td>3)</td>
+                        <td> Loan Amount</td> 
+                        <td> Rs.{!LoanAmount}/-</td>                       
+                    </tr>
+            		<tr>
+                        <td>4)</td>
+                        <td> Insurance Premium</td> 
+                        <td> Rs.{!InusraceAmount}/-</td>                       
+                    </tr>
+            		<tr>
+                        <td>5)</td>
+                        <td> Loan Amount Including Insurance</td> 
+                        <td> Rs.{!LoanAmountInWord1}/-</td>                       
+                    </tr>
+            <tr>
+                        <td>6)</td>
+                        <td> EMI</td> 
+                        <td> Rs.{!EMI}/-</td>                       
+                    </tr>
+                    <tr>
+                        <td>7)</td>
+                        <td> Rate of Interest% p.a.</td> 
+                        <td>{!rateTypeFloatingFlag} %</td>                       
+                    </tr>
+            <tr>
+                        <td>8)</td>
+                        <td> Tenure of Loan(In Months)</td> 
+                        <td>{!TenureOfLoan}</td>                       
+                    </tr>
+                    <tr>
+                        <td> 9)</td>
+                        <td> Processing Fees</td> 
+                        <td> <u> Rs.{!PFAmount}/-</u></td>                       
+                    </tr>
+                    <tr>
+                        <td> 10)</td>
+                        <td> Re-payment cycle date</td> 
+                        <td> 2nd of each month</td>                       
+                    </tr>
+                    <tr>
+                        <td >10)</td>
+                        <td > Re-payment Mode</td> 
+                        <td > {!ModeOfRepayment}</td>                       
+                    </tr>
+                    <tr>
+                        <td > 11)</td>
+                        <td > First EMI Date</td> 
+                        <td > {!FirstEMIDate}</td>                       
+                    </tr>
+                    <tr>
+                        <td > 12)</td>
+                        <td > Late Payment charges</td> 
+                        <td > 3% per month+GST</td>                       
+                    </tr>
+                    <tr>
+                        <td > 13)</td>
+                        <td > Part pre-payment charges</td> 
+                        <td > Part pre-payment charges not allowed</td>                       
+                    </tr>
+                    <tr>
+                        <td > 14)</td>
+                        <td > Full Payment charges</td> 
+                        <td > Loan 12 &lt; Month EMI repayment Vintage: 6% + applicable taxes on outstanding Principal <br/>
+							Loan 12 &gt;= Month EMI repayment Vintage: 4% + applicable taxes on outstanding Principal</td>                       
+                    </tr>
+                   <!-- <tr>
+                        <td ><b> 10) (b)</b></td>
+                        <td > Due date of monthly instalment</td> 
+                        <td > {!DueDate}</td>                       
+                    </tr>
+                    <tr>
+                        <td > 11)</td>
+                        <td > Reset</td> 
+                        <td > Monthly</td>                       
+                    </tr>
+                    <tr>
+                        <td > 12)</td>
+                        <td > Mode of Repayment</td> 
+                        <td >{!ModeOfRepayment}</td>                       
+                    </tr>-->
+                        
+                </table>
+        <br/>
+        <table border="1"  style="border-collapse: collapse; width: 100%; font-size: 5; padding-top:10px">
+                <tbody>
+                    <tr style="font-size: 5">
+                        <td style="width: 30%">Name</td>
+                        <td style="width: 30%">Type</td>
+                        <td style="width: 30%">Signature</td>
+                    </tr>
+                    <apex:repeat value="{!applicantList}" var="applicantWrapper">
+                    
+                        <tr style="font-size: 5" >
+                        <td>{!applicantWrapper.FullName__c}</td>
+                        <td>{!applicantWrapper.ApplType__c}</td>
+                            <td></td>
+                    </tr>
+                    </apex:repeat>
+                </tbody>
+            </table>
+                
+                <br/>
+                Date: {!CurrentDate}   Place: {!Place}
+               
+        <div style="page-break-after:always;"></div>
+         <div>
+            <h4 style="margin-right:130px;text-align:center; font-family:calibiri;font-weight: bold;font-size:15px">LOAN AGREEMENT</h4>
+        </div>
+        
+         <div style="font-family:Times New Roman;font-size:12px">
+            This LOAN AGREEMENT is made at {!Place}, on this {!CurrentDay} day of {!CurrentMonth}, {!CurrentYear} by and between:
+        </div><br/>
+        <apex:outputText value="{!mapofContent[2]}" escape="false" /><div style="font-family:Times New Roman;font-size:12px">{!officeAddress}    </div>     
+        <apex:outputText value="{!mapofContent[3]}" escape="false" />
+       <apex:outputText escape="false" value="{!StaticContent}"/>
+		<table border="1"  style="border-collapse: collapse; width: 100%; font-size: 5">
+                <tbody>
+                    <tr style="font-size: 5">
+                        <td style="width: 30%">Name</td>
+                        <td style="width: 30%">Type</td>
+                        <td style="width: 30%">Signature</td>
+                    </tr>
+                    <apex:repeat value="{!applicantList}" var="applicantWrapper">
+                    
+                        <tr style="font-size: 5; height: 100px" >
+                        <td>{!applicantWrapper.FullName__c}</td>
+                        <td>{!applicantWrapper.ApplType__c}</td>
+                            <td></td>
+                    </tr>
+                    </apex:repeat>
+                </tbody>
+            </table>
+                <div style="page-break-after:always;"></div>
+        <h2 style="text-align: center;">Schedules</h2>
+        <h2 style="text-align: center;">First Schedule</h2>
+        
+        <table  border="1" cellpadding="5" cellspacing="0" style="width: 100%; border-collapse: collapse; font-size: 5">
+            <thead>
+                <tr>
+                    <th style="width: 10%;">S. No</th>
+                    <th style="width: 20%;">Particulars</th>
+                    <th style="width: 70%;">Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Date -->
+                <tr>
+                    <td>1</td>
+                    <td>Date (DD / MM / YYYY)</td>
+                    <td>
+                        {!CurrentDate}
+                     </td>
+                </tr>
+
+                <!-- Place -->
+                <tr>
+                    <td>2</td>
+                    <td>Place</td>
+                    <td>{!Place}</td>
+                </tr>
+
+                <!-- Loan Amount -->
+                <tr>
+                    <td>3</td>
+                    <td>Loan Amount</td>
+                    <td>
+                        <p>Loan in Rs.: {!LoanAmount1}</p>
+                        
+                        <p>In words: {!LoanAmountInWord1}</p>
+                    </td>
+                </tr>
+
+                <!-- Borrower Details -->
+                <apex:repeat var="BorrowerDetail" value="{!borrowerDetailsWrapper}">
+                <tr>
+                    <td>4</td>
+                    <td colspan="2">Details of the Borrower:<br/>
+                    <p>Name: <apex:outputText value="{!BorrowerDetail.applicantListForBorrowerWrapper.FullName__c}"></apex:outputText></p>
+                        <p>Address of Residence: {!BorrowerDetail.ResidenceType} </p>
+                        <p>Communication details: {!BorrowerDetail.AddressOfBorrowers}</p>
+                        <p>Constitution of the Borrower: {!BorrowerDetail.applicantListForBorrowerWrapper.Constitution__c} </p>
+                        <p>Name of the Authorised Signatory(s):</p>
+                        <p>Designation of the Authorised Signatory(s): </p>
+                    </td>
+                    
+                </tr>
+                </apex:repeat>
+                <!-- Co-Borrower Details -->
+               <!-- <tr>
+                    <td>4a</td>
+                    <td colspan="2">Details of the Co-Borrower: <br/>
+                    
+                        <p>Name: </p>
+                        <p>Address of Residence: </p>
+                        <p>Communication details: </p>
+                        <p>Constitution of the Co-Borrower:</p>
+                        <p>Name of the Authorised Signatory(s): </p>
+                        <p>Designation of the Authorised Signatory(s): </p>
+                    </td>
+                </tr>-->
+                <tr>
+                    <td>5</td>
+                    <td>City/Town of the Lending Branch of Fedfina
+                    </td>
+                    <td>{!Place}
+                    </td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td colspan="2">Schedule of Charges:<br/><br/><br/>
+                    <table style = "font-family: Verdana, Helvetica, Arial, sans-serif;font-size: 8px;border: 1px solid black;border-collapse: collapse;">
+                       <apex:repeat value="{!ChargeWrapperList}" var="chargeWrapper">
+                    	<tr>
+                            			<td >{!chargeWrapper.Index}</td>
+                                        <td >{!chargeWrapper.DecsOfCharge}</td>
+                                        <td >{!chargeWrapper.valueOfCharge}</td>
+                                   
+                    </tr>
+                    </apex:repeat>
+                   
+                </table>
+                       
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                    Note: 1. The charges/interest rate(s) specified in this Agreement and/or other Transaction Documents in relation
+                        to the Loan are non-refundable in nature and rates are changeable, at the discretion of Fedfina, from time
+                                                to time. Fedfina shall endeavour to give notice of such changes.<br/><br/><br/>
+                        2. The charges for missed due date shall be payable by the Applicant/s to Fedfina under the NACH mandate
+                        and any other payment method selected by the Applicant (except the PDC method) for every instance
+                        that instalment/s is/are not paid to/received by Fedfina in accordance with the repayment schedule
+                        specified above (irrespective of the reasons for such non – payment/non-receipt).<br/>
+                        
+                        GST and all other applicable taxes/statutory levies, if any, will be charged additionally
+                                            </td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="page-break-after:always;"></div>
+        <h2 style="text-align: center;">Second Schedule</h2>
+        
+        <table  border="1" cellpadding="5" cellspacing="0" style="width: 100%; border-collapse: collapse; font-size: 5">
+            <thead>
+                <tr>
+                    <th style="width: 10%;">S. No</th>
+                    <th style="width: 20%;">Particulars</th>
+                    <th style="width: 70%;">Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width: 10%;">1</td>
+                    <td style="width: 20%;">Rate of Interest (Flat) (p.a.)</td>
+                    <td style="width: 70%;">{!EffectiveROI}</td>
+                </tr>
+                 <tr>
+                    <td style="width: 10%;">2</td>
+                    <td style="width: 20%;">Rate of Interest (IRR) (p.a.)</td>
+                    <td style="width: 70%;">{!RevisedROI}</td>
+                </tr>
+                 <tr>
+                    <td style="width: 10%;">3a</td>
+                    <td style="width: 20%;">Amount of EMI</td>
+                    <td style="width: 70%;">{!EMI}</td>
+                </tr>
+                 <tr>
+                    <td style="width: 10%;">3b</td>
+                    <td style="width: 20%;">Moratorium Period (if applicable)</td>
+                    <td style="width: 70%;"></td>
+                </tr>
+                 <tr>
+                    <td style="width: 10%;">3c</td>
+                    <td style="width: 20%;">Frequency of instalment</td>
+                    <td style="width: 70%;">Monthly</td>
+                </tr>
+                 <tr>
+                    <td style="width: 10%;">4</td>
+                    <td style="width: 20%;">Tenure of Loan (Months)</td>
+                    <td style="width: 70%;">{!TenureOfLoan}</td>
+                </tr>
+                 <tr>
+                    <td style="width: 10%;">5a</td>
+                    <td style="width: 20%;">Interest repayment commencement date</td>
+                    <td style="width: 70%;">{!FirstEMIDate}</td>
+                </tr>
+                 <tr>
+                    <td style="width: 10%;">5b</td>
+                    <td style="width: 20%;">First EMI due date</td>
+                    <td style="width: 70%;">{!FirstEMIDate}</td>
+                </tr>
+                 <tr>
+                    <td style="width: 10%;">6</td>
+                     <td style="width: 20%;">Fees and Charges:<br/>
+                        i. Upfront Interest Charges *<br/>
+                        ii. Processing Charges
+                        (including all taxes)<br/>
+                        iii. Stamp Duty<br/>
+                        iv. Other charges<br/>
+                        v. Group Life Insurance
+                        Premium<br/>
+                        vi. Group Health Insurance
+                        Premium *This is Receivable
+                        Broken Period Interest<br/>
+                        </td>
+                    <td style="width: 70%;"></td>
+                </tr>
+                 <tr>
+                    <td style="width: 10%;">7</td>
+                    <td style="width: 20%;">Mode od Payment</td>
+                    <td style="width: 70%;">{!ModeOfRepayment}</td>
+                </tr>
+                 <tr>
+                    <td style="width: 10%;">8</td>
+                    <td colspan="2" style="width: 20%;"> Details of local Post Dated Cheques:<br/>
+                     
+                     <table style = "font-family: Verdana, Helvetica, Arial, sans-serif;font-size: 8px;border: 1px solid black;border-collapse: collapse;">
+                       <tr>
+                            			<td >Sr No</td>
+                                        <td >Bank Name </td>
+                                        <td >Bank A/C no</td>
+                                   
+                    </tr>
+                         <tr>
+                            			<td ></td>
+                                        <td ></td>
+                                        <td ></td>
+                                   
+                    </tr>
+                         <tr>
+                            			<td ></td>
+                                        <td > </td>
+                                        <td ></td>
+                                   
+                    </tr>
+                         <tr>
+                            			<td ></td>
+                                        <td > </td>
+                                        <td ></td>
+                                   
+                    </tr>
+                   
+                   
+                </table>
+                        
+                        <table style = "font-family: Verdana, Helvetica, Arial, sans-serif;font-size: 8px;border: 1px solid black;border-collapse: collapse;">
+                       <tr>
+                            			<td >Sr No</td>
+                                        <td > From S. No. To  </td>
+                                        <td >No. of Cheques </td>
+                           <td > Amount in INR  </td>
+                                        <td >Remarks </td>
+                                   
+                    </tr>
+                         <tr>
+                            			<td ></td>
+                                        <td ></td>
+                                        <td ></td>
+                             <td ></td>
+                                        <td ></td>
+                                   
+                    </tr>
+                         <tr>
+                            			<td ></td>
+                                        <td > </td>
+                                        <td ></td>
+                             <td ></td>
+                                        <td ></td>
+                                   
+                    </tr>
+                         <tr>
+                            			<td ></td>
+                                        <td > </td>
+                                        <td ></td>
+                             <td ></td>
+                                        <td ></td>
+                                   
+                    </tr>
+                   
+                   
+                </table>
+                     
+                     </td>
+                   
+                </tr>
+                 <tr>
+                    <td style="width: 10%;"></td>
+                    <td colspan="2" style="width: 20%;"> Details of Mode of Payment::<br/>
+                     
+                     <table style = "font-family: Verdana, Helvetica, Arial, sans-serif;font-size: 8px;border: 1px solid black;border-collapse: collapse;">
+                       <tr>
+                            			<td >Sr No</td>
+                                        <td >Bank Name  </td>
+                                        <td >Bank A/C No</td>
+                           <td > Amount of instalment</td>
+                                   
+                    </tr>
+                         <tr>
+                            			<td ></td>
+                                        <td ></td>
+                                        <td ></td>
+                             <td ></td>
+                                   
+                    </tr>
+                         <tr>
+                            			<td ></td>
+                                        <td > </td>
+                                        <td ></td>
+                              <td ></td>
+                                   
+                    </tr>
+                         <tr>
+                            			<td ></td>
+                                        <td > </td>
+                                        <td ></td>
+                             <td ></td>
+                                   
+                    </tr>
+                   
+                   
+                </table>
+                     </td>
+                    
+                </tr>
+                 <tr>
+                    <td style="width: 10%;">9</td>
+                    <td style="width: 20%;">Loan disbursement mode:
+                        Account transfer
+                        (RTGS/NEFT) or
+                        Account payee Cheque</td>
+                    <td style="width: 70%;"></td>
+                </tr>
+                 <tr>
+                    <td style="width: 10%;">10</td>
+                    <td style="width: 20%;">Use of Existing open NACH:</td>
+                    <td style="width: 70%;"></td>
+                </tr>
+                 <tr>
+                    <td style="width: 10%;">11</td>
+                    <td style="width: 20%;">Date of commencement of Monthly
+instalment</td>
+                    <td style="width: 70%;">{!FirstEMIDate}</td>
+                </tr>
+                 <tr>
+                    <td style="width: 10%;">12</td>
+                    <td style="width: 20%;">Mode of Repayment</td>
+                    <td style="width: 70%;">{!ModeOfRepayment}</td>
+                </tr>
+                <tr>
+                    <td style="width: 10%;">13</td>
+                    <td style="width: 20%;">Use of Existing KYC Documents:</td>
+                    <td style="width: 70%;"></td>
+                </tr>
+            </tbody>
+        </table>
+        <apex:outputText value="{!mapofContent[4]}" escape="false" />
+        <p>SIGNED AND DELIVERED by the within named Borrower, Co-Borrowers and Guarantors.</p>
+        <table border="1"  style="border-collapse: collapse; width: 100%; font-size: 5">
+                <tbody>
+                    <tr style="font-size: 5">
+                        <td style="width: 30%">Name</td>
+                        <td style="width: 30%">Type</td>
+                        <td style="width: 30%">Signature</td>
+                    </tr>
+                    <apex:repeat value="{!applicantList}" var="applicantWrapper">
+                    
+                        <tr style="font-size: 5; height: 100px" >
+                        <td>{!applicantWrapper.FullName__c}</td>
+                        <td>{!applicantWrapper.ApplType__c}</td>
+                            <td></td>
+                    </tr>
+                    </apex:repeat>
+                </tbody>
+            </table>
+        <div style="page-break-after:always;"></div>
+        <p style="font-size: 15px;">AND <br/>
+                SIGNED AND DELIVERED BY<br/>
+                The Lender Fedbank Financial Services Limited through its authorised signatory Mr./Ms.______________
+            __________________________________________________________________________<br/><br/><br/><br/>
+                (Authorised Signatory for Fedbank Financial Services Limited)<br/>
+            
+				* CommonSeal isnotmandatory, unlessand until thesame is specifiedinthe MOA and AOA oftheCompany</p>
+        
+        <div style="page-break-after:always;"></div>
+        
+        <h2 style="text-align: center;">DEMAND PROMISSORY NOTE</h2>
+        
+        <table border="0" cellpadding="5" cellspacing="0" style="font-size: 40px;width: 100%;">
+            <tbody>
+                <!-- Loan Amount and Date -->
+                <tr>
+                    <td style="width: 20%;">Rs.</td>
+                    <td style="width: 30%;">{!LoanAmount1}</td>
+                    <td style="width: 20%; text-align: right;">Date:</td>
+                    <td style="width: 30%;">{!DueDate}</td>
+                </tr>
+                
+                <!-- Promissory Note Text -->
+                <tr>
+                    <td colspan="4">
+                        <p style="font-size: 20px;">
+                            ON DEMAND I/WE 
+                            <span style="text-decoration: underline;">{!ApplicantName}</span>
+                            promise to pay Fedbank Financial Services Limited, having its office at 
+                           <span style="text-decoration: underline;">{!LoanBranch} in {!LoanCity}</span>, a sum of Rupees <span style="text-decoration: underline;">{!LoanAmount}</span>
+                            for the entire loan value received from Fedbank Financial Services Limited together with interest and any other outstanding amounts payable as per the terms of the loan agreement dated 
+                           <span style="text-decoration: underline;">{!CurrentDate}</span>
+                        </p>
+                    </td>
+                </tr>
+
+                <!-- Signature Placeholder -->
+                <tr>
+                    <td colspan="1" style="text-align: right;">
+                        
+                    </td>
+                    <td colspan="3" style="text-align: right;">
+                        <div style="border: 1px solid black; width: 150px; height: 100px; text-align: right;">
+                            
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: right;">
+                        -------------------------<br/>
+                        signature of applicant
+                    </td>
+                    <td colspan="2" style="text-align: right;">
+                         -------------------------<br/>
+                        signature of coapplicant
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="page-break-after:always;"></div>
+        <h2 style="text-align: center;font-size: 20px;">LETTER OF CONTINUITY FOR DEMAND PROMISSORY NOTE</h2>
+        
+        <!-- Date Field -->
+        <p>
+            Date:<span style="text-decoration: underline;">{!CurrentDate}</span> 
+            
+        </p>
+
+        <!-- Company Details -->
+        <p><b>Fedbank Financial Services Limited</b><br />
+            Unit no.: 1101, 11th Floor, Cignus,<br />
+            Plot No. 71A, Powai, Paspoli,<br />
+            Mumbai – 400 087. Maharashtra
+        </p>
+
+        <!-- Main Content -->
+        <p>Dear Sirs,</p>
+
+        <p>
+            I/We <span style="text-decoration: underline;">{!ApplicantName}</span> have executed a Demand Promissory Note for 
+            Rs. <span style="text-decoration: underline;">{!LoanAmount}</span>/- 
+            (<span style="text-decoration: underline;">{!LoanAmountInWord}</span> only) dated 
+            <span style="text-decoration: underline;">{!CurrentDate}</span>
+        </p>
+
+        <p>
+            For wet signature - Blank - for e-sign date of execution and delivered by me/us to you as security for the repayment by me/us to Fedbank Financial Services Limited ("Fedfina") of any sum now due or which may hereafter be or become due by me/us to Fedfina by way of loans or advances, notwithstanding the fact that the loans or advances or the account, may from time to time be reduced or extinguished or the balance in the said account brought to credit, the intention being that the said Demand Promissory Note and the security shall be a continuing security for any borrowing by us at any time to Fedfina.
+        </p>
+
+        <p>Yours faithfully,</p>
+
+        <!-- Signature Section -->
+        <div style="text-align: center; margin-top: 20px;">
+            <span style="border-bottom: 1px solid black; display: inline-block; width: 200px; text-align: center;">(X)</span>
+            <p>In case of a Company - only show below in case applicant is Private limited company or Public limited company</p>
+        </div>
+
+        <!-- Company Seal Section (Conditional Display for Companies) -->
+        <div style="border-top: 1px solid black; margin-top: 20px; padding-top: 10px;">
+            <p>The Common Seal of _______________________________________________________ Ltd. has been affixed hereunto pursuant to the Resolution of Board of Directors dated 
+            _____________________________________________________________________ in the presence of:</p>
+            
+            <p>1.</p>
+            <p>2.</p>
+
+            <p>The Director/s have signed these presents in token thereof and Mr. 
+            ___________________________________________________________ Secretary / Authorised Person who has signed/countersigned these presents in token thereof.</p>
+        </div>
+
+        
+        <div style="page-break-after:always;"></div>
+        <div >
+            <h4 style="margin-right:130px;text-align:center; font-family:calibiri;font-weight: bold;font-size:15px">DECLARATION FOR SIGNING IN VERNACULAR LANGUAGE</h4>
+            
+        </div>
+        <div style="font-family:Times New Roman;font-size:14px" >
+            I, <span style="text-decoration: underline;">{!ApplicantName}</span>  son/wife of
+<span style="text-decoration: underline;">{!fatherName}</span> residing at <span style="text-decoration: underline;">{!ResidenceAddress}</span> do hereby
+state and declare on solemn affirmation as under:<br/><br/>
+1. That Mr. /Mrs./Miss <span style="text-decoration: underline;">{!ApplicantName}</span> S/o <span style="text-decoration: underline;">{!fatherName}</span> known to me for the 
+last yrs/months and he/she signs in the vernacular. I have seen him signing during the normal course of
+business/transactions.<br/><br/>
+2. That I have read out and explained the contents of the Loan Agreement dated <span style="text-decoration: underline;">{!CurrentDate}</span> (the “Loan
+Agreement”) and all other documents incidental for availing the Loan (as defined in the Loan Agreement) from
+Fedbank financial Services Limited. by the Borrower in <span style="text-decoration: underline;">{!fatherName}</span> Language (“vernacular
+language”) and he / she / they have confirmed that he / she / they has / have understood the same and have
+agreed to abide by all the terms and conditions of the Loan Agreement and the other documents. Pursuant to the
+same the aforesaid person(s) is / are affixing his / her / their signature(s)/thumb impression(s) as given hereinbelow
+:<br/><br/>
+3. That, I have also informed Mr./Mrs./Miss _____________________________ that, in future Fedbank Financial Services Limited
+shall send all future communication in English Language and Mr./Mrs./Miss _____________________________ will seek the
+assistance of his friend/relative in understanding the averments made in such communication(s) and
+unconditionally authorises, that he/she will not hold Fedbank Financial Services Limited and/or any its
+employees responsible for sending any communication in English language.<br/><br/>
+            Signature/thumb of Borrower/ Applicant<br/><br/><br/>
+            _________________________<br/><br/><br/><br/>
+            _________________________<br/><br/>
+            I confirm that whatever I have stated hereinabove is true and correct to the best of my knowledge and belief.<br/><br/>
+            Signed by Mr. / Ms. _____________________________(the Declarant)<br/><br/>
+            Date: <span style="text-decoration: underline;">{!CurrentDate}</span><br/><br/>
+            Place: <span style="text-decoration: underline;">{!LoanCity}</span><br/><br/>
+            <div style="padding-top:270px;display: flex;justify-content: space-between" >
+                
+                    <div style="text-align:left">
+                        X-Borrower 
+                    </div>
+               <div style="text-align:right;margin-top:-13px">
+                        X Co-Borrower(s) 
+                    </div>
+                    
+                
+            </div>
+           
+        </div>
+    </body>
+</apex:component>

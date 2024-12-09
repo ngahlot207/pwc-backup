@@ -1,0 +1,616 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    <lightning-card>
+
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <lightning-combobox placeholder="Select Value" value={customerAgreedLoanTermsValue}
+                    onchange={handleLoanPickChange} options={customerAgreedOptions} name="CustomerAgreedonTerms__c"
+                    label="Customer has agreed on revised loan terms" required disabled={isReadOnly}>
+                </lightning-combobox>
+            </lightning-layout-item>
+        </lightning-layout>
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item if:true={showGenerateDocumentButtonNew} padding="around-small" size="12"
+                small-device-size="12" medium-device-size="8" large-device-size="2">
+                <lightning-button variant="brand" name="Initiate Penny Drop" label="Initiate Penny Drop"
+                    onclick={handleClick} disabled={disableIntiatePennyDrop}></lightning-button>
+            </lightning-layout-item>
+
+
+
+
+        </lightning-layout>
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item if:true={showGenerateDocumentButtonNew} padding="around-none" size="12"
+                small-device-size="12" medium-device-size="8" large-device-size="4">
+                <lightning-button variant="brand" name="Download Application Form"
+                    label="Download Application Form" onclick={handleFormNdUseLetter}
+                    disabled={disableFormDownButton}></lightning-button>
+            </lightning-layout-item>
+            <lightning-layout-item if:true={showGenerateDocumentButtonNew} padding="around-none" size="12"
+                small-device-size="12" medium-device-size="8" large-device-size="4">
+                <lightning-button variant="brand" name="Download Disbursal Documents"
+                    label="Download Disbursal Documents" onclick={handleLoanAggrementDown}
+                    disabled={DisLoanAggre}></lightning-button>
+            </lightning-layout-item>
+            <template if:true={showSignVerificaForm}>
+                <lightning-layout-item if:true={showGenerateDocumentButtonNew} padding="around-none" size="12"
+                small-device-size="12" medium-device-size="8" large-device-size="4">
+                <lightning-button variant="brand" name="Signature Verfication Form"
+                    label="Signature Verfication Form" onclick={handleSignatureVerifiDown}
+                    disabled={DisSignVerButton}></lightning-button>
+                </lightning-layout-item>
+            </template>
+            
+        </lightning-layout>
+
+        <template if:true={showGenerateDocumentButtonNew}>
+            <br />
+            <template lwc:if={desktopBoolean}>
+                <div id="containerDiv" onmousemove={handlemousemove} onmouseup={handlemouseup}
+                    ondblclick={handledblclickresizable}
+                    class="slds-table_header-fixed_container slds-border_right slds-border_left tableScroll"
+                    onscroll={tableOuterDivScrolled}>
+                    <div id="tableViewInnerDiv" class="slds-scrollable_y tableViewInnerDiv slds-scrollable">
+                        <table
+                            class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout slds-max-medium-table_stacked-horizontal"
+                            onscroll={tableScrolled}>
+                            <thead>
+                                <tr>
+                                    <th title="Repayment Account "
+                                        class="slds-is-resizable dv-dynamic-width fixedWidthh" scope="col">
+                                        <div class="slds-cell-fixed fixedWidthh">
+                                            <a class="slds-th__action slds-text-link--reset">
+                                                <span class="slds-truncate">Repayment Account </span>
+                                            </a>
+                                            <div class="slds-resizable">
+                                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                    <span class="slds-resizable__divider"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th title="Repayment Account Holder Name"
+                                        class="slds-is-resizable dv-dynamic-width fixedWidthhh" scope="col">
+                                        <div class="slds-cell-fixed fixedWidthhh">
+                                            <a class="slds-th__action slds-text-link--reset">
+                                                <span class="slds-truncate">Repayment Account Holder Name</span>
+                                            </a>
+                                            <div class="slds-resizable">
+                                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                    <span class="slds-resizable__divider"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </th>
+
+                                    <th title="Enach Available" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                        scope="col">
+                                        <div class="slds-cell-fixed fixedWidth">
+                                            <a class="slds-th__action slds-text-link--reset">
+                                                <span class="slds-truncate">Enach Available</span>
+                                            </a>
+                                            <div class="slds-resizable">
+                                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                    <span class="slds-resizable__divider"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th title="Penny Drop Status" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                        scope="col">
+                                        <div class="slds-cell-fixed fixedWidth">
+                                            <a class="slds-th__action slds-text-link--reset">
+                                                <span class="slds-truncate">Pennydrop Status</span>
+                                            </a>
+                                            <div class="slds-resizable">
+                                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                    <span class="slds-resizable__divider"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </th>
+
+                                    <th title="Pennydrop Result" class="slds-is-resizable dv-dynamic-width fixedWidthh"
+                                        scope="col">
+                                        <div class="slds-cell-fixed fixedWidthh">
+                                            <a class="slds-th__action slds-text-link--reset">
+                                                <span class="slds-truncate">Pennydrop Result</span>
+                                            </a>
+                                            <div class="slds-resizable">
+                                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                    <span class="slds-resizable__divider"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </th>
+
+                                    <template if:true={resultOfPennyDrop}>
+                                        <th title="Pennydrop Failure Reason"
+                                            class="slds-is-resizable dv-dynamic-width fixedWidthh" scope="col"
+                                            style="white-space: normal; word-wrap: break-word;">
+                                            <div class="slds-cell-fixed fixedWidthh">
+                                                <a class="slds-th__action slds-text-link--reset">
+                                                    <span class="slds-truncate">Pennydrop Failure Reason</span>
+                                                </a>
+                                                <div class="slds-resizable">
+                                                    <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                        <span class="slds-resizable__divider"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </th>
+                                    </template>
+
+
+
+
+                                    <th title="Penny Drop Response Date/Time"
+                                        class="slds-is-resizable dv-dynamic-width fixedWidthh" scope="col">
+                                        <div class="slds-cell-fixed fixedWidthh">
+                                            <a class="slds-th__action slds-text-link--reset">
+                                                <span class="slds-truncate">Penny Drop Response Date/Time</span>
+                                            </a>
+                                            <div class="slds-resizable">
+                                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                    <span class="slds-resizable__divider"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </th>
+
+                                    <th title="Is Matching With Repayment Account"
+                                        class="slds-is-resizable dv-dynamic-width fixedWidthhh" scope="col">
+                                        <div class="slds-cell-fixed fixedWidthhh">
+                                            <a class="slds-th__action slds-text-link--reset">
+                                                <span class="slds-truncate">Is Matching With Repayment Account</span>
+                                            </a>
+                                            <div class="slds-resizable">
+                                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                    <span class="slds-resizable__divider"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </th>
+
+                                    <th title="Trigger" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                        scope="col">
+                                        <div class="slds-cell-fixed fixedWidth">
+                                            <a class="slds-th__action slds-text-link--reset">
+                                                <span class="slds-truncate">Trigger</span>
+                                            </a>
+                                            <div class="slds-resizable">
+                                                <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                    <span class="slds-resizable__divider"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={repayAccVerDqata} for:item="record">
+                                    <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+
+                                        <th class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title={record.RepayAcc__r.Account_Number__c}>
+                                                {record.RepayAcc__r.Account_Number__c}
+                                            </div>
+                                        </th>
+                                        <td class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title={record.RepayAcc__r.AccHolderName__c}>
+                                                {record.RepayAcc__r.AccHolderName__c}
+                                            </div>
+                                        </td>
+                                        <template if:true={record.RepayAcc__r.Applicant_Banking__c}>
+                                            <td class="slds-cell_action-mode" role="gridcell">
+                                                <div class="slds-truncate"
+                                                    title={record.RepayAcc__r.Applicant_Banking__r.eNACHFeasible__c}>
+                                                    {record.RepayAcc__r.Applicant_Banking__r.eNACHFeasible__c}
+                                                </div>
+                                            </td>
+                                        </template>
+
+                                        <td class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title={record.PennyDropStatus__c}>
+                                                {record.PennyDropStatus__c}
+                                            </div>
+                                        </td>
+                                        <td class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title={record.NameRetuFromPennyDrop__c}>
+                                                {record.NameRetuFromPennyDrop__c}
+                                            </div>
+                                        </td>
+                                        <template if:true={resultOfPennyDrop}>
+                                            <td class="slds-cell_action-mode" role="gridcell"
+                                                style="white-space: normal; word-wrap: break-word;">
+                                                <!-- <div class="slds-truncate" title={record.ErrorMess__c}>
+                                                {record.ErrorMess__c}
+                                            </div> -->
+                                                <div class="slds-truncate" title={record.ErrorMess__c}>
+                                                    {record.ErrorMess__c}
+                                                </div>
+                                            </td>
+                                        </template>
+                                        <td class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title={record.PennyDropDateTime__c}>
+                                                <p> <!-- <lightning-formatted-date-time value={record.PennyDropDateTime__c}
+                                                        year="numeric" month="numeric" day="numeric" hour="2-digit"
+                                                        minute="2-digit"></lightning-formatted-date-time> -->
+
+                                                    {record.PennyDropDateTime__c}
+
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title={record.MatchwithAccHolderName__c}>
+                                                <c-customer-confirmation-display-value
+                                                    passed-options={nameReturnedFromPDOptions} type="picklist"
+                                                    field-value={record.MatchwithAccHolderName__c} object={record}
+                                                    field-name="MatchwithAccHolderName__c"
+                                                    onpicklistchange={handlePicklistValues}
+                                                    is-read-only={record.failureDisable}></c-customer-confirmation-display-value>
+                                            </div>
+                                        </td>
+
+                                        <td class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate">
+                                                <template if:true={record.showEnach}>
+                                                    <template if:true={record.RepayAcc__r.Applicant_Banking__c}>
+                                                        <lightning-button data-id={record.Id}
+                                                            data-appbankid={record.RepayAcc__r.Applicant_Banking__r.Id}
+                                                            variant="brand" label="Send ENACH" title="Send Enach"
+                                                            data-name='button' onclick={handleEnachbutton}
+                                                            disabled={record.nachButtonVisible}></lightning-button>
+                                                    </template>
+                                                </template>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </template>
+            <template lwc:if={phoneBolean}>
+                <div class="slds-m-top_medium slds-m-bottom_x-large">
+
+                    <template for:each={repayAccVerDqata} for:item="record">
+                        <div key={record.Id} class="slds-p-around_medium lgc-bg">
+                            <ul class="slds-has-dividers_bottom-space">
+                                <li class="slds-item">
+                                    <lightning-tile>
+                                        <dl class="slds-dl_horizontal">
+
+                                            <dt class="slds-dl_horizontal__label">
+                                                <p class="slds-truncate" title="Repayment Account Number">
+                                                    <b>
+                                                        Repayment Account :
+                                                    </b>{record.RepayAcc__r.Account_Number__c}
+                                                </p>
+                                            </dt>
+
+                                            <dt class="slds-dl_horizontal__label">
+                                                <p class="slds-truncate" title="Repayment Account Holder Name">
+                                                    <b>
+                                                        Repayment Account Holder Name:
+                                                    </b>{record.RepayAcc__r.AccHolderName__c}
+                                                </p>
+                                            </dt>
+
+                                            <dt class="slds-dl_horizontal__label">
+                                                <p class="slds-truncate" title="Enach Available">
+                                                    <b>
+                                                        Enach Available : </b>
+                                                    <template if:true={record.RepayAcc__r.Applicant_Banking__c}>
+                                                        {record.RepayAcc__r.Applicant_Banking__r.eNACHFeasible__c}
+                                                    </template>
+                                                </p>
+                                            </dt>
+
+                                            <dt class="slds-dl_horizontal__label">
+                                                <p class="slds-truncate" title="Penny Drop Status">
+                                                    <b>Pennydrop Status : </b>{record.PennyDropStatus__c}
+                                                </p>
+                                            </dt>
+                                            <dt class="slds-dl_horizontal__label">
+                                                <p class="slds-truncate" title="Name Returned From Penny Drop">
+                                                    <b>
+                                                        Pennydrop Result :
+                                                    </b>{record.NameRetuFromPennyDrop__c}
+                                                </p>
+                                            </dt>
+
+                                            <template if:true={resultOfPennyDrop}>
+                                                <dt class="slds-dl_horizontal__label"
+                                                    style="white-space: normal; word-wrap: break-word;">
+                                                    <p class="slds-truncate" title="Error Message">
+                                                        <b>
+                                                            Pennydrop Failure Reason :
+                                                        </b>{record.ErrorMess__c}
+                                                    </p>
+                                                </dt>
+                                            </template>
+
+
+                                            <dt class="slds-dl_horizontal__label">
+                                                <p class="slds-truncate" title="Name Returned From Penny Drop">
+                                                    <b>
+                                                        Penny Drop Response Date/Time :
+                                                    </b>
+                                                    <!-- <lightning-formatted-date-time
+                                                        value={record.PennyDropDateTime__c} year="numeric"
+                                                        month="numeric" day="numeric" hour="2-digit"
+                                                        minute="2-digit"></lightning-formatted-date-time> -->
+
+                                                    {record.PennyDropDateTime__c}
+
+                                                </p>
+                                            </dt>
+
+                                            <dt class="slds-dl_horizontal__label">
+                                                <p class="slds-truncate" title="Is Matching With Repayment Account">
+                                                    <b>
+                                                        Is Matching With Repayment Account : </b>
+                                                    <c-customer-confirmation-display-value
+                                                        passed-options={nameReturnedFromPDOptions} type="picklist"
+                                                        field-value={record.MatchwithAccHolderName__c} object={record}
+                                                        field-name="MatchwithAccHolderName__c"
+                                                        onpicklistchange={handlePicklistValues}
+                                                        is-read-only={record.failureDisable}></c-customer-confirmation-display-value>
+                                                </p>
+                                            </dt>
+
+                                            <dt class="slds-dl_horizontal__label">
+                                                <p class="slds-truncate" title="Trigger">
+                                                    <b>
+                                                        Trigger :
+                                                    </b><template if:true={record.showEnach}>
+                                                        <template if:true={record.RepayAcc__r.Applicant_Banking__c}>
+                                                            <lightning-button data-id={record.Id}
+                                                                data-appbankid={record.RepayAcc__r.Applicant_Banking__r.Id}
+                                                                variant="brand" label="Send ENACH" title="Send Enach"
+                                                                data-name='button' onclick={handleEnachbutton}
+                                                                disabled={record.nachButtonVisible}></lightning-button>
+                                                        </template>
+                                                        <!-- disabled={record.nachButtonVisible} -->
+                                                    </template>
+                                                </p>
+                                            </dt>
+                                        </dl>
+                                    </lightning-tile>
+                                </li>
+                            </ul>
+                        </div>
+                    </template>
+                </div>
+            </template>
+            <br />
+            <template lwc:if={desktopBoolean}>
+                <h2 class="slds-text-heading_medium slds-m-bottom_medium">
+                    Enach Details
+                </h2>
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered"
+                    aria-label="Example table of Opportunities with vertical borders">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Enach Initiation Date/Time">Enach Initiation Date/Time
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Enach Registration Status">Enach Registration Status
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Enach Rejection Reason">Enach Rejection Reason</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Enach Response Date/Time">Enach Response Date/Time
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={nachData} for:item="record">
+                            <tr key={record.Id} class="slds-hint-parent">
+                                <th data-label="Enach Registration Status" scope="row">
+                                    <div class="slds-truncate" title={record.EnachInitiationDateTime__c}>
+                                        <lightning-formatted-date-time value={record.EnachInitiationDateTime__c}
+                                            year="numeric" month="numeric" day="numeric" hour="2-digit"
+                                            minute="2-digit"></lightning-formatted-date-time>
+                                    </div>
+                                </th>
+                                <td data-label="Enach Rejection Reason">
+                                    <div class="slds-truncate" title={record.eNACH_Registration_Status__c}>
+                                        {record.eNACH_Registration_Status__c}</div>
+                                </td>
+                                <td data-label="Enach Rejection Reason">
+                                    <div class="slds-truncate" title={record.eNACH_Rejection_Reasons__c}>
+                                        {record.eNACH_Rejection_Reasons__c}</div>
+                                </td>
+                                <td data-label="Enach Rejection Reason">
+                                    <div class="slds-truncate" title={record.EnachResponseDateTime__c}>
+                                        <lightning-formatted-date-time value={record.EnachResponseDateTime__c}
+                                            year="numeric" month="numeric" day="numeric" hour="2-digit"
+                                            minute="2-digit"></lightning-formatted-date-time>
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </template>
+            <template lwc:if={phoneBolean}>
+                <div class="slds-m-top_medium slds-m-bottom_x-large">
+                    <h2 class="slds-text-heading_medium slds-m-bottom_medium">
+                        Enach Details
+                    </h2>
+                    <template for:each={nachData} for:item="record">
+                        <div key={record.Id} class="slds-p-around_medium lgc-bg">
+                            <ul class="slds-has-dividers_bottom-space">
+                                <li class="slds-item">
+                                    <lightning-tile>
+                                        <dl class="slds-dl_horizontal">
+                                            <dt class="slds-dl_horizontal__label">
+                                                <p class="slds-truncate" title="Enach Registration Status">
+                                                    <b>
+                                                        Enach Registration Status :
+                                                    </b>{record.eNACH_Registration_Status__c}
+                                                </p>
+                                            </dt>
+
+                                            <dt class="slds-dl_horizontal__label">
+                                                <p class="slds-truncate" title="Enach Rejection Reason">
+                                                    <b>
+                                                        Enach Rejection Reason:
+                                                    </b>{record.eNACH_Rejection_Reasons__c}
+                                                </p>
+                                            </dt>
+                                        </dl>
+                                    </lightning-tile>
+                                </li>
+                            </ul>
+                        </div>
+                    </template>
+                </div>
+            </template>
+            <br />
+            <template if:true={showIfTakenPolicy}>
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                        medium-device-size={layoutSize.medium} large-device-size="5">
+                        <lightning-combobox placeholder="Select Value" value={insurancePremToBeDedFromDisAmtValue}
+                            onchange={handleLoanPickChange} options={insurancePremToBeDedFromDisOptions}
+                            name="InsPremimtobededfromdisamt__c"
+                            label="Insurance Premium to be deducted from disbursement amount?" disabled>
+                        </lightning-combobox>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </template>
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size="5">
+                    <lightning-combobox placeholder="Select Value" value={preEmiTypeBool}
+                        onchange={handlePreEmiTypeChange} options={preEmiTypeOptions} name=""
+                        label="Pre-EMI to be deducted from disbursement" class="custom-combobox" required
+                        disabled={disablePremityp}>
+                    </lightning-combobox>
+                </lightning-layout-item>
+            </lightning-layout>
+
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size="5">
+                    <lightning-combobox placeholder="Select Value" value={remPfDeductFromDisAmtp}
+                        onchange={handleLoanPickChange} options={remaPfDeductOptions}
+                        name="RemPFDeductFromDisbursementAmount__c"
+                        label="Remaining PF to be deducted from disbursement amount" class="custom-combobox" required
+                        disabled={isReadOnly}>
+                    </lightning-combobox>
+                </lightning-layout-item>
+            </lightning-layout>
+
+            <template lwc:if={showFormToEnterData}>
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                        medium-device-size={layoutSize.medium} large-device-size="3">
+                        <lightning-combobox placeholder="Select Value" value={paymentType}
+                            onchange={handlePaymentChange} options={paymentTypeOptions} name="PaymentType__c"
+                            label="Payment Type" required disabled={isReadOnly}>
+                        </lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                        medium-device-size={layoutSize.medium} large-device-size="3">
+                        <lightning-combobox placeholder="Select Value" value={paymentGateWay}
+                            onchange={handlePaymentChange} options={paymentGateWayOptions} name="Payment_Gaterway__c"
+                            label="Payment GateWay" required disabled={isReadOnly}>
+                        </lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                        medium-device-size={layoutSize.medium} large-device-size="3">
+                        <lightning-input name="Total PF Amount" label="Total PF Amount" value={totdalPFAmt} disabled>
+                        </lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item if:true={showTraNew} padding="around-small" size="12"
+                        small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                        large-device-size="3">
+                        <lightning-input name="Transaction Status" label="Transaction Status" value={transcStatus}
+                            disabled>
+                        </lightning-input>
+                    </lightning-layout-item>
+                </lightning-layout>
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item if:true={showTraNew} padding="around-small" size="12"
+                        small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                        large-device-size="3">
+                        <lightning-input name="UTR No. / Payment reference no" label="UTR No. / Payment reference no"
+                            value={paymentRefNumber} disabled>
+                        </lightning-input>
+                    </lightning-layout-item>
+                </lightning-layout>
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                        medium-device-size={layoutSize.medium} large-device-size="3">
+                        <lightning-button variant="brand" name="Send a Link to Customer" label="Send a Link to Customer"
+                            onclick={handleSendLinkToCustomer} disabled={disableSendLinkToCustmer}></lightning-button>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                        medium-device-size={layoutSize.medium} large-device-size="3">
+                        <lightning-button variant="brand" name="LMS Update" label="LMS Update"
+                            onclick={handleLmsUpdateDis} disabled={disableLmsUpdate}></lightning-button>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </template>
+
+            <lightning-layout multiple-rows="true" if:true={showMultTracnch}>
+                <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size="5">
+                    <lightning-combobox placeholder="Select Value" value={emiOptTracnDisCase}
+                        onchange={handleLoanPickChange} options={emiOptionsInTrache}
+                        name="EMIOptionsintranchedisbursementCase__c" label="EMI options in tranche disbursement cases"
+                        required disabled={isReadOnly}>
+                    </lightning-combobox>
+                </lightning-layout-item>
+            </lightning-layout>
+        </template>
+    </lightning-card>
+    <template if:true={showGenDoc}>
+        <lightning-layout multiple-rows="true" if:true={showGenerateDocumentButton}>
+            <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <lightning-button variant="brand" name="Generate Document" label="Generate Document"
+                    onclick={handleDocumentDocuNew} disabled={disableMode}></lightning-button>
+            </lightning-layout-item>
+        </lightning-layout>
+    </template>
+
+    <template if:true={showTermSheet}>
+        <lightning-layout multiple-rows="true" if:true={showGenerateDocumentButton}>
+            <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <lightning-button variant="brand" name="Term Sheet" label="Term Sheet" onclick={handleTermSheet}
+                    disabled={disableMode}></lightning-button>
+            </lightning-layout-item>
+        </lightning-layout>
+    </template>
+
+    <template if:true={showDocList}>
+        <c-uploded-document-display title="Post Sanction System Generated Documents" type={docType} sub-type={subType}
+            category={docCategory} loan-app-id={loanApplicationRecord.Id}
+            applicant-id={loanApplicationRecord.Applicant__c} mode="false" disable-remarks="false" is-read-only=true
+            capture-all-documents="false" disabled="false" is-cpa="false" hide-mark-for-error="true"
+            hide-availiable-in-file="true" hide-upload-button="true">
+        </c-uploded-document-display>
+    </template>
+
+
+
+</template>

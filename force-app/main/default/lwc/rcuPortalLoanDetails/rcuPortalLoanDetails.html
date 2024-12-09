@@ -1,0 +1,215 @@
+<template>
+  <lightning-accordion if:true={showRcuLoanDetails}
+    active-section-name={activeSection}
+    allow-multiple-sections-open
+  >
+    <lightning-accordion-section name="A" label="Loan Details Summary ">
+      <lightning-card title="">
+        <lightning-record-view-form
+          record-id={loanAppId}
+          object-api-name={objectApiName}
+        >
+          <lightning-layout multiple-rows="12">
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="12"
+              large-device-size="3"
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  label="Application ID"
+                  type="text"
+                  disabled
+                  value={applicationId}
+                >
+                </lightning-input>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="12"
+              large-device-size="3"
+            >
+              <lightning-input
+                label="Login Date"
+                type="date"
+                disabled
+                value={loginDate}
+              >
+              </lightning-input>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="12"
+              large-device-size="3"
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  label="Branch Name"
+                  type="text"
+                  disabled
+                  value={branchName}
+                >
+                </lightning-input>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="12"
+              large-device-size="3"
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input label="City" type="text" disabled value={city}>
+                </lightning-input>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="12"
+              large-device-size="3"
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  label="Product"
+                  type="text"
+                  disabled
+                  value={product}
+                >
+                </lightning-input>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="12"
+              large-device-size="3"
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  label="Scheme"
+                  type="text"
+                  disabled
+                  value={schemeCode}
+                >
+                </lightning-input>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+            size="12"
+            small-device-size="12"
+            medium-device-size="12"
+            large-device-size="3"
+          >
+            <div class="slds-p-around_x-small">
+              <lightning-input
+                label="Loan Purpose/End Use"
+                type="text"
+                disabled
+                value={loanPurpose}
+              >
+              </lightning-input>
+            </div>
+          </lightning-layout-item>
+
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="12"
+              large-device-size="3"
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  label="BBH Name"
+                  type="text"
+                  disabled
+                  value={loanDetailsSummaryList.empNameBBH}
+                >
+                </lightning-input>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="12"
+              large-device-size="3"
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  label="RM/SM Name"
+                  type="text"
+                  disabled
+                  value={rMName}
+                >
+                </lightning-input>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="12"
+              large-device-size="3"
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  label="Channel Code"
+                  type="text"
+                  disabled
+                  value={channelCode}
+                >
+                </lightning-input>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="12"
+              large-device-size="3"
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  label="Channel Name"
+                  type="text"
+                  disabled
+                  value={channelName}
+                >
+                </lightning-input>
+              </div>
+            </lightning-layout-item>
+
+
+            <lightning-layout-item
+              size="12"
+              small-device-size="12"
+              medium-device-size="12"
+              large-device-size="3"
+            >
+              <div class="slds-p-around_x-small">
+                <lightning-input
+                  label="Total loan amount including insurance"
+                  type="text"
+                  disabled
+                  value={totalLoanAnt}
+                >
+                </lightning-input>
+              </div>
+            </lightning-layout-item>
+          </lightning-layout>
+        </lightning-record-view-form>
+      </lightning-card>
+    </lightning-accordion-section>
+  </lightning-accordion>
+</template>

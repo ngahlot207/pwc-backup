@@ -1,0 +1,47 @@
+<apex:component controller="DisbursementCommunication" access="global">
+   
+    <apex:attribute name="loanApplId" type="String" description="Loan Application Id" assignTo="{!loanApplicationId}" access="global"/>
+    
+     <html>
+        <body>
+           
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th style="width:25%">Query Section Name</th>
+                        <th style="width:25%">Document Name/ Description</th>
+                        <th style="width:25%">Ops Remarks</th>
+                        <th style="width:25%">Credit Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <apex:repeat var="opsQueryResult" value="{!OpsQueryResults}">
+                        <tr>
+                            <td style="text-align:center">{!opsQueryResult.querySecName}</td>
+                            <td style="text-align:center">{!opsQueryResult.documentName}</td>
+                           <td style="text-align:center">
+                                <apex:outputText value="{!opsQueryResult.opsRemarks}" escape="false"/>
+                            </td>
+                            <td style="text-align:center">
+                                <apex:outputText value="{!opsQueryResult.cpaRemarks}" escape="false"/>
+                            </td>
+                        </tr>
+                    </apex:repeat>
+                </tbody>
+            </table>
+                  
+        </body>
+    </html>    
+    
+    
+    
+    <!--   <html>
+        <body>
+           <apex:repeat var="query" value="{!ApplicationQuery}">
+               <p>
+                  {!query['remarks__c']}     
+               </p>
+            </apex:repeat> 
+        </body>
+    </html --->
+</apex:component>

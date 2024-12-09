@@ -1,0 +1,916 @@
+<template>
+  <!-- <lightning-card> -->
+  <template if:true={showSpinner}>
+   
+    <lightning-spinner alternative-text="Loading" size="large" variant="brand"
+     ></lightning-spinner>
+
+  </template>
+  <lightning-layout multiple-rows="12">
+    <!-- <lightning-layout-item padding="around-small" size="12" margin="around-small"> -->
+    <lightning-layout-item size="12">
+      <lightning-accordion active-section-name={activeSection} allow-multiple-sections-open>
+        <lightning-accordion-section name="A" label="Property Details" class="applicantClass">
+          <lightning-layout multiple-rows="true">
+            <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}>
+              <div class="slds-p-around_x-small">
+                <lightning-input type="text" data-type="string" value={wrapAddressObj.Name} label="Collateral ID"
+                  disabled data-objectname="ApplAsset__c" onchange={handleInputChange}
+                  data-name="Name"></lightning-input>
+              </div>
+            </lightning-layout-item>
+            <template if:true={propIden}>
+              <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <div class="slds-p-around_x-small">
+                  <lightning-combobox label="Property Type" value={wrapAddressObj.PropType__c} options={propertyTyOpt}
+                    onchange={handleInputChange} disabled={disableMode} required="true" data-objectname="ApplAsset__c"
+                    data-name="PropType__c">
+                  </lightning-combobox>
+                </div>
+              </lightning-layout-item>
+            </template>
+            <lightning-layout-item size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+              large-device-size={layoutSize.large}>
+              <div class="slds-p-around_x-small">
+                <lightning-combobox label="Property Identified" value={wrapAddressObj.PropIdentified__c}
+                  options={propIdetifiedPikVal} onchange={handleInputChange} required="true"
+                  data-objectname="ApplAsset__c" disabled={disPropIden} data-name="PropIdentified__c">
+                </lightning-combobox>
+              </div>
+            </lightning-layout-item>
+
+            <template if:true={propIden}>
+              <!-- New Property Screen -->
+              <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <div class="slds-p-around_x-small">
+                  <lightning-combobox label="Is it an APF?" value={wrapAddressObj.Is_it_an_APF__c} options={apfOption}
+                    disabled={disableMode} required="true" onchange={handleInputChange} data-objectname="ApplAsset__c"
+                    data-name="Is_it_an_APF__c">
+                  </lightning-combobox>
+                </div>
+              </lightning-layout-item>
+
+              <template if:true={isApfSelectNo}>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <template lwc:if={wrapAddressObj.APFRefId__c}>
+                    <div class="slds-p-around_x-small">
+                      <c-custom-lookup label="APF Ref No" field-name='APF_Ref_No__c' object-api-name='APF_Master__c'
+                        field-api-name='APF_Ref__c' selected-record-id={wrapAddressObj.APFRefId__c} required={apfReq}
+                        onselect={handleValueSelect} disabled={disableMode}>
+                      </c-custom-lookup>
+                    </div>
+                  </template>
+                  <template lwc:else>
+                    <div class="slds-p-around_x-small">
+                      <c-custom-lookup label="APF Ref No" field-name='APF_Ref_No__c' object-api-name='APF_Master__c'
+                        field-api-name='APF_Ref__c' selected-record-id={wrapAddressObj.APFRefId__c} required={apfReq}
+                        onselect={handleValueSelect} disabled={disableMode}>
+                      </c-custom-lookup>
+                    </div>
+                  </template>
+
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-input type="text" data-type="string" value={wrapAddressObj.Builder_ID__c}
+                      label="Builder ID" disabled required={apfReq} data-objectname="ApplAsset__c"
+                      onchange={handleInputChange} data-name="Builder_ID__c"></lightning-input>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-input type="text" data-type="string" value={wrapAddressObj.Builder_nm__c}
+                      label="Builder Name" disabled required={apfReq} data-objectname="ApplAsset__c"
+                      onchange={handleInputChange} data-name="Builder_nm__c"></lightning-input>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-input type="text" data-type="string" value={wrapAddressObj.ProjID__c} label="Project Id"
+                      disabled required={apfReq} data-objectname="ApplAsset__c" onchange={handleInputChange}
+                      data-name="ProjID__c"></lightning-input>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-input type="text" data-type="string" value={wrapAddressObj.Proj_Nm__c}
+                      label="Project Name" disabled required={apfReq} data-objectname="ApplAsset__c"
+                      onchange={handleInputChange} data-name="Proj_Nm__c"></lightning-input>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-combobox label="Wing No" value={wrapAddressObj.APFWingNo__c} disabled={disableMode}
+                      options={wingNameOp} onchange={handleInputChange} field-level-help={wingNoHelpText}
+                      required={apfReq} data-objectname="ApplAsset__c" data-name="APFWingNo__c">
+                    </lightning-combobox>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-combobox label="House/ Flat/ Shop/ Unit No./ Plot no"
+                      value={wrapAddressObj.APFHouse_Flat_PlotNo__c} options={housePlotNoOp}
+                      onchange={handleInputChange} required={apfReq} field-level-help={flatNoHelpText}
+                      disabled={disableMode} data-objectname="ApplAsset__c" data-name="APFHouse_Flat_PlotNo__c">
+                    </lightning-combobox>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-input type="text" data-type="string" value={wrapAddressObj.APFAddrLn1__c}
+                      label="Address Line 1" disabled required={apfReq} data-objectname="ApplAsset__c"
+                      onchange={handleInputChange} data-name="APFAddrLn1__c"></lightning-input>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-input type="text" data-type="string" value={wrapAddressObj.APFAddrLn2__c}
+                      label="Address Line 2" disabled required={apfReq} data-objectname="ApplAsset__c"
+                      onchange={handleInputChange} data-name="APFAddrLn2__c"></lightning-input>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-input type="text" data-type="string" value={wrapAddressObj.APFLandmk__c} label="Landmark"
+                      disabled required={apfReq} data-objectname="ApplAsset__c" onchange={handleInputChange}
+                      data-name="APFLandmk__c"></lightning-input>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-input type="text" data-type="string" value={wrapAddressObj.APFAreaOrLoc__c}
+                      label="Area or Locality" disabled required={apfReq} data-objectname="ApplAsset__c"
+                      onchange={handleInputChange} data-name="APFAreaOrLoc__c"></lightning-input>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-input type="text" data-type="string" value={wrapAddressObj.APFCity__c} label="City"
+                      disabled required={apfReq} data-objectname="ApplAsset__c" onchange={handleInputChange}
+                      data-name="APFCity__c"></lightning-input>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-input type="text" data-type="string" value={wrapAddressObj.APFPinCode__c}
+                      label="Pin Code" disabled required={apfReq} data-objectname="ApplAsset__c"
+                      onchange={handleInputChange} data-name="APFPinCode__c"></lightning-input>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-input type="text" data-type="string" value={wrapAddressObj.APFState__c} label="State/UT"
+                      disabled required={apfReq} data-objectname="ApplAsset__c" onchange={handleInputChange}
+                      data-name="APFState__c"></lightning-input>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-input type="text" data-type="string" value={wrapAddressObj.Rera__c} label="Rera"
+                      data-objectname="ApplAsset__c" required={isReqRera} onchange={handleInputChange}
+                      data-name="Rera__c" disabled={disableMode}></lightning-input>
+                  </div>
+                </lightning-layout-item>
+              </template>
+
+
+
+              <!-- end new Screen -->
+              <template if:true={isApfYesOrNo}>
+                <template if:true={exiAddrCopy}>
+                  <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                      <lightning-combobox label="Copy Address From Existing Address"
+                        value={wrapAddressObj.CopyAddFrmExAdd__c} options={existingAddrOpt} onchange={handleInputChange}
+                        required="true" disabled={disableMode} data-name="CopyAddFrmExAdd__c">
+                      </lightning-combobox>
+                    </div>
+                  </lightning-layout-item>
+                </template>
+
+                <template if:true={addrTyVisi}>
+
+                  <template if:true={exiAddrCopy}>
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                      medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                      <div class="slds-p-around_x-small">
+                        <lightning-combobox label="Select Address Type" value={wrapAddressObj.AddrType__c}
+                          options={addrTyOption} onchange={handleInputChange} required="true" disabled={disableMode}
+                          data-name="AddrType__c" aria-readonly="">
+                        </lightning-combobox>
+                      </div>
+                    </lightning-layout-item>
+                  </template>
+                </template>
+
+
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-input type="text" data-type="string" value={wrapAddressObj.FlatNo__c}
+                      label="House/ Flat/ Shop/ Unit No./ Plot No." disabled={isDisabled} data-objectname="ApplAsset__c"
+                      onchange={handleInputChange} required={isRequired} data-name="FlatNo__c"></lightning-input>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-input type="text" data-type="string" value={wrapAddressObj.AddrLn1__c}
+                      label="Address Line 1" onchange={handleInputChange} required={isRequired} disabled={isDisabled}
+                      data-objectname="ApplAsset__c" data-name="AddrLn1__c"></lightning-input>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-input type="text" data-type="string" value={wrapAddressObj.AddrLn2__c}
+                      label="Address Line 2" onchange={handleInputChange} required={isRequired} disabled={isDisabled}
+                      data-objectname="ApplAsset__c" data-name="AddrLn2__c"></lightning-input>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-input type="text" data-type="string" value={wrapAddressObj.Landmark__c} label="Landmark"
+                      onchange={handleInputChange} required={isReqLandm} disabled={isDisabled}
+                      data-objectname="ApplAsset__c" data-name="Landmark__c"></lightning-input>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-input type="text" data-type="string" value={wrapAddressObj.AreaLocality__c}
+                      label="Area or Locality" onchange={handleInputChange} required={isReqLandm} disabled={isDisabled}
+                      data-objectname="ApplAsset__c" data-name="AreaLocality__c"></lightning-input>
+                  </div>
+                </lightning-layout-item>
+
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <template lwc:if={wrapAddressObj.PinId__c}>
+                    <div class="slds-p-around_x-small" onfocusout={handleFocus}>
+
+                      <c-custom-lookup label="Pincode" field-name='Pin_Code__c' object-api-name='PincodeMstr__c'
+                        field-api-name='PIN__c' selected-record-name={wrapAddressObj.Pin_Code__c}
+                        selected-record-id={wrapAddressObj.PinId__c} filter-condn={filterConditionPin}
+                        onselect={handleValueSelect} disabled={isDisabled} required={requiredFlag}></c-custom-lookup>
+                    </div>
+                  </template>
+                  <template lwc:else>
+                    <div class="slds-p-around_x-small">
+
+                      <c-custom-lookup label="Pincode" field-name='Pin_Code__c' object-api-name='PincodeMstr__c'
+                        field-api-name='PIN__c' selected-record-name={wrapAddressObj.Pin_Code__c}
+                        selected-record-id={wrapAddressObj.Pin_Code__c} filter-condn={filterConditionPin}
+                        onselect={handleValueSelect} disabled={isDisabled} required={requiredFlag}></c-custom-lookup>
+                      <template lwc:if={pinCodeError}>
+                        <p class="slds-text-color_error">{pinCodeError}</p>
+                      </template>
+                    </div>
+                  </template>
+                </lightning-layout-item>
+
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <template lwc:if={wrapAddressObj.CityId__c}>
+                    <div class="slds-p-around_x-small">
+                      <c-custom-lookup required={requiredFlag} label="City" field-name='City__c'
+                        object-api-name='LocMstr__c' field-api-name='City__c'
+                        selected-record-name={wrapAddressObj.City__c} selected-record-id={wrapAddressObj.CityId__c}
+                        onselect={handleValueSelect} filter-condn={filterConditionCity}
+                        disabled={isDisabled}></c-custom-lookup>
+                    </div>
+                  </template>
+
+                  <template lwc:else>
+                    <div class="slds-p-around_x-small">
+                      <c-custom-lookup required={requiredFlag} label="City" field-name='City__c'
+                        object-api-name='LocMstr__c' field-api-name='City__c'
+                        selected-record-name={wrapAddressObj.City__c} filter-condn={filterConditionCity}
+                        selected-record-id={wrapAddressObj.City__c} onselect={handleValueSelect}
+                        disabled={isDisabled}></c-custom-lookup>
+                    </div>
+                  </template>
+                </lightning-layout-item>
+
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <template lwc:if={wrapAddressObj.StateId__c}>
+                    <div class="slds-p-around_x-small">
+                      <c-custom-lookup required={requiredFlag} label="State/UT" field-name='State__c'
+                        object-api-name='LocMstr__c' field-api-name='State__c'
+                        selected-record-name={wrapAddressObj.State__c} selected-record-id={wrapAddressObj.StateId__c}
+                        filter-condn={filterConditionState} onselect={handleValueSelect}
+                        disabled={isDisabled}></c-custom-lookup>
+                    </div>
+                  </template>
+                  <template lwc:else>
+                    <div class="slds-p-around_x-small">
+                      <c-custom-lookup required={requiredFlag} label="State/UT" field-name='State__c'
+                        object-api-name='LocMstr__c' field-api-name='State__c'
+                        selected-record-name={wrapAddressObj.State__c} selected-record-id={wrapAddressObj.State__c}
+                        filter-condn={filterConditionState} onselect={handleValueSelect}
+                        disabled={isDisabled}></c-custom-lookup>
+                    </div>
+                  </template>
+                </lightning-layout-item>
+
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-input type="text" data-type="string" value={isServCity}
+                      label="Property In Serviceable City " onchange={handleInputChange} required="true" disabled
+                      data-objectname="ApplAsset__c" data-name="ServiceableCity__c"></lightning-input>
+                  </div>
+                </lightning-layout-item>
+              </template>
+
+              <template if:true={showFieldsAtDDE}>
+                <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                  medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                  <div class="slds-p-around_x-small">
+                    <lightning-combobox label="Negative/ Caution Area" data-name="Negative_Caution_Area__c"
+                      value={wrapAddressObj.Negative_Caution_Area__c} onchange={handleInputChange}
+                      options={cautionAreaOptions} data-objectname="ApplAsset__c" required={isReqCautionArea}
+                      disabled={disableMode}></lightning-combobox>
+                  </div>
+                </lightning-layout-item>
+              </template>
+
+              <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <div class="slds-p-around_x-small">
+                  <lightning-input type="number" value={wrapAddressObj.DistFrmSourceBrch__c}
+                    label="Property Address Distance From The Sourcing Branch" onchange={handleInputChange}
+                    disabled={disableMode} data-objectname="ApplAsset__c" data-name="DistFrmSourceBrch__c"
+                    required={propFields}></lightning-input>
+                </div>
+              </lightning-layout-item>
+
+              <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <div class="slds-p-around_x-small">
+                  <lightning-input type="number" value={wrapAddressObj.DistFrmNearBrch__c}
+                    label="Property Address Distance From Nearest Fedfina Branch" onchange={handleInputChange}
+                    disabled={disableMode} data-objectname="ApplAsset__c" required={propFields}
+                    data-name="DistFrmNearBrch__c"></lightning-input>
+                </div>
+              </lightning-layout-item>
+
+              <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <div class="slds-p-around_x-small">
+                  <!-- <div variant="Narrow" if:true={optionOfApp}> -->
+                  <div variant="Narrow">
+                    <c-multi-select-dropdown multi-select="true" onselectoption={handleSelectPropertOwners}
+                      options={optionOfApp} selected-values={selectedValueList} disabled={disableMode}
+                      label="Property Owners" ondeleteoption={handleDeletedPillValue}
+                      isrequired={propFields}></c-multi-select-dropdown>
+                  </div>
+                </div>
+              </lightning-layout-item>
+
+              <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <template lwc:if={wrapAddressObj.Prop_Sub_TyId__c}>
+                  <div class="slds-p-around_x-small">
+                    <c-custom-lookup label="Property Sub Type" field-name='PropSubType__c'
+                      object-api-name='PropSubTypeMstr__c' field-api-name='Desc__c' disabled={disableMode}
+                      selected-record-name={wrapAddressObj.PropSubType__c}
+                      selected-record-id={wrapAddressObj.Prop_Sub_TyId__c} onselect={handleValueSelect}
+                      required={propFields}></c-custom-lookup>
+                  </div>
+                </template>
+
+
+                <template lwc:else>
+                  <div class="slds-p-around_x-small">
+                    <c-custom-lookup label="Property Sub Type" field-name='PropSubType__c'
+                      object-api-name='PropSubTypeMstr__c' field-api-name='Desc__c'
+                      selected-record-name={wrapAddressObj.PropSubType__c}
+                      selected-record-id={wrapAddressObj.Prop_Sub_TyId__c} onselect={handleValueSelect}
+                      disabled={disableMode} required={propFields}></c-custom-lookup>
+                  </div>
+                </template>
+
+              </lightning-layout-item>
+
+              <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <div class="slds-p-around_x-small">
+                  <lightning-combobox label="Property Category " value={wrapAddressObj.PropCat__c}
+                    options={prpertyCateOpt} onchange={handleInputChange} disabled={disableMode} required={propCate}
+                    data-objectname="ApplAsset__c" data-name="PropCat__c">
+                  </lightning-combobox>
+                </div>
+              </lightning-layout-item>
+
+              <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <div class="slds-p-around_x-small">
+                  <lightning-combobox label="Nature Of Property" value={wrapAddressObj.NatureofProp__c}
+                    options={natureOfPropOpti} onchange={handleInputChange} disabled={disbNatProp}
+                    data-objectname="ApplAsset__c" data-name="NatureofProp__c" required={NatOfProp}>
+                  </lightning-combobox>
+                </div>
+              </lightning-layout-item>
+
+              <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <div class="slds-p-around_x-small">
+                  <lightning-textarea type="text" data-type="string" value={wrapAddressObj.Comments_on_Collateral__c}
+                    label="Comments on Collateral" data-objectname="ApplAsset__c" onchange={handleInputChange}
+                    data-name="Comments_on_Collateral__c" disabled={disableMode}></lightning-textarea>
+                </div>
+              </lightning-layout-item>
+
+            </template>
+          </lightning-layout>
+        </lightning-accordion-section>
+
+        <template if:true={propIden}>
+          <template if:true={isPropVal}>
+            <template if:true={showValuationFields}>
+              <lightning-accordion-section name="B" label="Property Cost Related Details" class="accordion">
+                <lightning-layout multiple-rows="true">
+                  <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                      <lightning-input type="number" formatter="currency" value={wrapAddressObj.Agrem_Value__c}
+                        label="Registered Agreement Value (₹)" data-objectname="ApplAsset__c" required={propValuReq}
+                        onchange={handleInputChange} data-name="Agrem_Value__c" disabled={disableMode}
+                        pattern="[0-9₹,.]*"
+                        message-when-pattern-mismatch="Please enter a positive value."></lightning-input>
+                    </div>
+                  </lightning-layout-item>
+
+                  <template if:true={isConstrEstDocFieldVsbl}>
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                      medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                      <div class="slds-p-around_x-small">
+                        <lightning-combobox label="Improvement/ construction estimate documented"
+                          data-objectname="ApplAsset__c"
+                          value={wrapAddressObj.Improvement_construction_estimate_docum__c}
+                          options={imprmntEstConstrDocOptions} onchange={handleInputChange}
+                          data-name="Improvement_construction_estimate_docum__c" disabled={disableMode}
+                          required={reqImprvEstmCost}></lightning-combobox>
+                      </div>
+                    </lightning-layout-item>
+                  </template>
+
+                  <template if:true={estArchAgreeFieldVsibl}>
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                      medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                      <div class="slds-p-around_x-small">
+                        <lightning-input type="number" formatter="currency" value={wrapAddressObj.Appr_Cost_of_Const__c}
+                          label="Total construction estimate as per architect/ agreement (₹)"
+                          data-objectname="ApplAsset__c" required={reqTotConsEst} onchange={handleInputChange}
+                          data-name="Appr_Cost_of_Const__c" disabled={disableMode} pattern="[0-9₹,.]*"
+                          message-when-pattern-mismatch="Please enter a positive value."></lightning-input>
+                      </div>
+                    </lightning-layout-item>
+                  </template>
+
+                  <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                      <lightning-input type="number" formatter="currency" value={wrapAddressObj.Regi_Cost__c}
+                        label="Registration Cost" data-objectname="ApplAsset__c" required={propValuReq}
+                        onchange={handleInputChange} data-name="Regi_Cost__c" disabled={disableMode} pattern="[0-9₹,.]*"
+                        message-when-pattern-mismatch="Please enter a positive value."></lightning-input>
+                    </div>
+                  </lightning-layout-item>
+                  <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                      <lightning-input type="number" formatter="currency" value={wrapAddressObj.Stamp_Duty__c}
+                        label="Stamp Duty" data-objectname="ApplAsset__c" required={propValuReq}
+                        onchange={handleInputChange} data-name="Stamp_Duty__c" disabled={disableMode}
+                        pattern="[0-9₹,.]*"
+                        message-when-pattern-mismatch="Please enter a positive value."></lightning-input>
+                    </div>
+                  </lightning-layout-item>
+                  <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                      <lightning-input type="number" formatter="currency" value={wrapAddressObj.Amenities__c}
+                        label="Amenities (As permitted by Policy)" data-objectname="ApplAsset__c" required={propValuReq}
+                        onchange={handleInputChange} data-name="Amenities__c" disabled={disableMode} pattern="[0-9₹,.]*"
+                        message-when-pattern-mismatch="Please enter a positive value."></lightning-input>
+                    </div>
+                  </lightning-layout-item>
+                  <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                      <lightning-input type="number" formatter="currency" value={wrapAddressObj.Total_Prop_Cost__c}
+                        label="Total Property Cost" data-objectname="ApplAsset__c" required={reqTakenValAhdCalc}
+                        onchange={handleInputChange} data-name="Total_Prop_Cost__c" disabled></lightning-input>
+                    </div>
+                  </lightning-layout-item>
+
+                  <template if:true={showDownPayNBalOCRValFields}>
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                      medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                      <div class="slds-p-around_x-small">
+                        <lightning-input type="number" formatter="currency"
+                          value={wrapAddressObj.Down_payment_PartORegisteredAgreement__c}
+                          label="Down payment (part of registered agreement cost)" data-objectname="ApplAsset__c"
+                          required={isReqDownPay} onchange={handleInputChange}
+                          data-name="Down_payment_PartORegisteredAgreement__c" disabled={disableMode} min="0" step=".01"
+                          message-when-range-underflow="Enter a Valid Input"
+                          message-when-bad-input="Enter a Valid Input"></lightning-input>
+                      </div>
+                    </lightning-layout-item>
+
+                    <!--LAK-7660-->
+                    <template if:true={showBalanceOCRField}>
+                      <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                        medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                        <div class="slds-p-around_x-small">
+                          <lightning-input type="number" formatter="currency"
+                            value={wrapAddressObj.Balance_OCR_to_be_arranged_by_customer__c}
+                            label="Balance OCR (to be arranged by customer)" data-objectname="ApplAsset__c"
+                            required={isReqDownPay} onchange={handleInputChange}
+                            data-name="Balance_OCR_to_be_arranged_by_customer__c" disabled min="0" step=".01"
+                            message-when-range-underflow="Enter a Valid Input"
+                            message-when-bad-input="Enter a Valid Input"></lightning-input>
+                        </div>
+                      </lightning-layout-item>
+                    </template>
+                  </template>
+
+                </lightning-layout>
+              </lightning-accordion-section>
+            </template>
+          </template>
+
+          <template if:true={isPropVal}>
+            <lightning-accordion-section name="C" label="Property Area or Valuation" class="accordion">
+              <lightning-layout multiple-rows="true">
+                <template if:true={showFieldsAtDDE}>
+                  <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                      <lightning-combobox label="Is the title clear & marketable"
+                        value={wrapAddressObj.Is_the_title_clear_markateble__c} options={isTitleClrOptions}
+                        onchange={handleInputChange} disabled data-objectname="ApplAsset__c"
+                        field-level-help={mandBefFnSanc} data-name="Is_the_title_clear_markateble__c"
+                        required={reqIsTitle}>
+                      </lightning-combobox>
+                    </div>
+                  </lightning-layout-item>
+
+                  <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                      <lightning-combobox label="Boundaries Are Properly Demarcated And Identified"
+                        value={wrapAddressObj.Bound_are_prop_dem_n_ide__c} options={boundOfPropDemOptions}
+                        onchange={handleInputChange} disabled data-objectname="ApplAsset__c"
+                        field-level-help={mandBefFnSanc} data-name="Bound_are_prop_dem_n_ide__c"
+                        required={reqForPostVer}>
+                      </lightning-combobox>
+                    </div>
+                  </lightning-layout-item>
+
+                  <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                      <lightning-combobox label="Address of property verified as per Title documents"
+                        value={wrapAddressObj.Addr_of_prop_veri_as_per_Tit__c} options={bundryOfAddrVerOptions}
+                        onchange={handleInputChange} disabled data-objectname="ApplAsset__c"
+                        field-level-help={mandBefFnSanc} data-name="Addr_of_prop_veri_as_per_Tit__c"
+                        required={reqForPostVer}>
+                      </lightning-combobox>
+                    </div>
+                  </lightning-layout-item>
+
+                  <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                      <lightning-combobox label="Property Usage" value={wrapAddressObj.Property_Usage__c}
+                        options={propUsgOption} disabled onchange={handleInputChange} field-level-help={mandBefFnSanc}
+                        data-objectname="ApplAsset__c" data-name="Property_Usage__c" required={reqForPostVer}>
+                      </lightning-combobox>
+                    </div>
+                  </lightning-layout-item>
+
+                  <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                      <lightning-combobox label="Is the property Multi-Tenanted" data-objectname="ApplAsset__c"
+                        value={wrapAddressObj.Is_the_property_Multi_Tenanted__c} options={multiTenatPropOptions}
+                        onchange={handleInputChange} data-name="Is_the_property_Multi_Tenanted__c" disabled
+                        required={reqIsPropMultTent} field-level-help={mandBefFnSanc}></lightning-combobox>
+                    </div>
+                  </lightning-layout-item>
+
+                  <!-- <template if:true={isMultiTentProp}> -->
+                  <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                      <lightning-input type="number" value={wrapAddressObj.No_of_Tenants__c} label="No of Tenants"
+                        data-objectname="ApplAsset__c" required={reqNoOfTents} onchange={handleInputChange}
+                        data-name="No_of_Tenants__c" disabled field-level-help={mandBefFnSanc} min="0"
+                        message-when-range-underflow="Enter a Valid Input"
+                        message-when-bad-input="Enter a Valid Input"></lightning-input>
+                    </div>
+                  </lightning-layout-item>
+                  <!-- </template> -->
+
+                  <!-- <template if:true={isRentedProp}> -->
+                  <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                      <lightning-input type="number" formatter="currency"
+                        value={wrapAddressObj.AveNetMnthlyRentalAsPerBankCredit__c}
+                        label="Average Net monthly Rental as per Banking Credit" data-objectname="ApplAsset__c"
+                        required={reqRentlBankCrdt} onchange={handleInputChange} field-level-help={mandBefFnSanc}
+                        data-name="AveNetMnthlyRentalAsPerBankCredit__c" disabled
+                        message-when-bad-input="Enter a Valid Input" min=0
+                        message-when-range-underflow="Enter a Valid Input"></lightning-input>
+                    </div>
+                  </lightning-layout-item>
+                  <!-- </template> -->
+
+                  <!-- <template if:true={stgeOfConstrFieldVsbl}> -->
+                  <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                      <lightning-input type="number" value={wrapAddressObj.Stage_of_Construction__c}
+                        label="Stage of Construction (%)" data-objectname="ApplAsset__c"
+                        field-level-help={mandBefFnSanc} required={reqTakenValAhdCalc} onchange={handleInputChange}
+                        data-name="Stage_of_Construction__c" disabled max="100" min="0" step=".01"
+                        pattern="^\d+(\.\d{1,2})?$"
+                        message-when-range-overflow="Stage of Construction (%) cannot be greater than 100"
+                        message-when-range-underflow="Enter a Valid Input"
+                        message-when-pattern-mismatch="Please enter a valid % Stage of Construction in the Entity"></lightning-input>
+                    </div>
+                  </lightning-layout-item>
+                  <!-- </template> -->
+
+                  <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                      <lightning-input type="number" value={wrapAddressObj.Approx_Age_of_Prop__c}
+                        label="Approx. Age of Property - in Years" onchange={handleInputChange}
+                        data-objectname="ApplAsset__c" data-name="Approx_Age_of_Prop__c"
+                        message-when-bad-input="Enter a Valid Input" min="0" max="999"
+                        message-when-range-underflow="Enter a Valid Input"
+                        message-when-range-overflow="Enter a Valid Input" required={reqApprAgeOfProp} disabled
+                        field-level-help={mandBefFnSanc}>
+                      </lightning-input>
+                    </div>
+                  </lightning-layout-item>
+                  <template if:true={showFieldsAtDDE}>
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                      medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                      <div class="slds-p-around_x-small">
+                        <lightning-input type="number" value={wrapAddressObj.Resi_Age__c}
+                          label="Residual Age - in Years" data-objectname="ApplAsset__c" required={reqPropCarpArea}
+                          onchange={handleInputChange} data-name="Resi_Age__c" min="0"
+                          message-when-range-underflow="Enter a Valid Input"
+                          message-when-bad-input="Enter a Valid Input" disabled
+                          field-level-help={mandBefFnSanc}></lightning-input>
+                      </div>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                      medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                      <div class="slds-p-around_x-small">
+                        <lightning-input type="number" value={wrapAddressObj.Property_Carpet_area_Sq_Ft__c}
+                          label="Property Carpet area (Sq Ft)" data-objectname="ApplAsset__c" required={reqPropCarpArea}
+                          onchange={handleInputChange} data-name="Property_Carpet_area_Sq_Ft__c" min="0" step=".01"
+                          message-when-range-underflow="Enter a Valid Input"
+                          message-when-bad-input="Enter a Valid Input" disabled={disableMode}
+                          field-level-help={mandBefFnSanc}></lightning-input>
+                      </div>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                      medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                      <div class="slds-p-around_x-small">
+                        <lightning-input type="number" value={wrapAddressObj.Prop_Bui_up_ar__c}
+                          label="Property Built up area (Sq Ft)" data-objectname="ApplAsset__c"
+                          required={reqTakenValAhdCalc} onchange={handleInputChange} data-name="Prop_Bui_up_ar__c"
+                          min="0" step=".01" message-when-range-underflow="Enter a Valid Input"
+                          message-when-bad-input="Enter a Valid Input" disabled
+                          field-level-help={mandBefFnSanc}></lightning-input>
+                        <!--  disabled={disableMode} -->
+                      </div>
+                    </lightning-layout-item>
+
+                    <template if:true={apprCostConstrFieldVsbl}>
+                      <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                        medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                        <div class="slds-p-around_x-small">
+                          <lightning-input type="number" formatter="currency"
+                            value={wrapAddressObj.Per_Sq_Ft_Approved_Cost_of_Const__c}
+                            label="Per Sq Ft Approved Cost of Construction (₹)" data-objectname="ApplAsset__c"
+                            required={reqApprCostConstr} onchange={handleInputChange}
+                            data-name="Per_Sq_Ft_Approved_Cost_of_Const__c" disabled
+                            message-when-bad-input="Enter a Valid Input" min="0"
+                            message-when-range-underflow="Enter a Valid Input"
+                            field-level-help={mandBefFnSanc}></lightning-input>
+                        </div>
+                      </lightning-layout-item>
+                    </template>
+
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                      medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                      <div class="slds-p-around_x-small">
+                        <lightning-input type="number" value={wrapAddressObj.Land_Area__c} label="Land Area (Sq Ft)"
+                          data-objectname="ApplAsset__c" required={reqTakenValAhdCalc} onchange={handleInputChange}
+                          data-name="Land_Area__c" disabled min="0" step=".01"
+                          message-when-range-underflow="Enter a Valid Input"
+                          message-when-bad-input="Enter a Valid Input"
+                          field-level-help={mandBefFnSanc}></lightning-input>
+                      </div>
+                    </lightning-layout-item>
+
+
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                      medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                      <div class="slds-p-around_x-small">
+                        <lightning-input type="number" formatter="currency"
+                          value={wrapAddressObj.PerSqFtRateBuiltUpArea__c} label="Per Sq Ft rate - Built up area (₹)"
+                          data-objectname="ApplAsset__c" required={reqRateBuldUpArea} onchange={handleInputChange}
+                          data-name="PerSqFtRateBuiltUpArea__c" disabled
+                          field-level-help={mandBefFnSanc}></lightning-input>
+                      </div>
+                    </lightning-layout-item>
+                  </template>
+
+
+                  <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                      <lightning-input type="number" formatter="currency"
+                        value={wrapAddressObj.Valuation_as_per_policy_norms__c} label="Valuation as per policy norms(₹)"
+                        data-objectname="ApplAsset__c" required={reqValPolcyNorms} onchange={handleInputChange}
+                        data-name="Valuation_as_per_policy_norms__c" disabled field-level-help={mandBefFnSanc} min="0"
+                        step=".01" message-when-range-underflow="Enter a Valid Input"
+                        message-when-bad-input="Enter a Valid Input"></lightning-input>
+                    </div>
+                  </lightning-layout-item>
+
+
+
+                  <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                      <lightning-combobox value={wrapAddressObj.ChangeRequiredInValuationAsPerPolicyNorm__c}
+                        label="Change required in Valuation as per policy norms(₹)" data-objectname="ApplAsset__c"
+                        required={reqChangeReqInPolNorm} onchange={handleInputChange} options={chngeValPolcyNormOptions}
+                        field-level-help={mandBefFnSanc} data-name="ChangeRequiredInValuationAsPerPolicyNorm__c"
+                        disabled={disableMode}>
+                      </lightning-combobox>
+                    </div>
+                  </lightning-layout-item>
+
+                  <template if:true={ifNoSelectedInChangReqInValua}>
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                      medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                      <div class="slds-p-around_x-small">
+                        <lightning-input type="number" formatter="currency"
+                          value={wrapAddressObj.ValuationToBeTakenAheadForCalculation__c}
+                          label="Valuation to be taken ahead for calculation (₹)" data-objectname="ApplAsset__c"
+                          required={reqTakenValAhdCalc} onchange={handleInputChange}
+                          data-name="ValuationToBeTakenAheadForCalculation__c" disabled={disbValToTakCal} min="0"
+                          step=".01" message-when-range-underflow="Enter a Valid Input"
+                          message-when-bad-input="Enter a Valid Input"
+                          field-level-help={mandBefFnSanc}></lightning-input>
+                      </div>
+                    </lightning-layout-item>
+                  </template>
+
+                  <template if:true={ifChangReqInValua}>
+                    <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                      medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                      <div class="slds-p-around_x-small">
+                        <lightning-combobox label="Valuation to be taken ahead for calculation (₹)"
+                          value={wrapAddressObj.ValuationToBeTakenAheadForCalculation__c}
+                          options={valuToBeTakForCalOption} onchange={handleInputChange} required={reqTakenValAhdCalc}
+                          data-objectname="ApplAsset__c" data-name="ValuationToBeTakenAheadForCalculation__c"
+                          disabled={disableMode}>
+                        </lightning-combobox>
+                      </div>
+                    </lightning-layout-item>
+                  </template>
+
+                </template>
+
+                <template if:true={showFieldsAtDDE}>
+
+
+                  <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                      <lightning-input type="number" formatter="currency" value={wrapAddressObj.Total_Valua__c}
+                        label="Total Valuation (₹)" data-objectname="ApplAsset__c" required={reqPropCarpArea}
+                        onchange={handleInputChange} data-name="Total_Valua__c" min="0" step=".01"
+                        message-when-range-underflow="Enter a Valid Input" message-when-bad-input="Enter a Valid Input"
+                        disabled field-level-help={mandBefFnSanc}></lightning-input>
+                    </div>
+                  </lightning-layout-item>
+
+                  <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                      <lightning-input type="number" formatter="currency" value={wrapAddressObj.PerSqFtRateLandArea__c}
+                        label="Per Sq Ft rate - Land area (₹)" data-objectname="ApplAsset__c" required={reqRateLandArea}
+                        onchange={handleInputChange} data-name="PerSqFtRateLandArea__c" disabled
+                        field-level-help={mandBefFnSanc}></lightning-input>
+                    </div>
+                  </lightning-layout-item>
+
+                  <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                      <lightning-input type="number" formatter="currency" value={wrapAddressObj.Land_Valu__c}
+                        label="Land Valuation (₹)" data-objectname="ApplAsset__c" required={reqTakenValAhdCalc}
+                        onchange={handleInputChange} data-name="Land_Valu__c" disabled
+                        field-level-help={mandBefFnSanc}></lightning-input>
+                      <!-- required={reqRateLandArea} -->
+                    </div>
+                  </lightning-layout-item>
+
+
+                  <lightning-layout-item size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <div class="slds-p-around_x-small">
+                      <lightning-input type="number" formatter="currency" value={wrapAddressObj.Built_up_area_Valu__c}
+                        label="Built up area Valuation (₹)" data-objectname="ApplAsset__c" required={reqRateBuldUpArea}
+                        onchange={handleInputChange} data-name="Built_up_area_Valu__c" disabled
+                        field-level-help={mandBefFnSanc}></lightning-input>
+                    </div>
+                  </lightning-layout-item>
+
+
+
+
+
+                </template>
+
+                <lightning-layout-item padding="around-small" size="12" margin="around-small">
+                  <c-dynamic-datatable params-data={caseParams}></c-dynamic-datatable>
+                </lightning-layout-item>
+              </lightning-layout>
+            </lightning-accordion-section>
+          </template>
+
+        </template>
+      </lightning-accordion>
+    </lightning-layout-item>
+
+  </lightning-layout>
+  <!-- <div class="slds-border_top"></div> -->
+  <!-- <div class="custom-hr"></div> -->
+  <template if:true={propIden}>
+    <template if:true={quesProp}>
+      <lightning-layout>
+        <lightning-layout-item padding="slds-p-around_none" size="12">
+
+          <!-- <lightning-layout-item size="12"> -->
+          <!-- <div class="slds-p-around_x-small"> -->
+          <c-capture-property-question applicant-asset-id={currentTabId} loan-app-id={_loanAppId}
+            has-edit-access={hasEditAccess} stage={loanApplStage}></c-capture-property-question>
+          <!-- </div> -->
+        </lightning-layout-item>
+      </lightning-layout>
+    </template>
+  </template>
+
+  <template if:true={propIden}>
+    <!-- <lightning-layout> -->
+    <!-- <lightning-layout-item size="12"> -->
+    <div class="slds-p-around_x-small">
+      <c-capture-documents is-property={propIden} app-asser-id={_currentTabId} layout-size={layoutSize}
+        loan-app-id={_loanAppId} sub-stage="RM Data Entry" stage="QDE" product-type="Home Loan" stagenm={stageOfLAN}
+        has-edit-access={hasEditAccess} applicant-id-on-tabset={_applicantId} stepper-name={stageN}
+        ondocumentid={handleValidDocument}></c-capture-documents>
+    </div>
+    <!-- </lightning-layout-item> -->
+    <!-- </lightning-layout> -->
+  </template>
+
+  <!-- </lightning-card> -->
+</template>

@@ -1,0 +1,45 @@
+/* first table css */
+.tableScroll {
+  width: 100% !important;
+  overflow-x: auto;
+  height: 12rem;
+}
+.fixedWidt {
+  width: 5rem;
+}
+.fixedWidth {
+  width: 10rem;
+}
+.fixedWidthh {
+  width: 14rem;
+}
+.fixedWidthhh {
+  width: 16rem;
+}
+
+.accClass {
+  --slds-c-accordion-summary-color-background: rgb(243, 243, 243);
+  --slds-c-accordion-color-border: 0.5rem;
+}
+/* :host {
+  --slds-c-accordion-heading-text-color: white;
+} */
+.accClassQuery {
+  --slds-c-accordion-summary-color-background: rgb(180, 8, 8);
+  --slds-c-accordion-color-border: 0.5rem;
+}
+
+.custom-button:hover {
+  cursor: pointer;
+}
+.table-container {
+  width: 100%;
+  max-height: 300px;
+  overflow-y: auto;
+  overflow-x: auto;
+  position: relative;
+}
+.data-table.slds-cell-wrap {
+  white-space: normal !important;
+  word-wrap: break-word !important;
+}

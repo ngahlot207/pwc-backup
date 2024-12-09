@@ -1,0 +1,11 @@
+.tableScroll {
+    width: 100% !important;
+    overflow-x: auto;
+    /* height: 12rem; */
+  }
+  .fixedWidth{
+    width: 10rem;
+  }
+  .fixedWidthForActions{
+    width: 16rem;
+  }

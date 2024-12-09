@@ -1,0 +1,1645 @@
+<template>
+  
+  <template if:true={showSpinner}>
+    <lightning-spinner alternative-text="Loading" size="large" variant="brand"
+      style="position: fixed;"></lightning-spinner>
+  </template>
+  <template lwc:if={phoneBolean}>
+    <template if:true={QDEStageVisible}>
+      <div class="slds-m-top_medium slds-m-bottom_x-large">
+        <h2 class="slds-text-heading_medium slds-m-bottom_medium">
+          {title}
+        </h2>
+        <template for:each={allRecOfApplObwithDetai} for:item="fileIterator" for:index="index">
+          <div key={fileIterator.index} class="slds-p-around_medium lgc-bg">
+            <ul class="slds-has-dividers_bottom-space">
+              <li class="slds-item">
+                <lightning-tile>
+                  <dl class="slds-dl_horizontal">
+                    <dt class="slds-dl_horizontal__label">
+                      <p class="slds-truncate" title="Sr.No.">
+                        <b>Sr.No. </b>{fileIterator.index}
+                      </p>
+                    </dt>
+                    <dt class="slds-dl_horizontal__label">
+                      <p class="slds-truncate" title="Name of Borrower">
+                        <b>Name of Borrower </b>{fileIterator.parentRecord.Applicant__r.FullName__c}
+                      </p>
+                    </dt>
+                    <dt class="slds-dl_horizontal__label">
+                      <p class="slds-truncate" title="Nature of loan">
+                        <b>Nature of loan </b>{fileIterator.parentRecord.NatureOfLoan__c}
+                      </p>
+                    </dt>
+                    <dt class="slds-dl_horizontal__label">
+                      <p class="slds-truncate" title="Disbursal date">
+                        <b>Disbursal date</b>{fileIterator.parentRecord.DisbursalDate__c}
+                      </p>
+                    </dt>
+                    <dt class="slds-dl_horizontal__label">
+                      <p class="slds-truncate" title="Loan Amount">
+                        <b>Loan Amount </b>{fileIterator.parentRecord.LoanAmount__c}
+                      </p>
+                    </dt>
+                    <dt class="slds-dl_horizontal__label">
+                      <p class="slds-truncate" title="Current O/s">
+                        <b>Current O/s </b>
+                        <lightning-input type="number" step=".01" min="0" formatter="currency"
+                          data-objectname="ApplObligation__c" value={fileIterator.parentRecord.CurrentOs__c}
+                          onchange={handleBounceData} data-index={index} data-field="CurrentOs__c"
+                          read-only={disableMode} disabled={disableMode} variant="label-hidden"></lightning-input>
+                      </p>
+                    </dt>
+                    <dt class="slds-dl_horizontal__label ">
+                      <p  title="Treatment">
+                        <b>Treatment </b>
+                        <lightning-combobox name="Treatment__c" class="borrowersValue" label=""
+                          value={fileIterator.parentRecord.Treatment__c} data-name="Treatment__c"
+                          options={TreatmentOptions} data-index={index} onchange={HandleValueChange}
+                          read-only={disableMode} variant="label-hidden" disabled={disableMode}>
+                        </lightning-combobox>
+                      </p>
+                    </dt>
+                  
+                  </dl>
+                </lightning-tile>
+              </li>
+            </ul>
+          </div>
+        </template>
+        <lightning-tile>
+          <dl class="slds-dl_horizontal">
+            <dt class="slds-dl_horizontal__label">
+              <p class="slds-truncate" title="Total Loan Amount">
+                <b>Total Loan Amount &nbsp;&nbsp;</b>{totalLoanAmount}
+              </p>
+            </dt>
+
+            <dt class="slds-dl_horizontal__label">
+              <p class="slds-truncate" title="Currrent OS">
+                <b>Currrent OS &nbsp;&nbsp;</b>{totalCurrentOS}
+              </p>
+            </dt>
+          </dl>
+        </lightning-tile>
+      </div>
+    </template>
+  </template>
+  <template lwc:if={desktopBoolean}>
+    <template if:true={QDEStageVisible}>
+      <lightning-card title="Obligation Details ">
+
+        
+        <div id="containerDiv4" onmousemove={handlemousemove} onmouseup={handlemouseup}
+          ondblclick={handledblclickresizable}
+          class="slds-table_header-fixed_container slds-border_right slds-border_left tableScroll"
+          onscroll={tableOuterDivScrolled}>
+          <div id="tableViewInnerDiv4">
+           
+            <table class="slds-table slds-table_resizable slds-table_bordered 
+                             slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout 
+                             " onscroll={tableScrolled}>
+              <thead>
+                <tr>
+                  <th title="Sr.No." class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                    <div class="slds-cell-fixed fixedWidth">
+                      <a class="slds-th__action slds-text-link--reset">
+                        <span class="slds-truncate">Sr.No.</span>
+                      </a>
+                      <div class="slds-resizable">
+                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                          <span class="slds-resizable__divider"></span>
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+
+                  <th title="Name of Borrower" class="slds-is-resizable dv-dynamic-width fixedWidthNmB" scope="col">
+                    <div class="slds-cell-fixed fixedWidthNmB">
+                      <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                        <span class="slds-truncate">Name of Borrower</span>
+
+                      </a>
+                      <div class="slds-resizable">
+                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                          <span class="slds-resizable__divider"></span>
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+
+                  <th title="Nature of loan" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                    <div class="slds-cell-fixed fixedWidth">
+                      <a class="slds-th__action slds-text-link--reset">
+                        <span class="slds-truncate">Nature of loan</span>
+
+                      </a>
+                      <div class="slds-resizable">
+                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                          <span class="slds-resizable__divider"></span>
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                  <th title="Disbursal date" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                    <div class="slds-cell-fixed fixedWidth">
+                      <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                        <span class="slds-truncate">Disbursal date</span>
+
+                      </a>
+                      <div class="slds-resizable">
+                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                          <span class="slds-resizable__divider"></span>
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                  <th title="Loan Amount" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                    <div class="slds-cell-fixed fixedWidth">
+                      <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                        <span class="slds-truncate">Loan Amount</span>
+
+                      </a>
+                      <div class="slds-resizable">
+                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                          <span class="slds-resizable__divider"></span>
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                  <th title="Current O/s" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                    <div class="slds-cell-fixed fixedWidth">
+                      <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                        <span class="slds-truncate">Current O/s</span>
+
+                      </a>
+                      <div class="slds-resizable">
+                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                          <span class="slds-resizable__divider"></span>
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                  <th title="Treatment" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                    <div class="slds-cell-fixed fixedWidth">
+                      <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                        <span class="slds-truncate">Treatment</span>
+
+                      </a>
+                      <div class="slds-resizable">
+                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                          <span class="slds-resizable__divider"></span>
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <template for:each={allRecOfApplObwithDetai} for:item="fileIterator" for:index="index">
+                  <tr data-row-index={index} onclick={handleRowClick} key={fileIterator.parentRecord.Id}
+                    aria-selected="false" class="slds-hint-parent">
+                    <td>{fileIterator.index}</td>
+                    <td>{fileIterator.parentRecord.Applicant__r.FullName__c}</td>
+                    <td>{fileIterator.parentRecord.NatureOfLoan__c}</td>
+                    <td>{fileIterator.parentRecord.DisbursalDate__c}</td>
+                    <td>{fileIterator.parentRecord.LoanAmount__c}</td>
+                    <td style="padding-right: 30px;"> <lightning-input type="number" step=".01" formatter="currency"
+                        min="0" data-objectname="ApplObligation__c" value={fileIterator.parentRecord.CurrentOs__c}
+                        onchange={handleBounceData} data-index={index} data-field="CurrentOs__c" read-only={disableMode}
+                        disabled={disableMode}></lightning-input></td>
+                    <td> <lightning-combobox name="Treatment__c" class="borrowersValue" label=""
+                        value={fileIterator.parentRecord.Treatment__c} data-name="Treatment__c"
+                        options={TreatmentOptions} data-index={index} onchange={HandleValueChange}
+                        read-only={disableMode} variant="label-hidden" disabled={disableMode}>
+
+                      </lightning-combobox></td>
+                  </tr>
+                </template>
+                <tr>
+                  <td style="background-color: #F3F2F2;" scope="row">Total</td>
+
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>{totalLoanAmount}</td>
+                  <td>{totalCurrentOS}</td>
+                  <td>-</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </lightning-card>
+    </template>
+
+    <template if:false={QDEStageVisible}>
+      <lightning-card title="Obligation Details ">
+        <lightning-card title="">
+          <div class=" slds-size_1-of-3 slds-p-left_medium slds-p-right_xx-small ">
+            <lightning-input type="date" placeholder="DD-MMM-YYYY" data-id="startDate" label="Latest RTR Month"
+              data-objectname="loanAppl__c" name="selectedDate" value={monthAndYearvalue} onchange={handleMonthAndVal}
+              data-field="LoginMonthAndYear__c" disabled={disableMode} required={isRequiredRTR}></lightning-input>
+          </div>
+          <!-- LAK-6166 -->
+          <template if:true={showBounchBTFields}>
+            <div class="datatable-container slds-p-left_medium slds-p-right_xx-small" style="padding-top: 13px; ">
+              
+              <table class="datatable slds-table_bordered slds-table_col-bordered slds-border_right slds-border_left">
+                <tr>
+                  <th class="slds-border_bottom " scope="col">
+                    <div class="slds-m-around_small slds-align_absolute-left" title="Total Loan Amount"><span
+                        style="color: red;"> *</span> Bounce in BT loan Seasoning &lt; 12 months</div>
+                  </th>
+                  <th><lightning-input type="number" placeholder="Enter Value" data-objectname="LoanAppl__c"
+                      value={BonceBTless12mths} onchange={handleBounceBTLoan}
+                      data-field="BonceBTloanSesingless12mths__c" read-only={disableMode} disabled={disableMode}
+                      variant="label-hidden" step="0.01" required></lightning-input> </th>
+                </tr>
+                <tr>
+                  <th class="slds-border_bottom" scope="col">
+                    <div class="slds-m-around_small slds-align_absolute-left" title="Total Current Outstanding"><span
+                        style="color: red;"> *</span> Bounce in BT Loan with Seasoning &ge; 12 Months</div>
+                  </th>
+                  <th><lightning-input type="number" placeholder="Enter Value" data-objectname="LoanAppl__c"
+                      value={BonceBTeql12mths} onchange={handleBounceBTLoan}
+                      data-field="BonceBTloanSesingtreql12mths__c" read-only={disableMode} disabled={disableMode}
+                      variant="label-hidden" step="0.01" required></lightning-input> </th>
+                </tr>
+                <tr>
+                  <th class="slds-border_bottom" scope="col">
+                    <div class="slds-m-around_small slds-align_absolute-left" title="Total EMI"><span
+                        style="color: red;"> *</span> Bounce in BT Loan with Seasoning &ge; 18 Months</div>
+                  </th>
+                  <th><lightning-input type="number" placeholder="Enter Value" data-objectname="LoanAppl__c"
+                      value={BonceBTeql18mths} onchange={handleBounceBTLoan}
+                      data-field="BonceBTloanSesingtreql18mths__c" read-only={disableMode} disabled={disableMode}
+                      variant="label-hidden" step="0.01" required></lightning-input> </th>
+                </tr>
+              </table>
+            </div>
+          </template>
+          <!-- LAK-6166 -->
+          <div class="datatable-container slds-p-left_medium slds-p-right_xx-small" style="padding-top: 13px; ">
+            <table class="datatable slds-table_bordered slds-table_col-bordered slds-border_right slds-border_left">
+              <tr>
+                <th class="slds-border_bottom" scope="col">
+                  <div class="slds-m-around_small slds-align_absolute-left" title="Total Loan Amount">Total Loan Amount
+                  </div>
+                </th>
+                <th class="slds-border_bottom" scope="col">
+                  <div class="slds-m-around_small slds-align_absolute-left" title="Total Current Outstanding">Total
+                    Current Outstanding</div>
+                </th>
+                <th class="slds-border_bottom" scope="col">
+                  <div class="slds-m-around_small slds-align_absolute-left" title="Total EMI">Total EMI</div>
+                </th>
+                <th class="slds-border_bottom" scope="col">
+                  <div class="slds-m-around_small slds-align_absolute-left" title="Total Obligation">Total Obligation
+                  </div>
+                </th>
+              </tr>
+              <tbody>
+                <tr>
+                  <td style="background-color: #F3F2F2; padding-left:22px;"> <lightning-formatted-number
+                      value={LoanAmountCal} format-style="currency" currency-code="INR"></lightning-formatted-number>
+                  </td>
+                  <td style="background-color: #F3F2F2; padding: 0px 0px 0px 50px;"><lightning-formatted-number
+                      value={OSAmountCal} format-style="currency" currency-code="INR"></lightning-formatted-number></td>
+                  <td style="background-color: #F3F2F2; padding-left:22px;"><lightning-formatted-number value={EMICal}
+                      format-style="currency" currency-code="INR"></lightning-formatted-number></td>
+                  <td style="background-color: #F3F2F2; padding: 0px 0px 0px 50px;">{ObligCal}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </lightning-card>
+
+        <div class="container slds-scrollable tableMinHeight">
+          <lightning-button class="slds-float--right slds-m-around--medium" label="Download Obligation Details File" title="Download Obligation Details File" onclick={handleExcelDownFileseconbutton} variant="brand"> </lightning-button>
+              <lightning-button class="slds-float--right slds-m-around--medium" label="Upload Obligation Details File" title="Manual Obligation Details File" onclick={showUploadExcelFile} variant="brand" disabled={disableDownloadMcaRec} > </lightning-button>
+              
+          <div id="containerDiv1" onmousemove={handlemousemove} onmouseup={handlemouseup}
+            ondblclick={handledblclickresizable} class=" slds-border_right slds-border_left tableScroll"
+            onscroll={tableOuterDivScrolled}>
+            
+          
+            <div id="tableViewInnerDiv1">
+              
+              <table
+                class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout slds-scrollable_y "
+                onscroll={tableScrolled}>
+
+                <thead class="table-thead">
+
+                  <tr class="fixed-header">
+                    <th title="Sr.No." class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                      <div class="slds-cell-fixed fixedWidth">
+                        <a class="slds-th__action slds-text-link--reset">
+                          <span class="slds-truncate">Sr.No.</span>
+                        </a>
+                        <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+                    <th title="Source" class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                      <div class="slds-cell-fixed fixedWidth">
+                        <a class="slds-th__action slds-text-link--reset">
+                          <span class="slds-truncate">Source</span>
+                        </a>
+                        <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+                    <th title="Nature of loan" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                      <div class="slds-cell-fixed fixedWidth">
+                        <a class="slds-th__action slds-text-link--reset">
+                          <span class="slds-truncate">Nature of loan</span>
+
+                        </a>
+                        <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+                    <th title="Name of Borrower" class="slds-is-resizable dv-dynamic-width fixedWidthNmB" scope="col">
+                      <div class="slds-cell-fixed fixedWidthNmB">
+                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                          <span class="slds-truncate">Name of Borrower</span>
+
+                        </a>
+                        <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+                    <th title="Loan Capacity" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                      <div class="slds-cell-fixed fixedWidth">
+                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                          <span class="slds-truncate">Loan Capacity</span>
+
+                        </a>
+                        <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+                    <th title="Financier Name" class="slds-is-resizable dv-dynamic-width fixedWidthFN"
+                      data-column="parentRecord.FinancierName__c" data-object="allRecOfApplObwithDetai"
+                      onclick={handleSort} scope="col">
+                      <div class="slds-cell-fixed fixedWidthFN">
+                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+
+                          <label id="id-01"> Financier Name</label>
+                          <lightning-icon data-column="parentRecord.FinancierName__c" icon-name='utility:arrowup'
+                            size='x-small'></lightning-icon>
+                        </a>
+                        <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+                    <th title="Disbursal date" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                      <div class="slds-cell-fixed fixedWidth">
+                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                          <span class="slds-truncate">Disbursal date</span>
+
+                        </a>
+                        <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+                    <th title="Close date" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                      data-column="parentRecord.CloseDate__c" data-object="allRecOfApplObwithDetai" onclick={handleSort}
+                      scope="col">
+                      <div class="slds-cell-fixed fixedWidth">
+                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                          <span class="slds-truncate">Close date</span>
+                          <lightning-icon data-column="parentRecord.CloseDate__c" icon-name='utility:arrowup'
+                            size='x-small'></lightning-icon>
+                        </a>
+                        <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+                    <th title="Loan Amount" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                      data-column="parentRecord.LoanAmount__c" data-object="allRecOfApplObwithDetai"
+                      onclick={handleSort} scope="col">
+                      <div class="slds-cell-fixed fixedWidth">
+                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                          <span class="slds-truncate">Loan Amount</span>
+
+                        </a>
+                        <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+                    <th title="Current O/s" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col"
+                      data-column="parentRecord.CurrentOs__c" data-object="allRecOfApplObwithDetai"
+                      onclick={handleSort}>
+                      <div class="slds-cell-fixed fixedWidth">
+                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+
+                          <label id="id-cos"> Current O/s</label>
+                          <lightning-icon data-column="parentRecord.CurrentOs__c" icon-name='utility:arrowup'
+                            size='x-small'></lightning-icon>
+                        </a>
+                        <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+                    <th title="EMI source" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                      <div class="slds-cell-fixed fixedWidth">
+                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+
+                          <label id="id-es"> EMI source</label>
+                        </a>
+                        <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+                    <th title="EMI" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                      <div class="slds-cell-fixed fixedWidth">
+                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+
+                          <label id="id-emi"> EMI</label>
+                        </a>
+                        <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+
+                    <th title="Tenure" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                      <div class="slds-cell-fixed fixedWidth">
+                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+
+                          <label id="id-0"> Tenure</label>
+                        </a>
+                        <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+                    <th title="No of EMI paid" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                      <div class="slds-cell-fixed fixedWidth">
+                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                          <span class="slds-truncate">No of EMI paid</span>
+
+                        </a>
+                        <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+
+                    <th title="Tenure Left" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                      <div class="slds-cell-fixed fixedWidth">
+                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                          <span class="slds-truncate">Tenure Left</span>
+                        </a>
+                        <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+
+                    <th title="Treatment" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col"
+                      data-column="parentRecord.Treatment__c" data-object="allRecOfApplObwithDetai"
+                      onclick={handleSort}>
+                      <div class="slds-cell-fixed fixedWidth">
+                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+
+                          <label id="id-tr"> Treatment</label>
+                          <lightning-icon data-column="parentRecord.Treatment__c" icon-name='utility:arrowup'
+                            size='x-small'></lightning-icon>
+                        </a>
+                        <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+
+                    <th title="Consider for Obligation" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                      scope="col">
+                      <div class="slds-cell-fixed fixedWidth">
+                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                          <span class="slds-truncate">Consider for Obligation</span>
+                        </a>
+                        <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+
+                    <th title="Repayment Bank" class="slds-is-resizable dv-dynamic-width fixedWidthFN" scope="col">
+                      <div class="slds-cell-fixed fixedWidthFN">
+                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+
+                          <label id="id-02"> Repayment Bank</label>
+                        </a>
+                        <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+
+                    <th title="Repayment A/c Number" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                      <div class="slds-cell-fixed fixedWidth">
+                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+
+                          <label id="id-rac"> Repayment A/c Number</label>
+                        </a>
+                        <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+
+                    <th title="Overdues" class="slds-is-resizable dv-dynamic-width fixedWidthFN" scope="col">
+                      <div class="slds-cell-fixed fixedWidthFN">
+                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+
+                          <label id="id-o"> Overdues</label>
+                        </a>
+                        <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+
+                    <th title="Max DPD in last 3 months" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                      scope="col">
+                      <div class="slds-cell-fixed fixedWidth">
+                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                          <span class="slds-truncate">Max DPD in last 3 months</span>
+
+                        </a>
+                        <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+
+                    <th title="Max DPD in last 6 months" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                      scope="col">
+                      <div class="slds-cell-fixed fixedWidth">
+                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                          <span class="slds-truncate">Max DPD in last 6 months</span>
+
+                        </a>
+                        <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+                    <th title="Max DPD in last 12 months" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                      scope="col">
+                      <div class="slds-cell-fixed fixedWidth">
+                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                          <span class="slds-truncate">Max DPD in last 12 months</span>
+
+                        </a>
+                        <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+                    <th title="Ever 90+" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                      <div class="slds-cell-fixed fixedWidth">
+                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                          <span class="slds-truncate">Ever 90+</span>
+
+                        </a>
+                        <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+                    <th title="Status" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                      <div class="slds-cell-fixed fixedWidth">
+                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                          <span class="slds-truncate">Status</span>
+
+                        </a>
+                        <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+                    <th title="Remarks" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                      <div class="slds-cell-fixed fixedWidth">
+                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                          <span class="slds-truncate">Remarks</span>
+
+                        </a>
+                        <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+                    <th title="Bounce in last 12 months" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                      scope="col">
+                      <div class="slds-cell-fixed fixedWidth">
+                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                          <span class="slds-truncate">Bounce in last 12 months</span>
+                        </a>
+                        <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+
+                    <th title="Bounce in last 18 months" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                      scope="col">
+                      <div class="slds-cell-fixed fixedWidth">
+                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                          <span class="slds-truncate">Bounce in last 18 months</span>
+                        </a>
+                        <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+                    <th title="Total Bounces in RTR" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                      <div class="slds-cell-fixed fixedWidth">
+                        <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                          <span class="slds-truncate">Total Bounces in RTR</span>
+                        </a>
+                        <div class="slds-resizable">
+                          <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                            <span class="slds-resizable__divider"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+                    <template for:each={listforUI} for:item="arra" for:index="arra1">
+                      <th key={arra} title={arra} class="slds-is-resizable dv-dynamic-width fixedWidthnew" scope="col">
+                        <div class="slds-cell-fixed fixedWidthnew">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                            <span class="slds-truncate">{arra}</span>
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+                    </template>
+
+                  </tr>
+
+                </thead>
+
+
+                <tbody>
+                  <tr>
+                    <td></td>
+                    <td>-</td>
+                  </tr>
+                  <template for:each={allRecOfApplObwithDetai} for:item="fileIterator" for:index="index">
+                    <tr data-row-index={index} onclick={handleRowClick} key={fileIterator.parentRecord.Id}
+                      aria-selected="false" class="slds-hint-parent">
+                      <td style="background-color: #F3F2F2;" scope="row">{fileIterator.index}</td>
+                      <td>{fileIterator.parentRecord.Source__c}</td>
+                      <td>{fileIterator.parentRecord.NatureOfLoan__c}</td>
+                      <td>{fileIterator.parentRecord.Applicant__r.FullName__c}</td>
+                      <td>{fileIterator.parentRecord.LoanCapacity__c}</td>
+                      <!-- <td >{fileIterator.parentRecord.iscloseRequired}</td> -->
+
+                      <td><c-custom-lookup field-name="FinancierName__c" selected-icon-name="standard:identifier"
+                          object-api-name="BalTranFinancier__c" field-api-name="Name"
+                          selected-record-id={fileIterator.parentRecord.FinancierNameID__c}
+                          selected-record-name={fileIterator.parentRecord.FinancierName__c} onselect={handleValueSelect}
+                          index={index} read-only={disableMode} disabled={disableMode}
+                          required={fileIterator.parentRecord.iscloseRequired} variant="label-hidden"></c-custom-lookup>
+                      </td>
+
+                      <td>
+                        <!-- <lightning-formatted-date-time value={fileIterator.parentRecord.DisbursalDate__c} year="numeric" month="short" day="numeric" variant="label-hidden"  
+                          ></lightning-formatted-date-time> -->
+                        <lightning-input placeholder="DD-MMM-YYYY" type="date"
+                          value={fileIterator.parentRecord.DisbursalDate__c} disabled
+                          variant="label-hidden"></lightning-input>
+                      </td>
+                      <td> <lightning-input placeholder="DD-MMM-YYYY" type="date" max={maxDate}
+                          data-objectname="ApplObligation__c" value={fileIterator.parentRecord.CloseDate__c}
+                          onchange={handleBounceData} data-index={index} data-field="CloseDate__c"
+                          read-only={disableMode} disabled={disableMode} variant="label-hidden"></lightning-input>
+                      </td>
+                      <td><lightning-formatted-number value={fileIterator.parentRecord.LoanAmount__c}
+                          format-style="currency" currency-code="INR"
+                          variant="label-hidden"></lightning-formatted-number></td>
+                      <td> <lightning-input type="number" step=".01" formatter="currency" min="0"
+                          data-objectname="ApplObligation__c" value={fileIterator.parentRecord.CurrentOs__c}
+                          onchange={handleBounceData} data-index={index} data-field="CurrentOs__c"
+                          read-only={disableMode} disabled={disableMode}
+                          required={fileIterator.parentRecord.iscloseRequired} variant="label-hidden"></lightning-input>
+                      </td>
+                      <td> <lightning-combobox name="EMISource__c" class="borrowersValue" label=""
+                          value={fileIterator.parentRecord.EMISource__c} data-name="EMISource__c"
+                          data-field="EMISource__c" options={optionsEmiSource} data-index={index}
+                          onchange={handleBounceData} read-only={disableMode}
+                          required={fileIterator.parentRecord.iscloseRequired} variant="label-hidden"
+                          disabled={disableMode}>
+                        </lightning-combobox></td>
+                      <td> <lightning-input type="number" step=".01" formatter="currency" min="0"
+                          data-objectname="ApplObligation__c" value={fileIterator.parentRecord.EMI__c}
+                          onchange={handleBounceData} data-index={index} data-field="EMI__c" read-only={disableMode}
+                          disabled={disableMode} required={fileIterator.parentRecord.iscloseRequired}
+                          variant="label-hidden"></lightning-input></td>
+                      <td> <lightning-input type="number" min="0" data-objectname="ApplObligation__c"
+                          value={fileIterator.parentRecord.Tenure__c} onchange={handleBounceData} data-field="Tenure__c"
+                          data-index={index} read-only={disableMode} disabled={disableMode}
+                          required={fileIterator.parentRecord.iscloseRequired} variant="label-hidden"></lightning-input>
+                      </td>
+                      <td> <lightning-input type="number" min="0" data-objectname="ApplObligation__c"
+                          value={fileIterator.parentRecord.NoEMIPaid__c} onchange={handleBounceData}
+                          data-field="NoEMIPaid__c" data-index={index} read-only={disableMode} disabled={disableMode}
+                          required={fileIterator.parentRecord.iscloseRequired} variant="label-hidden"></lightning-input></td>
+                      <td> <lightning-input type="number" min="0" data-objectname="ApplObligation__c"
+                          value={fileIterator.parentRecord.TenureLeft__c} onchange={handleBounceData}
+                          data-field="TenureLeft__c" data-index={index} read-only={disableMode} disabled={disableMode}
+                          variant="label-hidden"></lightning-input></td>
+                      <td> <lightning-combobox name="Treatment__c" class="borrowersValue" label=""
+                          value={fileIterator.parentRecord.Treatment__c} data-name="Treatment__c"
+                          options={TreatmentOptions} data-index={index} onchange={HandleValueChange}
+                          read-only={disableMode} disabled={disableMode}
+                          required={fileIterator.parentRecord.iscloseRequired} variant="label-hidden">
+                        </lightning-combobox></td>
+                      <td>{fileIterator.parentRecord.ConsiderObligation__c}</td>
+                      <td><c-custom-lookup field-name="Repayment_Bank__c" selected-icon-name="standard:identifier"
+                          object-api-name="SFDCBANKMaster__c" field-api-name="BankName__c"
+                          selected-record-id={fileIterator.parentRecord.RepaymentBankID__c}
+                          selected-record-name={fileIterator.parentRecord.Repayment_Bank__c}
+                          onselect={handleValueSelect} index={index} read-only={disableMode} disabled={disableMode}
+                          required={fileIterator.parentRecord.iscloseRequired} variant="label-hidden"></c-custom-lookup>
+                      </td>
+                      <td> <lightning-input type="text" data-objectname="ApplObligation__c"
+                          value={fileIterator.parentRecord.RepayAc__c} onchange={handleBounceData}
+                          data-field="RepayAc__c" data-index={index} read-only={disableMode} disabled={disableMode}
+                          required={fileIterator.parentRecord.iscloseRequired} variant="label-hidden"></lightning-input>
+                      </td>
+
+                      <td> <lightning-input type="number" min="0" data-objectname="ApplObligation__c"
+                          value={fileIterator.parentRecord.Overdues__c} onchange={handleBounceData}
+                          data-field="Overdues__c" data-index={index} read-only={disableMode} disabled={disableMode}
+                          required={fileIterator.parentRecord.iscloseRequired} variant="label-hidden"></lightning-input>
+                      </td>
+                      <td>{fileIterator.parentRecord.MaxDPDLst3month__c}</td>
+                      <td>{fileIterator.parentRecord.MaxDPDLst6month__c}</td>
+                      <td>{fileIterator.parentRecord.MaxDPDLst12month__c}</td>
+                      <td>{fileIterator.parentRecord.Ever90__c}</td>
+                      <td>{fileIterator.parentRecord.Status__c}</td>
+                      <td><lightning-textarea rows="1" data-index={index} type="text" data-objectname="BureauRespDtl__c"
+                          value={fileIterator.parentRecord.Remarks__c} onchange={handleBounceData}
+                          data-field="Remarks__c" read-only={disableMode} disabled={disableMode}
+                          variant="label-hidden"></lightning-textarea></td>
+
+                      <td><lightning-input data-index={index} type="Number" min="0" data-objectname="BureauRespDtl__c"
+                          value={fileIterator.parentRecord.BounceInLast12Months__c} onchange={handleBounceData}
+                          data-field="BounceInLast12Months__c" data-id="BounceInLast12Months__c" read-only={disableMode}
+                          disabled={disableMode} variant="label-hidden"></lightning-input>
+                      </td>
+                      <td><lightning-input data-index={index} type="Number" min="0" data-objectname="BureauRespDtl__c"
+                          value={fileIterator.parentRecord.BounceInLast18Months__c} onchange={handleBounceData}
+                          data-field="BounceInLast18Months__c" read-only={disableMode} disabled={disableMode}
+                          variant="label-hidden"></lightning-input></td>
+                      <td><lightning-input data-index={index} type="Number" min="0" data-objectname="BureauRespDtl__c"
+                          value={fileIterator.parentRecord.TotalBouncesInRTR__c} onchange={handleBounceData}
+                          data-field="TotalBouncesInRTR__c" read-only={disableMode} disabled={disableMode}
+                          variant="label-hidden"></lightning-input></td>
+
+
+                      <template if:true={showDateColumn}>
+                        <template for:each={fileIterator.ChildReords} for:item="childRecord" for:index="index1">
+                          <td onclick={handleColumnClick} key={childRecord.Id}><lightning-input type="number"
+                              value={childRecord.EMI_Clearance_Date_IdentifierTest__c} onchange={handleDateChange}
+                              data-id={fileIterator.Id} data-field="EMI_Clearance_Date_IdentifierTest__c"
+                              data-cloumn-index={index1} data-parent-index={index} read-only={disableMode}
+                              disabled={disableMode} max="31" min="1"
+                              message-when-range-overflow="Value cannot be more then 31."
+                              message-when-range-underflow="Value cannot be less then 1."
+                              variant="label-hidden"></lightning-input></td>
+                        </template>
+                      </template>
+
+                    </tr>
+
+                  </template>
+                  <tr>
+                    <td style="background-color: #F3F2F2;" scope="row">Total</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>{totalLoanAmount}</td>
+                    <td>{totalCurrentOS}</td>
+                    <td>-</td>
+                    <td>{totalEMI}</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>{totalContinueObli}</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+
+                  </tr>
+                </tbody>
+
+              </table>
+            </div>
+          </div>
+        </div>
+
+        
+      </lightning-card>
+      <lightning-card>
+        <div class="slds-m-top_medium slds-col slds-size_1-of-5">
+          <lightning-combobox class="slds-m-top_medium" label="Add another loans which are not appearing in Bureau" value={newBureau}
+            options={options} onchange={handleNewBureauAddition} read-only={disableMode} disabled={disableMode}
+            required> </lightning-combobox>
+        </div>
+        <template if:true={showNewBureauTable}>
+          <div class="container slds-scrollable tableMinHeight">
+            <div id="containerDiv" onmousemove={handlemousemove} onmouseup={handlemouseup}
+              ondblclick={handledblclickresizable} class=" slds-border_right slds-border_left tableScroll"
+              onscroll={tableOuterDivScrolled}>
+              <div id="tableViewInnerDiv">
+                <table
+                  class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout "
+                  onscroll={tableScrolled}>
+                  <thead class="table-thead">
+                    <tr>
+                      <th title="Delete" class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition"
+                        scope="col">
+                        <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset">
+                            <span class="slds-truncate">Delete</span>
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+                      <th title="Sr.No." class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition"
+                        scope="col">
+                        <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset">
+                            <span class="slds-truncate">Sr.No.</span>
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+
+                      <th title="Nature of loan" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                        <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+
+                            <label id="id-1"> Nature of loan</label>
+
+                            <span class="slds-icon_container slds-icon-utility-arrowdown">
+                              <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon " aria-hidden="true">
+                                <use
+                                  xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#arrowdown">
+                                </use>
+                              </svg>
+                            </span>
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+
+                      <th title="Name of Borrower" class="slds-is-resizable dv-dynamic-width fixedWidthNmB" scope="col">
+                        <div class="slds-cell-fixed fixedWidthNmB">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+
+                            <label id="id-2"> Name of Borrower</label>
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+                      <th title="Loan Capacity" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                        <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+
+                            <label id="id-3"> Loan Capacity</label>
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+                      <th title="Financier Name" class="slds-is-resizable dv-dynamic-width fixedWidthFN" scope="col"
+                        data-column="parentRecord.FinancierName__c" data-object="newBlankListOfAppObliRec"
+                        onclick={handleSort}>
+                        <div class="slds-cell-fixed fixedWidthFN">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+
+                            <label id="id-4"> Financier Name</label>
+                            <lightning-icon data-column="parentRecord.FinancierName__c" icon-name='utility:arrowup'
+                              size='x-small'></lightning-icon>
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+                      <th title="Disbursal date" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col"
+                        data-column="parentRecord.DisbursalDate__c" data-object="newBlankListOfAppObliRec"
+                        onclick={handleSort}>
+                        <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+
+                            <label id="id-5"> Disbursal date</label>
+                            <lightning-icon data-column="parentRecord.DisbursalDate__c" icon-name='utility:arrowup'
+                              size='x-small'></lightning-icon>
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+                      <th title="Close date" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col"
+                        data-column="parentRecord.closeDate__c" data-object="newBlankListOfAppObliRec"
+                        onclick={handleSort}>
+                        <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                            <span class="slds-truncate">Close date</span>
+                            <lightning-icon data-column="parentRecord.CloseDate__c" icon-name='utility:arrowup'
+                              size='x-small'></lightning-icon>
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+                      <th title="Loan Amount" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col"
+                        data-column="parentRecord.LoanAmount__c" data-object="allRecOfApplObwithDetai"
+                        onclick={handleSort}>
+                        <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+
+                            <label id="id-6"> Loan Amount</label>
+                            <lightning-icon data-column="parentRecord.LoanAmount__c" icon-name='utility:arrowup'
+                              size='x-small'></lightning-icon>
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+                      <th title="Current O/s" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col"
+                        data-column="parentRecord.CurrentOs__c" data-object="newBlankListOfAppObliRec"
+                        onclick={handleSort}>
+                        <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+
+                            <label id="id-7"> Current O/s</label>
+                            <lightning-icon data-column="parentRecord.CurrentOs__c" icon-name='utility:arrowup'
+                              size='x-small'></lightning-icon>
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+                      <th title="EMI" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col"
+                        data-column="parentRecord.EMI__c" data-object="newBlankListOfAppObliRec" onclick={handleSort}>
+                        <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+
+                            <label id="id-8"> EMI</label>
+                            <lightning-icon data-column="parentRecord.EMI__c" icon-name='utility:arrowup'
+                              size='x-small'></lightning-icon>
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+                      <th title="Tenure" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col"
+                        data-column="parentRecord.Tenure__c" data-object="newBlankListOfAppObliRec"
+                        onclick={handleSort}>
+                        <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+
+                            <label id="id-9"> Tenure</label>
+                            <lightning-icon data-column="parentRecord.Tenure__c" icon-name='utility:arrowup'
+                              size='x-small'></lightning-icon>
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+                      <th title="No of EMI paid" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                        <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                            <span class="slds-truncate">No of EMI paid</span>
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+
+                      <th title="Tenure Left" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                        <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                            <span class="slds-truncate">Tenure Left</span>
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+
+                      <th title="Treatment" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col"
+                        data-column="parentRecord.Treatment__c" data-object="newBlankListOfAppObliRec"
+                        onclick={handleSort}>
+                        <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+
+                            <label id="id-10"> Treatment</label>
+                            <lightning-icon data-column="parentRecord.Treatment__c" icon-name='utility:arrowup'
+                              size='x-small'></lightning-icon>
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+
+                      <th title="Consider for Obligation" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                        scope="col">
+                        <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                            <span class="slds-truncate">Consider for Obligation</span>
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+
+                      <th title="Repayment Bank" class="slds-is-resizable dv-dynamic-width fixedWidthFN" scope="col">
+                        <div class="slds-cell-fixed fixedWidthFN">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+
+                            <label id="id-11"> Repayment Bank</label>
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+
+                      <th title="Repayment A/c Number" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                        scope="col">
+                        <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+
+                            <label id="id-12"> Repayment A/c Number</label>
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+                      <th title="Remarks" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                        <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                            <span class="slds-truncate">Remarks</span>
+
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+                      <th title="Bounce in last 12 months" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                        scope="col">
+                        <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                            <span class="slds-truncate">Bounce in last 12 months</span>
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+                      <th title="Bounce in last 18 months" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                        scope="col">
+                        <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                            <span class="slds-truncate">Bounce in last 18 months</span>
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+                      <th title="Total Bounces in RTR" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                        scope="col">
+                        <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                            <span class="slds-truncate">Total Bounces in RTR</span>
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+                      <template for:each={listforUI} for:item="arra" for:index="arra1">
+                        <th key={arra} title={arra} class="slds-is-resizable dv-dynamic-width fixedWidthnew"
+                          scope="col">
+                          <div class="slds-cell-fixed fixedWidthnew">
+                            <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                              <span class="slds-truncate">{arra}</span>
+                            </a>
+                            <div class="slds-resizable">
+                              <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                <span class="slds-resizable__divider"></span>
+                              </span>
+                            </div>
+                          </div>
+                        </th>
+                      </template>
+
+                    </tr>
+                  </thead>
+
+
+                  <tbody>
+                    <tr>
+                      <td></td>
+                      <td>-</td>
+                    </tr>
+                    <template for:each={newBlankListOfAppObliRec} for:item="record" for:index="index">
+
+                      <tr data-row-index={index} onclick={handleRowClick} key={record.parentRecord.Id}
+                        aria-selected="false" class="slds-hint-parent">
+
+                        <td style="background-color: #F3F2F2; " scope="row"><lightning-button-icon
+                            icon-name="action:delete" alternative-text="Delete" title="Delete" data-index={index}
+                            onclick={handleDelete} read-only={disableMode}
+                            disabled={disableMode}></lightning-button-icon></td>
+                        <td style="background-color: #F3F2F2;" scope="row">{record.index}</td>
+                        <td style="background-color: #F3F2F2;">
+                          <c-custom-lookup field-name="Loan_Type__c" selected-icon-name="standard:identifier"
+                            object-api-name="MultiBureau_Response_Master__mdt" field-api-name="Loan_Type__c"
+                            selected-record-name={record.parentRecord.NatureOfLoan__c}
+                            selected-record-id={record.parentRecord.NatureOfLoanID__c}
+                            onselect={handleValuemanualSelect} index={index} read-only={disableMode}
+                            disabled={disableMode} required={required} variant="label-hidden"></c-custom-lookup>
+                        </td>
+                        <td style="background-color: #F3F2F2;" scope="row">
+                          <div>
+                            <lightning-combobox name="LoanName__c" class="borrowersValue1"
+                              value={record.parentRecord.Applicant__c} data-name="LoanName__c" options={AppNameList}
+                              data-index={index} onchange={HandleValue} read-only={disableMode} disabled={disableMode}
+                              required={required} variant="label-hidden">
+                            </lightning-combobox>
+                          </div>
+
+                        </td>
+                        <td style="background-color: #F3F2F2;">
+                          <lightning-combobox name="LoanCapacity__c" class="borrowersValue"
+                            value={record.parentRecord.LoanCapacity__c} data-name="LoanCapacity__c"
+                            options={LoanCapacityOptions} data-index={index} onchange={HandleValue}
+                            read-only={disableMode} disabled={disableMode} required={required} variant="label-hidden">
+                          </lightning-combobox>
+                        </td>
+
+                        <td style="background-color: #F3F2F2; " scope="row"><c-custom-lookup
+                            field-name="FinancierName__c" selected-icon-name="standard:identifier"
+                            object-api-name="BalTranFinancier__c" field-api-name="Name"
+                            selected-record-id={record.parentRecord.FinancierNameID__c}
+                            selected-record-name={record.parentRecord.FinancierName__c}
+                            onselect={handleValuemanualSelect} index={index} read-only={disableMode}
+                            disabled={disableMode} required={required} variant="label-hidden"></c-custom-lookup></td>
+                        <td style="background-color: #F3F2F2;" scope="row"> <lightning-input placeholder="DD-MMM-YYYY"
+                            type="date" data-objectname="BureauRespDtl__c" value={record.parentRecord.DisbursalDate__c}
+                            onchange={handleInputChange} data-index={index} data-field="DisbursalDate__c"
+                            read-only={disableMode} disabled={disableMode} required={required} variant="label-hidden"
+                            data-id="DisbursalDateId"></lightning-input></td>
+
+                        <td style="background-color: #F3F2F2;" scope="row"> <lightning-input placeholder="DD-MMM-YYYY"
+                            type="date" data-objectname="BureauRespDtl__c" value={record.parentRecord.CloseDate__c}
+                            onchange={handleInputChange} data-index={index} data-field="CloseDate__c"
+                            read-only={disableMode} disabled={disableMode} variant="label-hidden"></lightning-input>
+                        </td>
+                        <td style="background-color: #F3F2F2;" scope="row"> <lightning-input type="number" step=".01"
+                            formatter="currency" min="0" data-objectname="BureauRespDtl__c"
+                            value={record.parentRecord.LoanAmount__c} onchange={handleInputChange} data-index={index}
+                            data-field="LoanAmount__c" read-only={disableMode} disabled={disableMode}
+                            required={required} variant="label-hidden"></lightning-input></td>
+                        <td style="background-color: #F3F2F2;" scope="row"> <lightning-input type="number" step=".01"
+                            formatter="currency" min="0" data-objectname="BureauRespDtl__c"
+                            value={record.parentRecord.CurrentOs__c} onchange={handleInputChange} data-index={index}
+                            data-field="CurrentOs__c" read-only={disableMode} disabled={disableMode} required={required}
+                            variant="label-hidden"></lightning-input></td>
+                        <td style="background-color: #F3F2F2;" scope="row"> <lightning-input type="number" step=".01"
+                            formatter="currency" min="0" data-objectname="BureauRespDtl__c"
+                            value={record.parentRecord.EMI__c} onchange={handleInputChange} data-index={index}
+                            data-field="EMI__c" read-only={disableMode} disabled={disableMode} required={required}
+                            variant="label-hidden"></lightning-input></td>
+                        <td style="background-color: #F3F2F2;" scope="row"> <lightning-input type="number"
+                            data-objectname="BureauRespDtl__c" value={record.parentRecord.Tenure__c}
+                            onchange={handleInputChange} data-index={index} data-field="Tenure__c" pattern="^[0-9\s]+$"
+                            read-only={disableMode} disabled={disableMode} required={required}
+                            variant="label-hidden"></lightning-input></td>
+                        <td style="background-color: #F3F2F2; " scope="row"> <lightning-input type="number" min="0"
+                            data-objectname="BureauRespDtl__c" value={record.parentRecord.NoEMIPaid__c}
+                            onchange={handleInputChange} data-index={index} data-field="NoEMIPaid__c"
+                            pattern="^[0-9\s]+$" read-only={disableMode} disabled={disableMode}
+                            variant="label-hidden"></lightning-input></td>
+                        <td style="background-color: #F3F2F2; " scope="row"> <lightning-input type="number" min="0"
+                            data-objectname="BureauRespDtl__c" value={record.parentRecord.TenureLeft__c}
+                            onchange={handleInputChange} data-index={index} data-field="TenureLeft__c"
+                            pattern="^[0-9\s]+$" read-only={disableMode} disabled={disableMode} variant="label-hidden">
+                          </lightning-input></td>
+                        <td style="background-color: #F3F2F2;"> <lightning-combobox name="Treatment__c"
+                            class="borrowersValue" value={record.parentRecord.Treatment__c} data-name="Treatment__c"
+                            options={TreatmentOptions} data-index={index} onchange={HandleValue} read-only={disableMode}
+                            disabled={disableMode} required={required} variant="label-hidden">
+                          </lightning-combobox></td>
+                        <td style="background-color: #F3F2F2; " scope="row"> <lightning-input type="text"
+                            data-objectname="BureauRespDtl__c" value={record.parentRecord.ConsiderObligation__c}
+                            onchange={handleInputChange} data-index={index} data-field="ConsiderObligation__c"
+                            disabled="true" variant="label-hidden"></lightning-input></td>
+                        <td style="background-color: #F3F2F2;"><c-custom-lookup field-name="Repayment_Bank__c"
+                            selected-icon-name="standard:identifier" object-api-name="SFDCBANKMaster__c"
+                            field-api-name="BankName__c" selected-record-id={record.parentRecord.RepaymentBankID__c}
+                            selected-record-name={record.parentRecord.Repayment_Bank__c}
+                            onselect={handleValuemanualSelect} index={index} read-only={disableMode}
+                            disabled={disableMode} required={required} variant="label-hidden"></c-custom-lookup></td>
+
+                        <td style="background-color: #F3F2F2; " scope="row"> <lightning-input type="text"
+                            data-objectname="BureauRespDtl__c" value={record.parentRecord.RepayAc__c}
+                            onchange={handleInputChange} data-index={index} data-field="RepayAc__c" pattern="^[0-9\s]+$"
+                            read-only={disableMode} disabled={disableMode} required={required}
+                            variant="label-hidden"></lightning-input></td>
+                        <td style="background-color: #F3F2F2;" scope="row"> <lightning-textarea rows="1" type="text"
+                            data-objectname="BureauRespDtl__c" value={record.parentRecord.Remarks__c}
+                            onchange={handleInputChange} data-index={index} data-field="Remarks__c"
+                            read-only={disableMode} disabled={disableMode} variant="label-hidden"></lightning-textarea>
+                        </td>
+
+
+                        <td style="background-color: #F3F2F2; " scope="row"><lightning-input data-index={index}
+                            type="Number" min="0" data-objectname="BureauRespDtl__c"
+                            value={record.parentRecord.BounceInLast12Months__c} onchange={handleInputChange}
+                            data-field="BounceInLast12Months__c" read-only={disableMode} disabled={disableMode}
+                            variant="label-hidden"></lightning-input></td>
+                        <td style="background-color: #F3F2F2;" scope="row"><lightning-input data-index={index}
+                            type="Number" min="0" data-objectname="BureauRespDtl__c"
+                            value={record.parentRecord.BounceInLast18Months__c} onchange={handleInputChange}
+                            data-field="BounceInLast18Months__c" read-only={disableMode} disabled={disableMode}
+                            variant="label-hidden"></lightning-input></td>
+                        <td style="background-color: #F3F2F2;" scope="row"><lightning-input data-index={index}
+                            type="Number" min="0" data-objectname="BureauRespDtl__c"
+                            value={record.parentRecord.TotalBouncesInRTR__c} onchange={handleInputChange}
+                            data-field="TotalBouncesInRTR__c" read-only={disableMode} disabled={disableMode}
+                            variant="label-hidden"></lightning-input></td>
+                        <template if:true={showDateColumn}>
+                          <template for:each={record.ChildReords} for:item="childRecord" for:index="index1">
+                            <td style="background-color: #F3F2F2;" onclick={handleColumnClick} key={childRecord.Id}>
+                              <lightning-input type="number" value={childRecord.EMI_Clearance_Date_IdentifierTest__c}
+                                onchange={handleManualDateChange} data-id={record.Id}
+                                data-field="EMI_Clearance_Date_IdentifierTest__c" data-cloumn-index={index1}
+                                data-parent-index={index} read-only={disableMode} disabled={disableMode} max="31"
+                                min="1" message-when-range-overflow="Value cannot be more then 31."
+                                message-when-range-underflow="Value cannot be less then 1."
+                                variant="label-hidden"></lightning-input>
+                            </td>
+                          </template>
+                        </template>
+                      </tr>
+                    </template>
+                    <tr>
+                      <td style="background-color: #F3F2F2;" scope="row">Total</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>{totalLoanAmount_m}</td>
+                      <td>{totalCurrentOS_m}</td>
+                      <td>{totalEMI_m}</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>{totalContinueObli_m}</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                    </tr>
+                  </tbody>
+
+                </table>
+              </div>
+            </div>
+          </div>
+        </template>
+
+
+        <lightning-layout-item size="12">
+          <template if:true={showNewBureauTable}>
+            <div class="center slds-clearfix">
+              <div class="slds-float_right">
+                <lightning-button label="Add Other Loan" variant="brand" onclick={handleAddLoan} disabled={disableMode}
+                  read-only={disableMode}></lightning-button>
+              </div>
+            </div>
+          </template>
+        </lightning-layout-item>
+
+
+      <div class="slds-m-top_medium">
+      <lightning-accordion active-section-name={closedLoanActiveSection} allow-multiple-sections-open>
+        <c-obligations-closed-loan qde-stage-visible={QDEStageVisible}  
+                        all-rec-of-closed-appl-obwith-detai={allRecOfClosedApplObwithDetai}
+                        total-loan-amount-closed-loan={totalLoanAmountClosedL}   
+                        total-current-os-closed-loan={totalCurrentOSClosedL}
+                        total-emi-closed-loan={totalEMIClosedL}
+                        total-continue-obli-closed-loan={totalContinueObli}> 
+        </c-obligations-closed-loan>
+        <c-mca-charge-details qde-stage-visible={QDEStageVisible} loan-id-passed ={loanAppId}></c-mca-charge-details>
+
+        </lightning-accordion>
+      </div> 
+
+        
+      </lightning-card>
+    </template>
+  </template>
+
+  <template if:true={isModalOpen}>
+    <!-- Modal/Popup Box LWC starts here -->
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+      aria-describedby="modal-content-id-1" class="my-modal slds-modal slds-fade-in-open">
+      <div class="slds-modal__container">
+        <!-- Modal/Popup Box LWC header here -->
+        <header class="slds-modal__header">
+          <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+            onclick={isCloseModal}>
+            <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+              size="small"></lightning-icon>
+            <span class="slds-assistive-text">Close</span>
+          </button>
+          <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Delete?</h2>
+        </header>
+        <!-- Modal/Popup Box LWC body starts here -->
+        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+          <p style="text-align:center;"><b>{removeModalMessage}</b></p>
+        </div>
+        <!-- Modal/Popup Box LWC footer starts here -->
+        <footer class="slds-modal__footer">
+          <button class="slds-button slds-button_brand" onclick={handleRemoveRecord} title="Yes">Yes</button>
+          <button class="slds-button slds-button_neutral" onclick={isCloseModal} title="No">No</button>
+
+        </footer>
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+  </template>
+
+
+  <!--model pop up for manual file upload start here-->
+
+
+  <template if:true={showPopForManBnk}>
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-03" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+          <div class="slds-modal__container modalCss">
+             <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+                         onclick={hideManualUplModalBox}>
+                   <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <h2 id="modal-heading-03" class="slds-text-heading_medium slds-hyphenate">Manual Obligation File Upload</h2>
+             </header>
+                <!-- modal body start -->
+             <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3">
+                <div if:true={showSpinner}>
+                      <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+                      </lightning-spinner>
+                </div>
+                <lightning-layout multiple-rows="4">
+                   <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} >
+                      <lightning-input 
+                         type="file" 
+                         label="Attach receipt" 
+                         name="fileUploader"
+                         accept={acceptedFormats}
+                         onchange={handleUploadFinished}>
+                      </lightning-input>
+                   </lightning-layout-item>  
+                </lightning-layout>
+                <template for:each={uploadedFiles} for:item="file" for:index="index">
+                  <div key={file.name} class="slds-p-left_medium">
+                      <div class="slds-clearfix">
+                          <div class="slds-float_left" style="margin-right: 10px;">
+                              <p style="background:white; display: inline-block; margin-bottom: 0; font-size: 16px;">{file.name}
+                              </p>
+                          </div>
+                          <div class="slds-float_left">
+                              <!-- <lightning-icon icon-name='action:remove' alternative-text='remove' size='xx-small' title='remove'
+                                  onclick={handleFileRemove}></lightning-icon> -->
+                              <lightning-icon icon-name='utility:close' alternative-text='close' size='x-small' title='remove'
+                                  onclick={handleFileRemove} data-index={index}></lightning-icon>
+                          </div>
+                      </div>
+                  </div>
+              </template>
+                <footer class="slds-modal__footer">
+                   <button class="slds-button slds-button_neutral" onclick={hideManualUplModalBox}>Cancel</button>
+                   <lightning-button variant="brand" class="slds-m-left_x-small" label="Upload" disabled={disabled}  onclick={handleExcelUpload}>
+                   </lightning-button>
+                </footer>
+             </div>
+          </div>
+       </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+ </template>
+ <!--model pop up for manual file upload end here-->
+
+  <!-- lAK-7282/LAK-10404 -->
+  <template if:true={propIden}>
+    <lightning-layout>
+    <lightning-layout-item size="12">  
+    <div class="slds-p-around_x-small">
+     <c-capture-documents  is-property={propIden} is-obligation= {_isObligation} allowed-fil-format ={_fileFormat} 
+    layout-size={layoutSize}
+      loan-app-id={_loanAppId} sub-stage="RM Data Entry" stage="QDE" product-type="Business Loan" stagenm={stageOfLAN}
+      has-edit-access={hasEditAccess} applicant-id-on-tabset={_primaryApplicantId} stepper-name={stageN}
+      ondocumentid={handleValidDocument}></c-capture-documents>
+
+
+      <!-- <c-capture-documents is-property={propIden} app-asser-id={_currentTabId} layout-size={layoutSize}
+        loan-app-id={_loanAppId} sub-stage="RM Data Entry" stage="QDE" product-type="Home Loan" stagenm={stageOfLAN}
+        has-edit-access={hasEditAccess} applicant-id-on-tabset={_applicantId} stepper-name={stageN}
+        ondocumentid={handleValidDocument}></c-capture-documents>  -->
+    </div>
+    </lightning-layout-item>
+    </lightning-layout>
+  </template>
+
+
+</template>

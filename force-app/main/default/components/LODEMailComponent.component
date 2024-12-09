@@ -1,0 +1,43 @@
+<apex:component controller="LODEmailController" access="global">
+   
+    <apex:attribute name="loanApplId" type="String" description="Loan Application Id" assignTo="{!loanApplicationId}" access="global"/>
+    
+     <html>
+        <body>
+           
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th style="width:25%;">Document Name</th>
+                        <th style="width:25%">Description of the Documents</th>
+                        <th style="width:25%">Original/Photocopy</th>
+                                                
+                    </tr>
+                </thead>
+                <tbody>
+                    <apex:repeat var="Doc" value="{!DocDetails}">
+                        <tr>
+                           <td style="text-align:center">{!Doc.DOCName}</td>
+                            <td style="text-align:center">{!Doc.Description}</td>
+                            <td style="text-align:center">{!Doc.OriginalPhoto}</td>
+                                                       
+                        </tr>
+                    </apex:repeat>
+                </tbody>
+            </table>
+                  
+        </body>
+    </html>    
+    
+    
+    
+    <!--   <html>
+        <body>
+           <apex:repeat var="query" value="{!ApplicationQuery}">
+               <p>
+                  {!query['remarks__c']}     
+               </p>
+            </apex:repeat> 
+        </body>
+    </html --->
+</apex:component>

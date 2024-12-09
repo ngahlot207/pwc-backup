@@ -1,0 +1,231 @@
+<template>
+    <!-- <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+      aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+      <div class="slds-modal__container" style="min-width:80% !important;"> -->
+  
+        <!-- <header class="slds-modal__header">
+          <lightning-button-icon class="slds-modal__close" title="Close" icon-name="utility:close"
+            icon-class="slds-button_icon-inverse" onclick={closeModal}></lightning-button-icon>
+  
+          <h2 id="id-of-modalheader-h2" class="slds-text-heading_large">
+            File Preview
+          </h2>
+        </header> -->
+  <!-- Commented Part -->
+        <!-- <div class="slds-modal__content" id="modal-content-id-1">
+          <article class="slds-card">
+            <div class="slds-card__body slds-card__body_inner" style="margin: 0">
+              <c-multiple-ifram-file-preview record-for-prev={RecordForPrev} cont-doc-type={contDocType}
+                cont-doc-id={contDocId} cv-id={cvId}
+                onclosepreview={handleCloseModalEvent}></c-multiple-ifram-file-preview>
+  
+            </div>
+          </article>
+        </div> -->
+<!--   
+        <footer class="slds-modal__footer">
+          <div class="slds-m-left_xx-large "> </div>
+         
+            <lightning-button style="font-size: 10px;" variant="brand" label="Previous" onclick={handlePreviousFileView} title="Previous"
+            class="slds-p-around_xx-small" disabled={disableForPre}></lightning-button>
+          <lightning-button style="font-size: 10px;" variant="brand" label="Next" onclick={handleNextFileView} title="Next"
+            class=" slds-p-around_xx-small" disabled={disableForNext}></lightning-button>
+          <lightning-button style="font-size: 10px;" variant="brand-outline" label="Close" onclick={closeModal} title="Close"
+            class="slds-p-around_xx-small"></lightning-button>
+  
+        </footer> -->
+      <!-- </div>
+    </section> -->
+    <template if:true={dis}>
+  <div class="slds-grid slds-gutters">    
+      <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+      aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+      <div class="slds-modal__container" style="min-width:80% !important;">
+  
+        <header class="slds-modal__header">
+          <lightning-button-icon class="slds-modal__close" title="Close" icon-name="utility:close"
+            icon-class="slds-button_icon-inverse" onclick={closeModal}></lightning-button-icon>
+  
+          <h2 id="id-of-modalheader-h2" class="slds-text-heading_large">
+            File Preview
+          </h2>
+        </header>
+        <div class="slds-grid slds-gutters">
+          <div class ="slds-col slds-size_1-of-2">
+            <span>
+         
+            <lightning-card icon-name="standard:account" variant="base">
+              <div slot="title">
+                 Document Details
+              </div>
+              <div slot="actions">
+            
+              </div>
+              <div slot="footer">
+            
+              </div>
+              <div>
+                <!-- Card Body  -->
+                
+              </div>
+            </lightning-card>
+          </span>
+        </div>
+
+        <div class ="slds-col slds-size_1-of-2"><span>
+        
+        <div class="slds-modal__content" id="modal-content-id-1">
+          <article class="slds-card">
+            <div class="slds-card__body slds-card__body_inner" style="margin: 0">
+              <c-multiple-ifram-file-preview record-for-prev={RecordForPrev} cont-doc-type={contDocType}
+                cont-doc-id={contDocId} cv-id={cvId}
+                onclosepreview={handleCloseModalEvent}></c-multiple-ifram-file-preview>
+  
+            </div>
+          </article>
+        </div>
+      </span></div>
+      </div>
+        <footer class="slds-modal__footer">
+          <div class="slds-m-left_xx-large "> </div>
+         
+            <lightning-button style="font-size: 10px;" variant="brand" label="Previous" onclick={handlePreviousFileView} title="Previous"
+            class="slds-p-around_xx-small" disabled={disableForPre}></lightning-button>
+          <lightning-button style="font-size: 10px;" variant="brand" label="Next" onclick={handleNextFileView} title="Next"
+            class=" slds-p-around_xx-small" disabled={disableForNext}></lightning-button>
+          <lightning-button style="font-size: 10px;" variant="brand-outline" label="Close" onclick={closeModal} title="Close"
+            class="slds-p-around_xx-small"></lightning-button>
+          
+          <!--<lightning-button variant="brand" label="Previous" title="Previous" onclick={handlePreviousFileView} class="slds-m-left_x-small slds-truncate" disabled={disableForPre}></lightning-button>
+      <lightning-button variant="brand" label="Next" title="Next" onclick={handleNextFileView} class="slds-m-left_x-small slds-truncate" disabled={disableForNext}></lightning-button>-->
+          
+  
+        </footer>
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+    
+  
+  </div>
+
+    </template>
+    <lightning-card icon-name="standard:document_preview" variant="base">     
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+    aria-describedby="modal-content-id-1" class="my-modal slds-modal slds-fade-in-open slds-modal_medium">
+
+                  <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                    aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                   
+                
+                      <header class="slds-modal__header">
+                        <lightning-button-icon class="slds-modal__close" title="Close" icon-name="utility:close"
+                          icon-class="slds-button_icon-inverse" onclick={closeModal}></lightning-button-icon>
+                
+                        <h2 id="id-of-modalheader-h3" class="slds-text-heading_large">
+                          File Preview
+                        </h2>
+                      </header>
+
+                      <table
+                      class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered"
+                      aria-label="Example table of Opportunities with vertical borders"
+                    >
+                      <thead>
+                      <th class="" scope="col">
+                        <h2 id="id-of-modalheader-h4" class="slds-text-heading_large">
+                          Document Details
+                        </h2>
+                        <div class="slds-truncate" title="Document Details">Document Details</div>
+                      </th>
+                      <th class="" scope="col">
+                        <div class="slds-modal__container" style="min-width:80% !important;">
+                      <div class="slds-modal__content" id="modal-content-id-11">
+                        <!--<lightning-layout>
+                          <lightning-layout-item flexibility="auto">-->
+                        <article class="slds-card">
+                          <div class="slds-card__body slds-card__body_inner" style="margin: 0;height :500px;">
+                            <!--<c-i-frame-preview record-for-prev={RecordForPrev} cont-doc-type={contDocType} cont-doc-id={contDocId} cv-id={cvId} onclosepreview={handleCloseModalEvent}></c-i-frame-preview>-->
+                            <c-multiple-ifram-file-preview record-for-prev={RecordForPrev} cont-doc-type={contDocType}
+                              cont-doc-id={contDocId} cv-id={cvId}
+                              onclosepreview={handleCloseModalEvent}></c-multiple-ifram-file-preview>
+                
+                          </div>
+                        </article>
+                        <!-- </lightning-layout-item>
+                    </lightning-layout>-->
+                      </div>
+                    </div>
+                    </th>
+                  </thead>
+                </table>
+                      <footer class="slds-modal__footer">
+                        <div class="slds-m-left_xx-large "> </div>
+                       
+                          <lightning-button style="font-size: 10px;" variant="brand" label="Previous" onclick={handlePreviousFileView} title="Previous"
+                          class="slds-p-around_xx-small" disabled={disableForPre}></lightning-button>
+                        <lightning-button style="font-size: 10px;" variant="brand" label="Next" onclick={handleNextFileView} title="Next"
+                          class=" slds-p-around_xx-small" disabled={disableForNext}></lightning-button>
+                        <lightning-button style="font-size: 10px;" variant="brand-outline" label="Close" onclick={closeModal} title="Close"
+                          class="slds-p-around_xx-small"></lightning-button>
+                        
+                        <!--<lightning-button variant="brand" label="Previous" title="Previous" onclick={handlePreviousFileView} class="slds-m-left_x-small slds-truncate" disabled={disableForPre}></lightning-button>
+                    <lightning-button variant="brand" label="Next" title="Next" onclick={handleNextFileView} class="slds-m-left_x-small slds-truncate" disabled={disableForNext}></lightning-button>-->
+                        
+                
+                      </footer>
+                  
+                  </section>
+                  <div class="slds-backdrop slds-backdrop_open"></div>
+                
+        
+                <!-- <div>
+           
+                  <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                  aria-describedby="modal-content-id-1">
+                  <div class="slds-modal__container" style="min-width:80% !important;">
+              
+                    <header >
+                      <lightning-button-icon class="slds-modal__close" title="Close" icon-name="utility:close"
+                        icon-class="slds-button_icon-inverse" onclick={closeModal}></lightning-button-icon>
+              
+                      <h2 id="id-of-modalheader-h2" class="slds-text-heading_large">
+                        File Preview
+                      </h2>
+                    </header>
+                  
+                  <div class="slds-modal__content" id="modal-content-id-1">
+                 
+                  <article class="slds-card">
+                    <div class="slds-card__body slds-card__body_inner" style="margin: 0">
+                     
+                      <c-multiple-ifram-file-preview record-for-prev={RecordForPrev} cont-doc-type={contDocType}
+                        cont-doc-id={contDocId} cv-id={cvId}
+                        onclosepreview={handleCloseModalEvent}></c-multiple-ifram-file-preview>
+          
+                    </div>
+                  </article>
+              
+                </div>
+
+                    <footer class="slds-modal__footer">
+                      <div class="slds-m-left_xx-large "> </div>
+                     
+                        <lightning-button style="font-size: 10px;" variant="brand" label="Previous" onclick={handlePreviousFileView} title="Previous"
+                        class="slds-p-around_xx-small" disabled={disableForPre}></lightning-button>
+                      <lightning-button style="font-size: 10px;" variant="brand" label="Next" onclick={handleNextFileView} title="Next"
+                        class=" slds-p-around_xx-small" disabled={disableForNext}></lightning-button>
+                      <lightning-button style="font-size: 10px;" variant="brand-outline" label="Close" onclick={closeModal} title="Close"
+                        class="slds-p-around_xx-small"></lightning-button>
+                         
+              
+                    </footer>
+                  </div>
+                </section>
+
+                </div> -->
+             
+
+</section>
+</lightning-card>
+   
+  </template>

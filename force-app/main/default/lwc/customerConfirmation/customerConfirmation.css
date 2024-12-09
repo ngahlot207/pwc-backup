@@ -1,0 +1,21 @@
+.tableScroll {
+  width: 100% !important;
+  overflow-x: auto;
+  /* height: 12rem; */
+}
+.fixedWidth {
+  width: 10rem;
+}
+.fixedWidthh {
+  width: 14rem;
+}
+.fixedWidthhh {
+  width: 16rem;
+}
+.table-container {
+  width: 100%;
+  max-height: 300px;
+  overflow-y: auto;
+  overflow-x: auto;
+  position: relative;
+}

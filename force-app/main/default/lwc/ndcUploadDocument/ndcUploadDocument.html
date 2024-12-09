@@ -1,0 +1,18 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+
+    <div class="slds-hide">
+        <iframe src={vfUrl}></iframe>
+    </div>
+    <div>
+        <lightning-input name="file uploader" label="Attachment" variant="label-hidden" onchange={handleFileChange}
+            type="file" accept={allowedFilFormat} disabled={_editMode}>
+        </lightning-input>
+    </div>
+    <p if:true={fileName}>{fileName}</p><br>
+    <p>{fileSizeMsz}</p>
+
+</template>

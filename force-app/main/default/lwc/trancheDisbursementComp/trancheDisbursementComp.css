@@ -1,0 +1,52 @@
+.error-message {
+    color: red;
+    margin-top: 4px;
+}
+
+.custom-layout-item {
+    text-align: right;
+}
+
+.applicantClass{
+    --slds-c-accordion-summary-color-background : rgb(243, 243, 243) ;
+    --slds-c-accordion-color-border : 0.5rem;
+}
+
+.datatable-container {
+
+    width: 100%;
+
+     /* overflow-x: auto;  */
+
+}
+
+
+.datatable th {
+
+    background-color: hsl(0, 20%, 97%);
+
+    font-weight: bold;
+
+}
+.color{
+    background-color: hsl(0, 20%, 97%);
+
+    font-weight: bold;
+}
+.bordr{
+    border:none;
+   }
+
+ .custom-button:hover {
+    cursor: pointer;
+}
+
+
+.datatable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.slds-m-around_xx-small {
+    margin: 0.150rem; /* Adjust the value as needed */
+}

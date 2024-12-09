@@ -1,0 +1,23 @@
+<template>
+    <div class="slds-hide">
+        <iframe src={vfUrl}></iframe>
+    </div>
+    <!-- <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div> -->
+    <div>
+        <lightning-input name="file uploader" label="Attachment" variant="label-hidden" onchange={handleFileChange}
+            type="file" accept={allowedFilFormat} disabled={disableMode}>
+        </lightning-input>
+    </div>
+    <p if:true={fileName}>{fileName}</p><br>
+    <p>{fileSizeMsz}</p>
+    <!-- <lightning-card>
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item size="12">
+
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card> -->
+</template>

@@ -1,0 +1,286 @@
+<template>
+ 
+   <lightning-card title="Banking Details " >
+                    
+      <div if:true={showSpinner}>
+         <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+         </lightning-spinner>
+     </div>
+     
+      <lightning-layout-item size="9" flexibility="auto" padding="horizontal-small" class="slds-text-align_right">
+         <lightning-button-icon  class="slds-float--right slds-m-around--xx-small" onclick={handleNewFileUpload1}
+         icon-name='utility:refresh' alternative-text='Refresh' size='large'
+                             title='Refresh' disabled={disableMode}  ></lightning-button-icon>
+                           
+         <template if:true={showConsoledateButtons}>
+            <!--removed disabled from consolidate and borrower summary button for LAK-7958-->
+            <lightning-button class="slds-float--right slds-m-around--xx-small" label="Consolidated Banking" title="Consolidated Banking" onclick={showAllAppliBankDetail} variant="brand"  ></lightning-button>
+            <lightning-button class="slds-float--right slds-m-around--xx-small" label="Borrower Banking Summary" title="Borrower Banking Summary" onclick={showApplicantBank} variant="brand" > </lightning-button>
+           </template>
+         <lightning-button class="slds-float--right slds-m-around--xx-small" label="Upload Bank Statement" title="Upload Bank Statement" onclick={showModalBox} variant="brand" disabled={disableMode} > </lightning-button>
+        <lightning-button class="slds-float--right slds-m-around--xx-small" label="Account Aggregator" title="Account Aggregator" onclick={showAggModalBox} variant="brand" disabled={disableAA} > </lightning-button>
+       <!--  <lightning-button class="slds-float--right slds-m-around--xx-small" label="Fetch Banking" title="Fetch Banking" onclick={onClickFetchBanking} variant="brand" disabled={disableMode} > </lightning-button>-->
+        
+        
+      </lightning-layout-item>
+      <template  if:true={bankDataTableShow}>
+         <c-bank-data-table  ontorefreshapex={toRefreshApex} applicant-rec-id={_applicantId}
+          layout-size={layoutSize} cust-profile={custProfile} child-data={AllChildRecords}
+           applicant-bnk-id={applicantBankingIds} customer-profile={parentRecord.CustProfile__c}
+            ondelete={handleDelete} onfileupload={handleNewFileUpload} onbankdetailupdate={handleBankDetailUpdate} 
+            oncloseconsolidatetable={handleCloseConsolidateTable} loan-applicant-id={loanAppId}
+             file-acceptance-date={fileAcceptanceDate} login-acce-date={loginAcceDate}
+              stage-of-loan-app={stageOfLoanApp} has-edit-access={hasEditAccess} 
+              req-loan-amount={reqLoanAmount} assessed-inc-app={assessedIncApp} bank-credit-flag={bankCreditFlag}></c-bank-data-table>
+      </template>
+      
+<!-- Aggregator modal start-->
+<template if:true={isShowAggrModal}>
+   <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true"
+         aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <!-- modal header start -->
+            <div class="slds-modal__container modalCss">
+               <header class="slds-modal__header">
+                  <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+                     onclick={hideAggModalBox}>
+                     <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                        size="small"></lightning-icon>
+                     <span class="slds-assistive-text">Close</span>
+                  </button>
+                  <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Account Aggregator</h2>
+               </header>
+                                 
+            <!-- modal body start -->
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+            <div if:true={showSpinner}>
+                  <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+                  </lightning-spinner>
+            </div>
+            <p>{aggregatorMessage}</p>
+
+            <!-- <p>Primary Mobile Number: {primaryMobileNumber}</p> -->
+               <lightning-layout multiple-rows="6">
+                  <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} >
+                        <div>
+                           <lightning-combobox label="Select Alternate Mobile No." data-objectname="Applicant__c" data-fieldname="isAlternateAggMob__c"
+                              value={alternateMobVal} options={mobileAltOptions} onchange={handleMobileChange} disabled={disabelMode} dropdown-alignment="left" required >
+                           </lightning-combobox>
+                        </div>
+                     </lightning-layout-item>
+
+                     <template if:true={isAlternateMob}>
+                     <lightning-layout-item padding="around-small" size="12"
+                     small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                     large-device-size={layoutSize.large}>
+                     <div>
+                         <lightning-input type="tel" value={alternateMobNo} label="Alternate Mobile Number"
+                             required={isAlternateMob} data-fieldname="BankingMobNumber__c" onchange={handleMobileChange}
+                             data-objectname="Applicant__c" pattern="^[6-9]\d{9}$"
+                             message-when-pattern-mismatch={messageMismatchError} disabled={disAlterMob}
+                             ></lightning-input>
+                     </div>
+                 </lightning-layout-item>
+               </template>
+
+               <template if:false={isAlternateMob}>
+                     <lightning-layout-item padding="around-small" size="12"
+                     small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                     large-device-size={layoutSize.large}>
+                     <div>
+                         <lightning-input type="tel" value={primaryMobNo} label="Primary Mobile Number"
+                             required data-fieldname="MobNumber__c" disabled
+                             data-objectname="Applicant__c" pattern="^[6-9]\d{9}$"
+                             message-when-pattern-mismatch={messageMismatchError}
+                             ></lightning-input>
+                     </div>
+                 </lightning-layout-item>
+               </template>
+
+               </lightning-layout> 
+               <footer class="slds-modal__footer">
+
+                  <button class="slds-button slds-button_neutral" onclick={hideAggModalBox}>Cancel</button>
+
+                  <lightning-button variant="brand" class="slds-m-left_x-small" label="Initiate" disabled={disabled}  onclick={handleAggregator}>
+                  </lightning-button>
+
+               </footer>
+            </div>
+         </div>
+         </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+</template>
+           
+
+  <!-- modal start -->
+      <template if:true={isShowModal}>
+
+         <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+               <!-- modal header start -->
+               <div class="slds-modal__container modalCss">
+                  <header class="slds-modal__header">
+                     <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+                        onclick={hideModalBox}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                           size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                     </button>
+                     <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Bank Statement Upload</h2>
+                  </header>
+                                    
+               <!-- modal body start -->
+               <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+               <div if:true={showSpinner}>
+                     <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+                     </lightning-spinner>
+               </div>
+               <lightning-layout multiple-rows="4">   
+                  <lightning-layout-item >
+               <div>
+                  <lightning-radio-group
+                  style="padding-left: 15px;"
+                  name="radioGroup"
+                  label="Select an option"
+                  options={options}
+                  value={wrapBankObj.Source_Type__c}
+                  data-objectname="ApplBanking__c" data-fieldname="Source_Type__c"
+                  onchange={handleChangeForManual} required>
+                  </lightning-radio-group>
+               </div>
+               </lightning-layout-item>
+               </lightning-layout>
+              
+               <template if:false={showUploadFile}>
+                  <template if:false={showFileAvail}>
+               <lightning-layout multiple-rows="4">   
+                  <lightning-layout-item >
+                     <lightning-input style="padding-left: 15px; padding-top: 20px;" label="Available in File" type="checkbox" value={wrapBankObj.FileAvalbl__c}
+                    onchange={handleInputChange} checked={wrapBankObj.FileAvalbl__c} disabled={disableMode}
+                     data-objectname="DocDtl__c"  data-fieldname="FileAvalbl__c" ></lightning-input>
+                  
+                  </lightning-layout-item>  
+               </lightning-layout>
+            </template>
+         </template>
+            <template if:false={showUploadFile}>
+               <template if:false={isFileAvailable}>
+                  <lightning-layout multiple-rows="6">
+                     <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} >
+                           <div>
+                              <lightning-combobox label="File Types" data-objectname="ApplBanking__c" data-fieldname="FileType__c"
+                                 value={wrapBankObj.FileType__c} options={fileTypeOptions} onchange={handleChange} disabled={disableMode} dropdown-alignment="left" required >
+                              </lightning-combobox>
+                           </div>
+                        </lightning-layout-item>
+                         
+                  </lightning-layout> 
+                 </template>         
+               </template>
+                  <lightning-layout multiple-rows="4">   
+                     <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} >
+                           
+                        <c-custom-lookup 
+                           required=true
+                           field-name="SFDCBankMaster__c"
+                           label="Bank Name"
+                           selected-icon-name="standard:identifier"
+                           object-api-name="SFDCBANKMaster__c"
+                           field-api-name="BankName__c"
+                           selected-record-id={wrapBankObj.SFDCBankMaster__c}
+                           onselect={handleValueForSDFCBnk}
+                           disabled={disableMode}
+                           index={index}
+                         ></c-custom-lookup>
+                     </lightning-layout-item>               
+                    
+                        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} >
+                           <lightning-combobox data-id="accType" name="Account type" label="Account Type" data-objectname="ApplBanking__c"
+                              data-fieldname="AccountType__c" value={wrapBankObj.AccountType__c} options={accTypeOptions}
+                              onchange={handleChange} disabled={disableMode} dropdown-alignment="auto" required></lightning-combobox>
+                           
+                     </lightning-layout-item>           
+                  </lightning-layout>
+
+                  <lightning-layout multiple-rows="4">  
+                     <template if:true={showUploadFile}>
+                     <template if:true={showLimitField}>
+                        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} >
+                           <lightning-input type="number"  formatter="currency" step="0.01"  label="Limit"  name="limit" data-objectname="ApplBanking__c" value={wrapBankObj.Limit__c} onblur={handleFocus} data-field="Limit__c" required disabled={disableMode}></lightning-input>
+                        </lightning-layout-item>    
+                  </template>  
+                  </template>     
+                  </lightning-layout>
+                  
+                  <lightning-layout multiple-rows="4">                  
+                     <template if:true={showOtherbankName}>
+                        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} >
+                           <lightning-input data-fieldtype="string" type="text" label="Other Bank Name" name="Other Bank Name" data-objectname="ApplBanking__c" value={wrapBankObj.OtherBankName__c} onchange={handleChange} disabled={disableMode} data-fieldname="OtherBankName__c" required></lightning-input>
+                           <div style="color: red">Please get the SFDC bank Nach Enach master updated</div>
+                        </lightning-layout-item>    
+                  </template>       
+                  </lightning-layout>
+                     <!-- Add this condition for LAK-6320-->
+                     <template if:false={showUploadFile}>
+               <template if:false={isFileAvailable}>
+                  <lightning-layout multiple-rows="4">                  
+                     <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} >
+                        <lightning-combobox label="Is Statement Password Protected" data-objectname="ApplBanking__c" data-fieldname="Is_Statement_password_protected__c"
+                                 value={wrapBankObj.Is_Statement_password_protected__c} options={IsPassReqOptions} onchange={handleChange} disabled={disableMode} dropdown-alignment="left" required >
+                        </lightning-combobox>
+                     </lightning-layout-item> 
+                  <template if:true={showPasswordCol}>
+                        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} >
+                           <lightning-input type="text" label="Password" name="Password" data-objectname="ApplBanking__c" value={wrapBankObj.Password__c} onchange={handleChange} disabled={disableMode} data-fieldname="Password__c" required></lightning-input>
+                        </lightning-layout-item>    
+                  </template>     
+                
+                  </lightning-layout>
+               </template> 
+                  
+
+
+
+                  <lightning-layout multiple-rows="4">
+                     
+                     <template if:false={isFileAvailable}>
+                        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small} >
+                         
+                           <c-upload-docs-reusable-component loan-app-id={_loanAppId} applicant-id={_applicantId}
+                           doc-name={docName} doc-type={docType} disable-mode={disableFileUpload} doc-category={docCategory}
+                           onrefreshdoctable={fromUploadDocsContainer} onparam={handleeventAfterUpload}
+                           convert-to-single-image={convertToSingleImage} allowed-fil-format={allowedFilFormat}
+                           hide-attach-button={hideAttachButton} onchangefiles={parentFileChange} file-type-error={fileTypeError} 
+                           max-file-size={MAX_FILE_SIZE} file-size-msz={fileSizeMsz}></c-upload-docs-reusable-component>
+                        </lightning-layout-item>  
+                      </template>
+                     
+                  </lightning-layout>
+               </template>
+
+               <footer class="slds-modal__footer">
+
+                  <button class="slds-button slds-button_neutral" onclick={hideModalBox}>Cancel</button>
+
+                  <lightning-button variant="brand" class="slds-m-left_x-small" label="Submit" disabled={disabled}  onclick={handleSubmit}>
+                  </lightning-button>
+
+               </footer>
+            </div>
+            </div>
+            </div>
+         </section>
+         <div class="slds-backdrop slds-backdrop_open"></div>
+         <!-- modal end -->
+      </template>
+
+      
+   </lightning-card>
+   <template if:true={showApplicantCmp}>
+      <c-consolidate-appliant-banking-data  applicant-id-pare={applicantId} all-applicant-data={applicantBankingIds} ids-for-over-draft-cca={idsForODACCA} ids-for-svin-joint-ca={idsForSAJACA}  onshowsavingtable={handleShowTable1} onshowodcctable={handleShowTable2}></c-consolidate-appliant-banking-data> 
+   </template> 
+   <template if:true={showaAllTabsAppliDetailData}>
+      <c-show-all-banking-detail-consolidate-data   all-applicant-data={allLoanApllicantRecIds} ids-for-over-draft-cca={allIdsForODACCAnew} ids-for-svin-joint-ca={allIIdsForSAJACA} ></c-show-all-banking-detail-consolidate-data> 
+   </template>  
+</template>

@@ -1,0 +1,78 @@
+<template>
+    <lightning-card title="LOD Details">
+
+        <lightning-layout-item padding="around-small" size="8" >
+            <div class="center slds-clearfix slds-p-top_medium">
+              <div class="slds-float_right">
+              <lightning-button class="slds-float--right slds-m-around--xx-small" variant="brand" name="Generate Document" label="Generate Document"
+                          onclick={handleGenerateDocuments} read-only={disableMode} disabled={disableMode}></lightning-button>
+                          
+                          <lightning-button class="slds-float--right slds-m-around--xx-small" variant="brand" name="Send Email" label="Send Email"
+                          onclick={handleSendEmail} read-only={disableMode} disabled={disableMode}></lightning-button>            
+                        </div></div>
+                          
+          </lightning-layout-item>
+
+        <div class="slds-p-around_medium">
+          <br />
+          <div id="tableViewInnerDiv" class="slds-scrollable_y tableViewInnerDiv slds-scrollable">
+            <div class="slds-scrollable">
+    
+              <table
+                class="slds-table slds-table_resizable slds-table_bordered slds-table_resizable-cols slds-table_fixed-layout slds-max-medium-table_stacked-horizontal"
+                onscroll={tableScrolled}>
+                <thead>
+                  <tr>
+                    <th class="slds-is-resizable dv-dynamic-width fixedWidth1 " scope="col">Document Name</th>
+                    <th class="slds-is-resizable dv-dynamic-width fixedWidth1 " scope="col">Description of the Document</th>
+                    <th class="slds-is-resizable dv-dynamic-width fixedWidth1 " scope="col">Original/Photocopy</th>
+                    <th class="slds-is-resizable dv-dynamic-width fixedWidth " scope="col">Document Status</th>
+                    
+    
+                  </tr>
+                </thead>
+                <tbody>
+                  <template iterator:it={listgetLODDetails}>
+                    <tr key={it.value.Id}>
+                      <td scope="row" class="slds-form-element slds-size--1-of-12 td-fixed-width">
+                        <div class="slds-cell-wrap">
+                          {it.value.DocName}
+                        </div>
+                      </td>
+                        <td scope="row" class="slds-form-element slds-size--1-of-12 td-fixed-width">
+                            <div class="slds-cell-wrap">
+                              {it.value.Description}
+                            </div>
+                          </td>
+                      <td scope="row" class="slds-form-element slds-size--1-of-12 td-fixed-width">
+                        <div class="slds-cell-wrap">
+                          {it.value.OriginalPhoto}
+                        </div>
+                      </td>
+                      <td scope="row" class="slds-form-element slds-size--1-of-12 td-fixed-width">
+                        <div class="slds-cell-wrap">
+                          {it.value.Status}
+                        </div>
+                      </td>
+                     
+                    </tr>
+    
+                  </template>
+    
+    
+                </tbody>
+              </table>  
+              </div>
+              </div>
+              </div>
+
+              <template if:true={showDocList} >
+                    
+                <c-uploded-document-display title="Generated LOD" type={docType} sub-type={subType} category={docCategory} loan-app-id={loanAppId}
+                    applicant-id={getApplicantID} mode="false" disable-remarks="false" is-read-only=true
+                    capture-all-documents="false" disabled="false" is-cpa="false" hide-mark-for-error="true" hide-availiable-in-file="true" hide-upload-button="true" read-only={disableMode} >
+                </c-uploded-document-display>
+              
+            </template>      
+              </lightning-card>
+</template>

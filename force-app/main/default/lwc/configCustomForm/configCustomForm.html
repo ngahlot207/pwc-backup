@@ -1,0 +1,44 @@
+<template>
+    <lightning-card>
+        <template for:each={fieldsData} for:item="fieldSet">
+            <div key={fieldSet.section}>
+                <div class="section-label slds-p-left_medium">
+                    <strong>
+                        <h2>{fieldSet.section}</h2>
+                    </strong>
+                </div>
+                <div class="slds-grid slds-wrap slds-m-around_medium">
+                    <template for:each={fieldSet.fields} for:item="field">
+                        <div
+                            class="slds-col slds-size_1-of-3 slds-p-horizontal_small"
+                            key={field.FieldName}
+                        >
+                            <c-config-custom-child-form
+                                field-detail={field}
+                                options={field.Options}
+                                onchange={handleInputChange}
+                                value={field.value}
+                                type={field.type}
+                                all-data={allData}
+                                selected-icon-name={field.iconName}
+                                object-api-name={field.ParentObjAPINme}
+                                field-api-name={field.ParentObjFieldNme}
+                                selected-record-id={field.value}
+                                selected-record-name={parentRecordName}
+                                onselect={handleValueSelect}
+                            ></c-config-custom-child-form>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </template>
+
+        <lightning-button
+            class="slds-align_absolute-center"
+            label="save"
+            variant="brand"
+            onclick={handleSave}
+            onselect={handleValueSelect}
+        ></lightning-button>
+    </lightning-card>
+</template>

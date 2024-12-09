@@ -1,0 +1,144 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+
+
+    <!-- <lightning-layout multiple-rows="true">
+
+        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+            medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+            <lightning-input type="number" label="Employee no of employee conducting the PD" name='NOPConductedPd__c'
+                disabled value={noOfEmpInPd} onchange={handleInputChange}></lightning-input>
+
+        </lightning-layout-item>
+        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+            medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+            <lightning-input type="text" label="Name of Employee conducting the PD" value={nameOfEmpInPd} disabled
+                onchange={handleInputChange}></lightning-input>
+
+        </lightning-layout-item>
+        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+            medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+            <lightning-input type="text" label="PD mode" value={pdType} name="PdTyp__c" disabled
+                onchange={handleInputChange}></lightning-input>
+
+        </lightning-layout-item>
+        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+            medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+          
+            <c-multi-select-lookup-component required=true label="Name of Employee/s accompanying for the PD"
+                selected-icon-name="standard:identifier" object-api-name="TeamHierarchy__c"
+                field-api-name="Employee__r.Name" selected-fields="Name" selected-record-id={lookupId}
+                onselect={handleLookupFieldChange} filter-condn="EmpRole__c='UW'"
+                key-id="Employee__c"></c-multi-select-lookup-component>
+
+        </lightning-layout-item>
+        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+            medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+            <lightning-input type="text" label="Employee ID of Employee's accompanying for the PD"
+                value={empIdsOfEmpsInPd} onchange={handleInputChange}></lightning-input>
+
+        </lightning-layout-item>
+        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+            medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+            <lightning-input type="date" label="PD Done at" value={pdDoneDate} disabled name="CmpltDt__c"
+                onchange={handleInputChange}></lightning-input>
+
+        </lightning-layout-item>
+
+
+    </lightning-layout> -->
+    <template lwc:if={pdResponceList}>
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item padding="around-small" size="12" margin="around-small">
+                <lightning-accordion active-section-name="telePD" class="accordion" allow-multiple-sections-open>
+                    <template for:each={pdResponceList} for:item="pdr">
+                        <template if:true={pdr.sectionTitle}>
+                            <template if:true={pdr.displaySection}>
+                                <lightning-accordion-section name={pdr.sectionTitle} label={pdr.sectionTitle}
+                                    class="applicantClass" key={pdr.sectionTitle}>
+                                    <lightning-layout multiple-rows="true">
+                                        <template for:each={pdr.questions} for:item="pdQues">
+                                            <template if:true={pdQues.quesConfig}>
+                                                <template if:true={pdQues.displayQues}>
+                                                    <lightning-layout-item padding="around-small" size="12"
+                                                        key={pdQues.quesId}>
+                                                        <c-dynamic-form-filled pd-question={pdQues}
+                                                            has-edit-access={hasEditAccess}
+                                                            onpasstoparent={fromChildComp}
+                                                            layout-size={layoutSize}></c-dynamic-form-filled>
+                                                    </lightning-layout-item>
+                                                </template>
+                                            </template>
+                                            <template if:false={pdQues.quesConfig}>
+                                                <template if:true={pdQues.displayQues}>
+                                                    <lightning-layout-item padding="around-small" size="6"
+                                                        key={pdQues.quesId}>
+                                                        <c-dynamic-form-filled pd-question={pdQues}
+                                                            has-edit-access={hasEditAccess}
+                                                            onpasstoparent={fromChildComp}
+                                                            layout-size={layoutSize}></c-dynamic-form-filled>
+                                                    </lightning-layout-item>
+                                                </template>
+                                            </template>
+                                        </template>
+                                    </lightning-layout>
+                                </lightning-accordion-section>
+                            </template>
+                        </template>
+                        <template if:false={pdr.sectionTitle}>
+                            <lightning-layout multiple-rows="true" key={pdr.sectionTitle}>
+                                <template for:each={pdr.questions} for:item="pdQues">
+                                    <template if:true={pdQues.quesConfig}>
+                                        <lightning-layout-item padding="around-small" size="12" key={pdQues.quesId}>
+                                            <c-dynamic-form-filled pd-question={pdQues} has-edit-access={hasEditAccess}
+                                                onpasstoparent={fromChildComp}
+                                                layout-size={layoutSize}></c-dynamic-form-filled>
+                                        </lightning-layout-item>
+                                    </template>
+                                    <template if:false={pdQues.quesConfig}>
+                                        <lightning-layout-item padding="around-small" size="6" key={pdQues.quesId}>
+                                            <c-dynamic-form-filled pd-question={pdQues} has-edit-access={hasEditAccess}
+                                                onpasstoparent={fromChildComp}
+                                                layout-size={layoutSize}></c-dynamic-form-filled>
+                                        </lightning-layout-item>
+                                    </template>
+                                </template>
+                            </lightning-layout>
+                        </template>
+                    </template>
+                </lightning-accordion>
+            </lightning-layout-item> </lightning-layout></template>
+
+    <template if:true={isModalOpen}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="my-modal slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Submit PD ? </h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p style="text-align:center;"><b>{submitModelMessage}</b></p>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_brand" disabled={isReadOnly} onclick={handleSubmitPd}
+                        title="Yes">Yes</button>
+                    <button class="slds-button slds-button_neutral" onclick={closeModal} title="No">No</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

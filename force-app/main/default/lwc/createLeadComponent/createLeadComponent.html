@@ -1,0 +1,54 @@
+<template>
+    <div>
+      <!-- Header section -->
+      <div class="header">
+        <lightning-icon icon-name="standard:user" alternative-text="Create Lead"></lightning-icon>
+        <strong style="font-size: 24px; font-weight: bold;">Create Lead</strong>
+      </div>
+ 
+      <!-- Text between header and footer -->
+      <div class="lead-management">
+      <p><strong>Lead Management</strong></p>
+  
+      <!-- Buttons section -->
+      <div class="buttons">
+        <!-- <lightning-button variant="brand" label="EMI Calculator" title="EMI Calculator" onclick={handleEMICalculator}>
+          <lightning-button-icon icon-name="utility:calculator" alternative-text="Calculator"></lightning-button-icon>
+        </lightning-button> -->
+        <!-- <lightning-button variant="neutral" label="Save as Draft" title="Save as Draft" onclick={handleSaveAsDraft}></lightning-button> -->
+        <lightning-button variant="destructive" label="Close Lead" title="Close Lead" onclick={handleCloseLead}></lightning-button>
+      </div>
+      <lightning-radio-group name="status" options={radioOptions} onchange={handleRadioChange}></lightning-radio-group>
+    </div>
+    
+      <!-- Accordions section -->
+      <!-- <div class="accordions">
+        
+        <lightning-accordion>
+          <lightning-accordion-section label="Lead Source Details">
+            
+          </lightning-accordion-section>
+        </lightning-accordion>
+  
+        
+        <lightning-accordion>
+          <lightning-accordion-section label="Personal Details">
+            
+          </lightning-accordion-section>
+        </lightning-accordion>
+  
+        
+        <lightning-accordion>
+          <lightning-accordion-section label="Product & Loan Details">
+            
+          </lightning-accordion-section>
+        </lightning-accordion>
+      </div>
+   -->
+      <!-- Footer section -->
+      <div class="footer">
+        <lightning-button variant="brand" label="Previous" title="Previous" onclick={handlePrevious}></lightning-button>
+        <lightning-button variant="brand" label="Send OTP" title="Send OTP" onclick={handleSendOTP}></lightning-button>
+      </div>
+    </div>
+  </template>

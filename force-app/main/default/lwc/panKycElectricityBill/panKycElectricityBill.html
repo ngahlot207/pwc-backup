@@ -1,0 +1,53 @@
+<template>
+    <lightning-layout if:true={showElectricityBill} multiple-rows="true">
+
+        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+            medium-device-size={layoutSize.medium} large-device-size="6">
+            <c-custom-lookup required=true label="Select Service Provider" selected-icon-name="standard:identifier"
+                object-api-name="MasterData__c" field-api-name="Name" selected-record-name={spLabel}
+                selected-record-id={spLabel} onselect={handleLookupFieldChange} filter-condn={filtercondition}
+                disabled={disableMode}>
+            </c-custom-lookup>
+
+
+        </lightning-layout-item>
+        <lightning-layout-item if:true={showBillDist} padding="around-small" size="12"
+            small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="6">
+
+            <c-custom-lookup required=true label="District" selected-icon-name="standard:identifier"
+                object-api-name="MasterData__c" field-api-name="Name" selected-record-name={billDist}
+                selected-record-id={billDist} onselect={handleLookupFieldChangeDist} filter-condn={filterconditionDist}
+                disabled={disableMode}>
+            </c-custom-lookup>
+
+
+        </lightning-layout-item>
+        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+            medium-device-size={layoutSize.medium} large-device-size="6">
+            <lightning-input name="Consumer ID" type="text" label="Consumer ID" maxlength="20" minlength="2"
+                pattern="^[A-Za-z0-9]{2,20}$"
+                message-when-pattern-mismatch="Input must be 2-20 alphanumeric characters." onkeypress={handleKeyPress}
+                onchange={handleInputChangeConsumerId} required={consumerIdRequired} value={consumerIdValue}
+                disabled={disableMode}></lightning-input>
+
+        </lightning-layout-item>
+        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+            medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+
+            <lightning-input name="UtilityBillDate__c" type="date" label="Utility Bill Date" min={utilityBillMinDate}
+                max={todayDateValueForUB} onchange={handleInputChangeUtilityBillDate} required value={utilityBillDate}
+                disabled={disableMode}></lightning-input>
+        </lightning-layout-item>
+
+
+    </lightning-layout>
+    <template lwc:if={showValidateBtn}>
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item padding="around-small" size="12">
+                <lightning-button name="elecBillVal" variant="success" label="Validate" title="Validate"
+                    onclick={handleValidateClick} disabled={disableMode}></lightning-button>
+            </lightning-layout-item>
+        </lightning-layout>
+
+    </template>
+</template>

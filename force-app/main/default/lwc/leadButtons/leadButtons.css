@@ -1,0 +1,13 @@
+.custom-button {
+    color: #4CAF50;
+    text-decoration: #4CAF50;
+    border: #4CAF50;
+    text-align: center;
+    --sds-c-icon-color-foreground-default: #19ed19;
+    size: large;
+    --slds-icon-size-large: 50px;
+}
+
+.white-utility-icon {
+    --sds-c-icon-color-foreground-default: #eff6ef;
+}

@@ -1,0 +1,28 @@
+<template>
+    <template if:true={confirmationMessage}>
+    <div class="slds-is-relative">
+        <lightning-quick-action-panel header="Loan Appeal Claim">
+            <template if:true={showSpinner}>
+                <div class="spinner">
+                    <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                </div>
+            </template>
+            
+            <template if:false={showSpinner}>
+                        <center><p class="confirmationmes">Do you want to claim this loan appeal?</p></center>
+                
+                    <div style="text-align: end;" class="slds-m-top_large slds-m-bottom_medium">
+                        <footer class="slds-modal__footer">
+    
+                         <lightning-button variant="brand" class="slds-m-left_x-large" label="YES"
+                            type="submit" onclick={closeAction}></lightning-button>
+    
+                      <lightning-button variant="brand" class="slds-m-left_x-large" label="NO"
+                                onclick={noBtn}></lightning-button>
+                        </footer>
+                    </div>
+            </template>
+        </lightning-quick-action-panel>
+    </div>
+    </template>
+    </template>

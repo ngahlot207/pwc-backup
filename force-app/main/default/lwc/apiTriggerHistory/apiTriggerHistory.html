@@ -1,0 +1,12 @@
+<template>
+    <!-- <h2> <b>Api History</b></h2> -->
+    <template if:true={apiList}>
+        <div class="fixedHeight">
+        <lightning-datatable data={apiList} columns={apiColumns} key-field="Id" hide-checkbox-column>
+        </lightning-datatable>
+    </div>
+    </template>
+    <template if:true={error}>
+        {error}
+    </template>
+</template>

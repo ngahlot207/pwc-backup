@@ -1,0 +1,142 @@
+<template>
+    <lightning-card title={tableTitle}><br />
+        <template if:true={reqFiedErrorMsz}>
+            <div title="required" class="slds-required">Please Add at least one Row</div>
+        </template>
+        <template if:true={columnConfig.enableAddMore}>
+            <div class="slds-p-left_medium">
+                <div class="slds-clearfix">
+                    <div class="slds-float_right">
+                        <lightning-button variant="Neutral" label="Add" title="Add Row" class="slds-m-around_x-small"
+                            onclick={handleAddRecord} disabled={disableMode}></lightning-button>
+                        <!-- <lightning-button variant="destructive" icon-name="utility:delete" label={removeButtonLabel}
+                        title="Remove" class="slds-m-around_x-small" onclick={handleRemoveClick}
+                        disabled={hideDeleteBth}></lightning-button> -->
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <template lwc:if={columnConfig}>
+            <!-- title={columnConfig.tableTitle}  class="slds-p-around_large" -->
+
+            <div id="containerDiv" onmousemove={handlemousemove} onmouseup={handlemouseup}
+                ondblclick={handledblclickresizable} onscroll={tableOuterDivScrolled}>
+                <!--  class=" slds-border_right slds-border_left tableScroll"slds-table_header-fixed_container -->
+                <div class="slds-table slds-scrollable_y slds-scrollable" onscroll={tableScrolled}>
+                    <table>
+                        <!--   class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout slds-max-medium-table_stacked-horizontal" -->
+                        <thead>
+                            <tr>
+                                <template for:each={columnConfig.columns} for:item="col">
+                                    <th key={col.fieldName} title={col.fieldName} scope="col">
+                                        <!-- class="slds-is-resizable dv-dynamic-width fixedWidth"  -->
+                                        <div class="slds-cell-fixed fixedWidth"></div>
+                                        <a class="slds-th__action slds-text-link--reset">
+                                            <abbr if:true={col.required} title="required" class="slds-required">*</abbr>
+                                            <span class="slds-truncate">{col.label}</span>
+                                        </a>
+                                        <div class="slds-resizable">
+                                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                                <span class="slds-resizable__divider"></span>
+                                            </span>
+                                        </div>
+                                    </th>
+                                </template>
+                                <th if:true={columnConfig.enableAddMore} title="Delete" scope="col">
+                                    <!-- class="slds-is-resizable dv-dynamic-width fixedWidth"  -->
+                                    <div class="slds-cell-fixed fixedWidth"></div>
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Delete</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template if:false={hideTable}>
+                                <template lwc:if={tableData} for:each={tableData} for:item="record">
+                                    <tr key={record.Id} class="slds-hint-parent">
+                                        <template for:each={columnConfig.columns} for:item="col">
+                                            <td key={col.fieldName} data-label={col.label}>
+                                                <!-- <div class=" slds-combobox"> </div> -->
+                                                <!-- {col.fieldName} == {record.value} -->
+                                                <!-- {record.id} {col.fieldName} -->
+
+                                                <c-dynamic-datatable-display-value-for-pd table-config={col}
+                                                    has-edit-access={hasEditAccess} onpasstoparent={fromChildComp}
+                                                    tablea-data={record}>
+                                                </c-dynamic-datatable-display-value-for-pd>
+                                            </td>
+                                        </template>
+                                        <td if:true={columnConfig.enableAddMore} data-label="Delete">
+                                            <lightning-icon class="custom-button slds-p-right_xx-small"
+                                                onclick={handleDelete} data-id={record.Id} icon-name="utility:delete"
+                                                alternative-text="delete" size="small" title="delete"
+                                                disabled={disableMode}>
+                                            </lightning-icon>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- <table aria-multiselectable="true"
+            class="slds-table slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols" role="grid"
+            aria-label="Example advanced table of Opportunities in actionable mode">
+            <thead>
+                <tr class="slds-line-height_reset">
+                    <template for:each={columnConfig.lstDataTableColumns} for:item="col">
+                        <th key={col.fieldName} aria-label="Document Type" aria-sort="none"
+                            class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+                            <a class="slds-th__action slds-text-link_reset" href="#" role="button" tabindex="0">
+                                <span class="slds-assistive-text">Sort by: </span>
+                                <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                    <span class="slds-truncate" title={col.fieldName}>{col.label}</span>
+                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                        <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon"
+                                            aria-hidden="true">
+                                            <use
+                                                xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown">
+                                            </use>
+                                        </svg>
+                                    </span>
+                                </div>
+                            </a>
+                            <div class="slds-resizable">
+                                <input type="range" aria-label="column width"
+                                    class="slds-resizable__input slds-assistive-text" max="1000" min="20"
+                                    tabindex="0" />
+                                <span class="slds-resizable__handle">
+                                    <span class="slds-resizable__divider dividerPosition"></span>
+                                </span>
+                            </div>
+                        </th>
+                    </template>
+                </tr>
+            </thead>
+            <tbody>
+                <template for:each={tableData} for:item="record">
+                    <tr key={record.id} class="slds-hint-parent">
+                        <template for:each={columnConfig.lstDataTableColumns} for:item="col" for:index="index">
+                            <td key={col.fieldName} data-label={col.label}>
+                                <div class="slds-truncate">
+                                    <c-dynamic-datatable-display-value object={record} field-name={col.fieldName}
+                                        type={col.type}></c-dynamic-datatable-display-value>
+                                </div>
+                            </td>
+                        </template>
+                    </tr>
+                </template>
+            </tbody>
+        </table> -->
+        </template>
+    </lightning-card>
+</template>

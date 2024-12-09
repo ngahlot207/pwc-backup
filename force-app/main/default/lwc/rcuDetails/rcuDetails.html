@@ -1,0 +1,1227 @@
+<!--/**
+* ─────────────────────────────────────────────────────────────────────────────────────────────────
+* @Author         PwC India
+* @Componet       rcuDetails Component    
+* @Description    This component is used for Initiating RCU Cases.
+* @CreatedDateBy  Paresh Saindane
+* @ModifiedBy     Paresh Saindane
+* @ModifiedDate  
+* ──────────────────────────────────────────────────────────────────────────────────────────────────
+*/-->
+
+<template>
+  <div if:true={showSpinner}>
+    <lightning-spinner
+      alternative-text="Loading..."
+      variant="brand"
+      class="slds-is-fixed"
+    >
+    </lightning-spinner>
+  </div>
+
+
+
+<lightning-card>
+
+<lightning-layout multiple-rows="12">
+
+<!-- <lightning-layout-item if:true={rcuUser}
+  size="12"
+  small-device-size="12"
+  medium-device-size="6"
+  large-device-size="3"
+>
+  <div class="slds-p-around_x-small">
+    <lightning-combobox
+      value={accId1}
+      label="RCU Agency 1"
+      options={agencyOptions1}
+      onchange={handleInputChange}
+      data-name=""
+      required="true"
+      disabled={disableMode1}
+    >
+    </lightning-combobox>
+  </div>
+</lightning-layout-item> -->
+
+</lightning-layout>
+
+
+<template if:false={rcuUser}>
+<lightning-card icon-name="standard:account" variant="base">
+  <div slot="title">
+     Summary
+  </div>
+
+  <div>
+    <lightning-layout multiple-rows="12">
+      <lightning-layout-item
+        size="12"
+        small-device-size="12"
+        medium-device-size="6"
+        large-device-size="4"
+      >
+        <div class="slds-p-around_x-small">
+          <lightning-input
+            type="text"
+            value={firstAgency}
+            label="RCU Agency name"
+            data-name=""
+            required="true"
+            onchange={handleInputChange}
+            disabled
+          ></lightning-input>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item
+      size="12"
+      small-device-size="12"
+      medium-device-size="6"
+      large-device-size="4"
+    >
+      <div class="slds-p-around_x-small">
+        <lightning-combobox
+        label="Final RCU status"
+        value={loanRCUStatus}
+        options={loanRCUStatusOptions}
+        disabled >
+        </lightning-combobox>
+      </div>
+    </lightning-layout-item>
+
+    <lightning-layout-item
+    size="12"
+    small-device-size="12"
+    medium-device-size="6"
+    large-device-size="4"
+  >
+    <div class="slds-p-around_x-small">
+      <lightning-combobox
+      label="Final RCU Status Reason"
+      value={loanRCUStatusReason}
+      options={loanRCUStatusReasonOptions}
+      disabled >
+      </lightning-combobox>
+    </div>
+  </lightning-layout-item>
+
+    <lightning-layout-item
+    size="12"
+    small-device-size="12"
+    medium-device-size="6"
+    large-device-size="4"
+  >
+    <div class="slds-p-around_x-small">
+      <lightning-textarea
+                      type="text"
+                      value={finalRCURemark}
+                      name="Final RCU Remarks"
+                      label="Final RCU Remarks"
+                      onchange={handleInputChange}
+                      disabled
+                    ></lightning-textarea>
+    </div>
+  </lightning-layout-item>   
+  
+      <lightning-layout-item
+      size="12"
+      small-device-size="12"
+      medium-device-size="6"
+      large-device-size="4"
+    >
+      <div class="slds-p-around_x-small">
+        <lightning-input
+          type="date"
+          value={firstRcuInitDate}
+          label="RCU initiation date"
+          required="true"
+          onchange={handleInputChange}
+          disabled
+        ></lightning-input>
+      </div>
+    </lightning-layout-item>
+
+
+    <lightning-layout-item
+    size="12"
+    small-device-size="12"
+    medium-device-size="6"
+    large-device-size="4"
+  >
+    <div class="slds-p-around_x-small">
+      <lightning-input
+        type="date"
+        value={lastRcuInitCloseDate}
+        label="RCU completion date"
+        required="true"
+        onchange={handleInputChange}
+        disabled
+      ></lightning-input>
+    </div>
+  </lightning-layout-item>
+
+  <lightning-layout-item
+  size="12"
+  small-device-size="12"
+  medium-device-size="6"
+  large-device-size="4"
+>
+  <div class="slds-p-around_x-small">
+    <lightning-input
+      type="text"
+      value={toatlTAT}
+      label="RCU TAT"
+      required="true"
+      onchange={handleInputChange}
+      disabled
+    ></lightning-input>
+  </div>
+</lightning-layout-item>
+</lightning-layout>
+    
+  </div>
+</lightning-card>
+
+
+
+<div class="slds-clearfix">
+  <lightning-button 
+    class="slds-float_right slds-p-around_x-small"
+    label="Initiate RCU"
+    variant="brand"
+    onclick={handleInitiate}
+    icon-name="utility:connected_apps"
+    disabled={disableInitiateRCU}
+  ></lightning-button>
+</div>
+
+<template if:true={caseRecordsData}>
+  <lightning-card title="Case Verifier Details ">
+    <lightning-datatable key-field="Id" data={caseRecordsData} columns={verfColumns} hide-checkbox-column="true"
+    min-column-width="200"   show-row-number-column="true" onrowaction={callRowAction}> </lightning-datatable>
+    <!-- UPDATED TABLE  -->
+    <!-- <div
+      class="slds-box slds-theme_default slds-scrollable_x"
+      style="width: 200rem"
+    >
+      <table
+        class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered"
+        aria-label="Example table of Opportunities with vertical borders"
+      >
+        <thead>
+          <tr class="slds-line-height_reset">
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Case No">Case No</div>
+            </th>
+
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Technical Initiation Date">
+                RCU Initiation Date
+              </div>
+            </th>
+            <th class="" scope="col">
+              <div class="slds-truncate" title="RCU Sampler Name">
+                RCU Sampler Name
+              </div>
+            </th>
+
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Case Status">
+                Case Status
+              </div>
+            </th>
+
+           
+            <th class="" scope="col">
+              <div class="slds-truncate" title=" Agency RCU Report Status">
+                Agency RCU Report Status
+              </div>
+            </th>
+
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Report PDF">Report PDF</div>
+            </th>
+
+            <th class="" scope="col">
+              <div class="slds-truncate" title="TAT">TAT</div>
+            </th>
+
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Action">Action</div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <template for:each={caseRecordsData} for:item="record">
+            <tr
+              key={record.Id}
+              aria-selected="false"
+              class="slds-hint-parent"
+            >
+
+            <td data-label="Case No">
+              <div class="slds-truncate" title="Case No">
+                {record.CaseNumber}
+              </div>
+            </td>
+
+              <td data-label="TSR Initiation Date">
+                <div class="slds-truncate" title="TSR Initiation Date">
+                  {record.initiationDate}
+                </div>
+              </td>
+
+              <template if:true={record.Owner.Name}>
+                <td data-label="RCU Sampler Name">
+                  <div class="slds-truncate" title="RCU Sampler Name">
+                    {record.Owner.Name}
+                  </div>
+                </td>
+              </template>             
+
+              <td data-label="Case Status">
+                <div class="slds-truncate" title="Case Status">
+                  {record.Status}
+                </div>
+              </td>
+
+              <td data-label="Agency RCU Report Status">
+                <div class="slds-truncate" title="Agency RCU Report Status">
+                  {record.AgcRCUReportStatus__c}
+                </div>
+              </td>
+
+              <td data-label="Report PDF">
+                <div class="slds-truncate" title="Actions">
+                  <lightning-button
+                    data-caseid={record.Id}
+                    variant="success"
+                    label="View Cases"
+                    title="View Details"
+                    data-name="View Cases"
+                    onclick={handleCreditButton}
+                  ></lightning-button>
+                </div>
+              </td>
+
+              <td data-label="TAT">
+                <div class="slds-truncate" title="TAT">
+                  {record.TAT__c}
+                </div>
+              </td>
+
+               <td data-label="Actions">
+                <div class="slds-truncate" title="Actions">
+                  <lightning-button
+                    data-caseid={record.Id}
+                    variant="success"
+                    label="View"
+                    title="View Details"
+                    data-name="View"
+                    onclick={handleCreditButton}
+                  ></lightning-button>
+                </div>
+              </td>
+              </tr
+          ></template>
+        </tbody>
+      </table>
+    </div> -->
+
+    <template if:true={renderDocDetails}>
+
+  <template if:true={viewDoc}>
+    <c-rcu-document-previewer document-detail-id={docId} onclosepreview={handleCloseModalEvent}
+    cont-vers-data-list={contVersDataList} has-document-id={hasDocId} ></c-rcu-document-previewer>
+  </template>
+
+
+  <lightning-card variant="base">
+    <div slot="title">
+       RCU Initiated Documents
+    </div>
+    <lightning-datatable
+    key-field="id"
+    data={appModalData}
+    columns={rucInitcolumns}
+    onsave={handleSave}
+    draft-values={draftValues}
+    onrowaction={handleRcuInitAction}
+    hide-checkbox-column="true"
+></lightning-datatable>
+
+
+</lightning-card>                                     
+                                           
+ <lightning-card  variant="base">
+   <div slot="title">
+       RCU Profile Check Documents
+   </div>  
+
+        <lightning-datatable
+        key-field="Id"
+        data={addrVerCredit}
+        columns={rcuProfCheckcolumns}
+        hide-checkbox-column="true"
+        max-row-selection="0">
+    </lightning-datatable>
+
+ </lightning-card>
+
+</template>
+    <template if:true={renderCaseDetails}>
+      <!-- <p>{caseId}</p> -->
+      <c-case-details
+        loan-app-id={loanAppId}
+        case-id={caseId}
+        tsr={showTSR}
+        onselect={handleValueSelect}
+        has-edit-access={hasEditAccess}
+      ></c-case-details>
+    </template>
+
+    <!-- OLD TABLE TO REMOVE -->
+  </lightning-card>
+
+  <template if:true={showCases}>
+  <lightning-card title="Case Agency Details ">
+    <!-- UPDATED TABLE  -->
+    <template if:true={showReport}>
+      <c-multi-doc-previewer document-detail-id={docId} onclosepreview={handleCloseModalEvent}
+    has-document-id={hasDocId}> </c-multi-doc-previewer>
+  </template>
+    <div
+      class="slds-box slds-theme_default slds-scrollable_x"
+      style="width: 200rem"
+    >
+      <table
+        class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered"
+        aria-label="Example table of Opportunities with vertical borders"
+      >
+        <thead>
+          <tr class="slds-line-height_reset">
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Case No">Case No</div>
+            </th>
+
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Technical Initiation Date">
+                RCU Initiation Date
+              </div>
+            </th>
+            <th class="" scope="col">
+              <div class="slds-truncate" title="RCU Sampler Name">
+                RCU Agency Name
+              </div>
+            </th>
+
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Technical Agency Name">
+                RCU Contact Name
+              </div>
+            </th>
+
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Case Status">
+                Case Status
+              </div>
+            </th>
+
+           
+            <th class="" scope="col">
+              <div class="slds-truncate" title=" Agency RCU Report Status">
+                Agency RCU Report Status
+              </div>
+            </th>
+
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Final RCU Status Reason">
+                Final RCU Status Reason
+              </div>
+            </th>
+
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Report PDF">Report PDF</div>
+            </th>
+
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Report Date">
+                Report Date
+              </div>
+            </th>
+
+
+            <th class="" scope="col">
+              <div class="slds-truncate" title="TAT">TAT</div>
+            </th>
+
+          </tr>
+        </thead>
+
+        <tbody>
+          <template for:each={agencyCases} for:item="record">
+            <tr
+              key={record.Id}
+              aria-selected="false"
+              class="slds-hint-parent"
+            >
+
+
+            <td data-label="Case No">
+              <div class="slds-truncate" title="Case No">
+                {record.CaseNumber}
+              </div>
+            </td>
+
+              <td data-label="TSR Initiation Date">
+                <div class="slds-truncate" title="TSR Initiation Date">
+                  {record.initiationDate}
+                </div>
+              </td>
+
+              <template if:true={record.AccountId}>
+                <td data-label="RCU Sampler Name">
+                  <div class="slds-truncate" title="RCU Sampler Name">
+                    {record.Account.Name}
+                  </div>
+                </td>
+              </template>
+              <template if:false={record.AccountId}>
+                <td data-label="RCU Sampler Name">
+                  <div class="slds-truncate" title="RCU Sampler Name">
+                  
+                  </div>
+                </td>
+              </template>
+
+              <template if:true={record.ContactId}>
+              <td data-label="RCU Agency Name">
+                <div class="slds-truncate" title="RCU Agency Name">
+                  {record.Contact.Name}
+                </div>
+              </td>
+            </template>
+            <template if:false={record.ContactId}>
+              <td data-label="RCU Agency Name">
+                <div class="slds-truncate" title="RCU Agency Name">
+                
+                </div>
+              </td>
+            </template>
+
+             
+
+              <td data-label="Case Status">
+                <div class="slds-truncate" title="Case Status">
+                  {record.Status}
+                </div>
+              </td>
+
+              <td data-label="Agency RCU Report Status">
+                <div class="slds-truncate" title="Agency RCU Report Status">
+                  {record.AgcRCUReportStatus__c}
+                </div>
+              </td>
+
+
+              <td data-label="Agency RCU Report Status">
+                <div class="slds-truncate" title="Agency RCU Report Status">
+                  {record.Final_RCU_status_Reason__c}
+                </div>
+              </td>
+
+
+              <td class="slds-cell_action-mode" role="gridcell">
+                <div class="slds-truncate" title='Report PDF'>
+                    <!-- <lightning-icon class="custom-button" label="Download" variant="brand" onclick={handleDownload}
+                    icon-name='utility:download' data-documentid={record.docId} data-cv-id={record.cvId}
+                    data-type={record.cDFileType} data-documenname={record.docDetName} data-id={record.cDId}
+                    data-blobdata={record.blobData} disabled size="small"></lightning-icon> -->
+                    <lightning-icon data-caseid={record.Id} icon-name="utility:preview"
+                    variant="success" title="View Details" data-name='View'
+                     class="custom-button slds-m-left_x-small"
+                    onclick={handleDocumentView} size="small"></lightning-icon>
+                </div>
+            </td>
+
+
+              <td data-label="Report Date">
+                <div class="slds-truncate" title="Report Date">
+                  {record.ClosedDate}
+                  <!-- <lightning-formatted-date-time   value={record.ClosedDate} ></lightning-formatted-date-time>-->
+                </div>
+              </td>
+
+              <td data-label="TAT">
+                <div class="slds-truncate" title="TAT">
+                  {record.TAT__c}
+                </div>
+              </td>
+
+              <!-- <td if:true={reinitHide} data-label="Re-Initiate TSR">
+                <div class="slds-truncate" title="Re-Initiate TSR">
+                  <lightning-button
+                    data-caseid={record.Id}
+                    data-cityid={record.CityId__c}
+                    variant="success"
+                    label="Re-Intiate"
+                    name="Re-Intiate"
+                    title="Re-Intiate"
+                    onclick={handleInitiate}
+                    disabled={record.isReinitDis}
+                    data-status={record.Status}
+                    class="slds-m-left_x-small"
+                  ></lightning-button>
+                </div>
+              </td> -->
+              </tr
+          ></template>
+        </tbody>
+      </table>
+    </div>
+
+    <template if:true={renderCaseDetails}>
+      <!-- <p>{caseId}</p> -->
+      <c-case-details
+        loan-app-id={loanAppId}
+        case-id={caseId}
+        tsr={showTSR}
+        onselect={handleValueSelect}
+        has-edit-access={hasEditAccess}
+      ></c-case-details>
+    </template>
+
+    <!-- OLD TABLE TO REMOVE -->
+  </lightning-card>
+  </template>
+
+ </template>
+ 
+</template>
+   
+
+   
+
+    <template if:true={initiateRcu}>
+      <section
+        role="dialog"
+        tabindex="-1"
+        aria-labelledby="modal-heading-02"
+        aria-modal="true"
+        aria-describedby="modal-content-id-1"
+        class="my-modal slds-modal slds-fade-in-open slds-modal_medium"
+      >
+        <div class="slds-modal__container">
+          <!-- Modal/Popup Box LWC header here -->
+          <div if:true={showSpinnerModal}>
+            <lightning-spinner
+              alternative-text="Loading..."
+              variant="brand"
+              class="slds-is-fixed"
+            >
+            </lightning-spinner>
+          </div>
+          <header class="slds-modal__header">
+            <button
+              class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+              title="Close"
+              onclick={closeTecnicalModal}
+            >
+              <lightning-icon
+                icon-name="utility:close"
+                alternative-text="close"
+                size="small"
+              ></lightning-icon>
+              <span class="slds-assistive-text">Close</span>
+            </button>
+            <h2
+              id="modal-heading-02"
+              class="slds-text-heading_medium slds-hyphenate"
+            >
+              Inititate RCU Case
+            </h2>
+          </header>
+          <!-- Modal/Popup Box LWC body starts here -->
+          <div
+            class="slds-modal__content slds-p-around_medium scroller"
+            id="modal-content-id-2"
+          >
+        <table
+            class="slds-table slds-table_cell-buffer slds-table_bordered slds-border_left slds-border_right"
+            aria-labelledby="element-with-table-label other-element-with-table-label">
+            <thead>
+                <tr>
+                    <th>Applicant Name</th>
+                    <th>Document Type</th>
+                    <th>Document Name</th>
+                    <th>Validation Status</th>
+                    <th>Vendor Verification</th>
+                    <th>Sampling Required</th>
+                    <th>Initiate RCU</th>
+                    <!-- <th>RCU Initiation Date/Time</th>
+                    <th>RCU Case ID</th>
+                    <th>RCU Status</th>
+                    <th>RCU Hold Date/Time</th>
+                    <th>RCU Remarks</th>
+                    <th>File Type</th>
+                    <th>Date/Time</th>
+                    <th>Available in File</th>
+                    <th>RM Remarks</th> -->
+                   
+                </tr>
+            </thead>
+            <tbody>
+                <template for:each={docList} for:item="record" for:index="index">
+                    <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+
+                        <th class="slds-cell_action-mode" scope="row">
+                            <div class="slds-truncate" title={record.Appl__r.FullName__c} data-index={index}>
+                                {record.Appl__r.FullName__c}
+                            </div>
+                        </th>
+
+                        <td class="slds-cell_action-mode" role="gridcell">
+                            <div class="slds-truncate" title={record.DocTyp__c}>
+                                {record.DocTyp__c}
+                            </div>
+                        </td>
+
+                        <td class="slds-cell_action-mode" role="gridcell">
+                          <div class="slds-truncate" title={record.DocSubTyp__c}>
+                              {record.DocSubTyp__c}
+                          </div>
+                      </td>
+                      
+                      <td class="slds-cell_action-mode" role="gridcell">
+                        <div  title={record.DocValidStatus__c}>
+                        <template if:true={record.DocValidStatus__c}>
+                                <template if:true={record.ValidationStatus}>
+                                  <lightning-icon icon-name='utility:success' alternative-text='success' variant='success' size='x-small'
+                                      title='success'></lightning-icon>
+                                </template>
+                        <template if:false={record.ValidationStatus}>
+                            <lightning-icon icon-name='utility:error' alternative-text='error' variant='error' size='xx-small'
+                                title='error'></lightning-icon>
+                        </template>
+                      </template>
+                      
+                      <template if:false={record.DocValidStatus__c}>
+
+                      </template>
+                        </div>
+                    </td>
+
+                        <td class="slds-cell_action-mode" role="gridcell">
+                          <div class="slds-m-bottom_medium">
+                            <lightning-combobox
+                                    data-label="Vendor Verification"
+                                    data-appid={record.Appl__c}
+                                    value={record.VendorVerification__c}
+                                    options={vendorVerfOptions}
+                                    data-index={index}
+                                    data-name="VendorVerification__c"
+                                    disabled
+                                    >
+                                    </lightning-combobox></div>          
+                        </td>
+
+                        <td class="slds-cell_action-mode" role="gridcell">
+                          <div class="slds-truncate" style="text-align:center" title={record.CreditReqSampling__c}>
+                              <lightning-input label="Sampling Required" variant="label-hidden" 
+                              data-appid={record.Appl__c} onclick={handleCreditRCUClick} type="checkbox"
+                               data-index={index} disabled={record.disSampReq}>
+                              </lightning-input>
+                          </div>
+                      </td>
+
+                      <td class="slds-cell_action-mode" role="gridcell">
+                        <div class="slds-truncate" style="text-align:center" title={record.RCUInitiated__c}>
+                            <lightning-input label="Initiate RCU" variant="label-hidden" data-docid={record.Id} 
+                            onclick={handleCreditRCUClick} type="checkbox" data-index={index} disabled={disableMode}
+                            checked={record.RCUInitiated__c}>
+                          </lightning-input>
+                        </div>
+                      </td>
+
+                    <!-- <th class="slds-cell_action-mode" scope="row">
+                      <div class="slds-truncate" title={record.initiationDate} data-index={index}>
+                          {record.initiationDate}
+                      </div>
+                    </th>
+                       
+                    <th class="slds-cell_action-mode" scope="row">
+                      <div class="slds-truncate" title='RCU Case ID' data-index={index}>
+                         
+                      </div>
+                   </th>
+
+                   <td class="slds-cell_action-mode" role="gridcell">
+                    <div class="slds-m-bottom_medium">
+                    <lightning-combobox
+                            data-label="RCU Status"
+                            data-appid={record.Appl__c}
+                            value={record.RCUFileStatus__c}
+                            options={rcuStatOptions}
+                            data-index={index}
+                            data-name="RCUFileStatus__c"
+                            disabled
+                            >
+                            </lightning-combobox></div>                     
+                     </td>
+
+
+                     <th class="slds-cell_action-mode" scope="row">
+                      <div class="slds-truncate" title={record.RCUHoldDateTime__c} data-index={index}>
+                          {record.RCUHoldDateTime__c}
+                      </div>
+                    </th>
+
+                    <th class="slds-cell_action-mode" scope="row">
+                      <div class="slds-truncate" title={record.RCURemarks__c} data-index={index}>
+                          {record.RCURemarks__c}
+                      </div>
+                    </th>
+
+                    <th class="slds-cell_action-mode" scope="row">
+                      <div class="slds-truncate" title={record.File_Type__c} data-index={index}>
+                          {record.File_Type__c}
+                      </div>
+                    </th>
+
+                    <th class="slds-cell_action-mode" scope="row">
+                      <div class="slds-truncate" title={record.CreatedDate} data-index={index}>
+                          {record.CreatedDate}
+                      </div>
+                    </th>
+
+                    <td class="slds-cell_action-mode" role="gridcell">
+                      <div class="slds-truncate" style="text-align:center" title={record.FileAvalbl__c}>
+                          <lightning-input variant="label-hidden" data-appid={record.Appl__c}
+                               type="checkbox" data-index={index} disabled></lightning-input>
+                      </div>
+                    </td>
+
+                    <th class="slds-cell_action-mode" scope="row">
+                      <div class="slds-truncate" title={record.RM_Remarks__c} data-index={index}>
+                          {record.RM_Remarks__c}
+                      </div>
+                    </th> -->
+
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+      </br></br>
+        <table
+        class="slds-table slds-table_cell-buffer slds-table_bordered slds-border_left slds-border_right"
+        aria-labelledby="element-with-table-label other-element-with-table-label">
+        <thead>
+            <tr>
+                <th>Applicant Name</th>
+                <th>Address Type</th>
+                <th>Full Address</th>
+                <!-- <th>Validation Status</th>
+                <th>Vendor Verification</th>
+                <th>Sampling Required</th> -->
+                <th>Initiate Profile Check</th>
+                <!-- <th>Profile Check Initiation Date/Time</th> -->
+                <!-- <th>RCU Case ID</th>
+                <th>RCU Status</th>
+                <th>RCU Hold Date/Time</th>
+                <th>RCU Remarks</th>
+                <th>File Type</th>
+                <th>Date/Time</th>
+                <th>Available in File</th>
+                <th>RM Remarks</th> -->
+               
+            </tr>
+        </thead>
+        <tbody>
+            <template for:each={addrData} for:item="record" for:index="index">
+                <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+
+                    <th class="slds-cell_action-mode" scope="row">
+                        <div class="slds-truncate" title={record.appName} data-index={index}>
+                            {record.appName}
+                        </div>
+                    </th>
+
+                    <td class="slds-cell_action-mode" role="gridcell">
+                        <div class="slds-truncate" title={record.appAddrType}>
+                            {record.appAddrType}
+                        </div>
+                    </td>
+
+                    <td class="slds-cell_action-mode" role="gridcell">
+                      <div class="slds-truncate" title={record.fullAddr}>
+                          {record.fullAddr}
+                      </div>
+                  </td>
+                  
+                  <!-- <td class="slds-cell_action-mode" role="gridcell">
+                    <div  title={record.DocValidStatus__c}>
+                    <template if:true={record.DocValidStatus__c}>
+                            <template if:true={record.ValidationStatus}>
+                              <lightning-icon icon-name='utility:success' alternative-text='success' variant='success' size='x-small'
+                                  title='success'></lightning-icon>
+                            </template>
+                    <template if:false={record.ValidationStatus}>
+                        <lightning-icon icon-name='utility:error' alternative-text='error' variant='error' size='xx-small'
+                            title='error'></lightning-icon>
+                    </template>
+                  </template>
+                  
+                  <template if:false={record.DocValidStatus__c}>
+
+                  </template>
+                    </div>
+                </td>
+
+                    <td class="slds-cell_action-mode" role="gridcell">
+                      <div class="slds-m-bottom_medium">
+                        <lightning-combobox
+                                data-label="Vendor Verification"
+                                data-appid={record.Appl__c}
+                                value={record.VendorVerification__c}
+                                options={vendorVerfOptions}
+                                data-index={index}
+                                data-name="VendorVerification__c"
+                                disabled
+                                >
+                                </lightning-combobox></div>          
+                    </td>
+
+                    <td class="slds-cell_action-mode" role="gridcell">
+                      <div class="slds-truncate" style="text-align:center" title={record.SamplingRequied__c}>
+                          <lightning-input label="Sampling Required" variant="label-hidden" data-appid={record.Appl__c}
+                           onclick={handleCreditRCUClick} type="checkbox" data-index={index} disabled={disableMode}>
+                          </lightning-input>
+                      </div>
+                  </td> -->
+
+                  <td class="slds-cell_action-mode" role="gridcell">
+                    <div class="slds-truncate" style="text-align:center" title={record.RCUProfChecked__c}>
+                        <lightning-input label="Initiate Profile Check" variant="label-hidden" data-docid={record.Id} 
+                        onclick={handleCreditRCUClick} type="checkbox" data-index={index} disabled={disableMode}
+                        checked={record.RCUProfChecked__c}>
+                      </lightning-input>
+                    </div>
+                  </td>
+
+                <!-- <th class="slds-cell_action-mode" scope="row">
+                  <div class="slds-truncate" title={record.initiationDate} data-index={index}>
+                      {record.initiationDate}
+                  </div>
+                </th> -->
+                   
+                <!-- <th class="slds-cell_action-mode" scope="row">
+                  <div class="slds-truncate" title='RCU Case ID' data-index={index}>
+                     
+                  </div>
+               </th>
+
+               <td class="slds-cell_action-mode" role="gridcell">
+                <div class="slds-m-bottom_medium">
+                <lightning-combobox
+                        data-label="RCU Status"
+                        data-appid={record.Appl__c}
+                        value={record.RCUFileStatus__c}
+                        options={rcuStatOptions}
+                        data-index={index}
+                        data-name="RCUFileStatus__c"
+                        disabled
+                        >
+                        </lightning-combobox></div>                     
+                 </td>
+
+
+                 <th class="slds-cell_action-mode" scope="row">
+                  <div class="slds-truncate" title={record.RCUHoldDateTime__c} data-index={index}>
+                      {record.RCUHoldDateTime__c}
+                  </div>
+                </th>
+
+                <th class="slds-cell_action-mode" scope="row">
+                  <div class="slds-truncate" title={record.RCURemarks__c} data-index={index}>
+                      {record.RCURemarks__c}
+                  </div>
+                </th> -->
+
+                <!-- <th class="slds-cell_action-mode" scope="row">
+                  <div class="slds-truncate" title={record.File_Type__c} data-index={index}>
+                      {record.File_Type__c}
+                  </div>
+                </th>
+
+                <th class="slds-cell_action-mode" scope="row">
+                  <div class="slds-truncate" title={record.CreatedDate} data-index={index}>
+                      {record.CreatedDate}
+                  </div>
+                </th>
+
+                <td class="slds-cell_action-mode" role="gridcell">
+                  <div class="slds-truncate" style="text-align:center" title={record.FileAvalbl__c}>
+                      <lightning-input variant="label-hidden" data-appid={record.Appl__c}
+                           type="checkbox" data-index={index} disabled></lightning-input>
+                  </div>
+                </td>
+
+                <th class="slds-cell_action-mode" scope="row">
+                  <div class="slds-truncate" title={record.RM_Remarks__c} data-index={index}>
+                      {record.RM_Remarks__c}
+                  </div>
+                </th> -->
+
+                </tr>
+            </template>
+        </tbody>
+    </table>
+        
+
+            <lightning-layout multiple-rows="12">
+              <lightning-layout-item
+                size="12"
+                small-device-size="12"
+                medium-device-size="12"
+                large-device-size="12" >
+                <div class="slds-p-around_x-small">
+                  <lightning-textarea
+                    type="text"
+                    value={remarks}
+                    name="Remarks for RCU Agency"
+                    placeholder="Enter Comments"
+                    label="Remarks for RCU Agency"
+                    onchange={handleInputChange}
+                    required="true"
+                    disabled={disableMode}
+                  ></lightning-textarea>
+                </div>
+              </lightning-layout-item>
+
+              <!-- <lightning-layout-item if:true={rcuUser}
+                size="12"
+                small-device-size="12"
+                medium-device-size="6"
+                large-device-size="3"
+              >
+                <div class="slds-p-around_x-small">
+                  <lightning-combobox
+                    value={accId1}
+                    label="RCU Verifier"
+                    options={rcuUsers}
+                    onchange={handleInputChange}
+                    data-name=""
+                    required="true"
+                    disabled={disableMode}
+                  >
+                  </lightning-combobox>
+                </div>
+              </lightning-layout-item> -->
+            </lightning-layout>
+          </div>
+          <!-- Modal/Popup Box LWC footer starts here -->
+          <footer class="slds-modal__footer">
+
+           <div class="slds-button">
+
+            <lightning-input label="Initiate RCU All" 
+                                 type="checkbox" onclick={handleCreditRCUClick}
+                                  disabled={disableMode} checked={allCheck}></lightning-input>
+                                </div>
+            <button
+              class="slds-button slds-button_neutral"
+              onclick={closeTecnicalModal}
+              title="No"
+            >
+              No
+            </button>
+            <button
+              class="slds-button slds-button_brand"
+              onclick={handleCase}
+              title="Yes"
+            >
+              Yes
+            </button>
+          </footer>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+   
+ 
+
+      <template if:true={isReInitiateModalOpen}>
+        <section
+          role="dialog"
+          tabindex="-1"
+          aria-labelledby="modal-heading-01"
+          aria-modal="true"
+          aria-describedby="modal-content-id-1"
+          class="my-modal slds-modal slds-fade-in-open"
+        >
+          <div class="slds-modal__container">
+            <!-- Modal/Popup Box LWC header here -->
+            <header class="slds-modal__header">
+              <button
+                class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                title="Close"
+                onclick={closeModal}
+              >
+                <lightning-icon
+                  icon-name="utility:close"
+                  alternative-text="close"
+                  size="small"
+                ></lightning-icon>
+                <span class="slds-assistive-text">Close</span>
+              </button>
+              <h2
+                id="modal-heading-01"
+                class="slds-text-heading_medium slds-hyphenate"
+              >
+                Confirm?
+              </h2>
+            </header>
+            <!-- Modal/Popup Box LWC body starts here -->
+            <div
+              class="slds-modal__content slds-p-around_medium"
+              id="modal-content-id-1"
+            >
+              <!-- <lightning-input type="text" value={caseSingleRecordData.Applicant__r.TabName__c}
+                                      label="Applicant Name" disabled></lightning-input> -->
+              <template if:true={showAgency}>
+                <lightning-input
+                  type="text"
+                  value={caseSingleRecordData.Account.Name}
+                  label="Old Agency Name"
+                  disabled
+                ></lightning-input>
+                <lightning-combobox
+                  name="agency"
+                  label=" Select New Agency"
+                  placeholder="Choose Agency"
+                  value={newAgencyValue}
+                  onchange={handleNewAgencyChange}
+                  options={newAgencyOptions}
+                >
+                </lightning-combobox>
+              </template>
+              <lightning-combobox
+                name="status"
+                label={textAreaLabel}
+                data-name={dataName}
+                placeholder="Choose Status"
+                value={textAreaValue}
+                onchange={handleTextAreaChange}
+                options={statusOptions}
+                required
+              >
+              </lightning-combobox>
+            </div>
+            <!-- Modal/Popup Box LWC footer starts here -->
+            <footer class="slds-modal__footer">
+              <button
+                class="slds-button slds-button_neutral"
+                onclick={closeModal}
+                title="No"
+              >
+                {noLabel}
+              </button>
+              <button
+                class="slds-button slds-button_brand"
+                data-id={caseId}
+                data-name={dataName}
+                onclick={handleModalYesClick}
+                title="Yes"
+                label={yesLabel}
+              >
+                Yes
+              </button>
+            </footer>
+          </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+      </template>
+
+      <template if:true={reviewModalOpen}>
+        <section
+          role="dialog"
+          tabindex="-1"
+          aria-labelledby="modal-heading-01"
+          aria-modal="true"
+          aria-describedby="modal-content-id-3"
+          class="my-modal slds-modal slds-fade-in-open"
+        >
+          <div class="slds-modal__container">
+            <!-- Modal/Popup Box LWC header here -->
+            <header class="slds-modal__header">
+              <button
+                class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                title="Close"
+                onclick={closeModal}
+              >
+                <lightning-icon
+                  icon-name="utility:close"
+                  alternative-text="close"
+                  size="small"
+                ></lightning-icon>
+                <span class="slds-assistive-text">Close</span>
+              </button>
+              <h2
+                id="modal-heading-03"
+                class="slds-text-heading_medium slds-hyphenate"
+              >
+                Confirm?
+              </h2>
+            </header>
+            <!-- Modal/Popup Box LWC body starts here -->
+            <div
+              class="slds-modal__content slds-p-around_medium"
+              id="modal-content-id-3"
+            >
+            <lightning-combobox if:false={accId1}
+            name="status"
+            label={textAreaLabel}
+            data-name={dataName}
+            placeholder="Choose Status"
+            value={textAreaValue}
+            onchange={handleTextAreaChange}
+            options={statusOptions}
+            required
+          >
+          </lightning-combobox>
+          
+            <div if:true={accId1}>
+            <b> There is already case assigned to {accLabel} which is not Closed. Do you want to assign selected documents to the case?</b>  
+            </div>
+            </div>
+            <!-- Modal/Popup Box LWC footer starts here -->
+            <footer class="slds-modal__footer">
+              <button
+                class="slds-button slds-button_neutral"
+                onclick={closeModal}
+                title="No"
+              >
+                {noLabel}
+              </button>
+              <button
+                class="slds-button slds-button_brand"
+                data-id={caseId}
+                data-name={dataName}
+                onclick={handleModalYesClick}
+                title="Yes"
+              >
+                {reviewSubmitLabel}
+              </button>
+            </footer>
+          </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+      </template>
+
+  </lightning-card>
+
+
+</template>

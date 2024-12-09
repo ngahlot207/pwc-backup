@@ -1,0 +1,165 @@
+<template>
+    <lightning-accordion active-section-name={activeSection} allow-multiple-sections-open>
+        <lightning-accordion-section name="A" label="Insurance Details" class="accClass">
+            <div if:true={isinsuranceDetails}>
+                <div class="datatable-container slds-p-left_medium slds-p-right_xx-large">
+
+                    <table class="datatable">
+
+                        <thead>
+
+                            <tr>
+                                <th colspan="2">RECOMMENDATION </th>
+                                <!-- <th colspan={applicantLength}></th> -->
+                                <!-- <th></th> -->
+                            </tr>
+                            <tr>
+                                <th colspan="1">Loan Amount (₹) without Insurance</th>
+                                <!-- <th colspan={applicantLength}></th> -->
+                                <th><lightning-input type="input" class="insuranceCls" data-name="SanLoanAmt__c"
+                                        name="SanLoanAmt__c" value={wrapObjRecomendation.SanLoanAmt__c}
+                                        label="Loan Amount (₹) - Without Insurance" required
+                                        onchange={handleInputChange} min="0" pattern="^\d*\.?\d+$"
+                                        message-when-range-underflow="Enter a Valid Input"
+                                        message-when-pattern-mismatch="Enter a Valid Input"></lightning-input></th>
+                            </tr>
+                            <tr>
+                                <th colspan="1">Insurance</th>
+                                <!-- <th colspan={applicantLength}></th> -->
+                                <th><lightning-input type="text" class="insuranceCls" name="InsAmt__c"
+                                        data-fieldname="InsAmt__c" data-objname="Applicant" data-name="InsAmt__c"
+                                        value={wrapObjRecomendation.InsAmt__c} label="Insurance Amount" required
+                                        onchange={handleInputChange} min="0" pattern="^\d*\.?\d+$"
+                                        message-when-range-underflow="Enter a Valid Input"
+                                        message-when-pattern-mismatch="Enter a Valid Input"></lightning-input></th>
+                            </tr>
+                            <tr>
+                                <th colspan="1">Loan Amount (₹) with Insurance</th>
+                                <!-- <th colspan={applicantLength}></th> -->
+                                <th>
+                                    <lightning-input type="input" class="insuranceCls"
+                                        name="TotalLoanAmtInclInsurance__c"
+                                        data-fieldname="TotalLoanAmtInclInsurance__c" data-objname="Applicant"
+                                        data-name="TotalLoanAmtInclInsurance__c" value={TotalLoanAmtInclInsurance}
+                                        label="Total Loan amount including insurance (₹)" required
+                                        onchange={handleInputChange} disabled min="0" pattern="^\d*\.?\d+$"
+                                        message-when-range-underflow="Enter a Valid Input"
+                                        message-when-pattern-mismatch="Enter a Valid Input"></lightning-input>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th colspan="1">Tenor (Months)</th>
+                                <!-- <th colspan={applicantLength}></th> -->
+                                <th><lightning-input type="input" class="insuranceCls" name="Loan_Tenure_Months__c"
+                                        data-name="Loan_Tenure_Months__c" value={wrapObjRecomendation.LoanTenureMonths}
+                                        label="Tenor (Months)" required onchange={handleInputChange} min="0"
+                                        pattern="^\d*\.?\d+$" message-when-range-underflow="Enter a Valid Input"
+                                        message-when-pattern-mismatch="Enter a Valid Input"></lightning-input></th>
+                            </tr>
+                            <tr>
+                                <th colspan="1">Effective ROI</th>
+                                <!-- <th colspan={applicantLength}></th> -->
+                                <th><lightning-input type="input" class="insuranceCls" name="EffectiveROI__c"
+                                        data-fieldname="EffectiveROI__c" data-objname="Applicant"
+                                        data-name="EffectiveROI__c" value={wrapObjRecomendation.EffectiveROI}
+                                        label="Effective ROI" required onchange={handleInputChange} min="0"
+                                        pattern="^\d*\.?\d+$" message-when-range-underflow="Enter a Valid Input"
+                                        message-when-pattern-mismatch="Enter a Valid Input"></lightning-input></th>
+                            </tr>
+                            <tr>
+                                <th colspan="1">EMI (₹)</th>
+                                <!-- <th colspan={applicantLength}></th> -->
+                                <!-- <th>{ wrapObj.EMI}</th> -->
+                                <th> <lightning-input type="input" value={wrapObj.EMI__c} label="EMI"
+                                        disabled></lightning-input></th>
+                            </tr>
+
+                            <tr>
+                                <th colspan="1">Actual LTV</th>
+                                <!-- <th colspan={applicantLength}></th> -->
+                                <th> <lightning-input type="input" value={wrapObj.Actual_LTV__c} label="Actual LTV"
+                                        disabled></lightning-input></th>
+                            </tr>
+
+                            <tr>
+                                <th colspan="1">Actual FOIR</th>
+                                <!-- <th colspan={applicantLength}></th> -->
+                                <th> <lightning-input type="input" value={wrapObj.Actual_FOIR__c} label="Actual FOIR"
+                                        disabled></lightning-input></th>
+                            </tr>
+
+                            <tr>
+                                <th colspan="1">Combined LTV & FOIR</th>
+                                <!-- <th colspan={applicantLength}></th> -->
+                                <th><lightning-input type="input" value={wrapObj.CombLTV_FOIR__c}
+                                        label="Combined LTV & FOIR" disabled></lightning-input></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </lightning-accordion-section>
+    </lightning-accordion>
+</template>
+
+<!-- 
+    <lightning-layout multiple-rows="true">
+        
+        <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+            <div class="slds-p-around_x-small">
+                <lightning-input type="input" class="insuranceCls" name="SanLoanAmt__c"
+                    data-fieldname="SanLoanAmt__c" data-objname="Applicant"
+                    data-name="SanLoanAmt__c"
+                    value={wrapObj.SanLoanAmt__c} label="Loan Amount (₹) - Without Insurance" required
+                    onchange={handleInputChange}
+                    min="0"
+                    pattern="^\d*\.?\d+$"
+                    message-when-range-underflow="Enter a Valid Input"
+                    message-when-pattern-mismatch="Enter a Valid Input"></lightning-input>
+            </div>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="1">
+        </lightning-layout-item>
+
+        <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+            <div class="slds-p-around_x-small">
+                <lightning-input type="text" class="insuranceCls" name="InsAmt__c"
+                    data-fieldname="InsAmt__c" data-objname="Applicant"
+                    data-name="InsAmt__c"
+                    value={wrapObj.InsAmt__c} label="Insurance Amount" required
+                    onchange={handleInputChange}
+                    min="0"
+                    pattern="^\d*\.?\d+$"
+                    message-when-range-underflow="Enter a Valid Input" 
+                    message-when-pattern-mismatch="Enter a Valid Input"></lightning-input>
+            </div>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="1">
+        </lightning-layout-item>
+
+        <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="3">
+            <div class="slds-p-around_x-small">
+                <lightning-input type="text" class="insuranceCls" name="TotalLoanAmtInclInsurance__c"
+                    data-fieldname="TotalLoanAmtInclInsurance__c" data-objname="Applicant"
+                    data-name="TotalLoanAmtInclInsurance__c"
+                    value={TotalLoanAmtInclInsurance} label="Total Loan amount including insurance (₹)" required
+                    onchange={handleInputChange} disabled
+                    min="0"
+                    pattern="^\d*\.?\d+$"
+                    message-when-range-underflow="Enter a Valid Input"
+                    message-when-pattern-mismatch="Enter a Valid Input"></lightning-input>
+            </div>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="1">
+        </lightning-layout-item>
+
+    </lightning-layout> -->

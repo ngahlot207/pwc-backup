@@ -1,0 +1,580 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    <lightning-card>
+        <div class="slds-var-m-top_medium">
+            <div class="slds-clearfix">
+                <div class="slds-float_right">
+                    <lightning-button variant="brand" class="slds-m-around_x-small" icon-name="action:fallback"
+                        label="Re-Initiate" onclick={handleIntialization} disabled={disableFlagFinal}
+                         ></lightning-button>  <!-- disabled={disableReintiate} -->
+
+                    <!-- <template if:false={isReadOnly}> -->
+                        <lightning-icon variant="success" class="customButton slds-m-around_x-small"
+                            icon-name="utility:refresh" alternative-text="refresh" size="small" title="refresh"
+                            onclick={handleRefreshClick} disabled={isReadOnly}></lightning-icon>
+                    <!-- </template> -->
+                </div>
+            </div>
+        </div>
+    </lightning-card>
+
+    <lightning-card title="Prob 42 Verification Table">
+        <!-- <template> -->
+        <lightning-card>
+            <!-- UPDATED TABLE  -->
+            <div class="slds-box slds-theme_default slds-scrollable_x" style="width: 200rem">
+                <table
+                    class="slds-table slds-table_cell-buffer slds-border_right slds-border_left slds-table_bordered slds-table_col-bordered"
+                    aria-label="Example table of Opportunities with vertical borders">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Name">
+                                    Name
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Applicant Type">
+                                    Applicant Type
+                                </div>
+                            </th>
+
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Applicant Type">
+                                    API Type
+                                </div>
+                            </th>
+
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Constitution">
+                                    Constitution
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="PAN">PAN</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="CIN/LLPIN">
+                                    CIN/LLPIN
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Company Name">
+                                    Company Name
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Name Match %">
+                                    Name Match %
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Class of Company">
+                                    Class of Company
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Company Status(for efiling)">
+                                    Company Status(for efiling)
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Registered Address">
+                                    Registered Address
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Whether Listed or Not">
+                                    Whether Listed or Not
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Date of Incorporation">
+                                    Date of Incorporation
+                                </div>
+                            </th>
+
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Authorised Capital (Rs)">
+                                    Authorised Capital (Rs)
+                                </div>
+                            </th>
+
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Paid up Capital (Rs)">
+                                    Paid up Capital (Rs)
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="API Verification Status">
+                                    API Verification Status
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Error message">
+                                    Error message
+                                </div>
+                            </th>
+                            
+
+                            <!-- //LAK-9573 -->
+
+                            
+                            <!-- <th class="" scope="col">
+                                    <div class="slds-truncate" title="Retrigger Rationale">
+                                        Retrigger Rationale
+                                    </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="User name">
+                                    User name
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="User name role">
+                                    User name role
+                                </div>
+                            </th>
+                            <th>
+                                <div class="slds-truncate" title="Actioned date">
+                                    Actioned date
+                                </div>
+                            </th> -->
+
+
+                            <!-- //LAK-9573 -->
+
+
+                            <template if:true={isUWStage}>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="UW manual verification">
+                                        UW manual verification
+                                    </div>
+                                </th>
+                            </template>
+                            <template if:true={isUWStage}>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Trigger detailed Probe 42 check">
+                                        Trigger detailed Probe 42 check
+                                    </div>
+                                </th>
+
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Detailed Probe 42 Document">
+                                        Detailed Probe 42 Document
+                                    </div>
+                                </th>
+
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Detailed Probe 42 Report">
+                                        Detailed Probe 42 Report
+                                    </div>
+                                </th>
+
+                            </template>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <template for:each={parentRecords} for:item="record">
+                            <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+                                <td data-label="Name">
+                                    <div class="slds-truncate" title="Name">
+                                        {record.Appl__r.FullName__c}
+                                    </div>
+                                </td>
+                                <td data-label="Applicant Type">
+                                    <div class="slds-truncate" title="Applicant Type">
+                                        {record.Appl__r.ApplType__c}
+                                    </div>
+                                </td>
+
+                                <!-- Add API TYPE -->
+                                <td data-label="Applicant Type">
+                                    <div class="slds-truncate" title="Applicant Type">
+                                        {record.Type__c}
+                                    </div>
+                                </td>
+                                <!-- Add API TYPE -->
+
+                                <td data-label="Constitution">
+                                    <div class="slds-truncate" title="Constitution">
+                                        {record.Appl__r.Constitution__c}
+                                    </div>
+                                </td>
+                                <td data-label="PAN">
+                                    <div class="slds-truncate" title="PAN">
+                                        {record.Appl__r.PAN__c}
+                                    </div>
+                                </td>
+                                <template lwc:if={record.PanCinDin__c}>
+                                    <td data-label="CIN/LLPIN">
+                                        <div class="slds-truncate" title="CIN/LLPIN">
+                                            {record.PanCinDin__c}
+                                        </div>
+                                    </td>
+                                </template>
+                                <template lwc:elseif={record.Llpin__c}>
+                                    <td data-label="CIN/LLPIN">
+                                        <div class="slds-truncate" title="CIN/LLPIN">
+                                            {record.Llpin__c}
+                                        </div>
+                                    </td>
+                                </template>
+                                <template lwc:else>
+                                    <td data-label="CIN/LLPIN">
+                                        <div class="slds-truncate" title="CIN/LLPIN">
+                                           
+                                        </div>
+                                    </td>
+                                </template>
+                                <td data-label="Company Name">
+                                    <div class="slds-truncate" title="Company Name">
+                                        {record.Appl__r.CompanyName__c}
+                                    </div>
+                                </td>
+                                <td data-label="Name Match %">
+                                    <div class="slds-truncate" title="Name Match %">
+                                        {record.Name_Match_Score__c}
+                                    </div>
+                                </td>
+                                <td data-label="Class of Company">
+                                    <div class="slds-truncate" title="Class of Company">
+                                        {record.Classification__c}
+                                    </div>
+                                </td>
+                                <td data-label="Company Status(for efiling)">
+                                    <div class="slds-truncate" title="Company Status(for efiling)">
+                                        {record.EfilingStatus__c}
+                                    </div>
+                                </td>
+                                <td data-label="Registered Address">
+                                    <div class="slds-truncate" title="Registered Address">
+                                        {record.Address__c}
+                                    </div>
+                                </td>
+                                <td data-label="Whether Listed or Not">
+                                    <div class="slds-truncate" title="Whether Listed or Not">
+                                        {record.DataStatus__c}
+                                    </div>
+                                </td>
+                                <td data-label="Date of Incorporation">
+                                    <div class="slds-truncate" title="Date of Incorporation">
+                                        {record.DteOfIncorp__c}
+                                    </div>
+                                </td>
+                                <td data-label="Authorised Capital (Rs)">
+                                    <div class="slds-truncate" title="Authorised Capital (Rs)">
+                                        {record.AuthorizedCapital__c}
+                                    </div>
+                                </td>
+                                <td data-label="Paid up Capital (Rs)">
+                                    <div class="slds-truncate" title="Paid up Capital (Rs)">
+                                        {record.PaidupCapital__c}
+                                    </div>
+                                </td>
+                                <td data-label="API Verification Status">
+                                    <div class="slds-truncate" title="API Verification Status">
+                                        {record.IntegrationStatus__c}
+                                    </div>
+                                </td>
+                                <td data-label="Error message">
+                                    <div class="slds-truncate" title="Error message">
+                                        {record.IntegrationErrorMessage__c}
+                                    </div>
+                                </td>
+
+                                <!-- //LAK-9573 -->
+
+                                <!-- <td data-label="Retrigger Rationale">
+                                    <div class="slds-truncate" title="Retrigger Rationale">
+                                        {record.RetriggerRationale__c}
+                                    </div>
+                                </td>
+
+                                <td data-label="User name"> 
+                                    <div class="slds-truncate" title="User name">
+                                        {record.UserName__c}
+                                    </div>
+                                </td>
+
+                                <td data-label="User name role"> 
+                                    <div class="slds-truncate" title="User name role">
+                                        {record.UserNameRole__c}
+                                    </div>
+                                </td>
+
+                                <td data-label="Actioned date">
+                                    <div class="slds-truncate" title="Actioned date">
+                                        {record.ActionedDate__c}
+                                    </div>
+                                </td> -->
+                                <!-- //LAK-9573 -->
+
+                                <template if:true={isUWStage}>
+                                    <!-- <td data-label="UW manual verification">
+                                        <div class="slds-truncate" title="UW manual verification">
+                                            <lightning-combobox class="slds-p-around_small" name="UW manual verification"
+                                             value={selectedBorrower} options={options}
+                                            >
+
+                                            </lightning-combobox>
+                                        </div>
+                                    </td> -->
+                                    <td>
+                                        <c-dedupe-display-value dedupe-rsults-options={options} type="picklist"
+                                            field-value={record.UW_Manual_Verification__c} object={record}
+                                            field-name="UW_Manual_Verification__c" onpicklistchange={handleChange}
+                                            is-read-only={record.disableManualVer}></c-dedupe-display-value>
+                                    </td>
+
+                                    <td data-label="Trigger detailed Probe 42 check">
+                                        <div class="slds-truncate" title="Trigger detailed Probe 42 check">
+                                            <lightning-button label="Initiate" icon-name="utility:connected_apps"
+                                                variant="brand" data-id={record.Appl__c} disabled={disbaleMode}
+                                                onclick={triggerProbDetail}></lightning-button>
+                                        </div>
+                                    </td>
+
+                                    <td data-label="Detailed Probe 42 Document">
+                                        <div class="slds-truncate" title="Detailed Probe 42 Document">
+                                            <template if:true={record.showPreviewLogic}>
+                                            <lightning-icon class="slds-truncate" icon-name="action:preview"
+                                                alternative-text="preview" size="x-small" title="Certificate Download"
+                                                data-id={record.Appl__c} onclick={handlePreview} data-label="Detailed Probe 42 Document"></lightning-icon>
+                                            </template>
+                                            </div>
+                                    </td>
+
+                                    <td data-label="Detailed Probe 42 Report">
+                                        <div class="slds-truncate" title="Detailed Probe 42 Report">
+                                            <template if:true={record.showPreviewLogic}>
+                                            <lightning-icon class="slds-truncate" icon-name="action:preview"
+                                                alternative-text="preview" size="x-small" title="Report Download"
+                                                data-id={record.Appl__c} onclick={handlePreview} data-label="Detailed Probe 42 Report"></lightning-icon>
+                                            </template>
+                                            </div>
+                                    </td>
+
+                                </template>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+            <br />
+            <template if:true={isUWStage}>
+                <template if:true={showSaveButton}>
+                    <div class="slds-text-align_right">
+                        <lightning-button label="Save" variant="brand" onclick={handlevSubmit}></lightning-button>
+                    </div>
+                </template>
+            </template>
+
+            <br />
+            <br />
+            <br />
+
+            <div class="slds-box slds-theme_default slds-scrollable_x" style="width: 200rem">
+                <table
+                    class="slds-table slds-table_cell-buffer slds-border_right slds-border_left slds-table_bordered slds-table_col-bordered"
+                    aria-label="Example table of Opportunities with vertical borders">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Company Name">
+                                    Company Name
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="DIN/DPIN/PAN">
+                                    DIN/DPIN/PAN
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Full Name">
+                                    Full Name
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Designation">
+                                    Designation
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Date of Appointment">
+                                    Date of Appointment
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Whether DSC Registered">
+                                    Whether DSC Registered
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Expiry Date of DSC">
+                                    Expiry Date of DSC
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <template if:true={childRecords} for:each={childRecords} for:item="record">
+                            <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+                                <td data-label="Company Name">
+                                    <div class="slds-truncate" title="Company Name">
+                                        {record.APIVerification__r.Appl__r.CompanyName__c}
+                                    </div>
+                                </td>
+                                <td data-label="DIN/DPIN/PAN">
+                                    <div class="slds-truncate" title="DIN/DPIN/PAN">
+                                        {record.Pan__c}
+                                    </div>
+                                </td>
+                                <td data-label="Full Name">
+                                    <div class="slds-truncate" title="Full Name">
+                                        {record.AuthSignName__c}
+                                        {record.DirectNwName__c}
+                                    </div>
+                                </td>
+                                <td data-label="Designation">
+                                    <div class="slds-truncate" title="Designation">
+                                        {record.Designation__c}
+                                    </div>
+                                </td>
+                                <td data-label="Date of Appointment">
+                                    <div class="slds-truncate" title="Date of Appointment">
+                                        {record.DateOfAppointment__c}
+                                    </div>
+                                </td>
+                                <td data-label="Whether DSC Registered">
+                                    <div class="slds-truncate" title="Whether DSC Registered">
+                                        {record.applicantName}
+                                    </div>
+                                </td>
+                                <td data-label="Expiry Date of DSC">
+                                    <div class="slds-truncate" title="Expiry Date of DSC">
+                                        {record.ExpiryDateofDSC}
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- OLD TABLE TO REMOVE -->
+        </lightning-card>
+
+        <template if:true={showModalForFilePre}>
+            <c-multi-doc-previewer document-detail-id={documentDetailId} onclosepreview={handleCloseModalEvent}
+                has-document-id={hasDocumentId}>
+            </c-multi-doc-previewer>
+        </template>
+
+        <template if:true={showModalForReportPre}>
+            <c-multi-doc-previewer document-detail-id={documentDetailIdReport} onclosepreview={handleCloseModalEvent}
+                has-document-id={hasDocumentIdReport}>
+            </c-multi-doc-previewer>
+        </template>
+
+        <!-- </template> -->
+    </lightning-card>
+    <template if:true={showModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="my-modal slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
+                        Select Applicant for Re-Initiate
+                    </h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <!-- <p style="text-align:center;"><b>{removeModalMessage}</b></p> -->
+                    <!-- <c-dynamic-datatable params-data={params}></c-dynamic-datatable> -->
+                    <table
+                        class="slds-table slds-table_cell-buffer slds-table_bordered slds-border_left slds-border_right"
+                        aria-labelledby="element-with-table-label other-element-with-table-label">
+                        <thead>
+                            <tr>
+                                <th>Applicant Name</th>
+                                <th>Select Applicant</th>
+                                <th>Rational</th> 
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={appDataDisplay} for:item="record">
+                                <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+                                    <template if:true={record.FullName__c}>
+                                        <th class="slds-cell_action-mode" scope="row">
+                                            <div class="slds-truncate" title={record.FullName__c}>
+                                                {record.FullName__c}
+                                            </div>
+                                        </th>
+                                        <td class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title={record.selectCheckbox}>
+                                                <lightning-input variant="label-hidden" data-recordid={record.Id}
+                                                    type="checkbox" checked={record.selectCheckbox}
+                                                    onclick={handleClick}></lightning-input>
+                                            </div>
+                                        </td>
+                                          <td class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title=''>
+                                                <lightning-textarea variant="label-hidden" data-recordid={record.Id}
+                                                    label="" value={record.RationalRemarks__c}
+                                                    onchange={handleRationalChange}
+                                                    ></lightning-textarea> 
+                                            </div>
+                                        </td>  
+                                    </template>
+
+                                    <!-- disabled={readOnly} -->
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeModal} title="No">
+                        No
+                    </button>
+                    <button class="slds-button slds-button_brand" onclick={handleReIntialization}
+                        disabled={disableInitiatinAction} title="Yes">
+                        Yes
+                    </button>
+                    <div if:true={showSpinnerPopUp}>
+                        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+                        </lightning-spinner>
+                    </div>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <template if:true={showModalForFilePre}>
+        <c-multi-doc-previewer document-detail-id={documentDetailId} onclosepreview={handleCloseModalEvent}
+            has-document-id={hasDocumentId}>
+        </c-multi-doc-previewer>
+        <!-- <c-i-frame-preview image-type-file-url={imageTypeFileUrl} cont-doc-type={contDocType} cont-doc-id={contDocId}
+          url={url} cv-id={cvId} onclosepreview={handleCloseModalEvent}></c-i-frame-preview> -->
+    </template>
+
+    <template if:true={showModalForReportPre}>
+        <c-multi-doc-previewer document-detail-id={documentDetailIdReport} onclosepreview={handleCloseModalEvent}
+            has-document-id={hasDocumentIdReport}>
+        </c-multi-doc-previewer>
+    </template>
+</template>

@@ -1,0 +1,286 @@
+<template>
+    <lightning-card>
+        <div id="containerDiv" onmousemove={handlemousemove} onmouseup={handlemouseup}
+            ondblclick={handledblclickresizable}
+            class="slds-table_header-fixed_container slds-border_right slds-border_left tableScroll"
+            onscroll={tableOuterDivScrolled}>
+            <div id="tableViewInnerDiv" class="slds-scrollable_y tableViewInnerDiv slds-scrollable">
+                <table
+                    class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout slds-max-medium-table_stacked-horizontal"
+                    onscroll={tableScrolled}>
+                    <thead>
+                        <tr>
+                            <th title="Name" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Name</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Applicant Type" class="slds-is-resizable dv-dynamic-width fixedWidt" scope="col">
+                                <div class="slds-cell-fixed fixedWidt">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Applicant Type</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Email Id" class="slds-is-resizable dv-dynamic-width fixedWidt" scope="col">
+                                <div class="slds-cell-fixed fixedWidt">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Email Id</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Final Email validity" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Final Email validity</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Email id is from a disposable email provider" class="slds-is-resizable dv-dynamic-width fixedWidthh"
+                                scope="col">
+                                <div class="slds-cell-fixed fixedWidthh">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Email id is from a disposable email provider</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Mail exchanger records exist" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Mail exchanger records exist</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Email id follows a valid regular expression" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Email id follows a valid regular expression</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Email id is accessible on the SMTP server" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Email id is accessible on the SMTP server</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="The email id is via a free webmail" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">The email id is via a free webmail</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <!-- <th title="Mail exchange server connectivity status" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Mail exchange server connectivity status</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th> -->
+                            <th title="Email domain Blocked status" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Email domain Blocked status</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="The reason for the Email domain Blockage" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">The reason for the Email domain Blockage</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Email Status" class="slds-is-resizable dv-dynamic-width fixedWidt"
+                                scope="col">
+                                <div class="slds-cell-fixed fixedWidt">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Email Status</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Integration Status" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                                scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Integration Status</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th title="Error message" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                <div class="slds-cell-fixed fixedWidth">
+                                    <a class="slds-th__action slds-text-link--reset">
+                                        <span class="slds-truncate">Error message</span>
+                                    </a>
+                                    <div class="slds-resizable">
+                                        <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                                            <span class="slds-resizable__divider"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="dataBodyVal">
+                        <template if:true={appData}>
+                            <template for:each={appData} for:item="record">
+                                <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+                                    <th class="slds-cell_action-mode" role="gridcell">
+                                        <div class="slds-truncate" title={record.Appl__c}>
+                                            {record.Appl__r.FullName__c}
+                                        </div>
+                                    </th>
+                                    <td class="slds-cell_action-mode" role="gridcell">
+                                        <div class="slds-truncate" title={record.Appl__r.ApplType__c}>
+                                            {record.Appl__r.ApplType__c}
+                                        </div>
+                                    </td>
+                                    <td class="slds-cell_action-mode" role="gridcell">
+                                        <div class="slds-truncate" title={record.Appl__r.EmailId__c}>
+                                            {record.Appl__r.EmailId__c}
+                                        </div>
+                                    </td>
+                                    <td class="slds-cell_action-mode" role="gridcell">
+                                        <div class="slds-truncate" title={record.ValidEmail__c}>
+                                            {record.ValidEmail__c}
+                                        </div>
+                                    </td>
+                                    <td class="slds-cell_action-mode" role="gridcell">
+                                        <div class="slds-truncate" title={record.disposable__c}>
+                                            {record.disposable__c}
+                                        </div>
+                                    </td>
+                                    <td class="slds-cell_action-mode" role="gridcell">
+                                        <div class="slds-truncate" title={record.mxRecords__c}>
+                                            {record.mxRecords__c}
+                                        </div>
+                                    </td>
+                                    <td class="slds-cell_action-mode" role="gridcell">
+                                        <div class="slds-truncate" title={record.regexp__c}>
+                                            {record.regexp__c}
+                                        </div>
+                                    </td>
+                                    <td class="slds-cell_action-mode" role="gridcell">
+                                        <div class="slds-truncate" title={record.SmtpServer__c}>
+                                            {record.SmtpServer__c}
+                                        </div>
+                                    </td>
+                                    <td class="slds-cell_action-mode" role="gridcell">
+                                        <div class="slds-truncate" title={record.webmail__c}>
+                                            {record.webmail__c}
+                                        </div>
+                                    </td>
+                                    <td class="slds-cell_action-mode" role="gridcell">
+                                        <div class="slds-truncate" title={record.IsBlocked__c}>
+                                            {record.IsBlocked__c}
+                                        </div>
+                                    </td>
+                                    <td class="slds-cell_action-mode" role="gridcell">
+                                        <div class="slds-truncate" title={record.Reason__c}>
+                                            {record.Reason__c}
+                                        </div>
+                                    </td>
+                                    <td class="slds-cell_action-mode" role="gridcell">
+                                        <div class="slds-truncate" title={record.emailStatus}>
+                                            {record.emailStatus}
+                                        </div>
+                                    </td>
+                                    <td class="slds-cell_action-mode" role="gridcell">
+                                        <div class="slds-truncate" title={record.IntegrationStatus__c}>
+                                            {record.IntegrationStatus__c}
+                                        </div>
+                                    </td>
+                                    <td class="slds-cell_action-mode" role="gridcell">
+                                        <div class="slds-truncate" title={record.IntegrationErrorMessage__c}>
+                                            {record.IntegrationErrorMessage__c}
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </lightning-card>
+</template>

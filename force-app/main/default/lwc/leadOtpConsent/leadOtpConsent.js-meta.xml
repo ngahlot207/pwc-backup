@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>57.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__FlowScreen</target>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="leadRecordId" label="Lead Record Id" type="String"/>
+            <property name="mobileNumber" label="Mobile" type="String" role="inputOnly"/>
+            <property name="dispositionStatus" label="dispositionStatus" type="String"/>
+            <property name="OTPPreviousValue" label="OTPPreviousValue" type="String"/>
+            <property name="isValid" label="Is Valid" type="Boolean" role="outputOnly"/>
+            <property name="updatedMobileNumber" label="updatedMobileNumber" type="String" role="outputOnly"/>
+            <property name="Var_Rationale_behind_Phy_Consent" label="Var_Rationale_behind_Phy_Consent" type="String"/>
+            <property name="Var_Rationale_Phy_Consnet_Other_Reason" label="Var_Rationale_Phy_Consnet_Other_Reason" type="String"/>
+            <property name="VarRationaleValue" label="VarRationaleValue" type="String"/>
+            <property name="VarRationaleCommentsValue" label="VarRationaleCommentsValue" type="String"/>
+            <property name="contentDocuments" label="contentDocuments" type="@salesforce/schema/ContentDocument[]" role="outputOnly"/>
+            <!--Extra . No use-->
+            <property name="contentVesrsionIds" label="contentVesrsionIds" type="String"/>
+            <property name="contentVesrsions" label="contentVesrsions" type="@salesforce/schema/ContentVersion[]" role="outputOnly"/>
+            <property name="leadClosureValue" label="closure Reason" type="String" role="outputOnly"/>
+            <property name="pvChannelVerified" label="pvChannelVerified" type="Boolean"/>
+            <property name="pvCityVerified" label="pvCityVerified" type="Boolean"/>
+            
+            <property name="otpVerified" label="otpVerified" type="Boolean"/>
+            <property name="isPhyConsentVerified" label="isPhyConsentVerified" type="Boolean"/>
+            <property name="productValue" label="Product" type="String"/>
+            <property name="digitalVerified" label="DigitalVerified" type="Boolean"/>
+            
+            <property name="digital" label="digital" type="Boolean"/>
+            <property name="digitalValidated" label="digitalValidated" type="Boolean"/>
+
+        </targetConfig>
+    </targetConfigs>  
+</LightningComponentBundle>

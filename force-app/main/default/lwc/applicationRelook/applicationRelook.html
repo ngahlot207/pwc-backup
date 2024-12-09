@@ -1,0 +1,895 @@
+<template>
+  <div if:true={showSpinner}>
+    <lightning-spinner
+      alternative-text="Loading..."
+      variant="brand"
+      class="slds-is-fixed"
+    >
+    </lightning-spinner>
+  </div>
+
+  <template if:true={rmView}> 
+  <card>
+    <div class="slds-clearfix">
+      <lightning-button if:false={opsHide}
+        class="slds-float_right slds-p-around_x-small"
+        label="Application Relook"
+        variant="brand"
+        onclick={handleRelook}
+        icon-name="standard:care_request_reviewer"
+        disabled={disbaleMode}
+      ></lightning-button>
+      <lightning-button if:false={opsHide}
+      class="slds-float_right slds-p-around_x-small"
+      label="RUN BRE"
+      variant="success"
+      onclick={handleRunBre}
+       disabled={disbaleModeRunBre}
+      icon-name="standard:care_request_reviewer"
+    ></lightning-button>
+    </div>
+    <div>
+      <lightning-layout multiple-rows="12" class="slds-p-around_small">
+        
+        <lightning-layout-item if:true={showRejectFields}
+          class="slds-p-around_small slds-border_right"
+                    size="12"
+                    small-device-size= "12"
+                   medium-device-size="6"
+                   large-device-size="6"
+                  >
+                    <div class="slds-p-around_x-small">
+                      <lightning-input
+                        type="text"
+                        value={rejectReason}
+                        label="Reject Reason"
+                        disabled
+                      ></lightning-input>
+                    </div>
+        </lightning-layout-item>
+
+        <lightning-layout-item if:true={showRejectFields}
+        size="12"
+        small-device-size= "12"
+       medium-device-size="6"
+       large-device-size="6"
+      >
+        <div class="slds-p-around_x-small">
+          <lightning-textarea
+            type="text"
+            value={rejectDecRemarks}
+            label="Reject Reason Remarks"
+            disabled
+          ></lightning-textarea>
+        </div>
+        </lightning-layout-item>
+       
+        <lightning-layout-item
+          class="slds-p-around_small slds-border_right"
+          size="12"
+          small-device-size="12"
+          medium-device-size="6"
+          large-device-size="6"
+        >
+          <lightning-textarea
+            type="text"
+            value={remarks}
+            name="Comments"
+            placeholder="Enter Comments"
+            label="Comments"
+            onchange={handleInputChange}
+            required="true"
+            disabled={enableRelook}
+          ></lightning-textarea>
+        </lightning-layout-item>
+
+        <lightning-layout-item
+          class="slds-p-around_small slds-align_absolute-center"
+          size="12"
+          small-device-size="12"
+          medium-device-size="6"
+          large-device-size="6"
+        >
+          <c-upload-docs-reusable-component
+            loan-app-id={loanAppId}
+            applicant-id={applicantId}
+            doc-name={docName}
+            doc-type={docType}
+            onrefreshdoctable={fromUploadDocsContainer}
+            onspinnerstatus={spinnerStatus}
+            convert-to-single-image=false
+            doc-category={docCategory}
+            disable-mode={enableRelook}
+            hide-attach-button={hideAttachButton}
+            multiple-file-upload={multipleFileUpload}
+            clear-file-list={clearFileList}
+            disabled={disableFileUpload}
+          ></c-upload-docs-reusable-component>
+
+        </lightning-layout-item>
+        
+      </lightning-layout>
+      <footer>
+        <div class="slds-clearfix">
+          <lightning-button
+            variant="brand"
+            class="slds-float_right slds-p-around_x-small"
+            label="Submit"
+            disabled={enableRelook}
+            onclick={handleSubmit}
+          >
+          </lightning-button>
+        </div>
+      </footer>
+    </div>
+  </card>
+</template>
+<!-- <template if:true={runBre}>
+  <c-run-bre record-id={_recordId} ></c-run-bre>
+</template> -->
+<template if:false={rmView}>
+    <card>
+     
+        <div>
+          <lightning-layout multiple-rows="12" class="slds-p-around_small">
+            <lightning-layout-item
+              class="slds-p-around_small slds-border_right"
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="6"
+            >
+              <lightning-textarea
+                type="text"
+                value={comments}
+                name="Comments"
+                placeholder="Enter Comments"
+                label="Comments"
+                disabled
+              ></lightning-textarea>
+            </lightning-layout-item>
+    
+            <lightning-layout-item
+              class="slds-p-around_small slds-align_absolute-center"
+              size="12"
+              small-device-size="12"
+              medium-device-size="6"
+              large-device-size="6"
+            >
+            <!-- <lightning-button icon-name="utility:preview"
+           variant="success" title="View Details" data-name='View Report' class="custom-button slds-m-left_x-small"
+            onclick={handleDocumentView} size="small"></lightning-button> -->
+            <lightning-button
+            variant="success"
+            icon-name="utility:preview"
+            class="slds-float_right slds-p-around_x-small"
+            label="View Report"
+            disabled={dis}
+            onclick={handleDocumentView}
+          >
+          </lightning-button>
+            <template if:true={viewReport}>
+                <c-multi-doc-previewer document-detail-id={docDetId} onclosepreview={handleCloseModalEvent}
+                      has-document-id={hasDocumentId}> </c-multi-doc-previewer>
+                </template>
+          
+            </lightning-layout-item>
+            
+            <lightning-layout-item if:true={forwardAppl}
+            class="slds-p-around_small slds-border_right"
+            size="12"
+            small-device-size="12"
+            medium-device-size="6"
+            large-device-size="6"
+          >
+          <div class="slds-p-top_medium">
+            <c-custom-lookup label="Forward Loan Appeal To"
+                selected-icon-name="standard:identifier" object-api-name="TeamHierarchy__c"
+                field-api-name="Employee__r.Name" selected-fields="Name"
+                selected-record-id={lookupId} onselect={handleLookupFieldChange}
+                filter-condn={filterCondn} key-id="Employee__c">
+            </c-custom-lookup>
+        </div>
+          </lightning-layout-item>
+          </lightning-layout>
+          <footer>
+            <div if:true={showDecisionBts} class="slds-clearfix">
+              <lightning-button
+                variant="success"
+                icon-name="standard:approval"
+                class="slds-float_right slds-p-around_x-small"
+                label="Approve"
+                disabled={disableDecision}
+                onclick={handleDecision}
+              >
+              </lightning-button>
+
+              <lightning-button
+              variant="destructive"
+              icon-name="action:reject"
+              class="slds-float_right slds-p-around_x-small"
+              label="Reject"
+              disabled={disableDecision}
+              onclick={handleDecision}
+            >
+            </lightning-button>
+            <div if:true={enableForward}>
+              <lightning-button
+              variant="success"
+              icon-name="standard:macros"
+              class="slds-float_right slds-p-around_x-small"
+              label="Forward"
+              disabled={disableMode}
+              onclick={handleDecision}
+            >
+            </lightning-button>
+            </div>
+            </div>
+          </footer>
+        </div>
+      </card>
+</template>
+
+<template lwc:if={desktopBoolean}>
+  <lightning-card icon-name="standard:account" variant="base">
+    <div slot="title">
+     Application Relook History
+    </div>
+    <div slot="actions">
+  
+    </div>
+    <div slot="footer">
+  
+    </div>
+    <div>
+      <!-- Card Body  -->
+      <div class="slds-modal__content slds-p-around_medium scroller" id="modal-content-id-9">
+      <table
+      class="slds-table slds-table_cell-buffer slds-table_bordered slds-border_left slds-border_right"
+        aria-labelledby="element-with-table-label other-element-with-table-label"
+    >
+      <thead>
+        <tr class="slds-line-height_reset">
+          <th class="" scope="col">
+            <div class="slds-truncate" title="Relook Initiation Date">
+              Relook Initiation Date
+            </div>
+          </th>
+
+          <th class="" scope="col">
+            <div class="slds-truncate" title="Loan Appeal No">Loan Appeal No</div>
+          </th>
+
+          <th class="" scope="col">
+            <div class="slds-truncate" title="Owner/ UW Name">
+              Owner/ UW Name
+            </div>
+          </th>
+
+          <th class="" scope="col">
+            <div class="slds-truncate" title="Comments">Comments</div>
+          </th>
+
+          <th class="" scope="col">
+            <div class="slds-truncate" title="Status">
+             Status
+            </div>
+          </th>
+
+          <th class="" scope="col">
+            <div class="slds-truncate" title="UW Remarks">
+             UW Remarks
+            </div>
+          </th>
+
+          <th class="" scope="col">
+            <div class="slds-truncate" title="Actions">Actions</div>
+          </th>
+         
+          <th if:false={rmView} class="" scope="col">
+            <div class="slds-truncate" title="Claim Appeal">
+             Claim Appeal
+            </div>
+          </th>
+
+          <th class="" scope="col">
+            <div class="slds-truncate" title="View">View</div>
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <template for:each={relookData} for:item="record">
+          <tr
+            key={record.Id}
+            aria-selected="false"
+            class="slds-hint-parent"
+          >
+            <td data-label="Relook Initiation Date">
+            <div class="slds-truncate" title="Relook Initiation Date">
+              {record.initatedDate}
+            </div>
+          </td>
+
+          <td data-label="Loan Appeal No">
+            <div class="slds-truncate" title="Loan Appeal No">
+              {record.Name}
+            </div>
+          </td>
+
+         
+            <td data-label="Owner/ UW Name">
+              <div class="slds-truncate" title="Owner/ UW Name">
+                {record.Owner.Name}
+              </div>
+            </td>
+        
+
+            <td data-label="Comments">
+              <div class="slds-truncate" title="Comments">
+                <lightning-textarea
+                value={record.Comments__c}
+                data-name="Comments"
+                disabled>
+                </lightning-textarea>
+              </div>
+            </td>
+
+            <td data-label="Status">
+            <div class="slds-truncate" title="Status">
+              {record.Status__c}
+            </div>
+          </td>
+
+          <td data-label="UW Remarks">
+            <div class="slds-truncate" title="UW Remarks">
+              <lightning-textarea
+              value={record.UWRemarks__c}
+              disabled>
+              </lightning-textarea>
+            </div>
+          </td>
+
+          <td data-label="Action">
+            <div class="slds-truncate" title="Action">
+                <!-- <lightning-icon class="custom-button" variant="success" onclick={handleDownload}
+                icon-name='utility:download' data-documentid={record.docId} data-cv-id={record.cvId}
+                data-type={record.cDFileType} title="Download" data-documenname={record.docDetName}
+                data-id={record.cDId} data-blobdata={record.blobData} size="small"></lightning-icon> -->
+              <lightning-button-icon data-documentid={record.DocDet__c} icon-name="utility:preview"
+                data-cv-id={record.cvId} data-type={record.cDFileType} data-id={record.cDId} variant="success"
+                title="View Details" data-name='View' class="custom-button slds-m-left_x-small"
+                onclick={handlePreview} size="small" disabled={record.disableView}></lightning-button-icon>
+            </div>
+          </td>
+           
+          <td if:false={rmView} data-label="Claim Appeal">
+            <div class="slds-truncate" title="Claim Appeal">
+                <lightning-button
+                data-appealid={record.Id}
+                variant="success"
+                label="Claim"
+                title="Claim"
+                data-name="Claim"
+                onclick={handleClaim}
+                disabled={record.disableClaim}
+              ></lightning-button>
+            </div>
+          </td>
+
+          <td data-label="View">
+            <div class="slds-truncate" title="View">
+              <lightning-button-icon data-appealid={record.Id} icon-name="utility:preview"
+                variant="success" title="View History" data-name='View' class="custom-button slds-m-left_x-small"
+                onclick={handleHistoryPreview} size="small" disabled={record.disableView}></lightning-button-icon>
+            </div>
+          </td>
+
+            </tr
+        ></template>
+      </tbody>
+    </table>
+      </div>
+
+
+      
+    </div>
+  </lightning-card>
+</template>
+
+  <template lwc:if={phoneBolean}>  
+        <template for:each={relookData} for:item="obj" for:index="index">
+            <div key={obj.Id} >
+                <ul class="slds-has-dividers_bottom-space">
+                    <li>
+                        <lightning-tile>
+                            <dl class="slds-dl_horizontal">                                
+                                
+                                <dt class="slds-dl_horizontal__label">
+                                    <div title="Relook Initiation Date">
+                                        <p class="marginTop">Relook Initiation Date</p> 
+                                        <lightning-input type="text" 
+                                        data-name="CreatedDate"
+                                        value={obj.initatedDate} data-index={index}
+                                        class="inputfieldwidth" disabled>
+                                    </lightning-input>
+                                </div>
+                                </dt>
+                              
+                                <dt class="slds-dl_horizontal__label">
+                                    <div title="Loan Appeal No">
+                                       <p class="marginTop">Loan Appeal No</p>
+                                        <lightning-input type="text"
+                                            value={obj.Name} data-index={index} disabled>
+                                        </lightning-input>
+                                    </div>
+                                </dt>
+                                
+                                <dt class="slds-dl_horizontal__label">
+                                    <div title="Owner/ UW Name">
+                                        <p class="marginTop">Owner/ UW Name</p>
+                                        <lightning-input type="text" 
+                                        value={obj.Owner.Name} data-index={index} disabled>
+
+                                    </lightning-input>
+                                </div>
+                                </dt>
+                               
+                                    <dt class="slds-dl_horizontal__label">
+                                        <div class="marginTop" title="Comments">
+                                            <p >Comments</p>
+                                            <lightning-textarea type="text" 
+                                            value={obj.Comments__c} data-index={index} disabled>
+    
+                                            </lightning-textarea>
+                                        </div>
+                                    </dt>
+                              
+                      
+                          
+                                    <dt class="slds-dl_horizontal__label">
+                                      <div class="marginTop" title="Status">
+                                        <p >Status</p>
+                                        <lightning-input type="text" 
+                                        value={obj.Status__c} data-index={index} disabled>
+
+                                    </lightning-input>
+                                    </div>
+                                    </dt>
+
+                                    <dt if:false={rmView} class="slds-dl_horizontal__label">
+                                      <div class="marginTop" title="Claim Appeal">
+                                        <p >Claim Appeal</p>
+                                        <lightning-button
+                                        data-appealid={obj.Id}
+                                        variant="success"
+                                        label="Claim"
+                                        title="Claim"
+                                        data-name="Claim"
+                                        onclick={handleClaim}
+                                        disabled={obj.disableClaim}
+                                      ></lightning-button>
+                                    </div>
+                                    </dt>
+                      
+                                <br /><br />
+                        
+                                <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                                        <div slot="footer" class="slds-clearfix slds-float_right slds-p-around_x-small">
+                                          <lightning-button-icon data-documentid={obj.DocDet__c} icon-name="utility:preview"
+                                          data-cv-id={obj.cvId} data-type={obj.cDFileType} data-id={obj.cDId} variant="success"
+                                          title="View Details" data-name='View' class="custom-button slds-m-left_x-small"
+                                          onclick={handlePreview} size="small" disabled={obj.disableView}></lightning-button-icon>
+
+                                </div>
+                                   
+                                </dd>
+                                <br /><br />
+                            </dl>
+                        </lightning-tile>
+                    </li>
+                </ul>
+            </div>
+            
+        </template>
+              
+   
+</template>
+
+
+
+<template if:true={viewTableReport}>
+  <c-multi-doc-previewer document-detail-id={documentDetailId} onclosepreview={handleCloseModalEvent}
+        has-document-id={hasDocumentId}> </c-multi-doc-previewer>
+</template>
+
+<template if:true={claimAppeal}>
+  <section
+    role="dialog"
+    tabindex="-1"
+    aria-labelledby="modal-heading-04"
+    aria-modal="true"
+    aria-describedby="modal-content-id-1"
+    class="my-modal slds-modal slds-fade-in-open slds-modal_medium"
+  >
+    <div class="slds-modal__container">
+      <!-- Modal/Popup Box LWC header here -->
+      <div if:true={showSpinnerModal}>
+        <lightning-spinner
+          alternative-text="Loading..."
+          variant="brand"
+          class="slds-is-fixed"
+        >
+        </lightning-spinner>
+      </div>
+      <header class="slds-modal__header">
+        <button
+          class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+          title="Close"
+          onclick={closeModal}
+        >
+          <lightning-icon
+            icon-name="utility:close"
+            alternative-text="close"
+            variant="inverse"
+            size="small"
+          ></lightning-icon>
+          <span class="slds-assistive-text">Close</span>
+        </button>
+        <h2
+          id="modal-heading-04"
+          class="slds-text-heading_medium slds-hyphenate"
+        >
+          Confirm?
+        </h2>
+      </header>
+      <!-- Modal/Popup Box LWC body starts here -->
+      <div
+        class="slds-modal__content slds-p-around_medium"
+        id="modal-content-id-4"
+      >
+      
+       <center>Do you want to claim this loan appeal?</center>
+
+
+      </div>
+      <!-- Modal/Popup Box LWC footer starts here -->
+      <footer class="slds-modal__footer">
+        <button
+          class="slds-button slds-button_neutral"
+          onclick={closeModal}
+          title="No"
+        >
+          No
+        </button>
+        <button
+          class="slds-button slds-button_brand"
+          onclick={handleAppealUpdate}
+          title="Yes"
+        >
+          Yes
+        </button>
+      </footer>
+    </div>
+  </section>
+  <div class="slds-backdrop slds-backdrop_open"></div>
+</template>
+
+<template if:true={runBre}>
+  <section
+    role="dialog"
+    tabindex="-1"
+    aria-labelledby="modal-heading-04"
+    aria-modal="true"
+    aria-describedby="modal-content-id-1"
+    class="my-modal slds-modal slds-fade-in-open slds-modal_medium"
+  >
+    <div class="slds-modal__container">
+      <!-- Modal/Popup Box LWC header here -->
+      <div if:true={showSpinnerModal}>
+        <lightning-spinner
+          alternative-text="Loading..."
+          variant="brand"
+          class="slds-is-fixed"
+        >
+        </lightning-spinner>
+      </div>
+      <header class="slds-modal__header">
+        <button
+          class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+          title="Close"
+          onclick={closeModal}
+        >
+          <lightning-icon
+            icon-name="utility:close"
+            alternative-text="close"
+            variant="inverse"
+            size="small"
+          ></lightning-icon>
+          <span class="slds-assistive-text">Close</span>
+        </button>
+        <!-- <h2
+          id="modal-heading-05"
+          class="slds-text-heading_medium slds-hyphenate"
+        >
+          Confirm?
+        </h2> -->
+      </header>
+      <!-- Modal/Popup Box LWC body starts here -->
+      <div
+        class="slds-modal__content slds-p-around_medium"
+        id="modal-content-id-5"
+      >
+      
+      <c-run-bre record-id={_recordId}  onselect={handleCloseBre}></c-run-bre>
+
+
+      </div>
+      <!-- Modal/Popup Box LWC footer starts here -->
+      <!-- <footer class="slds-modal__footer">
+        <button
+          class="slds-button slds-button_neutral"
+          onclick={closeModal}
+          title="No"
+        >
+          No
+        </button>
+        <button
+          class="slds-button slds-button_brand"
+          onclick={done}
+          title="Yes"
+        >
+          Yes
+        </button>
+      </footer> -->
+    </div>
+  </section>
+ 
+</template>
+
+<template if:true={appelDecision}>
+  <section
+    role="dialog"
+    tabindex="-1"
+    aria-labelledby="modal-heading-04"
+    aria-modal="true"
+    aria-describedby="modal-content-id-2"
+    class="my-modal slds-modal slds-fade-in-open slds-modal_medium"
+  >
+    <div class="slds-modal__container">
+      <!-- Modal/Popup Box LWC header here -->
+      <div if:true={showSpinnerModal}>
+        <lightning-spinner
+          alternative-text="Loading..."
+          variant="brand"
+          class="slds-is-fixed"
+        >
+        </lightning-spinner>
+      </div>
+      <header class="slds-modal__header">
+        <button
+          class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+          title="Close"
+          onclick={closeModal}
+        >
+          <lightning-icon
+            icon-name="utility:close"
+            alternative-text="close"
+            variant="inverse"
+            size="small"
+          ></lightning-icon>
+          <span class="slds-assistive-text">Close</span>
+        </button>
+        <h2
+          id="modal-heading-02"
+          class="slds-text-heading_medium slds-hyphenate"
+        >
+          Confirm?
+        </h2>
+      </header>
+      <!-- Modal/Popup Box LWC body starts here -->
+      <div
+        class="slds-modal__content slds-p-around_medium"
+        id="modal-content-id-2"
+      >
+      
+       <center>Do you want to {decision} this loan appeal?</center>
+
+       <lightning-textarea
+       type="text"
+       value={decComments}
+       name="comments"
+       onchange={handleTextAreaChange}
+       placeholder="Enter Comments"
+       label="Comments"
+       required
+     ></lightning-textarea>
+ 
+      </div>
+      <!-- Modal/Popup Box LWC footer starts here -->
+            <footer class="slds-modal__footer">
+        <button
+          class="slds-button slds-button_neutral"
+          onclick={closeModal}
+          title="No"
+        >
+          No
+        </button>
+        <button
+          class="slds-button slds-button_brand"
+          onclick={handleAppealDecision}
+          title="Yes"
+        >
+          Yes
+        </button>
+      </footer>
+    </div>
+  </section>
+  <div class="slds-backdrop slds-backdrop_open"></div>
+</template>
+
+<template if:true={openModal}>
+  <section
+    role="dialog"
+    tabindex="-1"
+    aria-labelledby="modal-heading-02"
+    aria-modal="true"
+    aria-describedby="modal-content-id-1"
+    class="my-modal slds-modal slds-fade-in-open slds-modal_medium"
+  >
+    <div class="slds-modal__container">
+      <!-- Modal/Popup Box LWC header here -->
+      <div if:true={showSpinnerModal}>
+        <lightning-spinner
+          alternative-text="Loading..."
+          variant="brand"
+          class="slds-is-fixed"
+        >
+        </lightning-spinner>
+      </div>
+      <header class="slds-modal__header">
+        <button
+          class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+          title="Close"
+          onclick={closeModal}
+        >
+          <lightning-icon
+            icon-name="utility:close"
+            alternative-text="close"
+            size="small"
+          ></lightning-icon>
+          <span class="slds-assistive-text">Close</span>
+        </button>
+        <h2
+          id="modal-heading-05"
+          class="slds-text-heading_medium slds-hyphenate"
+        >
+         History
+        </h2>
+      </header>
+      <!-- Modal/Popup Box LWC body starts here -->
+      <div
+        class="slds-modal__content slds-p-around_medium scroller"
+        id="modal-content-id-6"
+      >
+   <lightning-card icon-name="standard:account" variant="base">
+     <div slot="title">
+        Deviation History
+     </div>
+     <div slot="actions">
+   
+     </div>
+     <div slot="footer">
+   
+     </div>
+     <div>
+       <!-- Card Body  -->
+       <table
+    class="slds-table slds-table_cell-buffer slds-table_bordered slds-border_left slds-border_right"
+    aria-labelledby="element-with-table-label other-element-with-table-label">
+    <thead>
+        <tr>
+            <th>Deviation Description</th>           
+        </tr>
+    </thead>
+    <tbody>
+        <template for:each={deviData} for:item="record" for:index="index">
+            <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+
+                <th class="slds-cell_action-mode" scope="row">
+                    <div class="slds-truncate" title={record.appName} data-index={index}>
+                        {record.Devia_Desrp__c}
+                    </div>
+                </th>
+
+            </tr>
+        </template>
+    </tbody>
+    </table>
+     </div>
+   </lightning-card>
+    
+   <lightning-card icon-name="standard:account" variant="base">
+    <div slot="title">
+      Loan Appeal History
+    </div>
+    <div slot="actions">
+  
+    </div>
+    <div slot="footer">
+  
+    </div>
+    <div>
+      <!-- Card Body  -->
+      <table
+   class="slds-table slds-table_cell-buffer slds-table_bordered slds-border_left slds-border_right"
+   aria-labelledby="element-with-table-label other-element-with-table-label">
+   <thead>
+       <tr>
+           <th>Created Date</th>           
+           <th>Comments</th>           
+           <th>Recommned To</th>           
+       </tr>
+   </thead>
+   <tbody>
+       <template for:each={loanAppealItemList} for:item="record" for:index="index">
+           <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+
+            <th data-label="Created Date">
+              <div class="slds-truncate" title="Created Date">
+                {record.initatedDate}
+              </div>
+            </th>
+
+               <th class="slds-cell_action-mode" scope="row">
+                <lightning-textarea
+                  type="text"
+                  value={record.Comments__c} disabled
+                ></lightning-textarea>
+                   <!-- <div class="slds-truncate" title={record.Comments__c} >
+                       {record.Comments__c}
+                   </div> -->
+               </th>
+
+               <th class="slds-cell_action-mode" scope="row">
+                <div if:true={record.Recomended_To__c} class="slds-truncate" title={record.Recomended_To__c}>
+                    {record.Recomended_To__r.Name}
+                </div>
+                <div if:false={record.Recomended_To__c} class="slds-truncate" >
+                  
+              </div>
+            </th>
+
+           </tr>
+       </template>
+   </tbody>
+   </table>
+    </div>
+  </lightning-card>
+      </div>
+      <!-- Modal/Popup Box LWC footer starts here -->
+      <footer class="slds-modal__footer">
+
+       <div class="slds-button">
+
+      </div>
+        <button
+          class="slds-button slds-button_neutral"
+          onclick={closeModal}
+          title="No"
+        >
+          No
+        </button>
+        <!-- <button
+          class="slds-button slds-button_brand"
+          onclick={handleCase}
+          title="Yes"
+        >
+          Yes
+        </button> -->
+      </footer>
+    </div>
+  </section>
+  <div class="slds-backdrop slds-backdrop_open"></div>
+</template>
+</template>

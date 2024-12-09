@@ -1,0 +1,12 @@
+.dummy{
+	color : blue;
+}
+.custom-combo-box {
+	overflow:hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.custom-table{
+	width: 70%;
+}

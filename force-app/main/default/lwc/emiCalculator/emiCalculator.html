@@ -1,0 +1,77 @@
+<template>
+    
+    <lightning-card  title="EMI Calculator">
+        
+        <lightning-button  label="EMI Calculator" title="EMI Calculator" icon-name="utility:table" icon-position="left" class="slds-m-left_x-small" onclick={showEMICalculatorModal}></lightning-button>        
+
+    </lightning-card>
+
+
+    <!--EMI Calculator Model -->
+    <template if:true={isShowshowEMICalculatorModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <!-- modal header start -->
+            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={hideEMICalculatorModal}>
+                <lightning-icon icon-name="utility:close"
+                    alternative-text="close"
+                    variant="inverse"
+                    size="small" ></lightning-icon>
+                <span class="slds-assistive-text">Close</span>
+              </button>
+            <header class="slds-modal__header">
+                <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">EMI Calculator</h2>
+            </header>
+
+            <!-- modal body start -->
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+
+                <div class="slds-box slds-box_small" style="color: #0176D3;border-color: #0176D3; border: 2px solid;">
+                    <div class="slds-grid">
+                    <div>
+                        <span>EMI (₹) :</span>
+                      </div>
+                    <div class="slds-col_bump-left">
+                        <span>{emiAmount}</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-wrap slds-m-top_x-small">
+                    <div class="slds-col slds-size_2-of-12">
+                    </div>
+                    <div class="slds-col slds-size_8-of-12">
+                        <div class="slds-box slds-box_small">
+                            <div class="slds-grid">
+                            <div>
+                                <span>Eligibility in lacs (₹)
+                                </span>
+                              </div>
+                            <div class="slds-col_bump-left">
+                                <span>{eligibilityInLacs}</span>
+                            </div>
+                            </div>
+                        </div>
+
+                        <lightning-input type="Number" formatter="currency" onchange={handleEMIChange} value={declaredMonthlyIncome} name = "Declared Monthly Income" label="Declared Monthly Income (₹)" required></lightning-input>
+                        <lightning-input type="Number" formatter="currency" onchange={handleEMIChange} value={declaredMonthlyObligation} name = "Declared Monthly Obligation" label="Declared Monthly Obligation (₹)" required></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_2-of-12">
+                    </div>
+                </div>
+                
+
+            </div>
+            <!-- modal footer start-->
+            <footer class="slds-modal__footer">
+                <div class="slds-grid slds-grid_align-center">
+                    <button class="slds-button slds-button_brand" onclick={calculateEMI}>Calculate EMI</button>
+                </div>
+            </footer>
+        
+        </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    
+</template>

@@ -1,0 +1,45 @@
+<template>
+    <lightning-card title="Sanction Condition">
+       
+        <div class="slds-p-around_medium">
+        <br/>
+            <div class="slds-box">
+                <div class="slds-scrollable">
+                
+                <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                    <thead>
+                        <tr class="slds-text-title_bold slds-text-color_weak">
+                            
+                            <th scope="col">Conditions</th>
+                            <th scope="col">Remarks</th>
+                            
+    
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template iterator:it={listSanctionCondition}>
+                      <tr key={it.value.Id}>
+                         
+                         <td scope="row">
+                            {it.value.Condition__c}
+                         </td>
+                         <td>
+                            {it.value.Remarks__c}
+                         </td>
+                        
+                         
+                        
+                     </tr>
+                     
+                    </template>
+                    
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+    
+    
+    
+    </lightning-card>
+</template>

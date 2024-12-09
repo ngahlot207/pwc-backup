@@ -1,0 +1,133 @@
+<template >
+    <template lwc:if={isHomeLoanTrue}>
+    <lightning-card title="HL Related Additional Details">
+       
+        <div class="slds-p-around_medium">
+        <br/>
+            <div class="slds-box">
+                <div class="slds-scrollable">
+                
+                <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                    <thead>
+                        <tr class="slds-text-title_bold slds-text-color_weak">
+                            
+                            <th scope="col">Registered agreement value</th>
+                            <th scope="col">Down payment (Part of registered agreement cost)</th>
+                            <th scope="col">Balance amount</th>
+                            <th scope="col">Fedfina Loan funding (net of PF and insurance deduction)</th>
+                            <th scope="col">Balance OCR (to be arranged by customer)</th>
+                            <th scope="col">Mkt value of property (as per technical valuation - lower value)</th>
+                            
+    
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template if:true={listHLRelatedData}>
+                        <template iterator:it={listHLRelatedData}>
+                            
+                      <tr key={it.value.Id}>
+                         
+                         <td scope="row">
+                            {it.value.registeredAggrementValue}
+                         </td>
+                         <td>
+                            {it.value.downPayment}
+                         </td>
+                         <td>
+                            {it.value.balanceAmount}
+                         </td>
+                         <td>
+                            {it.value.fedfinaLoanFunding}
+                         </td>
+                         <td>
+                            {it.value.balanceOCR}
+                         </td>
+                         <td>
+                            {it.value.mktValueOfProperty}
+                         </td>
+                        
+                         
+                        
+                     </tr>
+                     
+                     
+                    </template>
+                    </template>
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+    
+    
+    
+    </lightning-card>
+</template>
+
+ <template lwc:if={isConstructionTrue}>
+    <lightning-card title="SPECIFIC POINTS FOR UNDER CONSTRUCTION/SELF CONSTRUCTION COLLATERAL PROPERTIY">
+       
+        <div class="slds-p-around_medium">
+        <br/>
+            <div class="slds-box">
+                <div class="slds-scrollable">
+                
+                <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                    <thead>
+                        <tr class="slds-text-title_bold slds-text-color_weak">
+                            
+                            <th scope="col">Property address</th>
+                            <th scope="col">Total estimate as per architect/agreement</th>
+                            <th scope="col">Estimated date for completion of work</th>
+                            <th scope="col">Stage of construction (in % terms) as per valuation report</th>
+                            <th scope="col">Land value</th>
+                            <th scope="col">Construction Value as per valuation Report</th>
+                            <th scope="col">Total valuation amount</th>
+                            
+    
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template if:true={listConstructionRelatedData}>
+                        <template iterator:it={listConstructionRelatedData}>
+                      <tr key={it.value.Id}>
+                         
+                         <td scope="row">
+                            {it.value.propertyAddress}
+                         </td>
+                         <td>
+                            {it.value.totalEstimateAsPerArtitech}
+                         </td>
+                         <td>
+                            {it.value.EstimateDate}
+                         </td>
+                         <td>
+                            {it.value.stageOfConstruction}
+                         </td>
+                         <td>
+                            {it.value.landValue}
+                         </td>
+                         <td>
+                            {it.value.constructionValue}
+                         </td>
+                         <td>
+                            {it.value.totalValuation}
+                         </td>
+                        
+                         
+                        
+                     </tr>
+                     
+                    </template>
+                </template>
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+    
+    
+    
+    </lightning-card>
+</template>
+</template>

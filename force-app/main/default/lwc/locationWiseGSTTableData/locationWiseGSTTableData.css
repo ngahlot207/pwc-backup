@@ -1,0 +1,65 @@
+tr.border_bottom td {
+    border-bottom: 1px solid black;
+    text-align: left;
+    width: fit-content;
+  }
+  
+  
+  table {
+    width: max-content;
+    border-collapse: collapse;
+    margin: 24px;
+  }
+  
+  th, td {
+    border: 1px solid #585353;
+    /* border: 1px solid #dddbda; */
+    padding: 6px 12px;
+    text-align: center;
+    width: fit-content;
+  }
+  
+  /* th {
+    background: #F3F2F2;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20px;
+    text-align: center;
+    width: 220px;
+  } */
+  
+  td {
+    background: #ffffff;
+    font-size: 13px;
+    font-style: normal;
+    /* font-weight: 400; */
+    font-weight: bold;
+    line-height: 20px;
+  }
+  
+  .container {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .requiredIndicator::after {
+    content: '*';
+    color: red; /* Adjust color as needed */
+    margin-left: 4px; /* Adjust spacing as needed */
+}
+.slds-grid {
+  display: flex;
+  justify-content: flex-start; /* Align items to the start of the container */
+  gap: 5px; /* Optional: Add some space between buttons */
+}
+    .table-style {
+        width: 100%;
+        border-collapse: collapse;
+        /* margin: auto; */
+    }
+
+    .accordionClass{
+      --slds-c-accordion-summary-color-background : rgb(243, 243, 243) ;
+      --slds-c-accordion-color-border : 0.5rem;
+    }

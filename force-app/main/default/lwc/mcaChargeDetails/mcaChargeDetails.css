@@ -1,0 +1,57 @@
+.slds-table_container{
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+.custom-button:hover {
+    cursor: pointer;
+}
+.dividerPosition {
+    position: static !important;
+}
+.slds-modal__container {
+    width: 30% !important;
+}
+.tableScroll {
+    width: 100%;
+    overflow-x: auto;
+    height: 10rem;
+}
+
+.fixedWidth{
+    width:15rem;
+}
+
+.fixedWidthNmB{
+    width:20rem;
+}
+
+
+.checkbox-label{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.white-utility-icon {
+    --sds-c-icon-color-foreground-default: #eff6ef;
+}
+
+.tableScroll {
+    width: 100% !important;
+    overflow: auto;
+    height: 25rem;
+}
+.fixed-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Ensure it stays above other content */
+  }
+
+ .scrollable-body {
+    overflow-y: auto; /* Enable vertical scrolling */
+    height: calc(100vh - 200px); /* Adjust based on your needs */
+  }
+.fixedWidthFN{
+    width: 20rem;
+}

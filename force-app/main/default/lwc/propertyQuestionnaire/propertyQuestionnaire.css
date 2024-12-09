@@ -1,0 +1,7 @@
+.fieldgroup{
+    display: inline-block !important;
+ }
+
+ .checkbox-label{
+    align-items: left;
+ }

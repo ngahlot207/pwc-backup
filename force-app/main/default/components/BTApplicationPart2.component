@@ -1,0 +1,200 @@
+<apex:component Controller="BTApplicationPart2" >
+     
+     <html>
+        
+        <head>
+            <style>
+                .table1 tr,td{
+                width:15px;
+                }
+            </style>
+        </head>
+    </html>
+    <body >
+        <div>
+            <h4 style="padding-left:20px; padding-top:20px; margin-right:130px;text-align:left; font-family:calibiri;font-weight: bold;font-size:15px">Legal Drafts – BT Product.</h4>
+        </div>
+        <div style="padding-left:40px; padding-right:40px">
+         <table style="font-family: Verdana, Helvetica, Arial, sans-serif;font-size: 8px;border: 1px solid black;border-collapse: collapse;page-break-inside:avoid;page-break-before:avoid">
+                <tr><td class="photo-box">Drafts Nos </td>
+                    <td class="photo-box">Document</td> 
+                    <td class="photo-box">Stage at which the document is collected </td>
+                    <td class="photo-box">Instructions</td>
+                </tr>
+             <tr><td class="photo-box">Drafts 1 </td>
+                    <td class="photo-box">Declaration-cum Undertaking by Borrowers inter alia for List of Documents held by HFC / Bank / NBFC</td> 
+                    <td class="photo-box">Pre - Sanction </td>
+                    <td class="photo-box">The Undertaking is to be given by all Borrowers and should be executed on stamp paper of the requisite value</td>
+                </tr>
+             <tr><td class="photo-box">Drafts 2 </td>
+                    <td class="photo-box">Letter of Authority from the Borrower</td> 
+                    <td class="photo-box">Pre - Sanction </td>
+                    <td class="photo-box">The letter is to be issued by the Borrower in favour of our empanelled lawyer .</td>
+                </tr>
+             <tr><td class="photo-box">Drafts 3 </td>
+                    <td class="photo-box">Irrevocable Power of Attorney</td> 
+                    <td class="photo-box">Pre - Sanction </td>
+                    <td class="photo-box">The Borrower gives a POA to our empanelled lawyer the same is to be executed on stamp paper of the requisite value and should be duly notarised from the Notary public .</td>
+                </tr>
+             <tr><td class="photo-box">Drafts 4 </td>
+                    <td class="photo-box">Borrower’s letter to the Builder/Society/Development Authority</td> 
+                    <td class="photo-box">Pre - Sanction </td>
+                    <td class="photo-box">All borrowers are required to sign this letter.</td>
+                </tr>
+             <tr><td class="photo-box">Drafts 5 </td>
+                    <td class="photo-box">Letter from FEDFINA to the Builder / Society / Development Authority</td> 
+                    <td class="photo-box">Post Sanction </td>
+                    <td class="photo-box">BCM to sign this letter and send the same to the Builder / Society / Development Authority.</td>
+                </tr>
+             
+        </table>
+            </div>
+        <div style="page-break-after:always;"></div>
+        
+         <div>
+            <h4 style="padding-left:40px; padding-top:40px;margin-right:130px;text-align:center; font-family:calibiri;font-weight: bold;font-size:15px">Declaration cum Undertaking</h4>
+            
+        </div>
+         <div style="padding-left:40px; padding-right:40px; font-family:Times New Roman;font-size:14px">
+         	To<br/>
+             <b>Fedbank Financial Services Limited</b><br/>
+C-6, 5th Floor, Laxmi Towers, Bandra-Kurla Complex,<br/>
+Bandra (East), Mumbai- 400051<br/><br/><br/>
+        
+             I/We, {!ApplicantName} aged about {!age}{!DOI} years, residing at {!ResidenceAddress} do on solemn affirmation state that I/We are the sole/ only owner(s) and are in sole possession of the property (hereinafter referred to as the said property) at {!RentedProperty} {!SelfOccupiedProperty}<br/><br/>
+       	I/We further declare that the said property is self occupied and has not been leased/ rented to any person.*<br/><br/>
+I/We further declare that the said property is leased/ rented out to the following persons on inter alia the following terms and conditions and the terms and conditions contained in lease deed/ agreement dated {!CurrentDate}:
+  Name of Lessee/ Licensee/ Occupier:<br/><br/>
+Term of Lease/ License/ Tenancy:<br/><br/>
+Amount of Deposit taken:<br/><br/>
+Details of Rentals:<br/><br/>
+* Strike out if inapplicable      <br/><br/>
+             
+             I/We further declare that I/We have purchased the said property from _______________________________________________________________________________________________________________________________________, the Seller/ Co-operative Society/ Builder/ Developer/ Development Authority/ Statutory Body.<br/><br/>
+I/We further declare that the following are the documents (originals/ true copies) pertaining to the said property in my possession and in the possession of {!BTFinancier}.(HFC/Bank/NBFC/ Employer)<br/><br/>
+I/We refer to the Loan Agreement dated {!CurrentDate} entered into between me/us and Fedbank Financial Services Ltd. (FEDFINA) (hereinafter referred to as "the said Loan Agreement") in respect of the loan of Rs.{!LoanAmount} /-(Rupees {!rupeeInWord} only) lent and advanced /agreed to be lent and advanced to me/us by FEDFINA (hereinafter referred to as "the said Loan") on the terms and conditions set out in the said Loan Agreement in respect of the said property.<br/><br/>
+  I am/We are aware that we have to comply with various formalities including but not limited to creation of such security in the form and manner as stipulated by FEDFINA in favour of FEDFINA in relation to the
+property financed / to be financed by FEDFINA (hereinafter referred to as “the said Property”). I/We have already initiated requisite action in this behalf.<br/><br/>
+Pending compliance of requisite formalities as stipulated inter-alia in the said Loan Agreement, FEDFINA has at our request, agreed to make disbursements out of the said Loan, subject, inter alia, to the following:-<br/><br/>      
+
+             1. &nbsp;&nbsp;I am / We hereby agree and undertake to furnish/ that I/we have already furnished Guarantee/s from person(s) acceptable and in a form and manner satisfactory, to FEDFINA;<br/><br/>
+       2. I am / We hereby undertake to comply with all requisite formalities (as more particularly specified in this Undertaking) within a period of 20 days from the date hereof, to create security in such form and in such manner as may be stipulated and required by FEDFINA in that behalf .<br/><br/>
+In consideration of the above premises, I/We hereby agree(s), undertake(s) and confirm to FEDFINA that I/We are the sole/only owners of the said Property.<br/><br/>
+I/We have taken the following loans against the said Property:<br/><br/>
+             <u>HFC/Bank/NBFC {!BTFinancier} Loan A/c/ Loan Number__________</u><br/><br/>
+ 3. I/We hereby declare and undertake that the above are the only loans taken by me/us against the said Property. I/We hereby declare that apart from the aforesaid charge(s), no other charge/ mortgage/ encumbrance exists on the said Properties in favour of any other person/institution.<br/><br/>
+4. I/We shall not create any pari passu charge/ mortgage/ second charge/ mortgage, charge or encumbrance on the financed Properties in favour of any person whosoever;<br/><br/>
+5. Within a period of twenty days from the date hereof or such extended time as may be agreed to by FEDFINA , I/we shall comply with all the following in relation to creation of effective security in relation to the Properties financed in favour of FEDFINA :  <br/><br/>          
+    (i) I/We shall procure and furnish to FEDFINA all documents and papers in original along with photocopies as may be required by FEDFINA as listed in the Annexure hereto in connection with release of existing mortgages and charges created by me / us in favour of {!BTFinancier} under the terms of earlier loan agreement(s) entered into between me/us and {!BTFinancier} and;<br/><br/>
+(ii) I/We shall procure and furnish to FEDFINA “no dues” letter and "mortgage release" letter from {!BTFinancier} in respect of the earlier loan agreement(s) as aforesaid;<br/><br/>
+(iii) I/We shall ensure that the name of ________________ in all the relevant records is substituted by the name of FEDFINA , as lender to me / us;<br/><br/>
+(iv) I/We shall procure and furnish to you all permissions /approvals / consents / clearances/ documents as may be required or necessary and as listed in the Annexure hereto, from the Builder / Society / Development Authority in relation to the said Properties financed by FEDFINA ;<br/><br/>
+ 6. I/We hereby declare that apart from the aforesaid charge(s), no other charge/ mortgage/ encumbrance exists on the said Properties in favour of any other person/institution, and that exclusive first charge on the said Property shall be created in favour of FEDFINA.<br/><br/>
+7. In case I/We apply for and obtain an additional Loan from FEDFINA in respect of the said Property, I/We shall utilize such additional funds solely towards refurbishing or renovating the said property and not for any other purpose without the written consent of FEDFINA.<br/><br/>
+8. I/we hereby agree and confirm that I/we shall provide all assistance as may be required by FEDFINA for procurement of any documents/ information relating to the earlier loan agreements / said Property.<br/><br/>
+             9. In the event of failure to comply with the provisions mentioned hereinabove of this undertaking, in addition to such legal remedies as are available to FEDFINA, I/We shall if FEDFINA may so deem fit to charge, pay interest at the rate of 36% p.a. on the disbursements made by FEDFINA against the said Loan, from the date of the disbursement till the date of compliance by me / us of such provisions; However, payment of such interest may be waived at the discretion of FEDFINA<br/><br/>.
+10. I/We specifically agree that FEDFINA shall not be held liable or responsible for any loss or damage suffered by me / us without limitation for loss in Income Tax benefit etc.<br/><br/>
+             I/We agree that any breach or default in complying with all or any of the aforesaid undertaking(s) will constitute an event of default under the said Loan Agreement.<br/>
+I am/we are aware that it is on the faith of our aforesaid undertakings that FEDFINA has agreed to disburse the said Loan.<br/><br/>
+Dated the {!CurrentDay} day of {!CurrentMonth} {!CurrentYear}<br/><br/>
+Signature<br/>
+In the presence of _________________________.<br/><br/>
+             ANNEXURE<br/><br/>
+LIST OF DOCUMENTS TO BE SUBMITTED (pl mention originals and/or photocopies)<br/>
+1. Duly accepted sanction letter.<br/>
+2. Disbursal cheque receipt<br/><br/>
+             <div style="font-family:Times New Roman;text-align:center;font-size:14px">(All borrower/s to sign this Undertaking)</div>
+        </div>
+        <div style="page-break-after:always;"></div>
+        <div>
+            <h4 style=" padding-left:40px; padding-top:40px; margin-right:130px;text-align:center; font-family:calibiri;font-weight: bold;font-size:15px">Letter of Authority</h4>            
+        </div>
+        <div style="padding-left:40px; padding-right:40px;font-family:Times New Roman;font-size:14px">
+         	To<br/>            
+HFC/Bank/ NBFC /Employer<br/>
+            {!BTFinancier}<br/>
+(Name and Address of the HFC/Bank/ Employer /NBFC)<br/><br/><br/>
+            
+            Ref: Loan A/C/ Employee Loan No. _________________________________
+(_____________________________________________________________________Property)<br/><br/>
+            Sub: Repayment of Loan<br/><br/>
+            Dear Sir,<br/>
+I/We propose to prepay the outstanding amount of Rs {!OutStandingAmount} under the aforesaid loan and foreclose the loan hereby.<br/><br/>
+I/We herewith enclose cheque no. ________________ dated {!DisbursementDate}- drawn on __________________ in full discharge of the aforesaid loan.<br/><br/>
+I/We also enclose herewith a power of attorney from me/us in favour of Shri ____________________, authorizing Shri _________________ to hand over the said cheque to you and to collect the documents listed below on my/ our behalf from you, and hereby irrevocably authorise you to release and hand over the documents listed below, to my/our authorized representative Shri _____________________whose signature is attested by me/us below on receipt of the amount, and to issue a receipt for the amount received to Shri _________________.<br/><br/>
+1. No Dues Letter<br/>
+2. Mortgage Release Letter<br/>
+3. Receipt for cheque<br/>
+4. Original property documents /title deeds<br/>
+All other documents/ papers submitted by me to you in relation to the aforesaid loan in original / photocopies.<br/><br/>
+Yours truly,<br/><br/>
+            Borrower<br/>
+			Name<br/>
+            <div>Address <span style="padding-left:300px;"> Shri___________________</span></div>
+            <div > <span style="padding-left:400px;"> (Authorized Representative)</span></div><br/><br/>
+            We confirm to release the documents to the representative on receipt of the outstanding amount.<br/><br/>
+Authorized Signatory of the HFC/Bank/ Employer /NBFC<br/><br/>
+
+        </div>
+        <div style="page-break-after:always;"></div>
+        <div>
+            <h4 style="padding-left:40px; padding-top:40px; margin-right:130px;text-align:center; font-family:calibiri;font-weight: bold;font-size:15px">IRREVOCABLE POWER OF ATTORNEY</h4>            
+        </div>
+        <div style="padding-left:40px; padding-right:40px;font-family:Times New Roman;font-size:14px">
+            TO ALL TO WHOM THESE PRESENT SHALL COME I ___________________________________________,
+residing at ___________________________________________________________________________<br/><br/>
+SEND GREETINGS<br/><br/>
+WHEREAS I am/we are desirous of executing in favour of Shri ____________________ a power of attorney authorizing Shri ________________ to collect all documents pertaining to Loan A/c/ Employee Loan number _________/ _____________ with _________________/ __________________ from ________________-/ __________________ and submit the aforesaid documents as instructed by me/ us to the persons as specified by me/ us, which I/we hereby do in the manner hereinafter appearing;<br/><br/>
+NOT KNOW YE ALL AND THESE PRESENTS WITNESS that I/we for myself/ourselves and my/our heirs, executor, administrators, legal representatives and/or successors do hereby irrevocably nominate, constitute and appoint Shri ______________ acting through any of its officers as my/our true and lawful attorney for me/us in my/our name and on my/our behalf and at my/our cost and risk to do, execute and perform all or any of the following acts, deeds, matters and things that is to say:<br/><br/>
+1. To handover the cheque presented on my/our behalf to ________________for payment towards full prepayment of the loan taken by me/ us from {!BTFinancier}, and accepts receipt for the said cheque from ________/_________.<br/>
+2. To collect and receive all the documents submitted by me/us to _________________ in relation to the said loan and for that purpose give effectual discharge.<br/>
+3. To submit the documents so collected to the person(s) as instructed by me/us.<br/><br/>
+AND GENERALLY to do, perform and execute all acts, deeds, matters and things relating to or connecting or touching these presents as fully and effectually as if I/We were personally present and had done, performed or executed the same myself/ourselves.<br/><br/>
+And I/we hereby agree to ratify and confirm all and whatsoever Shri ______________ may do or cause to be done in the premises in pursuance of these presents.<br/><br/>
+IN WITNESS WHEREOF I/we have hereunto sat and subscribed my/our respective hands at this day of two thousand________.<br/><br/>
+SIGNED AND DELIVERED BY<br/><br/>
+(To be signed by all borrower/s)<br/><br/>
+IN THE PRESENCE OF<br/><br/>
+IN THE PRESENCE OF<br/><br/>
+        </div>
+        <div style="page-break-after:always;"></div>
+        <div>
+            <h4 style="padding-left:40px; padding-top:40px; margin-right:130px; font-family:calibiri;font-weight: bold;font-size:15px">Letter to the Builder/Society/Development Authority</h4>            
+        </div>
+        <div style="padding-left:40px; padding-right:40px; font-family:Times New Roman;font-size:14px">
+            Date: {!CurrentDate}<br/><br/>
+(Builder/Society/ Development Board)<br/>
+(Address)<br/><br/>
+Dear Mr. {!ApplicantName},<br/><br/>
+Re: NOC in respect of {!AllPropertyAddress}<br/>
+(hereinafter referred to as the said premises)<br/><br/>
+This has reference to your NOC no. ………………….dated {!CurrentDate} in favour of …………………for recording the intention to create charge in your books of……… ……………on the said premises in relation to the housing loan for purchase of the said premises availed by …………………………. myself/ourselves from…………….<br/><br/>
+I/we wish to inform you that I/we have since availed of a loan from Fedbank Financial Services Ltd. (FEDFINA) for refinancing the loan outstanding to ……………………………. .<br/><br/>
+All amounts outstanding to ……………….under the loan I/we had earlier taken from them have been cleared by FEDFINA, in consideration of which……………….have relinquished charge on the said premises. The relevant "No Dues" letter and "Charge Release" letter from……………………..will be forwarded to you along with this letter.<br/><br/>
+I/we therefore request you to record FEDFINA’s charge in relation to the said premises, issue a fresh NOC to claim a charge on the said premises.<br/><br/>
+In absence of a reply to this letter with specific objections to the same within seven days of your receipt of this letter, I / we will assume your consent to recording of FEDFINA intended charge on the said premises in their favour.<br/><br/>
+Yours Faithfully<br/><br/><br/><br/>
+Borrower/s<br/>
+(All Borrower/s to sign this letter)
+
+        </div>
+        <div style="page-break-after:always;"></div>
+        <div>
+            <h4 style="padding-left:40px; padding-top:40px; margin-right:130px; font-family:calibiri;font-weight: bold;font-size:15px">Letter from FEDBANK Financial Services Ltd.</h4>            
+        </div>
+        <div style="padding-left:40px; padding-right:40px;font-family:Times New Roman;font-size:14px">
+            Date :{!CurrentDate}<br/><br/>
+( Builder/Society/Development Board )<br/><br/>
+            ( Address )<br/><br/><br/>
+Dear Mr. ____________________________,<br/><br/>
+            Re: NOC in respect of {!AllPropertyAddress}<br/>
+(hereinafter referred to as the said premises)<br/><br/>
+This has reference to your NOC no. ______________dated {!CurrentDate} in favour of Mr. / Mrs._____________________________ for confirming recording the intention to claim a charge in your books of _______________________on the said premises in relation to the housing loan for purchase of the said premises availed by{!ApplicantName} (The Borrower) from {!Place}.<br/><br/>
+In this regard we wish to inform you that we, Fedbank Financial Services Ltd. have refinanced the Borrower for purchase of the said premises and have repaid the loan outstanding to _______________, in consideration of which __________________________ have relinquished charge on the said premises. We herewith enclose the No Dues Certificate from ___________________________________.<br/><br/>
+We therefore request you to register/record our claim/create a charge on the said premises. In absence of any objections at your end/ a reply to this letter with specific objections to the same within seven days of your receipt of this letter, we will assume your consent to recording of our intended charge on the said premises and treat the non-response/non-reply as your no-objection in respect of the charge to be created by _____________________ in our favour.<br/><br/>
+Yours faithfully,<br/><br/>
+For Fedbank Financial Services Ltd.<br/><br/>
+_____________________
+        </div>
+    </body>
+</apex:component>

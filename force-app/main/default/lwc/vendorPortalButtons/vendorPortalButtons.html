@@ -1,0 +1,171 @@
+<template>
+  <div if:true={showSpinner}>
+    <lightning-spinner
+      alternative-text="Loading..."
+      variant="brand"
+      class="slds-is-fixed"
+    >
+    </lightning-spinner>
+  </div>
+
+  <!-- <lightning-button
+    if:true={forwardLAN}
+    class="slds-float_right"
+    variant="brand-variant"
+    label="Return to VCPA"
+    onclick={handleButton}
+    disabled={disableMode}
+  ></lightning-button> -->
+  <lightning-button
+    if:true={poolStages}
+    class="slds-float_right"
+    variant="brand-variant"
+    label="Loan Application Claim"
+    onclick={handleButton}
+    disabled={disableMode}
+  ></lightning-button>
+  <lightning-button
+    if:true={forwardLAN}
+    class="slds-float_right"
+    variant="brand-variant"
+    label="Forward to CPA/UW"
+    onclick={handleButton}
+    disabled={disableMode}
+  ></lightning-button>
+  <lightning-button
+  if:true={returnLAN}
+  class="slds-float_right"
+  variant="brand-variant"
+  label="Return To"
+  onclick={handleButton}
+  disabled={disableMode}
+></lightning-button>
+<template if:true={showQalityChk}>
+  <lightning-button 
+  class="slds-float_right" 
+   variant="brand"
+   label='Send to Quality Check' 
+   onclick={handleButton}
+  disabled={disableMode}> 
+</lightning-button>
+
+</template>
+
+  <template if:true={popUpModal}>
+    <section
+      role="dialog"
+      tabindex="-1"
+      aria-labelledby="modal-heading-04"
+      aria-modal="true"
+      aria-describedby="modal-content-id-1"
+      class="my-modal slds-modal slds-fade-in-open slds-modal_medium"
+    >
+      <div class="slds-modal__container">
+        <!-- Modal/Popup Box LWC header here -->
+        <div if:true={showSpinnerModal}>
+          <lightning-spinner
+            alternative-text="Loading..."
+            variant="brand"
+            class="slds-is-fixed"
+          >
+          </lightning-spinner>
+        </div>
+        <header class="slds-modal__header">
+          <button
+            class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+            title="Close"
+            onclick={closeModal}
+          >
+            <lightning-icon
+              icon-name="utility:close"
+              alternative-text="close"
+              variant="inverse"
+              size="small"
+            ></lightning-icon>
+            <span class="slds-assistive-text">Close</span>
+          </button>
+          <h2
+          id="modal-heading-01"
+          class="slds-text-heading_medium slds-hyphenate"
+        >
+          {customHeader}
+        </h2>
+        </header>
+   
+        <!-- Modal/Popup Box LWC body starts here -->
+        <div
+          class="slds-modal__content slds-p-around_medium"
+          id="modal-content-id-5"
+        >
+          <template if:true={claimLan}>
+            <c-loan-application-claim
+              record-id={recordId}
+              onselect={handleCloseClaim}
+            ></c-loan-application-claim>
+          </template>
+
+          <!-- <div class="slds-p-around_x-large"> -->
+            <template if:true={forwardLan}>
+              <lightning-combobox
+                label="Select Role to Forward LAN"
+                placeholder="Choose User"
+                value={fwUserRole}
+                onchange={handleChange}
+                options={forwardOptions}
+                required
+              >
+              </lightning-combobox>              
+            </template>
+            <template if:true={forwardRole}>
+                <c-forward-application-to-u-w
+                record-id={recordId} qcpa-forward={fwUserRole}
+                onselect={handleCloseClaim}
+              ></c-forward-application-to-u-w>
+              </template>
+          <!-- </div> -->
+
+          <template if:true={returnTo}>
+            <c-stage-reversal
+              record-id={recordId}
+              onselect={handleCloseClaim}
+            ></c-stage-reversal>
+          </template>
+
+          <template if:true={qualityChk}>
+            <div class="slds-p-around_x-large"> 
+              <c-custom-lookup label="Select Quality Check User"
+              field-name="Employee__r.Name" selected-icon-name="standard:identifier"
+              object-api-name="TeamHierarchy__c" field-api-name="Employee__r.Name"
+              selected-record-id={lookupId}
+              selected-fields="Employee__c, EmpBrch__r.BrchCode__c"
+              selected-record-name="Name" onselect={handleLookupFieldChange} filter-condn={filterCondn}
+              index={index} read-only={disableMode} disabled={disableMode}
+              required=true  key-id="Employee__c"></c-custom-lookup>
+           </div>
+          </template>
+
+        </div>
+  <!-- Modal/Popup Box LWC footer starts here -->
+   <template if:true={qualityChk}>
+    <footer class="slds-modal__footer">
+      <button
+        class="slds-button slds-button_neutral"
+        onclick={closeModal}
+        title="No"
+      >
+       No
+      </button>
+      <button
+        class="slds-button slds-button_brand"
+        onclick={handleYesClick}
+        title="Yes"
+      >
+       Yes
+      </button>
+    </footer>
+   </template>
+       
+      </div>
+    </section>
+  </template>
+</template>

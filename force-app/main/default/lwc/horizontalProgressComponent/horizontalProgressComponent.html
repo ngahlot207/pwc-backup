@@ -1,0 +1,48 @@
+<template>
+    <div if:true={desktopBoolean} class="desktopCs">
+        <lightning-card>
+            <template if:true={showBar}>
+                <div class="slds-p-horizontal_small slds-p-bottom_medium mobileCs">
+                    <lightning-progress-indicator current-step={currentStep} type="path" variant="base">
+                        <template for:each={stepList} for:item="step">
+                            <lightning-progress-step label={step.label} value={step.value} key={step.value}
+                                onclick={handleStageclick}>
+                            </lightning-progress-step></template>
+                    </lightning-progress-indicator>
+                </div>
+            </template>
+        </lightning-card>
+    </div>
+    <div if:true={phoneBolean} class="mobileCs">
+        <lightning-card>
+
+            <template if:true={showBar}>
+                <div class="slds-p-horizontal_small slds-p-bottom_medium desktopCs">
+                    <lightning-progress-indicator current-step={currentStep} type="path" variant="base">
+                        <template for:each={stepList} for:item="step">
+                            <lightning-progress-step label={step.label} value={step.value} key={step.value}
+                                onclick={handleStageclick}>
+                            </lightning-progress-step></template>
+                    </lightning-progress-indicator>
+                </div>
+            </template>
+        </lightning-card>
+    </div>
+</template>
+<!-- <template>
+
+    <div if:true={phoneBolean} class="desktopCs">
+        <lightning-card>
+
+            <template if:true={showBar}>
+                <div class="slds-p-horizontal_small slds-p-bottom_medium desktopCs">
+                    <lightning-progress-indicator current-step={currentStep} type="path" variant="base">
+                        <template for:each={stepList} for:item="step">
+                            <lightning-progress-step label={step.label} value={step.value} key={step.value}
+                                onclick={handleStageclick}>
+                            </lightning-progress-step></template></lightning-progress-indicator>
+                </div>
+            </template>
+        </lightning-card>
+    </div>
+</template> -->

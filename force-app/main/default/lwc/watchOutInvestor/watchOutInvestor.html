@@ -1,0 +1,47 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    <lightning-card>
+        <!-- class="customButton slds-p-bottom_small" -->
+        <!-- <div class="slds-p-left_medium slds-p-bottom_small">
+            <div class="slds-clearfix">
+                <div class="slds-float_right">
+                    <lightning-icon icon-name='utility:refresh' alternative-text='refresh' size='small' title='refresh'
+                        onclick={handleRefreshClick}></lightning-icon>
+                    <lightning-button variant="brand" class="slds-p-right_large" icon-name='utility:refresh'
+                        label="Refresh" onclick={handleRefreshClick}></lightning-button>
+                </div>
+            </div>
+        </div> -->
+        <div class="slds-var-m-top_medium">
+            <div class="slds-clearfix">
+                <div class="slds-float_right">
+                    <lightning-button variant="brand" class="slds-m-around_x-small" icon-name="action:fallback"
+                        label="Re-Initiate" onclick={handleIntialization} disabled={isReadOnly}></lightning-button>
+
+                    <!-- <template if:false={isReadOnly}> -->
+                    <lightning-icon variant="success" class="customButton slds-m-around_x-small"
+                        icon-name='utility:refresh' alternative-text='refresh' size='small' title='refresh'
+                        onclick={handleRefreshClick} disabled={isReadOnly}></lightning-icon>
+                    <!-- </template> -->
+                </div>
+            </div>
+        </div>
+
+        <lightning-accordion active-section-name={activeSections} allow-multiple-sections-open>
+            <lightning-accordion-section name="A" label="Watchout Investor Details" class="accClass">
+                <c-dynamic-datatable data-id="childComponentOne" params-data={params}></c-dynamic-datatable>
+            </lightning-accordion-section>
+            <lightning-accordion-section name="B" label="No Match Watchout Investor Details" class="accClass ">
+                <c-dynamic-datatable data-id="childComponentTwo" params-data={paramsNoMatch}></c-dynamic-datatable>
+            </lightning-accordion-section>
+        </lightning-accordion>
+    </lightning-card>
+
+    <template if:true={isModalOpen}>
+        <c-re-initiate loan-app-id={loanAppId} service-name="ScreeningWachout" is-watchout="true"
+            onfireevent={handleCustomEvent}></c-re-initiate>
+    </template>
+</template>

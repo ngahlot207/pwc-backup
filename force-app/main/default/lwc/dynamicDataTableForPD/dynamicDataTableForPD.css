@@ -1,0 +1,31 @@
+.datatable th {
+
+    background-color: hsl(0, 20%, 97%);
+
+    font-weight: bold;
+
+}
+.color{
+    background-color: hsl(0, 20%, 97%);
+
+    font-weight: bold;
+}
+.bordr{
+    border:none;
+   }
+
+.lineBreak{
+
+    background-color: hsl(0, 20%, 97%) !important;
+    border:none !important;
+}
+
+.custom-row {
+    height: 20px !important;
+}
+.custom-button:hover {
+    cursor: pointer;
+}
+.slds-combobox {
+    z-index: 9999; /* Adjust this value as needed */
+}

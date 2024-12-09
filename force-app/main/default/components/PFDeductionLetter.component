@@ -1,0 +1,52 @@
+<apex:component Controller="PFDeduction" >
+     
+     <html>
+        
+        <head>
+            <style>
+                .table1 tr,td{
+                width:15px;
+                }
+            </style>
+        </head>
+    </html>
+    <body >
+         
+        <div style="text-align: right; font-size:12px">
+                {!CurrentDateTime}
+            </div>
+        <div>
+            <h4 style="text-align:center; font-family:calibiri;font-weight: bold;font-size:15px">{!heading}</h4>
+        </div>
+        <div style="padding-left:60px; padding-top:60px; font-family:Times New Roman;font-size:15px">
+            Place: {!Place}<br/>
+Date: {!CurrentDate}<br/><br/>
+To,<br/>
+<b>Fedbank Financial Services Limited</b><br/>
+
+<b>Unit No: 1101, 11th floor, Cignus, Plot no. 71A,Powai, Paspoli, Mumbai-400087</b><br/><br/><br/>
+Sir/Madam,<br/><br/>
+Sub: Deduction of Processing Fees payable for my Loan with Fed Bank Financial Services Ltd.<br/><br/>
+I hereby authorize you to deduct the full/balance amount of Processing Fee which amounts to Rs. {!processingFess} ({!processingFessrupeeInWord}) payable by me to your Company for the Loan Sanctioned to me from my Disbursement.<br/><br/>
+Thanking you<br/><br/>
+Truly Yours<br/><br/>
+             <table style="border-collapse: collapse;font-family:Times New Roman;font-size:50px">
+                    <tr>
+                        <td style="border: none;font-family:Times New Roman;font-size:15px">Applicant Name:</td>
+                        <td style="border: none;font-family:Times New Roman;font-size:15px">Co Applicant Name: </td>  
+                                                
+                 </tr><br/>
+                 <tr>
+                        <td style="border: none;font-family:Times New Roman;font-size:15px;text-align: left; width: 50%;"> {!ApplicantName}</td>
+                        <td style="border: none;font-family:Times New Roman;font-size:15px;text-align: left; width: 50%;"> {!COApplicantName}</td>  
+                                                
+                 </tr><br/><br/>
+              <tr>
+                        <td style="border: none;font-family:Times New Roman;font-size:15px">Signature</td>
+                        <td style="border: none;font-family:Times New Roman;font-size:15px">Signature</td>  
+                                                
+                    </tr>
+            </table>
+        </div>
+    </body>
+    </apex:component>

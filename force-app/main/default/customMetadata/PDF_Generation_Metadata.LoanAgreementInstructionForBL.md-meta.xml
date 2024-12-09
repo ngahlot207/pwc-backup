@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>LoanAgreementInstructionForBL</label>
+    <protected>false</protected>
+    <values>
+        <field>Content_Order__c</field>
+        <value xsi:type="xsd:double">1.0</value>
+    </values>
+    <values>
+        <field>Content__c</field>
+        <value xsi:type="xsd:string">&lt;div style=&quot;font-family:Times New Roman;font-size:12px&quot;&gt;
+            &lt;b&gt;Instructions:&lt;/b&gt; &lt;br/&gt;&lt;br/&gt;
+                1. All borrowers to sign on all pages (and wherever crosses are marked).&lt;br/&gt;&lt;br/&gt;
+            	2. . If there is any overwriting,same needs to be countersigned by allborrowers.&lt;br/&gt;&lt;br/&gt;
+            	3. Vernacular Declaration is required only if any borrower/s have signed in any language other than English&lt;br/&gt;&lt;br/&gt;
+				               
+            &lt;/div&gt;</value>
+    </values>
+    <values>
+        <field>Document_Type__c</field>
+        <value xsi:type="xsd:string">Loan Agreement for BL/PL</value>
+    </values>
+    <values>
+        <field>Page_Number__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Product_Type__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Region_Picklist__c</field>
+        <value xsi:type="xsd:string">Content</value>
+    </values>
+    <values>
+        <field>Static_Resource_Name__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

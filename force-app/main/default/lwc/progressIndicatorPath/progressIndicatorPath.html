@@ -1,0 +1,173 @@
+<template>
+
+    <div if:true={desktopBoolean} class="desktopCs" style="background-color:white">
+        
+        <!-- <lightning-card> -->
+            
+                <template if:true={showBar}>
+                    <div lwc:if={stepList}  class="fedfina">
+                        <!--<lightning-progress-indicator current-step={currentStep} type="path" variant="base">
+                            <template for:each={stepList} for:item="step" for:index="index">
+                                <lightning-progress-step label={step.label} value={step.value} key={step.value} data-index={index}
+                                    onclick={handleStageclick}>
+                                </lightning-progress-step></template>
+                        </lightning-progress-indicator>-->
+                        <div class="slds-path slds-p-around--medium ">
+                            <div class="slds-grid slds-path__track">
+                                <div class="slds-grid slds-path__scroller-container">
+                                    <div class="slds-path__scroller">
+                                        <div class="slds-path__scroller_inner">
+                                            <ul class="slds-path__nav" role="listbox" aria-orientation="horizontal" aria-labelledby="slds-path__stage-name">
+                                                <template for:each={stepList} for:item="step" for:index="index">
+            
+                                                    
+                                                    <li if:true={step.isCurrent} key={step.value} data-index={index} class="slds-path__item slds-is-current" role="presentation" onclick={handleStageclick}>
+                                                        <a aria-selected="false" class="slds-path__link" role="option" tabindex="-1">
+                                                            <span class="slds-path__stage">
+                                                                <!--<svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                                                                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                                                                </svg>
+                                                                <span class="slds-assistive-text">Stage Complete</span>-->
+                                                            </span>
+                                                            <span class="slds-path__title">{step.label}</span>
+                                                        </a>
+                                                    </li>
+                                                    <li if:true={step.isInActive} key={step.value} data-index={index} class="slds-path__item slds-is-incomplete" role="presentation" onclick={handleStageclick}>
+                                                        <a aria-selected="false" class="slds-path__link" role="option" tabindex="-1">
+                                                            <span class="slds-path__stage">
+                                                                <!--<svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                                                                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                                                                </svg>
+                                                                <span class="slds-assistive-text">Stage Complete</span>-->
+                                                            </span>
+                                                            <span class="slds-path__title">{step.label}</span>
+                                                        </a>
+                                                    </li>
+                                                    <li if:true={step.isCompleted} key={step.value} data-index={index} class="slds-path__item slds-is-active" role="presentation" onclick={handleStageclick}>
+                                                        <a aria-selected="false" class="slds-path__link" role="option" tabindex="-1">
+                                                            <span class="slds-path__stage">
+                                                                <!--<svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                                                                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                                                                </svg>
+                                                                <span class="slds-assistive-text">Stage Complete</span>-->
+                                                            </span>
+                                                            <span class="slds-path__title">{step.label}</span>
+                                                        </a>
+                                                    </li>
+                                                </template>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            
+        <!-- </lightning-card> -->
+        
+    </div>
+
+ 
+<!-- Related List Quick Links Section -->
+
+<template if:true={showQuickLinks}>
+    <div if:true={desktopBoolean}>
+        <lightning-card>
+            <div class="slds-p-horizontal_medium slds-p-vertical_x-small">
+                <lightning-accordion allow-multiple-sections-open="true">
+                    <lightning-accordion-section name="quickLinksSection" label="Quick Links">
+                        <div class="slds-grid slds-wrap slds-gutters">
+                            <template for:each={stepList} for:item="link" for:index="index">
+                                <div key={link.value} class="slds-col slds-size_1-of-6 slds-p-around_small">
+                                    <a href="javascript:void(0);" data-value={link.value} onclick={handleRelatedLinkClick} class="slds-text-link">
+                                        <lightning-icon icon-name="utility:link" alternative-text={link.label} size="small" class="slds-m-right_x-small"></lightning-icon>
+                                        {link.label}
+                                    </a>
+                                </div>
+                            </template>
+                        </div>
+                    </lightning-accordion-section>
+                </lightning-accordion>
+            </div>
+        </lightning-card>
+    </div>
+</template>
+
+
+
+
+<!-- Related List Quick Links Section -->
+        
+    
+    <div if:true={phoneBolean} class="mobileCs">
+        <lightning-card>
+            <template if:true={showBar}>
+                <!-- <div lwc:if={stepList} class="slds-p-horizontal_small slds-p-bottom_medium ">
+                    <lightning-progress-indicator current-step={currentStep} type="path" variant="base">
+                        <template for:each={stepList} for:item="step" for:index="index">
+                            <lightning-progress-step label={step.label} value={step.value} key={step.value}
+                                onclick={handleStageclick} data-index="index">
+                            </lightning-progress-step></template></lightning-progress-indicator>
+                </div> -->
+                <div lwc:if={stepList}  class="fedfina">
+                    <!--<lightning-progress-indicator current-step={currentStep} type="path" variant="base">
+                        <template for:each={stepList} for:item="step" for:index="index">
+                            <lightning-progress-step label={step.label} value={step.value} key={step.value} data-index={index}
+                                onclick={handleStageclick}>
+                            </lightning-progress-step></template>
+                    </lightning-progress-indicator>-->
+                    <div class="slds-path slds-p-around--medium ">
+                        <div class="slds-grid slds-path__track">
+                            <div class="slds-grid slds-path__scroller-container">
+                                <div class="slds-path__scroller">
+                                    <div class="slds-path__scroller_inner">
+                                        <ul class="slds-path__nav" role="listbox" aria-orientation="horizontal" aria-labelledby="slds-path__stage-name">
+                                            <template for:each={stepList} for:item="step" for:index="index">
+        
+                                                
+                                                <li if:true={step.isCurrent} key={step.value} data-index={index} class="slds-path__item slds-is-current" role="presentation" onclick={handleStageclick}>
+                                                    <a aria-selected="false" class="slds-path__link" role="option" tabindex="-1">
+                                                        <span class="slds-path__stage">
+                                                            <!--<svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                                                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                                                            </svg>
+                                                            <span class="slds-assistive-text">Stage Complete</span>-->
+                                                        </span>
+                                                        <span class="slds-path__title">{step.label}</span>
+                                                    </a>
+                                                </li>
+                                                <li if:true={step.isInActive} key={step.value} data-index={index} class="slds-path__item slds-is-incomplete" role="presentation" onclick={handleStageclick}>
+                                                    <a aria-selected="false" class="slds-path__link" role="option" tabindex="-1">
+                                                        <span class="slds-path__stage">
+                                                            <!--<svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                                                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                                                            </svg>
+                                                            <span class="slds-assistive-text">Stage Complete</span>-->
+                                                        </span>
+                                                        <span class="slds-path__title">{step.label}</span>
+                                                    </a>
+                                                </li>
+                                                <li if:true={step.isCompleted} key={step.value} data-index={index} class="slds-path__item slds-is-active" role="presentation" onclick={handleStageclick}>
+                                                    <a aria-selected="false" class="slds-path__link" role="option" tabindex="-1">
+                                                        <span class="slds-path__stage">
+                                                            <!--<svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                                                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                                                            </svg>
+                                                            <span class="slds-assistive-text">Stage Complete</span>-->
+                                                        </span>
+                                                        <span class="slds-path__title">{step.label}</span>
+                                                    </a>
+                                                </li>
+                                            </template>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </lightning-card>
+    </div>
+</template>

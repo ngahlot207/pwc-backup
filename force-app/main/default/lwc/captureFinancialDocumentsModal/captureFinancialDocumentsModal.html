@@ -1,0 +1,31 @@
+<template>
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" class="slds-modal slds-fade-in-open slds-modal_xsmall">
+        <div class="slds-modal__container">
+            <lightning-spinner if:true={showSpinner} alternative-text="Loading" size="large" variant="brand" style="height:60rem;width:120rem;">
+            </lightning-spinner>
+
+            <header class="slds-modal__header">
+                <lightning-button-icon icon-name="utility:close" alternative-text="Close" variant="bare-inverse" 
+                    class="slds-modal__close" onclick={handleCancelPopUp} size="large"></lightning-button-icon>
+                    <h2 class="slds-modal__title">{popupHeaderName}</h2>
+            </header>
+
+            <!-- Modal body -->
+            <div class="slds-modal__content slds-p-around_medium">
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item padding="around-medium" size="12" small-device-size="12" medium-device-size="8" large-device-size="4">
+                        <lightning-input label="Available in File" name="availableInFile" type="checkbox"
+                            checked={availableInFile} onchange={handleChange} disabled={disableAvialbleInFile}>
+                        </lightning-input>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+    
+            <!-- Modal footer -->
+            <footer class="slds-modal__footer">
+                <lightning-button label="Cancel" variant="neutral" onclick={handleCancelPopUp}></lightning-button>
+            </footer>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>

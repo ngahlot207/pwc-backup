@@ -1,0 +1,988 @@
+<template>
+  <lightning-card>
+    <!-- {listFinancialYearRecord} -->
+    <template
+      if:true={showFinancialData}
+      for:each={listFinancialYearRecord}
+      for:item="fileIterator"
+    >
+      <div key={fileIterator.key}>
+        <br />
+        <div class="slds-m-left_large">
+          <b>
+            Borrower Name:
+            <p>{fileIterator.value.borrowerNameConsolidate}</p>
+          </b>
+        </div>
+        <br />
+        <div class="slds-p-around_medium">
+          <div class="slds-box">
+            <div key={fileIterator.key} class="slds-scrollable">
+              <table
+                class="slds-table slds-table_bordered slds-table_cell-buffer"
+              >
+                <thead>
+                  <tr class="" style="height: 45px">
+                    <th>Particulars (Amount in Lakhs)</th>
+                    <th>{fileIterator.value.finacialYear1}</th>
+                    <th>{fileIterator.value.finacialYear2}</th>
+                    <template
+                      if:true={fileIterator.value.provisionFinancialRecord}
+                    >
+                      <th>{fileIterator.value.finacialYear3}</th>
+                    </template>
+                  </tr>
+
+                  <template if:true={isBlPl}>
+                    <tr class="">
+                      <td style="background-color: #f3f2f2">
+                        <b>ITR Filing Date</b>
+                      </td>
+                      <template
+                        if:true={fileIterator.value.previousFinancialRecord}
+                      >
+                        <td
+                          if:false={isGapDaysGreaterThan180}
+                          style="background-color: #fb3d3d"
+                        >
+                          {fileIterator.value.lastFinancialYear.itrFilingDate}
+                        </td>
+                        <td
+                          if:true={isGapDaysGreaterThan180}
+                          style="background-color: #4ec478"
+                        >
+                          {fileIterator.value.lastFinancialYear.itrFilingDate}
+                        </td>
+                      </template>
+
+                      <template
+                        if:true={fileIterator.value.currentFinancialRecord}
+                      >
+                        <td
+                          if:false={isGapDaysGreaterThan180}
+                          style="background-color: #fb3d3d"
+                        >
+                          {fileIterator.value.currentFinancialYear.itrFilingDate}
+                        </td>
+                        <td
+                          if:true={isGapDaysGreaterThan180}
+                          style="background-color: #4ec478"
+                        >
+                          {fileIterator.value.currentFinancialYear.itrFilingDate}
+                        </td>
+                      </template>
+                      <template
+                        if:true={fileIterator.value.provisionFinancialRecord}
+                      >
+                        <td
+                          if:false={isGapDaysGreaterThan180}
+                          style="background-color: #fb3d3d"
+                        >
+                          {fileIterator.value.provisionalFinancialYear.itrFilingDate}
+                        </td>
+                        <td
+                          if:true={isGapDaysGreaterThan180}
+                          style="background-color: #4ec478"
+                        >
+                          {fileIterator.value.provisionalFinancialYear.itrFilingDate}
+                        </td>
+                      </template>
+                    </tr>
+                  </template>
+
+                  <tr class="">
+                    <td style="background-color: #f3f2f2">
+                      <b>Turn Over</b>
+                    </td>
+
+                    <td if:true={fileIterator.value.previousFinancialRecord}>
+                      {fileIterator.value.lastFinancialYear.turnOver}
+                    </td>
+
+                    <td if:true={fileIterator.value.currentFinancialRecord}>
+                      {fileIterator.value.currentFinancialYear.turnOver}
+                    </td>
+
+                    <td if:true={fileIterator.value.provisionFinancialRecord}>
+                      {fileIterator.value.provisionalFinancialYear.turnOver}
+                    </td>
+                  </tr>
+                  <tr class="">
+                    <td class="" style="background-color: #f3f2f2">
+                      <b> Turn Over Growth Rate (%)</b>
+                    </td>
+
+                    <td if:true={fileIterator.value.previousFinancialRecord}>
+                      {fileIterator.value.lastFinancialYear.turnOverGrowthRatePercent}
+                    </td>
+
+                    <td if:true={fileIterator.value.currentFinancialRecord}>
+                      {fileIterator.value.currentFinancialYear.turnOverGrowthRatePercent}
+                    </td>
+
+                    <td if:true={fileIterator.value.provisionFinancialRecord}>
+                      {fileIterator.value.provisionalFinancialYear.turnOverGrowthRatePercent}
+                    </td>
+                  </tr>
+
+                  <tr class="">
+                    <td style="background-color: #f3f2f2">
+                      <b> EBIDTA/PBDIT</b>
+                    </td>
+
+                    <td if:true={fileIterator.value.previousFinancialRecord}>
+                      {fileIterator.value.lastFinancialYear.EBIDTA_PBDIT}
+                    </td>
+
+                    <td if:true={fileIterator.value.currentFinancialRecord}>
+                      {fileIterator.value.currentFinancialYear.EBIDTA_PBDIT}
+                    </td>
+
+                    <td if:true={fileIterator.value.provisionFinancialRecord}>
+                      {fileIterator.value.provisionalFinancialYear.EBIDTA_PBDIT}
+                    </td>
+                  </tr>
+
+                  <tr class="">
+                    <td style="background-color: #f3f2f2">
+                      <b> PBDT</b>
+                    </td>
+
+                    <td if:true={fileIterator.value.previousFinancialRecord}>
+                      {fileIterator.value.lastFinancialYear.PBDT}
+                    </td>
+
+                    <td if:true={fileIterator.value.currentFinancialRecord}>
+                      {fileIterator.value.currentFinancialYear.PBDT}
+                    </td>
+
+                    <td if:true={fileIterator.value.provisionFinancialRecord}>
+                      {fileIterator.value.provisionalFinancialYear.PBDT}
+                    </td>
+                  </tr>
+
+                  <tr class="">
+                    <td class="" style="background-color: #f3f2f2">
+                      <b> PBT</b>
+                    </td>
+
+                    <td if:true={fileIterator.value.previousFinancialRecord}>
+                      {fileIterator.value.lastFinancialYear.PBT}
+                    </td>
+
+                    <td if:true={fileIterator.value.currentFinancialRecord}>
+                      {fileIterator.value.currentFinancialYear.PBT}
+                    </td>
+
+                    <td if:true={fileIterator.value.provisionFinancialRecord}>
+                      {fileIterator.value.provisionalFinancialYear.PBT}
+                    </td>
+                  </tr>
+
+                  <tr class="">
+                    <td class="" style="background-color: #f3f2f2">
+                      <b> PAT</b>
+                    </td>
+
+                    <td if:true={fileIterator.value.previousFinancialRecord}>
+                      {fileIterator.value.lastFinancialYear.PAT}
+                    </td>
+
+                    <td if:true={fileIterator.value.currentFinancialRecord}>
+                      {fileIterator.value.currentFinancialYear.PAT}
+                    </td>
+                    <td if:true={fileIterator.value.provisionFinancialRecord}>
+                      {fileIterator.value.provisionalFinancialYear.PAT}
+                    </td>
+                  </tr>
+
+                  <tr class="">
+                    <td class="" style="background-color: #f3f2f2">
+                      <b>Cash Profit</b>
+                    </td>
+
+                    <td if:true={fileIterator.value.previousFinancialRecord}>
+                      {fileIterator.value.lastFinancialYear.cashProfit}
+                    </td>
+
+                    <td if:true={fileIterator.value.currentFinancialRecord}>
+                      {fileIterator.value.currentFinancialYear.cashProfit}
+                    </td>
+
+                    <td if:true={fileIterator.value.provisionFinancialRecord}>
+                      {fileIterator.value.provisionalFinancialYear.cashProfit}
+                    </td>
+                  </tr>
+
+                  <tr class="">
+                    <td style="background-color: #f3f2f2">
+                      <b>Gross Profit Margin </b>
+                    </td>
+
+                    <td if:true={fileIterator.value.previousFinancialRecord}>
+                      {fileIterator.value.lastFinancialYear.grossProfitMargin}
+                    </td>
+
+                    <td if:true={fileIterator.value.currentFinancialRecord}>
+                      {fileIterator.value.currentFinancialYear.grossProfitMargin}
+                    </td>
+
+                    <td if:true={fileIterator.value.provisionFinancialRecord}>
+                      {fileIterator.value.provisionalFinancialYear.grossProfitMargin}
+                    </td>
+                  </tr>
+
+                  <tr class="">
+                    <td style="background-color: #f3f2f2">
+                      <b> Net Profit Margin</b>
+                    </td>
+
+                    <td if:true={fileIterator.value.previousFinancialRecord}>
+                      {fileIterator.value.lastFinancialYear.netProfitMargin}
+                    </td>
+
+                    <td if:true={fileIterator.value.currentFinancialRecord}>
+                      {fileIterator.value.currentFinancialYear.netProfitMargin}
+                    </td>
+
+                    <td if:true={fileIterator.value.provisionFinancialRecord}>
+                      {fileIterator.value.provisionalFinancialYear.netProfitMargin}
+                    </td>
+                  </tr>
+
+                  <tr class="">
+                    <td style="background-color: #f3f2f2">
+                      <b>Total Current Liabilities </b>
+                    </td>
+
+                    <td if:true={fileIterator.value.previousFinancialRecord}>
+                      {fileIterator.value.lastFinancialYear.totalCurrentLiabilities}
+                    </td>
+
+                    <td if:true={fileIterator.value.currentFinancialRecord}>
+                      {fileIterator.value.currentFinancialYear.totalCurrentLiabilities}
+                    </td>
+
+                    <td if:true={fileIterator.value.provisionFinancialRecord}>
+                      {fileIterator.value.provisionalFinancialYear.totalCurrentLiabilities}
+                    </td>
+                  </tr>
+
+                  <tr class="">
+                    <td style="background-color: #f3f2f2">
+                      <b> Total Current Assets </b>
+                    </td>
+
+                    <td if:true={fileIterator.value.previousFinancialRecord}>
+                      {fileIterator.value.lastFinancialYear.totalCurrentAssets}
+                    </td>
+
+                    <td if:true={fileIterator.value.currentFinancialRecord}>
+                      {fileIterator.value.currentFinancialYear.totalCurrentAssets}
+                    </td>
+
+                    <td if:true={fileIterator.value.provisionFinancialRecord}>
+                      {fileIterator.value.provisionalFinancialYear.totalCurrentAssets}
+                    </td>
+                  </tr>
+
+                  <tr class="">
+                    <td style="background-color: #f3f2f2">
+                      <b> Debt</b>
+                    </td>
+
+                    <td if:true={fileIterator.value.previousFinancialRecord}>
+                      {fileIterator.value.lastFinancialYear.totalDebt}
+                    </td>
+
+                    <td if:true={fileIterator.value.currentFinancialRecord}>
+                      {fileIterator.value.currentFinancialYear.totalDebt}
+                    </td>
+
+                    <td if:true={fileIterator.value.provisionFinancialRecord}>
+                      {fileIterator.value.provisionalFinancialYear.totalDebt}
+                    </td>
+                  </tr>
+
+                  <tr class="">
+                    <td style="background-color: #f3f2f2">
+                      <b> Adjusted Net Worth </b>
+                    </td>
+
+                    <td if:true={fileIterator.value.previousFinancialRecord}>
+                      {fileIterator.value.lastFinancialYear.adjustedNetworth}
+                    </td>
+
+                    <td if:true={fileIterator.value.currentFinancialRecord}>
+                      {fileIterator.value.currentFinancialYear.adjustedNetworth}
+                    </td>
+
+                    <td if:true={fileIterator.value.provisionFinancialRecord}>
+                      {fileIterator.value.provisionalFinancialYear.adjustedNetworth}
+                    </td>
+                  </tr>
+
+                  <tr class="">
+                    <td style="background-color: #f3f2f2">
+                      <b> Debtors </b>
+                    </td>
+
+                    <td if:true={fileIterator.value.previousFinancialRecord}>
+                      {fileIterator.value.lastFinancialYear.debtors}
+                    </td>
+
+                    <td if:true={fileIterator.value.currentFinancialRecord}>
+                      {fileIterator.value.currentFinancialYear.debtors}
+                    </td>
+
+                    <td if:true={fileIterator.value.provisionFinancialRecord}>
+                      {fileIterator.value.provisionalFinancialYear.debtors}
+                    </td>
+                  </tr>
+
+                  <tr class="">
+                    <td style="background-color: #f3f2f2">
+                      <b>Creditors</b>
+                    </td>
+
+                    <td if:true={fileIterator.value.previousFinancialRecord}>
+                      {fileIterator.value.lastFinancialYear.creditors}
+                    </td>
+
+                    <td if:true={fileIterator.value.currentFinancialRecord}>
+                      {fileIterator.value.currentFinancialYear.creditors}
+                    </td>
+
+                    <td if:true={fileIterator.value.provisionFinancialRecord}>
+                      {fileIterator.value.provisionalFinancialYear.creditors}
+                    </td>
+                  </tr>
+
+                  <tr class="">
+                    <td style="background-color: #f3f2f2">
+                      <b> Stock Value </b>
+                    </td>
+
+                    <td if:true={fileIterator.value.previousFinancialRecord}>
+                      {fileIterator.value.lastFinancialYear.stockValue}
+                    </td>
+
+                    <td if:true={fileIterator.value.currentFinancialRecord}>
+                      {fileIterator.value.currentFinancialYear.stockValue}
+                    </td>
+
+                    <td if:true={fileIterator.value.provisionFinancialRecord}>
+                      {fileIterator.value.provisionalFinancialYear.stockValue}
+                    </td>
+                  </tr>
+
+                  <tr class="">
+                    <td style="background-color: #f3f2f2">
+                      <b> Debtors Collection Period (Days) </b>
+                    </td>
+
+                    <template
+                      if:true={fileIterator.value.previousFinancialRecord}
+                    >
+                      <td
+                        if:true={debtCollPerPrevYrColrCode}
+                        style="background-color: #fb3d3d"
+                      >
+                        {fileIterator.value.lastFinancialYear.debtorsCollectionPeriod}
+                      </td>
+                      <td
+                        if:false={debtCollPerPrevYrColrCode}
+                        style="background-color: #4ec478"
+                      >
+                        {fileIterator.value.lastFinancialYear.debtorsCollectionPeriod}
+                      </td>
+                    </template>
+
+                    <template
+                      if:true={fileIterator.value.currentFinancialRecord}
+                    >
+                      <td
+                        if:true={debtCollPerCurrYrColCode}
+                        style="background-color: #fb3d3d"
+                      >
+                        {fileIterator.value.currentFinancialYear.debtorsCollectionPeriod}
+                      </td>
+                      <td
+                        if:false={debtCollPerCurrYrColCode}
+                        style="background-color: #4ec478"
+                      >
+                        {fileIterator.value.currentFinancialYear.debtorsCollectionPeriod}
+                      </td>
+                    </template>
+
+                    <template
+                      if:true={fileIterator.value.provisionFinancialRecord}
+                    >
+                      <td
+                        if:true={debtCollPerProvYrColrCode}
+                        style="background-color: #fb3d3d"
+                      >
+                        {fileIterator.value.provisionalFinancialYear.debtorsCollectionPeriod}
+                      </td>
+                      <td
+                        if:false={debtCollPerProvYrColrCode}
+                        style="background-color: #4ec478"
+                      >
+                        {fileIterator.value.provisionalFinancialYear.debtorsCollectionPeriod}
+                      </td>
+                    </template>
+                  </tr>
+
+                  <tr class="">
+                    <td style="background-color: #f3f2f2">
+                      <b>Creditors Payment Period (Days)</b>
+                    </td>
+
+                    <template
+                      if:true={fileIterator.value.previousFinancialRecord}
+                    >
+                      <td
+                        if:true={credPayPerPrevYrColrCode}
+                        style="background-color: #fb3d3d"
+                      >
+                        {fileIterator.value.lastFinancialYear.creditorsPayementPeriod}
+                      </td>
+                      <td
+                        if:false={credPayPerPrevYrColrCode}
+                        style="background-color: #4ec478"
+                      >
+                        {fileIterator.value.lastFinancialYear.creditorsPayementPeriod}
+                      </td>
+                    </template>
+
+                    <template
+                      if:true={fileIterator.value.currentFinancialRecord}
+                    >
+                      <td
+                        if:true={credPayPerCurrYrColrCode}
+                        style="background-color: #fb3d3d"
+                      >
+                        {fileIterator.value.currentFinancialYear.creditorsPayementPeriod}
+                      </td>
+                      <td
+                        if:false={credPayPerCurrYrColrCode}
+                        style="background-color: #4ec478"
+                      >
+                        {fileIterator.value.currentFinancialYear.creditorsPayementPeriod}
+                      </td>
+                    </template>
+
+                    <template
+                      if:true={fileIterator.value.provisionFinancialRecord}
+                    >
+                      <td
+                        if:true={credPayPerProvYrColrCode}
+                        style="background-color: #fb3d3d"
+                      >
+                        {fileIterator.value.provisionalFinancialYear.creditorsPayementPeriod}
+                      </td>
+                      <td
+                        if:false={credPayPerProvYrColrCode}
+                        style="background-color: #4ec478"
+                      >
+                        {fileIterator.value.provisionalFinancialYear.creditorsPayementPeriod}
+                      </td>
+                    </template>
+                  </tr>
+
+                  <tr class="">
+                    <td style="background-color: #f3f2f2">
+                      <b> Stock Replenishment Period (days)</b>
+                    </td>
+
+                    <template
+                      if:true={fileIterator.value.previousFinancialRecord}
+                    >
+                      <td
+                        if:true={stockReplPerPrevYrColrCode}
+                        style="background-color: #fb3d3d"
+                      >
+                        {fileIterator.value.lastFinancialYear.stockReplenishnentPeriod}
+                      </td>
+                      <td
+                        if:false={stockReplPerPrevYrColrCode}
+                        style="background-color: #4ec478"
+                      >
+                        {fileIterator.value.lastFinancialYear.stockReplenishnentPeriod}
+                      </td>
+                    </template>
+
+                    <template
+                      if:true={fileIterator.value.currentFinancialRecord}
+                    >
+                      <td
+                        if:true={stockReplPerCurrYrColrCode}
+                        style="background-color: #fb3d3d"
+                      >
+                        {fileIterator.value.currentFinancialYear.stockReplenishnentPeriod}
+                      </td>
+                      <td
+                        if:false={stockReplPerCurrYrColrCode}
+                        style="background-color: #4ec478"
+                      >
+                        {fileIterator.value.currentFinancialYear.stockReplenishnentPeriod}
+                      </td>
+                    </template>
+
+                    <template
+                      if:true={fileIterator.value.provisionFinancialRecord}
+                    >
+                      <td
+                        if:true={stockReplPerProvYrColrCode}
+                        style="background-color: #fb3d3d"
+                      >
+                        {fileIterator.value.provisionalFinancialYear.stockReplenishnentPeriod}
+                      </td>
+                      <td
+                        if:false={stockReplPerProvYrColrCode}
+                        style="background-color: #4ec478"
+                      >
+                        {fileIterator.value.provisionalFinancialYear.stockReplenishnentPeriod}
+                      </td>
+                    </template>
+                  </tr>
+
+                  <tr class="">
+                    <td style="background-color: #f3f2f2">
+                      <b> Inventory Turnover Ratio</b>
+                    </td>
+
+                    <template
+                      if:true={fileIterator.value.previousFinancialRecord}
+                    >
+                      <td
+                        if:true={invtrTurnOverPrevYrColrCode}
+                        style="background-color: #fb3d3d"
+                      >
+                        {fileIterator.value.lastFinancialYear.inventryTorunOver}
+                      </td>
+                      <td
+                        if:false={invtrTurnOverPrevYrColrCode}
+                        style="background-color: #4ec478"
+                      >
+                        {fileIterator.value.lastFinancialYear.inventryTorunOver}
+                      </td>
+                    </template>
+
+                    <template
+                      if:true={fileIterator.value.currentFinancialRecord}
+                    >
+                      <td
+                        if:true={invtrTurnOverCurrYrColrCode}
+                        style="background-color: #fb3d3d"
+                      >
+                        {fileIterator.value.currentFinancialYear.inventryTorunOver}
+                      </td>
+                      <td
+                        if:false={invtrTurnOverCurrYrColrCode}
+                        style="background-color: #4ec478"
+                      >
+                        {fileIterator.value.currentFinancialYear.inventryTorunOver}
+                      </td>
+                    </template>
+                    <template
+                      if:true={fileIterator.value.provisionFinancialRecord}
+                    >
+                      <td
+                        if:true={invtrTurnOverProvYrColrCode}
+                        style="background-color: #fb3d3d"
+                      >
+                        {fileIterator.value.provisionalFinancialYear.inventryTorunOver}
+                      </td>
+                      <td
+                        if:false={invtrTurnOverProvYrColrCode}
+                        style="background-color: #4ec478"
+                      >
+                        {fileIterator.value.provisionalFinancialYear.inventryTorunOver}
+                      </td>
+                    </template>
+                  </tr>
+
+                  <tr class="">
+                    <td style="background-color: #f3f2f2">
+                      <b> Net Working Capital </b>
+                    </td>
+
+                    <td if:true={fileIterator.value.previousFinancialRecord}>
+                      {fileIterator.value.lastFinancialYear.networkingCapital}
+                    </td>
+
+                    <td if:true={fileIterator.value.currentFinancialRecord}>
+                      {fileIterator.value.currentFinancialYear.networkingCapital}
+                    </td>
+
+                    <td if:true={fileIterator.value.provisionFinancialRecord}>
+                      {fileIterator.value.provisionalFinancialYear.networkingCapital}
+                    </td>
+                  </tr>
+
+                  <tr class="">
+                    <td style="background-color: #f3f2f2">
+                      <b> Current Ratio</b>
+                    </td>
+
+                    <template
+                      if:true={fileIterator.value.previousFinancialRecord}
+                    >
+                      <td
+                        if:true={currRatioPrevYrColrCode}
+                        style="background-color: #fb3d3d"
+                      >
+                        {fileIterator.value.lastFinancialYear.currentRatio}
+                      </td>
+                      <td
+                        if:false={currRatioPrevYrColrCode}
+                        style="background-color: #4ec478"
+                      >
+                        {fileIterator.value.lastFinancialYear.currentRatio}
+                      </td>
+                    </template>
+
+                    <template
+                      if:true={fileIterator.value.currentFinancialRecord}
+                    >
+                      <td
+                        if:true={currRatioCurrYrColrCode}
+                        style="background-color: #fb3d3d"
+                      >
+                        {fileIterator.value.currentFinancialYear.currentRatio}
+                      </td>
+                      <td
+                        if:false={currRatioCurrYrColrCode}
+                        style="background-color: #4ec478"
+                      >
+                        {fileIterator.value.currentFinancialYear.currentRatio}
+                      </td>
+                    </template>
+
+                    <template
+                      if:true={fileIterator.value.provisionFinancialRecord}
+                    >
+                      <td
+                        if:true={currRatioProvYrColrCode}
+                        style="background-color: #fb3d3d"
+                      >
+                        {fileIterator.value.provisionalFinancialYear.currentRatio}
+                      </td>
+                      <td
+                        if:false={currRatioProvYrColrCode}
+                        style="background-color: #4ec478"
+                      >
+                        {fileIterator.value.provisionalFinancialYear.currentRatio}
+                      </td>
+                    </template>
+                  </tr>
+
+                  <tr class="">
+                    <td style="background-color: #f3f2f2">
+                      <b> Quick Ratio</b>
+                    </td>
+
+                    <template
+                      if:true={fileIterator.value.previousFinancialRecord}
+                    >
+                      <td
+                        if:true={quickRatioPrevYrColrCode}
+                        style="background-color: #fb3d3d"
+                      >
+                        {fileIterator.value.lastFinancialYear.quickRatio}
+                      </td>
+                      <td
+                        if:false={quickRatioPrevYrColrCode}
+                        style="background-color: #4ec478"
+                      >
+                        {fileIterator.value.lastFinancialYear.quickRatio}
+                      </td>
+                    </template>
+
+                    <template
+                      if:true={fileIterator.value.currentFinancialRecord}
+                    >
+                      <td
+                        if:true={quickRatioCurrYrColrCode}
+                        style="background-color: #fb3d3d"
+                      >
+                        {fileIterator.value.currentFinancialYear.quickRatio}
+                      </td>
+                      <td
+                        if:false={quickRatioCurrYrColrCode}
+                        style="background-color: #4ec478"
+                      >
+                        {fileIterator.value.currentFinancialYear.quickRatio}
+                      </td>
+                    </template>
+
+                    <template
+                      if:true={fileIterator.value.provisionFinancialRecord}
+                    >
+                      <td
+                        if:true={quickRatioProvYrColrCode}
+                        style="background-color: #fb3d3d"
+                      >
+                        {fileIterator.value.provisionalFinancialYear.quickRatio}
+                      </td>
+                      <td
+                        if:false={quickRatioProvYrColrCode}
+                        style="background-color: #4ec478"
+                      >
+                        {fileIterator.value.provisionalFinancialYear.quickRatio}
+                      </td>
+                    </template>
+                  </tr>
+
+                  <tr class="">
+                    <td style="background-color: #f3f2f2">
+                      <b> Interest Coverage Ratio </b>
+                    </td>
+
+                    <template
+                      if:true={fileIterator.value.previousFinancialRecord}
+                    >
+                      <td
+                        if:true={intrstCovrgRatioPrevYrColrCode}
+                        style="background-color: #fb3d3d"
+                      >
+                        {fileIterator.value.lastFinancialYear.interestCoverageRatio}
+                      </td>
+                      <td
+                        if:false={intrstCovrgRatioPrevYrColrCode}
+                        style="background-color: #4ec478"
+                      >
+                        {fileIterator.value.lastFinancialYear.interestCoverageRatio}
+                      </td>
+                    </template>
+
+                    <template
+                      if:true={fileIterator.value.currentFinancialRecord}
+                    >
+                      <td
+                        if:true={intrstCovrgRatioCurrYrColrCode}
+                        style="background-color: #fb3d3d"
+                      >
+                        {fileIterator.value.currentFinancialYear.interestCoverageRatio}
+                      </td>
+                      <td
+                        if:false={intrstCovrgRatioCurrYrColrCode}
+                        style="background-color: #4ec478"
+                      >
+                        {fileIterator.value.currentFinancialYear.interestCoverageRatio}
+                      </td>
+                    </template>
+                    <template
+                      if:true={fileIterator.value.provisionFinancialRecord}
+                    >
+                      <td
+                        if:true={intrstCovrgRatioProvYrColrCode}
+                        style="background-color: #fb3d3d"
+                      >
+                        {fileIterator.value.provisionalFinancialYear.interestCoverageRatio}
+                      </td>
+                      <td
+                        if:false={intrstCovrgRatioProvYrColrCode}
+                        style="background-color: #4ec478"
+                      >
+                        {fileIterator.value.provisionalFinancialYear.interestCoverageRatio}
+                      </td>
+                    </template>
+                  </tr>
+
+                  <tr class="">
+                    <td style="background-color: #f3f2f2">
+                      <b> Debt Equity Ratio</b>
+                    </td>
+
+                    <template
+                      if:true={fileIterator.value.previousFinancialRecord}
+                    >
+                      <td
+                        if:true={debtEqtyRatioPrevYrColrCode}
+                        style="background-color: #fb3d3d"
+                      >
+                        {fileIterator.value.lastFinancialYear.debtEquityRatio}
+                      </td>
+                      <td
+                        if:false={debtEqtyRatioPrevYrColrCode}
+                        style="background-color: #4ec478"
+                      >
+                        {fileIterator.value.lastFinancialYear.debtEquityRatio}
+                      </td>
+                    </template>
+
+                    <template
+                      if:true={fileIterator.value.currentFinancialRecord}
+                    >
+                      <td
+                        if:true={debtEqtyRatioCurrYrColrCode}
+                        style="background-color: #fb3d3d"
+                      >
+                        {fileIterator.value.currentFinancialYear.debtEquityRatio}
+                      </td>
+                      <td
+                        if:false={debtEqtyRatioCurrYrColrCode}
+                        style="background-color: #4ec478"
+                      >
+                        {fileIterator.value.currentFinancialYear.debtEquityRatio}
+                      </td>
+                    </template>
+
+                    <template
+                      if:true={fileIterator.value.provisionFinancialRecord}
+                    >
+                      <td
+                        if:true={debtEqtyRatioProvYrColrCode}
+                        style="background-color: #fb3d3d"
+                      >
+                        {fileIterator.value.provisionalFinancialYear.debtEquityRatio}
+                      </td>
+                      <td
+                        if:false={debtEqtyRatioProvYrColrCode}
+                        style="background-color: #4ec478"
+                      >
+                        {fileIterator.value.provisionalFinancialYear.debtEquityRatio}
+                      </td>
+                    </template>
+                  </tr>
+
+                  <tr class="">
+                    <td style="background-color: #f3f2f2">
+                      <b> Leverage Ratio </b>
+                    </td>
+
+                    <template
+                      if:true={fileIterator.value.previousFinancialRecord}
+                    >
+                      <td
+                        if:true={levrageRatioPrevYrColrCode}
+                        style="background-color: #fb3d3d"
+                      >
+                        {fileIterator.value.lastFinancialYear.laverageRatio}
+                      </td>
+                      <td
+                        if:false={levrageRatioPrevYrColrCode}
+                        style="background-color: #4ec478"
+                      >
+                        {fileIterator.value.lastFinancialYear.laverageRatio}
+                      </td>
+                    </template>
+
+                    <template
+                      if:true={fileIterator.value.currentFinancialRecord}
+                    >
+                      <td
+                        if:true={levrageRatioCurrYrColrCode}
+                        style="background-color: #fb3d3d"
+                      >
+                        {fileIterator.value.currentFinancialYear.laverageRatio}
+                      </td>
+                      <td
+                        if:false={levrageRatioCurrYrColrCode}
+                        style="background-color: #4ec478"
+                      >
+                        {fileIterator.value.currentFinancialYear.laverageRatio}
+                      </td>
+                    </template>
+
+                    <template
+                      if:true={fileIterator.value.provisionFinancialRecord}
+                    >
+                      <td
+                        if:true={levrageRatioProvYrColrCode}
+                        style="background-color: #fb3d3d"
+                      >
+                        {fileIterator.value.provisionalFinancialYear.laverageRatio}
+                      </td>
+                      <td
+                        if:false={levrageRatioProvYrColrCode}
+                        style="background-color: #4ec478"
+                      >
+                        {fileIterator.value.provisionalFinancialYear.laverageRatio}
+                      </td>
+                    </template>
+                  </tr>
+                  <tr class="">
+                    <td style="background-color: #f3f2f2">
+                      <b> DSCR Pre</b>
+                    </td>
+
+                    <template
+                      if:true={fileIterator.value.previousFinancialRecord}
+                    >
+                      <td></td>
+                    </template>
+                    <template
+                      if:true={fileIterator.value.currentFinancialRecord}
+                    >
+                      <td>{fileIterator.value.DSCRPree}</td>
+                    </template>
+                    <template
+                      if:true={fileIterator.value.provisionFinancialRecord}
+                    >
+                      <td></td>
+                    </template>
+                  </tr>
+                  <tr class="">
+                    <td style="background-color: #f3f2f2">
+                      <b> DSCR Post</b>
+                    </td>
+
+                    <template
+                      if:true={fileIterator.value.previousFinancialRecord}
+                    >
+                      <td></td>
+                    </template>
+                    <template
+                      if:true={fileIterator.value.currentFinancialRecord}
+                    >
+                      <td>{fileIterator.value.DSCRPostt}</td>
+                    </template>
+                    <template
+                      if:true={fileIterator.value.provisionFinancialRecord}
+                    >
+                      <td></td>
+                    </template>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <lightning-layout multiple-rows>
+           <template if:true={fileIterator.value.currentFinancialRecord}>
+            <lightning-layout-item size="12" large-device-size="3" padding="around-small">
+               <div class="slds-p-top_medium">
+                <lightning-textarea
+                  class="commentclass"
+                  name="Comments for Profit and Loss"
+                  label="Comments for Profit and Loss"
+                  value={fileIterator.value.currentFinancialYear.finCommentsPL}
+                  disabled
+                ></lightning-textarea>
+                
+               </div>
+            </lightning-layout-item>
+         </template>
+
+         <template if:true={fileIterator.value.currentFinancialRecord}>
+            <lightning-layout-item size="12" large-device-size="3" padding="around-small">
+               <div class="slds-p-top_medium">
+                <lightning-textarea
+                  class="commentclass"
+                  name="Comments for Balance Sheet"
+                  label="Comments for Balance Sheet"
+                  value={fileIterator.value.currentFinancialYear.finCommentsBS}
+                  disabled
+                ></lightning-textarea>
+               </div>
+            </lightning-layout-item>
+         </template>
+        </lightning-layout>
+      </div>
+    </template>
+  </lightning-card>
+</template>

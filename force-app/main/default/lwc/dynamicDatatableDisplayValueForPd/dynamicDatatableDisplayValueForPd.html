@@ -1,0 +1,103 @@
+<template>
+
+    <template lwc:if={fieldValue}> </template>
+
+    <div>
+        <!-- <p>class="slds-truncate" title={fieldValue} {fieldValue}</p> -->
+
+        <template if:true={stringBoolean}>
+            <p>
+                <!-- <lightning-formatted-text value={fieldValue}></lightning-formatted-text> -->
+                <lightning-input variant="label-hidden" type="text" value={fieldValue} onchange={inputChangeHandler}
+                    required={isRequired} disabled={isReadOnly}></lightning-input>
+            </p>
+        </template>
+        <template if:true={datetimeBoolean}>
+            <!-- <p><lightning-formatted-date-time value={fieldValue}></lightning-formatted-date-time></p> -->
+            <p><lightning-formatted-date-time value={fieldValue} year="numeric" month="numeric" day="numeric"
+                    hour="2-digit" minute="2-digit" time-zone-name="short" required={isRequired}
+                    disabled={isReadOnly}></lightning-formatted-date-time></p>
+        </template>
+        <template if:true={numberBoolean}>
+            <p>
+                <!-- <lightning-formatted-number value={fieldValue}></lightning-formatted-number> -->
+                <lightning-input variant="label-hidden" type="number" value={fieldValue} onchange={inputChangeHandler}
+                    required={isRequired} min={minimumVal} max={maximumVal} disabled={isReadOnly}></lightning-input>
+            </p>
+        </template>
+        <template if:true={stringCurrency}>
+            <p>
+                <!-- <lightning-formatted-number value={fieldValue}></lightning-formatted-number> -->
+                <lightning-input variant="label-hidden" type="number" value={fieldValue} formatter="currency"
+                    min={minimumVal} max={maximumVal} onchange={inputChangeHandler} required={isRequired}
+                    disabled={isReadOnly}></lightning-input>
+            </p>
+        </template>
+        <template if:true={stringTextArea}>
+            <p>
+                <!-- <lightning-formatted-number value={fieldValue}></lightning-formatted-number> -->
+                <lightning-textarea variant="label-hidden" type="number" value={fieldValue} required={isRequired}
+                    onchange={inputChangeHandler} disabled={isReadOnly}></lightning-textarea>
+
+            </p>
+        </template>
+        <template if:true={mobileBoolean}>
+            <p>
+                <lightning-input variant="label-hidden" type="tel" value={fieldValue} required={isRequired}
+                    onchange={inputChangeHandler} disabled={isReadOnly} pattern={pattern}></lightning-input>
+                <!-- <lightning-formatted-number value={fieldValue}></lightning-formatted-number> -->
+                <!-- <lightning-input variant="label-hidden" type="number" value={fieldValue} formatter="currency"
+                   onchange={inputChangeHandler} required={isRequired}
+                    disabled={isReadOnly}></lightning-input> -->
+            </p>
+        </template>
+        <template if:true={phoneBoolean}>
+            <p><lightning-formatted-phone value={fieldValue} disabled={isReadOnly}
+                    required={isRequired}></lightning-formatted-phone></p>
+        </template>
+
+        <template if:true={emailBooelan}>
+            <p><lightning-formatted-email value={fieldValue} disabled={isReadOnly}
+                    required={isRequired}></lightning-formatted-email></p>
+        </template>
+        <template if:true={urlBoolean}>
+            <p><lightning-formatted-url value={fieldValue} tooltip="Omit leading slash" target="_blank"
+                    required={isRequired} disabled={isReadOnly}></lightning-formatted-url></p>
+        </template>
+        <template if:true={nullBoolean}>
+            <p>{fieldValue}</p>
+        </template>
+        <template if:true={readBoolean}>
+            <lightning-input variant="label-hidden" type="checkbox" checked={fieldValue} required={isRequired}
+                disabled></lightning-input>
+        </template>
+        <template if:true={editBoolean}>
+            <lightning-input variant="label-hidden" data-id={recordId} type="checkbox" checked={fieldValue}
+                onclick={handleClick} required={isRequired} disabled={isReadOnly}></lightning-input>
+        </template>
+        <template if:true={comboboxBoolean}>
+            <template lwc:if={options}>
+                <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click">
+                    <p>
+
+                        <select name="peGroup" value={fieldValue} onchange={inputChangeHandler} variant="label-hidden"
+                            required={isRequired} disabled={isReadOnly} class="slds-select">
+                            <template for:each={options} for:item="opt">
+                                <option key={opt.value} value={opt.value} selected={opt.selected}>{opt.label}</option>
+                            </template>
+                        </select>
+
+                        <!-- <lightning-combobox name="combobox" value={fieldValue} onchange={inputChangeHandler}
+                            options={options} variant="label-hidden" required>
+                        </lightning-combobox> -->
+
+                    </p>
+                </div>
+
+            </template>
+        </template>
+    </div>
+
+
+
+</template>

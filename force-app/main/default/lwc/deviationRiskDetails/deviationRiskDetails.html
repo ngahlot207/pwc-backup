@@ -1,0 +1,67 @@
+<template>
+    <lightning-card title="Deviation, Risk & Mitigation">
+       
+        <div class="slds-p-around_medium">
+        <br/>
+            <div class="slds-box">
+                <div class="slds-scrollable">
+                
+                <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                    <thead>
+                        <tr class="slds-text-title_bold slds-text-color_weak">
+                            
+                            <th scope="col">Deviation</th>
+                            <th scope="col">Deviation Level</th>
+                            <th scope="col">Deviation Details</th>
+                            <th scope="col">Mitigant</th>
+                            <th scope="col">Approved By</th>
+                            <th scope="col">Approved Remarks</th>
+                            <th scope="col">Approved Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template iterator:it={listDeviationDeail}>
+                      <tr key={it.value.Id}>
+                         
+                         <td scope="row">
+                            {it.value.Deviation__c}
+                         </td>
+                         <td>
+                            {it.value.Req_Apprv_Level__c}
+                         </td>
+                         <td>
+                            {it.value.Devia_Desrp__c}
+                         </td>
+                         <td>
+                            {it.value.Mitigation__c}
+                         </td>
+                        
+                        <td if:true={it.value.Apprv_By__c}>
+                            {it.value.Apprv_By__r.Name}
+                        </td>
+                        <td if:false={it.value.Apprv_By__c}>
+                            
+                        </td>
+                        
+                         
+                         <td>
+                            {it.value.Appr_Remarks__c}
+                         </td>
+                         <td>
+                            {it.value.Format_App_Date__c}
+                         </td>
+                        
+                     </tr>
+                     
+                    </template>
+                    
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+    
+    
+    
+    </lightning-card>
+</template>

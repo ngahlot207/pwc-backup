@@ -1,0 +1,327 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner
+          alternative-text="Loading..."
+          variant="brand"
+          class="slds-is-fixed"
+        >
+        </lightning-spinner>
+      </div>
+    <lightning-card icon-name="standard:account" variant="base">
+        <div slot="title">
+           Cases Assigned to Agencies
+        </div>
+        <div slot="actions">
+      
+        </div>
+        <div slot="footer">
+      
+        </div>
+    
+    <div id="containerDiv" onmousemove={handlemousemove1} onmouseup={handlemouseup1}
+        ondblclick={handledblclickresizable1}
+        class="slds-table_header-fixed_container slds-border_right slds-border_left tableScroll"
+        onscroll={tableOuterDivScrolled}>
+        <div id="tableViewInnerDiv" class="slds-scrollable_y tableViewInnerDiv slds-scrollable">
+            <table
+                class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout slds-max-medium-table_stacked-horizontal"
+                onscroll={tableScrolled1}>
+                <thead>
+                    <tr>
+                        
+                        <th title="Agency Name" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                        scope="col" style="width:150px;">
+                        <div class="slds-cell-fixed fixedWidth">
+                            <a class="slds-th__action slds-text-link--reset" href="#" role="button"
+                                tabindex="0">
+                                <span class="slds-truncate">Agency Name</span>
+                            </a>
+                            <div class="slds-resizable">
+                                <span class="slds-resizable__handle" onmousedown={handlemousedown1}>
+                                    <span class="slds-resizable__divider"></span>
+                                </span>
+                            </div>
+                        </div>
+                        </th>
+
+                        <th title="Contact Name" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                        scope="col"  style="width:150px;">
+                        <div class="slds-cell-fixed fixedWidth">
+                            <a class="slds-th__action slds-text-link--reset" href="#" role="button"
+                                tabindex="0">
+                                <span class="slds-truncate">Contact Name</span>
+                            </a>
+                            <div class="slds-resizable">
+                                <span class="slds-resizable__handle" onmousedown={handlemousedown1}>
+                                    <span class="slds-resizable__divider"></span>
+                                </span>
+                            </div>
+                        </div>
+                         </th>
+
+
+                        <th title="Case No" class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition"
+                        scope="col" style="width:150px;">
+                        <div class="slds-cell-fixed fixedWidth">
+                            <a class="slds-th__action slds-text-link--reset">
+                                <span class="slds-truncate">Case No</span>
+                            </a>
+                            <div class="slds-resizable">
+                                <span class="slds-resizable__handle" onmousedown={handlemousedown1}>
+                                    <span class="slds-resizable__divider"></span>
+                                </span>
+                            </div>
+                        </div>
+                        </th>
+                        
+                    
+
+                        <th title="RCU Initiation Date" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                        scope="col" style="width:150px;">
+                        <div class="slds-cell-fixed fixedWidth">
+                            <a class="slds-th__action slds-text-link--reset" href="#" role="button"
+                                tabindex="0">
+                                <span class="slds-truncate">RCU Initiation Date</span>
+                            </a>
+                            <div class="slds-resizable">
+                                <span class="slds-resizable__handle" onmousedown={handlemousedown1}>
+                                    <span class="slds-resizable__divider"></span>
+                                </span>
+                            </div>
+                        </div>
+                         </th>
+
+
+                      
+
+                        <th title="Final Status" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                            scope="col" style="width:150px;">
+                            <div class="slds-cell-fixed fixedWidth">
+                                <a class="slds-th__action slds-text-link--reset" href="#" role="button"
+                                    tabindex="0">
+                                    <span class="slds-truncate">Final Status</span>
+                                </a>
+                                <div class="slds-resizable">
+                                    <span class="slds-resizable__handle" onmousedown={handlemousedown1}>
+                                        <span class="slds-resizable__divider"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </th>
+                      
+
+                        <th title="Actions" class="slds-is-resizable dv-dynamic-width fixedWidthForActions"
+                            scope="col"  style="width:350px;">
+                            <div class="slds-cell-fixed fixedWidthForActions" style="width:350px;">
+                                <a class="slds-th__action slds-text-link--reset" href="#" role="button"
+                                    tabindex="0">
+                                    <span class="slds-truncate">Actions</span>
+                                </a>
+                                <div class="slds-resizable">
+                                    <span class="slds-resizable__handle" onmousedown={handlemousedown1}>
+                                        <span class="slds-resizable__divider"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </th>
+
+                     
+
+                    <th title="Report PDF" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                    scope="col" style="width:150px;">
+                    <div class="slds-cell-fixed fixedWidth">
+                        <a class="slds-th__action slds-text-link--reset" href="#" role="button"
+                            tabindex="0">
+                            <span class="slds-truncate">Report PDF</span>
+                        </a>
+                        <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown1}>
+                                <span class="slds-resizable__divider"></span>
+                            </span>
+                        </div>
+                    </div>
+                </th>
+
+        
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={agencyCases} for:item="record" for:index="index">
+                        <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+                            <template if:true={record.AccountId}>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                  <div  title="Agency Name">
+                                    {record.Account.Name}
+                                  </div>
+                                </td>
+                              </template>
+
+                              <template if:false={record.AccountId}>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                  <div class="slds-truncate" title="Agency Name">
+                                    {record.Account.Name}
+                                  </div>
+                                </td>
+                              </template>
+
+                              <template if:true={record.ContactId}>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title={record.Contact.Name}>
+                                        {record.Contact.Name}
+                                    </div>
+                                </td>
+                            </template>
+
+                            <template if:false={record.ContactId}>
+                                <td class="slds-cell_action-mode" role="gridcell">
+                                    <div class="slds-truncate" title=''>
+
+                                    </div>
+                                </td>
+                            </template>
+
+
+                            
+                            <td class="slds-cell_action-mode" role="gridcell">
+                                <div class="slds-truncate" title={record.CaseNumber}>
+                                    {record.CaseNumber}
+                                </div>
+                            </td>
+
+                            <td class="slds-cell_action-mode" scope="row" >
+                                <div class="slds-truncate" title={record.initiationDate}>
+
+                                    {record.initiationDate}
+                                </div>
+                            </td>
+                          
+
+                            <td class="slds-cell_action-mode" role="gridcell">
+                                <div class="slds-truncate" title={record.AgcRCUReportStatus__c}>
+                                     {record.AgcRCUReportStatus__c}
+                                 
+                                </div>
+                            </td>
+
+    
+                            <td>
+                                <div>
+                                    <lightning-button data-caseid={record.Id} variant="success" label="View"
+                                        title="View Details" data-name='View'
+                                        onclick={handlebutton}               ></lightning-button>
+                                        <!-- disabled={disableMode} -->
+                                        <lightning-button data-caseid={record.Id} variant="success" label="Cancel"
+                                        title="Cancel" data-name='Cancel' onclick={handlebutton} data-index={index}
+                                        class="slds-m-left_x-small btn" disabled={record.isCanDis}></lightning-button>
+                                        <lightning-button data-caseid={record.Id} data-cityid={record.CityId__c}  
+                                        variant="success" label="Review" data-name="Review" data-index={index}
+                                        title="Review"  onclick={handlebutton} disabled={record.isReviewDis}
+                                        class="slds-m-left_x-small"></lightning-button>
+                                         
+                                </div>
+                            </td>
+
+
+                            <td class="slds-cell_action-mode" role="gridcell">
+                                <div class="slds-truncate" title='Report PDF'>
+                                    <!-- <lightning-icon class="custom-button" label="Download" variant="brand" onclick={handleDownload}
+                                    icon-name='utility:download' data-documentid={record.docId} data-cv-id={record.cvId}
+                                    data-type={record.cDFileType} data-documenname={record.docDetName} data-id={record.cDId}
+                                    data-blobdata={record.blobData} disabled size="small"></lightning-icon> -->
+                                    <lightning-icon data-caseid={record.Id} icon-name="utility:preview"
+                                    variant="success" title="View Details" data-name='View'
+                                     class="custom-button slds-m-left_x-small"
+                                    onclick={handleDocumentView} size="small"></lightning-icon>
+                                </div>
+                            </td>
+                           
+
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <template if:true={showReport}>
+        <c-multi-doc-previewer document-detail-id={docId} onclosepreview={handleCloseModalEvent}
+      has-document-id={hasDocId}> </c-multi-doc-previewer>
+    </template>
+    <template if:true={reviewModalOpen}>
+        <section
+          role="dialog"
+          tabindex="-1"
+          aria-labelledby="modal-heading-01"
+          aria-modal="true"
+          aria-describedby="modal-content-id-3"
+          class="my-modal slds-modal slds-fade-in-open"
+        >
+          <div class="slds-modal__container">
+            <!-- Modal/Popup Box LWC header here -->
+            <header class="slds-modal__header">
+              <button
+                class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                title="Close"
+                onclick={closeModal}
+              >
+                <lightning-icon
+                  icon-name="utility:close"
+                  alternative-text="close"
+                  variant="inverse"
+                  size="small"
+                ></lightning-icon>
+                <span class="slds-assistive-text">Close</span>
+              </button>
+              <h2
+                id="modal-heading-03"
+                class="slds-text-heading_medium slds-hyphenate"
+              >
+                Confirm?
+              </h2>
+            </header>
+            <!-- Modal/Popup Box LWC body starts here -->
+            <div
+              class="slds-modal__content slds-p-around_medium"
+              id="modal-content-id-3"
+            >
+              
+                                    <lightning-textarea
+                                    type="text"
+                                    value={reviewRemarks}
+                                    name="Review"
+                                    placeholder="Enter Comments"
+                                    label="Reviewer Remarks"
+                                    data-name="ReviewerComments__c"
+                                    onchange={handleInputChange}
+                                    required
+                                ></lightning-textarea>
+           
+            </div>
+            <!-- Modal/Popup Box LWC footer starts here -->
+            <footer class="slds-modal__footer">
+              <button
+                class="slds-button slds-button_neutral"
+                onclick={closeModal}
+                title="No"
+              >
+                {noLabel}
+              </button>
+              <button
+                class="slds-button slds-button_brand"
+                data-id={caseId}
+                data-name={dataName}
+                onclick={handleReviewModalYesClick}
+                title="Yes"
+              >
+                {reviewSubmitLabel}
+              </button>
+            </footer>
+          </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+      </template>
+      </lightning-card>
+
+     
+</template>

@@ -1,0 +1,34 @@
+<apex:component Controller="AadharConsentController" >
+     
+     <html>
+        
+        <head>
+            <style>
+                .table1 tr,td{
+                width:15px;
+                }
+            </style>
+        </head>
+    </html>
+    <body >
+        <div>
+            <u><h4 style="margin-right:130px;text-align:center; font-family:calibiri;font-weight: bold;font-size:15px">Aadhar Consent - KYC Only</h4></u>
+        </div>
+          <div style="font-family:Times New Roman;font-size:12px">
+            I, Mr./Ms. <u>{!ApplicantName}</u> hereby submit voluntarily at my own discretion, the physical copy of Aadhaar
+			card/physical e-Aadhaar / masked Aadhaar / offline electronic Aadhaar xml as issued by UIDAI (Aadhaar),
+			to Fedbank Financial Services Limited for the purpose of establishing my identity / address proof for
+			processing Loan Application and; hereby consent to “Fedbank Financial Services Limited” for verification
+			of my Aadhaar to establish its genuineness through such acceptable manner as per UIDAI or under any
+			Act or law from time to time. The consent and purpose of collecting Aadhaar has been explained to me in
+			local language. The Company has informed me that my Aadhaar submitted shall not be used for any
+			purpose other than mentioned above, or as per requirements of law. <br/>			
+                
+            </div>
+        <br/>
+        
+        
+        <apex:outputText value="{!mapofContent[1]}" escape="false" />
+        
+    </body>
+</apex:component>

@@ -1,0 +1,31 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    <lightning-card>
+        <lightning-layout multiple-rows="true" class="slds-p-bottom_medium">
+            <lightning-layout-item size="12" padding="horizontal-small" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <c-custom-lookup required=true label="Select Description" selected-icon-name="standard:identifier"
+                    object-api-name="DeviaMstr__c" field-api-name="Devia_Desc_Text__c" selected-fields="Name"
+                    selected-record-id={devMstrId} onselect={handleLookupFieldChange} filter-condn={filtercondition}
+                    disabled={readOnly}>
+                    <!-- key-id="Employee__c"  LWDD_Devi_Desc__c-->
+                </c-custom-lookup>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" class="slds-align_absolute-center left-align"
+                small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                large-device-size={layoutSize.large}>
+                <lightning-button variant="brand" label="Add Deviation" class="slds-var-m-around_xx-small"
+                    onclick={getDeviationRecord} disabled={readOnly}>
+                </lightning-button>
+            </lightning-layout-item>
+            <!-- <lightning-layout-item size="12" padding="horizontal-small" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <lightning-input type="date" name="DateofDispatch__c" label="Date of Dipatch"
+                    value={disObj.DateofDispatch__c} disabled></lightning-input>
+            </lightning-layout-item> -->
+        </lightning-layout>
+    </lightning-card>
+</template>

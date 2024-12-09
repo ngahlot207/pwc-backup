@@ -1,0 +1,317 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    <lightning-card>
+
+        <template if:true={blplView}>
+        <div class="slds-var-m-top_medium">
+            <div class="slds-clearfix">
+                <div class="slds-float_right">
+                    <lightning-button variant="brand" class="slds-m-around_x-small" icon-name="action:fallback"
+                        label="Re-Initiate" onclick={handleIntialization}
+                        disabled></lightning-button>
+
+                    
+                        <lightning-icon variant="success" class="customButton slds-m-around_x-small"
+                            icon-name='utility:refresh' alternative-text='refresh' size='small' title='refresh'
+                            onclick={handleRefreshClick} disabled></lightning-icon>
+                    
+                </div>
+            </div>
+        </div>
+        </template>
+
+
+        <template if:false={blplView}>
+        <div class="slds-var-m-top_medium">
+            <div class="slds-clearfix">
+                <div class="slds-float_right">
+                    <lightning-button variant="brand" class="slds-m-around_x-small" icon-name="action:fallback"
+                        label="Re-Initiate" onclick={handleIntialization}
+                        disabled={disableReintiate}></lightning-button>
+
+                    <template if:false={isReadOnly}>
+                        <lightning-icon variant="success" class="customButton slds-m-around_x-small"
+                            icon-name='utility:refresh' alternative-text='refresh' size='small' title='refresh'
+                            onclick={handleRefreshClick} disabled={isReadOnly}></lightning-icon>
+                    </template>
+                </div>
+            </div>
+        </div>
+        </template>
+        <!-- <div class="slds-p-left_medium slds-p-bottom_small">
+            <div class="slds-clearfix">
+                <div class="slds-float_right">
+                
+                    <lightning-button variant="brand" class="slds-p-right_large" icon-name='utility:refresh'
+                        label="Refresh" onclick={handleRefreshClick}></lightning-button>
+                </div>
+            </div>
+        </div>
+        <div class="slds-clearfix">
+            <div class="slds-float_right">
+                <lightning-button variant="brand" class="slds-p-right_large" icon-name="action:fallback"
+                    label="Re-Initiate" onclick={handleIntialization}></lightning-button>
+            </div>
+        </div> -->
+        <!-- <lightning-accordion active-section-name={activeSection} allow-multiple-sections-open>
+            <lightning-accordion-section name="A" label="Hunter Verification Details" class="accClass">
+                <c-dynamic-datatable params-data={params}></c-dynamic-datatable>
+            </lightning-accordion-section>
+        </lightning-accordion> -->
+
+
+        <lightning-accordion active-section-name={activeSection} allow-multiple-sections-open>
+            <lightning-accordion-section name="A" label="Hunter Verification Details" class="accClass">
+                <template lwc:if={desktopBoolean}>
+                    <lightning-card>
+                        <div id="containerDiv" onmousemove={handlemousemove} onmouseup={handlemouseup}
+                            ondblclick={handledblclickresizable}
+                            class="slds-table_header-fixed_container slds-border_right slds-border_left tableScroll"
+                            onscroll={tableOuterDivScrolled}>
+                            <div id="tableViewInnerDiv" class="slds-scrollable_y tableViewInnerDiv slds-scrollable">
+                                <table
+                                    class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout slds-max-medium-table_stacked-horizontal"
+                                    onscroll={tableScrolled}>
+                                    <thead>
+                                        <tr>
+                                            <th title="Request time"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Request time</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="Response time"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Response time</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="API Verification Status"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">API Verification Status</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="Client Reference Id"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Client Reference Id</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="Hunter match status"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                                                <div class="slds-cell-fixed fixedWidth">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Hunter match status</span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="Hunter status"
+                                                class="slds-is-resizable dv-dynamic-width fixedWidthhh" scope="col">
+                                                <div class="slds-cell-fixed fixedWidthhh">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Hunter status
+                                                        </span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="RCU manager feedback "
+                                                class="slds-is-resizable dv-dynamic-width fixedWidthh" scope="col">
+                                                <div class="slds-cell-fixed fixedWidthh">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">RCU manager feedback </span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th title="Remarks" class="slds-is-resizable fixedWidthh" scope="col">
+                                                <div class="slds-cell-fixed fixedWidthh">
+                                                    <a class="slds-th__action slds-text-link--reset">
+                                                        <span class="slds-truncate">Remarks </span>
+                                                    </a>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle"
+                                                            onmousedown={handlemousedown}>
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="dataBodyVal">
+                                        <template for:each={hunterData} for:item="record">
+                                            <tr key={record.Id} aria-selected="false" class="slds-hint-parent">
+                                                <th class="slds-cell_action-mode" role="gridcell">
+                                                    <div class="slds-truncate" title={record.ReqTime__c}>
+                                                        {record.ReqTime__c}
+                                                        <!-- <lightning-formatted-date-time value={record.ReqTime__c}
+                                                            year="numeric" month="numeric" day="numeric" hour="2-digit"
+                                                            minute="2-digit"></lightning-formatted-date-time> -->
+                                                    </div>
+                                                </th>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div class="slds-truncate" title={record.ResTime__c}>
+                                                        {record.ResTime__c}
+                                                        <!-- <lightning-formatted-date-time value={record.ResTime__c}
+                                                            year="numeric" month="numeric" day="numeric" hour="2-digit"
+                                                            minute="2-digit"></lightning-formatted-date-time> -->
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div class="slds-truncate" title={record.IntegrationStatus__c}>
+                                                        {record.IntegrationStatus__c}
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div class="slds-truncate" title={record.ClientReferenceId__c}>
+                                                        {record.ClientReferenceId__c}
+                                                    </div>
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div class="slds-truncate" title={record.HunMatchSta__c}>
+                                                        {record.HunMatchSta__c}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="slds-truncate" title={record.FraudStatusDescription__c}>
+                                                        {record.FraudStatusDescription__c}
+                                                    </div>
+                                                    <!-- <c-hunter-displayvalue
+                                                        dedupe-rsults-options={hunterStaWhereMatchFondOptions}
+                                                        type="picklist" required={record.required}
+                                                        field-value={record.HunterStatWhereMatchFound__c}
+                                                        object={record} field-name="HunterStatWhereMatchFound__c"
+                                                        onpicklistchange={handlePicklistValues}
+                                                        is-read-only={record.isReadOnly}></c-hunter-displayvalue> -->
+                                                    <!-- <c-dedupe-display-value
+                                                        dedupe-rsults-options={hunterStaWhereMatchFondOptions}
+                                                        type="picklist" required={record.required}
+                                                        field-value={record.HunterStatWhereMatchFound__c}
+                                                        object={record} field-name="HunterStatWhereMatchFound__c"
+                                                        onpicklistchange={handlePicklistValues}
+                                                        is-read-only={record.isReadOnly}></c-dedupe-display-value> -->
+
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div class="slds-truncate" title={record.WorkStatusDescription__c}>
+                                                        {record.WorkStatusDescription__c}
+                                                    </div>
+                                                    <!-- <div class="slds-truncate" title={record.RCUmanagerfeedback__c}>
+                                                        <lightning-textarea name="RCUmanagerfeedback__c"
+                                                            data-recordid={record.Id} variant="label-hidden"
+                                                            label="Name" value={record.RCUmanagerfeedback__c}
+                                                            onchange={handleChange} disabled={record.isReadOnly}>
+                                                        </lightning-textarea>
+                                                    </div> -->
+                                                </td>
+                                                <td class="slds-cell_action-mode" role="gridcell">
+                                                    <div class="slds-truncate" title={record.IntDedRsltRmrks__c}>
+                                                        <lightning-textarea name="Rem__c" data-recordid={record.Id}
+                                                            variant="label-hidden" label="Name" value={record.Rem__c}
+                                                            onchange={handleChange} disabled={record.isReadOnly}>
+                                                        </lightning-textarea>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </lightning-card>
+                </template>
+            </lightning-accordion-section>
+        </lightning-accordion>
+
+    </lightning-card>
+    <template if:true={isModalOpen}>
+
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="my-modal slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Enter Rational Remarks?
+                    </h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <!-- <p style="text-align:center;"><b>{removeModalMessage}</b></p> -->
+                    <!-- <c-dynamic-datatable params-data={params}></c-dynamic-datatable> -->
+                    <div class="message-container">
+                        <strong>Enter Rational :</strong>
+                    </div>
+                    <div> <lightning-textarea variant="label-hidden" label="" value={RationalRemarks}
+                            onchange={handleRationalChange} disabled={isReadOnly}></lightning-textarea></div>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeModal} title="No">No</button>
+                    <button class="slds-button slds-button_brand" onclick={creatIntMsgRecord} title="Yes">Yes</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+        <!-- <c-re-initiate loan-app-id={loanAppId} service-name="Hunter Token" is-hunter="true"
+            onfireevent={handleCustomEvent} display-data={applIds}></c-re-initiate> -->
+    </template>
+</template>

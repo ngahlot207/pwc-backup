@@ -1,0 +1,75 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    <template if:false={isReadOnly}>
+        <template if:false={negotiationInitiated}>
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                    <lightning-combobox required={reqDocFlag} name="DocumentType" label="Document Type" value={docType}
+                        placeholder="Select Document Type" options={docTypeOption} onchange={handleChange}
+                        disabled={disableMode}></lightning-combobox>
+                    <!-- <p style="color: red;">Please Select value</p> -->
+                </lightning-layout-item>
+
+                <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                    medium-device-size={layoutSize.medium} large-device-size="5">
+
+                    <template if:true={isotherDocuments}>
+                        <lightning-input type="text" required name="DocumentName" value={docName} label="Document Name"
+                            onchange={handleChange} is-read-only={isReadOnly} disabled={disableMode}
+                            field-level-help={helperText}></lightning-input>
+                    </template>
+                    <!-- <p style="color: red;">Please Select value</p> -->
+                </lightning-layout-item>
+
+            </lightning-layout>
+        </template>
+    </template>
+
+    <lightning-layout multiple-rows="true">
+        <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+            medium-device-size={layoutSize.medium} large-device-size="8">
+        </lightning-layout-item>
+
+        <template if:true={showUpload}>
+            <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size="8">
+
+                <c-upload-docs-reusable-component loan-app-id={loanAppId} applicant-id={applicantId} doc-name={docName}
+                    doc-type={docType} disabled={disableFileUpload} doc-category={documentCatagory}
+                    onrefreshdoctable={fromUploadDocsContainer} onspinnerstatus={spinnerStatus}
+                    convert-to-single-image={convertToSingleImage} document-detai-id={DocumentDetaiId}>
+                </c-upload-docs-reusable-component>
+            </lightning-layout-item>
+        </template>
+
+
+    </lightning-layout>
+
+
+    <template if:true={showTable}>
+        <template if:true={negotiationInitiated}>
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item if:true={showTable} padding="around-small" size="12">
+
+                    <c-show-negotiation-documents title="Negotiation Documents" technical="true" has-edit-access='false'
+                        applicant-id={applicantId} category={docCategory}></c-show-negotiation-documents>
+                </lightning-layout-item>
+            </lightning-layout>
+        </template>
+        <template if:false={negotiationInitiated}>
+
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item if:true={showTable} padding="around-small" size="12">
+
+                    <c-show-negotiation-documents title="Negotiation Documents" technical="true" has-edit-access='true'
+                        show-delete-icon='true' applicant-id={applicantId}
+                        category={docCategory}></c-show-negotiation-documents>
+                </lightning-layout-item>
+            </lightning-layout>
+        </template>
+    </template>
+</template>

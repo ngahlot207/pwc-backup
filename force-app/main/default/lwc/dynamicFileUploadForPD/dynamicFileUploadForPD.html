@@ -1,0 +1,178 @@
+<template>
+    <div class={borderColorClass}>
+        <div>
+            <lightning-layout multiple-rows="true" horizontal-align="center" vertical-align="center">
+                <lightning-layout-item size="12">
+                    <lightning-layout multiple-rows="false">
+                        <!-- small-device-size={layoutSize.small}
+                        medium-device-size={layoutSize.medium} large-device-size="6" -->
+
+                        <lightning-layout-item padding="around-small" size="6">
+                            <template if:true={isRequired}>
+                                <abbr title="required" class="slds-required">*</abbr></template>
+                            {pdQuestion.quesTitle}
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small" size="6">
+                            <lightning-icon if:true={alowUpload} icon-name="utility:upload" alternative-text="upload"
+                                variant="success" size="small" title="upload"
+                                onclick={handleFileUpload}></lightning-icon>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </lightning-layout-item>
+                <!-- small-device-size={layoutSize.small}
+                        medium-device-size={layoutSize.medium} large-device-size="1" -->
+
+                <lightning-layout-item size="12">
+                    <template for:each={uploadedDocDetail} for:item="doc">
+                        <div key={doc.cdlId}>
+                            <lightning-layout multiple-rows="false" horizontal-align="right" vertical-align="center">
+                                <lightning-layout-item size="8" padding="around-small">
+                                    {doc.fileTitle}
+                                </lightning-layout-item>
+
+                                <!-- <lightning-layout-item padding="around-small" size="2">
+                                    
+                                </lightning-layout-item> -->
+
+                                <lightning-layout-item padding="around-small" size="4">
+                                    <lightning-icon class="custom-button" name={doc} data-documentid={doc.cdId}
+                                        icon-name="action:preview" alternative-text="preview" size="xx-small"
+                                        title="preview" onclick={filePreview}></lightning-icon> &nbsp;
+                                    <lightning-icon if:true={alowDelete} class="custom-button" name={doc}
+                                        data-documentid={doc.cdId} icon-name="utility:delete" alternative-text="delete"
+                                        variant="error" size="small" title="delete"
+                                        onclick={deleteFile}></lightning-icon>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </div>
+                    </template>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+    </div>
+
+    <!-- <template if:true={showPreNdeleteIcon}>
+                                <template for:each={uploadedDocDetail} for:item="doc">
+                                    <div key={doc.cdlId}>
+                                        {doc.fileTitle} </lightning-layout>
+                                        <lightning-layout-item padding="around-small" size="4">
+                                            <lightning-icon class="custom-button" data-documentid={doc.cdId}
+                                                icon-name="action:preview" alternative-text="preview" size="xx-small"
+                                                title="preview" onclick={filePreview}></lightning-icon>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item padding="around-small" size="4">
+                                            <lightning-icon class="custom-button " data-documentid={doc.cdId}
+                                                icon-name="utility:delete" alternative-text="delete" variant="error"
+                                                size="small" title="delete" onclick={deleteFile}></lightning-icon>
+                                        </lightning-layout-item>
+                                    </div>
+                                </template>
+                            </template> -->
+    <!-- <lightning-layout-item padding="around-small" size="4">
+                                <template if:true={showUploadIcon}>
+                                    <lightning-icon icon-name='utility:upload' alternative-text='upload'
+                                        variant='success' size='small' title='upload'
+                                        onclick={handleFileUpload}></lightning-icon></template>
+                            </lightning-layout-item> -->
+
+    <template if:true={showModalForFilePre}>
+        <c-i-frame-preview image-type-file-url={imageTypeFileUrl} cont-doc-type={filePrevDet.fileType}
+            cont-doc-id={filePrevDet.cdId} url={url} cv-id={filePrevDet.cvId}
+            onclosepreview={handleCloseModalEvent}></c-i-frame-preview>
+    </template>
+
+    <template if:true={isModalOpen}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="my-modal slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
+                        Delete?
+                    </h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p style="text-align: center">
+                        <b>{removeModalMessage}</b>
+                    </p>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeModal} title="No">
+                        No
+                    </button>
+                    <button class="slds-button slds-button_brand" disabled={disablepFileUpload}
+                        onclick={handleRemoveRecord} title="Yes">
+                        Yes
+                    </button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <template if:true={showUploadModal}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="my-modal slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeUploadModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">
+                        Upload File
+                    </h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                    <!-- <p style="text-align:center;"><b>{removeModalMessage}</b></p> -->
+                    <!-- <lightning-file-upload label="Upload File " name="fileUploader" accept={acceptedFormats}
+                        record-id={pdQuestion.docDetailId} onpasstoparent={handleUploadFinished} multiple
+                        disabled={disablepFileUpload}>
+
+                    </lightning-file-upload> -->
+                    <!-- <c-file-upload-custom-comp variant="label-hidden" label="Upload File" max-file-size={maxFileSize}
+                        record-id={pdQuestion.docDetailId} allowed-fil-format={acceptedFormats}
+                        file-size-msz={fileUploadMsz} disable-mode={disablepFileUpload} allow-multiple={alowMultiple}
+                        onpasstoparent={fileUploadFinish}></c-file-upload-custom-comp> -->
+                    <c-file-upload-custom-comp-ref-id variant="label-hidden" label="Upload File"
+                        record-id={pdQuestion.docDetailId} allowed-fil-format={acceptedFormats}
+                        file-size-msz={fileUploadMsz} disable-mode={disablepFileUpload} allow-multiple={alowMultiple}
+                        onpasstoparent={fileUploadFinish} onspinnerstatus={spinnerStatus}
+                        max-file-size={maxFileSize}></c-file-upload-custom-comp-ref-id>
+                    <div if:true={showSpinner}>
+                        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+                        </lightning-spinner>
+                    </div>
+
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here  allowed-fil-format={acceptedFormats}-->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeUploadModal} title="Cancel">
+                        Cancel
+                    </button>
+                    <!-- <button class="slds-button slds-button_brand" data-documentid={docIdToDelete} data-cdlid={cdlIdToDelete}
+            onclick={handleRemoveRecord} title="Yes">Yes</button> -->
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+</template>

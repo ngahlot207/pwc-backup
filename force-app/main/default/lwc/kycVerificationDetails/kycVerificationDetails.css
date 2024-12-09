@@ -1,0 +1,31 @@
+.accClass
+{
+    --slds-c-accordion-summary-color-background : rgb(243, 243, 243) ;
+    --slds-c-accordion-color-border : 0.5rem;
+}
+.customButton:hover {
+    cursor: pointer;
+}
+.tableScroll {
+    width: 100% !important;
+    overflow-x: auto;
+    /* height: 12rem; */
+  }
+.fixedWidth{
+    width: 10rem;
+  }
+.fixedWidthCheckbox{
+    width: 5rem;
+  }
+
+  .red-cell {
+    background-color: red;
+}
+
+.amber-cell {
+    background-color: orange; /* or amber color */
+}
+
+.green-cell {
+    background-color: lightgreen;
+}

@@ -1,0 +1,705 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    <lightning-card>
+        <lightning-layout horizontal-align="spread" multiple-rows="true">
+
+            <template if:false={disableMode}>
+
+
+                <lightning-layout-item class="slds-border_right" padding="around-small" size="12" small-device-size="12"
+                    medium-device-size="4" large-device-size="4">
+                    <lightning-card title=" PAN Check">
+                        <div class="slds-p-horizontal_medium">
+                            <template if:true={showPanPicklist}>
+                                <lightning-layout-item padding="around-small" size="12"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+
+                                    <lightning-combobox name="PanDocType" label="Pan Document Type" value={panDocvalue}
+                                        placeholder="Select Pan Document Type" options={panDocOptions}
+                                        onchange={handlePanDocChange} required disabled={disableMode}>
+                                    </lightning-combobox>
+                                </lightning-layout-item>
+
+                                <template if:true={showPanForm60}>
+                                    <lightning-layout-item padding="around-small" size="12"
+                                        small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                        large-device-size={layoutSize.large}>
+
+
+                                        <c-upload-docs-reusable-component loan-app-id={loanAppId}
+                                            applicant-id={applicantId} doc-name={panDocvalue} doc-type="Form 60"
+                                            onrefreshdoctable={fromUploadDocsContainer} onspinnerstatus={spinnerStatus}
+                                            convert-to-single-image={convertToSingleImage} doc-category="PAN Documents"
+                                            is-pan-kyc={isPanKyc}></c-upload-docs-reusable-component>
+                                    </lightning-layout-item>
+
+                                </template>
+                            </template>
+
+                        </div>
+                        <template if:true={showPan}>
+                            <lightning-layout multiple-rows="true">
+                                <fieldset class="slds-form-element slds-p-horizontal_medium">
+                                    <div class="slds-form-element__control slds-grid slds-wrap">
+                                        <template for:each={availableProcessOptions} for:item="process">
+                                            <div key={process.label}>
+                                                <lightning-layout-item padding="around-small" size="12">
+                                                    <span class="slds-radio">
+                                                        <lightning-input type="radio" id={process.label}
+                                                            value={process.value} checked={process.checked}
+                                                            label={process.label} name={process.label}
+                                                            onchange={handleSelectProcess}
+                                                            disabled={disableMode}></lightning-input>
+                                                    </span>
+                                                </lightning-layout-item>
+                                            </div>
+                                        </template>
+
+                                        <lightning-layout-item padding="around-small" size="12">
+                                            <template if:true={ispanManual}>
+                                                <lightning-layout multiple-rows="true">
+                                                    <lightning-layout-item padding="around-small" size="12">
+                                                        <lightning-input name="Pan__c" type="text" label="PAN "
+                                                            pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" required
+                                                            onchange={handleInputChangePan} disabled={disableMode}
+                                                            value={tempPanNo}></lightning-input>
+
+                                                    </lightning-layout-item>
+
+                                                    <lightning-layout-item padding="around-small" size="12">
+                                                        <lightning-button name="panValidate" variant="success"
+                                                            label="Validate" title="Validate"
+                                                            onclick={handlePanValidateClick}
+                                                            disabled={disableMode}></lightning-button>
+                                                    </lightning-layout-item>
+                                                </lightning-layout>
+                                            </template>
+
+                                            <template if:true={ispanUpload}>
+
+
+
+                                                <lightning-layout-item padding="around-small" size="6">
+
+
+                                                    <c-upload-docs-reusable-component loan-app-id={loanAppId}
+                                                        applicant-id={applicantId} doc-name={panDocvalue} doc-type="PAN"
+                                                        onrefreshdoctable={fromUploadDocsContainer}
+                                                        onspinnerstatus={spinnerStatus}
+                                                        convert-to-single-image={convertToSingleImage}
+                                                        doc-category="PAN Documents"
+                                                        is-pan-kyc={isPanKyc}></c-upload-docs-reusable-component>
+                                                </lightning-layout-item>
+
+
+
+
+
+
+
+
+                                            </template>
+
+                                            <template if:true={showPanStatusMsg}>
+                                                <lightning-layout-item size="2">
+
+                                                    <template if:true={iconStatus.success}>
+                                                        <lightning-icon icon-name='utility:success'
+                                                            alternative-text='success' variant='success' size='x-small'
+                                                            title='success'></lightning-icon>
+                                                    </template>
+                                                    <template if:true={iconStatus.addExistingPan}>
+                                                        <lightning-layout-item padding="around-small" size="6">
+                                                            <lightning-button variant="neutral"
+                                                                label="Add Existing File" title="AddDoc"
+                                                                name="AddDocForPAN" onclick={handleAddDocClick}
+                                                                disabled={disableMode}></lightning-button>
+                                                        </lightning-layout-item>
+                                                    </template>
+
+                                                    <template if:true={iconStatus.failure}>
+                                                        <lightning-icon icon-name='utility:error'
+                                                            alternative-text='error' variant='error' size='xx-small'
+                                                            title='error'></lightning-icon>
+                                                    </template>
+                                                    <template if:true={iconStatus.inProgress}>
+
+                                                        <lightning-icon icon-name='utility:warning'
+                                                            alternative-text='pending' variant='info' size='x-small'
+                                                            title='pending'></lightning-icon>
+                                                    </template>
+
+
+
+
+                                                </lightning-layout-item>
+                                                <lightning-layout-item size="4">
+                                                    <b>
+                                                        {PanStatusMsg}
+                                                    </b>
+
+                                                </lightning-layout-item>
+
+
+
+
+                                            </template>
+                                            <template if:true={showPanStatusMsgSuccess}>
+                                                <lightning-layout-item padding="around-small" size="6">
+                                                    <c-validation-status-display
+                                                        validation-status={panStatus.ocrStatus}></c-validation-status-display>
+                                                    <b>
+                                                        <!-- //{PanStatusMsg}  -->
+                                                    </b>
+                                                </lightning-layout-item>
+                                            </template>
+
+
+                                        </lightning-layout-item>
+
+                                    </div>
+                                </fieldset>
+                            </lightning-layout>
+                        </template>
+
+                    </lightning-card>
+
+                </lightning-layout-item>
+
+
+
+                <lightning-layout-item class="slds-border_left" padding="around-small" size="12" small-device-size="12"
+                    medium-device-size="8" large-device-size="8">
+
+                    <lightning-card title="KYC Validation">
+
+                        <!-- if  self employed   starts  -->
+                        <template if:true={selfEmployedIndividual}>
+                            <lightning-layout multiple-rows="true">
+                                <template lwc:if={optonDesignation}>
+                                    <lightning-layout-item padding="around-small" size="12"
+                                        small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                        large-device-size="6">
+
+                                        <lightning-combobox name="DesignationValues__c" label="Designation"
+                                            value={employmentRecord.DesignationValues__c} options={optonDesignation}
+                                            onchange={handleChangeUrc} required disabled={disableMode}>
+                                        </lightning-combobox>
+
+                                    </lightning-layout-item>
+
+
+                                    <template if:true={showIsProp}>
+
+                                        <lightning-layout-item padding="around-small" size="12"
+                                            small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                            large-device-size="6">
+                                            <lightning-combobox name="Proprietorship_firm_part_of_the_proposal__c"
+                                                label="Is the proprietorship firm part of the proposal"
+                                                value={employmentRecord.Proprietorship_firm_part_of_the_proposal__c}
+                                                options={optonYN} onchange={handleChangeUrc} required
+                                                disabled={disableMode}>
+                                            </lightning-combobox>
+
+                                        </lightning-layout-item>
+                                        <template if:true={ProprietorPartOfProposal}>
+                                            <template if:true={isBL}>
+                                                <lightning-layout-item padding="around-small" size="12"
+                                                    small-device-size={layoutSize.small}
+                                                    medium-device-size={layoutSize.medium} large-device-size="6">
+                                                    <lightning-combobox name="IsMSME__c" label="Is MSME Customer"
+                                                        value={employmentRecord.IsMSME__c} options={optonYN}
+                                                        placeholder="Select" onchange={handleChangeUrc}>
+                                                    </lightning-combobox>
+
+                                                </lightning-layout-item>
+                                            </template>
+                                            <template if:true={isMsmeInBl}>
+                                                <lightning-layout-item padding="around-small" size="12"
+                                                    small-device-size={layoutSize.small}
+                                                    medium-device-size={layoutSize.medium} large-device-size="6">
+                                                    <lightning-combobox name="Is_URC_UAC_available__c"
+                                                        label="URC/UAC available"
+                                                        value={employmentRecord.Is_URC_UAC_available__c}
+                                                        placeholder="URC/UAC available" options={optonYN}
+                                                        onchange={handleChangeUrc} required disabled={disableMode}>
+                                                    </lightning-combobox>
+
+                                                </lightning-layout-item>
+                                                <template lwc:if={optonUrcUacApplicablity}>
+                                                    <template if:true={showUrcUacApplicablity}>
+                                                        <lightning-layout-item padding="around-small" size="12"
+                                                            small-device-size={layoutSize.small}
+                                                            medium-device-size={layoutSize.medium}
+                                                            large-device-size="6">
+                                                            <lightning-combobox
+                                                                name="Select_applicability_for_URC_UAC__c"
+                                                                label="Select applicability for URC/ UAC"
+                                                                value={employmentRecord.Select_applicability_for_URC_UAC__c}
+                                                                options={optonUrcUacApplicablity}
+                                                                onchange={handleChangeUrc} required
+                                                                disabled={disableMode}>
+                                                            </lightning-combobox>
+
+                                                        </lightning-layout-item>
+                                                    </template>
+                                                </template>
+                                            </template>
+                                        </template>
+
+                                    </template>
+
+                                </template>
+
+
+
+                            </lightning-layout>
+                        </template>
+                        <template if:true={selfEmployedNonIndividual}>
+                            <lightning-layout multiple-rows="true">
+                                <template if:true={isBL}>
+                                    <lightning-layout-item padding="around-small" size="12"
+                                        small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                        large-device-size="6">
+                                        <lightning-combobox name="IsMSME__c" label="Is MSME Customer"
+                                            value={employmentRecord.IsMSME__c} options={optonYN} placeholder="Select"
+                                            onchange={handleChangeUrc}>
+                                        </lightning-combobox>
+
+                                    </lightning-layout-item>
+                                </template>
+                                <template if:true={isMsmeInBl}>
+                                    <lightning-layout-item padding="around-small" size="12"
+                                        small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                        large-device-size="6">
+                                        <lightning-combobox name="Is_URC_UAC_available__c" label="URC/UAC available"
+                                            value={employmentRecord.Is_URC_UAC_available__c}
+                                            placeholder="URC/UAC available" options={optonYN} onchange={handleChangeUrc}
+                                            required disabled={disableMode}>
+                                        </lightning-combobox>
+
+                                    </lightning-layout-item>
+                                    <template lwc:if={optonUrcUacApplicablity}>
+                                        <template if:true={showUrcUacApplicablity}>
+                                            <lightning-layout-item padding="around-small" size="12"
+                                                small-device-size={layoutSize.small}
+                                                medium-device-size={layoutSize.medium} large-device-size="6">
+                                                <lightning-combobox name="Select_applicability_for_URC_UAC__c"
+                                                    label="Select applicability for URC/ UAC"
+                                                    value={employmentRecord.Select_applicability_for_URC_UAC__c}
+                                                    options={optonUrcUacApplicablity} onchange={handleChangeUrc}
+                                                    required disabled={disableMode}>
+                                                </lightning-combobox>
+
+                                            </lightning-layout-item>
+                                        </template>
+                                    </template>
+                                </template>
+
+                            </lightning-layout>
+                        </template>
+                        <!--if  self employed  ends  -->
+                        <!--             DocumentType & DocumentName Section         starts    -->
+
+
+                        <lightning-layout multiple-rows="true">
+                            <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                                medium-device-size={layoutSize.medium} large-device-size="6">
+                                <lightning-combobox name="DocumentType" label="Document Type" value={docType}
+                                    placeholder="Select Document Type" options={docTypeOption} onchange={handleChange}
+                                    disabled={disableMode}></lightning-combobox>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                                medium-device-size={layoutSize.medium} large-device-size="6">
+                                <lightning-combobox name="DocumentName" label="Document Name" value={docName}
+                                    field-level-help={helperText} placeholder="Select Document Name"
+                                    options={docNameOption} onchange={handleChange}
+                                    disabled={desableOnRunManual}></lightning-combobox>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                        <lightning-layout multiple-rows="true">
+                            <!--             DocumentType & DocumentName Section         ends    -->
+
+                            <template if:true={selfEmployed}>
+                                <template if:true={showURCnumberBlock}>
+                                    <lightning-layout-item padding="around-small" size="12"
+                                        small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                        large-device-size="6">
+                                        <lightning-input type="text" data-type="string"
+                                            name="UdyamRegistrationNumber__c"
+                                            data-fieldname="UdyamRegistrationNumber__c"
+                                            data-objname="applicantEmployment"
+                                            value={employmentRecord.UdyamRegistrationNumber__c}
+                                            onchange={handleChangeUrc}
+                                            placeholder="Udyam Registration Number Format-(UDYAM-AA-00-0000000)"
+                                            pattern='^UDYAM-[A-Z]{2}-\d{2}-\d{7}$'
+                                            message-when-pattern-mismatch='Please enter a valid Udyam Registration Number Format-(UDYAM-AA-00-0000000)'
+                                            required disabled={disableMode}
+                                            label="Udyam Registration Number"></lightning-input>
+                                    </lightning-layout-item>
+                                    <template lwc:if={showValidateBtn}>
+                                        <lightning-layout-item padding="around-small" size="12">
+                                            <lightning-button name="UdyamValidate" variant="success" label="Validate"
+                                                title="Validate" onclick={handleValidateClick}
+                                                disabled={disableMode}></lightning-button>
+                                        </lightning-layout-item>
+                                    </template>
+                                </template>
+                            </template>
+
+                        </lightning-layout>
+
+
+                        <template if:true={showUtilityBillDate}>
+                            <c-pan-kyc-electricity-bill show-electricity-bill={showElectricityBill}
+                                layout-size={layoutSize} app-kyc-id={appKycId} document-det-id={documentDetId}
+                                retrigger-clicked-val={retriggerClickedVal} create-int-msz={updateChildEleBill}
+                                onfromchild={fromChildComp}>
+                            </c-pan-kyc-electricity-bill>
+                            <lightning-layout if:false={showElectricityBill} multiple-rows="true">
+                                <lightning-layout-item padding="around-small" size="12"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+
+                                    <lightning-input name="UtilityBillDate__c" type="date" label="Utility Bill Date"
+                                        min={utilityBillMinDate} max={todayDateValueForUB}
+                                        onchange={handleInputChangeUtilityBillDate} required value={utilityBillDate}
+                                        disabled={disableMode}></lightning-input>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </template>
+
+                        <template if:true={showEstablishmentDate}>
+                            <lightning-layout multiple-rows="true">
+                                <lightning-layout-item padding="around-small" size="12"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size="6">
+                                    <lightning-combobox name="AreaType" label="Select Area" value={shopAreaValue}
+                                        placeholder="Select Area Type" options={shopEstAreCodeOptions}
+                                        onchange={handleAreaChange} required disabled={disableMode}>
+                                    </lightning-combobox>
+
+                                </lightning-layout-item>
+
+                                <lightning-layout-item if:true={showInpitParam} padding="around-small" size="12"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size="6">
+                                    <lightning-input name="Registration Number" type="text" label="Registration Number"
+                                        onkeypress={handleKeyPress} onchange={handleInputChangeEstablishmentDate}
+                                        required value={resgitrationValue} disabled={disableMode}></lightning-input>
+                                </lightning-layout-item>
+
+                                <lightning-layout-item if:true={showInpitParam} padding="around-small" size="12"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+
+                                    <lightning-input name="UtilityBillDate__c" type="date"
+                                        label="Shop and Establishment Expiry Date"
+                                        onchange={handleInputChangeEstablishmentDate} value={establishmentDate}
+                                        disabled={disableMode}></lightning-input>
+
+                                </lightning-layout-item>
+                                <template lwc:if={showValidateBtn}>
+                                    <lightning-layout-item padding="around-small" size="12">
+                                        <lightning-button name="ShopNEstValidate" variant="success" label="Validate"
+                                            title="Validate" onclick={handleValidateClick}
+                                            disabled={disableMode}></lightning-button>
+                                    </lightning-layout-item>
+                                </template>
+                            </lightning-layout>
+                        </template>
+                        <template if:true={showNPRDocNo}>
+                            <lightning-layout multiple-rows="true">
+                                <lightning-layout-item padding="around-small" size="12"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+
+                                    <lightning-input name="nprDocNo" type="text"
+                                        label="Letter issued by the National Population Register Number"
+                                        onchange={handleInputChangeNprNo} required value={nprDocNo}
+                                        disabled={disableMode}></lightning-input>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </template>
+
+                        <template if:true={showGstNo}>
+                            <lightning-layout multiple-rows="true">
+                                <lightning-layout-item padding="around-small" size="12"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size={layoutSize.large}>
+                                    <!-- Render combobox if availableGstOption has items -->
+                                    <template if:true={hasAvailableGSTList}>
+
+                                        <lightning-combobox name="GSTpick" label="Select GSTIN" value={gstSelectedId}
+                                            placeholder="Select GSTIN" options={availableGstOption}
+                                            onchange={handleInputChangeGstNo} required disabled={disableMode}>
+                                        </lightning-combobox>
+                                    </template>
+
+                                    <!-- Render input if availableGstOption is empty -->
+                                    <template if:false={hasAvailableGSTList}>
+                                        <lightning-input name="GSTinput" type="text"
+                                            pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$"
+                                            placeholder="Enter Here" label="GSTIN"
+                                            message-when-pattern-mismatch="Please enter a valid GSTIN"
+                                            onchange={handleInputChangeGstNo} required value={gstSelected}
+                                            disabled={disableMode}></lightning-input>
+
+                                    </template>
+
+                                </lightning-layout-item>
+                            </lightning-layout>
+
+                            <template lwc:if={showValidateBtn}>
+                                <lightning-layout multiple-rows="true">
+                                    <lightning-layout-item padding="around-small" size="12"
+                                        small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                        large-device-size={layoutSize.large}>
+
+                                        <lightning-layout-item padding="around-small" size="12">
+                                            <lightning-button name="GSTValidation" variant="success" label="Validate"
+                                                title="Validate" onclick={handleValidateClick}
+                                                disabled={disableMode}></lightning-button>
+                                        </lightning-layout-item>
+
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </template>
+                        </template>
+
+                        <lightning-layout multiple-rows="true">
+                            <template lwc:if={showManualValidation}>
+                                <template lwc:if={showPassportInput}>
+                                    <lightning-layout-item padding="around-small" size="12"
+                                        small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                        large-device-size={layoutSize.large}>
+                                        <lightning-input name="FileNo__c" type="text" label="File Number"
+                                            max-length="18" min-length="12" value={appKycFieldVal.FileNo__c}
+                                            onchange={handleInputChangePassport} required
+                                            disabled={disableMode}></lightning-input>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item padding="around-small" size="12"
+                                        small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                        large-device-size={layoutSize.large}>
+                                        <lightning-input name="DtOfBirth__c" type="date" label="Date of Birth"
+                                            max={majorAgeDate} value={appKycFieldVal.DtOfBirth__c}
+                                            onchange={handleInputChangePassport} required
+                                            disabled={disableMode}></lightning-input>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item padding="around-small" size="12"
+                                        small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                        large-device-size={layoutSize.large}>
+                                        <lightning-input name="PassNo__c" type="text" label="Passport Number"
+                                            pattern="^[A-Z]{1}[0-9]{7}$" value={appKycFieldVal.PassNo__c}
+                                            onchange={handleInputChangePassport} required
+                                            disabled={disableMode}></lightning-input>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item padding="around-small" size="12"
+                                        small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                        large-device-size={layoutSize.large}>
+                                        <lightning-input name="PassExpDt__c" type="date" label="Passport Expiry Date"
+                                            min={todayDateValue} value={appKycFieldVal.PassExpDt__c}
+                                            onchange={handleInputChangePassport} required
+                                            disabled={disableMode}></lightning-input>
+                                    </lightning-layout-item>
+                                    <template lwc:if={showValidateBtn}>
+                                        <lightning-layout-item padding="around-small" size="12">
+                                            <lightning-button name="passportValidate" variant="success" label="Validate"
+                                                title="Validate" onclick={handleValidateClick}
+                                                disabled={disableMode}></lightning-button>
+                                        </lightning-layout-item>
+                                    </template>
+                                </template>
+                                <!--     pattern="^[A-Z]{3}[0-9]{7}$"  -->
+                                <template lwc:elseif={showVoterInput}>
+                                    <lightning-layout-item padding="around-small" size="12"
+                                        small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                        large-device-size={layoutSize.large}>
+                                        <lightning-input name="VotIdEpicNo__c" type="text" label="Voters' Epic Number"
+                                            min="1" max="17"
+                                            pattern='^(([a-zA-Z]{3}[\\/\\\\]?\\d{6,7})|([a-zA-Z]{2}[\\/\\\\]\\d{1,3}[\\/\\\\]\\d{2,3}[\\/\\\\]\\d{6,7})|([a-zA-Z]{2}\\d{10,12})|(?:[a-zA-Z0-9](?:[\\/\\\\]{0,2}[a-zA-Z0-9]){0,2}){1,17})$'
+                                            value={appKycFieldVal.VotIdEpicNo__c} onchange={handleInputChangeVoterId}
+                                            required disabled={disableMode}></lightning-input>
+                                    </lightning-layout-item>
+                                    <template lwc:if={showValidateBtn}>
+                                        <lightning-layout-item padding="around-small" size="12">
+                                            <lightning-button name="voterIdValidate" variant="success" label="Validate"
+                                                title="Validate" onclick={handleValidateClick}
+                                                disabled={disableMode}></lightning-button>
+                                        </lightning-layout-item>
+                                    </template>
+                                </template>
+
+                                <template lwc:elseif={showDlInput}>
+                                    <lightning-layout-item padding="around-small" size="12"
+                                        small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                        large-device-size={layoutSize.large}>
+                                        <lightning-input name="DLNo__c" type="text" label="Driving License Number"
+                                            pattern="^[A-Za-z0-9\s\,\-]{15,22}$" value={appKycFieldVal.DLNo__c}
+                                            onchange={handleInputChangeDl} required
+                                            disabled={disableMode}></lightning-input>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item padding="around-small" size="12"
+                                        small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                        large-device-size={layoutSize.large}>
+                                        <lightning-input name="DtOfBirth__c" type="date" label="Date of Birth"
+                                            max={majorAgeDate} value={appKycFieldVal.DtOfBirth__c}
+                                            onchange={handleInputChangeDl} required
+                                            disabled={disableMode}></lightning-input>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item padding="around-small" size="12"
+                                        small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                        large-device-size={layoutSize.large}>
+                                        <lightning-input name="DLExpDt__c" type="date"
+                                            label="Driving License Expiry Date" min={todayDateValue}
+                                            value={appKycFieldVal.DLExpDt__c} onchange={handleInputChangeDl} required
+                                            disabled={disableMode}></lightning-input>
+                                    </lightning-layout-item>
+                                    <template lwc:if={showValidateBtn}>
+                                        <lightning-layout-item padding="around-small" size="12">
+                                            <lightning-button name="dlValidate" variant="success" label="Validate"
+                                                title="Validate" onclick={handleValidateClick}
+                                                disabled={disableMode}></lightning-button>
+                                        </lightning-layout-item>
+                                    </template>
+                                </template>
+                                <template lwc:elseif={showAadharInput}>
+                                    <lightning-layout-item padding="around-small" size="12"
+                                        small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                        large-device-size={layoutSize.large}>
+                                        <lightning-input name="AadharNo__c" type="text" label="Aadhar Number"
+                                            value={appKycFieldVal.AadharNo__c} onchange={handleInputChangeAadharNo}
+                                            required disabled={disableAadharNo}></lightning-input>
+                                    </lightning-layout-item>
+                                    <template lwc:if={showValidateBtn}>
+                                        <lightning-layout-item padding="around-small" size="12">
+                                            <lightning-button name="aadharValidate" variant="success" label="Validate"
+                                                title="Validate" onclick={handleValidateClick}
+                                                disabled={disableMode}></lightning-button>
+                                        </lightning-layout-item>
+                                    </template>
+                                </template>
+                            </template>
+
+                        </lightning-layout>
+                        <lightning-layout multiple-rows="true">
+
+                            <template if:true={showUpload}>
+                                <lightning-layout-item padding="around-small" size="12"
+                                    small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                                    large-device-size="6">
+
+                                    <c-upload-docs-reusable-component loan-app-id={loanAppId} applicant-id={applicantId}
+                                        doc-name={docName} doc-type={docType} disabled={desableUpload}
+                                        doc-category="KYC Documents" onrefreshdoctable={fromUploadDocsContainer}
+                                        onspinnerstatus={spinnerStatus} convert-to-single-image={convertToSingleImage}
+                                        is-pan-kyc={isPanKyc}></c-upload-docs-reusable-component>
+                                </lightning-layout-item>
+                            </template>
+                            <template if:true={showAddDoc}>
+                                <lightning-layout-item padding="around-small" size="6">
+                                    <lightning-button variant="neutral" label="Add Existing File" title="AddDoc"
+                                        name="AddDocForOther" onclick={handleAddDocClick}
+                                        disabled={disableMode}></lightning-button>
+                                </lightning-layout-item>
+                            </template>
+                        </lightning-layout>
+
+                    </lightning-card>
+
+                </lightning-layout-item>
+            </template>
+
+
+            <lightning-layout-item padding="around-small" size="12">
+                <template lwc:if={showUploadedRecord}>
+
+                    <c-uploded-document-display ispankycstep='true' category={documentCategoryList}
+                        applicant-id={applicantId} onuploadeddoc={callDocAvailable} mode='true'
+                        is-read-only={disableMode} has-edit-access={hasEditAccess} loan-app-id={loanAppId}
+                        show-utility-bill-date='true' show-doc-data='true' show-establishment-date='true'
+                        show-o-s-v ={isNotDSA}
+                        onclick={handleForwardClicked}></c-uploded-document-display>
+                </template>
+
+            </lightning-layout-item>
+
+        </lightning-layout>
+    </lightning-card>
+    <template if:true={showModelPopup}>
+
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">OTP Authentication
+                    </h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <lightning-layout horizontal-align="spread" multiple-rows="true">
+
+
+                        <lightning-layout-item class="slds-p-around_small" size="12"
+                            small-device-size={layoutSize.small} medium-device-size={layoutSize.medium}
+                            large-device-size={layoutSize.large}>
+                            <lightning-input name="AadharEncripted__c" type="text" label="Enter OTP" value={otpVal}
+                                onchange={handleOTPchange} required disabled={disableMode}></lightning-input>
+                        </lightning-layout-item>
+                        <!-- pattern="^\d{6}$" -->
+                        <lightning-layout-item class="slds-p-around_small" size="12">
+
+                            <lightning-button name="OTPAuthenticate" variant="success" label="Validate" title="Validate"
+                                disabled={hideOtpValidate} onclick={handleValidateClick}></lightning-button>
+
+                        </lightning-layout-item>
+
+                        <lightning-layout-item class="slds-p-around_small" size="4">
+                            <div if:true={showModelPopup}>
+                                <div if:true={showTimer}>
+                                    <div if:false={hidetimer} style="color:rgb(184, 44, 44)">Time Remaining:
+                                        {otpTimerValue}
+                                    </div>
+                                </div>
+                            </div>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item class="slds-p-around_small" size="8">
+                            <div if:true={showModelPopup}>
+                                <div if:true={numberOfOTPAttempts}>
+                                    <div if:false={hidetimer} style="color:rgb(184, 44, 44)"> Incorrect Attempts :
+                                        {numberOfOTPAttempts}
+                                    </div>
+                                </div>
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+                <div if:true={showSpinner}>
+                    <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+                    </lightning-spinner>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">Cancel</button>
+
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+</template>

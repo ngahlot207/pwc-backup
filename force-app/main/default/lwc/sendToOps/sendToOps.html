@@ -1,0 +1,68 @@
+<template>
+    <!-- <div class="slds-is-relative">
+        <lightning-quick-action-panel header="Confirm?">
+            <template if:true={showSpinner}>
+                <div class="spinner">
+                    <lightning-spinner alternative-text="Loading" variant="brand" size="medium"></lightning-spinner>
+                </div>
+            </template>
+            <template if:false={showSpinner}>
+                <lightning-record-edit-form record-id={recordId} object-api-name={objectApiName}
+                    onsuccess={handleSuccess}>
+                    <div class="slds-text-align_center slds-text-heading_small">
+                        <p>Do you want to Send Loan Application For Oops Verification?</p>
+                    </div>
+                    <lightning-input-field style="display:none;" field-name="Stage__c"
+                        value="Disbursement Initiation"></lightning-input-field>
+                    <lightning-input-field style="display:none;" field-name="SubStage__c"
+                        value="DI Pool"></lightning-input-field>
+                    <lightning-input-field style="display:none;" field-name="OwnerId"
+                        value={loanApplicationQueueId}></lightning-input-field>
+
+                    <div style="text-align: end;" class="slds-m-top_large slds-m-bottom_medium">
+                        <footer class="slds-modal__footer">
+                            <lightning-button variant="brand" class="slds-m-left_x-large" label="YES"
+                                type="submit"></lightning-button>
+                            <lightning-button variant="brand" class="slds-m-left_x-large" label="NO"
+                                onclick={closeAction}></lightning-button>
+                        </footer>
+                    </div>
+                </lightning-record-edit-form>
+            </template>
+        </lightning-quick-action-panel>
+    </div> -->
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+
+    <div class="slds-is-relative">
+        <lightning-quick-action-panel header="Confirm?">
+            <template if:true={showSpinner}>
+                <!-- <div class="spinner">
+                    <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                </div> -->
+            </template>
+
+
+            <template if:false={showSpinner}>
+                <header class="slds-modal__header">
+                    <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">
+                        Do you want to Send Loan Application For Ops Verification?
+                    </h2>
+                </header>
+
+                <div style="text-align: end;" class="slds-m-top_large slds-m-bottom_medium">
+                    <footer class="slds-modal__footer">
+                        <lightning-button variant="brand" class="slds-m-left_x-large" label="YES" type="submit"
+                            onclick={getLoanAppData}></lightning-button>
+                        <!-- getLoanAppData -->
+                        <lightning-button variant="brand" class="slds-m-left_x-large" label="NO"
+                            onclick={noBtn}></lightning-button>
+                    </footer>
+                </div>
+            </template>
+        </lightning-quick-action-panel>
+    </div>
+
+</template>

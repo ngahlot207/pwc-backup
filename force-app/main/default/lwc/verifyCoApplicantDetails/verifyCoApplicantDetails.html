@@ -1,0 +1,407 @@
+<template>
+
+	<div if:true={showSpinner}>
+		<lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+		</lightning-spinner>
+	</div>
+	<div class="slds-hide">
+		<iframe src={vfUrl}></iframe>
+	</div>
+	<lightning-card>
+		<lightning-layout multiple-rows="true">
+			<lightning-layout-item class="slds-p-around_x-small" size="12" small-device-size={layoutSize.small}
+				medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+				<div>
+					<lightning-combobox label="Customer Profile" data-objectname="Applicant__c"
+						data-fieldname="CustProfile__c" value={wrapObj.CustProfile__c} onchange={inputChangeHandler}
+						options={customerProfileOptions} required disabled={disableKyc}></lightning-combobox>
+				</div>
+			</lightning-layout-item>
+
+			<lightning-layout-item class="slds-p-around_x-small" size="12" small-device-size={layoutSize.small}
+				medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+				<div>
+					<lightning-combobox label="Constitution	" data-objectname="Applicant__c"
+						data-fieldname="Constitution__c" value={wrapObj.Constitution__c} onchange={inputChangeHandler}
+						options={constitutionOptions} required disabled={disableConsti}></lightning-combobox>
+				</div>
+			</lightning-layout-item>
+
+			<lightning-layout-item class="slds-p-around_x-small" size="12" small-device-size={layoutSize.small}
+				medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+				<div>
+					<lightning-combobox label="Type of Borrower" data-objectname="Applicant__c"
+						data-fieldname="Type_of_Borrower__c" value={wrapObj.Type_of_Borrower__c}
+						onchange={inputChangeHandler} options={BorrowerOptions} required
+						disabled={borrType}></lightning-combobox>
+				</div>
+			</lightning-layout-item>
+
+
+
+
+			<lightning-layout-item class="slds-p-around_x-small" size="12" small-device-size={layoutSize.small}
+				medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+				<lightning-combobox label="Applicant Type" data-objectname="Applicant__c" data-fieldname="ApplType__c"
+					value={wrapObj.ApplType__c} onchange={inputChangeHandler} options={applicantTypeOptionsModified}
+					required disabled={disableKyc}>
+				</lightning-combobox>
+			</lightning-layout-item>
+
+			<template if:true={showNameSection}>
+				<template if:true={isIndividual}>
+					<lightning-layout-item class="slds-p-around_x-small" size="12" small-device-size={layoutSize.small}
+						medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+						<div>
+							<lightning-input type="text" data-type="string" value={wrapObj.FName__c} label="First Name"
+								onchange={inputChangeHandler} data-fieldname="FName__c" required
+								data-objectname="Applicant__c" pattern="^[A-Za-z]+( [A-Za-z]+)?$"
+								message-when-pattern-mismatch={messageMismatchError} disabled={disableKyc}>
+							</lightning-input>
+						</div>
+					</lightning-layout-item>
+
+					<lightning-layout-item class="slds-p-around_x-small" size="12" small-device-size={layoutSize.small}
+						medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+						<div>
+							<lightning-input type="text" data-type="string" value={wrapObj.MName__c} label="Middle Name"
+								onchange={inputChangeHandler} data-fieldname="MName__c" data-objectname="Applicant__c"
+								pattern="^[A-Za-z]+( [A-Za-z]+)?$" message-when-pattern-mismatch={messageMismatchError}
+								disabled={disableKyc}>
+							</lightning-input>
+						</div>
+					</lightning-layout-item>
+
+					<lightning-layout-item class="slds-p-around_x-small" size="12" small-device-size={layoutSize.small}
+						medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+						<div>
+							<lightning-input type="text" data-type="string" value={wrapObj.LName__c} label="Last Name"
+								onchange={inputChangeHandler} data-fieldname="LName__c" required
+								data-objectname="Applicant__c" pattern="^[A-Za-z]+( [A-Za-z]+)?$"
+								message-when-pattern-mismatch={messageMismatchError} disabled={disableKyc}>
+							</lightning-input>
+						</div>
+					</lightning-layout-item>
+
+				</template>
+				<template if:false={isIndividual}>
+					<lightning-layout-item class="slds-p-around_x-small" size="12" small-device-size={layoutSize.small}
+						medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+						<div>
+							<lightning-input type="text" data-type="string" value={wrapObj.CompanyName__c}
+								label="Company Name" onchange={inputChangeHandler} data-fieldname="CompanyName__c"
+								data-objectname="Applicant__c" required pattern="[A-Z][A-Za-z.&\s@$#*}{][,=)(+;'/]+"
+								message-when-pattern-mismatch={messageMismatchError} disabled={disableKyc}>
+							</lightning-input>
+						</div>
+					</lightning-layout-item>
+
+					<lightning-layout-item class="slds-p-around_x-small" size="12" small-device-size={layoutSize.small}
+						medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+						<div>
+							<lightning-input type="text" data-type="string" value={wrapObj.KeyManName__c}
+								label="Name of the KeyMan/Authorised Individual" onchange={inputChangeHandler}
+								data-fieldname="KeyManName__c" data-objectname="Applicant__c" required
+								data-fieldtype="string" pattern="^[A-Za-z _]*[A-Za-z][A-Za-z _]*$"
+								message-when-pattern-mismatch={messageMismatchError} onblur={blurHandler}
+								disabled={disableKyc}>
+							</lightning-input>
+						</div>
+					</lightning-layout-item>
+				</template>
+			</template>
+
+
+
+			<lightning-layout-item class="slds-p-around_x-small" size="12" small-device-size={layoutSize.small}
+				medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+				<div>
+					<lightning-input type="tel" value={wrapObj.MobNumber__c} label="Mobile Number" data-id="mobileInput"
+						onchange={inputChangeHandler} required data-fieldname="MobNumber__c"
+						data-objectname="Applicant__c" pattern="[6,7,8,9]{1}[0-9]{9}"
+						message-when-pattern-mismatch={label.CoApplicantMobileFormatError}
+						disabled={disableMobileNumber} field-level-help={helpText}>
+					</lightning-input>
+				</div>
+				<template if:true={showMatchingMobileMessage}>
+					<template if:true={isSameMobNoAsAppl}>
+						<div class="verified-message gray-verified" style="color:rgb(231, 93, 93)">
+							{label.CoApplMobNoSAmeAsAppl}</div>
+					</template>
+					<template if:true={isSameNumberAsCoApplicant}>
+						<div class="verified-message gray-verified" style="color:rgb(231, 93, 93)">
+							{label.SameMobNoForMultCoAppl}</div>
+					</template>
+					<template if:true={isSameNumberForGuarantor}>
+						<div class="verified-message gray-verified" style="color:rgb(231, 93, 93)">
+							Mobile Number already used , Please provide another mobile number </div>
+					</template>
+				</template>
+			</lightning-layout-item>
+
+		</lightning-layout>
+		<br />
+
+
+		<lightning-card>
+			<div class="slds-m-left_small">
+				<template if:true={showConsent}>
+					<template if:true={show_consent}>
+						<template if:true={productTypeBLPL}>
+						<span class="slds-radio">
+							<input type="radio" id="radio-4" data-field="Digital" checked={isDigital}
+								name="consentButtons" onclick={handleRadioClick} disabled={disabledMobOtpCon} />
+							<label class="slds-radio__label" for="radio-4">
+								<span class="slds-radio_faux"></span>
+								<span class="slds-form-element__label">Digital Consent</span>
+							</label>
+						</span>
+					</template>
+					<template if:false={productTypeBLPL}>
+						<span class="slds-radio">
+							<input type="radio" id="radio-1" data-field="mobile" checked={isMobile}
+								name="consentButtons" onclick={handleRadioClick} disabled={disabledMobOtpCon} />
+							<label class="slds-radio__label" for="radio-1">
+								<span class="slds-radio_faux"></span>
+								<span class="slds-form-element__label">Mobile OTP Consent</span>
+							</label>
+						</span>
+					</template>
+						<span class="slds-radio">
+							<input type="radio" id="radio-2" data-field="manual" checked={isManual}
+								name="consentButtons" onclick={handleRadioClick} disabled={disableMode} />
+							<label class="slds-radio__label" for="radio-2">
+								<span class="slds-radio_faux"></span>
+								<span class="slds-form-element__label">Physical Consent Upload</span>
+							</label>
+						</span>
+					</template>
+					<template if:true={show_PhysicalConsent}>
+						<span class="slds-radio">
+							<input type="radio" id="radio-3" data-field="manual" checked={isManual}
+								name="consentButtons" onclick={handleRadioClick} />
+							<label class="slds-radio__label" for="radio-3">
+								<span class="slds-radio_faux"></span>
+								<span class="slds-form-element__label">Physical Consent Upload</span>
+							</label>
+						</span>
+					</template>
+				</template>
+			</div>
+		</lightning-card>
+
+		<template if:false={productTypeBLPL}>
+		<div if:true={isMobile}>
+			<div if:true={showMobileNumber}>
+				<lightning-layout multiple-rows>
+					<lightning-layout-item class="slds-p-around_x-small" size="12" small-device-size={layoutSize.small}
+						medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+						<lightning-input type="phone" pattern="[6,7,8,9]{1}[0-9]{9}"
+							message-when-pattern-mismatch="Please enter a valid Phone Number" label="Mobile Number"
+							maxlength="10" minlength="10" class="mobile" value={mobileNumberValue}
+							onchange={handleMobileChange} disabled></lightning-input>
+						<!-- OTP SENT SUCCESSFULLY Message -->
+						<div if:true={otpSentSuccess} style="color:rgb(8, 128, 44)">{label.SentOTPSuccess}</div>
+					</lightning-layout-item>
+					<lightning-layout-item class="slds-p-around_x-small" size="12" small-device-size={layoutSize.small}
+						medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+						<div class="slds-p-left_small slds-p-top_medium" style="padding-top:20px;">
+							<template if:true={mobileNumberValue}>
+								<lightning-button label="Send OTP" variant="brand" onclick={handleSendOTP}
+									disabled={disableSendOTP}></lightning-button>
+							</template>
+						</div>
+					</lightning-layout-item>
+				</lightning-layout>
+			</div>
+			<div if:true={showEnterOtp}>
+				<lightning-layout multiple-rows>
+					<lightning-layout-item class="slds-p-around_x-small" size="12" small-device-size={layoutSize.small}
+						medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+						<span onkeypress={handleEnterOtp}>
+							<lightning-input type="text" data-type="string" label="Enter OTP" data-id="OtpInput"
+								class="enter-otp" onchange={handleEnterOtp}
+								disabled={disableValidateOTP}></lightning-input>
+						</span>
+					</lightning-layout-item>
+					<lightning-layout-item class="slds-p-around_x-small" size="12" small-device-size={layoutSize.small}
+						medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+						<div class="slds-p-left_small slds-p-top_medium" style="padding-top:20px;">
+							<lightning-button label="Validate OTP" data-id="enterOtp" variant="brand"
+								onclick={handleValidateOTP} disabled={disableValidateOTP}></lightning-button>
+						</div>
+					</lightning-layout-item>
+
+				</lightning-layout>
+			</div>
+			<div if:true={showEnterOtp}>
+				<div if:false={hidetimer} style="color:rgb(184, 44, 44)" class="slds-m-left_small">Time Remaining:
+					{otpTimerValue}</div>
+				<div if:false={hidetimer} class="slds-m-left_small">{label.OTPRetryMessage}</div>
+			</div>
+			<div if:true={isOTPValidated}>
+				<div class="slds-p-top_small">
+					<lightning-layout-item size="1">
+						<lightning-icon icon-name="action:approval" size="xx-small"></lightning-icon>&nbsp;
+						{label.MobileNumSuccess}
+					</lightning-layout-item>
+				</div>
+			</div>
+
+			<div if:true={isOTPNotValidated}>
+				<lightning-layout-item size="1" class="slds-p-top_small">
+					<p style="color:rgb(184, 44, 44)">
+						<img src={mobFailedImage} alt="Custom Image" width="40" height="30">&nbsp;
+						{label.mobVerificationFailed}
+					</p>
+				</lightning-layout-item>
+			</div>
+		</div>
+	</template>
+	<template if:true={productTypeBLPL}>
+		<div if:true={isDigital}>
+			<div if:true={showMobileNumber}>
+				<lightning-layout multiple-rows>
+					<lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+						medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+						<lightning-input type="phone" pattern="[6,7,8,9]{1}[0-9]{9}"
+							message-when-pattern-mismatch="Please enter a valid Phone Number" label="Mobile Number"
+							maxlength="10" minlength="10" class="mobile" value={mobileNumberValue}
+							onchange={handleMobileChange} disabled></lightning-input>
+						<!-- OTP SENT SUCCESSFULLY Message -->
+						<div if:true={otpSentSuccess} style="color:rgb(8, 128, 44)">Link Sent Successfully.</div>
+					</lightning-layout-item>
+					<lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+						medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+						<div class="slds-p-left_small slds-p-top_medium" style="padding-top:20px;">
+							<template if:true={mobileNumberValue}>
+								<lightning-button label="Send SMS" variant="brand" onclick={handleSendLink}
+									disabled={disableSendOTP}></lightning-button>
+									<lightning-button-icon variant="brand" class=" slds-m-around--x-small" 
+                        icon-name='utility:refresh' alternative-text='refresh' size='small' title='refresh'
+                        onclick={handleRefreshClick} ></lightning-button-icon>
+							</template>
+						</div>
+					</lightning-layout-item>
+				</lightning-layout>
+			</div>
+			
+			<div if:true={otpSentSuccess}>
+				<div if:false={hidetimer} style="color:rgb(184, 44, 44)" class="slds-m-left_small">Time Remaining:
+					{otpTimerValue}</div>
+			</div>
+			<div if:true={digitalConsentDone}>
+				<div class="slds-p-top_small">
+					<lightning-layout-item size="1">
+						<lightning-icon icon-name="action:approval" size="xx-small"></lightning-icon>&nbsp;
+						Digital Consent Taken!
+					</lightning-layout-item>
+				</div>
+			</div>
+			
+			
+		</div>
+	</template>
+		<div if:true={isManual}>
+			<lightning-combobox name="progress" data-id="rationaleInput" label="Rationale behind using Physical Consent"
+				value={wrapObj.RationaleUsingPhyConsent__c} placeholder="-Select-" options={rationaleOptions}
+				class="slds-p-around_small rationaleWidth" onchange={handleRationale} disabled={disableMode} required>
+			</lightning-combobox>
+			<div if:true={showComments}>
+				<lightning-input style="width:33%;" type="text" data-type="string" data-fieldname="Comments__c"
+					label="Comments" class="slds-p-around_small" pattern="^[A-Za-z]+(?: [A-Za-z]+)*$"
+					message-when-pattern-mismatch="Please enter a valid comments" value={wrapObj.Comments__c}
+					onblur={blurHandler} data-id="commentsInput" onchange={onChangeComments} required
+					disabled={disableMode}></lightning-input>
+			</div>
+
+			<div class="slds-m-around_medium">
+				<lightning-input type="file" accept={acceptedFormats} label="" onchange={openfileUpload}
+					disabled={disableMode}>
+				</lightning-input>
+			</div>
+			<p>Note: Maximum File Size should be 10Mb. Please upload file of pdf, jpg, jpeg and png format only</p>
+		</div>
+
+		<template if:true={isLoading}>
+			<div class="slds-input__icon slds-input__icon_right">
+				<lightning-spinner alternative-text="Loading" size="large" variant="brand"></lightning-spinner>
+			</div>
+		</template>
+
+		<template if:false={mobileOptionSelected}>
+			<div if:true={filesPresent}>
+				<lightning-card title="">
+					<div>
+						<template for:each={filesList} for:item="file">
+							<div key={file.Id}>
+								<div class="two-column-container">
+									<div class="column">
+										<lightning-icon icon-name="custom:custom18" size="small"></lightning-icon>
+										<strong style="padding-left: 20px; word-wrap: break-word;">{file.Title}</strong>
+									</div>
+									<div class="column">
+										<lightning-icon data-id={file.Id} class="slds-m-around_xxx-small custom-button"
+											icon-name="utility:success" variant="success" size="small"
+											alternative-text="File Uploaded Successfully" if:true={fileUploaded}>
+										</lightning-icon>
+										<lightning-icon onclick={previewHandler} alternative-text="preview"
+											data-id={file.Id} title="Preview" icon-name='utility:preview'
+											class="slds-m-around_xxx-small custom-button" variant='success' size='small'
+											disabled={disableMode}></lightning-icon>
+										<lightning-icon onclick={deleteHandler} alternative-text="Delete"
+											class="slds-m-around_xxx-small custom-button" data-id={file.Id}
+											title="Delete" icon-name='utility:delete' variant='error' size='small'
+											disabled={disableMode}>
+										</lightning-icon>
+
+										<template if:true={showDeleteConfirmation}>
+											<section role="dialog" tabindex="-1" aria-labelledby="modal-heading"
+												aria-modal="true" aria-describedby="modal-content-id-1"
+												class="slds-modal slds-fade-in-open">
+												<div class="slds-modal__container rationaleWidth">
+													<header class="slds-modal__header">
+														<button
+															class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+															title="Close" onclick={hideModalBox}>
+															<lightning-icon icon-name="utility:close"
+																alternative-text="close" variant="inverse"
+																size="small"></lightning-icon>
+															<span class="slds-assistive-text">Close</span>
+														</button>
+														<h2 id="modal-heading-01"
+															class="slds-text-heading_medium slds-hyphenate">Delete
+															Confirmation</h2>
+													</header>
+
+													<div class="slds-modal__content slds-p-around_medium div-center"
+														id="modal-content-id-1">
+														<strong>Do you really want to delete this file ?</strong>
+													</div>
+
+													<footer class="slds-modal__footer">
+														<lightning-button class="slds-p-horizontal_x-small"
+															variant="brand" label="OK" title="ok"
+															onclick={handleConfirmDelete}></lightning-button>
+														<lightning-button class="slds-p-horizontal_x-small"
+															variant="destructive" label="Cancel" title="cancel"
+															onclick={handleCancelDelete}>
+														</lightning-button>
+													</footer>
+
+												</div>
+											</section>
+											<div class="slds-backdrop slds-backdrop_open"></div>
+										</template>
+
+									</div>
+
+								</div>
+							</div>
+						</template>
+					</div>
+				</lightning-card>
+			</div>
+		</template>
+	</lightning-card>
+</template>

@@ -1,0 +1,1119 @@
+<template>
+
+    
+    <h3 class="slds-text-heading_medium slds-m-bottom_medium" style="font-weight:bold;">Consolidated Profit & Loss Summary</h3>
+    <lightning-card >
+    <table>
+        <tr>
+            <th>Financial Year</th>
+            <th style="width:180px">{privousYear}</th>
+            <th style="width:180px">{currentYear}</th>
+            <th style="width:100px">Inc/dec%</th>
+            <template if:true={provisionalFinancialYearSelectionValue}>
+                <th style="width:180px">{_provisionalYear}</th>
+                <th style="width:100px">Inc/dec%</th>
+            </template>
+        </tr>
+        <tr>
+            <th class="text-left">Total Sales</th>
+            <td>
+                <lightning-input class="inputClass" type="number" placeholder="Enter here"
+                    value={wrapObj1.Total_Sales__c} step=".01" formatter="currency"
+                    data-fieldname="Total_Sales__1" 
+                    message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0" variant="label-hidden"
+                    disabled={disableMode}> </lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" placeholder="Enter here"
+                    value={wrapObj2.Total_Sales__c} step=".01" formatter="currency"
+                    data-fieldname="Total_Sales__2" message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0" 
+                    variant="label-hidden" disabled={disableMode}></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" value={incrementdecrement.Total_Sales__c} type="number"
+                    formatter="percent" disabled variant="label-hidden"></lightning-input>
+            </td>
+            <template if:true={provisionalFinancialYearSelectionValue}>
+
+                <td>
+                    <lightning-input class="inputClass" type="number" placeholder="Enter here"
+                        value={wrapObj3.Total_Sales__c} step=".01" formatter="currency"
+                        data-fieldname="Total_Sales__3" message-when-bad-input="Enter a Valid Input"
+                        message-when-range-underflow="Please Enter value above 0"
+                         variant="label-hidden" disabled={disableMode}>
+                    </lightning-input>
+                </td>
+                <td>
+                    <lightning-input class="inputClass" value={incrementdecrement1.Total_Sales__c}
+                        type="number" formatter="percent" disabled
+                        variant="label-hidden disabled={disableMode}"></lightning-input>
+                </td>
+
+            </template>
+
+        </tr>
+        <tr>
+            <th class="text-left">Other operating Income (Income which is incidental to business)</th>
+            <td>
+                <lightning-input class="inputClass" type="number" placeholder="Enter here"
+                    value={wrapObj1.Other_Operating_Income_IncomeIncidental__c}
+                    data-fieldname="Other_Operating_Income_IncomeIncidental__1" 
+                    step=".01" message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0" formatter="currency"
+                    variant="label-hidden" disabled={disableMode}>
+                </lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" placeholder="Enter here"
+                    value={wrapObj2.Other_Operating_Income_IncomeIncidental__c}
+                    data-fieldname="Other_Operating_Income_IncomeIncidental__2" 
+                    step=".01" message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0" formatter="currency"
+                    variant="label-hidden" disabled={disableMode}>
+                </lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number"
+                    value={incrementdecrement.Other_Operating_Income_IncomeIncidental__c} disabled
+                    step=".01" message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0" formatter="percent"
+                    variant="label-hidden">
+                </lightning-input>
+            </td>
+            <template if:true={provisionalFinancialYearSelectionValue}>
+                <td>
+                    <lightning-input class="inputClass" type="number" placeholder="Enter here"
+                        value={wrapObj3.Other_Operating_Income_IncomeIncidental__c}
+                        data-fieldname="Other_Operating_Income_IncomeIncidental__3"
+                         step=".01" message-when-bad-input="Enter a Valid Input"
+                        message-when-range-underflow="Please Enter value above 0" formatter="currency"
+                        variant="label-hidden" disabled={disableMode}>
+                    </lightning-input>
+                </td>
+                <td>
+                    <lightning-input class="inputClass" type="number"
+                        value={incrementdecrement1.Other_Operating_Income_IncomeIncidental__c} disabled
+                        step=".01" message-when-bad-input="Enter a Valid Input"
+                        message-when-range-underflow="Please Enter value above 0" formatter="percent"
+                        variant="label-hidden">
+                    </lightning-input>
+                </td>
+            </template>
+        </tr>
+
+        <!--Adding Export Sales (out of Total Sales)-->
+
+        <tr>
+            <th class="text-left">Export Sales (out of Total Sales)</th>
+            <td>
+                <lightning-input class="inputClass" type="number" placeholder="Enter here"
+                    value={wrapObj1.ExportSalesOutOfAboveSales__c}
+                    data-fieldname="ExportSalesOutOfAboveSales__1" 
+                    step=".01" message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0" formatter="currency"
+                    variant="label-hidden" disabled={disableMode}>
+                </lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" placeholder="Enter here"
+                    value={wrapObj2.ExportSalesOutOfAboveSales__c}
+                    data-fieldname="ExportSalesOutOfAboveSales__2" 
+                    step=".01" message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0" formatter="currency"
+                    variant="label-hidden" disabled={disableMode}>
+                </lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number"
+                    value={incrementdecrement.ExportSalesOutOfAboveSales__c} disabled
+                    step=".01" message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0" formatter="percent"
+                    variant="label-hidden">
+                </lightning-input>
+            </td>
+            <template if:true={provisionalFinancialYearSelectionValue}>
+                <td>
+                    <lightning-input class="inputClass" type="number" placeholder="Enter here"
+                        value={wrapObj3.ExportSalesOutOfAboveSales__c}
+                        data-fieldname="ExportSalesOutOfAboveSales__3"
+                         step=".01" message-when-bad-input="Enter a Valid Input"
+                        message-when-range-underflow="Please Enter value above 0" formatter="currency"
+                        variant="label-hidden" disabled={disableMode}>
+                    </lightning-input>
+                </td>
+                <td>
+                    <lightning-input class="inputClass" type="number"
+                        value={incrementdecrement1.ExportSalesOutOfAboveSales__c} disabled
+                        step=".01" message-when-bad-input="Enter a Valid Input"
+                        message-when-range-underflow="Please Enter value above 0" formatter="percent"
+                        variant="label-hidden">
+                    </lightning-input>
+                </td>
+            </template>
+        </tr>
+
+
+        <tr>
+            <th class="text-left">Non Operating Income</th>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" placeholder="Enter here" disabled
+                    value={wrapObj1.Non_Operating_Income__c} data-fieldname="Non_Operating_Income__1"
+                    ></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" placeholder="Enter here" disabled
+                    value={wrapObj2.Non_Operating_Income__c} data-fieldname="Non_Operating_Income__2"
+                    ></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                    variant="label-hidden" value={incrementdecrement.Non_Operating_Income__c} disabled>
+                </lightning-input>
+            </td>
+            <template if:true={provisionalFinancialYearSelectionValue}>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                        variant="label-hidden" placeholder="Enter here" disabled
+                        value={wrapObj3.Non_Operating_Income__c} data-fieldname="Non_Operating_Income__3"
+                        ></lightning-input>
+                </td>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                        variant="label-hidden" value={incrementdecrement1.Non_Operating_Income__c} disabled>
+                    </lightning-input>
+                </td>
+            </template>
+        </tr>
+        <tr>
+            <th class="text-left">NON business Income</th>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" placeholder="Enter here" value={wrapObj1.Non_Business_Income__c}
+                    data-fieldname="Non_Business_Income__1" 
+                    disabled={disableMode} message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" placeholder="Enter here" value={wrapObj2.Non_Business_Income__c}
+                    disabled={disableMode} data-fieldname="Non_Business_Income__2"
+                     message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                    variant="label-hidden" value={incrementdecrement.Non_Business_Income__c} disabled>
+                </lightning-input>
+            </td>
+            <template if:true={provisionalFinancialYearSelectionValue}>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                        variant="label-hidden" placeholder="Enter here"
+                        value={wrapObj3.Non_Business_Income__c} data-fieldname="Non_Business_Income__3"
+                         disabled={disableMode}
+                        message-when-bad-input="Enter a Valid Input"
+                        message-when-range-underflow="Please Enter value above 0"></lightning-input>
+                </td>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                        variant="label-hidden" value={incrementdecrement1.Non_Business_Income__c} disabled>
+                    </lightning-input>
+                </td>
+            </template>
+        </tr>
+        <tr>
+            <th class="text-left">Opening Stock</th>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" placeholder="Enter here" value={wrapObj1.Opening_Stock__c}
+                    data-fieldname="Opening_Stock__1"  disabled={disableMode}
+                    message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" placeholder="Enter here" value={wrapObj2.Opening_Stock__c}
+                    disabled={disableMode} data-fieldname="Opening_Stock__2" 
+                    message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                    variant="label-hidden" value={incrementdecrement.Opening_Stock__c} disabled>
+                </lightning-input>
+            </td>
+            <template if:true={provisionalFinancialYearSelectionValue}>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                        variant="label-hidden" placeholder="Enter here" value={wrapObj3.Opening_Stock__c}
+                        data-fieldname="Opening_Stock__3" 
+                        disabled={disableMode} message-when-bad-input="Enter a Valid Input"
+                        message-when-range-underflow="Please Enter value above 0"></lightning-input>
+                </td>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                        variant="label-hidden" value={incrementdecrement1.Opening_Stock__c} disabled>
+                    </lightning-input>
+                </td>
+            </template>
+        </tr>
+        <tr>
+            <th class="text-left">Closing Stock</th>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" placeholder="Enter here" value={wrapObj1.Closing_Stock__c}
+                    data-fieldname="Closing_Stock__1" 
+                    message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0" disabled={disableMode}>
+                </lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" placeholder="Enter here" value={wrapObj2.Closing_Stock__c}
+                    disabled={disableMode} data-fieldname="Closing_Stock__2" 
+                    message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                    variant="label-hidden" value={incrementdecrement.Closing_Stock__c} disabled>
+                </lightning-input>
+            </td>
+
+            <template if:true={provisionalFinancialYearSelectionValue}>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                        variant="label-hidden" placeholder="Enter here" value={wrapObj3.Closing_Stock__c}
+                        data-fieldname="Closing_Stock__3" 
+                        disabled={disableMode} message-when-bad-input="Enter a Valid Input"
+                        message-when-range-underflow="Please Enter value above 0"></lightning-input>
+                </td>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                        variant="label-hidden" value={incrementdecrement1.Closing_Stock__c} disabled>
+                    </lightning-input>
+                </td>
+            </template>
+
+
+        </tr>
+
+
+
+        <tr>
+            <th class="text-left">Purchases</th>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" placeholder="Enter here" value={wrapObj1.Purchases__c}
+                    disabled={disableMode} data-fieldname="Purchases__1" 
+                    message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" placeholder="Enter here" value={wrapObj2.Purchases__c}
+                    disabled={disableMode} data-fieldname="Purchases__2" 
+                    message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                    variant="label-hidden" value={incrementdecrement.Purchases__c} disabled>
+                </lightning-input>
+            </td>
+
+
+            <template if:true={provisionalFinancialYearSelectionValue}>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                        variant="label-hidden" placeholder="Enter here" value={wrapObj3.Purchases__c}
+                        data-fieldname="Purchases__3"  disabled={disableMode}
+                        message-when-bad-input="Enter a Valid Input"
+                        message-when-range-underflow="Please Enter value above 0"></lightning-input>
+                </td>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                        variant="label-hidden" value={incrementdecrement1.Purchases__c} disabled>
+                    </lightning-input>
+                </td>
+            </template>
+
+
+        </tr>
+        <tr>
+            <th class="text-left">Direct Expenses</th>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" placeholder="Enter here" value={wrapObj1.Direct_Expenses__c}
+                    data-fieldname="Direct_Expenses__1" 
+                    message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0" disabled={disableMode}>
+                </lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" placeholder="Enter here" value={wrapObj2.Direct_Expenses__c}
+                    data-fieldname="Direct_Expenses__2" 
+                    message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0" disabled={disableMode}>
+                </lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                    variant="label-hidden" value={incrementdecrement.Direct_Expenses__c} disabled>
+                </lightning-input>
+            </td>
+            <template if:true={provisionalFinancialYearSelectionValue}>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                        variant="label-hidden" placeholder="Enter here" value={wrapObj3.Direct_Expenses__c}
+                        data-fieldname="Direct_Expenses__3" 
+                        disabled={disableMode} message-when-bad-input="Enter a Valid Input"
+                        message-when-range-underflow="Please Enter value above 0"></lightning-input>
+                </td>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                        variant="label-hidden" value={incrementdecrement1.Direct_Expenses__c} disabled>
+                    </lightning-input>
+                </td>
+            </template>
+        </tr>
+        <tr>
+            <th class="text-left">Gross Profit</th>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" disabled placeholder="Enter here"
+                    value={wrapObj1.Gross_Profit__c} data-fieldname="Gross_Profit__1"
+                    ></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" disabled placeholder="Enter here"
+                    value={wrapObj2.Gross_Profit__c} data-fieldname="Gross_Profit__2"
+                    ></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                    variant="label-hidden" disabled value={incrementdecrement.Gross_Profit__c}>
+                </lightning-input>
+            </td>
+
+
+            <template if:true={provisionalFinancialYearSelectionValue}>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                        variant="label-hidden" disabled placeholder="Enter here"
+                        value={wrapObj3.Gross_Profit__c} data-fieldname="Gross_Profit__3"
+                        ></lightning-input>
+                </td>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                        variant="label-hidden" disabled value={incrementdecrement1.Gross_Profit__c}>
+                    </lightning-input>
+                </td>
+            </template>
+        </tr>
+        <tr>
+            <th class="text-left">Office & Administrative expenses</th>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" placeholder="Enter here"
+                    value={wrapObj1.Office_Administrative_Expenses__c}
+                    data-fieldname="Office_Administrative_Expenses__1" 
+                    disabled={disableMode} message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" placeholder="Enter here"
+                    value={wrapObj2.Office_Administrative_Expenses__c}
+                    data-fieldname="Office_Administrative_Expenses__2" 
+                    disabled={disableMode} message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                    variant="label-hidden" value={incrementdecrement.Office_Administrative_Expenses__c}
+                    disabled></lightning-input>
+            </td>
+
+
+            <template if:true={provisionalFinancialYearSelectionValue}>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                        variant="label-hidden" placeholder="Enter here"
+                        value={wrapObj3.Office_Administrative_Expenses__c} disabled={disableMode}
+                        data-fieldname="Office_Administrative_Expenses__3" 
+                        message-when-bad-input="Enter a Valid Input"
+                        message-when-range-underflow="Please Enter value above 0"></lightning-input>
+                </td>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                        variant="label-hidden" value={incrementdecrement1.Office_Administrative_Expenses__c}
+                        disabled></lightning-input>
+                </td>
+
+
+            </template>
+        </tr>
+
+        <tr>
+            <th class="text-left">Other Indirect Expenses</th>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" placeholder="Enter here"
+                    value={wrapObj1.Other_Indirect_Expenses__c} data-fieldname="Other_Indirect_Expenses__1"
+                     disabled={disableMode}
+                    message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" placeholder="Enter here"
+                    value={wrapObj2.Other_Indirect_Expenses__c} data-fieldname="Other_Indirect_Expenses__2"
+                     disabled={disableMode}
+                    message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                    variant="label-hidden" value={incrementdecrement.Other_Indirect_Expenses__c} disabled>
+                </lightning-input>
+            </td>
+
+
+            <template if:true={provisionalFinancialYearSelectionValue}>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                        variant="label-hidden" placeholder="Enter here"
+                        value={wrapObj3.Other_Indirect_Expenses__c}
+                        data-fieldname="Other_Indirect_Expenses__3" 
+                        disabled={disableMode} message-when-bad-input="Enter a Valid Input"
+                        message-when-range-underflow="Please Enter value above 0"></lightning-input>
+                </td>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                        variant="label-hidden" value={incrementdecrement1.Other_Indirect_Expenses__c}
+                        disabled></lightning-input>
+                </td>
+            </template>
+
+
+        </tr>
+        <tr>
+            <th class="text-left">Non operating Expenses (Fx loss, loss on sale of assets)</th>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" placeholder="Enter here"
+                    value={wrapObj1.Non_Operating_Expenses_FxLoss_AssetLoss__c} disabled={disableMode}
+                    data-fieldname="Non_Operating_Expenses_FxLoss_AssetLoss__1" 
+                    message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" placeholder="Enter here"
+                    value={wrapObj2.Non_Operating_Expenses_FxLoss_AssetLoss__c} disabled={disableMode}
+                    data-fieldname="Non_Operating_Expenses_FxLoss_AssetLoss__2" 
+                    message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                    variant="label-hidden"
+                    value={incrementdecrement.Non_Operating_Expenses_FxLoss_AssetLoss__c} disabled>
+                </lightning-input>
+            </td>
+
+
+            <template if:true={provisionalFinancialYearSelectionValue}>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                        variant="label-hidden" placeholder="Enter here"
+                        value={wrapObj3.Non_Operating_Expenses_FxLoss_AssetLoss__c} disabled={disableMode}
+                        data-fieldname="Non_Operating_Expenses_FxLoss_AssetLoss__3"
+                         message-when-bad-input="Enter a Valid Input"
+                        message-when-range-underflow="Please Enter value above 0"></lightning-input>
+                </td>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                        variant="label-hidden"
+                        value={incrementdecrement1.Non_Operating_Expenses_FxLoss_AssetLoss__c} disabled>
+                    </lightning-input>
+                </td>
+            </template>
+
+
+        </tr>
+        <tr>
+            <th class="text-left">Salary To Partners/Directors</th>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" placeholder="Enter here"
+                    value={wrapObj1.Salary_to_Partner_Directors__c}
+                    data-fieldname="Salary_to_Partner_Directors__1" 
+                    disabled={disableMode} message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" placeholder="Enter here"
+                    value={wrapObj2.Salary_to_Partner_Directors__c}
+                    data-fieldname="Salary_to_Partner_Directors__2" 
+                    disabled={disableMode} message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                    variant="label-hidden" value={incrementdecrement.Salary_to_Partner_Directors__c}
+                    disabled></lightning-input>
+            </td>
+
+
+            <template if:true={provisionalFinancialYearSelectionValue}>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                        variant="label-hidden" placeholder="Enter here"
+                        value={wrapObj3.Salary_to_Partner_Directors__c}
+                        data-fieldname="Salary_to_Partner_Directors__3" 
+                        disabled={disableMode} message-when-bad-input="Enter a Valid Input"
+                        message-when-range-underflow="Please Enter value above 0"></lightning-input>
+                </td>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                        variant="label-hidden" value={incrementdecrement1.Salary_to_Partner_Directors__c}
+                        disabled></lightning-input>
+                </td>
+            </template>
+
+
+        </tr>
+        <tr>
+            <th class="text-left">EBITDA</th>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" disabled placeholder="Enter here" value={wrapObj1.EBITDA__c}
+                    data-fieldname="EBITDA__1" ></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" disabled placeholder="Enter here" value={wrapObj2.EBITDA__c}
+                    data-fieldname="EBITDA__2" ></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                    variant="label-hidden" disabled value={incrementdecrement.EBITDA__c}></lightning-input>
+            </td>
+
+
+            <template if:true={provisionalFinancialYearSelectionValue}>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                        variant="label-hidden" disabled placeholder="Enter here" value={wrapObj3.EBITDA__c}
+                        data-fieldname="EBITDA__3" ></lightning-input>
+                </td>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                        variant="label-hidden" disabled value={incrementdecrement1.EBITDA__c}>
+                    </lightning-input>
+                </td>
+            </template>
+
+            
+        </tr>
+        <tr>
+            <th class="text-left">Interest on term loans</th>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" placeholder="Enter here"
+                    value={wrapObj1.Interest_on_Term_Loans__c} data-fieldname="Interest_on_Term_Loans__1"
+                     disabled={disableMode}
+                    message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" placeholder="Enter here"
+                    value={wrapObj2.Interest_on_Term_Loans__c} data-fieldname="Interest_on_Term_Loans__2"
+                     disabled={disableMode}
+                    message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                    variant="label-hidden" disabled value={incrementdecrement.Interest_on_Term_Loans__c}>
+                </lightning-input>
+            </td>
+
+            <template if:true={provisionalFinancialYearSelectionValue}>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                        variant="label-hidden" placeholder="Enter here"
+                        value={wrapObj3.Interest_on_Term_Loans__c}
+                        data-fieldname="Interest_on_Term_Loans__3" 
+                        disabled={disableMode} message-when-bad-input="Enter a Valid Input"
+                        message-when-range-underflow="Please Enter value above 0"></lightning-input>
+                </td>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                        variant="label-hidden" disabled
+                        value={incrementdecrement1.Interest_on_Term_Loans__c}></lightning-input>
+                </td>
+            </template>
+
+
+        </tr>
+        <tr>
+            <th class="text-left">Interest on CC/ OD limits</th>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" placeholder="Enter here"
+                    value={wrapObj1.Interest_on_CC_OD_limits__c}
+                    data-fieldname="Interest_on_CC_OD_limits__1" 
+                    disabled={disableMode} message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" placeholder="Enter here"
+                    value={wrapObj2.Interest_on_CC_OD_limits__c}
+                    data-fieldname="Interest_on_CC_OD_limits__2" 
+                    disabled={disableMode}></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                    variant="label-hidden" disabled value={incrementdecrement.Interest_on_CC_OD_limits__c}
+                    message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+
+
+            <template if:true={provisionalFinancialYearSelectionValue}>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                        variant="label-hidden" placeholder="Enter here"
+                        value={wrapObj3.Interest_on_CC_OD_limits__c}
+                        data-fieldname="Interest_on_CC_OD_limits__3" 
+                        disabled={disableMode}></lightning-input>
+                </td>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                        variant="label-hidden" disabled
+                        value={incrementdecrement1.Interest_on_CC_OD_limits__c}
+                        message-when-bad-input="Enter a Valid Input"
+                        message-when-range-underflow="Please Enter value above 0"></lightning-input>
+                </td>
+            </template>
+
+
+        </tr>
+
+        <tr>
+            <th class="text-left">Interest on Partner's Capital</th>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" placeholder="Enter here"
+                    value={wrapObj1.Interest_on_Partner_Capital__c}
+                    data-fieldname="Interest_on_Partner_Capital__1" 
+                    disabled={disableMode} message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" placeholder="Enter here"
+                    value={wrapObj2.Interest_on_Partner_Capital__c}
+                    data-fieldname="Interest_on_Partner_Capital__2" 
+                    disabled={disableMode} message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                    variant="label-hidden" value={incrementdecrement.Interest_on_Partner_Capital__c}
+                    disabled></lightning-input>
+            </td>
+            <template if:true={provisionalFinancialYearSelectionValue}>
+
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                        variant="label-hidden" placeholder="Enter here"
+                        value={wrapObj3.Interest_on_Partner_Capital__c}
+                        data-fieldname="Interest_on_Partner_Capital__3" 
+                        disabled={disableMode} message-when-bad-input="Enter a Valid Input"
+                        message-when-range-underflow="Please Enter value above 0"></lightning-input>
+                </td>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                        variant="label-hidden" value={incrementdecrement1.Interest_on_Partner_Capital__c}
+                        disabled>
+
+                    </lightning-input>
+                </td>
+
+            </template>
+        </tr>
+        <tr>
+            <th class="text-left">Profit Before Depreciation & Tax (PBDT)</th>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" disabled placeholder="Enter here"
+                    value={wrapObj1.Profit_Before_Depreciation_and_Tax_PBDT__c}
+                    data-fieldname="Profit_Before_Depreciation_and_Tax_PBDT__1"
+                    ></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" disabled placeholder="Enter here"
+                    value={wrapObj2.Profit_Before_Depreciation_and_Tax_PBDT__c}
+                    data-fieldname="Profit_Before_Depreciation_and_Tax_PBDT__2"
+                    ></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                    variant="label-hidden"
+                    value={incrementdecrement.Profit_Before_Depreciation_and_Tax_PBDT__c} disabled>
+                </lightning-input>
+            </td>
+            <template if:true={provisionalFinancialYearSelectionValue}>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                        variant="label-hidden" disabled placeholder="Enter here"
+                        value={wrapObj3.Profit_Before_Depreciation_and_Tax_PBDT__c}
+                        data-fieldname="Profit_Before_Depreciation_and_Tax_PBDT__3"
+                        ></lightning-input>
+                </td>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                        variant="label-hidden"
+                        value={incrementdecrement1.Profit_Before_Depreciation_and_Tax_PBDT__c} disabled>
+                    </lightning-input>
+                </td>
+            </template>
+        </tr>
+        <tr>
+            <th class="text-left">Depreciation</th>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" placeholder="Enter here" value={wrapObj1.Depreciation__c}
+                    disabled={disableMode} data-fieldname="Depreciation__1" 
+                    message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" placeholder="Enter here" value={wrapObj2.Depreciation__c}
+                    disabled={disableMode} data-fieldname="Depreciation__2" 
+                    message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                    variant="label-hidden" value={incrementdecrement.Depreciation__c} disabled>
+                </lightning-input>
+            </td>
+
+            <template if:true={provisionalFinancialYearSelectionValue}>
+
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                        variant="label-hidden" placeholder="Enter here" value={wrapObj3.Depreciation__c}
+                        data-fieldname="Depreciation__3"  disabled={disableMode}
+                        message-when-bad-input="Enter a Valid Input"
+                        message-when-range-underflow="Please Enter value above 0"></lightning-input>
+                </td>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                        variant="label-hidden" value={incrementdecrement1.Depreciation__c} disabled>
+                    </lightning-input>
+                </td>
+
+            </template>
+
+        </tr>
+        <tr>
+            <th class="text-left">Profit Before Tax (PBT)</th>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" disabled placeholder="Enter here"
+                    value={wrapObj1.Profit_Before_Tax__c} data-fieldname="Profit_Before_Tax__1"
+                    ></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" disabled placeholder="Enter here"
+                    value={wrapObj2.Profit_Before_Tax__c} data-fieldname="Profit_Before_Tax__2"
+                    ></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                    variant="label-hidden" value={incrementdecrement.Profit_Before_Tax__c} disabled>
+                </lightning-input>
+            </td>
+
+            <template if:true={provisionalFinancialYearSelectionValue}>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                        variant="label-hidden" disabled placeholder="Enter here"
+                        value={wrapObj3.Profit_Before_Tax__c} data-fieldname="Profit_Before_Tax__3"
+                        ></lightning-input>
+                </td>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                        variant="label-hidden" value={incrementdecrement1.Profit_Before_Tax__c} disabled>
+                    </lightning-input>
+                </td>
+            </template>
+
+        </tr>
+        <tr>
+            <th class="text-left">Taxes</th>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" placeholder="Enter here" value={wrapObj1.Taxes__c}
+                    data-fieldname="Taxes__1" disabled={disableMode} 
+                    message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" placeholder="Enter here" value={wrapObj2.Taxes__c}
+                    data-fieldname="Taxes__2" disabled={disableMode} 
+                    message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                    variant="label-hidden" disabled value={incrementdecrement.Taxes__c}></lightning-input>
+            </td>
+
+            <template if:true={provisionalFinancialYearSelectionValue}>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                        variant="label-hidden" placeholder="Enter here" value={wrapObj3.Taxes__c}
+                        data-fieldname="Taxes__3" 
+                        message-when-bad-input="Enter a Valid Input" disabled={disableMode}
+                        message-when-range-underflow="Please Enter value above 0"></lightning-input>
+                </td>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                        variant="label-hidden" disabled value={incrementdecrement1.Taxes__c}>
+                    </lightning-input>
+                </td>
+            </template>
+
+        </tr>
+        <tr>
+            <th class="text-left">PAT</th>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" disabled placeholder="Enter here" value={wrapObj1.PAT__c}
+                    data-fieldname="PAT__1" ></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                    variant="label-hidden" disabled placeholder="Enter here" value={wrapObj2.PAT__c}
+                    data-fieldname="PAT__2" ></lightning-input>
+            </td>
+            <td>
+                <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                    variant="label-hidden" value={incrementdecrement.PAT__c} disabled></lightning-input>
+            </td>
+
+            <template if:true={provisionalFinancialYearSelectionValue}>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="currency"
+                        variant="label-hidden" disabled placeholder="Enter here" value={wrapObj3.PAT__c}
+                        data-fieldname="PAT__3" ></lightning-input>
+                </td>
+                <td>
+                    <lightning-input class="inputClass" type="number" step=".01" formatter="percent"
+                        variant="label-hidden" value={incrementdecrement1.PAT__c} disabled>
+                    </lightning-input>
+                </td>
+            </template>
+        </tr>
+
+    </table>
+
+
+    <table>
+        <tr>
+            <th class="text-left">Financial Year</th>
+            <th>{privousYear}</th>
+            <th>{currentYear}</th>
+            <template if:true={provisionalFinancialYearSelectionValue}>
+                <th>{_provisionalYear}</th>
+            </template>
+        </tr>
+        <tr>
+            <td>Director/Partners remuneration/Interest on partners Capital for clubbing</td>
+            <td>
+                <lightning-input type="number" step=".01" formatter="currency" variant="label-hidden"
+                    placeholder="Enter here" value={wrapObj1.Director_Partners_remuneration_Interest__c}
+                    data-fieldname="Director_Partners_remuneration_Interest__1" 
+                    disabled={disableMode} message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <td>
+                <lightning-input type="number" step=".01" formatter="currency" variant="label-hidden"
+                    placeholder="Enter here" value={wrapObj2.Director_Partners_remuneration_Interest__c}
+                    data-fieldname="Director_Partners_remuneration_Interest__2" 
+                    disabled={disableMode} message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <template if:true={provisionalFinancialYearSelectionValue}>
+                <td>
+                    <lightning-input type="number" step=".01" formatter="currency" variant="label-hidden"
+                        placeholder="Enter here" value={wrapObj3.Director_Partners_remuneration_Interest__c}
+                        data-fieldname="Director_Partners_remuneration_Interest__3"
+                         disabled={disableMode}
+                        message-when-bad-input="Enter a Valid Input"
+                        message-when-range-underflow="Please Enter value above 0"></lightning-input>
+                </td>
+
+            </template>
+        </tr>
+        <tr>
+            <td>Tax on the above income</td>
+            <td>
+                <lightning-input type="number" step=".01" formatter="currency" variant="label-hidden"
+                    placeholder="Enter here" value={wrapObj1.Tax_on_Above_Income__c}
+                    data-fieldname="Tax_on_Above_Income__1" disabled={disableMode}
+                     message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <td>
+                <lightning-input type="number" step=".01" formatter="currency" variant="label-hidden"
+                    placeholder="Enter here" value={wrapObj2.Tax_on_Above_Income__c}
+                    data-fieldname="Tax_on_Above_Income__2" disabled={disableMode}
+                     message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <template if:true={provisionalFinancialYearSelectionValue}>
+                <td>
+                    <lightning-input type="number" step=".01" formatter="currency" variant="label-hidden"
+                        placeholder="Enter here" value={wrapObj3.Tax_on_Above_Income__c}
+                        data-fieldname="Tax_on_Above_Income__3" 
+                        message-when-bad-input="Enter a Valid Input" disabled={disableMode}
+                        message-when-range-underflow="Please Enter value above 0"></lightning-input>
+                </td>
+            </template>
+        </tr>
+        <template if:true={provisionalFinancialYearSelectionValue}>
+
+        </template>
+        <tr>
+            <td>Net income considered for Eligibility</td>
+            <td>
+                <lightning-input type="number" step=".01" formatter="currency" variant="label-hidden"
+                    placeholder="Enter here" value={wrapObj1.Net_Income_Considered_for_Eligibility__c}
+                    data-fieldname="Net_Income_Considered_for_Eligibility__1" 
+                    disabled></lightning-input>
+            </td>
+            <td>
+                <lightning-input type="number" step=".01" formatter="currency" variant="label-hidden"
+                    placeholder="Enter here" value={wrapObj2.Net_Income_Considered_for_Eligibility__c}
+                    data-fieldname="Net_Income_Considered_for_Eligibility__2" 
+                    disabled></lightning-input>
+            </td>
+            <template if:true={provisionalFinancialYearSelectionValue}>
+                <td>
+                    <lightning-input type="number" step=".01" formatter="currency" variant="label-hidden"
+                        placeholder="Enter here" value={wrapObj3.Net_Income_Considered_for_Eligibility__c}
+                        data-fieldname="Net_Income_Considered_for_Eligibility__3"
+                         disabled></lightning-input>
+                </td>
+
+            </template>
+        </tr>
+
+        <!--added Income addition u/s 40(a)(2)(b)  in table -->
+
+        <tr>
+            <td>Income addition u/s 40(a)(2)(b)</td>
+            <td>
+                <lightning-input type="number" step=".01" formatter="currency" variant="label-hidden"
+                    placeholder="Enter here" value={wrapObj1.Income_addition_u_s_40_a_2_b__c}
+                    data-fieldname="Income_addition_u_s_40_a_2_b__1" 
+                    disabled={disableMode} message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <td>
+                <lightning-input type="number" step=".01" formatter="currency" variant="label-hidden"
+                    placeholder="Enter here" value={wrapObj2.Income_addition_u_s_40_a_2_b__c}
+                    data-fieldname="Income_addition_u_s_40_a_2_b__2" 
+                    disabled={disableMode} message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <template if:true={provisionalFinancialYearSelectionValue}>
+                <td>
+                    <lightning-input type="number" step=".01" formatter="currency" variant="label-hidden"
+                        placeholder="Enter here" value={wrapObj3.Income_addition_u_s_40_a_2_b__c}
+                        data-fieldname="Income_addition_u_s_40_a_2_b__3"
+                         disabled={disableMode}
+                        message-when-bad-input="Enter a Valid Input"
+                        message-when-range-underflow="Please Enter value above 0"></lightning-input>
+                </td>
+
+            </template>
+        </tr>
+        <tr>
+            <td>Tax on the above income</td>
+            <td>
+                <lightning-input type="number" step=".01" formatter="currency" variant="label-hidden"
+                    placeholder="Enter here" value={wrapObj1.Tax_on_the_above_inc_for_Addition__c}
+                    data-fieldname="Tax_on_the_above_inc_for_Addition__1" disabled={disableMode}
+                     message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <td>
+                <lightning-input type="number" step=".01" formatter="currency" variant="label-hidden"
+                    placeholder="Enter here" value={wrapObj2.Tax_on_the_above_inc_for_Addition__c}
+                    data-fieldname="Tax_on_the_above_inc_for_Addition__2" disabled={disableMode}
+                     message-when-bad-input="Enter a Valid Input"
+                    message-when-range-underflow="Please Enter value above 0"></lightning-input>
+            </td>
+            <template if:true={provisionalFinancialYearSelectionValue}>
+                <td>
+                    <lightning-input type="number" step=".01" formatter="currency" variant="label-hidden"
+                        placeholder="Enter here" value={wrapObj3.Tax_on_the_above_inc_for_Addition__c}
+                        data-fieldname="Tax_on_the_above_inc_for_Addition__3" 
+                        message-when-bad-input="Enter a Valid Input" disabled={disableMode}
+                        message-when-range-underflow="Please Enter value above 0"></lightning-input>
+                </td>
+            </template>
+        </tr>
+        <template if:true={provisionalFinancialYearSelectionValue}>
+
+        </template>
+        <tr>
+            <td>Net income considered for Eligibility</td>
+            <td>
+                <lightning-input type="number" step=".01" formatter="currency" variant="label-hidden"
+                    placeholder="Enter here" value={wrapObj1.Net_inc_con_for_Eligibility_for_add_Inc__c}
+                    data-fieldname="Net_inc_con_for_Eligibility_for_add_Inc__1" 
+                    disabled></lightning-input>
+            </td>
+            <td>
+                <lightning-input type="number" step=".01" formatter="currency" variant="label-hidden"
+                    placeholder="Enter here" value={wrapObj2.Net_inc_con_for_Eligibility_for_add_Inc__c}
+                    data-fieldname="Net_inc_con_for_Eligibility_for_add_Inc__2" 
+                    disabled></lightning-input>
+            </td>
+            <template if:true={provisionalFinancialYearSelectionValue}>
+                <td>
+                    <lightning-input type="number" step=".01" formatter="currency" variant="label-hidden"
+                        placeholder="Enter here" value={wrapObj3.Net_inc_con_for_Eligibility_for_add_Inc__c}
+                        data-fieldname="Net_inc_con_for_Eligibility_for_add_Inc__3"
+                         disabled></lightning-input>
+                </td>
+
+            </template>
+        </tr>
+    </table>
+
+</lightning-card>
+</template>

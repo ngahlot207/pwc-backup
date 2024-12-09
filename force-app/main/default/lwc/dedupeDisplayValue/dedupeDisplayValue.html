@@ -1,0 +1,19 @@
+<template>
+    <div class={formCls}>
+        <div class="slds-form-element__control">
+            <div class="slds-select_container">
+                <select name={fieldName} data-recordid={recordId} class="slds-select" disabled={isReadOnly} onchange={handleChange} required={required}>
+                    <template for:each={options} for:item="opt" for:index="index">
+                        <option key={opt.value} value={opt.value} selected={opt.selected}>
+                            {opt.label}
+                        </option>
+                    </template>
+                </select>
+            </div>
+        </div>
+        
+            <div if:true={hasError} class="slds-form-element__help" id="error-01">
+                Select an option.
+            </div>
+    </div>
+</template>

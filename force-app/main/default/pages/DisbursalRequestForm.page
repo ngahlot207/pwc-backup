@@ -1,0 +1,106 @@
+<apex:page showHeader="false" renderAs="pdf" applyHtmlTag="false">
+    <html>
+        <head>
+            <style>
+               .header {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: underline;
+            margin-top: 10px;
+        }
+        .sub-header {
+            font-weight: bold;
+            text-align: center;
+                text-decoration: underline;
+            margin-top: 20px;
+                font-size: 15px;
+        }
+        .label, .value {
+            font-size: 12px;
+        }
+        .table, .table td, .table th {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 5px;
+            font-size: 12px;
+            text-align: left;
+        }
+        .table-header {
+            font-weight: bold;
+            text-align: center;
+            background-color: #f2f2f2;
+        }
+        .no-border td {
+            border: none;
+            padding: 5px;
+        }
+        .content {
+            font-size: 12px;
+            margin: 20px;
+        }
+        .signature-line {
+            border-bottom: 1px solid black;
+            width: 200px;
+            display: inline-block;
+        }
+                .form-container {
+                    padding: 4px;
+                    border: 1px solid black;
+                }
+                .highlighted-number {
+            font-weight: bold;
+            color: #000;
+            text-decoration: underline;
+            text-align: center;
+            font-size: 21px;
+            padding-top:20px;
+            padding-bottom:30px;
+            }
+                body, table {
+            font-family: Arial, sans-serif;
+            font-size: 10pt;
+        }
+        .main-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #000;
+            margin: 10px 0;
+        }
+        .main-table td {
+            padding: 4px;
+            border: 1px solid #ddd;
+            vertical-align: top;
+        }
+        .heading {
+            font-weight: bold;
+            background-color: #f2f2f2;
+            text-align: left;
+            padding-left: 5px;
+        }
+        .small-text {
+            font-size: 10pt;
+        }
+        .red-text {
+            color: #ff0000;
+            font-size: 8pt;
+        }
+        .blue-text {
+            color: #1e90ff;
+            font-size: 8pt;
+        }
+        .center-text {
+            text-align: center;
+        }
+        .signature-line {
+            text-align: center;
+            border-bottom: 1px solid #000;
+            width: 90%;
+            margin: 0 auto;
+        }
+                
+            </style>
+        </head>
+        <c:DisbursalRequestForm />
+    </html>
+</apex:page>

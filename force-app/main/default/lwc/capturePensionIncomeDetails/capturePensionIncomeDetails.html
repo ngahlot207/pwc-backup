@@ -1,0 +1,243 @@
+<template>
+	
+		<lightning-card title="Pension Income">
+			<lightning-spinner if:true={showSpinner} alternative-text="Loading" size="large" variant="brand" style="position: fixed;">
+			</lightning-spinner>
+			<div class="datatable-container slds-p-left_medium slds-p-right_xx-small">
+						<table class="datatable slds-table_bordered slds-table_col-bordered slds-border_right slds-border_left">
+
+							<tr>
+								<th class="slds-border_bottom" scope="col">
+									<div class="slds-m-around_small slds-align_absolute-left"
+										title="Sr No">Sr. No.</div>
+								</th>
+								<th class="slds-border_bottom" scope="col">
+									<div class="slds-m-around_x-small slds-align_absolute-left"
+										title="Property Address">Month</div>
+								</th>
+								<th class="slds-border_bottom" scope="col">
+									<div class="slds-m-around_x-small slds-align_absolute-left"
+										title="Year 1" style="width: 250px;"><abbr class="slds-required" title="required">* 
+										</abbr>Bank Name</div>
+								</th>
+								<th class="slds-border_bottom" scope="col">
+									<div class="slds-m-left_x-small"
+										title="Yearly Income" style="width: 145px;"><abbr class="slds-required" title="required">* 
+										</abbr>Total Monthly Pension Income (Rs)</div>
+								</th>
+								<!-- Remark field bug-->
+								<!-- <th class="slds-border_bottom" scope="col">
+									<div class="slds-truncate slds-m-around_medium slds-align_absolute-center"
+										title="Remarks">Remarks</br></div>
+								</th> -->
+								<th class="slds-border_bottom" scope="col">
+									<div class="slds-m-around_x-small slds-align_absolute-left"
+										title="Average Monthly Income">Action</div>
+								</th>
+							</tr>
+
+
+
+
+							<template iterator:it={properties} for:index="index">
+								<tr key={it.value.Index__c}>
+									<td class="slds-border_bottom">
+										<div class="slds-m-left_small"
+											title="Sr No" data-id={it.value.Index__c}>{it.value.Index__c}</div>
+									</td>
+
+									<td class="slds-border_bottom">
+										<div class="slds-m-around_xx-small">
+											<template if:false={it.value.isDisabledMonth}>
+											<lightning-combobox placeholder="Select Month" value={it.value.Month__c}
+                                        onchange={inputChangeHandler} options={month1Options} 
+                                        data-objectname="Applicant_Income__c" style="width: 145px;"
+                                        access-key={it.value.Index__c}
+										data-id={it.value.Index__c}
+                                        data-fieldname="Month__c" 
+                                        variant="label-hidden" 
+                                        required
+										disabled={it.value.isDisabledMonth}
+                                       ></lightning-combobox></template>
+
+									   <template if:true={it.value.isDisabledMonth}>
+											<lightning-input type="text" value={it.value.Month__c}
+												onchange={inputChangeHandler} access-key={it.value.Index__c}
+												data-id={it.value.Index__c} placeholder="Enter Here"
+												data-objectname="Applicant_Income__c" data-fieldname="Month__c" required
+												style="width: 145px;" variant="label-hidden" disabled></lightning-input>
+											</template>
+										</div>
+									</td>
+
+									<td class="slds-border_bottom">
+										<div class="slds-m-around_xx-small">
+
+											<c-custom-lookup label="Bank Name" selected-icon-name="standard:identifier"
+												object-api-name="SFDCBANKMaster__c" field-api-name="BankName__c"
+												onselect={handleValueSelect} disabled={disableMode}
+												data-indexid={it.value.Index__c} placeholder="Enter Here"
+												data-objectname="Applicant_Income__c"
+												data-fieldname="Bank_Name_Of_Pensioner__c" required
+												selected-record-id={it.value.Bank_Name_Of_Pensioner__c}
+												variant="label-hidden"
+												></c-custom-lookup>
+
+
+
+
+											<!-- selected-record-id={it.value.Bank_Name_Of_Pensioner__c}
+                                                <lightning-input type="text" value={it.value.Bank_Name_Of_Pensioner__c}
+                                                onchange={inputChangeHandler} 
+                                                access-key={it.value.Index__c}
+                                                data-id={it.value.Index__c} placeholder="Enter Here"
+                                                data-objectname="Applicant_Income__c"
+                                                data-fieldname="Bank_Name_Of_Pensioner__c"
+                                                required style="width: 180px;"
+                                                variant="label-hidden"
+                                            ></lightning-input> -->
+										</div>
+									</td>
+
+									<td class="slds-border_bottom">
+										<div class="slds-m-around_xx-small">
+											<lightning-input type="number" value={it.value.Monthly_Pension_Credited__c}
+												onchange={inputChangeHandler} access-key={it.value.Index__c}
+												data-id={it.value.Index__c} placeholder="Enter Here"
+												data-objectname="Applicant_Income__c"
+												data-fieldname="Monthly_Pension_Credited__c" required
+												variant="label-hidden" formatter="currency"
+												message-when-bad-input="Enter a Valid Input" min=0
+												message-when-range-underflow="Enter a Valid Input" style="width: 145px;"
+												disabled={disableMode}></lightning-input>
+										</div>
+									</td>
+
+									<!-- Remark field bug-->
+									<!-- <td class="slds-border_bottom">
+										<div class="slds-truncate slds-m-around_medium slds-align_absolute-center"
+											access-key={it.value.Index__c}>
+											<lightning-input type="text" value={it.value.Remark__c}
+												onchange={inputChangeHandler} access-key={it.value.Index__c}
+												data-id={it.value.Index__c} placeholder="Enter Here"
+												data-objectname="Applicant_Income__c" data-fieldname="Remark__c"
+												disabled={disableMode}></lightning-input>
+										</div>
+									</td> -->
+									<!-- style="margin-top: 34px;" -->
+
+									<!-- <div class="slds-truncate slds-m-around_medium slds-align_absolute-center">
+                                      <lightning-button-icon 
+                                        access-key={property.Index__c} icon-name="action:delete"  
+                                        alternative-text="Delete" title="Delete" 
+                                        data-id={property.Index__c} 
+                                        onclick={handleDeleteAction}>
+                                     </lightning-button-icon>
+                                    </div> -->
+									<td class="slds-border_bottom">
+										<template if:true={showDeleteAction}>
+											<!-- <div key={it.value.Index__c} lwc:if={it.last}
+												class="list-last slds-m-around_xx-small">
+												<lightning-icon access-key={it.value.Index__c}
+													icon-name="utility:delete" alternative-text="Delete" title="Delete"
+													variant="error" size="small" data-id={it.value.Index__c}
+													class="custom-button" onclick={deleteHandler}
+													disabled={disableMode}>
+												</lightning-icon>
+											</div> -->
+											<div key={it.value.Index__c} lwc:if={it.last}
+											 class="list-last slds-m-around_xx-small slds-align_absolute-center" >                               
+												<lightning-button-icon   access-key={it.value.Index__c} icon-name="utility:delete"
+												alternative-text="Delete" title="Delete"  variant="error" size="large"
+												data-id={it.value.Index__c} class="custom-button"
+												onclick={deleteHandler} disabled={disableMode}>
+												</lightning-button-icon>
+											</div>
+										</template>
+									</td>
+
+
+							<!-- Logic added for delete confirmation pop up message DG -->
+							<template if:true={showDeleteConfirmation}>
+								<section role="dialog" tabindex="-1" aria-labelledby="modal-heading"
+									aria-modal="true" aria-describedby="modal-content-id-1"
+									class="slds-modal slds-fade-in-open">
+									<div class="slds-modal__container rationaleWidth">
+										<header class="slds-modal__header">
+											<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+													title="Close" onclick={hideModalBox}>
+										<lightning-icon icon-name="utility:close"   alternative-text="close" 
+										variant="inverse" 
+											size="small" ></lightning-icon>
+										<span class="slds-assistive-text">Close</span>
+										</button>
+											<h2 id="modal-heading-01"
+												class="slds-text-heading_medium slds-hyphenate">Delete
+												Confirmation</h2>
+										</header>
+
+										<div class="slds-modal__content slds-p-around_medium div-center"
+											id="modal-content-id-1">
+											<strong>Do you want to delete Pension Income Details ?</strong>
+										</div>
+
+										<footer class="slds-modal__footer">
+											<lightning-button class="slds-p-horizontal_x-small" variant="brand"
+												label="Yes" title="Delete" onclick={handleConfirmDelete}>
+											</lightning-button>
+											<lightning-button class="slds-p-horizontal_x-small"
+												variant="destructive" label="No" title="cancel"
+												onclick={handleCancelDelete}>
+											</lightning-button>
+										</footer>
+
+									</div>
+								</section>
+								<div class="slds-backdrop slds-backdrop_open"></div>
+							</template>
+
+						</tr>
+					</template>
+
+							<tr class="color">
+								<td colspan="3">
+									<div class="slds-m-around_small slds-align_absolute-left">
+										<b>Average Monthly Pension Income (Rs) </b></div>
+								</td>
+
+								
+								<td colspan="1" class="bordr lineBreak">
+									<div  class="slds-m-left_xx-small"
+										title="Average Monthly">
+										<lightning-input type="text" value={averageMonthlyPension}
+										variant="label-hidden"
+										disabled
+									 formatter="currency"
+										style="width: 145px;">
+									</lightning-input></div>
+								</td>
+								<td class="bordr">
+									<div  class="slds-m-around_x-small"></div>
+								</td>
+								<!-- <td class="bordr">
+									<div class="slds-m-around_medium slds-align_absolute-center"
+										title="Average Monthly"></div>
+								</td> -->
+							</tr>
+						</table>
+					</div>
+
+			<lightning-layout>
+				<lightning-layout-item flexibility="auto" padding="horizontal-small" class="slds-text-align_left">
+					<div class="slds-m-around_medium">
+						<lightning-button label="Add Month" variant="brand-outline" icon-name="utility:connected_apps"
+							onclick={addMonthHandler} disabled={disableMode}></lightning-button>
+					</div>
+				</lightning-layout-item>
+			</lightning-layout>
+			<!-- <div class="slds-m-around_medium">
+                <lightning-button label="Add Record" onclick={handleUpsert}></lightning-button>
+            </div> -->
+		</lightning-card>
+	
+</template>

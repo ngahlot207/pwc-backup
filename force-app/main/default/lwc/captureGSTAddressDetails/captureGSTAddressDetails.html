@@ -1,0 +1,95 @@
+<template>
+    <lightning-layout multiple-rows="true">   
+        <lightning-layout-item  size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+            <div class="slds-p-around_x-small">
+                <lightning-input type="text" value={wrapGSTAddressObj.HouseNo__c} label="House/ Flat/ Shop/ Unit No." onchange={inputChangeHandler}
+                required={isGstRequired} data-fieldname="HouseNo__c" data-objectname="ApplAddr__c" data-type="string" 
+                disabled={disAddressFlag}
+                ></lightning-input> 
+            </div>
+        </lightning-layout-item>
+
+        <lightning-layout-item  size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+            <div class="slds-p-around_x-small">
+                <lightning-input type="text" value={wrapGSTAddressObj.AddrLine1__c} label="Address Line 1" onchange={inputChangeHandler}
+                required={isGstRequired} data-fieldname="AddrLine1__c" data-objectname="ApplAddr__c" data-type="string" 
+                disabled={disAddressFlag}></lightning-input> 
+            </div>
+        </lightning-layout-item>
+
+        <lightning-layout-item  size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+            <div class="slds-p-around_x-small">
+                <lightning-input type="text" value={wrapGSTAddressObj.AddrLine2__c} label="Address Line 2" onchange={inputChangeHandler}
+                required={isGstRequired} data-fieldname="AddrLine2__c" data-objectname="ApplAddr__c" data-type="string"  
+                disabled={disAddressFlag}></lightning-input> 
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+    <lightning-layout multiple-rows="true">
+        <lightning-layout-item  size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+            <div class="slds-p-around_x-small">
+                <lightning-input type="text" value={wrapGSTAddressObj.Landmark__c} label="Landmark" onchange={inputChangeHandler} data-type="string"
+                data-fieldname="Landmark__c" data-objectname="ApplAddr__c" pattern="^[A-Za-z0-9,]+(?:\s[A-Za-z0-9,.]+)*$" message-when-pattern-mismatch="Please enter details in correct format"
+                disabled={disAddressFlag}></lightning-input> 
+            </div>
+        </lightning-layout-item>
+
+        <lightning-layout-item  size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+            <div class="slds-p-around_x-small">
+                <lightning-input type="text" value={wrapGSTAddressObj.Locality__c} label="Area of Locality" onchange={inputChangeHandler} data-type="string" 
+                data-fieldname="Locality__c" data-objectname="ApplAddr__c" pattern="^[A-Za-z0-9]+(?:\s[A-Za-z0-9]+)*$" message-when-pattern-mismatch="Please enter details in correct format"
+                disabled={disAddressFlag}></lightning-input> 
+            </div>
+        </lightning-layout-item>
+  
+        <lightning-layout-item  size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+            <div class="slds-p-around_x-small">        
+                <c-custom-lookup               
+                    required={isGstRequired}
+                    label="Pincode"
+                    field-name='Pincode__c'
+                    object-api-name='PincodeMstr__c'
+                    field-api-name='PIN__c' 
+                    selected-record-name={wrapGSTAddressObj.Pincode__c}
+                    selected-record-id={wrapGSTAddressObj.Pincode__c}
+                    filter-condn={filterConditionPin}
+                    onselect={handleValueSelect}
+                    disabled={disAddressFlag}
+                    ></c-custom-lookup>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+    <lightning-layout multiple-rows="true"> 
+        <lightning-layout-item  size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+            <div class="slds-p-around_x-small">
+                <c-custom-lookup               
+                    required={isGstRequired}
+                    label="City"
+                    field-name='City__c' 
+                    object-api-name='LocMstr__c' 
+                    field-api-name='City__c'
+                    selected-record-name={wrapGSTAddressObj.City__c}
+                    selected-record-id={wrapGSTAddressObj.City__c}
+                    onselect={handleValueSelect}
+                    disabled='true'
+                    ></c-custom-lookup>
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item  size="12" small-device-size="6" medium-device-size="8" large-device-size="4">
+            <div class="slds-p-around_x-small">
+                <c-custom-lookup               
+                    required={isGstRequired}
+                    label="State/UT"
+                    field-name='State__c'
+                    object-api-name='LocMstr__c'
+                    field-api-name='State__c' 
+                    selected-record-name={wrapGSTAddressObj.State__c}
+                    selected-record-id={wrapGSTAddressObj.State__c}
+                    filter-condn={filterConditionState}
+                    onselect={handleValueSelect}
+                    disabled='true'
+                    ></c-custom-lookup>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

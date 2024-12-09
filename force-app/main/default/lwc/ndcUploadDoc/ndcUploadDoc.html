@@ -1,0 +1,54 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    <lightning-card>
+
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <!-- <lightning-combobox required name="DocumentType" label="Document Type" value={docType}
+                    placeholder="Select Document Type" options={docTypeOptionNew} onchange={handleChange}
+                    disabled={readOnly}></lightning-combobox> -->
+                <c-custom-lookup required=true label="Document Type" selected-icon-name="standard:identifier"
+                    object-api-name="DocMstr__c" field-api-name="DocTyp__c" selected-record-name={docType}
+                    selected-record-id={docType} onselect={handleLookupFieldChange} filter-condn={filtercondition}
+                    disabled={readOnly}>
+                </c-custom-lookup>
+            </lightning-layout-item>
+
+            <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <!-- <lightning-combobox required name="DocumentName" label="Document Name" value={docName}
+                    placeholder="Select Document Name" options={docNameOptionNew} onchange={handleChange}
+                    disabled={readOnly}></lightning-combobox> -->
+                <c-custom-lookup required=true label="Document Name" selected-icon-name="standard:identifier"
+                    object-api-name="DocMstr__c" field-api-name="DocSubTyp__c" selected-record-name={docName}
+                    onselect={handleLookupFieldChangeForDocSubType} selected-record-id={docName}
+                    filter-condn={filterconditionForDocSubType} disabled={readOnly}>
+                </c-custom-lookup>
+            </lightning-layout-item>
+            <!-- LAK-4916 -->
+            <lightning-layout-item if:true={showAvaiInFile} padding="around-small" style="margin-top: 25px;" size="12"
+                small-device-size={layoutSize.small} medium-device-size={layoutSize.medium} large-device-size="2">
+                <lightning-input type="checkbox" label="Available In File" data-section-name={sectionName}
+                    checked={avialeblInFileValue} disabled={readOnly} onchange={handleValueChange}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item if:true={showAvaiInFile} size="12" style="margin-top: 20px;"
+                class="slds-align_absolute-center left-align" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size="2">
+                <lightning-button variant="brand" label="Add Document" title="AddDocument"
+                    onclick={createDocumentDetailRecord} disabled={readOnly}></lightning-button>
+            </lightning-layout-item>
+            <!-- LAK-4916 -->
+            <lightning-layout-item if:false={showAvaiInFile} size="12" style="margin-top: 20px;"
+                class="slds-align_absolute-center left-align" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <lightning-button variant="brand" label="Add Document" title="AddDocument"
+                    onclick={createDocumentDetailRecord} disabled={readOnly}></lightning-button>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card>
+</template>

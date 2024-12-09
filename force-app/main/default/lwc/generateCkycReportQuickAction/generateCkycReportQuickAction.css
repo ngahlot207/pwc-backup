@@ -1,0 +1,15 @@
+.slds-scrollable_y {
+    max-height: 300px; 
+    overflow-y: auto; 
+    overflow-x: auto; 
+    width: auto;
+}
+
+.button-container {
+    text-align: right;
+}
+
+.custom-modal-footer {
+    padding: 0.25rem; 
+    font-size: 0.75rem; 
+}

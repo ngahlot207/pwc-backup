@@ -1,0 +1,137 @@
+<apex:page renderAs="pdf" showHeader="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0"><!--renderAs="pdf"-->
+    <head>
+        <style>
+            @page { 
+            margin-bottom:3cm;
+            @bottom-center {
+            content: counter(page) " of " ;
+            font-size:12px;
+            
+            }
+            @page :first {
+            margin-bottom:2cm;
+                     @bottom-center {
+                       
+                    }
+                }
+             
+            @bottom-left {
+                        content: element(footer_left);
+                    }
+            @bottom-right {
+                        content: element(footer_right);
+                    }
+          <!--  @bottom-right {
+            content: "Property Owner";
+            font-size:15px;
+            
+            }-->
+            }
+         
+            
+            .fixed-header {
+                    top: 97%;
+                    right:1%;
+                    bottom:100%
+                    width: 15%;
+                    height: 10px;
+                    text-align: right;
+                    position: fixed;
+                }
+            div.header{
+            
+            padding-top:0px;
+            padding-bottom:5px;
+            
+            } 
+             
+            table
+            {
+            display: table;
+            table-layout:auto;
+            width: 100%;
+            border: 0.5px solid black;
+            border-collapse: collapse;
+            
+            }
+            td,th {
+            border: 0.5px solid black;   
+            padding:2px; 
+            font-family:arial;
+            font-size:11px;
+            }
+            p{
+            font-family:arial;
+            font-size:11px;
+            }
+            .divClass{
+            font-family:arial;
+            font-size:11px;
+            }
+            
+        
+            .footer {
+            position: fixed;
+            bottom: 0;
+            font-size: 10pt;
+            color: #333;
+            width:100%;
+            right:0
+            
+            }
+            .form-container {
+                    font-size: 8px;
+                    padding: 4px;
+                    border: 4px solid #0070C0;
+            
+                }
+            .form-container1 {
+                    font-size: 8px;
+                    padding: 4px;
+                    border: 4px solid #FFA500;
+            
+                }
+            .photo-box {
+                    border: 1px solid black;
+                    width: 100px;
+                    height: 10px;
+                    text-align: Left;
+                    vertical-align: middle;
+                }
+            .photo-box1 {
+                    border: 1px solid black;
+                    width: 80px;
+                    height: 80px;
+                    text-align: center;
+                    vertical-align: middle;
+                }
+            .container {             
+            display: flex;
+/* Enable flexbox */
+justify-content: space-between;
+/* Distribute space between divs */
+}
+            .header_right {
+                    text-align: right;
+                    position: running(header_right);
+                }
+
+                .footer_left {
+                    text-align: left;
+                    position: running(footer_left);
+                }
+            .footer_right {
+                    text-align: right;
+                    position: running(footer_right);
+                }
+        </style>
+    </head>
+    <c:LoanAgreementSubComponent />
+    <body>
+        <!-- Your content here -->
+        <div class="footer">
+            <span class="pagenumber"></span>
+
+        </div>
+    </body>
+</apex:page>

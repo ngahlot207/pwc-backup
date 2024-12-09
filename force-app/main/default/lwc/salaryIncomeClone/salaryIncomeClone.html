@@ -1,0 +1,221 @@
+<template>
+	<lightning-card title="Clone">
+		<div slot="actions" class="slds-p-horizontal_small">
+			<lightning-button variant="brand" label="Add Row" title="addRows" onclick={handleAddRows}>
+			</lightning-button>
+		</div>
+		<div class="slds-p-around_medium">
+			<lightning-layout-Item size="4">
+				<lightning-combobox name="incomeType" label="Select Income Type" value={selectedIncomeType}
+					placeholder="Select Income Type" required options={incomeTypeOptions}
+					onchange={handleIncomeTypeChange}>
+				</lightning-combobox>
+			</lightning-layout-Item>
+		</div>
+		<div aria-label="tableElements" class="slds-p-around_medium">
+			<template if:true={showCashSalary}>
+				<lightning-layout vertical-align="center">
+					<lightning-layout-item size="12">
+						<table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_striped">
+							<thead>
+								<tr class=" slds-line-height_reset">
+									<template for:each={cashSalaryHeaders} for:item="header">
+										<th key={header.key} scope="col">
+											<div class="slds-wrap">{header.columnName}</div>
+										</th>
+									</template>
+								</tr>
+							</thead>
+							<tbody>
+								<template for:each={cashSalaryData} for:item="row" for:index="index">
+									<tr key={row.key}>
+										<td class="slds-border_left slds-border_right">
+											<lightning-input type="text" value={row.key} onchange={handleInputChange}
+												data-key={row.key} data-field="key" read-only="true"></lightning-input>
+										</td>
+										<td class="slds-border_left">
+											<div class="slds-truncate slds-cell-wrap" data-key={row.key}
+												data-field="month">
+												{row.month}
+											</div>
+										</td>
+										<td class="slds-border_left">
+											<lightning-input type="number" placeholder="Enter Amount" formatter="number" value={row.Salary__c}
+												onchange={handleInputChange} data-key={row.key} data-field="Salary__c"
+												name="Salary">
+											</lightning-input>
+										</td>
+										<td class="slds-border_left">
+											<div class="slds-border_right">
+											<lightning-icon key={row.key}  icon-name="utility:delete"  size="small" variant='error'
+												alternative-text="Delete Row" title="Delete" onclick={handleDeleteRow}
+												data-key={row.key}>
+											</lightning-icon>
+										</div>
+										</td>
+									</tr>
+								</template>
+								<tr>
+									<td colspan="2"> Average Monthly Salary</td>
+									<td>
+										<lightning-input type="number" formatter="number" value={averageMonthlySalary}
+											read-only="true">
+										</lightning-input>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</lightning-layout-item>
+				</lightning-layout>
+			</template>
+
+			<template if:true={showBankCreditSalary}>
+
+				<lightning-layout vertical-align="center">
+					<lightning-layout-item size="12">
+						<table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered slds-border_right slds-border_left">
+							
+							<thead>
+								<tr class=" slds-line-height_reset">
+									<template for:each={bankCreditSalaryHeaders} for:item="header">
+										<th key={header.key} scope="col">
+											<div class="slds-truncate">{header.columnName}</div>
+										</th>
+									</template>
+								</tr>
+							</thead>
+							<tbody>
+								<template for:each={bankCreditSalaryData} for:item="row" for:index="index">
+									<tr key={row.key}>
+										<td class="slds-border_left">
+											<div class="slds-truncate slds-cell-wrap">
+												{row.month}
+											</div>
+										</td>
+										<td class="slds-border_left">
+											<lightning-input type="number" formatter="number" placeholder="Enter Amount"
+												value={row.Gross_Salary_Rs__c} onchange={handleInputChange}
+												data-key={row.key} data-field="Gross_Salary_Rs__c">
+											</lightning-input>
+										</td>
+										<td class="slds-border_left">
+											<lightning-input type="number" formatter="number" placeholder="Enter Amount"
+												value={row.Variable_Component__c} onchange={handleInputChange}
+												data-key={row.key} data-field="Variable_Component__c">
+											</lightning-input>
+										</td>
+										<td class="slds-border_left">
+											<lightning-input type="number" formatter="number" placeholder="Enter Amount"
+												value={row.LTA_Monthly__c} onchange={handleInputChange}
+												data-key={row.key} data-field="LTA_Monthly__c">
+											</lightning-input>
+										</td>
+										<td class="slds-border_left">
+											<lightning-input type="number" formatter="number" placeholder="Enter Amount"
+												value={row.Performance_Bonus_Monthly__c} onchange={handleInputChange}
+												data-key={row.key} data-field="Performance_Bonus_Monthly__c">
+											</lightning-input>
+										</td>
+										<td class="slds-border_left">
+											<lightning-input type="number" formatter="number"  placeholder="Enter Amount" value={row.Taxes__c}
+												onchange={handleInputChange} data-key={row.key} data-field="Taxes__c">
+											</lightning-input>
+										</td>
+										<td class="slds-border_left">
+											<lightning-input type="number" formatter="number" placeholder="Enter Amount"
+												value={row.Other_Deductions__c} onchange={handleInputChange}
+												data-key={row.key} data-field="Other_Deductions__c">
+											</lightning-input>
+										</td>
+										<td class="slds-border_left">
+											<lightning-input type="number" formatter="number" placeholder="Enter Amount"
+												value={row.Net_Salary__c} onchange={handleInputChange}
+												data-key={row.key} data-field="Net_Salary__c">
+											</lightning-input>
+										</td>
+										<td class="slds-border_left">
+											<lightning-input type="date" value={row.Bank_Credit_Date__c}
+												onchange={handleInputChange} data-key={row.key}
+												data-field="Bank_Credit_Date__c">
+											</lightning-input>
+										</td>
+										<td class="slds-border_left">
+											<lightning-input type="text" value={row.remarks}
+												onchange={handleInputChange} data-key={row.key} data-field="remarks">
+											</lightning-input>
+										</td>
+										<td class="slds-border_left">
+											<lightning-input type="number" formatter="number" placeholder="Enter Amount"
+												value={row.Other_Salary_Component__c} onchange={handleInputChange}
+												data-key={row.key} data-field="Other_Salary_Component__c">
+											</lightning-input>
+										</td>
+										<td class="slds-border_left slds-border_right">
+											<div class="slds-border_right">
+											<lightning-button-icon key={row.key} icon-name="utility:delete" variant='error'
+												alternative-text="Delete" title="Delete" onclick={handleDeleteRow}
+												data-key={row.key}>
+											</lightning-button-icon>
+										</div>
+										</td>
+									</tr>
+								</template>
+								<tr>
+									<td> Average Salary</td>
+									<td class="slds-border_left">
+										<lightning-input type="number" formatter="number" placeholder="Enter Amount" value={averageGrossSalary}
+											read-only="true">
+										</lightning-input>
+									</td>
+									<td class="slds-border_left">
+										<lightning-input type="number" formatter="number" placeholder="Enter Amount" value={averageVariableCmp}
+											read-only="true">
+										</lightning-input>
+									</td>
+									<td class="slds-border_left">
+										<lightning-input type="number" formatter="number" placeholder="Enter Amount" value={averageLTA}
+											read-only="true">
+										</lightning-input>
+									</td>
+									<td class="slds-border_left">
+										<lightning-input type="number" formatter="number" placeholder="Enter Amount"
+											value={averagePerformanceBonus} read-only="true">
+										</lightning-input>
+									</td>
+									<td class="slds-border_left">
+										<lightning-input type="number" formatter="number" value={averageTaxes} placeholder="Enter Amount"
+											read-only="true">
+										</lightning-input>
+									</td>
+									<td class="slds-border_left">
+										<lightning-input type="number" formatter="number" placeholder="Enter Amount"
+											value={averageOtherDeduction} read-only="true">
+										</lightning-input>
+									</td>
+									<td class="slds-border_left">
+										<lightning-input type="number" formatter="number" value={averageNetSalary} placeholder="Enter Amount"
+											read-only="true">
+										</lightning-input>
+									</td>
+									<td class="slds-border_left">
+										<lightning-input type="number" formatter="number" read-only="true">
+										</lightning-input>
+									</td>
+									<td class="slds-border_left">
+										<lightning-input type="number" formatter="number" read-only="true">
+										</lightning-input>
+									</td>
+									<td class="slds-border_left slds-border_right">
+										<lightning-input type="number" formatter="number" value={averageOtherSalary}
+											read-only="true">
+										</lightning-input>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</lightning-layout-item>
+				</lightning-layout>
+			</template>
+		</div>
+	</lightning-card>
+</template>

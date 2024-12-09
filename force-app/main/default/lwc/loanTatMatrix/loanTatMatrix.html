@@ -1,0 +1,17 @@
+<template>
+    <p class="heading"> Loan TAT Matrix</p>
+    <br/>
+
+    <template if:true={loanTatList}>
+        <lightning-datatable data={loanTatList} columns={updatedColumns} key-field="Id" hide-checkbox-column>
+        </lightning-datatable>
+    </template>
+
+<div class="marginTop" >
+    <c-agency-tat record-id={_recordId}></c-agency-tat>
+</div>
+
+    <template if:true={error}>
+        {error}
+    </template>
+</template>

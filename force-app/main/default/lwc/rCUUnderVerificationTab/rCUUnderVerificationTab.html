@@ -1,0 +1,79 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+  </div>
+    <div class="slds-p-around_medium">
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-3">
+                <div class="slds-p-around_small lgc-bg" style="padding-top: 15px;" >
+                    <c-custom-lookup 
+                    required="true"
+                   field-name="AccountId"
+                   label="Agency Name"
+                   selected-icon-name="standard:identifier"
+                   object-api-name="AgncLocMap__c"
+                   field-api-name="Account__r.name"
+                   selected-record-id={parentRecForRCU.AccountId}
+                   selected-field-name="Account__c"
+                   onselect={handleValueRCUAgency}
+                   disabled={disableMode}
+                   filter-condn={filterCondnForRCU}
+                 ></c-custom-lookup>
+                </div>
+            </div>
+            <!-- LAK 8536 -->
+            <div id="infoMessage" style="display: none; color: blue;"></div>
+
+            <div class="slds-col slds-size_1-of-3">
+                <div class="slds-p-around_medium lgc-bg">
+                    <lightning-combobox options={FinalRCUstaOpt} data-objectname="Case" type="text" label="Final RCU status" value={parentRecForRCU.ReportResult__c} onchange={handleRCUCaseData} data-field="ReportResult__c" required disabled={disableMode}></lightning-combobox>
+                </div>
+            </div>
+            <div class="slds-col slds-size_1-of-3">
+                <div class="slds-p-around_medium lgc-bg">
+                    <lightning-textarea data-fieldtype="string" type="text" data-objectname="Case" label="RCU Hold Reason" value={parentRecForRCU.RCU_Hold_Reason__c} onchange={handleRCUCaseData} data-field="RCU_Hold_Reason__c" required={reqHoldRea} disabled={disableMode}></lightning-textarea>
+                </div>
+            </div>
+        </div>
+        <div class="slds-grid slds-gutters">
+            
+            <div class="slds-col slds-size_1-of-3">
+                <div class="slds-p-around_medium lgc-bg">
+                    <lightning-textarea data-fieldtype="string" type="text" data-objectname="Case" label="Report Feedback" value={parentRecForRCU.Remarks_regarding_the_case__c} onchange={handleRCUCaseData} data-field="Remarks_regarding_the_case__c" disabled={disableMode}></lightning-textarea>
+                </div>
+            </div>
+            <div class="slds-col slds-size_1-of-3">
+                <div class="slds-p-around_medium lgc-bg">
+                    <lightning-input placeholder="DD-MMM-YYYY" type="date" data-id="latestMon" label="Date of initiation" data-objectname="Case" name="DateofInitiation" value={parentRecForRCU.DateofInitiation__c} onchange={handleRCUCaseData} data-field="DateofInitiation__c"  required disabled={disableMode}></lightning-input>
+                </div>
+            </div>
+            <div class="slds-col slds-size_1-of-3">
+                <div class="slds-p-around_medium lgc-bg">
+                    <lightning-input placeholder="DD-MMM-YYYY" type="date" data-id="reportDate" label="Report Date" data-objectname="Case" name="dateofReport" value={parentRecForRCU.Date_of_Report__c} onchange={handleRCUCaseData} data-field="Date_of_Report__c"  required={reqRepData} disabled={disableMode}></lightning-input>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <template if:true={requiredforRCU}>
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <lightning-combobox options={RcuStaReaOpt} data-objectname="Case" type="text" label="Final RCU status Reason" value={parentRecForRCU.Final_RCU_status_Reason__c} onchange={handleRCUCaseData} data-field="Final_RCU_status_Reason__c" required={requiredforRCU} disabled={disableMode}></lightning-combobox>
+                    </div>
+                </div>
+            </template>
+        </div>
+        <c-upload-docs-reusable-component loan-app-id={_loanAppId} applicant-id={applRecId}
+                    doc-name={docSubType} doc-type={docType} disable-mode={disableMode} doc-category={docCategory}
+                    onrefreshdoctable={fromUploadDocsContainerForLegal} 
+                    convert-to-single-image={convertToSingleImage} allowed-fil-format={allowedFilFormat} 
+                    hide-attach-button={hideAttachButton} onchangefiles={parentFileChangeForLegal} file-type-error={fileTypeError} 
+                    max-file-size={MAX_FILE_SIZE} file-size-msz={fileSizeMsz}></c-upload-docs-reusable-component>
+    </div>
+
+    
+        <c-show-case-document technical="true" has-edit-access={hasEditAccess} show-delete-icon={showDeleteIcon} case-id={caseId} onalllistdata={allListDatahandler}></c-show-case-document>
+   
+    
+</template>

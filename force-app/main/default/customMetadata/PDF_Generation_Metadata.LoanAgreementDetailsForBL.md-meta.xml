@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>LoanAgreementDetailsForBL</label>
+    <protected>false</protected>
+    <values>
+        <field>Content_Order__c</field>
+        <value xsi:type="xsd:double">2.0</value>
+    </values>
+    <values>
+        <field>Content__c</field>
+        <value xsi:type="xsd:string">&lt;div style=&quot;font-family:Times New Roman;font-size:12px&quot;&gt;
+          &lt;b&gt;FEDBANK FINANCIAL SERVICES LIMITED&lt;/b&gt;, a Non-Banking Finance Company registered with Reserve
+Bank of India and incorporated under the Companies Act, 1956, and having its registered office and Corporate
+Office at &lt;b&gt;Unit No.: 1101, 11th Floor, Cignus, Plot No. 71A, Powai, Paspoli, Mumbai - 400 087 Maharashtra&lt;/b&gt;
+and one of the offices at
+            &lt;/div&gt;</value>
+    </values>
+    <values>
+        <field>Document_Type__c</field>
+        <value xsi:type="xsd:string">Loan Agreement for BL/PL</value>
+    </values>
+    <values>
+        <field>Page_Number__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Product_Type__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Region_Picklist__c</field>
+        <value xsi:type="xsd:string">Content</value>
+    </values>
+    <values>
+        <field>Static_Resource_Name__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

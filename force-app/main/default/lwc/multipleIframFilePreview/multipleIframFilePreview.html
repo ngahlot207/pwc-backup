@@ -1,0 +1,20 @@
+<template>
+  
+    <template if:true={showimage}>
+      <img
+        src={url}
+      ></img>
+     <!--
+       style="width: 100%; height: 800px"
+      style="width: 100%; height: 800px"
+      <iframe id="pdfFrame" onload={loadpdf} width="100%" height="800"  referrerpolicy="no-referrence" src={fullUrl} sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>  -->
+    </template>
+    <template if:true={showpdf}>
+      <iframe 
+        src={url}
+        style="width: 100%; height: 800px"
+      ></iframe>
+      <!--<iframe width="100%" height="800"  referrerpolicy="no-referrence" src={fullUrl} sandbox="allow-same-origin allow-popups allow-forms"></iframe>-->
+    </template>
+ 
+</template>

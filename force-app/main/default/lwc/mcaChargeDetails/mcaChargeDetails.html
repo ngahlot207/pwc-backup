@@ -1,0 +1,185 @@
+<template>
+    <lightning-accordion-section class="accClass" label="MCA Charges" name="MCA Charges">
+        <div class="slds-m-top_medium">
+        <template if:false={qdeStageVisible}>
+          <div id="containerDiv" data-id="mousemove" onmousemove={handlemousemove} onmouseup={handlemouseup}
+              ondblclick={handledblclickresizable} class=" slds-border_right slds-border_left tableScroll" onscroll={tableOuterDivScrolled}>
+              <div id="tableViewInnerDiv11">
+                <table class="slds-table slds-table_resizable slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout slds-scrollable_y "
+                  onscroll={tableScrolled}>
+                  <thead class="table-thead">
+                    <tr class="fixed-header">
+                      
+                      <th title="Sr. No" class="slds-is-resizable dv-dynamic-width fixedWidth fixedPosition" scope="col">
+                        <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset">
+                            <span class="slds-truncate">Sr. No</span>
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+                      <th title="SRN" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                        <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                            <span class="slds-truncate">SRN</span>
+    
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+                      <th title="Charge Id" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                        data-column="parentRecord.CloseDate__c" data-object="allRecOfApplObwithDetai" onclick={handleSort}
+                        scope="col">
+                        <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                            <span class="slds-truncate">Charge Id</span>
+                            <lightning-icon data-column="parentRecord.CloseDate__c" icon-name='utility:arrowup'
+                              size='x-small'></lightning-icon>
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+                      <th title="Charge Holder Name" class="slds-is-resizable dv-dynamic-width fixedWidth"
+                        data-column="parentRecord.LoanAmount__c" data-object="allRecOfApplObwithDetai"
+                        onclick={handleSort} scope="col">
+                        <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+                            <span class="slds-truncate">Charge Holder Name</span>
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+                      <th title="Date of Modification" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col"
+                        data-column="parentRecord.CurrentOs__c" data-object="allRecOfApplObwithDetai"
+                        onclick={handleSort}>
+                        <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+    
+                            <label id="id-cos1">Date of Modification</label>
+                            <lightning-icon data-column="parentRecord.CurrentOs__c" icon-name='utility:arrowup'
+                              size='x-small'></lightning-icon>
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+                      <th title="Date of Satisfaction" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                        <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+    
+                            <label id="id-es10">Date of Satisfaction</label>
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+  
+                      <th title="Amount" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                        <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+    
+                            <label id="id-es11">Amount</label>
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+  
+                      <th title="Address" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                        <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+    
+                            <label id="id-es12">Address</label>
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+  
+                      <th title="Whether charge registered by other entity" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                        <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+    
+                            <label id="id-es13">Whether charge registered by other entity</label>
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+  
+                      <th title="Asset Holder Name" class="slds-is-resizable dv-dynamic-width fixedWidth" scope="col">
+                        <div class="slds-cell-fixed fixedWidth">
+                          <a class="slds-th__action slds-text-link--reset" href="#" role="button" tabindex="0">
+    
+                            <label id="id-es14">Asset Holder Name</label>
+                          </a>
+                          <div class="slds-resizable">
+                            <span class="slds-resizable__handle" onmousedown={handlemousedown}>
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr> 
+                        <td></td>
+                        <td>-</td>
+                    </tr> 
+                    
+                     <template for:each={apiVerDtlsDataWithIndex} for:item="fileIterator" for:index="index">
+                      <tr data-row-index={index} onclick={handleRowClick} key={fileIterator.OpenchLatEventId__c}
+                        aria-selected="false" class="slds-hint-parent">
+                        <!-- <td style="background-color: #F3F2F2;" scope="row">{fileIterator.index}</td>   -->
+                        <td style="background-color: #F3F2F2;" scope="row">{fileIterator.serialNumber}</td>
+                        <td>-</td>
+                        <td>{fileIterator.OpenchLatEventId__c}</td>
+                        <td>{fileIterator.OpchLatEvtHolderName__c}</td>
+                        <td>{fileIterator.OpenchLatEvtDate__c}</td>
+                        <td>{fileIterator.ModiParticulars__c}</td>
+                        <td>{fileIterator.OpChLatEvtAmount__c}</td>
+                        <td>-</td>
+                        <td>-</td>  
+                        <td>-</td> 
+                        </tr>
+                       </template>  
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+            </template>
+          </div>
+      </lightning-accordion-section>
+    </template>

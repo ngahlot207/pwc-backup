@@ -1,0 +1,39 @@
+.desktopCs{
+     overflow-x: scroll; 
+    -ms-overflow-style: none; 
+    scrollbar-width: 10%;   
+    max-height: 500px;
+    display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+
+  .card {
+    flex: 0 0 auto;
+    display: none;
+  }
+}
+.desktopCs::-webkit-scrollbar {
+    /* display: none;  */
+}
+
+.mobileCs{
+  /* overflow-x: scroll; 
+ -ms-overflow-style: none; 
+ scrollbar-width: 10%;   
+ max-height: 500px; */
+ display: flex;
+flex-wrap: nowrap;
+overflow-x: auto;
+
+.card {
+ flex: 0 0 auto;
+ display: none;
+}
+}
+.mobileCs::-webkit-scrollbar {
+ display: none; 
+}
+
+.desktopScrollableScrollbar{
+
+}

@@ -1,0 +1,214 @@
+<template>
+
+    <div if:true={desktopBoolean}>
+        <lightning-card title={currentSubsteperStepLabel}>
+            <template if:true={showBar}> </template>
+            <div if:true={showBar} class="desktopCs">
+
+
+
+                <!-- <div lwc:if={subStepperStepList} class="slds-p-horizontal_small slds-p-bottom_medium ">
+                    <lightning-progress-indicator current-step={currentSubsteperStep} type="path" variant="base">
+                        <template for:each={subStepperStepList} for:item="step">
+                            <lightning-progress-step label={step.label} value={step.value} key={step.value}
+                                onclick={handleStageclick}>
+                            </lightning-progress-step></template>
+                    </lightning-progress-indicator>
+                </div> -->
+
+                <div lwc:if={subStepperStepList} class="fedfina">
+                    <!--<lightning-progress-indicator current-step={currentStep} type="path" variant="base">
+                        <template for:each={stepList} for:item="step" for:index="index">
+                            <lightning-progress-step label={step.label} value={step.value} key={step.value} data-index={index}
+                                onclick={handleStageclick}>
+                            </lightning-progress-step></template>
+                    </lightning-progress-indicator>-->
+                    <div class="slds-path slds-p-around--medium ">
+                        <div class="slds-grid slds-path__track">
+                            <div class="slds-grid slds-path__scroller-container">
+                                <div class="slds-path__scroller">
+                                    <div class="slds-path__scroller_inner">
+                                        <ul class="slds-path__nav" role="listbox" aria-orientation="horizontal"
+                                            aria-labelledby="slds-path__stage-name">
+                                            <template for:each={subStepperStepList} for:item="step" for:index="index">
+
+
+                                                <li if:true={step.isCurrent} key={step.value} data-index={index}
+                                                    class="slds-path__item slds-is-current" role="presentation"
+                                                    onclick={handleStageclick}>
+                                                    <a aria-selected="false" class="slds-path__link" role="option"
+                                                        tabindex="-1">
+                                                        <span class="slds-path__stage">
+                                                            <!--<svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                                                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                                                            </svg>
+                                                            <span class="slds-assistive-text">Stage Complete</span>-->
+                                                        </span>
+                                                        <span class="slds-path__title">{step.label}</span>
+                                                    </a>
+                                                </li>
+                                                <li if:true={step.isInActive} key={step.value} data-index={index}
+                                                    class="slds-path__item slds-is-incomplete" role="presentation"
+                                                    onclick={handleStageclick}>
+                                                    <a aria-selected="false" class="slds-path__link" role="option"
+                                                        tabindex="-1">
+                                                        <span class="slds-path__stage">
+                                                            <!--<svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                                                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                                                            </svg>
+                                                            <span class="slds-assistive-text">Stage Complete</span>-->
+                                                        </span>
+                                                        <span class="slds-path__title">{step.label}</span>
+                                                    </a>
+                                                </li>
+                                                <li if:true={step.isCompleted} key={step.value} data-index={index}
+                                                    class="slds-path__item slds-is-active" role="presentation"
+                                                    onclick={handleStageclick}>
+                                                    <a aria-selected="false" class="slds-path__link" role="option"
+                                                        tabindex="-1">
+                                                        <span class="slds-path__stage">
+                                                            <!--<svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                                                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                                                            </svg>
+                                                            <span class="slds-assistive-text">Stage Complete</span>-->
+                                                        </span>
+                                                        <span class="slds-path__title">{step.label}</span>
+                                                    </a>
+                                                </li>
+                                            </template>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </lightning-card>
+    </div>
+    <div if:true={phoneBolean}>
+        <lightning-card title={currentSubsteperStepLabel}>
+
+            <!-- <template if:true={showBar}> </template> -->
+            <div if:true={showBar} class="mobileCs">
+
+
+                <!-- <div lwc:if={subStepperStepList} class="slds-p-horizontal_small slds-p-bottom_medium desktopCs">
+                    <lightning-progress-indicator current-step={currentSubsteperStep} type="path" variant="base">
+                        <template for:each={subStepperStepList} for:item="step">
+                            <lightning-progress-step label={step.label} value={step.value} key={step.value}
+                                onclick={handleStageclick}>
+                            </lightning-progress-step></template></lightning-progress-indicator>
+                </div> -->
+                <div lwc:if={subStepperStepList} class="fedfina">
+                    <!--<lightning-progress-indicator current-step={currentStep} type="path" variant="base">
+                        <template for:each={stepList} for:item="step" for:index="index">
+                            <lightning-progress-step label={step.label} value={step.value} key={step.value} data-index={index}
+                                onclick={handleStageclick}>
+                            </lightning-progress-step></template>
+                    </lightning-progress-indicator>-->
+                    <div class="slds-path slds-p-around--medium ">
+                        <div class="slds-grid slds-path__track">
+                            <div class="slds-grid slds-path__scroller-container">
+                                <div class="slds-path__scroller">
+                                    <div class="slds-path__scroller_inner">
+                                        <ul class="slds-path__nav" role="listbox" aria-orientation="horizontal"
+                                            aria-labelledby="slds-path__stage-name">
+                                            <template for:each={subStepperStepList} for:item="step" for:index="index">
+
+
+                                                <li if:true={step.isCurrent} key={step.value} data-index={index}
+                                                    class="slds-path__item slds-is-current" role="presentation"
+                                                    onclick={handleStageclick}>
+                                                    <a aria-selected="false" class="slds-path__link" role="option"
+                                                        tabindex="-1">
+                                                        <span class="slds-path__stage">
+                                                            <!--<svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                                                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                                                            </svg>
+                                                            <span class="slds-assistive-text">Stage Complete</span>-->
+                                                        </span>
+                                                        <span class="slds-path__title">{step.label}</span>
+                                                    </a>
+                                                </li>
+                                                <li if:true={step.isInActive} key={step.value} data-index={index}
+                                                    class="slds-path__item slds-is-incomplete" role="presentation"
+                                                    onclick={handleStageclick}>
+                                                    <a aria-selected="false" class="slds-path__link" role="option"
+                                                        tabindex="-1">
+                                                        <span class="slds-path__stage">
+                                                            <!--<svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                                                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                                                            </svg>
+                                                            <span class="slds-assistive-text">Stage Complete</span>-->
+                                                        </span>
+                                                        <span class="slds-path__title">{step.label}</span>
+                                                    </a>
+                                                </li>
+                                                <li if:true={step.isCompleted} key={step.value} data-index={index}
+                                                    class="slds-path__item slds-is-active" role="presentation"
+                                                    onclick={handleStageclick}>
+                                                    <a aria-selected="false" class="slds-path__link" role="option"
+                                                        tabindex="-1">
+                                                        <span class="slds-path__stage">
+                                                            <!--<svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                                                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                                                            </svg>
+                                                            <span class="slds-assistive-text">Stage Complete</span>-->
+                                                        </span>
+                                                        <span class="slds-path__title">{step.label}</span>
+                                                    </a>
+                                                </li>
+                                            </template>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </lightning-card>
+    </div>
+
+    <!-- <lightning-card title={currentSubsteperStepLabel}>
+        <div lwc:if={subStepperStepList} class="slds-p-horizontal_small slds-p-bottom_medium ">
+            <lightning-progress-indicator current-step={currentSubsteperStep} type="path" variant="base">
+                <template for:each={subStepperStepList} for:item="step">
+                    <lightning-progress-step label={step.label} value={step.value} key={step.value}
+                        onclick={handleStageclick}>
+                    </lightning-progress-step></template>
+            </lightning-progress-indicator>
+        </div>
+    </lightning-card> -->
+    <template if:true={refreshComp}>
+        <c-screen-config-view stage-name={stepper} record-id={loanAppId} calling-sub-stage={applicantId}
+            redirect-to-co-app={redirectToCoApp} ongetselectedval={valueFromChild} metadata={metadata}
+            applicant-id-in-tab={applicantIdTab} current-tab-id={currentTabId} has-edit-access={hasEditAccess}>
+        </c-screen-config-view>
+    </template>
+
+    <lightning-card>
+        <div class="slds-m-top_small slds-m-bottom_medium slds-p-left_medium ">
+            <div class="slds-clearfix">
+                <div class="slds-float_right">
+                    <template if:false={isFirstSubStep}>
+                        <lightning-button label=" Back " class="slds-m-around_x-small"
+                            onclick={handlePreviousSubStepper}>
+                        </lightning-button>
+                    </template>
+
+                    <template if:false={isFinalSubStep}>
+                        <lightning-button label=" Proceed " class="slds-m-around_x-small" variant="brand"
+                            onclick={handleNextSubStepper}>
+                        </lightning-button>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </lightning-card>
+
+</template>

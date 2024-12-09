@@ -1,0 +1,64 @@
+<template>
+    <template if:true={showComp}>
+
+        <lightning-card title={pdQuestion.quesTitle}>
+            <lightning-layout multiple-rows="true">
+                <template for:each={quesConfig.columns} for:item="pdQues">
+
+                    <lightning-layout-item padding="around-small" size="6" key={pdQues.fieldName}>
+
+                        <c-reference-det-for-p-dshow-val has-edit-access={hasEditAccess} form-config={pdQues}
+                            object-name={quesConfig.objectName} record={quesConfig.record}
+                            onpasstoparent={passtoparent}>
+
+                        </c-reference-det-for-p-dshow-val>
+
+                    </lightning-layout-item>
+
+                </template>
+            </lightning-layout>
+
+        </lightning-card>
+        <!-- <lightning-layout multiple-rows="true">
+
+
+
+
+
+            <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <lightning-input type="text" label="Full Name" name="FName__c" value={refDet.FName__c}
+                    onchange={handleInputChange}></lightning-input>
+
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <lightning-input type="text" label="Relationship with applicant " value={refDet.RelationWthApp__c}
+                    name="RelationWthApp__c" onchange={handleInputChange}></lightning-input>
+
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <lightning-input type="text" label="Address" value={refDet.Add__c} name="Add__c"
+                    onchange={handleInputChange}></lightning-input>
+
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <lightning-input type="number" pattern="^[6-9]\d{9}$" name="ContactNo__c" label="Contact No"
+                    value={refDet.ContactNo__c} onchange={handleInputChange}></lightning-input>
+
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small" size="12" small-device-size={layoutSize.small}
+                medium-device-size={layoutSize.medium} large-device-size={layoutSize.large}>
+                <lightning-textarea name="Comments__c" label="Comments" value={refDet.Comments__c}
+                    onchange={handleInputChange}></lightning-textarea>
+
+
+            </lightning-layout-item>
+
+
+
+        </lightning-layout> -->
+    </template>
+</template>

@@ -1,0 +1,1211 @@
+<apex:page renderAs="pdf" showHeader="false" applyHtmlTag="false" controller="ApplicationFormForFedfinaController">
+    <html>
+        <head>
+            <style>
+                .list-item::before {
+                    content: "• ";
+                }
+                .date-place-section {
+                    display: flex;
+                    align-items: center;
+                    margin-top: 20px;
+                }
+                .date-place-section input {
+                    margin-left: 5px;
+                    width: 20px;
+                    text-align: center;
+                    border: 1px solid black;
+                }
+                .place-input {
+                    margin-left: 20px;
+                    width: 200px;
+                    border: none;
+                    border-bottom: 1px solid black;
+                }
+                .section {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-top: 20px;
+                }
+                .signature-box {
+                    flex: 1;
+                    border: 1px solid black;
+                    height: 150px;
+                    margin-right: 10px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-end;
+                    position: relative;
+                }
+                .signature-box:last-child {
+                    margin-right: 0;
+                }
+                .signature-box label {
+                    font-size: 14px;
+                    padding: 5px;
+                    text-align: center;
+                }
+                .highlighted-number {
+                    font-weight: bold;
+                    color: #000;
+                    text-decoration: underline;
+                }
+                .highlighted-number1 {
+                    padding-left: 110px
+                }
+                .no-border-table {
+                border: 0;
+                border-collapse: collapse;
+                }
+                .no-border-table th,
+                .no-border-table td {
+                border: 0;
+                padding: 5px;
+                }
+                .form-container {
+                    font-size: 8px;
+                    padding: 4px;
+                    border: 1px solid black;
+                }
+                .header-table, .details-table, .personal-details-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    font-size: 10px;
+                }
+                .uniform-font {
+                    font-size: 10.5px;
+                }
+                .header-table td, .details-table td, .personal-details-table td {
+                    border: 1px solid black;
+                    padding: 3px;
+                    text-align: center;
+                }
+                .no-border {
+                    border: 0px solid;
+            		margin-top: 5px;
+                }
+                .title {
+                    font-size: 13px;
+                    font-weight: bold;
+                    text-align: center;
+                	padding-left:20px;
+                }
+                .photo-box {
+                    border: 1px solid black;
+                    width: 100px;
+                    height: 10px;
+                    text-align: center;
+                    vertical-align: middle;
+                }
+                .section-header {
+                    background-color: #FFA500;
+                    font-weight: bold;
+                    text-align: left;
+                    padding: 4px;
+                    font-size: 10px;
+                }
+                .section-header2 {
+                    background-color: #FFA500;
+                    font-weight: bold;
+                    text-align: left;
+                    padding: 3px;
+                    font-size: 5px;
+                }
+                .section-header1 {
+                	background-color: #0070C0;
+                    font-weight: bold;
+                    text-align: left;
+                    padding: 4px;
+                    font-size: 10px;
+                }
+                .inner-table td {
+                    
+                }
+                .blue-bar {
+                    background-color: #0070C0;
+                    color: white;
+                    text-align: left;
+                    font-weight: bold;
+                    padding: 4px;
+                    font-size: 10px;
+                }
+                .photo-label {
+                    font-size: 8px;
+                    text-align: center;
+                }
+                @page :first {
+            @bottom-center {
+                content: "Registered &amp; Corporate Office: Unit No.1101, 11th Floor, Cignus, Plot No. 71A,Powai, Paspoli, Mumbai - 400 087, Maharashtra  CIN : L65910MH1995PLC364635";
+                font-size: 10px;
+                color: #000;
+            }
+        }
+            </style>
+        </head>
+        <body>
+            <div class="form-container">
+                <table class="header-table">
+                    <tr>
+                        <td >
+                            <table class="inner-table">
+                                <tr>
+                                    <td style="width: 20%;">Application No. </td>
+                                    <td style="width: 50%;">{!loanApplRec.Name}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 20%;">Date Of Application</td>
+                                    <td style="width: 50%;">{!formattedDate}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 20%;">Product</td>
+                                    <td style="width: 50%;">{!Product}</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class="title">SECURED LOAN APPLICATION FORM</td>
+                        <td>
+                            <img id="logo" src="{!$Resource.FedBankLogo2}" alt="FederalBank Logo" height="30px" width="90px"/>
+                        </td>
+                    </tr>
+                </table>
+				<div class="blue-bar">APPLICATION FORM FOR {!Product}</div>
+                <div class="section-header2"></div>
+				<!--<div style="font-size: 10px; padding-left: 2px; padding-top: 8px; padding-bottom: 5px">(<img id="tick" src="{!$Resource.mandate_tick}" width="24px" height="10px"/> Boxes were appropriate and write N.A. if not applicable. *Mandatory field, Use CAPITAL LATTERS)</div>-->
+                <table class="details-table">
+                    <tr>
+                        <td> <table class="inner-table">
+                            <tr>
+                                <td style="width: 20%;">Branch Name</td>
+                                <td style="width: 60%;">{!loanApplRec.BrchName__c}</td>
+                            </tr>
+                            <tr>
+                                <td style="width: 20%;">Branch Code</td>
+                                <td style="width: 60%;">{!loanApplRec.BrchCode__c}</td>
+                            </tr>
+                            <tr>
+                                <td style="width: 20%;">Sales Manager Name</td>
+                                <td style="width: 60%;">{!loanApplRec.RMSMName__r.Name}</td>
+                            </tr>
+                            <tr>
+                                <td style="width: 20%;">Sales Manager Code</td>
+                                <td style="width: 60%;">{!loanApplRec.RMSMEmployeeID__c}</td>
+                            </tr>
+                            
+                            <tr>
+                                <td style="width: 20%;">DSA/Connector Code</td>
+                                <td style="width: 60%;">{!loanApplRec.ChannelName__c}</td>
+                            </tr>
+                            <tr>
+                                <td style="width: 20%;">DST Code</td>
+                                <td style="width: 60%;">{!loanApplRec.ChannelCode__c}</td>
+                            </tr>
+                            </table> </td>
+                        
+                       <!-- <td rowspan="6" class="photo-box">
+                            Please Affix Recent Self Attested Photograph Here
+                            <br/>Applicant
+                        </td>-->
+                        <td rowspan="6" class="photo-box">
+                            <apex:outputPanel rendered="{!ISBLANK(photoUrlforApp)}">
+                                Please Affix Recent Self Attested Photograph Here
+                                <br/>Applicant
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!!ISBLANK(photoUrlforApp)}">
+                                <apex:outputPanel rendered="{!photoTypeforApp == 'PDF'}">
+                                    <!-- Link for PDF type -->
+                                    <a href="{!photoUrlforApp}" target="_blank">View PDF Document</a>
+                                </apex:outputPanel>
+                                <apex:outputPanel rendered="{!photoTypeforApp != 'PDF'}">
+                                    <!-- Display image if not a PDF -->
+                                    <img src="{!photoUrlforApp}" style="width: 90px; height: 100px;" alt="Applicant Photo"/>
+                                </apex:outputPanel>
+                               <!-- <img src="{!photoUrlforApp}" style="width: 90px; height: 100px;" alt="Applicant Photo"/>-->
+                            </apex:outputPanel>
+                        </td>
+                        <apex:repeat value="{!twoAppWrapperList}" var="applicantWrapper">
+                        	<!--<td rowspan="6" class="photo-box">
+                               <apex:outputPanel rendered="{!ISBLANK(applicantWrapper.photoUrl)}">
+                                    Please Affix Recent Self Attested Photograph Here
+                                    <br/>Co-Applicant {!applicantWrapper.applicantNumber}/ Guarantor {!applicantWrapper.applicantNumber}
+                                </apex:outputPanel>
+                                <apex:outputPanel rendered="{!NOT(ISBLANK(applicantWrapper.photoUrl))}">
+                                   <img src="{!applicantWrapper.photoUrl}" style="width: 90px; height: 100px;" alt="Applicant Photo"/>
+                                    <a href="{!applicantWrapper.photoUrl}" target="_blank">View PDF Document</a>
+                                </apex:outputPanel>
+                            </td>-->
+                            <td rowspan="6" class="photo-box">
+                                <apex:outputPanel rendered="{!ISBLANK(applicantWrapper.photoUrl)}">
+                                    Please Affix Recent Self Attested Photograph Here
+                                    <br/>Co-Applicant {!applicantWrapper.applicantNumber}/ Guarantor {!applicantWrapper.applicantNumber}
+                                </apex:outputPanel>
+                        		 <apex:outputPanel rendered="{!NOT(ISBLANK(applicantWrapper.photoUrl))}">
+                                <apex:outputPanel rendered="{!applicantWrapper.photoType == 'PDF'}">
+                                    <!-- Link for PDF type -->
+                                    <a href="{!applicantWrapper.photoUrl}" target="_blank">View PDF Document</a>
+                                </apex:outputPanel>
+                                <apex:outputPanel rendered="{!applicantWrapper.photoType != 'PDF'}">
+                                    <!-- Display image if not a PDF -->
+                                    <img src="{!applicantWrapper.photoUrl}" style="width: 90px; height: 100px;" alt="Applicant Photo"/>
+                                </apex:outputPanel>
+                            </apex:outputPanel>
+                            </td>
+                        </apex:repeat>
+                    </tr>
+                </table>
+                <div class="section-header1">A. INDIVIDUAL / NON INDIVIDUAL DETAILS</div>
+                <div class="section-header">A.1.1 PERSONAL DETAILS - APPLICANT</div>
+
+                  <table class="personal-details-table">
+                    <tr >
+                        <td style="width: 10%;">Title</td>
+                        <td style="width: 15%;">{!applicantWrapper.title}</td>
+                        <td style="width: 10%;">First Name</td>
+                        <td style="width: 10%;">{!applicantWrapper.fName}</td>
+                        <td style="width: 15%;">Middle Name</td>
+                         <td style="width: 10%;">{!applicantWrapper.mName}</td>
+                        <td style="width: 15%;">Last Name</td>
+                        <td style="width: 15%;">{!applicantWrapper.lName}</td>
+                    </tr>
+                    <tr>
+                        <!-- <td style="">Father/Spouse Name</td> -->
+                        <td style="">
+                            <apex:outputText rendered="{!applicantWrapper.mariStatus == 'SINGLE'}" value="Father Name*" />
+                            <apex:outputText rendered="{!applicantWrapper.mariStatus != 'SINGLE'}" value="Spouse Name*" />
+                        </td>
+                        <td style="" colspan="7">{!applicantWrapper.spName}</td>
+                    </tr>
+                    <tr>
+                        <td style="">Mother's Maiden Name</td>
+                        <td style="" colspan="7">{!applicantWrapper.mthrMdnName}</td>
+                    </tr>
+                   <tr>
+                        <!-- <td style="">Date of Birth/Incorporation*</td>
+                        <td style="">{!applicantWrapper.dob}</td> -->
+                        <td style="">
+                            <apex:outputText rendered="{!constitution == 'INDIVIDUAL'}" value="Date of Birth*" />
+                            <apex:outputText rendered="{!constitution != 'INDIVIDUAL'}" value="Date of Incorporation*" />
+                        </td>
+                        <td style="">{!applicantWrapper.dob}</td>
+                        <td style="">Marital Status*</td>
+                        <td style="" >{!applicantWrapper.mariStatus}</td>
+                        <td style="">Gender*</td>
+                        <td style="" >{!applicantWrapper.gender}</td>
+                        <td style="">Residential Status*</td>
+                        <td style="" >{!applicantWrapper.residentialStatus}</td>
+                    </tr>
+                    <tr>
+                        <td style="">Religion:</td>
+                        <td style="" colspan="2">{!applicantWrapper.Religion}</td>
+                        <td style="">Nationality</td>
+                        <td style="" colspan="4">{!applicantWrapper.Nationality}</td>
+                    </tr>
+                     <tr>
+                        <td style="">Category of Customer*</td>
+                        <td style="" colspan="1">{!applicantWrapper.category}</td>
+                        <td style="">No. of Dependents*</td>
+                        <td style="" colspan="1">{!applicantWrapper.numberOfDep}</td>
+                         <td style="">Qualification*</td>
+                        <td style="" colspan="3">{!applicantWrapper.eduQual}</td>
+
+                    </tr>
+                     <tr>
+                        <td style="">Current Residence Address*</td>
+                        <td style="  padding-top: 20px; padding-bottom: 5px" colspan="3">{!applicantWrapper.CurreAddress}</td>
+                        <td style="">Permanent Address*</td>
+                        <td style="padding-top: 20px; padding-bottom: 5px" colspan="3" >{!applicantWrapper.ResiAddress}</td>
+                        
+                    </tr>
+                    <tr>
+                        <td style="">Landmark*</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="3">{!applicantWrapper.CurreLandmark}</td>
+                        <td style="">Landmark*</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="3" >{!applicantWrapper.ResiLandmark}</td>
+                    </tr>
+                    <tr>
+                        <td>City*</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.CurreCity}</td>
+                        <td>Pin*</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.CurrePin}</td>
+                        <td>City*</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.ResiCity}</td>
+                        <td>Pin*</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.ResiPin}</td>
+                    </tr>
+                    <tr>
+                        <td style="">Tel (std code)*</td>
+                        <td style="  padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.phoneNo}</td>
+                        <td style="">Mobile*</td>
+                        <td style=" padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.MobileNumber}</td>
+                        <td style="">Tel (std code)*</td>
+                        <!-- <td style=" padding-top: 10px; padding-bottom: 5px" colspan="1" >{!applicantWrapper.phoneNo}</td> -->
+                        <td style=" padding-top: 10px; padding-bottom: 5px" colspan="1" ></td>
+                        <td style="">Mobile*</td>
+                        <!-- <td style="padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.MobileNumber}</td> -->
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="1"></td>
+                    </tr>
+                    <tr>
+                        <td style="">Email</td>
+                        <td style=" padding-top: 10px; padding-bottom: 5px" colspan="3">{!applicantWrapper.emailId}</td>
+                        <td style="">Email</td>
+                        <!-- <td style="padding-top: 10px; padding-bottom: 5px" colspan="3" >{!applicantWrapper.emailId}</td> -->
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="3" ></td>
+                    </tr>
+					<tr>
+                        <td style="">Current Residence is:</td>
+                        <td style="  padding-top: 10px; padding-bottom: 5px" colspan="3">{!applicantWrapper.ResidanceType}</td>
+                        <td style="">Monthly Income</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="3" >{!applicantWrapper.avgMonthlyGrossSalary}</td>
+                    </tr>
+                    <tr>
+                        <td>Pan Card*</td>
+                        <td style=" padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.pan}</td>
+                        <td>CKYC No.*</td>
+                        <td style=" padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.ckycNumber}</td>
+                        <td>UID No.*</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.UIDNo}</td>
+                        <td>Others(pls specify)*</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="1"></td>
+                    </tr>
+                </table>
+                <div class="section-header1">A.1.2 PROFESSIONAL / BUSINESS DETAILS</div>
+                <div style="font-size: 12px;" class="section-header2"></div>
+                <table class="personal-details-table">
+                    <tr>
+                        <td style="width: 13%;">Ocuupation Type*</td>
+                        <!-- <td style="width: 10%;" colspan="3">{!applicantWrapper.TypeOfOrganisation}</td> -->
+                        <td style="width: 10%;" colspan="3">{!applicantWrapper.custProfile}</td>
+                        <td style="width: 13%;">No. Of Years in Current Job/Business*: </td>
+                        <td style="width: 13%;" colspan="3">{!applicantWrapper.workingWithCurrentEmployerYears}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 13%;">Company/Business Name*</td>
+                        <td style="width: 10%;" colspan="3">{!applicantWrapper.companyName}</td>
+                        <td style="width: 13%;">Retirement Age</td>
+                        <td style="width: 13%;" colspan="3">{!applicantWrapper.retirementAge}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 13%;">Company/Business Type*</td>
+                        <td style="width: 10%;" colspan="7">{!applicantWrapper.typeofBuss}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 13%;">Office Owned/Office Rented</td>
+                        <td style="width: 10%;" colspan="1">{!applicantWrapper.ResidanceType}</td>
+                        <td style="width: 13%;">Udyam No.</td>
+                        <td style="width: 13%;" colspan="1">{!applicantWrapper.udyamRegistrationNumber}</td>
+                        <td style="width: 13%;">Total Years of Experience</td>
+                        <td style="width: 13%;" colspan="1">{!applicantWrapper.totalWorkExperienceYears}</td>
+                        <td style="width: 13%;">Designation</td>
+                        <td style="width: 13%;" colspan="1">{!applicantWrapper.designationText}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 13%;">Office Address*</td>
+                        <td style="width: 10%; padding-top: 10px; padding-bottom: 5px" colspan="7">{!applicantWrapper.officeAddress}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 13%;">Landmark*</td>
+                        <td style="width: 10%;" colspan="2">{!applicantWrapper.officeLandmark}</td>
+                        <td style="width: 13%;">City*</td>
+                        <td style="width: 13%;" colspan="1">{!applicantWrapper.officeCity}</td>
+                        <td style="width: 13%;">Pin*</td>
+                        <td style="width: 13%;" colspan="2">{!applicantWrapper.officePin}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 13%;">Tel (std code)*</td>
+                        <td style="width: 10%; padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.officeTelStdCode}</td>
+                        <td style="width: 13%;">Mobile*</td>
+                        <td style="width: 13%; padding-top: 10px; padding-bottom: 5px" colspan="2">{!applicantWrapper.officeMobile}</td>
+                        <td style="width: 13%;">Email</td>
+                        <td style="width: 13%; padding-top: 10px; padding-bottom: 5px" colspan="2">{!applicantWrapper.officeEmail}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 13%;">Communication Address*</td>
+                        <td style="width: 10%; padding-top: 10px; padding-bottom: 5px" colspan="2">{!commuAdress}</td>
+                        <td style="width: 13%;">Where Applicable-Employment ID*</td>
+                        <td style="width: 13%; padding-top: 10px; padding-bottom: 5px" colspan="4">{!applicantWrapper.officialEmail}</td>
+                    </tr>
+                </table>
+                <apex:repeat value="{!twoAppWrapperList}" var="applicantWrapper">
+                    <!-- <div style="font-size: 10px;" class="section-header1">A.{!applicantWrapper.AppdetailNumber}.1 PERSONAL DETAILS - CO-APPLICANT {!applicantWrapper.applicantNumber}/GUARANTOR {!applicantWrapper.applicantNumber}</div> -->
+                    <div class="section-header1">
+                        A.{!applicantWrapper.AppdetailNumber}.1 PERSONAL DETAILS - 
+                        <apex:outputText value="CO-APPLICANT {!applicantWrapper.coApplicantNumber}" rendered="{!applicantWrapper.appType == 'C'}"/>
+                        <apex:outputText value="GUARANTOR {!applicantWrapper.guarantorNumber}" rendered="{!applicantWrapper.appType == 'G'}"/>
+                    </div>
+                    <div class="section-header2"></div>
+                    <table class="personal-details-table">
+                    <tr>
+                        <td style="width: 10%;">Title</td>
+                        <td style="width: 10%;">{!applicantWrapper.title}</td>
+                        <td style="width: 10%;">First Name</td>
+                        <td style="width: 10%;">{!applicantWrapper.fName}</td>
+                        <td style="width: 15%;">Middle Name</td>
+                         <td style="width: 15%;">{!applicantWrapper.mName}</td>
+                        <td style="width: 15%;">Last Name</td>
+                        <td style="width: 15%;">{!applicantWrapper.lName}</td>
+                    </tr>
+                    <tr>
+                        <!-- <td style="width: 10%;">Father/Spouse Name</td> -->
+                        <td style="">
+                            <apex:outputText rendered="{!applicantWrapper.mariStatus == 'SINGLE'}" value="Father Name*" />
+                            <apex:outputText rendered="{!applicantWrapper.mariStatus != 'SINGLE'}" value="Spouse Name*" />
+                        </td>
+                        <td style="width: 10%;" colspan="7">{!applicantWrapper.spName}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 10%;">Mother's Maiden Name</td>
+                        <td style="width: 10%;" colspan="7">{!applicantWrapper.mthrMdnName}</td>
+                    </tr>
+                   <tr>
+                        <!-- <td style="width: 10%;">Date of Birth/Incorporation*</td>
+                        <td style="width: 10%;">{!applicantWrapper.dob}</td> -->
+                        <td style="">
+                            <apex:outputText rendered="{!constitution == 'INDIVIDUAL'}" value="Date of Birth*" />
+                            <apex:outputText rendered="{!constitution != 'INDIVIDUAL'}" value="Date of Incorporation*" />
+                        </td>
+                        <td style="">{!applicantWrapper.dob}</td>
+                        <td style="width: 10%;">Marital Status*</td>
+                        <td style="width: 10%;" >{!applicantWrapper.mariStatus}</td>
+                        <td style="width: 15%;">Gender*</td>
+                        <td style="width: 15%;" >{!applicantWrapper.gender}</td>
+                        <td style="width: 15%;">ResidenTial Status*</td>
+                        <td style="width: 15%;" >{!applicantWrapper.residentialStatus}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 10%;">Religion:</td>
+                        <td style="width: 10%;" colspan="2">{!applicantWrapper.Religion}</td>
+                        <td style="width: 10%;">Nationality</td>
+                        <td style="width: 15%;" colspan="4">{!applicantWrapper.Nationality}</td>
+                    </tr>
+                     <tr>
+                        <td style="width: 10%;">Category of Customer*</td>
+                        <td style="width: 10%;" colspan="1">{!applicantWrapper.category}</td>
+                        <td style="width: 10%;">No. of Dependents*</td>
+                        <td style="width: 10%;" colspan="1">{!applicantWrapper.numberOfDep}</td>
+                         <td style="width: 15%;">Qualification*</td>
+                        <td style="width: 15%;" colspan="3">{!applicantWrapper.eduQual}</td>
+
+                    </tr>
+                     <tr>
+                        <td style="width: 10%;">Current Residence Address*</td>
+                        <td style="width: 10%;  padding-top: 20px; padding-bottom: 5px" colspan="3">{!applicantWrapper.CurreAddress}</td>
+                        <td style="width: 15%;">Permanent Address*</td>
+                        <td style="width: 15;  padding-top: 20px; padding-bottom: 5px" colspan="3" >{!applicantWrapper.ResiAddress}</td>
+                        
+                    </tr>
+                    <tr>
+                        <td style="width: 10%;">Landmark*</td>
+                        <td style="width: 10%;  padding-top: 10px; padding-bottom: 5px" colspan="3">{!applicantWrapper.CurreLandmark}</td>
+                        <td style="width: 15%;">Landmark*</td>
+                        <td style="width: 15%;  padding-top: 10px; padding-bottom: 5px" colspan="3" >{!applicantWrapper.ResiLandmark}</td>
+                    </tr>
+                    <tr>
+                        <td>City*</td>
+                        <td style="width: 10%; padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.CurreCity}</td>
+                        <td>Pin*</td>
+                        <td style="width: 10%; padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.CurrePin}</td>
+                        <td>City*</td>
+                        <td style="width: 15%; padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.ResiCity}</td>
+                        <td>Pin*</td>
+                        <td style="width: 15%; padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.ResiPin}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 10%;">Tel (std code)*</td>
+                        <td style="width: 10;  padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.phoneNo}</td>
+                        <td style="width: 10%;">Mobile*</td>
+                        <td style="width: 10%;  padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.MobileNumber}</td>
+                        <td style="width: 15%;">Tel (std code)*</td>
+                        <!-- <td style="width: 15%;  padding-top: 10px; padding-bottom: 5px" colspan="1" >{!applicantWrapper.phoneNo}</td> -->
+                        <td style="width: 15%;  padding-top: 10px; padding-bottom: 5px" colspan="1" ></td>
+                        <td style="width: 15%;">Mobile*</td>
+                        <!-- <td style="width: 15%;  padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.MobileNumber}</td> -->
+                        <td style="width: 15%;  padding-top: 10px; padding-bottom: 5px" colspan="1"></td>
+                    </tr>
+                    <tr>
+                        <td >Email</td>
+                        <td style="  padding-top: 10px; padding-bottom: 5px" colspan="3">{!applicantWrapper.emailId}</td>
+                        <td >Email</td>
+                        <!-- <td style="  padding-top: 10px; padding-bottom: 5px" colspan="3" >{!applicantWrapper.emailId}</td> -->
+                        <td style="  padding-top: 10px; padding-bottom: 5px" colspan="3" ></td>
+                    </tr>
+					<tr>
+                        <td >Current Residence is:</td>
+                        <td style=" padding-top: 10px; padding-bottom: 5px" colspan="3">{!applicantWrapper.ResidanceType}</td>
+                        <td >Monthly Income</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="3" >{!applicantWrapper.avgMonthlyGrossSalary}</td>
+                    </tr>
+                    <tr>
+                        <td>Pan Card*</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.pan}</td>
+                        <td>CKYC No.*</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.ckycNumber}</td>
+                        <td>UID No.*</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.UIDNo}</td>
+                        <td>Others(pls specify)*</td>
+                        <td style="width: 15%; padding-top: 10px; padding-bottom: 5px" colspan="1"></td>
+                    </tr>
+                </table>
+                
+                <div class="section-header1">A.{!applicantWrapper.AppdetailNumber}.2 PROFESSIONAL / BUSINESS DETAILS</div>
+                <div class="section-header2"></div>
+                <table class="personal-details-table">
+                    <tr>
+                        <td style="width: 13%;">Ocuupation Type*</td>
+                        <!-- <td style="width: 10%;" colspan="3">{!applicantWrapper.TypeOfOrganisation}</td> -->
+                        <td style="width: 10%;" colspan="3">{!applicantWrapper.custProfile}</td>
+                        <td style="width: 13%;">No. Of Years in Current Job/Business*: </td>
+                        <td style="width: 13%;" colspan="3">{!applicantWrapper.workingWithCurrentEmployerYears}</td>
+                        
+                    </tr>
+                    <tr>
+                        <td style="width: 13%;">Company/Business Name*</td>
+                        <td style="width: 10%;" colspan="3">{!applicantWrapper.companyName}</td>
+                        <td style="width: 13%;">Retirement Age</td>
+                        <td style="width: 13%;" colspan="3">{!applicantWrapper.retirementAge}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 13%;">Company/Business Type*</td>
+                        <td style="width: 10%;" colspan="7">{!applicantWrapper.typeofBuss}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 13%;">Office Owned/Office Rented</td>
+                        <td style="width: 10%;" colspan="1">{!applicantWrapper.ResidanceType}</td>
+                        <td style="width: 13%;">Udyam No.</td>
+                        <td style="width: 13%;" colspan="1">{!applicantWrapper.udyamRegistrationNumber}</td>
+                        <td style="width: 13%;">Total Years of Experience</td>
+                        <td style="width: 13%;" colspan="1">{!applicantWrapper.totalWorkExperienceYears}</td>
+                        <td style="width: 13%;">Designation</td>
+                        <td style="width: 13%;" colspan="1">{!applicantWrapper.designationText}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 13%;">Office Address*</td>
+                        <td style="width: 10%; padding-top: 10px; padding-bottom: 5px" colspan="7">{!applicantWrapper.officeAddress}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 13%;">Landmark*</td>
+                        <td style="width: 10%;" colspan="2">{!applicantWrapper.officeLandmark}</td>
+                        <td style="width: 13%;">City*</td>
+                        <td style="width: 13%;" colspan="1">{!applicantWrapper.officeCity}</td>
+                        <td style="width: 13%;">Pin*</td>
+                        <td style="width: 13%;" colspan="2">{!applicantWrapper.officePin}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 13%;">Tel (std code)*</td>
+                        <td style="width: 10%; padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.officeTelStdCode}</td>
+                        <td style="width: 13%;">Mobile*</td>
+                        <td style="width: 13%; padding-top: 10px; padding-bottom: 5px" colspan="2">{!applicantWrapper.officeMobile}</td>
+                        <td style="width: 13%;">Email</td>
+                        <td style="width: 13%; padding-top: 10px; padding-bottom: 5px" colspan="2">{!applicantWrapper.officeEmail}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 13%;">Communication Address*</td>
+                        <td style="width: 10%; padding-top: 10px; padding-bottom: 5px" colspan="2">{!applicantWrapper.comunicationAddress}</td>
+                        <td style="width: 13%;">Where Applicable-Employment ID*</td>
+                        <td style="width: 13%; padding-top: 10px; padding-bottom: 5px" colspan="4">{!applicantWrapper.officialEmail}</td>
+                    </tr>
+                </table>
+                </apex:repeat>
+                <br/>
+                <div class="section-header1">B. LOAN REQUIREMENT DETAILS </div>
+                <div class="section-header2"></div>
+
+                <table class="personal-details-table">
+                    <tr >
+                        <td style="width: 17%;" >LAP/LRD/NRP:</td>
+                        <td style="width: 17%;text-align: left;">{!Product}</td>
+                        <td style="width: 17%;">Purpose of Loan:</td>
+                        <td style="width: 17%;">{!loanApplRec.LoanPurpose__c}</td>
+                        <td style="width: 17%;">Loan Amount Required(rs):</td>
+                         <td style="width: 17%;"><img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/> {!loanApplRec.ReqLoanAmt__c} </td>
+                   </tr>
+                    <tr >
+                        <td>Loan Type:</td>
+                        <td colspan="3">{!loanApplRec.SchmCode__c}</td>
+                        <td>Tenure:</td>
+                        <td>{!loanApplRec.Loan_Tenure_Months__c}</td>
+                   </tr>
+                     <tr >
+                        <td>Home Loan:</td>
+                        <!--<td style="text-align: left;" colspan="3">{!natureOfPro}</td>-->
+                         <td colspan="3">{!loanApplRec.ProductSubType__c}</td>
+                        <td>Rate of Interest:</td>
+                        <td colspan="1">{!rateofInter}</td>
+                   </tr>
+                    <tr >
+                       <td >Monthly Expense</td>
+                        <td colspan="3">{!monthlyExpense}</td>
+                   </tr>
+                    <tr >
+                        <td  >Property Details: </td>
+                        <td  colspan="3">{!natureOfPro}</td>
+                        <td >Comfortable Serving EMI(Rs.)</td>
+                        <td  colspan="1"><img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/> {!loanApplRec.EMIIcludingInsurance__c}</td>
+                   </tr>
+                    <tr >
+                        <td >Property Address: </td>
+                        <td colspan="5">{!PropertyAddress}</td>
+                        
+                   </tr>
+                    <tr>
+                        <td>Landmark</td>
+                        <td >{!state}</td>
+                        <td>City</td>
+                        <td >{!city}</td>
+                        <td>Pin</td>
+                        <td>{!pinCode}</td>
+                     </tr>
+                    <tr >
+                        <td  >Property Usage: </td>
+                        <td  colspan="3">{!propertyUse}</td>
+                        <td >Built up Area (sq.ft)</td>
+                        <td  colspan="1">{!builtArea}</td>
+                   </tr>
+                    <tr >
+                        <td style=" padding-top: 20px;" >If BT, Financiers Name: </td>
+                        <td  colspan="2">{!BTFinancier}</td>
+                        <td >Current Loan outstanding(Rs.):</td>
+                        <td  colspan="2">{!OutStanVal}</td>
+                   </tr>
+                  <!-- <tr >
+              			<td style="text-align: left;font-size: 15px;" colspan="5" class="no-border">I here by provide my consent to avail Insurance <label><input type="checkbox" /> Yes </label> / <label><input type="checkbox" /> No</label>, If Yes then Insurance Type:  {!insurType}</td>
+                        <td style="text-align: left;" ></td>
+                   </tr>-->
+                </table>
+                <h1 class="uniform-font">I here by provide my consent to avail Insurance <label><img src="{!yes_checkbox}" height="10px" width="10px" style="margin-bottom:-1px;"/>Yes  <img src="{!no_checkbox}" height="10px" width="10px" style="margin-bottom:-1px;"/>    No</label>, If Yes then Insurance Type: <img src="{!lifeIns_checkbox}" height="10px" width="10px" style="margin-bottom:-1px;"/> Life Insurance    <img src="{!genIns_checkbox}" height="10px" width="10px" style="margin-bottom:-1px;"/> General Insurance</h1>
+                <!-- <div style="page-break-after:always;"></div> -->
+                 <table class="personal-details-table">
+                    
+                    <tr >
+                        <td style="text-align: left;" colspan="6">
+                        	<table class="personal-details-table">
+                                <tr>
+                                    <td style="width: 20%;" colspan="2">Requirement of Fund</td>
+                                    <td style="width: 20%; " colspan="2">Source to meet</td>
+                                </tr>
+                               <tr>
+                                   <td style="width: 20%; text-align: left;" colspan="2">1. Land/Plot Cost: <img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/> {!lancost} </td>
+                                    <td style="width: 60%; text-align: left;" colspan="2"> 1. Loan Required: <img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/>{!loanApplRec.ReqLoanAmt__c} </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 20%; text-align: left;" colspan="2">2. Purchase/ Construction Cost: <img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/> {!constCost} </td>
+                                    <td style="width: 60%; text-align: left;" colspan="2"> 2. Own Contribution: <img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/>{!loanApplRec.TotalOwnContri__c}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 20%;text-align: left;" colspan="2">3. Stamp Duty/ Registration Fee: <img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/> {!registCost}</td>
+                                    <td style="width: 60%; text-align: left;" colspan="2"> a. Amt Already paid: <img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/>{!downPay}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 20%; text-align: left;" colspan="2">4. Renovation: <img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/></td>
+                                    <td style="width: 60%; text-align: left;" colspan="2"> 
+                                        Sources(i). {!source1}
+                                        <br/>
+                                        (ii).{!source2}
+                                        
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 20%; text-align: left;" colspan="2">5. Other Amenities: <img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/> {!amenities}</td>
+                                    <td style="width: 60%; text-align: left;" colspan="2">b. Amt to be Paid: <img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/>{!OcrBal} </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 20%; text-align: left;" colspan="2">6. Total: <img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/> {!totalCost}</td>
+                                    <td style="width: 60%;text-align: left;" colspan="2">
+                                       Sources(i). {!source1}
+                                        <br/>
+                                        (ii).{!source2}
+                                        
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        
+                   </tr>
+                </table>
+                <div class="section-header1">C. BANK DETAILS </div>
+                <div class="section-header2"></div>
+                <table class="personal-details-table" >
+                    <tr style="border: 1px solid black; background-color: #F3F2F2;">
+                        <th style="width: 2%; border: 1px solid black; text-align:center;">Name Of Bank</th>
+                        <th style="width: 2%;border: 1px solid black; text-align:center;">Account No.</th>
+                        <th style="width: 2%;border: 1px solid black; text-align:center;">Branch Name</th>
+                        <th style="width: 2%;border: 1px solid black; text-align:center;">Account Type(Saving/Current/OD/CC/)</th>
+                    </tr>
+                    <tbody>
+                        <apex:repeat value="{!applBnkList}" var="bank">
+                            <tr style="border: 1px solid black;">
+                                <td style="width: 2%; border: 1px solid black;">{!bank.SFDC_Bank_Master_Name__c}</td>
+                                <td style="width: 2%; border: 1px solid black;">{!bank.AC_No__c}</td>
+                                <td style="width: 2%; border: 1px solid black;">{!bank.Bank_Branch__c}</td>
+                                <td style="width: 2%; border: 1px solid black;">{!bank.AccountType__c}</td>
+                            </tr>
+                        </apex:repeat>
+                    </tbody>
+                    
+                </table>
+				<div class="section-header1">D. FINANCIAL INFORMATION </div>
+                <div class="section-header">SAVING, INVESTMENTS, ETC</div>
+                <table class="personal-details-table" >
+                    <tr style="border: 1px solid black; background-color: #F3F2F2;">
+                        <th style="width: 2%; border: 1px solid black;">Particulars</th>
+                        <th style="width: 2%;border: 1px solid black;">Applicant(Rs.)</th>
+                        <th style="width: 2%;border: 1px solid black;">Co-Applicant(s)(Rs.)</th>
+                        <th style="width: 2%;border: 1px solid black;">Immovable property with current value(Specify)</th>
+                        <th style="width: 2%;border: 1px solid black;">Applicant(Rs.)</th>
+                        <th style="width: 2%;border: 1px solid black;">Co-Applicant(s)(Rs.)</th>
+                    </tr>
+                    <tbody>
+                        <tr style="border: 1px solid black;">
+                            <td style="width: 2%; border: 1px solid black;">Savings in Bank</td>
+                            <td style="width: 2%; border: 1px solid black;"></td>
+                            <td style="width: 2%; border: 1px solid black;"></td>
+                            <td style="width: 2%; border: 1px solid black; text-align: left;"></td>
+                            <td style="width: 2%; border: 1px solid black;"></td>
+                            <td style="width: 2%; border: 1px solid black;"></td>
+                        </tr>
+                        <tr style="border: 1px solid black;">
+                            <td style="width: 2%; border: 1px solid black;">Life Insurance Policy(ies)</td>
+                            <td style="width: 2%; border: 1px solid black;"></td>
+                            <td style="width: 2%; border: 1px solid black;"></td>
+                            <td style="width: 2%; border: 1px solid black; text-align: left;">1. <br/>
+                                2.</td>
+                            <td style="width: 2%; border: 1px solid black;"></td>
+                            <td style="width: 2%; border: 1px solid black;"></td>
+                        </tr>
+                        <tr style="border: 1px solid black;">
+                            <td style="width: 2%; border: 1px solid black;">Sum Assured</td>
+                            <td style="width: 2%; border: 1px solid black;"></td>
+                            <td style="width: 2%; border: 1px solid black;"></td>
+                            <td style="width: 2%; border: 1px solid black;">Other Assets(Specify)</td>
+                            <td style="width: 2%; border: 1px solid black;"></td>
+                            <td style="width: 2%; border: 1px solid black;"></td>
+                        </tr>
+                        <tr >
+                            <td style="width: 2%; border: 1px solid black;">Maturity Dates</td>
+                            <td style="width: 2%; border: 1px solid black;"></td>
+                            <td style="width: 2%; border: 1px solid black;"></td>
+                            <td style="width: 2%; border: 1px solid black; text-align: left;">1. <br/>
+                            2.</td>
+                            <td style="width: 2%; border: 1px solid black;"></td>
+                            <td style="width: 2%; border: 1px solid black;"></td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+                                <div class="section-header">EXISTING LOAN</div>
+                <div class="uniform-font" style="padding-top: 8px; padding-bottom: 8px">
+                    Current Total Monthly EMI Rs: <img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="5px" width="10px" style="padding-bottom: 2.5px;"/> <span class="highlighted-number">{!loanApplRec.EMIIcludingInsurance__c}</span>
+                </div>
+                
+                <div class="section-header1">E. PROCESSING FEE DETAILS </div>
+                <div class="section-header2"></div>
+                <div class="uniform-font" style="padding-top: 8px; padding-bottom: 8px">
+                    I/we have submitted a processing fee cheque of Rs. <span class="highlighted-number"> <img id="logo2" src="{!$Resource.RsSymbole}" alt="" height="10px" width="10px"/> {!Amount} </span> -in favour of Fedbank Financial Services Ltd as an initial processing charge vide <span class="highlighted-number">{!paymentMode}</span> no. <span class="highlighted-number">{!chequeNo}</span> dated <span style="padding-right:5px;padding-left:5px;" class="highlighted-number">{!dateOfCheck}</span> drawn on <span class="highlighted-number">{!bankName}</span> I/We understand that this is non-refundable fee even in case of the loan application getting declined/withdrawn.
+                </div>
+                <div class="section-header1">F. REFERENCES </div>
+                <div class="section-header2"></div>
+                <table class="personal-details-table" >
+                    <tr style="border: 1px solid black;">
+                        <th style="width: 2%; border: 1px solid black;">Name: {!mapFieldWithVal1['FName']}</th>
+                        <th style="width: 2%;border: 1px solid black;">Name: {!mapFieldWithVal2['FName']}</th>
+                    </tr>
+                    <tr style="border: 1px solid black;">
+                        <th style="width: 2%; border: 1px solid black;">Relationship*: {!mapFieldWithVal1['RelationshipWthApp']}</th>
+                        <th style="width: 2%;border: 1px solid black;">Relationship*: {!mapFieldWithVal2['RelationshipWthApp']}</th>
+                    </tr>
+                    <tr style="border: 1px solid black;">
+                        <th style="width: 2%; border: 1px solid black;">Address*: {!mapFieldWithVal1['Add']}</th>
+                        <th style="width: 2%;border: 1px solid black;">Address*: {!mapFieldWithVal2['Add']}</th>
+                    </tr>
+                    <tr style="border: 1px solid black;">
+                        <th style="width: 2%; border: 1px solid black;">Landmark*: {!mapFieldWithVal1['Landmark']}</th>
+                        <th style="width: 2%;border: 1px solid black;">Landmark*: {!mapFieldWithVal2['Landmark']}</th>
+                    </tr>
+                    <tr style="border: 1px solid black;">
+                        <th style="width: 2%; border: 1px solid black;">City*: {!mapFieldWithVal1['City']}</th>
+                        <th style="width: 2%;border: 1px solid black;">City*: {!mapFieldWithVal2['City']}</th>
+                    </tr>
+                    <tr style="border: 1px solid black;">
+                        <th style="width: 1%;border: 1px solid black;">Pin*: {!mapFieldWithVal1['Pincode']}</th>
+                        <th style="width: 1%;border: 1px solid black;">Pin*: {!mapFieldWithVal2['Pincode']}</th>
+                    </tr>
+                    <tr style="border: 1px solid black;">
+                        <th style="width: 2%; border: 1px solid black;">Mobile: {!mapFieldWithVal1['ContactNo']}</th>
+                        <th style="width: 2%;border: 1px solid black;">Mobile: {!mapFieldWithVal2['ContactNo']}</th>
+                    </tr>
+                    <tr style="border: 1px solid black;">
+                        <th style="width: 2%; border: 1px solid black;">Email: {!mapFieldWithVal1['Email']}</th>
+                        <th style="width: 2%;border: 1px solid black;">Email: {!mapFieldWithVal2['Email']}</th>
+                    </tr>
+                    
+                </table>
+                <div style="padding-top:15px;" ></div>
+                
+                <div class="section-header1" >G. DIRECTOR, SENIOR OFFICER OF FEDFINA OR THEIR RELTIVE</div>
+                <div class="section-header2"></div>
+                <table class="personal-details-table" >
+                    <tr style="border: 1px solid black; font-size: 12px;">
+                        <th style="width: 2%; border: 1px solid black;"></th>
+                        <th style="width: 2%;border: 1px solid black; text-align: center;">Yes</th>
+                        <th style="width: 2%;border: 1px solid black; text-align: center;">No</th>
+                    </tr>
+                    <tr class="uniform-font" style="border: 1px solid black;">
+                        <td style="width: 2%; border: 1px solid black;">I am a Director (Including Chairman/MD) in Fedfina</td>
+                        <td style="width: 2%; border: 1px solid black;">{!appRegMap['IAmDirector']}</td>
+                        <td style="width: 2%;border: 1px solid black;">{!appRegMap1['IAmDirector']}</td>
+                    </tr>
+                    <tr class="uniform-font" style="border: 1px solid black;">
+                        <td style="width: 2%; border: 1px solid black;">I am relative of Fedfina Director</td>
+                        <td style="width: 2%; border: 1px solid black;">{!appRegMap['IAmrelative']}</td>
+                        <td style="width: 2%;border: 1px solid black;">{!appRegMap1['IAmrelative']}</td>
+                    </tr>
+                    <tr class="uniform-font" style="border: 1px solid black;">
+                        <td style="width: 2%; border: 1px solid black;">In this firm, Fedfina Director or their relative is interested as a partner, manager, employee or guarantor</td>
+                        <td style="width: 2%; border: 1px solid black;">{!appRegMap['InteresedAsPather']}</td>
+                        <td style="width: 2%;border: 1px solid black;">{!appRegMap1['InteresedAsPather']}</td>
+                    </tr>
+                    <tr class="uniform-font" style="border: 1px solid black;">
+                        <td style="width: 2%; border: 1px solid black;">In this company, Fedfina Director or their relative is interested as a major shareholder, director, manager, employee or guarantor</td>
+                        <td style="width: 2%; border: 1px solid black;">{!appRegMap['InteresedAsShareHolder']}</td>
+                        <td style="width: 2%;border: 1px solid black;">{!appRegMap1['InteresedAsShareHolder']}</td>
+                    </tr>
+                    <tr class="uniform-font" style="border: 1px solid black;">
+                        <td style="width: 2%; border: 1px solid black;">I am a Senior Officer of Fedfina</td>
+                        <td style="width: 2%; border: 1px solid black;">{!appRegMap['SeniorOffice']}</td>
+                        <td style="width: 2%;border: 1px solid black;">{!appRegMap1['SeniorOffice']}</td>
+                    </tr>
+                    <tr class="uniform-font" style="border: 1px solid black;">
+                        <td style="width: 2%; border: 1px solid black;">I am a relative of Senior Officer of Fedfina</td>
+                        <td style="width: 2%; border: 1px solid black;">{!appRegMap['relativeSeniorOffice']}</td>
+                        <td style="width: 2%;border: 1px solid black;">{!appRegMap1['relativeSeniorOffice']}</td>
+                    </tr>
+                 </table>
+                <div class="uniform-font" style="padding-top: 8px; padding-bottom: 8px">If any of the above is yes, please provide details:</div>
+                <table class="personal-details-table" >
+                    <tr style="border: 1px solid black;">
+                        <th style="width: 2%; border: 1px solid black; text-align: center;">Name of the Director(s)/ Senior Officer(s)</th>
+                        <th style="width: 2%;border: 1px solid black; text-align: center;">Designation</th>
+                        <th style="width: 2%;border: 1px solid black; text-align: center;">Relationship</th>
+                    </tr>
+                    <apex:repeat value="{!regulObj}" var="section">
+                        <tr style="border: 1px solid black;">
+                            <td style="width: 2%; border: 1px solid black;">{!section.DirName__c}</td>
+                            <td style="width: 2%; border: 1px solid black;">{!section.Desgntn__c}</td>
+                            <td style="width: 2%; border: 1px solid black;">{!section.Reltnshp__c}</td>
+                        </tr>
+                    </apex:repeat>
+                    <tr class="uniform-font" style="border: 1px solid black;">
+                        <td style="width: 2%; border: 1px solid black;"></td>
+                        <td style="width: 2%; border: 1px solid black;"></td>
+                        <td style="width: 2%;border: 1px solid black;"></td>
+                    </tr>
+                    <tr class="uniform-font" style="border: 1px solid black;">
+                        <td style="width: 2%; border: 1px solid black;"></td>
+                        <td style="width: 2%; border: 1px solid black;"></td>
+                        <td style="width: 2%;border: 1px solid black;"></td>
+                    </tr>
+                 </table>
+                <div class="uniform-font" style="padding-top: 8px; padding-bottom: 8px">If the declaration is found to be false, then Fedfina will be entitled to recall the loan.</div>
+                
+                 <div class="section-header1">H. DECLARATION</div>
+                <div class="section-header2"></div>
+                <div class="uniform-font" style="padding-bottom: 8px">
+                 <apex:outputText value="{!StaticContent}" escape="false" /> 
+                    </div>
+                 <div class="uniform-font date-place-section">
+                    <label>Date : {!formattedDate}</label>
+                    
+                    <label style="padding-left:100px">Place: {!loanApplRec.BrchName__c}</label>
+                   
+                </div>
+                 <div class="uniform-font" style=" padding-top: 40px; padding-bottom: 8px">
+                    </div>
+                <table class="details-table">
+                    <tr>
+                        <td rowspan="26" class="photo-box">
+                            <div style="font-size: 12px; padding-top: 60px; padding-bottom: 8px">
+                                Applicant
+                            </div>
+                        </td>
+                        <apex:repeat value="{!twoAppWrapperList}" var="applicantWrapper">
+                            <td rowspan="20" class="photo-box">
+                                <div style="font-size: 12px; padding-top: 60px; padding-bottom: 8px">
+                                    Co-Applicant {!applicantWrapper.applicantNumber}/ Guarantor {!applicantWrapper.applicantNumber}
+                                </div>
+                            </td>
+                        </apex:repeat>
+                     </tr>
+                </table>
+                <div style="page-break-after:always;"></div>
+                <apex:outputText value="{!StaticContentForText1}" escape="false" /> 
+                <table class="personal-details-table" >
+                   <tr style="border: 1px solid black; font-size: 10px;">
+                       <td style="width: 5%; border: 1px solid black; text-align: left;">1</td>
+                        <td style="width: 45%; border: 1px solid black; text-align: left;">Processing fees</td>
+                        <td style="width: 50%; border: 1px solid black; text-align: left;">0.25% of the loan amount or Rs. 5,000/- whichever is higher and maximum 2.5% of the loan amount</td>
+                   </tr>
+                    <apex:repeat value="{!ChargeWrapperList}" var="chargeWrapper">
+                    	<tr style="border: 1px solid black; font-size: 10px;">
+                            			<td style="width: 5%; border: 1px solid black; text-align: left;">{!chargeWrapper.Index}</td>
+                                        <td style="width: 45%; border: 1px solid black; text-align: left;">{!chargeWrapper.DecsOfCharge}</td>
+                                        <td style="width: 50%; border: 1px solid black; text-align: left;">{!chargeWrapper.valueOfCharge}</td>
+                                    </tr>
+                    
+                    </apex:repeat>
+                 </table>
+                
+                <apex:outputText value="{!StaticContentForText2}" escape="false" /> 
+                <!--<div> <span>
+                <div class="section-header1">ACKNOWLEDGEMENT OF RECEIPT OF LOAN APPLICATION (CUSTOMER COPY) </div>
+                <div class="section-header2"></div>
+                <p style=" font-size: 15px;"> This is to confirm the receipt of your application form for the loan facility and thank you for the same.
+                            Loan decision will be taken within 30 working days subject to submission of complete required documents and information as per the company requirements</p>
+                <div style=" font-size: 15px;padding-top:15px;"><b> Signature Of the Sales Exective/RM/SM </b> <span style="padding-left:200px;"> <b> Application No.:</b> {!loanApplRec.Name} </span></div>
+                <div style=" font-size: 15px;padding-left:500px;padding-top:15px"> <b>Date:</b> {!formattedDate}</div>
+                    <div style=" font-size: 15px;padding-top:15px;"><b> Name Of the Sales Exective/RM/SM: </b> <span>{!loanApplRec.RMSMName__r.Name} </span></div>
+                    <div style=" font-size: 15px;padding-top:15px;"><b> Name of the Applicant:</b> {!applicantWrapper.fullName}</div>
+                    <div style="page-break-after:always;"></div></span></div>-->
+				<apex:outputPanel rendered="{!if(showBottomSpace == true , true ,false)}"> 
+                
+               <div style="page-break-after:always;"></div>
+				<!-- <img id="logo1" style="padding-top: 30px; padding-bottom: 30px; padding-left: 400px" src="{!$Resource.FedBankLogo1}" alt="FederalBank Logo" height="100px" width="250px"/> -->
+                <img id="logo1" style="padding-top: 30px; padding-bottom: 30px; padding-left: 500px" src="{!$Resource.FedBankLogo1}" alt="FederalBank Logo" height="40px" width="120px"/>
+				<div class="blue-bar"></div>
+                <div class="section-header2"></div>
+                
+                <table class="details-table">
+                    <tr>
+                        <td rowspan="26" class="photo-box">
+                            <div style="font-size: 12px; padding-top: 90px; padding-bottom: 8px">
+                                ADDITIONAL CO-APPLICANT/GUARANTOR FORM
+                            </div>
+                        </td>
+                        <td rowspan="26" class="photo-box">
+                            <table class="details-table">
+                                <apex:repeat value="{!RemAllAppWrapperList}" var="record">
+                                    <tr >
+                                       <td rowspan="26" class="photo-box">
+                                           <!-- <div style="font-size: 15px; padding-top: 90px; padding-bottom: 8px">
+                                                Please Affix Recent Self Attested Photograph Here
+                                                <br/>Co-Applicant {!record.applicantNumber}/ Guarantor {!record.applicantNumber}
+                                            </div>-->
+                                           <apex:outputPanel rendered="{!ISBLANK(record.photoUrl)}">
+                                    Please Affix Recent Self Attested Photograph Here
+                                    <br/>Co-Applicant {!record.applicantNumber}/ Guarantor {!record.applicantNumber}
+                                </apex:outputPanel>
+                        		 <apex:outputPanel rendered="{!NOT(ISBLANK(record.photoUrl))}">
+                                <apex:outputPanel rendered="{!record.photoType == 'PDF'}">
+                                    <!-- Link for PDF type -->
+                                    <a href="{!record.photoUrl}" target="_blank">View PDF Document</a>
+                                </apex:outputPanel>
+                                <apex:outputPanel rendered="{!record.photoType != 'PDF'}">
+                                    <!-- Display image if not a PDF -->
+                                    <img src="{!record.photoUrl}" style="width: 90px; height: 100px;" alt="Applicant Photo"/>
+                                </apex:outputPanel>
+                            </apex:outputPanel>
+                                        </td>
+                                    </tr>
+                                </apex:repeat>   
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+
+                <apex:repeat value="{!RemAllAppWrapperList}" var="applicantWrapper">
+                    <!-- <div class="section-header1">A.{!applicantWrapper.AppdetailNumber}.1 PERSONAL DETAILS - CO-APPLICANT {!applicantWrapper.applicantNumber}/GUARANTOR {!applicantWrapper.applicantNumber}</div> -->
+                    <div class="section-header1">
+                        A.{!applicantWrapper.AppdetailNumber}.1 PERSONAL DETAILS - 
+                        <apex:outputText value="CO-APPLICANT {!applicantWrapper.coApplicantNumber}" rendered="{!applicantWrapper.appType == 'C'}"/>
+                        <apex:outputText value="GUARANTOR {!applicantWrapper.guarantorNumber}" rendered="{!applicantWrapper.appType == 'G'}"/>
+                    </div>
+                    <div class="section-header2"></div>
+                    <table class="personal-details-table">
+                    <tr>
+                        <td style="width: 10%;">Title</td>
+                        <td style="width: 10%;">{!applicantWrapper.title}</td>
+                        <td style="width: 15%;">First Name</td>
+                        <td style="width: 10%;">{!applicantWrapper.fName}</td>
+                        <td style="width: 15%;">Middle Name</td>
+                         <td style="width: 10%;">{!applicantWrapper.mName}</td>
+                        <td style="width: 15%;">Last Name</td>
+                        <td style="width: 15%;">{!applicantWrapper.lName}</td>
+                    </tr>
+                    <tr>
+                        <!-- <td style="">Father/Spouse Name</td> -->
+                        <td style="">
+                            <apex:outputText rendered="{!applicantWrapper.mariStatus == 'SINGLE'}" value="Father Name*" />
+                            <apex:outputText rendered="{!applicantWrapper.mariStatus != 'SINGLE'}" value="Spouse Name*" />
+                        </td>
+                        <td style="" colspan="7">{!applicantWrapper.spName}</td>
+                    </tr>
+                    <tr>
+                        <td style="">Mother's Maiden Name</td>
+                        <td style="" colspan="7">{!applicantWrapper.mthrMdnName}</td>
+                    </tr>
+                   <tr>
+                        <!-- <td style="">Date of Birth/Incorporation*</td>
+                        <td style="">{!applicantWrapper.dob}</td> -->
+
+                        <td style="">
+                            <apex:outputText rendered="{!constitution == 'INDIVIDUAL'}" value="Date of Birth*" />
+                            <apex:outputText rendered="{!constitution != 'INDIVIDUAL'}" value="Date of Incorporation*" />
+                        </td>
+                        <td style="">{!applicantWrapper.dob}</td>
+                        <td style="">Marital Status*</td>
+                        <td style="" >{!applicantWrapper.mariStatus}</td>
+                        <td style="">Gender*</td>
+                        <td style="" >{!applicantWrapper.gender}</td>
+                        <td style="">ResidenTial Status*</td>
+                        <td style="" >{!applicantWrapper.residentialStatus}</td>
+                    </tr>
+                    <tr>
+                        <td style="">Religion:</td>
+                        <td style="" colspan="2">{!applicantWrapper.Religion}</td>
+                        <td style="">Nationality</td>
+                        <td style="" colspan="4">{!applicantWrapper.Nationality}</td>
+                    </tr>
+                     <tr>
+                        <td style="">Category of Customer*</td>
+                        <td style="" colspan="1">{!applicantWrapper.category}</td>
+                        <td style="">No. of Dependents*</td>
+                        <td style="" colspan="1">{!applicantWrapper.numberOfDep}</td>
+                         <td style="">Qualification*</td>
+                        <td style="" colspan="3">{!applicantWrapper.eduQual}</td>
+
+                    </tr>
+                     <tr>
+                        <td style="">Current Residence Address*</td>
+                        <td style="  padding-top: 20px; padding-bottom: 5px" colspan="3">{!applicantWrapper.CurreAddress}</td>
+                        <td style="">Permanent Address*</td>
+                        <td style=" padding-top: 20px; padding-bottom: 5px" colspan="3" >{!applicantWrapper.ResiAddress}</td>
+                        
+                    </tr>
+                    <tr>
+                        <td style="">Landmark*</td>
+                        <td style=" padding-top: 10px; padding-bottom: 5px" colspan="3">{!applicantWrapper.CurreLandmark}</td>
+                        <td style="">Landmark*</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="3" >{!applicantWrapper.ResiLandmark}</td>
+                    </tr>
+                    <tr>
+                        <td>City*</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.CurreCity}</td>
+                        <td>Pin*</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.CurrePin}</td>
+                        <td>City*</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.ResiCity}</td>
+                        <td>Pin*</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.ResiPin}</td>
+                    </tr>
+                    <tr>
+                        <td style="">Tel (std code)*</td>
+                        <td style="  padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.phoneNo}</td>
+                        <td style="">Mobile*</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.MobileNumber}</td>
+                        <td style="">Tel (std code)*</td>
+                        <!-- <td style="  padding-top: 10px; padding-bottom: 5px" colspan="1" >{!applicantWrapper.MobileNumber}</td> -->
+                        <td style="  padding-top: 10px; padding-bottom: 5px" colspan="1" ></td>
+                        <td style="">Mobile*</td>
+                        <!-- <td style=" padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.phoneNo}</td> -->
+                        <td style=" padding-top: 10px; padding-bottom: 5px" colspan="1"></td>
+                    </tr>
+                    <tr>
+                        <td style="">Email</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="3">{!applicantWrapper.emailId}</td>
+                        <td style="">Email</td>
+                        <!-- <td style="padding-top: 10px; padding-bottom: 5px" colspan="3" >{!applicantWrapper.emailId}</td> -->
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="3" ></td>
+                    </tr>
+					<tr>
+                        <td style="">Current Residence is:</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="3">{!applicantWrapper.ResidanceType}</td>
+                        <td style="">Monthly Income</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="3" >{!applicantWrapper.avgMonthlyGrossSalary}</td>
+                    </tr>
+                    <tr>
+                        <td>Pan Card*</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.pan}</td>
+                        <td>CKYC No.*</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.ckycNumber}</td>
+                        <td>UID No.*</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.UIDNo}</td>
+                        <td>Others(pls specify)*</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="1"></td>
+                    </tr>
+                </table>
+                
+                <div class="section-header1">A.{!applicantWrapper.AppdetailNumber}.2 PROFESSIONAL / BUSINESS DETAILS</div>
+                <div class="section-header2"></div>
+                <table class="personal-details-table">
+                    <tr>
+                        <td style="width: 10%;">Ocuupation Type*</td>
+                        <!-- <td style="width: 13%;" colspan="3">{!applicantWrapper.TypeOfOrganisation}</td> -->
+                        <td style="width: 13%;" colspan="3">{!applicantWrapper.custProfile}</td>
+                        <td style="width: 10%;">No. Of Years in Current Job/Business*: </td>
+                        <td style="width: 13%;" colspan="3">{!applicantWrapper.workingWithCurrentEmployerYears}</td>
+                        
+                    </tr>
+                    <tr>
+                        <td style="">Company/Business Name*</td>
+                        <td style="" colspan="3">{!applicantWrapper.companyName}</td>
+                        <td style="">Retirement Age</td>
+                        <td style="" colspan="3">{!applicantWrapper.retirementAge}</td>
+                    </tr>
+                    <tr>
+                        <td style="">Company/Business Type*</td>
+                        <td style="" colspan="7">{!applicantWrapper.typeofBuss}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 13%;">Office Owned/Office Rented</td>
+                        <td style="width: 10%;" colspan="1">{!applicantWrapper.ResidanceType}</td>
+                        <td style="width: 13%;">Udyam No.</td>
+                        <td style="width: 13%;" colspan="1">{!applicantWrapper.udyamRegistrationNumber}</td>
+                        <td style="width: 13%;">Total Years of Experience</td>
+                        <td style="width: 13%;" colspan="1">{!applicantWrapper.totalWorkExperienceYears}</td>
+                        <td style="width: 13%;">Designation</td>
+                        <td style="width: 13%;" colspan="1">{!applicantWrapper.designationText}</td>
+                    </tr>
+                    <tr>
+                        <td style="">Office Address*</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="7">{!applicantWrapper.officeAddress}</td>
+                    </tr>
+                    <tr>
+                        <td style="">Landmark*</td>
+                        <td style="" colspan="2">{!applicantWrapper.officeLandmark}</td>
+                        <td style="">City*</td>
+                        <td style="" colspan="1">{!applicantWrapper.officeCity}</td>
+                        <td style="">Pin*</td>
+                        <td style="" colspan="2">{!applicantWrapper.officePin}</td>
+                    </tr>
+                    <tr>
+                        <td style="">Tel (std code)*</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="1">{!applicantWrapper.officeTelStdCode}</td>
+                        <td style="">Mobile*</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="2">{!applicantWrapper.officeMobile}</td>
+                        <td style="">Email</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="2">{!applicantWrapper.officeEmail}</td>
+                    </tr>
+                    <tr>
+                        <td style="">Communication Address Is*</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="2">{!applicantWrapper.comunicationAddress}</td>
+                        <td style="">Where Applicable-Employment ID*</td>
+                        <td style="padding-top: 10px; padding-bottom: 5px" colspan="4">{!applicantWrapper.officialEmail}</td>
+                    </tr>
+                </table>
+                </apex:repeat>
+                 <div style="font-size: 12px; padding-top: 20px; padding-bottom: 8px">
+                    </div>
+                <table class="details-table">
+                    <tr>
+                        
+                        <apex:repeat value="{!RemAllAppWrapperList}" var="applicantWrapper">
+                            <td style="width: 20%;" rowspan="20" class="photo-box">
+                                <div style="font-size: 12px; padding-top: 60px; padding-bottom: 8px">
+                                    Co-Applicant {!applicantWrapper.applicantNumber}/ Guarantor {!applicantWrapper.applicantNumber}
+                                </div>
+                            </td>
+                        </apex:repeat>
+                     </tr>
+                </table>
+                </apex:outputPanel>
+            </div>
+        </body>
+    </html>
+</apex:page>
